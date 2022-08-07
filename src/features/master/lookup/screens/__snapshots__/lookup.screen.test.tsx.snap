@@ -38,19 +38,19 @@ Object {
               class="react-sanfona-item react-sanfona-item-expanded"
             >
               <h3
-                aria-controls="react-sanfona-item-body-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+                aria-controls="react-sanfona-item-body-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
                 aria-expanded="true"
                 class="react-sanfona-item-title"
-                id="react-sanfona-item-title-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+                id="react-sanfona-item-title-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
                 style="cursor: pointer; margin: 0px;"
               >
                 DOCUMENT SETTING
               </h3>
               <div
                 aria-hidden="false"
-                aria-labelledby="react-sanfona-item-title-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+                aria-labelledby="react-sanfona-item-title-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
                 class="react-sanfona-item-body"
-                id="react-sanfona-item-body-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+                id="react-sanfona-item-body-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
                 style="max-height: 0px; overflow: hidden; transition: max-height 300ms ease;"
               >
                 <div
@@ -365,19 +365,19 @@ Object {
               class="react-sanfona-item"
             >
               <h3
-                aria-controls="react-sanfona-item-body-74263982-c42c-42cb-a875-7986e9610c60"
+                aria-controls="react-sanfona-item-body-fae1c584-b075-46f9-9088-5f894dcdd967"
                 aria-expanded="false"
                 class="react-sanfona-item-title"
-                id="react-sanfona-item-title-74263982-c42c-42cb-a875-7986e9610c60"
+                id="react-sanfona-item-title-fae1c584-b075-46f9-9088-5f894dcdd967"
                 style="cursor: pointer; margin: 0px;"
               >
                 GENERAL SETTING
               </h3>
               <div
                 aria-hidden="true"
-                aria-labelledby="react-sanfona-item-title-74263982-c42c-42cb-a875-7986e9610c60"
+                aria-labelledby="react-sanfona-item-title-fae1c584-b075-46f9-9088-5f894dcdd967"
                 class="react-sanfona-item-body"
-                id="react-sanfona-item-body-74263982-c42c-42cb-a875-7986e9610c60"
+                id="react-sanfona-item-body-fae1c584-b075-46f9-9088-5f894dcdd967"
                 style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
               >
                 <div
@@ -1199,19 +1199,19 @@ Object {
             class="react-sanfona-item react-sanfona-item-expanded"
           >
             <h3
-              aria-controls="react-sanfona-item-body-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+              aria-controls="react-sanfona-item-body-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
               aria-expanded="true"
               class="react-sanfona-item-title"
-              id="react-sanfona-item-title-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+              id="react-sanfona-item-title-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
               style="cursor: pointer; margin: 0px;"
             >
               DOCUMENT SETTING
             </h3>
             <div
               aria-hidden="false"
-              aria-labelledby="react-sanfona-item-title-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+              aria-labelledby="react-sanfona-item-title-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
               class="react-sanfona-item-body"
-              id="react-sanfona-item-body-6c734565-a8d0-40e4-84d4-6641e9ebf881"
+              id="react-sanfona-item-body-a0592a13-d1a7-45e7-a034-1ab4b7d64466"
               style="max-height: 0px; overflow: hidden; transition: max-height 300ms ease;"
             >
               <div
@@ -1526,19 +1526,19 @@ Object {
             class="react-sanfona-item"
           >
             <h3
-              aria-controls="react-sanfona-item-body-74263982-c42c-42cb-a875-7986e9610c60"
+              aria-controls="react-sanfona-item-body-fae1c584-b075-46f9-9088-5f894dcdd967"
               aria-expanded="false"
               class="react-sanfona-item-title"
-              id="react-sanfona-item-title-74263982-c42c-42cb-a875-7986e9610c60"
+              id="react-sanfona-item-title-fae1c584-b075-46f9-9088-5f894dcdd967"
               style="cursor: pointer; margin: 0px;"
             >
               GENERAL SETTING
             </h3>
             <div
               aria-hidden="true"
-              aria-labelledby="react-sanfona-item-title-74263982-c42c-42cb-a875-7986e9610c60"
+              aria-labelledby="react-sanfona-item-title-fae1c584-b075-46f9-9088-5f894dcdd967"
               class="react-sanfona-item-body"
-              id="react-sanfona-item-body-74263982-c42c-42cb-a875-7986e9610c60"
+              id="react-sanfona-item-body-fae1c584-b075-46f9-9088-5f894dcdd967"
               style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
             >
               <div

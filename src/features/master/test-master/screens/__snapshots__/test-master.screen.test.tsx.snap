@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MasterPanel Screen render masterPanel correctly 1`] = `
+exports[`TestMater Screen render testMater correctly 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
@@ -125,38 +125,6 @@ Object {
                 >
                   Section
                 </label>
-                <div>
-                  <div
-                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                  >
-                    <input
-                      class="w-full focus:outline-none bg-none"
-                      placeholder="Search..."
-                      value=""
-                    />
-                    <svg
-                      fill="currentColor"
-                      height="1em"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 448 512"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Service Type
-                </label>
                 <select
                   class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
                 >
@@ -170,13 +138,13 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Panel Code
+                  Test Code
                 </label>
                 <input
                   autocomplete="given-name"
                   class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
                   data-testid="INPT"
-                  placeholder="Panel  Code"
+                  placeholder="Test Code"
                   type="text"
                   value=""
                 />
@@ -186,13 +154,13 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Panel Name
+                  Test  Name
                 </label>
                 <input
                   autocomplete="given-name"
                   class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
                   data-testid="INPT"
-                  placeholder="Panel  Name"
+                  placeholder="Test Name"
                   type="text"
                   value=""
                 />
@@ -210,41 +178,6 @@ Object {
                   placeholder="Description"
                   rows="3"
                 />
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Panel Method
-                </label>
-                <div
-                  class="w-full relative"
-                >
-                  <div
-                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                  >
-                    <input
-                      class="undefined w-full focus:outline-none bg-none"
-                      disabled=""
-                      placeholder="Search by code or name"
-                      value=""
-                    />
-                    <svg
-                      fill="currentColor"
-                      height="1em"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 448 512"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-                      />
-                    </svg>
-                  </div>
-                </div>
               </div>
               <div>
                 <label
@@ -380,17 +313,49 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Report Groups
+                  Processing
                 </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  disabled=""
-                  placeholder="Report Groups"
-                  type="text"
-                  value=""
-                />
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Test Method
+                </label>
+                <div
+                  class="w-full relative"
+                >
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="undefined w-full focus:outline-none bg-none"
+                      placeholder="Search by code or name"
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
               <div
                 class="xl:grid sm:inline-block grid-cols-5 gap-3 flex-1"
@@ -440,9 +405,9 @@ Object {
                 <div>
                   <label
                     class="text-gray-700 block text-3xs font-medium  mb-1"
-                    for="modeAutoRelease"
+                    for="modeAutoFinish"
                   >
-                    AutoRelease
+                    AutoFinish
                   </label>
                   <div
                     class="wrg-toggle "
@@ -615,29 +580,23 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Report Order
-                </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  placeholder="Report Order"
-                  type="number"
-                  value=""
-                />
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Processing
+                  Sample Run On
                 </label>
                 <select
                   class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
                 >
                   <option>
                     Select
+                  </option>
+                  <option
+                    value="LABID"
+                  >
+                    LABID
+                  </option>
+                  <option
+                    value="SAMPLEID"
+                  >
+                    SAMPLEID
                   </option>
                 </select>
               </div>
@@ -648,14 +607,44 @@ Object {
                 >
                   Workflow
                 </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Speical Instruction
+                </label>
                 <input
                   autocomplete="given-name"
                   class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
                   data-testid="INPT"
-                  placeholder="Workflow"
+                  placeholder="Speical Instrcution"
                   type="text"
                   value=""
                 />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Disease
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
               </div>
               <div>
                 <label
@@ -665,7 +654,7 @@ Object {
                   Category
                 </label>
                 <select
-                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 >
                   <option>
                     Select
@@ -677,7 +666,7 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Panel Type
+                  Test Type
                 </label>
                 <select
                   class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
@@ -692,11 +681,46 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Sex Action
+                  Workflow Code
                 </label>
                 <select
                   class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                  disabled=""
+                >
+                  <option>
+                    Select
+                  </option>
+                  <option
+                    value="Workflow Code 1"
+                  >
+                    Workflow Code 1
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  CPT Code
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="CPT Code"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Prefix
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
                 >
                   <option>
                     Select
@@ -708,99 +732,31 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Sex
+                  Label Instruction
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Label Instruction"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Sufix
                 </label>
                 <select
                   class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                  disabled=""
                 >
                   <option>
                     Select
                   </option>
                 </select>
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Age Action
-                </label>
-                <select
-                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                  disabled=""
-                >
-                  <option>
-                    Select
-                  </option>
-                </select>
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Lo Age
-                </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  disabled=""
-                  placeholder="Lo Age"
-                  type="text"
-                  value=""
-                />
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Hi Age
-                </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  disabled=""
-                  placeholder="Hi Age"
-                  type="text"
-                  value=""
-                />
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Action Message
-                </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  disabled=""
-                  placeholder="Action Message"
-                  type="text"
-                  value=""
-                />
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Report Template
-                </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  placeholder="Report Template"
-                  type="text"
-                  value=""
-                />
               </div>
               <div
                 class="xl:grid sm:inline-block grid-cols-5 gap-3 flex-1"
@@ -810,7 +766,7 @@ Object {
                     class="text-gray-700 block text-3xs font-medium  mb-1"
                     for=""
                   >
-                    Page Break
+                    Accredited
                   </label>
                   <div
                     class="wrg-toggle "
@@ -852,7 +808,49 @@ Object {
                     class="text-gray-700 block text-3xs font-medium  mb-1"
                     for=""
                   >
-                    Age/Sex Action
+                    Abn Flag
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Cretical
                   </label>
                   <div
                     class="wrg-toggle "
@@ -978,38 +976,6 @@ Object {
             <span
               class="flex flex-col space-y-4    flex-1 items-stretch"
             >
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Label Instruction
-                </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  placeholder="Label Instruction"
-                  type="text"
-                  value=""
-                />
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Special Instructions
-                </label>
-                <input
-                  autocomplete="given-name"
-                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                  data-testid="INPT"
-                  placeholder="Special Instruction"
-                  type="text"
-                  value=""
-                />
-              </div>
               <div>
                 <label
                   class="text-gray-700 block text-3xs font-medium  mb-1"
@@ -1187,7 +1153,7 @@ Object {
                           placeholder="--"
                           style="width: 10px;"
                           type="number"
-                          value="20"
+                          value="15"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -1426,7 +1392,7 @@ Object {
                           placeholder="--"
                           style="width: 10px;"
                           type="number"
-                          value="20"
+                          value="15"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -1815,6 +1781,240 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
+                  Test Result Date
+                </label>
+                <div>
+                  <div
+                    class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--disabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                  >
+                    <div
+                      class="react-datetime-picker__wrapper"
+                    >
+                      <div
+                        class="react-datetime-picker__inputGroup"
+                      >
+                        <input
+                          disabled=""
+                          max="275760-09-13T05:30"
+                          min="0001-01-01T00:00"
+                          name="datetime"
+                          step="60"
+                          style="visibility: hidden; position: absolute; z-index: -999;"
+                          type="datetime-local"
+                          value=""
+                        />
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="31"
+                          min="1"
+                          name="day"
+                          placeholder="--"
+                          style="width: 8px;"
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="month"
+                          placeholder="--"
+                          style="width: 8px;"
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="275760"
+                          min="1"
+                          name="year"
+                          placeholder="----"
+                          step="1"
+                          style="width: 16px;"
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour "
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="hour12"
+                          placeholder="--"
+                          style="width: 8px;"
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="minute"
+                          placeholder="--"
+                          style="width: 8px;"
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="second"
+                          placeholder="--"
+                          style="width: 8px;"
+                          type="number"
+                          value=""
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <select
+                          aria-label="AM/PM"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                          data-input="true"
+                          data-select="true"
+                          disabled=""
+                          name="amPm"
+                        >
+                          <option
+                            value=""
+                          >
+                            --
+                          </option>
+                          <option
+                            value="am"
+                          >
+                            AM
+                          </option>
+                          <option
+                            value="pm"
+                          >
+                            PM
+                          </option>
+                        </select>
+                      </div>
+                      <button
+                        class="react-datetime-picker__clear-button react-datetime-picker__button"
+                        disabled=""
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line
+                            x1="4"
+                            x2="15"
+                            y1="4"
+                            y2="15"
+                          />
+                          <line
+                            x1="15"
+                            x2="4"
+                            y1="4"
+                            y2="15"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                        disabled=""
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            fill="none"
+                            height="15"
+                            width="15"
+                            x="2"
+                            y="2"
+                          />
+                          <line
+                            x1="6"
+                            x2="6"
+                            y1="0"
+                            y2="4"
+                          />
+                          <line
+                            x1="13"
+                            x2="13"
+                            y1="0"
+                            y2="4"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
                   Environment
                 </label>
                 <select
@@ -1826,94 +2026,266 @@ Object {
                   </option>
                 </select>
               </div>
-              <div
-                class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+              <span
+                class="flex flex-row      items-center"
               >
-                <div>
-                  <label
-                    class="text-gray-700 block text-3xs font-medium  mb-1"
-                    for=""
-                  >
-                    Cumulative
-                  </label>
-                  <div
-                    class="wrg-toggle "
-                  >
+                <div
+                  class="xl:grid sm:inline-block grid-cols-4 gap-3 flex-1"
+                >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    >
+                      Method
+                    </label>
                     <div
-                      class="wrg-toggle-container bg-black"
+                      class="wrg-toggle "
                     >
                       <div
-                        class="wrg-toggle-check"
+                        class="wrg-toggle-container bg-black"
                       >
-                        <span
-                          class="text-white ml-1"
+                        <div
+                          class="wrg-toggle-check"
                         >
-                          Yes
-                        </span>
+                          <span
+                            class="text-white ml-1"
+                          >
+                            Yes
+                          </span>
+                        </div>
+                        <div
+                          class="wrg-toggle-uncheck"
+                        >
+                          <span
+                            class="text-white"
+                          >
+                            No
+                          </span>
+                        </div>
                       </div>
                       <div
-                        class="wrg-toggle-uncheck"
-                      >
-                        <span
-                          class="text-white"
-                        >
-                          No
-                        </span>
-                      </div>
+                        class="wrg-toggle-circle mr-1  "
+                      />
+                      <input
+                        aria-label="Toggle Button"
+                        class="wrg-toggle-input"
+                        type="checkbox"
+                      />
                     </div>
-                    <div
-                      class="wrg-toggle-circle mr-1  "
-                    />
-                    <input
-                      aria-label="Toggle Button"
-                      class="wrg-toggle-input"
-                      type="checkbox"
-                    />
                   </div>
-                </div>
-                <div>
-                  <label
-                    class="text-gray-700 block text-3xs font-medium  mb-1"
-                    for=""
-                  >
-                    Method
-                  </label>
-                  <div
-                    class="wrg-toggle "
-                  >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    >
+                      Cumulative
+                    </label>
                     <div
-                      class="wrg-toggle-container bg-black"
+                      class="wrg-toggle "
                     >
                       <div
-                        class="wrg-toggle-check"
+                        class="wrg-toggle-container bg-black"
                       >
-                        <span
-                          class="text-white ml-1"
+                        <div
+                          class="wrg-toggle-check"
                         >
-                          Yes
-                        </span>
+                          <span
+                            class="text-white ml-1"
+                          >
+                            Yes
+                          </span>
+                        </div>
+                        <div
+                          class="wrg-toggle-uncheck"
+                        >
+                          <span
+                            class="text-white"
+                          >
+                            No
+                          </span>
+                        </div>
                       </div>
                       <div
-                        class="wrg-toggle-uncheck"
-                      >
-                        <span
-                          class="text-white"
-                        >
-                          No
-                        </span>
-                      </div>
+                        class="wrg-toggle-circle mr-1  "
+                      />
+                      <input
+                        aria-label="Toggle Button"
+                        class="wrg-toggle-input"
+                        type="checkbox"
+                      />
                     </div>
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    >
+                      QC Hold
+                    </label>
                     <div
-                      class="wrg-toggle-circle mr-1  "
-                    />
-                    <input
-                      aria-label="Toggle Button"
-                      class="wrg-toggle-input"
-                      type="checkbox"
-                    />
+                      class="wrg-toggle "
+                    >
+                      <div
+                        class="wrg-toggle-container bg-black"
+                      >
+                        <div
+                          class="wrg-toggle-check"
+                        >
+                          <span
+                            class="text-white ml-1"
+                          >
+                            Yes
+                          </span>
+                        </div>
+                        <div
+                          class="wrg-toggle-uncheck"
+                        >
+                          <span
+                            class="text-white"
+                          >
+                            No
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="wrg-toggle-circle mr-1  "
+                      />
+                      <input
+                        aria-label="Toggle Button"
+                        class="wrg-toggle-input"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    >
+                      OOS Hold
+                    </label>
+                    <div
+                      class="wrg-toggle "
+                    >
+                      <div
+                        class="wrg-toggle-container bg-black"
+                      >
+                        <div
+                          class="wrg-toggle-check"
+                        >
+                          <span
+                            class="text-white ml-1"
+                          >
+                            Yes
+                          </span>
+                        </div>
+                        <div
+                          class="wrg-toggle-uncheck"
+                        >
+                          <span
+                            class="text-white"
+                          >
+                            No
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="wrg-toggle-circle mr-1  "
+                      />
+                      <input
+                        aria-label="Toggle Button"
+                        class="wrg-toggle-input"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    >
+                      Delta Hold
+                    </label>
+                    <div
+                      class="wrg-toggle "
+                    >
+                      <div
+                        class="wrg-toggle-container bg-black"
+                      >
+                        <div
+                          class="wrg-toggle-check"
+                        >
+                          <span
+                            class="text-white ml-1"
+                          >
+                            Yes
+                          </span>
+                        </div>
+                        <div
+                          class="wrg-toggle-uncheck"
+                        >
+                          <span
+                            class="text-white"
+                          >
+                            No
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="wrg-toggle-circle mr-1  "
+                      />
+                      <input
+                        aria-label="Toggle Button"
+                        class="wrg-toggle-input"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for=""
+                    >
+                      Allow Partial
+                    </label>
+                    <div
+                      class="wrg-toggle "
+                    >
+                      <div
+                        class="wrg-toggle-container bg-black"
+                      >
+                        <div
+                          class="wrg-toggle-check"
+                        >
+                          <span
+                            class="text-white ml-1"
+                          >
+                            Yes
+                          </span>
+                        </div>
+                        <div
+                          class="wrg-toggle-uncheck"
+                        >
+                          <span
+                            class="text-white"
+                          >
+                            No
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="wrg-toggle-circle mr-1  "
+                      />
+                      <input
+                        aria-label="Toggle Button"
+                        class="wrg-toggle-input"
+                        type="checkbox"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </span>
             </span>
           </div>
           <br />
@@ -2120,7 +2492,7 @@ Object {
                         </th>
                         <th
                           aria-label="Department sortable"
-                          class="sortable textHeader3"
+                          class="sortable textHeader2"
                           tabindex="0"
                         >
                           Department
@@ -2148,87 +2520,87 @@ Object {
                           </label>
                         </th>
                         <th
-                          aria-label="Service Type sortable"
-                          class="sortable textHeader3"
+                          aria-label="Section sortable"
+                          class="sortable textHeader2"
                           tabindex="0"
                         >
-                          Service Type
+                          Section
                           <span
                             class="order-4"
                           />
                           <label
                             class="filter-label"
-                            for="text-filter-column-serviceType"
+                            for="text-filter-column-section"
                           >
                             <span
                               class="sr-only"
                             >
                               Filter by 
-                              Service Type
+                              Section
                             </span>
                             <input
                               class="filter text-filter form-control undefined"
                               delay="500"
-                              id="text-filter-column-serviceType"
-                              placeholder="Enter Service Type..."
+                              id="text-filter-column-section"
+                              placeholder="Enter Section..."
                               type="text"
                               value=""
                             />
                           </label>
                         </th>
                         <th
-                          aria-label="Panel Code sortable"
-                          class="sortable textHeader5"
+                          aria-label="Test  Code sortable"
+                          class="sortable textHeader2"
                           tabindex="0"
                         >
-                          Panel Code
+                          Test  Code
                           <span
                             class="order-4"
                           />
                           <label
                             class="filter-label"
-                            for="text-filter-column-panelCode"
+                            for="text-filter-column-testCode"
                           >
                             <span
                               class="sr-only"
                             >
                               Filter by 
-                              Panel Code
+                              Test  Code
                             </span>
                             <input
                               class="filter text-filter form-control undefined"
                               delay="500"
-                              id="text-filter-column-panelCode"
-                              placeholder="Enter Panel Code..."
+                              id="text-filter-column-testCode"
+                              placeholder="Enter Test  Code..."
                               type="text"
                               value=""
                             />
                           </label>
                         </th>
                         <th
-                          aria-label="Panel Name sortable"
-                          class="sortable textHeader5"
+                          aria-label="Test  Name sortable"
+                          class="sortable textHeader2"
                           tabindex="0"
                         >
-                          Panel Name
+                          Test  Name
                           <span
                             class="order-4"
                           />
                           <label
                             class="filter-label"
-                            for="text-filter-column-panelName"
+                            for="text-filter-column-testName"
                           >
                             <span
                               class="sr-only"
                             >
                               Filter by 
-                              Panel Name
+                              Test  Name
                             </span>
                             <input
                               class="filter text-filter form-control undefined"
                               delay="500"
-                              id="text-filter-column-panelName"
-                              placeholder="Enter Panel Name..."
+                              id="text-filter-column-testName"
+                              placeholder="Enter Test  Name..."
                               type="text"
                               value=""
                             />
@@ -2236,7 +2608,7 @@ Object {
                         </th>
                         <th
                           aria-label="Description sortable"
-                          class="sortable textHeader3"
+                          class="sortable textHeader4"
                           tabindex="0"
                         >
                           Description
@@ -2264,64 +2636,6 @@ Object {
                           </label>
                         </th>
                         <th
-                          aria-label="Panel Method Code sortable"
-                          class="sortable textHeader5"
-                          tabindex="0"
-                        >
-                          Panel Method Code
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-panelMethodCode"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Panel Method Code
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-panelMethodCode"
-                              placeholder="Enter Panel Method Code..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Panel Method Name sortable"
-                          class="sortable textHeader5"
-                          tabindex="0"
-                        >
-                          Panel Method Name
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-panelMethodName"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Panel Method Name
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-panelMethodName"
-                              placeholder="Enter Panel Method Name..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
                           aria-label="Method sortable"
                           class="sortable"
                           tabindex="0"
@@ -2333,7 +2647,7 @@ Object {
                         </th>
                         <th
                           aria-label="Short Name sortable"
-                          class="sortable textHeader3"
+                          class="sortable textHeader2"
                           tabindex="0"
                         >
                           Short Name
@@ -2362,7 +2676,7 @@ Object {
                         </th>
                         <th
                           aria-label="Price sortable"
-                          class="sortable textHeader5"
+                          class="sortable textHeader4"
                           tabindex="0"
                         >
                           Price
@@ -2458,61 +2772,60 @@ Object {
                         </th>
                         <th
                           aria-label="Validation Level sortable"
-                          class="sortable textHeader4"
+                          class="sortable textHeader7"
                           tabindex="0"
                         >
                           Validation Level
                           <span
                             class="order-4"
                           />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-validationLevel"
+                          <div
+                            class="flex-row gap-2 inline"
                           >
-                            <span
-                              class="sr-only"
+                            <select
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12"
                             >
-                              Filter by 
-                              Validation Level
-                            </span>
+                              <option>
+                                Select
+                              </option>
+                              <option
+                                value="="
+                              >
+                                =
+                              </option>
+                              <option
+                                value="!="
+                              >
+                                !=
+                              </option>
+                              <option
+                                value=">"
+                              >
+                                &gt;
+                              </option>
+                              <option
+                                value=">="
+                              >
+                                &gt;=
+                              </option>
+                              <option
+                                value="<"
+                              >
+                                &lt;
+                              </option>
+                              <option
+                                value="<="
+                              >
+                                &lt;=
+                              </option>
+                            </select>
                             <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-validationLevel"
-                              placeholder="Enter Validation Level..."
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black ml-1"
+                              placeholder="Enter value..."
                               type="text"
                               value=""
                             />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Report Order sortable"
-                          class="sortable textHeader3"
-                          tabindex="0"
-                        >
-                          Report Order
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-reportOrder"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Report Order
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-reportOrder"
-                              placeholder="Enter Report Order..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
+                          </div>
                         </th>
                         <th
                           aria-label="Processing sortable"
@@ -2538,6 +2851,35 @@ Object {
                               delay="500"
                               id="text-filter-column-processing"
                               placeholder="Enter Processing..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Sample Run On sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Sample Run On
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-sampleRunOn"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Sample Run On
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-sampleRunOn"
+                              placeholder="Enter Sample Run On..."
                               type="text"
                               value=""
                             />
@@ -2573,8 +2915,37 @@ Object {
                           </label>
                         </th>
                         <th
-                          aria-label="Category sortable"
+                          aria-label="disease sortable"
                           class="sortable textHeader2"
+                          tabindex="0"
+                        >
+                          disease
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-disease"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              disease
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-disease"
+                              placeholder="Enter disease..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Category sortable"
+                          class="sortable textHeader3"
                           tabindex="0"
                         >
                           Category
@@ -2602,40 +2973,98 @@ Object {
                           </label>
                         </th>
                         <th
-                          aria-label="Panel Type sortable"
+                          aria-label="Test Type sortable"
                           class="sortable textHeader2"
                           tabindex="0"
                         >
-                          Panel Type
+                          Test Type
                           <span
                             class="order-4"
                           />
                           <label
                             class="filter-label"
-                            for="text-filter-column-panelType"
+                            for="text-filter-column-testType"
                           >
                             <span
                               class="sr-only"
                             >
                               Filter by 
-                              Panel Type
+                              Test Type
                             </span>
                             <input
                               class="filter text-filter form-control undefined"
                               delay="500"
-                              id="text-filter-column-panelType"
-                              placeholder="Enter Panel Type..."
+                              id="text-filter-column-testType"
+                              placeholder="Enter Test Type..."
                               type="text"
                               value=""
                             />
                           </label>
                         </th>
                         <th
-                          aria-label="Auto Release sortable"
+                          aria-label="Workflow Code sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Workflow Code
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-workflowCode"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Workflow Code
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-workflowCode"
+                              placeholder="Enter Workflow Code..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="CPT Code sortable"
+                          class="sortable textHeader1"
+                          tabindex="0"
+                        >
+                          CPT Code
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-cptCode"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              CPT Code
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-cptCode"
+                              placeholder="Enter CPT Code..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Auto Finish sortable"
                           class="sortable"
                           tabindex="0"
                         >
-                          Auto Release
+                          Auto Finish
                           <span
                             class="order-4"
                           />
@@ -2671,6 +3100,94 @@ Object {
                           />
                         </th>
                         <th
+                          aria-label="Test Method Code sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Test Method Code
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-testMethodCode"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Test Method Code
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-testMethodCode"
+                              placeholder="Enter Test Method Code..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Test Method Name sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Test Method Name
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-testMethodName"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Test Method Name
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-testMethodName"
+                              placeholder="Enter Test Method Name..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Accredited sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Accredited
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Abn Flag sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Abn Flag
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Cretical sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Cretical
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
                           aria-label="Repitation sortable"
                           class="sortable"
                           tabindex="0"
@@ -2699,258 +3216,6 @@ Object {
                           <span
                             class="order-4"
                           />
-                        </th>
-                        <th
-                          aria-label="Report Group sortable"
-                          class="sortable textHeader3"
-                          tabindex="0"
-                        >
-                          Report Group
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-reportGroup"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Report Group
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-reportGroup"
-                              placeholder="Enter Report Group..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Sex Action sortable"
-                          class="sortable textHeader4"
-                          tabindex="0"
-                        >
-                          Sex Action
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-sexAction"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Sex Action
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-sexAction"
-                              placeholder="Enter Sex Action..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="sex sortable"
-                          class="sortable textHeader1"
-                          tabindex="0"
-                        >
-                          sex
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-sex"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              sex
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-sex"
-                              placeholder="Enter sex..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Age Action sortable"
-                          class="sortable textHeader4"
-                          tabindex="0"
-                        >
-                          Age Action
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-ageAction"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Age Action
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-ageAction"
-                              placeholder="Enter Age Action..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Lo Age sortable"
-                          class="sortable textHeader2"
-                          tabindex="0"
-                        >
-                          Lo Age
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-loAge"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Lo Age
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-loAge"
-                              placeholder="Enter Lo Age..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Hi Age sortable"
-                          class="sortable textHeader2"
-                          tabindex="0"
-                        >
-                          Hi Age
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-hiAge"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Hi Age
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-hiAge"
-                              placeholder="Enter Hi Age..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Action Message sortable"
-                          class="sortable textHeader4"
-                          tabindex="0"
-                        >
-                          Action Message
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-actionMessage"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Action Message
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-actionMessage"
-                              placeholder="Enter Action Message..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          aria-label="Age/Sex Action sortable"
-                          class="sortable"
-                          tabindex="0"
-                        >
-                          Age/Sex Action
-                          <span
-                            class="order-4"
-                          />
-                        </th>
-                        <th
-                          aria-label="Page Break sortable"
-                          class="sortable"
-                          tabindex="0"
-                        >
-                          Page Break
-                          <span
-                            class="order-4"
-                          />
-                        </th>
-                        <th
-                          aria-label="Report Template sortable"
-                          class="sortable textHeader4"
-                          tabindex="0"
-                        >
-                          Report Template
-                          <span
-                            class="order-4"
-                          />
-                          <label
-                            class="filter-label"
-                            for="text-filter-column-reportTemplate"
-                          >
-                            <span
-                              class="sr-only"
-                            >
-                              Filter by 
-                              Report Template
-                            </span>
-                            <input
-                              class="filter text-filter form-control undefined"
-                              delay="500"
-                              id="text-filter-column-reportTemplate"
-                              placeholder="Enter Report Template..."
-                              type="text"
-                              value=""
-                            />
-                          </label>
                         </th>
                         <th
                           aria-label="Label Instruction sortable"
@@ -2982,33 +3247,131 @@ Object {
                           </label>
                         </th>
                         <th
-                          aria-label="Specal Instructions sortable"
-                          class="sortable textHeader5"
+                          aria-label="QC Hold sortable"
+                          class="sortable"
                           tabindex="0"
                         >
-                          Specal Instructions
+                          QC Hold
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="OOS Hold sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          OOS Hold
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Delta Hold sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Delta Hold
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Prefix sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Prefix
                           <span
                             class="order-4"
                           />
                           <label
                             class="filter-label"
-                            for="text-filter-column-specalInstructions"
+                            for="text-filter-column-prefix"
                           >
                             <span
                               class="sr-only"
                             >
                               Filter by 
-                              Specal Instructions
+                              Prefix
                             </span>
                             <input
                               class="filter text-filter form-control undefined"
                               delay="500"
-                              id="text-filter-column-specalInstructions"
-                              placeholder="Enter Specal Instructions..."
+                              id="text-filter-column-prefix"
+                              placeholder="Enter Prefix..."
                               type="text"
                               value=""
                             />
                           </label>
+                        </th>
+                        <th
+                          aria-label="Sufix sortable"
+                          class="sortable textHeader2"
+                          tabindex="0"
+                        >
+                          Sufix
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-sufix"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Sufix
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-sufix"
+                              placeholder="Enter Sufix..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Speical Instructions sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Speical Instructions
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-speicalInstructions"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Speical Instructions
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-speicalInstructions"
+                              placeholder="Enter Speical Instructions..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Allow Partial sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Allow Partial
+                          <span
+                            class="order-4"
+                          />
                         </th>
                         <th
                           aria-label="Status sortable"
@@ -3220,7 +3583,7 @@ Object {
                         </th>
                         <th
                           aria-label="Date Expire sortable"
-                          class="sortable textHeader6"
+                          class="sortable textHeader11"
                           tabindex="0"
                         >
                           Date Expire
@@ -3380,6 +3743,81 @@ Object {
                           </label>
                         </th>
                         <th
+                          aria-label="Test Result Date sortable"
+                          class="sortable textHeader2"
+                          tabindex="0"
+                        >
+                          Test Result Date
+                          <span
+                            class="order-4"
+                          />
+                          <div
+                            class="flex-row inline"
+                          >
+                            <div
+                              class="wrg-toggle mr-2 wrg-toggle"
+                            >
+                              <div
+                                class="wrg-toggle-container bg-black"
+                              >
+                                <div
+                                  class="wrg-toggle-check"
+                                >
+                                  <span
+                                    class="text-white ml-1"
+                                  >
+                                    Yes
+                                  </span>
+                                </div>
+                                <div
+                                  class="wrg-toggle-uncheck"
+                                >
+                                  <span
+                                    class="text-white"
+                                  >
+                                    No
+                                  </span>
+                                </div>
+                              </div>
+                              <div
+                                class="wrg-toggle-circle mr-1  "
+                              />
+                              <input
+                                aria-label="Toggle Button"
+                                class="wrg-toggle-input"
+                                type="checkbox"
+                              />
+                            </div>
+                            <select
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                            >
+                              <option>
+                                Select
+                              </option>
+                              <option
+                                value="="
+                              >
+                                =
+                              </option>
+                              <option
+                                value=">="
+                              >
+                                &gt;=
+                              </option>
+                              <option
+                                value="<"
+                              >
+                                &lt;
+                              </option>
+                            </select>
+                            <input
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                              type="date"
+                              value=""
+                            />
+                          </div>
+                        </th>
+                        <th
                           aria-label="Environment sortable"
                           class="sortable textHeader3"
                           tabindex="0"
@@ -3414,7 +3852,7 @@ Object {
                       <tr>
                         <td
                           class="react-bs-table-no-data"
-                          colspan="48"
+                          colspan="51"
                           data-toggle="collapse"
                         >
                           Table is Empty
@@ -3725,38 +4163,6 @@ Object {
               >
                 Section
               </label>
-              <div>
-                <div
-                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                >
-                  <input
-                    class="w-full focus:outline-none bg-none"
-                    placeholder="Search..."
-                    value=""
-                  />
-                  <svg
-                    fill="currentColor"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 448 512"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Service Type
-              </label>
               <select
                 class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
               >
@@ -3770,13 +4176,13 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
-                Panel Code
+                Test Code
               </label>
               <input
                 autocomplete="given-name"
                 class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
                 data-testid="INPT"
-                placeholder="Panel  Code"
+                placeholder="Test Code"
                 type="text"
                 value=""
               />
@@ -3786,13 +4192,13 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
-                Panel Name
+                Test  Name
               </label>
               <input
                 autocomplete="given-name"
                 class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
                 data-testid="INPT"
-                placeholder="Panel  Name"
+                placeholder="Test Name"
                 type="text"
                 value=""
               />
@@ -3810,41 +4216,6 @@ Object {
                 placeholder="Description"
                 rows="3"
               />
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Panel Method
-              </label>
-              <div
-                class="w-full relative"
-              >
-                <div
-                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                >
-                  <input
-                    class="undefined w-full focus:outline-none bg-none"
-                    disabled=""
-                    placeholder="Search by code or name"
-                    value=""
-                  />
-                  <svg
-                    fill="currentColor"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 448 512"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
             </div>
             <div>
               <label
@@ -3980,17 +4351,49 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
-                Report Groups
+                Processing
               </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                disabled=""
-                placeholder="Report Groups"
-                type="text"
-                value=""
-              />
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Test Method
+              </label>
+              <div
+                class="w-full relative"
+              >
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="undefined w-full focus:outline-none bg-none"
+                    placeholder="Search by code or name"
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
             <div
               class="xl:grid sm:inline-block grid-cols-5 gap-3 flex-1"
@@ -4040,9 +4443,9 @@ Object {
               <div>
                 <label
                   class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for="modeAutoRelease"
+                  for="modeAutoFinish"
                 >
-                  AutoRelease
+                  AutoFinish
                 </label>
                 <div
                   class="wrg-toggle "
@@ -4215,29 +4618,23 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
-                Report Order
-              </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                placeholder="Report Order"
-                type="number"
-                value=""
-              />
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Processing
+                Sample Run On
               </label>
               <select
                 class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
               >
                 <option>
                   Select
+                </option>
+                <option
+                  value="LABID"
+                >
+                  LABID
+                </option>
+                <option
+                  value="SAMPLEID"
+                >
+                  SAMPLEID
                 </option>
               </select>
             </div>
@@ -4248,14 +4645,44 @@ Object {
               >
                 Workflow
               </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Speical Instruction
+              </label>
               <input
                 autocomplete="given-name"
                 class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
                 data-testid="INPT"
-                placeholder="Workflow"
+                placeholder="Speical Instrcution"
                 type="text"
                 value=""
               />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Disease
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
             </div>
             <div>
               <label
@@ -4265,7 +4692,7 @@ Object {
                 Category
               </label>
               <select
-                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
               >
                 <option>
                   Select
@@ -4277,7 +4704,7 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
-                Panel Type
+                Test Type
               </label>
               <select
                 class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
@@ -4292,11 +4719,46 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
-                Sex Action
+                Workflow Code
               </label>
               <select
                 class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                disabled=""
+              >
+                <option>
+                  Select
+                </option>
+                <option
+                  value="Workflow Code 1"
+                >
+                  Workflow Code 1
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                CPT Code
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="CPT Code"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Prefix
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
               >
                 <option>
                   Select
@@ -4308,99 +4770,31 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
-                Sex
+                Label Instruction
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Label Instruction"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Sufix
               </label>
               <select
                 class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                disabled=""
               >
                 <option>
                   Select
                 </option>
               </select>
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Age Action
-              </label>
-              <select
-                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
-                disabled=""
-              >
-                <option>
-                  Select
-                </option>
-              </select>
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Lo Age
-              </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                disabled=""
-                placeholder="Lo Age"
-                type="text"
-                value=""
-              />
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Hi Age
-              </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                disabled=""
-                placeholder="Hi Age"
-                type="text"
-                value=""
-              />
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Action Message
-              </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                disabled=""
-                placeholder="Action Message"
-                type="text"
-                value=""
-              />
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Report Template
-              </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                placeholder="Report Template"
-                type="text"
-                value=""
-              />
             </div>
             <div
               class="xl:grid sm:inline-block grid-cols-5 gap-3 flex-1"
@@ -4410,7 +4804,7 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Page Break
+                  Accredited
                 </label>
                 <div
                   class="wrg-toggle "
@@ -4452,7 +4846,49 @@ Object {
                   class="text-gray-700 block text-3xs font-medium  mb-1"
                   for=""
                 >
-                  Age/Sex Action
+                  Abn Flag
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Cretical
                 </label>
                 <div
                   class="wrg-toggle "
@@ -4578,38 +5014,6 @@ Object {
           <span
             class="flex flex-col space-y-4    flex-1 items-stretch"
           >
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Label Instruction
-              </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                placeholder="Label Instruction"
-                type="text"
-                value=""
-              />
-            </div>
-            <div>
-              <label
-                class="text-gray-700 block text-3xs font-medium  mb-1"
-                for=""
-              >
-                Special Instructions
-              </label>
-              <input
-                autocomplete="given-name"
-                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
-                data-testid="INPT"
-                placeholder="Special Instruction"
-                type="text"
-                value=""
-              />
-            </div>
             <div>
               <label
                 class="text-gray-700 block text-3xs font-medium  mb-1"
@@ -4787,7 +5191,7 @@ Object {
                         placeholder="--"
                         style="width: 10px;"
                         type="number"
-                        value="20"
+                        value="15"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -5026,7 +5430,7 @@ Object {
                         placeholder="--"
                         style="width: 10px;"
                         type="number"
-                        value="20"
+                        value="15"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -5415,6 +5819,240 @@ Object {
                 class="text-gray-700 block text-3xs font-medium  mb-1"
                 for=""
               >
+                Test Result Date
+              </label>
+              <div>
+                <div
+                  class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--disabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                >
+                  <div
+                    class="react-datetime-picker__wrapper"
+                  >
+                    <div
+                      class="react-datetime-picker__inputGroup"
+                    >
+                      <input
+                        disabled=""
+                        max="275760-09-13T05:30"
+                        min="0001-01-01T00:00"
+                        name="datetime"
+                        step="60"
+                        style="visibility: hidden; position: absolute; z-index: -999;"
+                        type="datetime-local"
+                        value=""
+                      />
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="31"
+                        min="1"
+                        name="day"
+                        placeholder="--"
+                        style="width: 8px;"
+                        type="number"
+                        value=""
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="month"
+                        placeholder="--"
+                        style="width: 8px;"
+                        type="number"
+                        value=""
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="275760"
+                        min="1"
+                        name="year"
+                        placeholder="----"
+                        step="1"
+                        style="width: 16px;"
+                        type="number"
+                        value=""
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour "
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="hour12"
+                        placeholder="--"
+                        style="width: 8px;"
+                        type="number"
+                        value=""
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="minute"
+                        placeholder="--"
+                        style="width: 8px;"
+                        type="number"
+                        value=""
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="second"
+                        placeholder="--"
+                        style="width: 8px;"
+                        type="number"
+                        value=""
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <select
+                        aria-label="AM/PM"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                        data-input="true"
+                        data-select="true"
+                        disabled=""
+                        name="amPm"
+                      >
+                        <option
+                          value=""
+                        >
+                          --
+                        </option>
+                        <option
+                          value="am"
+                        >
+                          AM
+                        </option>
+                        <option
+                          value="pm"
+                        >
+                          PM
+                        </option>
+                      </select>
+                    </div>
+                    <button
+                      class="react-datetime-picker__clear-button react-datetime-picker__button"
+                      disabled=""
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line
+                          x1="4"
+                          x2="15"
+                          y1="4"
+                          y2="15"
+                        />
+                        <line
+                          x1="15"
+                          x2="4"
+                          y1="4"
+                          y2="15"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                      disabled=""
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          fill="none"
+                          height="15"
+                          width="15"
+                          x="2"
+                          y="2"
+                        />
+                        <line
+                          x1="6"
+                          x2="6"
+                          y1="0"
+                          y2="4"
+                        />
+                        <line
+                          x1="13"
+                          x2="13"
+                          y1="0"
+                          y2="4"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
                 Environment
               </label>
               <select
@@ -5426,94 +6064,266 @@ Object {
                 </option>
               </select>
             </div>
-            <div
-              class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+            <span
+              class="flex flex-row      items-center"
             >
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Cumulative
-                </label>
-                <div
-                  class="wrg-toggle "
-                >
+              <div
+                class="xl:grid sm:inline-block grid-cols-4 gap-3 flex-1"
+              >
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Method
+                  </label>
                   <div
-                    class="wrg-toggle-container bg-black"
+                    class="wrg-toggle "
                   >
                     <div
-                      class="wrg-toggle-check"
+                      class="wrg-toggle-container bg-black"
                     >
-                      <span
-                        class="text-white ml-1"
+                      <div
+                        class="wrg-toggle-check"
                       >
-                        Yes
-                      </span>
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
                     </div>
                     <div
-                      class="wrg-toggle-uncheck"
-                    >
-                      <span
-                        class="text-white"
-                      >
-                        No
-                      </span>
-                    </div>
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
                   </div>
-                  <div
-                    class="wrg-toggle-circle mr-1  "
-                  />
-                  <input
-                    aria-label="Toggle Button"
-                    class="wrg-toggle-input"
-                    type="checkbox"
-                  />
                 </div>
-              </div>
-              <div>
-                <label
-                  class="text-gray-700 block text-3xs font-medium  mb-1"
-                  for=""
-                >
-                  Method
-                </label>
-                <div
-                  class="wrg-toggle "
-                >
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Cumulative
+                  </label>
                   <div
-                    class="wrg-toggle-container bg-black"
+                    class="wrg-toggle "
                   >
                     <div
-                      class="wrg-toggle-check"
+                      class="wrg-toggle-container bg-black"
                     >
-                      <span
-                        class="text-white ml-1"
+                      <div
+                        class="wrg-toggle-check"
                       >
-                        Yes
-                      </span>
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
                     </div>
                     <div
-                      class="wrg-toggle-uncheck"
-                    >
-                      <span
-                        class="text-white"
-                      >
-                        No
-                      </span>
-                    </div>
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
                   </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    QC Hold
+                  </label>
                   <div
-                    class="wrg-toggle-circle mr-1  "
-                  />
-                  <input
-                    aria-label="Toggle Button"
-                    class="wrg-toggle-input"
-                    type="checkbox"
-                  />
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    OOS Hold
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Delta Hold
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Allow Partial
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            </span>
           </span>
         </div>
         <br />
@@ -5720,7 +6530,7 @@ Object {
                       </th>
                       <th
                         aria-label="Department sortable"
-                        class="sortable textHeader3"
+                        class="sortable textHeader2"
                         tabindex="0"
                       >
                         Department
@@ -5748,87 +6558,87 @@ Object {
                         </label>
                       </th>
                       <th
-                        aria-label="Service Type sortable"
-                        class="sortable textHeader3"
+                        aria-label="Section sortable"
+                        class="sortable textHeader2"
                         tabindex="0"
                       >
-                        Service Type
+                        Section
                         <span
                           class="order-4"
                         />
                         <label
                           class="filter-label"
-                          for="text-filter-column-serviceType"
+                          for="text-filter-column-section"
                         >
                           <span
                             class="sr-only"
                           >
                             Filter by 
-                            Service Type
+                            Section
                           </span>
                           <input
                             class="filter text-filter form-control undefined"
                             delay="500"
-                            id="text-filter-column-serviceType"
-                            placeholder="Enter Service Type..."
+                            id="text-filter-column-section"
+                            placeholder="Enter Section..."
                             type="text"
                             value=""
                           />
                         </label>
                       </th>
                       <th
-                        aria-label="Panel Code sortable"
-                        class="sortable textHeader5"
+                        aria-label="Test  Code sortable"
+                        class="sortable textHeader2"
                         tabindex="0"
                       >
-                        Panel Code
+                        Test  Code
                         <span
                           class="order-4"
                         />
                         <label
                           class="filter-label"
-                          for="text-filter-column-panelCode"
+                          for="text-filter-column-testCode"
                         >
                           <span
                             class="sr-only"
                           >
                             Filter by 
-                            Panel Code
+                            Test  Code
                           </span>
                           <input
                             class="filter text-filter form-control undefined"
                             delay="500"
-                            id="text-filter-column-panelCode"
-                            placeholder="Enter Panel Code..."
+                            id="text-filter-column-testCode"
+                            placeholder="Enter Test  Code..."
                             type="text"
                             value=""
                           />
                         </label>
                       </th>
                       <th
-                        aria-label="Panel Name sortable"
-                        class="sortable textHeader5"
+                        aria-label="Test  Name sortable"
+                        class="sortable textHeader2"
                         tabindex="0"
                       >
-                        Panel Name
+                        Test  Name
                         <span
                           class="order-4"
                         />
                         <label
                           class="filter-label"
-                          for="text-filter-column-panelName"
+                          for="text-filter-column-testName"
                         >
                           <span
                             class="sr-only"
                           >
                             Filter by 
-                            Panel Name
+                            Test  Name
                           </span>
                           <input
                             class="filter text-filter form-control undefined"
                             delay="500"
-                            id="text-filter-column-panelName"
-                            placeholder="Enter Panel Name..."
+                            id="text-filter-column-testName"
+                            placeholder="Enter Test  Name..."
                             type="text"
                             value=""
                           />
@@ -5836,7 +6646,7 @@ Object {
                       </th>
                       <th
                         aria-label="Description sortable"
-                        class="sortable textHeader3"
+                        class="sortable textHeader4"
                         tabindex="0"
                       >
                         Description
@@ -5864,64 +6674,6 @@ Object {
                         </label>
                       </th>
                       <th
-                        aria-label="Panel Method Code sortable"
-                        class="sortable textHeader5"
-                        tabindex="0"
-                      >
-                        Panel Method Code
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-panelMethodCode"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Panel Method Code
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-panelMethodCode"
-                            placeholder="Enter Panel Method Code..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Panel Method Name sortable"
-                        class="sortable textHeader5"
-                        tabindex="0"
-                      >
-                        Panel Method Name
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-panelMethodName"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Panel Method Name
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-panelMethodName"
-                            placeholder="Enter Panel Method Name..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
                         aria-label="Method sortable"
                         class="sortable"
                         tabindex="0"
@@ -5933,7 +6685,7 @@ Object {
                       </th>
                       <th
                         aria-label="Short Name sortable"
-                        class="sortable textHeader3"
+                        class="sortable textHeader2"
                         tabindex="0"
                       >
                         Short Name
@@ -5962,7 +6714,7 @@ Object {
                       </th>
                       <th
                         aria-label="Price sortable"
-                        class="sortable textHeader5"
+                        class="sortable textHeader4"
                         tabindex="0"
                       >
                         Price
@@ -6058,61 +6810,60 @@ Object {
                       </th>
                       <th
                         aria-label="Validation Level sortable"
-                        class="sortable textHeader4"
+                        class="sortable textHeader7"
                         tabindex="0"
                       >
                         Validation Level
                         <span
                           class="order-4"
                         />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-validationLevel"
+                        <div
+                          class="flex-row gap-2 inline"
                         >
-                          <span
-                            class="sr-only"
+                          <select
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12"
                           >
-                            Filter by 
-                            Validation Level
-                          </span>
+                            <option>
+                              Select
+                            </option>
+                            <option
+                              value="="
+                            >
+                              =
+                            </option>
+                            <option
+                              value="!="
+                            >
+                              !=
+                            </option>
+                            <option
+                              value=">"
+                            >
+                              &gt;
+                            </option>
+                            <option
+                              value=">="
+                            >
+                              &gt;=
+                            </option>
+                            <option
+                              value="<"
+                            >
+                              &lt;
+                            </option>
+                            <option
+                              value="<="
+                            >
+                              &lt;=
+                            </option>
+                          </select>
                           <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-validationLevel"
-                            placeholder="Enter Validation Level..."
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black ml-1"
+                            placeholder="Enter value..."
                             type="text"
                             value=""
                           />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Report Order sortable"
-                        class="sortable textHeader3"
-                        tabindex="0"
-                      >
-                        Report Order
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-reportOrder"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Report Order
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-reportOrder"
-                            placeholder="Enter Report Order..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
+                        </div>
                       </th>
                       <th
                         aria-label="Processing sortable"
@@ -6138,6 +6889,35 @@ Object {
                             delay="500"
                             id="text-filter-column-processing"
                             placeholder="Enter Processing..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Sample Run On sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Sample Run On
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-sampleRunOn"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Sample Run On
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-sampleRunOn"
+                            placeholder="Enter Sample Run On..."
                             type="text"
                             value=""
                           />
@@ -6173,8 +6953,37 @@ Object {
                         </label>
                       </th>
                       <th
-                        aria-label="Category sortable"
+                        aria-label="disease sortable"
                         class="sortable textHeader2"
+                        tabindex="0"
+                      >
+                        disease
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-disease"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            disease
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-disease"
+                            placeholder="Enter disease..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Category sortable"
+                        class="sortable textHeader3"
                         tabindex="0"
                       >
                         Category
@@ -6202,40 +7011,98 @@ Object {
                         </label>
                       </th>
                       <th
-                        aria-label="Panel Type sortable"
+                        aria-label="Test Type sortable"
                         class="sortable textHeader2"
                         tabindex="0"
                       >
-                        Panel Type
+                        Test Type
                         <span
                           class="order-4"
                         />
                         <label
                           class="filter-label"
-                          for="text-filter-column-panelType"
+                          for="text-filter-column-testType"
                         >
                           <span
                             class="sr-only"
                           >
                             Filter by 
-                            Panel Type
+                            Test Type
                           </span>
                           <input
                             class="filter text-filter form-control undefined"
                             delay="500"
-                            id="text-filter-column-panelType"
-                            placeholder="Enter Panel Type..."
+                            id="text-filter-column-testType"
+                            placeholder="Enter Test Type..."
                             type="text"
                             value=""
                           />
                         </label>
                       </th>
                       <th
-                        aria-label="Auto Release sortable"
+                        aria-label="Workflow Code sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Workflow Code
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-workflowCode"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Workflow Code
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-workflowCode"
+                            placeholder="Enter Workflow Code..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="CPT Code sortable"
+                        class="sortable textHeader1"
+                        tabindex="0"
+                      >
+                        CPT Code
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-cptCode"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            CPT Code
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-cptCode"
+                            placeholder="Enter CPT Code..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Auto Finish sortable"
                         class="sortable"
                         tabindex="0"
                       >
-                        Auto Release
+                        Auto Finish
                         <span
                           class="order-4"
                         />
@@ -6271,6 +7138,94 @@ Object {
                         />
                       </th>
                       <th
+                        aria-label="Test Method Code sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Test Method Code
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-testMethodCode"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Test Method Code
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-testMethodCode"
+                            placeholder="Enter Test Method Code..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Test Method Name sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Test Method Name
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-testMethodName"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Test Method Name
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-testMethodName"
+                            placeholder="Enter Test Method Name..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Accredited sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Accredited
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Abn Flag sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Abn Flag
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Cretical sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Cretical
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
                         aria-label="Repitation sortable"
                         class="sortable"
                         tabindex="0"
@@ -6299,258 +7254,6 @@ Object {
                         <span
                           class="order-4"
                         />
-                      </th>
-                      <th
-                        aria-label="Report Group sortable"
-                        class="sortable textHeader3"
-                        tabindex="0"
-                      >
-                        Report Group
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-reportGroup"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Report Group
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-reportGroup"
-                            placeholder="Enter Report Group..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Sex Action sortable"
-                        class="sortable textHeader4"
-                        tabindex="0"
-                      >
-                        Sex Action
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-sexAction"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Sex Action
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-sexAction"
-                            placeholder="Enter Sex Action..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="sex sortable"
-                        class="sortable textHeader1"
-                        tabindex="0"
-                      >
-                        sex
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-sex"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            sex
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-sex"
-                            placeholder="Enter sex..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Age Action sortable"
-                        class="sortable textHeader4"
-                        tabindex="0"
-                      >
-                        Age Action
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-ageAction"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Age Action
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-ageAction"
-                            placeholder="Enter Age Action..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Lo Age sortable"
-                        class="sortable textHeader2"
-                        tabindex="0"
-                      >
-                        Lo Age
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-loAge"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Lo Age
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-loAge"
-                            placeholder="Enter Lo Age..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Hi Age sortable"
-                        class="sortable textHeader2"
-                        tabindex="0"
-                      >
-                        Hi Age
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-hiAge"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Hi Age
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-hiAge"
-                            placeholder="Enter Hi Age..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Action Message sortable"
-                        class="sortable textHeader4"
-                        tabindex="0"
-                      >
-                        Action Message
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-actionMessage"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Action Message
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-actionMessage"
-                            placeholder="Enter Action Message..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
-                      </th>
-                      <th
-                        aria-label="Age/Sex Action sortable"
-                        class="sortable"
-                        tabindex="0"
-                      >
-                        Age/Sex Action
-                        <span
-                          class="order-4"
-                        />
-                      </th>
-                      <th
-                        aria-label="Page Break sortable"
-                        class="sortable"
-                        tabindex="0"
-                      >
-                        Page Break
-                        <span
-                          class="order-4"
-                        />
-                      </th>
-                      <th
-                        aria-label="Report Template sortable"
-                        class="sortable textHeader4"
-                        tabindex="0"
-                      >
-                        Report Template
-                        <span
-                          class="order-4"
-                        />
-                        <label
-                          class="filter-label"
-                          for="text-filter-column-reportTemplate"
-                        >
-                          <span
-                            class="sr-only"
-                          >
-                            Filter by 
-                            Report Template
-                          </span>
-                          <input
-                            class="filter text-filter form-control undefined"
-                            delay="500"
-                            id="text-filter-column-reportTemplate"
-                            placeholder="Enter Report Template..."
-                            type="text"
-                            value=""
-                          />
-                        </label>
                       </th>
                       <th
                         aria-label="Label Instruction sortable"
@@ -6582,33 +7285,131 @@ Object {
                         </label>
                       </th>
                       <th
-                        aria-label="Specal Instructions sortable"
-                        class="sortable textHeader5"
+                        aria-label="QC Hold sortable"
+                        class="sortable"
                         tabindex="0"
                       >
-                        Specal Instructions
+                        QC Hold
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="OOS Hold sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        OOS Hold
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Delta Hold sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Delta Hold
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Prefix sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Prefix
                         <span
                           class="order-4"
                         />
                         <label
                           class="filter-label"
-                          for="text-filter-column-specalInstructions"
+                          for="text-filter-column-prefix"
                         >
                           <span
                             class="sr-only"
                           >
                             Filter by 
-                            Specal Instructions
+                            Prefix
                           </span>
                           <input
                             class="filter text-filter form-control undefined"
                             delay="500"
-                            id="text-filter-column-specalInstructions"
-                            placeholder="Enter Specal Instructions..."
+                            id="text-filter-column-prefix"
+                            placeholder="Enter Prefix..."
                             type="text"
                             value=""
                           />
                         </label>
+                      </th>
+                      <th
+                        aria-label="Sufix sortable"
+                        class="sortable textHeader2"
+                        tabindex="0"
+                      >
+                        Sufix
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-sufix"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Sufix
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-sufix"
+                            placeholder="Enter Sufix..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Speical Instructions sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Speical Instructions
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-speicalInstructions"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Speical Instructions
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-speicalInstructions"
+                            placeholder="Enter Speical Instructions..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Allow Partial sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Allow Partial
+                        <span
+                          class="order-4"
+                        />
                       </th>
                       <th
                         aria-label="Status sortable"
@@ -6820,7 +7621,7 @@ Object {
                       </th>
                       <th
                         aria-label="Date Expire sortable"
-                        class="sortable textHeader6"
+                        class="sortable textHeader11"
                         tabindex="0"
                       >
                         Date Expire
@@ -6980,6 +7781,81 @@ Object {
                         </label>
                       </th>
                       <th
+                        aria-label="Test Result Date sortable"
+                        class="sortable textHeader2"
+                        tabindex="0"
+                      >
+                        Test Result Date
+                        <span
+                          class="order-4"
+                        />
+                        <div
+                          class="flex-row inline"
+                        >
+                          <div
+                            class="wrg-toggle mr-2 wrg-toggle"
+                          >
+                            <div
+                              class="wrg-toggle-container bg-black"
+                            >
+                              <div
+                                class="wrg-toggle-check"
+                              >
+                                <span
+                                  class="text-white ml-1"
+                                >
+                                  Yes
+                                </span>
+                              </div>
+                              <div
+                                class="wrg-toggle-uncheck"
+                              >
+                                <span
+                                  class="text-white"
+                                >
+                                  No
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              class="wrg-toggle-circle mr-1  "
+                            />
+                            <input
+                              aria-label="Toggle Button"
+                              class="wrg-toggle-input"
+                              type="checkbox"
+                            />
+                          </div>
+                          <select
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                          >
+                            <option>
+                              Select
+                            </option>
+                            <option
+                              value="="
+                            >
+                              =
+                            </option>
+                            <option
+                              value=">="
+                            >
+                              &gt;=
+                            </option>
+                            <option
+                              value="<"
+                            >
+                              &lt;
+                            </option>
+                          </select>
+                          <input
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                            type="date"
+                            value=""
+                          />
+                        </div>
+                      </th>
+                      <th
                         aria-label="Environment sortable"
                         class="sortable textHeader3"
                         tabindex="0"
@@ -7014,7 +7890,7 @@ Object {
                     <tr>
                       <td
                         class="react-bs-table-no-data"
-                        colspan="48"
+                        colspan="51"
                         data-toggle="collapse"
                       >
                         Table is Empty
