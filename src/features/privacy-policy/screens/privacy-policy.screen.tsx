@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {useStores} from '@/stores';
 import Parser from 'html-react-parser';
 
-const PrivacyPolicy = observer(() => {
+export const PrivacyPolicy = observer(() => {
   const [content, setContent] = useState<any>();
   const {libraryStore} = useStores();
   useEffect(() => {
@@ -25,5 +25,3 @@ const PrivacyPolicy = observer(() => {
   });
   return <div>{content && Parser(content)}</div>;
 });
-
-export default PrivacyPolicy;
