@@ -1,0 +1,4816 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lab Screen render lab correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+      >
+        <div>
+          <h2
+            class="text-lg font-bold leading-4 text-gray-900 mt-0"
+          />
+        </div>
+        <div
+          class="flex flex-row items-center"
+        >
+          <img
+            alt="banner"
+            class="object-fill h-10 w-12 rounded-md mr-2"
+          />
+          <h2
+            class="text-base  leading-4 text-gray-900 mt-0"
+          />
+        </div>
+      </div>
+      <div
+        class="mx-auto flex-wrap"
+      >
+        <div
+          class="p-2 rounded-lg shadow-xl hidden"
+        >
+          <div
+            class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+          >
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="code"
+                >
+                  Code
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  id="code"
+                  placeholder="Code"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Name
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  name="name"
+                  placeholder="Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="country"
+                >
+                  Country
+                </label>
+                <div>
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="w-full focus:outline-none bg-none"
+                      placeholder="Search..."
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="state"
+                >
+                  State
+                </label>
+                <div>
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="w-full focus:outline-none bg-none"
+                      disabled=""
+                      placeholder="Search..."
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="district"
+                >
+                  District
+                </label>
+                <div>
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="w-full focus:outline-none bg-none"
+                      disabled=""
+                      placeholder="Search..."
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="city"
+                >
+                  City
+                </label>
+                <div>
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="w-full focus:outline-none bg-none"
+                      disabled=""
+                      placeholder="Search..."
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="area"
+                >
+                  Area
+                </label>
+                <div>
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="w-full focus:outline-none bg-none"
+                      disabled=""
+                      placeholder="Search..."
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="postalCode"
+                >
+                  Postal Code
+                </label>
+                <div>
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="w-full focus:outline-none bg-none"
+                      disabled=""
+                      placeholder="Search..."
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Address
+                </label>
+                <textarea
+                  autocomplete="given-name"
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  placeholder="Address"
+                  rows="2"
+                />
+              </div>
+            </span>
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Sales Territory
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Lab Licence
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Lab Licence"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Director
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Director"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Physician
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Physician"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Mobile Number
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Mobile Number"
+                  type="number"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Contact Number
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Contact Number"
+                  type="number"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Speciality
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Lab type
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Default Lab
+                </label>
+                <div
+                  class="w-full relative"
+                >
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="undefined w-full focus:outline-none bg-none"
+                      placeholder="Search by code or name"
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="xl:grid sm:inline-block grid-cols-4 gap-3 flex-1"
+              >
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Report Format
+                  </label>
+                  <div
+                    class="wrg-toggle  wrg-toggle--checked"
+                  >
+                    <div
+                      class="wrg-toggle-container bg-green-700"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle ml-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Print Label
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Abn Flag
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Critical
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+              </div>
+            </span>
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Opening Time
+                </label>
+                <div>
+                  <input
+                    class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    value="11:07 am"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Closing Time
+                </label>
+                <div>
+                  <input
+                    class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    value="11:07 am"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Email
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Email"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Lab logo
+                </label>
+                <input
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  type="file"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  FYI line
+                </label>
+                <textarea
+                  autocomplete="given-name"
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  placeholder="FYI Line"
+                  rows="2"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Work line
+                </label>
+                <textarea
+                  autocomplete="given-name"
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  placeholder="WorkLine"
+                  rows="2"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Status
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Environment
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  disabled=""
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div
+                class="xl:grid sm:inline-block grid-cols-4 gap-3 flex-1"
+              >
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Auto Release
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Require Reveiving in Lab
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Require Scain In
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for=""
+                  >
+                    Routing Dept
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+          <span
+            class="flex flex-row space-x-3   justify-center  items-center"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Price List
+              </label>
+              <div
+                class="flex flex-row gap-2 items-center overflow-auto"
+              >
+                <table
+                  class="table table-bordered table-striped"
+                >
+                  <thead>
+                    <tr
+                      class="p-0 text-xs"
+                    >
+                      <th
+                        class="text-white"
+                        style="min-width: 150px;"
+                      >
+                        Price Group
+                      </th>
+                      <th
+                        class="text-white"
+                        style="min-width: 150px;"
+                      >
+                        Price List
+                      </th>
+                      <th
+                        class="text-white"
+                        style="min-width: 150px;"
+                      >
+                        Description
+                      </th>
+                      <th
+                        class="text-white"
+                        style="min-width: 100px;"
+                      >
+                        Priority
+                      </th>
+                      <th
+                        class="text-white"
+                        style="min-width: 100px;"
+                      >
+                        Max Dis%
+                      </th>
+                      <th
+                        class="text-white sticky right-0 z-10"
+                      >
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="text-xs"
+                  >
+                    <tr>
+                      <td>
+                        <div
+                          class="w-full relative"
+                        >
+                          <div
+                            class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                          >
+                            <input
+                              class="undefined w-full focus:outline-none bg-none"
+                              placeholder="Search by priceGroup or description"
+                              value=""
+                            />
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              stroke-width="0"
+                              viewBox="0 0 448 512"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div
+                          class="w-full relative"
+                        >
+                          <div
+                            class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                          >
+                            <input
+                              class="undefined w-full focus:outline-none bg-none"
+                              disabled=""
+                              placeholder="Search by code or name"
+                              value=""
+                            />
+                            <svg
+                              fill="currentColor"
+                              height="1em"
+                              stroke="currentColor"
+                              stroke-width="0"
+                              viewBox="0 0 448 512"
+                              width="1em"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <label
+                            class="text-gray-700 block text-3xs font-medium  mb-1"
+                            for=""
+                          />
+                          <textarea
+                            autocomplete="given-name"
+                            class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                            disabled=""
+                            placeholder="Description"
+                            rows="2"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <label
+                            class="text-gray-700 block text-3xs font-medium  mb-1"
+                            for=""
+                          />
+                          <input
+                            autocomplete="given-name"
+                            class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                            data-testid="INPT"
+                            placeholder="Priority"
+                            type="number"
+                            value=""
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <label
+                            class="text-gray-700 block text-3xs font-medium  mb-1"
+                            for=""
+                          />
+                          <input
+                            autocomplete="given-name"
+                            class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                            data-testid="INPT"
+                            placeholder="0"
+                            type="number"
+                            value=""
+                          />
+                        </div>
+                      </td>
+                      <td
+                        class="sticky right-0 z-10 bg-gray-500"
+                      >
+                        <div
+                          class="flex flex-col gap-1"
+                        >
+                          <div
+                            class="undefined"
+                          >
+                            <button
+                              class="undefined inline-flex items-center px-2 py-1 text-xs rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                              type="button"
+                            >
+                              <div
+                                class="undefined"
+                              >
+                                <i
+                                  class="eva-hover"
+                                >
+                                  <svg
+                                    class="eva eva-minus-circle-outline eva-animation eva-icon-hover-pulse"
+                                    fill="#fff"
+                                    height="18px"
+                                    viewBox="0 0 24 24"
+                                    width="18px"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g
+                                      data-name="Layer 2"
+                                    >
+                                      <g
+                                        data-name="minus-circle"
+                                      >
+                                        <rect
+                                          height="24"
+                                          opacity="0"
+                                          width="24"
+                                        />
+                                        <path
+                                          d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"
+                                        />
+                                        <path
+                                          d="M15 11H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2z"
+                                        />
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </i>
+                              </div>
+                            </button>
+                          </div>
+                          <div
+                            class="undefined"
+                          >
+                            <button
+                              class="undefined inline-flex items-center px-2 py-1 text-xs rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                              type="button"
+                            >
+                              <div
+                                class="undefined"
+                              >
+                                <i
+                                  class="eva-hover"
+                                >
+                                  <svg
+                                    class="eva eva-plus-circle-outline eva-animation eva-icon-hover-pulse"
+                                    fill="#fff"
+                                    height="18px"
+                                    viewBox="0 0 24 24"
+                                    width="18px"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g
+                                      data-name="Layer 2"
+                                    >
+                                      <g
+                                        data-name="plus-circle"
+                                      >
+                                        <rect
+                                          height="24"
+                                          opacity="0"
+                                          width="24"
+                                        />
+                                        <path
+                                          d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"
+                                        />
+                                        <path
+                                          d="M15 11h-2V9a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2z"
+                                        />
+                                      </g>
+                                    </g>
+                                  </svg>
+                                </i>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </span>
+          <br />
+          <span
+            class="flex flex-row space-x-3   justify-center  items-center"
+          >
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Save
+              </button>
+            </div>
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 18L18 6M6 6l12 13"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Clear
+              </button>
+            </div>
+          </span>
+        </div>
+        <div
+          class="p-2 rounded-lg shadow-xl overflow-auto"
+        >
+          <div
+            style="position: relative;"
+          >
+            <div>
+              <div
+                class="flex items-center"
+              >
+                <label
+                  class="search-label"
+                  for="search-bar-0"
+                >
+                  <span
+                    class="sr-only"
+                    id="search-bar-0-label"
+                  >
+                    Search this table
+                  </span>
+                  <input
+                    aria-labelledby="search-bar-0-label"
+                    class="form-control "
+                    id="search-bar-0"
+                    placeholder="Search..."
+                    type="text"
+                    value=""
+                  />
+                </label>
+                <button
+                  class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                >
+                  Clear
+                </button>
+                <button
+                  class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+                >
+                  Clear all filters
+                </button>
+                <button
+                  class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                  type="button"
+                >
+                  Export CSV!!
+                </button>
+                <div
+                  class="undefined"
+                >
+                  <button
+                    class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                    type="button"
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="scrollTable"
+              >
+                <div
+                  class="react-bootstrap-table"
+                >
+                  <table
+                    class="table table-hover table-bordered"
+                  >
+                    <thead>
+                      <tr
+                        class="bg-gray-500 text-white whitespace-nowrap"
+                      >
+                        <th
+                          class="selection-cell-header"
+                          data-row-selection="true"
+                        >
+                          <input
+                            class="selection-input-4"
+                            type="checkbox"
+                          />
+                        </th>
+                        <th
+                          aria-label="Code sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Code
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-code"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Code
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-code"
+                              placeholder="Enter Code..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Name sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Name
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-name"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Name
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-name"
+                              placeholder="Enter Name..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Country sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Country
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-country"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Country
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-country"
+                              placeholder="Enter Country..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="State sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          State
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-state"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              State
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-state"
+                              placeholder="Enter State..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="District sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          District
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-district"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              District
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-district"
+                              placeholder="Enter District..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="City sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          City
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-city"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              City
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-city"
+                              placeholder="Enter City..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Area sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Area
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-area"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Area
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-area"
+                              placeholder="Enter Area..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Postal Code sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Postal Code
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-postalCode"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Postal Code
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-postalCode"
+                              placeholder="Enter Postal Code..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Address sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Address
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-address"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Address
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-address"
+                              placeholder="Enter Address..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Price List sortable"
+                          class="sortable textHeader3 z-10"
+                          tabindex="0"
+                        >
+                          Price List
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-priceList"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Price List
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-priceList"
+                              placeholder="Enter Price List..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Sales Territory sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Sales Territory
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-salesTerritory"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Sales Territory
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-salesTerritory"
+                              placeholder="Enter Sales Territory..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Lab Licence sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Lab Licence
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-labLicence"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Lab Licence
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-labLicence"
+                              placeholder="Enter Lab Licence..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Director sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Director
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-director"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Director
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-director"
+                              placeholder="Enter Director..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Physician sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Physician
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-physician"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Physician
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-physician"
+                              placeholder="Enter Physician..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Mobile No sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Mobile No
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-mobileNo"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Mobile No
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-mobileNo"
+                              placeholder="Enter Mobile No..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Contact No sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Contact No
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-contactNo"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Contact No
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-contactNo"
+                              placeholder="Enter Contact No..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Speciality sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Speciality
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-speciality"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Speciality
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-speciality"
+                              placeholder="Enter Speciality..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Lab Type sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Lab Type
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-labType"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Lab Type
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-labType"
+                              placeholder="Enter Lab Type..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Default Lab sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Default Lab
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-defaultLab"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Default Lab
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-defaultLab"
+                              placeholder="Enter Default Lab..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Opening Time sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Opening Time
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-openingTime"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Opening Time
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-openingTime"
+                              placeholder="Enter Opening Time..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Closing Time sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Closing Time
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-closingTime"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Closing Time
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-closingTime"
+                              placeholder="Enter Closing Time..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Email sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Email
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-email"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Email
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-email"
+                              placeholder="Enter Email..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Lab Log sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Lab Log
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-image"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Lab Log
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-image"
+                              placeholder="Enter Lab Log..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Report Format sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Report Format
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Print Lable sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Print Lable
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Abn Flag sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Abn Flag
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Critical sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Critical
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Auto Release sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Auto Release
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Require Receve In Lab sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Require Receve In Lab
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Require Scain In sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Require Scain In
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Routing Dept sortable"
+                          class="sortable"
+                          tabindex="0"
+                        >
+                          Routing Dept
+                          <span
+                            class="order-4"
+                          />
+                        </th>
+                        <th
+                          aria-label="Fyi Line sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Fyi Line
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-fyiLine"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Fyi Line
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-fyiLine"
+                              placeholder="Enter Fyi Line..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Work Line sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Work Line
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-workLine"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Work Line
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-workLine"
+                              placeholder="Enter Work Line..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Status sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Status
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-status"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Status
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-status"
+                              placeholder="Enter Status..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Environment sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Environment
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-environment"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Environment
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-environment"
+                              placeholder="Enter Environment..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td
+                          class="react-bs-table-no-data"
+                          colspan="36"
+                          data-toggle="collapse"
+                        >
+                          Table is Empty
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  class="row react-bootstrap-table-pagination"
+                >
+                  <div
+                    class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                  >
+                    <span
+                      class="react-bs-table-sizePerPage-dropdown dropdown"
+                      style="visibility: visible;"
+                    >
+                      <button
+                        aria-expanded="false"
+                        class="btn btn-default btn-secondary dropdown-toggle"
+                        data-toggle="dropdown"
+                        id="pageDropDown"
+                        type="button"
+                      >
+                        10
+                         
+                      </button>
+                      <ul
+                        aria-labelledby="pageDropDown"
+                        class="dropdown-menu "
+                        role="menu"
+                      >
+                        <a
+                          class="dropdown-item"
+                          data-page="10"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          10
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          data-page="25"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          25
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          data-page="30"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          30
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          data-page="50"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          50
+                        </a>
+                      </ul>
+                    </span>
+                  </div>
+                  <div
+                    class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                  >
+                    <ul
+                      class="pagination react-bootstrap-table-page-btns-ul"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center gap-2 mt-2"
+              >
+                <span
+                  class="react-bs-table-sizePerPage-dropdown dropdown"
+                  style="visibility: visible;"
+                >
+                  <button
+                    aria-expanded="false"
+                    class="btn btn-default btn-secondary dropdown-toggle"
+                    data-toggle="dropdown"
+                    id="pageDropDown"
+                    type="button"
+                  >
+                    10
+                     
+                    <span>
+                      <span
+                        class="caret"
+                      />
+                    </span>
+                  </button>
+                  <ul
+                    aria-labelledby="pageDropDown"
+                    class="dropdown-menu "
+                    role="menu"
+                  >
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="10"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        10
+                      </a>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="25"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        25
+                      </a>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="30"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        30
+                      </a>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="50"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        50
+                      </a>
+                    </li>
+                  </ul>
+                </span>
+                <ul
+                  class="pagination react-bootstrap-table-page-btns-ul"
+                />
+              </div>
+              <div
+                class="flex items-center gap-2 mt-2"
+              >
+                <span
+                  class="react-bootstrap-table-pagination-total"
+                >
+                   Showing rows 
+                  0
+                   to 
+                  0
+                   of 
+                  0
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="container"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+    >
+      <div>
+        <h2
+          class="text-lg font-bold leading-4 text-gray-900 mt-0"
+        />
+      </div>
+      <div
+        class="flex flex-row items-center"
+      >
+        <img
+          alt="banner"
+          class="object-fill h-10 w-12 rounded-md mr-2"
+        />
+        <h2
+          class="text-base  leading-4 text-gray-900 mt-0"
+        />
+      </div>
+    </div>
+    <div
+      class="mx-auto flex-wrap"
+    >
+      <div
+        class="p-2 rounded-lg shadow-xl hidden"
+      >
+        <div
+          class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+        >
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="code"
+              >
+                Code
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                id="code"
+                placeholder="Code"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Name
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                name="name"
+                placeholder="Name"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="country"
+              >
+                Country
+              </label>
+              <div>
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="w-full focus:outline-none bg-none"
+                    placeholder="Search..."
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="state"
+              >
+                State
+              </label>
+              <div>
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="w-full focus:outline-none bg-none"
+                    disabled=""
+                    placeholder="Search..."
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="district"
+              >
+                District
+              </label>
+              <div>
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="w-full focus:outline-none bg-none"
+                    disabled=""
+                    placeholder="Search..."
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="city"
+              >
+                City
+              </label>
+              <div>
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="w-full focus:outline-none bg-none"
+                    disabled=""
+                    placeholder="Search..."
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="area"
+              >
+                Area
+              </label>
+              <div>
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="w-full focus:outline-none bg-none"
+                    disabled=""
+                    placeholder="Search..."
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="postalCode"
+              >
+                Postal Code
+              </label>
+              <div>
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="w-full focus:outline-none bg-none"
+                    disabled=""
+                    placeholder="Search..."
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Address
+              </label>
+              <textarea
+                autocomplete="given-name"
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                placeholder="Address"
+                rows="2"
+              />
+            </div>
+          </span>
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Sales Territory
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Lab Licence
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Lab Licence"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Director
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Director"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Physician
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Physician"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Mobile Number
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Mobile Number"
+                type="number"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Contact Number
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Contact Number"
+                type="number"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Speciality
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Lab type
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Default Lab
+              </label>
+              <div
+                class="w-full relative"
+              >
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="undefined w-full focus:outline-none bg-none"
+                    placeholder="Search by code or name"
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              class="xl:grid sm:inline-block grid-cols-4 gap-3 flex-1"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Report Format
+                </label>
+                <div
+                  class="wrg-toggle  wrg-toggle--checked"
+                >
+                  <div
+                    class="wrg-toggle-container bg-green-700"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle ml-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Print Label
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Abn Flag
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Critical
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+            </div>
+          </span>
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Opening Time
+              </label>
+              <div>
+                <input
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  value="11:07 am"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Closing Time
+              </label>
+              <div>
+                <input
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  value="11:07 am"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Email
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Email"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Lab logo
+              </label>
+              <input
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                type="file"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                FYI line
+              </label>
+              <textarea
+                autocomplete="given-name"
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                placeholder="FYI Line"
+                rows="2"
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Work line
+              </label>
+              <textarea
+                autocomplete="given-name"
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                placeholder="WorkLine"
+                rows="2"
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Status
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Environment
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                disabled=""
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div
+              class="xl:grid sm:inline-block grid-cols-4 gap-3 flex-1"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Auto Release
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Require Reveiving in Lab
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Require Scain In
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Routing Dept
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+            </div>
+          </span>
+        </div>
+        <span
+          class="flex flex-row space-x-3   justify-center  items-center"
+        >
+          <div>
+            <label
+              class="text-gray-700 block text-3xs font-medium  mb-1"
+              for=""
+            >
+              Price List
+            </label>
+            <div
+              class="flex flex-row gap-2 items-center overflow-auto"
+            >
+              <table
+                class="table table-bordered table-striped"
+              >
+                <thead>
+                  <tr
+                    class="p-0 text-xs"
+                  >
+                    <th
+                      class="text-white"
+                      style="min-width: 150px;"
+                    >
+                      Price Group
+                    </th>
+                    <th
+                      class="text-white"
+                      style="min-width: 150px;"
+                    >
+                      Price List
+                    </th>
+                    <th
+                      class="text-white"
+                      style="min-width: 150px;"
+                    >
+                      Description
+                    </th>
+                    <th
+                      class="text-white"
+                      style="min-width: 100px;"
+                    >
+                      Priority
+                    </th>
+                    <th
+                      class="text-white"
+                      style="min-width: 100px;"
+                    >
+                      Max Dis%
+                    </th>
+                    <th
+                      class="text-white sticky right-0 z-10"
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="text-xs"
+                >
+                  <tr>
+                    <td>
+                      <div
+                        class="w-full relative"
+                      >
+                        <div
+                          class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                        >
+                          <input
+                            class="undefined w-full focus:outline-none bg-none"
+                            placeholder="Search by priceGroup or description"
+                            value=""
+                          />
+                          <svg
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 448 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div
+                        class="w-full relative"
+                      >
+                        <div
+                          class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                        >
+                          <input
+                            class="undefined w-full focus:outline-none bg-none"
+                            disabled=""
+                            placeholder="Search by code or name"
+                            value=""
+                          />
+                          <svg
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 448 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div>
+                        <label
+                          class="text-gray-700 block text-3xs font-medium  mb-1"
+                          for=""
+                        />
+                        <textarea
+                          autocomplete="given-name"
+                          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                          disabled=""
+                          placeholder="Description"
+                          rows="2"
+                        />
+                      </div>
+                    </td>
+                    <td>
+                      <div>
+                        <label
+                          class="text-gray-700 block text-3xs font-medium  mb-1"
+                          for=""
+                        />
+                        <input
+                          autocomplete="given-name"
+                          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                          data-testid="INPT"
+                          placeholder="Priority"
+                          type="number"
+                          value=""
+                        />
+                      </div>
+                    </td>
+                    <td>
+                      <div>
+                        <label
+                          class="text-gray-700 block text-3xs font-medium  mb-1"
+                          for=""
+                        />
+                        <input
+                          autocomplete="given-name"
+                          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                          data-testid="INPT"
+                          placeholder="0"
+                          type="number"
+                          value=""
+                        />
+                      </div>
+                    </td>
+                    <td
+                      class="sticky right-0 z-10 bg-gray-500"
+                    >
+                      <div
+                        class="flex flex-col gap-1"
+                      >
+                        <div
+                          class="undefined"
+                        >
+                          <button
+                            class="undefined inline-flex items-center px-2 py-1 text-xs rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                            type="button"
+                          >
+                            <div
+                              class="undefined"
+                            >
+                              <i
+                                class="eva-hover"
+                              >
+                                <svg
+                                  class="eva eva-minus-circle-outline eva-animation eva-icon-hover-pulse"
+                                  fill="#fff"
+                                  height="18px"
+                                  viewBox="0 0 24 24"
+                                  width="18px"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g
+                                    data-name="Layer 2"
+                                  >
+                                    <g
+                                      data-name="minus-circle"
+                                    >
+                                      <rect
+                                        height="24"
+                                        opacity="0"
+                                        width="24"
+                                      />
+                                      <path
+                                        d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"
+                                      />
+                                      <path
+                                        d="M15 11H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2z"
+                                      />
+                                    </g>
+                                  </g>
+                                </svg>
+                              </i>
+                            </div>
+                          </button>
+                        </div>
+                        <div
+                          class="undefined"
+                        >
+                          <button
+                            class="undefined inline-flex items-center px-2 py-1 text-xs rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                            type="button"
+                          >
+                            <div
+                              class="undefined"
+                            >
+                              <i
+                                class="eva-hover"
+                              >
+                                <svg
+                                  class="eva eva-plus-circle-outline eva-animation eva-icon-hover-pulse"
+                                  fill="#fff"
+                                  height="18px"
+                                  viewBox="0 0 24 24"
+                                  width="18px"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g
+                                    data-name="Layer 2"
+                                  >
+                                    <g
+                                      data-name="plus-circle"
+                                    >
+                                      <rect
+                                        height="24"
+                                        opacity="0"
+                                        width="24"
+                                      />
+                                      <path
+                                        d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"
+                                      />
+                                      <path
+                                        d="M15 11h-2V9a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2z"
+                                      />
+                                    </g>
+                                  </g>
+                                </svg>
+                              </i>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </span>
+        <br />
+        <span
+          class="flex flex-row space-x-3   justify-center  items-center"
+        >
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Save
+            </button>
+          </div>
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 18L18 6M6 6l12 13"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Clear
+            </button>
+          </div>
+        </span>
+      </div>
+      <div
+        class="p-2 rounded-lg shadow-xl overflow-auto"
+      >
+        <div
+          style="position: relative;"
+        >
+          <div>
+            <div
+              class="flex items-center"
+            >
+              <label
+                class="search-label"
+                for="search-bar-0"
+              >
+                <span
+                  class="sr-only"
+                  id="search-bar-0-label"
+                >
+                  Search this table
+                </span>
+                <input
+                  aria-labelledby="search-bar-0-label"
+                  class="form-control "
+                  id="search-bar-0"
+                  placeholder="Search..."
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              >
+                Clear
+              </button>
+              <button
+                class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+              >
+                Clear all filters
+              </button>
+              <button
+                class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                type="button"
+              >
+                Export CSV!!
+              </button>
+              <div
+                class="undefined"
+              >
+                <button
+                  class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                  type="button"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="scrollTable"
+            >
+              <div
+                class="react-bootstrap-table"
+              >
+                <table
+                  class="table table-hover table-bordered"
+                >
+                  <thead>
+                    <tr
+                      class="bg-gray-500 text-white whitespace-nowrap"
+                    >
+                      <th
+                        class="selection-cell-header"
+                        data-row-selection="true"
+                      >
+                        <input
+                          class="selection-input-4"
+                          type="checkbox"
+                        />
+                      </th>
+                      <th
+                        aria-label="Code sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Code
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-code"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Code
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-code"
+                            placeholder="Enter Code..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Name sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Name
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-name"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Name
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-name"
+                            placeholder="Enter Name..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Country sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Country
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-country"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Country
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-country"
+                            placeholder="Enter Country..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="State sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        State
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-state"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            State
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-state"
+                            placeholder="Enter State..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="District sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        District
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-district"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            District
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-district"
+                            placeholder="Enter District..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="City sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        City
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-city"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            City
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-city"
+                            placeholder="Enter City..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Area sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Area
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-area"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Area
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-area"
+                            placeholder="Enter Area..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Postal Code sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Postal Code
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-postalCode"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Postal Code
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-postalCode"
+                            placeholder="Enter Postal Code..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Address sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Address
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-address"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Address
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-address"
+                            placeholder="Enter Address..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Price List sortable"
+                        class="sortable textHeader3 z-10"
+                        tabindex="0"
+                      >
+                        Price List
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-priceList"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Price List
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-priceList"
+                            placeholder="Enter Price List..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Sales Territory sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Sales Territory
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-salesTerritory"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Sales Territory
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-salesTerritory"
+                            placeholder="Enter Sales Territory..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Lab Licence sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Lab Licence
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-labLicence"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Lab Licence
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-labLicence"
+                            placeholder="Enter Lab Licence..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Director sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Director
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-director"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Director
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-director"
+                            placeholder="Enter Director..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Physician sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Physician
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-physician"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Physician
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-physician"
+                            placeholder="Enter Physician..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Mobile No sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Mobile No
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-mobileNo"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Mobile No
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-mobileNo"
+                            placeholder="Enter Mobile No..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Contact No sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Contact No
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-contactNo"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Contact No
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-contactNo"
+                            placeholder="Enter Contact No..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Speciality sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Speciality
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-speciality"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Speciality
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-speciality"
+                            placeholder="Enter Speciality..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Lab Type sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Lab Type
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-labType"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Lab Type
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-labType"
+                            placeholder="Enter Lab Type..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Default Lab sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Default Lab
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-defaultLab"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Default Lab
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-defaultLab"
+                            placeholder="Enter Default Lab..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Opening Time sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Opening Time
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-openingTime"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Opening Time
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-openingTime"
+                            placeholder="Enter Opening Time..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Closing Time sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Closing Time
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-closingTime"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Closing Time
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-closingTime"
+                            placeholder="Enter Closing Time..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Email sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Email
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-email"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Email
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-email"
+                            placeholder="Enter Email..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Lab Log sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Lab Log
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-image"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Lab Log
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-image"
+                            placeholder="Enter Lab Log..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Report Format sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Report Format
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Print Lable sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Print Lable
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Abn Flag sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Abn Flag
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Critical sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Critical
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Auto Release sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Auto Release
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Require Receve In Lab sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Require Receve In Lab
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Require Scain In sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Require Scain In
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Routing Dept sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Routing Dept
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Fyi Line sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Fyi Line
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-fyiLine"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Fyi Line
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-fyiLine"
+                            placeholder="Enter Fyi Line..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Work Line sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Work Line
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-workLine"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Work Line
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-workLine"
+                            placeholder="Enter Work Line..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Status sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Status
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-status"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Status
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-status"
+                            placeholder="Enter Status..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Environment sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Environment
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-environment"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Environment
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-environment"
+                            placeholder="Enter Environment..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="react-bs-table-no-data"
+                        colspan="36"
+                        data-toggle="collapse"
+                      >
+                        Table is Empty
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="row react-bootstrap-table-pagination"
+              >
+                <div
+                  class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <span
+                    class="react-bs-table-sizePerPage-dropdown dropdown"
+                    style="visibility: visible;"
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="btn btn-default btn-secondary dropdown-toggle"
+                      data-toggle="dropdown"
+                      id="pageDropDown"
+                      type="button"
+                    >
+                      10
+                       
+                    </button>
+                    <ul
+                      aria-labelledby="pageDropDown"
+                      class="dropdown-menu "
+                      role="menu"
+                    >
+                      <a
+                        class="dropdown-item"
+                        data-page="10"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        10
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="25"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        25
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="30"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        30
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="50"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        50
+                      </a>
+                    </ul>
+                  </span>
+                </div>
+                <div
+                  class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <ul
+                    class="pagination react-bootstrap-table-page-btns-ul"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bs-table-sizePerPage-dropdown dropdown"
+                style="visibility: visible;"
+              >
+                <button
+                  aria-expanded="false"
+                  class="btn btn-default btn-secondary dropdown-toggle"
+                  data-toggle="dropdown"
+                  id="pageDropDown"
+                  type="button"
+                >
+                  10
+                   
+                  <span>
+                    <span
+                      class="caret"
+                    />
+                  </span>
+                </button>
+                <ul
+                  aria-labelledby="pageDropDown"
+                  class="dropdown-menu "
+                  role="menu"
+                >
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </li>
+                </ul>
+              </span>
+              <ul
+                class="pagination react-bootstrap-table-page-btns-ul"
+              />
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bootstrap-table-pagination-total"
+              >
+                 Showing rows 
+                0
+                 to 
+                0
+                 of 
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="container"
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

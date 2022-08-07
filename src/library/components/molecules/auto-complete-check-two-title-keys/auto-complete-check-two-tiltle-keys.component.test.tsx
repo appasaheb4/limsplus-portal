@@ -6,14 +6,8 @@ describe('AutoCompleteCheckTwoTitleKeys component', () => {
   it('render autoCompleteCheckTwoTitleKeys correctly', () => {
     const autoCompleteCheckMultiFilterKeys = render(
       <AutoCompleteCheckTwoTitleKeys
-        data={{
-          list: [
-            {code: 'Lims', name: 'plus'},
-            {code: 'Lims', name: 'plus'},
-            {code: 'Lims', name: 'plus'},
-          ],
-          displayKey: ['code'],
-        }}
+        data={[]}
+        defaultData={[]}
         onUpdate={items => {
           jest.fn();
         }}

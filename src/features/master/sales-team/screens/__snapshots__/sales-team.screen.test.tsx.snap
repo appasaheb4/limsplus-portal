@@ -1,0 +1,3762 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SalesTeam Screen render salesTeam correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+      >
+        <div>
+          <h2
+            class="text-lg font-bold leading-4 text-gray-900 mt-0"
+          />
+        </div>
+        <div
+          class="flex flex-row items-center"
+        >
+          <img
+            alt="banner"
+            class="object-fill h-10 w-12 rounded-md mr-2"
+          />
+          <h2
+            class="text-base  leading-4 text-gray-900 mt-0"
+          />
+        </div>
+      </div>
+      <div
+        class=" mx-auto flex-wrap"
+      >
+        <div
+          class="p-2 rounded-lg shadow-xl hidden"
+        >
+          <div
+            class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+          >
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Sales Territory
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  placeholder="Sales Territory"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Description
+                </label>
+                <textarea
+                  autocomplete="given-name"
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  placeholder="Description"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Employee code
+                </label>
+                <div>
+                  <div
+                    class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  >
+                    <input
+                      class="w-full focus:outline-none bg-none"
+                      placeholder="Search  by emp code"
+                      value=""
+                    />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Employee Name
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  disabled=""
+                  placeholder="Employee Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Sales Hierarchy
+                </label>
+                <div
+                  class="flex flex-row gap-2 items-center max-w-fit"
+                >
+                  <table
+                    class="table table-bordered table-striped"
+                  >
+                    <thead>
+                      <tr
+                        class="p-0 text-xs"
+                      >
+                        <th
+                          class="text-white w-2/3"
+                        >
+                          Employee
+                        </th>
+                        <th
+                          class="text-white w-1/3"
+                        >
+                          Designation
+                        </th>
+                        <th
+                          class="text-white w-1/3"
+                        >
+                          Level
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="text-xs max-w-fit"
+                    />
+                  </table>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Targets
+                </label>
+                <div
+                  class="flex flex-row gap-2 items-center overflow-auto    "
+                >
+                  <table
+                    class="table table-bordered table-striped"
+                  >
+                    <thead>
+                      <tr
+                        class="p-0 text-xs"
+                      >
+                        <th
+                          class="text-white"
+                          style="min-width: 150px;"
+                        >
+                          FY-Year
+                        </th>
+                        <th
+                          class="text-white"
+                          style="min-width: 150px;"
+                        >
+                          Sr No
+                        </th>
+                        <th
+                          class="text-white"
+                          style="min-width: 150px;"
+                        >
+                          Month
+                        </th>
+                        <th
+                          class="text-white"
+                          style="min-width: 100px;"
+                        >
+                          Targeted Sale
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="text-xs"
+                    />
+                  </table>
+                </div>
+              </div>
+            </span>
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Entered By
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  disabled=""
+                  placeholder="Entered By"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Date Creation
+                </label>
+                <div>
+                  <div
+                    class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--disabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                  >
+                    <div
+                      class="react-datetime-picker__wrapper"
+                    >
+                      <div
+                        class="react-datetime-picker__inputGroup"
+                      >
+                        <input
+                          disabled=""
+                          max="275760-09-13T05:30"
+                          min="0001-01-01T00:00"
+                          name="datetime"
+                          step="60"
+                          style="visibility: hidden; position: absolute; z-index: -999;"
+                          type="datetime-local"
+                          value="2022-08-07T11:07"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="31"
+                          min="1"
+                          name="day"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="7"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="month"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="8"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="275760"
+                          min="1"
+                          name="year"
+                          placeholder="----"
+                          step="1"
+                          style="width: 20px;"
+                          type="number"
+                          value="2022"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="hour12"
+                          placeholder="--"
+                          style="width: 10px;"
+                          type="number"
+                          value="11"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="minute"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="7"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="second"
+                          placeholder="--"
+                          style="width: 10px;"
+                          type="number"
+                          value="50"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <select
+                          aria-label="AM/PM"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                          data-input="true"
+                          data-select="true"
+                          disabled=""
+                          name="amPm"
+                        >
+                          <option
+                            value="am"
+                          >
+                            AM
+                          </option>
+                          <option
+                            value="pm"
+                          >
+                            PM
+                          </option>
+                        </select>
+                      </div>
+                      <button
+                        class="react-datetime-picker__clear-button react-datetime-picker__button"
+                        disabled=""
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line
+                            x1="4"
+                            x2="15"
+                            y1="4"
+                            y2="15"
+                          />
+                          <line
+                            x1="15"
+                            x2="4"
+                            y1="4"
+                            y2="15"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                        disabled=""
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            fill="none"
+                            height="15"
+                            width="15"
+                            x="2"
+                            y="2"
+                          />
+                          <line
+                            x1="6"
+                            x2="6"
+                            y1="0"
+                            y2="4"
+                          />
+                          <line
+                            x1="13"
+                            x2="13"
+                            y1="0"
+                            y2="4"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Date Active
+                </label>
+                <div>
+                  <div
+                    class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--disabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                  >
+                    <div
+                      class="react-datetime-picker__wrapper"
+                    >
+                      <div
+                        class="react-datetime-picker__inputGroup"
+                      >
+                        <input
+                          disabled=""
+                          max="275760-09-13T05:30"
+                          min="0001-01-01T00:00"
+                          name="datetime"
+                          step="60"
+                          style="visibility: hidden; position: absolute; z-index: -999;"
+                          type="datetime-local"
+                          value="2022-08-07T11:07"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="31"
+                          min="1"
+                          name="day"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="7"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="month"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="8"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="275760"
+                          min="1"
+                          name="year"
+                          placeholder="----"
+                          step="1"
+                          style="width: 20px;"
+                          type="number"
+                          value="2022"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="hour12"
+                          placeholder="--"
+                          style="width: 10px;"
+                          type="number"
+                          value="11"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="minute"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="7"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                          data-input="true"
+                          disabled=""
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="second"
+                          placeholder="--"
+                          style="width: 10px;"
+                          type="number"
+                          value="50"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <select
+                          aria-label="AM/PM"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                          data-input="true"
+                          data-select="true"
+                          disabled=""
+                          name="amPm"
+                        >
+                          <option
+                            value="am"
+                          >
+                            AM
+                          </option>
+                          <option
+                            value="pm"
+                          >
+                            PM
+                          </option>
+                        </select>
+                      </div>
+                      <button
+                        class="react-datetime-picker__clear-button react-datetime-picker__button"
+                        disabled=""
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line
+                            x1="4"
+                            x2="15"
+                            y1="4"
+                            y2="15"
+                          />
+                          <line
+                            x1="15"
+                            x2="4"
+                            y1="4"
+                            y2="15"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                        disabled=""
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            fill="none"
+                            height="15"
+                            width="15"
+                            x="2"
+                            y="2"
+                          />
+                          <line
+                            x1="6"
+                            x2="6"
+                            y1="0"
+                            y2="4"
+                          />
+                          <line
+                            x1="13"
+                            x2="13"
+                            y1="0"
+                            y2="4"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Date Expire
+                </label>
+                <div>
+                  <div
+                    class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--enabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                  >
+                    <div
+                      class="react-datetime-picker__wrapper"
+                    >
+                      <div
+                        class="react-datetime-picker__inputGroup"
+                      >
+                        <input
+                          max="275760-09-13T05:30"
+                          min="0001-01-01T00:00"
+                          name="datetime"
+                          step="60"
+                          style="visibility: hidden; position: absolute; z-index: -999;"
+                          type="datetime-local"
+                          value="2023-08-07T05:30"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          inputmode="numeric"
+                          max="31"
+                          min="1"
+                          name="day"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="7"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="month"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="8"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          -
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                          data-input="true"
+                          inputmode="numeric"
+                          max="275760"
+                          min="1"
+                          name="year"
+                          placeholder="----"
+                          step="1"
+                          style="width: 20px;"
+                          type="number"
+                          value="2023"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          inputmode="numeric"
+                          max="12"
+                          min="1"
+                          name="hour12"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="5"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                          data-input="true"
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="minute"
+                          placeholder="--"
+                          style="width: 10px;"
+                          type="number"
+                          value="30"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                          :
+                        </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
+                        <input
+                          autocomplete="off"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second react-datetime-picker__inputGroup__input--hasLeadingZero"
+                          data-input="true"
+                          inputmode="numeric"
+                          max="59"
+                          min="0"
+                          name="second"
+                          placeholder="--"
+                          style="width: 5px;"
+                          type="number"
+                          value="0"
+                        />
+                        <span
+                          class="react-datetime-picker__inputGroup__divider"
+                        >
+                           
+                        </span>
+                        <select
+                          aria-label="AM/PM"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                          data-input="true"
+                          data-select="true"
+                          name="amPm"
+                        >
+                          <option
+                            value="am"
+                          >
+                            AM
+                          </option>
+                          <option
+                            value="pm"
+                          >
+                            PM
+                          </option>
+                        </select>
+                      </div>
+                      <button
+                        class="react-datetime-picker__clear-button react-datetime-picker__button"
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line
+                            x1="4"
+                            x2="15"
+                            y1="4"
+                            y2="15"
+                          />
+                          <line
+                            x1="15"
+                            x2="4"
+                            y1="4"
+                            y2="15"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                        type="button"
+                      >
+                        <svg
+                          class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                          height="19"
+                          stroke="black"
+                          stroke-width="2"
+                          viewBox="0 0 19 19"
+                          width="19"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            fill="none"
+                            height="15"
+                            width="15"
+                            x="2"
+                            y="2"
+                          />
+                          <line
+                            x1="6"
+                            x2="6"
+                            y1="0"
+                            y2="4"
+                          />
+                          <line
+                            x1="13"
+                            x2="13"
+                            y1="0"
+                            y2="4"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Version
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  disabled=""
+                  placeholder="Version"
+                  type="text"
+                  value="1"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Status
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for=""
+                >
+                  Environment
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                  disabled=""
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+            </span>
+          </div>
+          <br />
+          <span
+            class="flex flex-row space-x-3   justify-center  items-center"
+          >
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Save
+              </button>
+            </div>
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 18L18 6M6 6l12 13"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Clear
+              </button>
+            </div>
+          </span>
+        </div>
+        <div
+          class="p-2 rounded-lg shadow-xl overflow-scroll"
+        >
+          <div
+            style="position: relative;"
+          >
+            <div>
+              <div
+                class="flex items-center"
+              >
+                <label
+                  class="search-label"
+                  for="search-bar-0"
+                >
+                  <span
+                    class="sr-only"
+                    id="search-bar-0-label"
+                  >
+                    Search this table
+                  </span>
+                  <input
+                    aria-labelledby="search-bar-0-label"
+                    class="form-control "
+                    id="search-bar-0"
+                    placeholder="Search..."
+                    type="text"
+                    value=""
+                  />
+                </label>
+                <button
+                  class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                >
+                  Clear
+                </button>
+                <button
+                  class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+                >
+                  Clear all filters
+                </button>
+                <button
+                  class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                  type="button"
+                >
+                  Export CSV!!
+                </button>
+                <div
+                  class="undefined"
+                >
+                  <button
+                    class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                    type="button"
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 448 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="scrollTable"
+              >
+                <div
+                  class="react-bootstrap-table"
+                >
+                  <table
+                    class="table table-hover table-bordered"
+                  >
+                    <thead>
+                      <tr
+                        class="bg-gray-500 text-white whitespace-nowrap"
+                      >
+                        <th
+                          class="selection-cell-header"
+                          data-row-selection="true"
+                        >
+                          <input
+                            class="selection-input-4"
+                            type="checkbox"
+                          />
+                        </th>
+                        <th
+                          aria-label="Sales Territory sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Sales Territory
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-salesTerritory"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Sales Territory
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-salesTerritory"
+                              placeholder="Enter Sales Territory..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Description sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Description
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-description"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Description
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-description"
+                              placeholder="Enter Description..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Employee Code sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Employee Code
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-empCode"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Employee Code
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-empCode"
+                              placeholder="Enter Employee Code..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Employee Name sortable"
+                          class="sortable textHeader5"
+                          tabindex="0"
+                        >
+                          Employee Name
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-empName"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Employee Name
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-empName"
+                              placeholder="Enter Employee Name..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Sales Hierarchy sortable"
+                          class="sortable textHeader6 z-10"
+                          tabindex="0"
+                        >
+                          Sales Hierarchy
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-salesHierarchy"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Sales Hierarchy
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-salesHierarchy"
+                              placeholder="Enter Sales Hierarchy..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Target sortable"
+                          class="sortable textHeader5 z-10"
+                          tabindex="0"
+                        >
+                          Target
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-targets"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Target
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-targets"
+                              placeholder="Enter Target..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Date Creation sortable"
+                          class="sortable textHeader6"
+                          tabindex="0"
+                        >
+                          Date Creation
+                          <span
+                            class="order-4"
+                          />
+                          <div
+                            class="flex-row inline"
+                          >
+                            <div
+                              class="wrg-toggle mr-2 wrg-toggle"
+                            >
+                              <div
+                                class="wrg-toggle-container bg-black"
+                              >
+                                <div
+                                  class="wrg-toggle-check"
+                                >
+                                  <span
+                                    class="text-white ml-1"
+                                  >
+                                    Yes
+                                  </span>
+                                </div>
+                                <div
+                                  class="wrg-toggle-uncheck"
+                                >
+                                  <span
+                                    class="text-white"
+                                  >
+                                    No
+                                  </span>
+                                </div>
+                              </div>
+                              <div
+                                class="wrg-toggle-circle mr-1  "
+                              />
+                              <input
+                                aria-label="Toggle Button"
+                                class="wrg-toggle-input"
+                                type="checkbox"
+                              />
+                            </div>
+                            <select
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                            >
+                              <option>
+                                Select
+                              </option>
+                              <option
+                                value="="
+                              >
+                                =
+                              </option>
+                              <option
+                                value=">="
+                              >
+                                &gt;=
+                              </option>
+                              <option
+                                value="<"
+                              >
+                                &lt;
+                              </option>
+                            </select>
+                            <input
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                              type="date"
+                              value=""
+                            />
+                          </div>
+                        </th>
+                        <th
+                          aria-label="Date Active sortable"
+                          class="sortable textHeader6"
+                          tabindex="0"
+                        >
+                          Date Active
+                          <span
+                            class="order-4"
+                          />
+                          <div
+                            class="flex-row inline"
+                          >
+                            <div
+                              class="wrg-toggle mr-2 wrg-toggle"
+                            >
+                              <div
+                                class="wrg-toggle-container bg-black"
+                              >
+                                <div
+                                  class="wrg-toggle-check"
+                                >
+                                  <span
+                                    class="text-white ml-1"
+                                  >
+                                    Yes
+                                  </span>
+                                </div>
+                                <div
+                                  class="wrg-toggle-uncheck"
+                                >
+                                  <span
+                                    class="text-white"
+                                  >
+                                    No
+                                  </span>
+                                </div>
+                              </div>
+                              <div
+                                class="wrg-toggle-circle mr-1  "
+                              />
+                              <input
+                                aria-label="Toggle Button"
+                                class="wrg-toggle-input"
+                                type="checkbox"
+                              />
+                            </div>
+                            <select
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                            >
+                              <option>
+                                Select
+                              </option>
+                              <option
+                                value="="
+                              >
+                                =
+                              </option>
+                              <option
+                                value=">="
+                              >
+                                &gt;=
+                              </option>
+                              <option
+                                value="<"
+                              >
+                                &lt;
+                              </option>
+                            </select>
+                            <input
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                              type="date"
+                              value=""
+                            />
+                          </div>
+                        </th>
+                        <th
+                          aria-label="Date Expire sortable"
+                          class="sortable textHeader6"
+                          tabindex="0"
+                        >
+                          Date Expire
+                          <span
+                            class="order-4"
+                          />
+                          <div
+                            class="flex-row inline"
+                          >
+                            <div
+                              class="wrg-toggle mr-2 wrg-toggle"
+                            >
+                              <div
+                                class="wrg-toggle-container bg-black"
+                              >
+                                <div
+                                  class="wrg-toggle-check"
+                                >
+                                  <span
+                                    class="text-white ml-1"
+                                  >
+                                    Yes
+                                  </span>
+                                </div>
+                                <div
+                                  class="wrg-toggle-uncheck"
+                                >
+                                  <span
+                                    class="text-white"
+                                  >
+                                    No
+                                  </span>
+                                </div>
+                              </div>
+                              <div
+                                class="wrg-toggle-circle mr-1  "
+                              />
+                              <input
+                                aria-label="Toggle Button"
+                                class="wrg-toggle-input"
+                                type="checkbox"
+                              />
+                            </div>
+                            <select
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                            >
+                              <option>
+                                Select
+                              </option>
+                              <option
+                                value="="
+                              >
+                                =
+                              </option>
+                              <option
+                                value=">="
+                              >
+                                &gt;=
+                              </option>
+                              <option
+                                value="<"
+                              >
+                                &lt;
+                              </option>
+                            </select>
+                            <input
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                              type="date"
+                              value=""
+                            />
+                          </div>
+                        </th>
+                        <th
+                          aria-label="Version sortable"
+                          class="sortable textHeader4"
+                          tabindex="0"
+                        >
+                          Version
+                          <span
+                            class="order-4"
+                          />
+                          <div
+                            class="flex-row gap-2 inline"
+                          >
+                            <select
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12"
+                            >
+                              <option>
+                                Select
+                              </option>
+                              <option
+                                value="="
+                              >
+                                =
+                              </option>
+                              <option
+                                value="!="
+                              >
+                                !=
+                              </option>
+                              <option
+                                value=">"
+                              >
+                                &gt;
+                              </option>
+                              <option
+                                value=">="
+                              >
+                                &gt;=
+                              </option>
+                              <option
+                                value="<"
+                              >
+                                &lt;
+                              </option>
+                              <option
+                                value="<="
+                              >
+                                &lt;=
+                              </option>
+                            </select>
+                            <input
+                              class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black ml-1"
+                              placeholder="Enter value..."
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </th>
+                        <th
+                          aria-label="Status sortable"
+                          class="sortable textHeader1"
+                          tabindex="0"
+                        >
+                          Status
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-status"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Status
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-status"
+                              placeholder="Enter Status..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                        <th
+                          aria-label="Environment sortable"
+                          class="sortable textHeader3"
+                          tabindex="0"
+                        >
+                          Environment
+                          <span
+                            class="order-4"
+                          />
+                          <label
+                            class="filter-label"
+                            for="text-filter-column-environment"
+                          >
+                            <span
+                              class="sr-only"
+                            >
+                              Filter by 
+                              Environment
+                            </span>
+                            <input
+                              class="filter text-filter form-control undefined"
+                              delay="500"
+                              id="text-filter-column-environment"
+                              placeholder="Enter Environment..."
+                              type="text"
+                              value=""
+                            />
+                          </label>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td
+                          class="react-bs-table-no-data"
+                          colspan="13"
+                          data-toggle="collapse"
+                        >
+                          Table is Empty
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  class="row react-bootstrap-table-pagination"
+                >
+                  <div
+                    class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                  >
+                    <span
+                      class="react-bs-table-sizePerPage-dropdown dropdown"
+                      style="visibility: visible;"
+                    >
+                      <button
+                        aria-expanded="false"
+                        class="btn btn-default btn-secondary dropdown-toggle"
+                        data-toggle="dropdown"
+                        id="pageDropDown"
+                        type="button"
+                      >
+                        10
+                         
+                      </button>
+                      <ul
+                        aria-labelledby="pageDropDown"
+                        class="dropdown-menu "
+                        role="menu"
+                      >
+                        <a
+                          class="dropdown-item"
+                          data-page="10"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          10
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          data-page="25"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          25
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          data-page="30"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          30
+                        </a>
+                        <a
+                          class="dropdown-item"
+                          data-page="50"
+                          href="#"
+                          role="menuitem"
+                          tabindex="-1"
+                        >
+                          50
+                        </a>
+                      </ul>
+                    </span>
+                  </div>
+                  <div
+                    class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                  >
+                    <ul
+                      class="pagination react-bootstrap-table-page-btns-ul"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center gap-2 mt-2"
+              >
+                <span
+                  class="react-bs-table-sizePerPage-dropdown dropdown"
+                  style="visibility: visible;"
+                >
+                  <button
+                    aria-expanded="false"
+                    class="btn btn-default btn-secondary dropdown-toggle"
+                    data-toggle="dropdown"
+                    id="pageDropDown"
+                    type="button"
+                  >
+                    10
+                     
+                    <span>
+                      <span
+                        class="caret"
+                      />
+                    </span>
+                  </button>
+                  <ul
+                    aria-labelledby="pageDropDown"
+                    class="dropdown-menu "
+                    role="menu"
+                  >
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="10"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        10
+                      </a>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="25"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        25
+                      </a>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="30"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        30
+                      </a>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      role="presentation"
+                    >
+                      <a
+                        data-page="50"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        50
+                      </a>
+                    </li>
+                  </ul>
+                </span>
+                <ul
+                  class="pagination react-bootstrap-table-page-btns-ul"
+                />
+              </div>
+              <div
+                class="flex items-center gap-2 mt-2"
+              >
+                <span
+                  class="react-bootstrap-table-pagination-total"
+                >
+                   Showing rows 
+                  0
+                   to 
+                  0
+                   of 
+                  0
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="container"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+    >
+      <div>
+        <h2
+          class="text-lg font-bold leading-4 text-gray-900 mt-0"
+        />
+      </div>
+      <div
+        class="flex flex-row items-center"
+      >
+        <img
+          alt="banner"
+          class="object-fill h-10 w-12 rounded-md mr-2"
+        />
+        <h2
+          class="text-base  leading-4 text-gray-900 mt-0"
+        />
+      </div>
+    </div>
+    <div
+      class=" mx-auto flex-wrap"
+    >
+      <div
+        class="p-2 rounded-lg shadow-xl hidden"
+      >
+        <div
+          class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+        >
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Sales Territory
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                placeholder="Sales Territory"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Description
+              </label>
+              <textarea
+                autocomplete="given-name"
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                placeholder="Description"
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Employee code
+              </label>
+              <div>
+                <div
+                  class="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                >
+                  <input
+                    class="w-full focus:outline-none bg-none"
+                    placeholder="Search  by emp code"
+                    value=""
+                  />
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Employee Name
+              </label>
+              <input
+                autocomplete="given-name"
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                disabled=""
+                placeholder="Employee Name"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Sales Hierarchy
+              </label>
+              <div
+                class="flex flex-row gap-2 items-center max-w-fit"
+              >
+                <table
+                  class="table table-bordered table-striped"
+                >
+                  <thead>
+                    <tr
+                      class="p-0 text-xs"
+                    >
+                      <th
+                        class="text-white w-2/3"
+                      >
+                        Employee
+                      </th>
+                      <th
+                        class="text-white w-1/3"
+                      >
+                        Designation
+                      </th>
+                      <th
+                        class="text-white w-1/3"
+                      >
+                        Level
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="text-xs max-w-fit"
+                  />
+                </table>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Targets
+              </label>
+              <div
+                class="flex flex-row gap-2 items-center overflow-auto    "
+              >
+                <table
+                  class="table table-bordered table-striped"
+                >
+                  <thead>
+                    <tr
+                      class="p-0 text-xs"
+                    >
+                      <th
+                        class="text-white"
+                        style="min-width: 150px;"
+                      >
+                        FY-Year
+                      </th>
+                      <th
+                        class="text-white"
+                        style="min-width: 150px;"
+                      >
+                        Sr No
+                      </th>
+                      <th
+                        class="text-white"
+                        style="min-width: 150px;"
+                      >
+                        Month
+                      </th>
+                      <th
+                        class="text-white"
+                        style="min-width: 100px;"
+                      >
+                        Targeted Sale
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="text-xs"
+                  />
+                </table>
+              </div>
+            </div>
+          </span>
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Entered By
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                disabled=""
+                placeholder="Entered By"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Date Creation
+              </label>
+              <div>
+                <div
+                  class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--disabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                >
+                  <div
+                    class="react-datetime-picker__wrapper"
+                  >
+                    <div
+                      class="react-datetime-picker__inputGroup"
+                    >
+                      <input
+                        disabled=""
+                        max="275760-09-13T05:30"
+                        min="0001-01-01T00:00"
+                        name="datetime"
+                        step="60"
+                        style="visibility: hidden; position: absolute; z-index: -999;"
+                        type="datetime-local"
+                        value="2022-08-07T11:07"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="31"
+                        min="1"
+                        name="day"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="7"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="month"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="8"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="275760"
+                        min="1"
+                        name="year"
+                        placeholder="----"
+                        step="1"
+                        style="width: 20px;"
+                        type="number"
+                        value="2022"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="hour12"
+                        placeholder="--"
+                        style="width: 10px;"
+                        type="number"
+                        value="11"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="minute"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="7"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="second"
+                        placeholder="--"
+                        style="width: 10px;"
+                        type="number"
+                        value="50"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <select
+                        aria-label="AM/PM"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                        data-input="true"
+                        data-select="true"
+                        disabled=""
+                        name="amPm"
+                      >
+                        <option
+                          value="am"
+                        >
+                          AM
+                        </option>
+                        <option
+                          value="pm"
+                        >
+                          PM
+                        </option>
+                      </select>
+                    </div>
+                    <button
+                      class="react-datetime-picker__clear-button react-datetime-picker__button"
+                      disabled=""
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line
+                          x1="4"
+                          x2="15"
+                          y1="4"
+                          y2="15"
+                        />
+                        <line
+                          x1="15"
+                          x2="4"
+                          y1="4"
+                          y2="15"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                      disabled=""
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          fill="none"
+                          height="15"
+                          width="15"
+                          x="2"
+                          y="2"
+                        />
+                        <line
+                          x1="6"
+                          x2="6"
+                          y1="0"
+                          y2="4"
+                        />
+                        <line
+                          x1="13"
+                          x2="13"
+                          y1="0"
+                          y2="4"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Date Active
+              </label>
+              <div>
+                <div
+                  class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--disabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                >
+                  <div
+                    class="react-datetime-picker__wrapper"
+                  >
+                    <div
+                      class="react-datetime-picker__inputGroup"
+                    >
+                      <input
+                        disabled=""
+                        max="275760-09-13T05:30"
+                        min="0001-01-01T00:00"
+                        name="datetime"
+                        step="60"
+                        style="visibility: hidden; position: absolute; z-index: -999;"
+                        type="datetime-local"
+                        value="2022-08-07T11:07"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="31"
+                        min="1"
+                        name="day"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="7"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="month"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="8"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="275760"
+                        min="1"
+                        name="year"
+                        placeholder="----"
+                        step="1"
+                        style="width: 20px;"
+                        type="number"
+                        value="2022"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="hour12"
+                        placeholder="--"
+                        style="width: 10px;"
+                        type="number"
+                        value="11"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="minute"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="7"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second"
+                        data-input="true"
+                        disabled=""
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="second"
+                        placeholder="--"
+                        style="width: 10px;"
+                        type="number"
+                        value="50"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <select
+                        aria-label="AM/PM"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                        data-input="true"
+                        data-select="true"
+                        disabled=""
+                        name="amPm"
+                      >
+                        <option
+                          value="am"
+                        >
+                          AM
+                        </option>
+                        <option
+                          value="pm"
+                        >
+                          PM
+                        </option>
+                      </select>
+                    </div>
+                    <button
+                      class="react-datetime-picker__clear-button react-datetime-picker__button"
+                      disabled=""
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line
+                          x1="4"
+                          x2="15"
+                          y1="4"
+                          y2="15"
+                        />
+                        <line
+                          x1="15"
+                          x2="4"
+                          y1="4"
+                          y2="15"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                      disabled=""
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          fill="none"
+                          height="15"
+                          width="15"
+                          x="2"
+                          y="2"
+                        />
+                        <line
+                          x1="6"
+                          x2="6"
+                          y1="0"
+                          y2="4"
+                        />
+                        <line
+                          x1="13"
+                          x2="13"
+                          y1="0"
+                          y2="4"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Date Expire
+              </label>
+              <div>
+                <div
+                  class="react-datetime-picker react-datetime-picker--closed react-datetime-picker--enabled leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md relative z-2"
+                >
+                  <div
+                    class="react-datetime-picker__wrapper"
+                  >
+                    <div
+                      class="react-datetime-picker__inputGroup"
+                    >
+                      <input
+                        max="275760-09-13T05:30"
+                        min="0001-01-01T00:00"
+                        name="datetime"
+                        step="60"
+                        style="visibility: hidden; position: absolute; z-index: -999;"
+                        type="datetime-local"
+                        value="2023-08-07T05:30"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__day react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        inputmode="numeric"
+                        max="31"
+                        min="1"
+                        name="day"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="7"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__month react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="month"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="8"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        -
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__year"
+                        data-input="true"
+                        inputmode="numeric"
+                        max="275760"
+                        min="1"
+                        name="year"
+                        placeholder="----"
+                        step="1"
+                        style="width: 20px;"
+                        type="number"
+                        value="2023"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__hour react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        inputmode="numeric"
+                        max="12"
+                        min="1"
+                        name="hour12"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="5"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                        data-input="true"
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="minute"
+                        placeholder="--"
+                        style="width: 10px;"
+                        type="number"
+                        value="30"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                        :
+                      </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
+                      <input
+                        autocomplete="off"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__second react-datetime-picker__inputGroup__input--hasLeadingZero"
+                        data-input="true"
+                        inputmode="numeric"
+                        max="59"
+                        min="0"
+                        name="second"
+                        placeholder="--"
+                        style="width: 5px;"
+                        type="number"
+                        value="0"
+                      />
+                      <span
+                        class="react-datetime-picker__inputGroup__divider"
+                      >
+                         
+                      </span>
+                      <select
+                        aria-label="AM/PM"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__amPm"
+                        data-input="true"
+                        data-select="true"
+                        name="amPm"
+                      >
+                        <option
+                          value="am"
+                        >
+                          AM
+                        </option>
+                        <option
+                          value="pm"
+                        >
+                          PM
+                        </option>
+                      </select>
+                    </div>
+                    <button
+                      class="react-datetime-picker__clear-button react-datetime-picker__button"
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__clear-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line
+                          x1="4"
+                          x2="15"
+                          y1="4"
+                          y2="15"
+                        />
+                        <line
+                          x1="15"
+                          x2="4"
+                          y1="4"
+                          y2="15"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      class="react-datetime-picker__calendar-button react-datetime-picker__button"
+                      type="button"
+                    >
+                      <svg
+                        class="react-datetime-picker__calendar-button__icon react-datetime-picker__button__icon"
+                        height="19"
+                        stroke="black"
+                        stroke-width="2"
+                        viewBox="0 0 19 19"
+                        width="19"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          fill="none"
+                          height="15"
+                          width="15"
+                          x="2"
+                          y="2"
+                        />
+                        <line
+                          x1="6"
+                          x2="6"
+                          y1="0"
+                          y2="4"
+                        />
+                        <line
+                          x1="13"
+                          x2="13"
+                          y1="0"
+                          y2="4"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Version
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                disabled=""
+                placeholder="Version"
+                type="text"
+                value="1"
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Status
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for=""
+              >
+                Environment
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                disabled=""
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+          </span>
+        </div>
+        <br />
+        <span
+          class="flex flex-row space-x-3   justify-center  items-center"
+        >
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Save
+            </button>
+          </div>
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 18L18 6M6 6l12 13"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Clear
+            </button>
+          </div>
+        </span>
+      </div>
+      <div
+        class="p-2 rounded-lg shadow-xl overflow-scroll"
+      >
+        <div
+          style="position: relative;"
+        >
+          <div>
+            <div
+              class="flex items-center"
+            >
+              <label
+                class="search-label"
+                for="search-bar-0"
+              >
+                <span
+                  class="sr-only"
+                  id="search-bar-0-label"
+                >
+                  Search this table
+                </span>
+                <input
+                  aria-labelledby="search-bar-0-label"
+                  class="form-control "
+                  id="search-bar-0"
+                  placeholder="Search..."
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              >
+                Clear
+              </button>
+              <button
+                class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+              >
+                Clear all filters
+              </button>
+              <button
+                class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                type="button"
+              >
+                Export CSV!!
+              </button>
+              <div
+                class="undefined"
+              >
+                <button
+                  class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                  type="button"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="scrollTable"
+            >
+              <div
+                class="react-bootstrap-table"
+              >
+                <table
+                  class="table table-hover table-bordered"
+                >
+                  <thead>
+                    <tr
+                      class="bg-gray-500 text-white whitespace-nowrap"
+                    >
+                      <th
+                        class="selection-cell-header"
+                        data-row-selection="true"
+                      >
+                        <input
+                          class="selection-input-4"
+                          type="checkbox"
+                        />
+                      </th>
+                      <th
+                        aria-label="Sales Territory sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Sales Territory
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-salesTerritory"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Sales Territory
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-salesTerritory"
+                            placeholder="Enter Sales Territory..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Description sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Description
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-description"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Description
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-description"
+                            placeholder="Enter Description..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Employee Code sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Employee Code
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-empCode"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Employee Code
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-empCode"
+                            placeholder="Enter Employee Code..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Employee Name sortable"
+                        class="sortable textHeader5"
+                        tabindex="0"
+                      >
+                        Employee Name
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-empName"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Employee Name
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-empName"
+                            placeholder="Enter Employee Name..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Sales Hierarchy sortable"
+                        class="sortable textHeader6 z-10"
+                        tabindex="0"
+                      >
+                        Sales Hierarchy
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-salesHierarchy"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Sales Hierarchy
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-salesHierarchy"
+                            placeholder="Enter Sales Hierarchy..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Target sortable"
+                        class="sortable textHeader5 z-10"
+                        tabindex="0"
+                      >
+                        Target
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-targets"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Target
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-targets"
+                            placeholder="Enter Target..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Date Creation sortable"
+                        class="sortable textHeader6"
+                        tabindex="0"
+                      >
+                        Date Creation
+                        <span
+                          class="order-4"
+                        />
+                        <div
+                          class="flex-row inline"
+                        >
+                          <div
+                            class="wrg-toggle mr-2 wrg-toggle"
+                          >
+                            <div
+                              class="wrg-toggle-container bg-black"
+                            >
+                              <div
+                                class="wrg-toggle-check"
+                              >
+                                <span
+                                  class="text-white ml-1"
+                                >
+                                  Yes
+                                </span>
+                              </div>
+                              <div
+                                class="wrg-toggle-uncheck"
+                              >
+                                <span
+                                  class="text-white"
+                                >
+                                  No
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              class="wrg-toggle-circle mr-1  "
+                            />
+                            <input
+                              aria-label="Toggle Button"
+                              class="wrg-toggle-input"
+                              type="checkbox"
+                            />
+                          </div>
+                          <select
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                          >
+                            <option>
+                              Select
+                            </option>
+                            <option
+                              value="="
+                            >
+                              =
+                            </option>
+                            <option
+                              value=">="
+                            >
+                              &gt;=
+                            </option>
+                            <option
+                              value="<"
+                            >
+                              &lt;
+                            </option>
+                          </select>
+                          <input
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                            type="date"
+                            value=""
+                          />
+                        </div>
+                      </th>
+                      <th
+                        aria-label="Date Active sortable"
+                        class="sortable textHeader6"
+                        tabindex="0"
+                      >
+                        Date Active
+                        <span
+                          class="order-4"
+                        />
+                        <div
+                          class="flex-row inline"
+                        >
+                          <div
+                            class="wrg-toggle mr-2 wrg-toggle"
+                          >
+                            <div
+                              class="wrg-toggle-container bg-black"
+                            >
+                              <div
+                                class="wrg-toggle-check"
+                              >
+                                <span
+                                  class="text-white ml-1"
+                                >
+                                  Yes
+                                </span>
+                              </div>
+                              <div
+                                class="wrg-toggle-uncheck"
+                              >
+                                <span
+                                  class="text-white"
+                                >
+                                  No
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              class="wrg-toggle-circle mr-1  "
+                            />
+                            <input
+                              aria-label="Toggle Button"
+                              class="wrg-toggle-input"
+                              type="checkbox"
+                            />
+                          </div>
+                          <select
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                          >
+                            <option>
+                              Select
+                            </option>
+                            <option
+                              value="="
+                            >
+                              =
+                            </option>
+                            <option
+                              value=">="
+                            >
+                              &gt;=
+                            </option>
+                            <option
+                              value="<"
+                            >
+                              &lt;
+                            </option>
+                          </select>
+                          <input
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                            type="date"
+                            value=""
+                          />
+                        </div>
+                      </th>
+                      <th
+                        aria-label="Date Expire sortable"
+                        class="sortable textHeader6"
+                        tabindex="0"
+                      >
+                        Date Expire
+                        <span
+                          class="order-4"
+                        />
+                        <div
+                          class="flex-row inline"
+                        >
+                          <div
+                            class="wrg-toggle mr-2 wrg-toggle"
+                          >
+                            <div
+                              class="wrg-toggle-container bg-black"
+                            >
+                              <div
+                                class="wrg-toggle-check"
+                              >
+                                <span
+                                  class="text-white ml-1"
+                                >
+                                  Yes
+                                </span>
+                              </div>
+                              <div
+                                class="wrg-toggle-uncheck"
+                              >
+                                <span
+                                  class="text-white"
+                                >
+                                  No
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              class="wrg-toggle-circle mr-1  "
+                            />
+                            <input
+                              aria-label="Toggle Button"
+                              class="wrg-toggle-input"
+                              type="checkbox"
+                            />
+                          </div>
+                          <select
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2"
+                          >
+                            <option>
+                              Select
+                            </option>
+                            <option
+                              value="="
+                            >
+                              =
+                            </option>
+                            <option
+                              value=">="
+                            >
+                              &gt;=
+                            </option>
+                            <option
+                              value="<"
+                            >
+                              &lt;
+                            </option>
+                          </select>
+                          <input
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2"
+                            type="date"
+                            value=""
+                          />
+                        </div>
+                      </th>
+                      <th
+                        aria-label="Version sortable"
+                        class="sortable textHeader4"
+                        tabindex="0"
+                      >
+                        Version
+                        <span
+                          class="order-4"
+                        />
+                        <div
+                          class="flex-row gap-2 inline"
+                        >
+                          <select
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12"
+                          >
+                            <option>
+                              Select
+                            </option>
+                            <option
+                              value="="
+                            >
+                              =
+                            </option>
+                            <option
+                              value="!="
+                            >
+                              !=
+                            </option>
+                            <option
+                              value=">"
+                            >
+                              &gt;
+                            </option>
+                            <option
+                              value=">="
+                            >
+                              &gt;=
+                            </option>
+                            <option
+                              value="<"
+                            >
+                              &lt;
+                            </option>
+                            <option
+                              value="<="
+                            >
+                              &lt;=
+                            </option>
+                          </select>
+                          <input
+                            class="leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black ml-1"
+                            placeholder="Enter value..."
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </th>
+                      <th
+                        aria-label="Status sortable"
+                        class="sortable textHeader1"
+                        tabindex="0"
+                      >
+                        Status
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-status"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Status
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-status"
+                            placeholder="Enter Status..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                      <th
+                        aria-label="Environment sortable"
+                        class="sortable textHeader3"
+                        tabindex="0"
+                      >
+                        Environment
+                        <span
+                          class="order-4"
+                        />
+                        <label
+                          class="filter-label"
+                          for="text-filter-column-environment"
+                        >
+                          <span
+                            class="sr-only"
+                          >
+                            Filter by 
+                            Environment
+                          </span>
+                          <input
+                            class="filter text-filter form-control undefined"
+                            delay="500"
+                            id="text-filter-column-environment"
+                            placeholder="Enter Environment..."
+                            type="text"
+                            value=""
+                          />
+                        </label>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="react-bs-table-no-data"
+                        colspan="13"
+                        data-toggle="collapse"
+                      >
+                        Table is Empty
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="row react-bootstrap-table-pagination"
+              >
+                <div
+                  class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <span
+                    class="react-bs-table-sizePerPage-dropdown dropdown"
+                    style="visibility: visible;"
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="btn btn-default btn-secondary dropdown-toggle"
+                      data-toggle="dropdown"
+                      id="pageDropDown"
+                      type="button"
+                    >
+                      10
+                       
+                    </button>
+                    <ul
+                      aria-labelledby="pageDropDown"
+                      class="dropdown-menu "
+                      role="menu"
+                    >
+                      <a
+                        class="dropdown-item"
+                        data-page="10"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        10
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="25"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        25
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="30"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        30
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="50"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        50
+                      </a>
+                    </ul>
+                  </span>
+                </div>
+                <div
+                  class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <ul
+                    class="pagination react-bootstrap-table-page-btns-ul"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bs-table-sizePerPage-dropdown dropdown"
+                style="visibility: visible;"
+              >
+                <button
+                  aria-expanded="false"
+                  class="btn btn-default btn-secondary dropdown-toggle"
+                  data-toggle="dropdown"
+                  id="pageDropDown"
+                  type="button"
+                >
+                  10
+                   
+                  <span>
+                    <span
+                      class="caret"
+                    />
+                  </span>
+                </button>
+                <ul
+                  aria-labelledby="pageDropDown"
+                  class="dropdown-menu "
+                  role="menu"
+                >
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </li>
+                </ul>
+              </span>
+              <ul
+                class="pagination react-bootstrap-table-page-btns-ul"
+              />
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bootstrap-table-pagination-total"
+              >
+                 Showing rows 
+                0
+                 to 
+                0
+                 of 
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="container"
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
