@@ -1,0 +1,1920 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HostCommunication Screen render hostCommunication correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+      >
+        <div>
+          <h2
+            class="text-lg font-bold leading-4 text-gray-900 mt-0"
+          />
+        </div>
+        <div
+          class="flex flex-row items-center"
+        >
+          <img
+            alt="banner"
+            class="object-fill h-10 w-12 rounded-md mr-2"
+          />
+          <h2
+            class="text-base  leading-4 text-gray-900 mt-0"
+          />
+        </div>
+      </div>
+      <div
+        class="mx-auto"
+      >
+        <div
+          class="p-2 rounded-lg shadow-xl"
+        >
+          <div
+            class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+          >
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div
+                class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+              >
+                <div>
+                  <label
+                    class="text-gray-700 block text-3xs font-medium  mb-1"
+                    for="manualMode"
+                  >
+                    Manual
+                  </label>
+                  <div
+                    class="wrg-toggle "
+                  >
+                    <div
+                      class="wrg-toggle-container bg-black"
+                    >
+                      <div
+                        class="wrg-toggle-check"
+                      >
+                        <span
+                          class="text-white ml-1"
+                        >
+                          Yes
+                        </span>
+                      </div>
+                      <div
+                        class="wrg-toggle-uncheck"
+                      >
+                        <span
+                          class="text-white"
+                        >
+                          No
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="wrg-toggle-circle mr-1  "
+                    />
+                    <input
+                      aria-label="Toggle Button"
+                      class="wrg-toggle-input"
+                      type="checkbox"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label>
+                    Connection Estabilished :
+                     
+                    Off
+                  </label>
+                  <label
+                    style="color: red;"
+                  >
+                    Connection estabilished success.
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="instrumentType"
+                >
+                  Instrument Type
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  name="instrumentType"
+                >
+                  <option>
+                    Select
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="instrumentName"
+                >
+                  Instrument Name
+                </label>
+                <input
+                  autocomplete="given-name"
+                  class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                  data-testid="INPT"
+                  id="instrumentName"
+                  placeholder="Instrument Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="modeOfCommunication"
+                >
+                  Mode of Communication
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  name="defualtLab"
+                >
+                  <option>
+                    Select
+                  </option>
+                  <option
+                    value="Broadcasting"
+                  >
+                    Broadcasting
+                  </option>
+                  <option
+                    value="Host Query"
+                  >
+                    Host Query
+                  </option>
+                  <option
+                    value="File based"
+                  >
+                    File based
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="typeOfQuery"
+                >
+                  Type of Query
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  name="defualtLab"
+                >
+                  <option>
+                    Select
+                  </option>
+                  <option
+                    value="Unidirectional"
+                  >
+                    Unidirectional
+                  </option>
+                  <option
+                    value="Bidirectional"
+                  >
+                    Bidirectional
+                  </option>
+                  <option
+                    value="Host Query "
+                  >
+                    Host Query 
+                  </option>
+                </select>
+              </div>
+            </span>
+            <span
+              class="flex flex-col space-y-4    flex-1 items-stretch"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="modeOfConnection"
+                >
+                  Mode of Connection 
+                </label>
+                <select
+                  class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  name="defualtLab"
+                >
+                  <option>
+                    Select
+                  </option>
+                  <option
+                    value="Serial Port Communication"
+                  >
+                    Serial Port Communication
+                  </option>
+                  <option
+                    value="TCP/IP Communication"
+                  >
+                    TCP/IP Communication
+                  </option>
+                </select>
+              </div>
+            </span>
+            <span
+              class="flex flex-col space-y-10   justify-between  items-center"
+            >
+              <label>
+                Status : Pending
+              </label>
+              <div
+                class="flex"
+              >
+                <div
+                  class="undefined"
+                >
+                  <button
+                    class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                    type="button"
+                  >
+                    Save Setting
+                  </button>
+                </div>
+              </div>
+              <div
+                class="flex mb-2"
+              >
+                <div
+                  class="undefined"
+                >
+                  <button
+                    class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                    type="button"
+                  >
+                    Generate Driver
+                  </button>
+                </div>
+              </div>
+            </span>
+            <div
+              class="clearfix"
+            />
+          </div>
+          <div
+            class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="applyFiltrOn"
+              >
+                Apply Filtr on
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                name="defualtLab"
+              >
+                <option>
+                  Select
+                </option>
+                <option
+                  value="Patient Data / QC Data"
+                >
+                  Patient Data / QC Data
+                </option>
+                <option
+                  value="Output Filter"
+                >
+                  Output Filter
+                </option>
+                <option
+                  value="Import"
+                >
+                  Import
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="logFileDataReceivefromInstrument"
+              >
+                Log File
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                id="logFileDataReceivefromInstrument"
+                placeholder="Log File"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="clerfix"
+            />
+          </div>
+          <div
+            class="react-sanfona"
+          >
+            <div
+              class="react-sanfona-item"
+            >
+              <h3
+                aria-controls="react-sanfona-item-body-055f2188-0529-401d-83da-14c60bc73b0b"
+                aria-expanded="false"
+                class="react-sanfona-item-title"
+                id="react-sanfona-item-title-055f2188-0529-401d-83da-14c60bc73b0b"
+                style="cursor: pointer; margin: 0px;"
+              >
+                Hex to ASCII
+              </h3>
+              <div
+                aria-hidden="true"
+                aria-labelledby="react-sanfona-item-title-055f2188-0529-401d-83da-14c60bc73b0b"
+                class="react-sanfona-item-body"
+                id="react-sanfona-item-body-055f2188-0529-401d-83da-14c60bc73b0b"
+                style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+              >
+                <div
+                  class="react-sanfona-item-body-wrapper"
+                >
+                  <span
+                    class="flex flex-col space-y-4    flex-1 items-stretch"
+                  >
+                    <div
+                      class="grid grid-cols-3 gap-4"
+                    >
+                      <div
+                        class="col-span-2"
+                      >
+                        <div>
+                          <label
+                            class="text-gray-700 block text-3xs font-medium  mb-1"
+                            for="txtHexToAscii"
+                          />
+                          <textarea
+                            autocomplete="given-name"
+                            class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                            disabled=""
+                            id="txtHexToAscii"
+                            placeholder="Hex"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="react-sanfona-item"
+            >
+              <h3
+                aria-controls="react-sanfona-item-body-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+                aria-expanded="false"
+                class="react-sanfona-item-title"
+                id="react-sanfona-item-title-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+                style="cursor: pointer; margin: 0px;"
+              >
+                Source File
+              </h3>
+              <div
+                aria-hidden="true"
+                aria-labelledby="react-sanfona-item-title-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+                class="react-sanfona-item-body"
+                id="react-sanfona-item-body-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+                style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+              >
+                <div
+                  class="react-sanfona-item-body-wrapper"
+                >
+                  <div
+                    class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+                  >
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="sourceFileDataReceivefromInstrument"
+                      >
+                        Source File
+                      </label>
+                      <select
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        name="defualtLab"
+                      >
+                        <option>
+                          Select
+                        </option>
+                        <option
+                          value="Hex decimal"
+                        >
+                          Hex decimal
+                        </option>
+                        <option
+                          value="HL7"
+                        >
+                          HL7
+                        </option>
+                        <option
+                          value="ASTM"
+                        >
+                          ASTM
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="SourceRepositoryDataReceivefromInstrument"
+                      >
+                        Source Repository
+                      </label>
+                      <select
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        disabled=""
+                        name="defualtLab"
+                      >
+                        <option>
+                          Select
+                        </option>
+                        <option
+                          value="Phiysical file Location"
+                        >
+                          Phiysical file Location
+                        </option>
+                        <option
+                          value="Collection of a database"
+                        >
+                          Collection of a database
+                        </option>
+                      </select>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </div>
+                  <span
+                    class="flex flex-col space-y-4    flex-1 items-stretch"
+                  >
+                    <div
+                      class="grid grid-cols-3 gap-4"
+                    >
+                      <div
+                        class="col-span-2"
+                      >
+                        <div>
+                          <label
+                            class="text-gray-700 block text-3xs font-medium  mb-1"
+                            for="txtDataReceivefromInstrument"
+                          />
+                          <textarea
+                            autocomplete="given-name"
+                            class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                            disabled=""
+                            id="txtDataReceivefromInstrument"
+                            placeholder="Source file (Data Received Data from Instrument)"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="flex flex-col items-center justify-center"
+                      >
+                        <div>
+                          <div
+                            class="undefined"
+                          >
+                            <button
+                              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                              type="button"
+                            >
+                              Send
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="react-sanfona-item"
+            >
+              <h3
+                aria-controls="react-sanfona-item-body-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+                aria-expanded="false"
+                class="react-sanfona-item-title"
+                id="react-sanfona-item-title-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+                style="cursor: pointer; margin: 0px;"
+              >
+                Send data to Intrument
+              </h3>
+              <div
+                aria-hidden="true"
+                aria-labelledby="react-sanfona-item-title-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+                class="react-sanfona-item-body"
+                id="react-sanfona-item-body-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+                style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+              >
+                <div
+                  class="react-sanfona-item-body-wrapper"
+                >
+                  <div
+                    class="grid grid-cols-3 gap-4"
+                  >
+                    <div
+                      class="col-span-2"
+                    >
+                      <div>
+                        <label
+                          class="text-gray-700 block text-3xs font-medium  mb-1"
+                          for="txtSendDatafromInstrument"
+                        />
+                        <textarea
+                          autocomplete="given-name"
+                          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                          id="txtSendDatafromInstrument"
+                          placeholder="Send data to Instrument"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-col items-center justify-center"
+                    >
+                      <div>
+                        <div
+                          class="undefined"
+                        >
+                          <button
+                            class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                            type="button"
+                          >
+                            Send
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="react-sanfona-item"
+            >
+              <h3
+                aria-controls="react-sanfona-item-body-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+                aria-expanded="false"
+                class="react-sanfona-item-title"
+                id="react-sanfona-item-title-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+                style="cursor: pointer; margin: 0px;"
+              >
+                Convert to
+              </h3>
+              <div
+                aria-hidden="true"
+                aria-labelledby="react-sanfona-item-title-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+                class="react-sanfona-item-body"
+                id="react-sanfona-item-body-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+                style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+              >
+                <div
+                  class="react-sanfona-item-body-wrapper"
+                >
+                  <div
+                    class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+                  >
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="convertTo"
+                      >
+                        Convert to
+                      </label>
+                      <select
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        name="defualtLab"
+                      >
+                        <option>
+                          Select
+                        </option>
+                        <option
+                          value="Hex decimal"
+                        >
+                          Hex decimal
+                        </option>
+                        <option
+                          value="HL7"
+                        >
+                          HL7
+                        </option>
+                        <option
+                          value="ASTM"
+                        >
+                          ASTM
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="outputRepository"
+                      >
+                        Output Repository
+                      </label>
+                      <select
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        name="defualtLab"
+                      >
+                        <option>
+                          Select
+                        </option>
+                        <option
+                          value="Phiysical file Location"
+                        >
+                          Phiysical file Location
+                        </option>
+                        <option
+                          value="Collection of a database"
+                        >
+                          Collection of a database
+                        </option>
+                      </select>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </div>
+                  <span
+                    class="flex flex-col space-y-4    flex-1 items-stretch"
+                  >
+                    <div
+                      class="grid grid-cols-3 gap-4"
+                    >
+                      <div
+                        class="col-span-2"
+                      />
+                      <div
+                        class="flex flex-col items-center justify-center"
+                      >
+                        <div>
+                          <div
+                            class="undefined"
+                          >
+                            <button
+                              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                              type="button"
+                            >
+                              Convert
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="react-sanfona-item"
+            >
+              <h3
+                aria-controls="react-sanfona-item-body-557ebc01-f42b-4713-8cca-e06718f08943"
+                aria-expanded="false"
+                class="react-sanfona-item-title"
+                id="react-sanfona-item-title-557ebc01-f42b-4713-8cca-e06718f08943"
+                style="cursor: pointer; margin: 0px;"
+              >
+                Output in
+              </h3>
+              <div
+                aria-hidden="true"
+                aria-labelledby="react-sanfona-item-title-557ebc01-f42b-4713-8cca-e06718f08943"
+                class="react-sanfona-item-body"
+                id="react-sanfona-item-body-557ebc01-f42b-4713-8cca-e06718f08943"
+                style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+              >
+                <div
+                  class="react-sanfona-item-body-wrapper"
+                >
+                  <span
+                    class="flex flex-col space-y-4     items-start"
+                  >
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="outPutIn"
+                      >
+                        Output in
+                      </label>
+                      <select
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        name="defualtLab"
+                      >
+                        <option>
+                          Select
+                        </option>
+                        <option
+                          value="PDF"
+                        >
+                          PDF
+                        </option>
+                        <option
+                          value="CSV"
+                        >
+                          CSV
+                        </option>
+                        <option
+                          value="TXT"
+                        >
+                          TXT
+                        </option>
+                        <option
+                          value="Table/Collection"
+                        >
+                          Table/Collection
+                        </option>
+                        <option
+                          value="API"
+                        >
+                          API
+                        </option>
+                        <option
+                          value="Graph"
+                        >
+                          Graph
+                        </option>
+                      </select>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </span>
+                  <span
+                    class="flex flex-col space-y-4    flex-1 items-stretch"
+                  >
+                    <div
+                      class="grid grid-cols-3 gap-4"
+                    >
+                      <div
+                        class="col-span-2"
+                      >
+                        <div>
+                          <label
+                            class="text-gray-700 block text-3xs font-medium  mb-1"
+                            for="txtOutputin"
+                          />
+                          <textarea
+                            autocomplete="given-name"
+                            class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                            id="txtOutputin"
+                            placeholder="Output in"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="flex flex-col items-center justify-center"
+                      >
+                        <div>
+                          <div
+                            class="undefined"
+                          >
+                            <button
+                              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                              type="button"
+                            >
+                              Output
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </span>
+                  <div
+                    class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+                  >
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="outputforThirdpartySoftware"
+                      >
+                        Output for Third party Software
+                      </label>
+                      <select
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        name="defualtLab"
+                      >
+                        <option>
+                          Select
+                        </option>
+                        <option
+                          value="Serial to Serial"
+                        >
+                          Serial to Serial
+                        </option>
+                        <option
+                          value="HL7"
+                        >
+                          HL7
+                        </option>
+                        <option
+                          value="ASTM"
+                        >
+                          ASTM
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="SourceRepositoryThiredPartySoftare"
+                      >
+                        Output Repository
+                      </label>
+                      <select
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        name="defualtLab"
+                      >
+                        <option>
+                          Select
+                        </option>
+                        <option
+                          value="Phiysical file Location"
+                        >
+                          Phiysical file Location
+                        </option>
+                        <option
+                          value="Collection of a database"
+                        >
+                          Collection of a database
+                        </option>
+                      </select>
+                    </div>
+                    <div
+                      class="clearfix"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <span
+            class="flex flex-row space-x-3   justify-center  items-center"
+          >
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Save
+              </button>
+            </div>
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 18L18 6M6 6l12 13"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+                Clear
+              </button>
+            </div>
+          </span>
+        </div>
+        <br />
+        <div
+          class="container"
+        />
+      </div>
+      <div
+        class="container"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+    >
+      <div>
+        <h2
+          class="text-lg font-bold leading-4 text-gray-900 mt-0"
+        />
+      </div>
+      <div
+        class="flex flex-row items-center"
+      >
+        <img
+          alt="banner"
+          class="object-fill h-10 w-12 rounded-md mr-2"
+        />
+        <h2
+          class="text-base  leading-4 text-gray-900 mt-0"
+        />
+      </div>
+    </div>
+    <div
+      class="mx-auto"
+    >
+      <div
+        class="p-2 rounded-lg shadow-xl"
+      >
+        <div
+          class="xl:grid sm:inline-block grid-cols-3 gap-3 flex-1"
+        >
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div
+              class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+            >
+              <div>
+                <label
+                  class="text-gray-700 block text-3xs font-medium  mb-1"
+                  for="manualMode"
+                >
+                  Manual
+                </label>
+                <div
+                  class="wrg-toggle "
+                >
+                  <div
+                    class="wrg-toggle-container bg-black"
+                  >
+                    <div
+                      class="wrg-toggle-check"
+                    >
+                      <span
+                        class="text-white ml-1"
+                      >
+                        Yes
+                      </span>
+                    </div>
+                    <div
+                      class="wrg-toggle-uncheck"
+                    >
+                      <span
+                        class="text-white"
+                      >
+                        No
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="wrg-toggle-circle mr-1  "
+                  />
+                  <input
+                    aria-label="Toggle Button"
+                    class="wrg-toggle-input"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+              <div>
+                <label>
+                  Connection Estabilished :
+                   
+                  Off
+                </label>
+                <label
+                  style="color: red;"
+                >
+                  Connection estabilished success.
+                </label>
+              </div>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="instrumentType"
+              >
+                Instrument Type
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                name="instrumentType"
+              >
+                <option>
+                  Select
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="instrumentName"
+              >
+                Instrument Name
+              </label>
+              <input
+                autocomplete="given-name"
+                class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+                data-testid="INPT"
+                id="instrumentName"
+                placeholder="Instrument Name"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="modeOfCommunication"
+              >
+                Mode of Communication
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                name="defualtLab"
+              >
+                <option>
+                  Select
+                </option>
+                <option
+                  value="Broadcasting"
+                >
+                  Broadcasting
+                </option>
+                <option
+                  value="Host Query"
+                >
+                  Host Query
+                </option>
+                <option
+                  value="File based"
+                >
+                  File based
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="typeOfQuery"
+              >
+                Type of Query
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                name="defualtLab"
+              >
+                <option>
+                  Select
+                </option>
+                <option
+                  value="Unidirectional"
+                >
+                  Unidirectional
+                </option>
+                <option
+                  value="Bidirectional"
+                >
+                  Bidirectional
+                </option>
+                <option
+                  value="Host Query "
+                >
+                  Host Query 
+                </option>
+              </select>
+            </div>
+          </span>
+          <span
+            class="flex flex-col space-y-4    flex-1 items-stretch"
+          >
+            <div>
+              <label
+                class="text-gray-700 block text-3xs font-medium  mb-1"
+                for="modeOfConnection"
+              >
+                Mode of Connection 
+              </label>
+              <select
+                class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                name="defualtLab"
+              >
+                <option>
+                  Select
+                </option>
+                <option
+                  value="Serial Port Communication"
+                >
+                  Serial Port Communication
+                </option>
+                <option
+                  value="TCP/IP Communication"
+                >
+                  TCP/IP Communication
+                </option>
+              </select>
+            </div>
+          </span>
+          <span
+            class="flex flex-col space-y-10   justify-between  items-center"
+          >
+            <label>
+              Status : Pending
+            </label>
+            <div
+              class="flex"
+            >
+              <div
+                class="undefined"
+              >
+                <button
+                  class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                  type="button"
+                >
+                  Save Setting
+                </button>
+              </div>
+            </div>
+            <div
+              class="flex mb-2"
+            >
+              <div
+                class="undefined"
+              >
+                <button
+                  class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                  type="button"
+                >
+                  Generate Driver
+                </button>
+              </div>
+            </div>
+          </span>
+          <div
+            class="clearfix"
+          />
+        </div>
+        <div
+          class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+        >
+          <div>
+            <label
+              class="text-gray-700 block text-3xs font-medium  mb-1"
+              for="applyFiltrOn"
+            >
+              Apply Filtr on
+            </label>
+            <select
+              class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+              name="defualtLab"
+            >
+              <option>
+                Select
+              </option>
+              <option
+                value="Patient Data / QC Data"
+              >
+                Patient Data / QC Data
+              </option>
+              <option
+                value="Output Filter"
+              >
+                Output Filter
+              </option>
+              <option
+                value="Import"
+              >
+                Import
+              </option>
+            </select>
+          </div>
+          <div>
+            <label
+              class="text-gray-700 block text-3xs font-medium  mb-1"
+              for="logFileDataReceivefromInstrument"
+            >
+              Log File
+            </label>
+            <input
+              autocomplete="given-name"
+              class="undefined leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  border-gray-300 rounded-md"
+              data-testid="INPT"
+              id="logFileDataReceivefromInstrument"
+              placeholder="Log File"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="clerfix"
+          />
+        </div>
+        <div
+          class="react-sanfona"
+        >
+          <div
+            class="react-sanfona-item"
+          >
+            <h3
+              aria-controls="react-sanfona-item-body-055f2188-0529-401d-83da-14c60bc73b0b"
+              aria-expanded="false"
+              class="react-sanfona-item-title"
+              id="react-sanfona-item-title-055f2188-0529-401d-83da-14c60bc73b0b"
+              style="cursor: pointer; margin: 0px;"
+            >
+              Hex to ASCII
+            </h3>
+            <div
+              aria-hidden="true"
+              aria-labelledby="react-sanfona-item-title-055f2188-0529-401d-83da-14c60bc73b0b"
+              class="react-sanfona-item-body"
+              id="react-sanfona-item-body-055f2188-0529-401d-83da-14c60bc73b0b"
+              style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+            >
+              <div
+                class="react-sanfona-item-body-wrapper"
+              >
+                <span
+                  class="flex flex-col space-y-4    flex-1 items-stretch"
+                >
+                  <div
+                    class="grid grid-cols-3 gap-4"
+                  >
+                    <div
+                      class="col-span-2"
+                    >
+                      <div>
+                        <label
+                          class="text-gray-700 block text-3xs font-medium  mb-1"
+                          for="txtHexToAscii"
+                        />
+                        <textarea
+                          autocomplete="given-name"
+                          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                          disabled=""
+                          id="txtHexToAscii"
+                          placeholder="Hex"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="react-sanfona-item"
+          >
+            <h3
+              aria-controls="react-sanfona-item-body-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+              aria-expanded="false"
+              class="react-sanfona-item-title"
+              id="react-sanfona-item-title-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+              style="cursor: pointer; margin: 0px;"
+            >
+              Source File
+            </h3>
+            <div
+              aria-hidden="true"
+              aria-labelledby="react-sanfona-item-title-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+              class="react-sanfona-item-body"
+              id="react-sanfona-item-body-d29b35a9-8642-42e3-9677-d7c7f58a8cbf"
+              style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+            >
+              <div
+                class="react-sanfona-item-body-wrapper"
+              >
+                <div
+                  class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+                >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for="sourceFileDataReceivefromInstrument"
+                    >
+                      Source File
+                    </label>
+                    <select
+                      class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      name="defualtLab"
+                    >
+                      <option>
+                        Select
+                      </option>
+                      <option
+                        value="Hex decimal"
+                      >
+                        Hex decimal
+                      </option>
+                      <option
+                        value="HL7"
+                      >
+                        HL7
+                      </option>
+                      <option
+                        value="ASTM"
+                      >
+                        ASTM
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for="SourceRepositoryDataReceivefromInstrument"
+                    >
+                      Source Repository
+                    </label>
+                    <select
+                      class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      disabled=""
+                      name="defualtLab"
+                    >
+                      <option>
+                        Select
+                      </option>
+                      <option
+                        value="Phiysical file Location"
+                      >
+                        Phiysical file Location
+                      </option>
+                      <option
+                        value="Collection of a database"
+                      >
+                        Collection of a database
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </div>
+                <span
+                  class="flex flex-col space-y-4    flex-1 items-stretch"
+                >
+                  <div
+                    class="grid grid-cols-3 gap-4"
+                  >
+                    <div
+                      class="col-span-2"
+                    >
+                      <div>
+                        <label
+                          class="text-gray-700 block text-3xs font-medium  mb-1"
+                          for="txtDataReceivefromInstrument"
+                        />
+                        <textarea
+                          autocomplete="given-name"
+                          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                          disabled=""
+                          id="txtDataReceivefromInstrument"
+                          placeholder="Source file (Data Received Data from Instrument)"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-col items-center justify-center"
+                    >
+                      <div>
+                        <div
+                          class="undefined"
+                        >
+                          <button
+                            class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                            type="button"
+                          >
+                            Send
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="react-sanfona-item"
+          >
+            <h3
+              aria-controls="react-sanfona-item-body-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+              aria-expanded="false"
+              class="react-sanfona-item-title"
+              id="react-sanfona-item-title-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+              style="cursor: pointer; margin: 0px;"
+            >
+              Send data to Intrument
+            </h3>
+            <div
+              aria-hidden="true"
+              aria-labelledby="react-sanfona-item-title-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+              class="react-sanfona-item-body"
+              id="react-sanfona-item-body-2fcf38a6-03a7-43cf-9ee2-d17e065afae2"
+              style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+            >
+              <div
+                class="react-sanfona-item-body-wrapper"
+              >
+                <div
+                  class="grid grid-cols-3 gap-4"
+                >
+                  <div
+                    class="col-span-2"
+                  >
+                    <div>
+                      <label
+                        class="text-gray-700 block text-3xs font-medium  mb-1"
+                        for="txtSendDatafromInstrument"
+                      />
+                      <textarea
+                        autocomplete="given-name"
+                        class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                        id="txtSendDatafromInstrument"
+                        placeholder="Send data to Instrument"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col items-center justify-center"
+                  >
+                    <div>
+                      <div
+                        class="undefined"
+                      >
+                        <button
+                          class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                          type="button"
+                        >
+                          Send
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="react-sanfona-item"
+          >
+            <h3
+              aria-controls="react-sanfona-item-body-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+              aria-expanded="false"
+              class="react-sanfona-item-title"
+              id="react-sanfona-item-title-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+              style="cursor: pointer; margin: 0px;"
+            >
+              Convert to
+            </h3>
+            <div
+              aria-hidden="true"
+              aria-labelledby="react-sanfona-item-title-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+              class="react-sanfona-item-body"
+              id="react-sanfona-item-body-b7af4e35-77a5-4629-9047-ab299d0fd71c"
+              style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+            >
+              <div
+                class="react-sanfona-item-body-wrapper"
+              >
+                <div
+                  class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+                >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for="convertTo"
+                    >
+                      Convert to
+                    </label>
+                    <select
+                      class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      name="defualtLab"
+                    >
+                      <option>
+                        Select
+                      </option>
+                      <option
+                        value="Hex decimal"
+                      >
+                        Hex decimal
+                      </option>
+                      <option
+                        value="HL7"
+                      >
+                        HL7
+                      </option>
+                      <option
+                        value="ASTM"
+                      >
+                        ASTM
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for="outputRepository"
+                    >
+                      Output Repository
+                    </label>
+                    <select
+                      class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      name="defualtLab"
+                    >
+                      <option>
+                        Select
+                      </option>
+                      <option
+                        value="Phiysical file Location"
+                      >
+                        Phiysical file Location
+                      </option>
+                      <option
+                        value="Collection of a database"
+                      >
+                        Collection of a database
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </div>
+                <span
+                  class="flex flex-col space-y-4    flex-1 items-stretch"
+                >
+                  <div
+                    class="grid grid-cols-3 gap-4"
+                  >
+                    <div
+                      class="col-span-2"
+                    />
+                    <div
+                      class="flex flex-col items-center justify-center"
+                    >
+                      <div>
+                        <div
+                          class="undefined"
+                        >
+                          <button
+                            class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                            type="button"
+                          >
+                            Convert
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="react-sanfona-item"
+          >
+            <h3
+              aria-controls="react-sanfona-item-body-557ebc01-f42b-4713-8cca-e06718f08943"
+              aria-expanded="false"
+              class="react-sanfona-item-title"
+              id="react-sanfona-item-title-557ebc01-f42b-4713-8cca-e06718f08943"
+              style="cursor: pointer; margin: 0px;"
+            >
+              Output in
+            </h3>
+            <div
+              aria-hidden="true"
+              aria-labelledby="react-sanfona-item-title-557ebc01-f42b-4713-8cca-e06718f08943"
+              class="react-sanfona-item-body"
+              id="react-sanfona-item-body-557ebc01-f42b-4713-8cca-e06718f08943"
+              style="max-height: 0; overflow: hidden; transition: max-height 300ms ease;"
+            >
+              <div
+                class="react-sanfona-item-body-wrapper"
+              >
+                <span
+                  class="flex flex-col space-y-4     items-start"
+                >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for="outPutIn"
+                    >
+                      Output in
+                    </label>
+                    <select
+                      class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      name="defualtLab"
+                    >
+                      <option>
+                        Select
+                      </option>
+                      <option
+                        value="PDF"
+                      >
+                        PDF
+                      </option>
+                      <option
+                        value="CSV"
+                      >
+                        CSV
+                      </option>
+                      <option
+                        value="TXT"
+                      >
+                        TXT
+                      </option>
+                      <option
+                        value="Table/Collection"
+                      >
+                        Table/Collection
+                      </option>
+                      <option
+                        value="API"
+                      >
+                        API
+                      </option>
+                      <option
+                        value="Graph"
+                      >
+                        Graph
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </span>
+                <span
+                  class="flex flex-col space-y-4    flex-1 items-stretch"
+                >
+                  <div
+                    class="grid grid-cols-3 gap-4"
+                  >
+                    <div
+                      class="col-span-2"
+                    >
+                      <div>
+                        <label
+                          class="text-gray-700 block text-3xs font-medium  mb-1"
+                          for="txtOutputin"
+                        />
+                        <textarea
+                          autocomplete="given-name"
+                          class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md"
+                          id="txtOutputin"
+                          placeholder="Output in"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-col items-center justify-center"
+                    >
+                      <div>
+                        <div
+                          class="undefined"
+                        >
+                          <button
+                            class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                            type="button"
+                          >
+                            Output
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </span>
+                <div
+                  class="xl:grid sm:inline-block grid-cols-2 gap-3 flex-1"
+                >
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for="outputforThirdpartySoftware"
+                    >
+                      Output for Third party Software
+                    </label>
+                    <select
+                      class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      name="defualtLab"
+                    >
+                      <option>
+                        Select
+                      </option>
+                      <option
+                        value="Serial to Serial"
+                      >
+                        Serial to Serial
+                      </option>
+                      <option
+                        value="HL7"
+                      >
+                        HL7
+                      </option>
+                      <option
+                        value="ASTM"
+                      >
+                        ASTM
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="text-gray-700 block text-3xs font-medium  mb-1"
+                      for="SourceRepositoryThiredPartySoftare"
+                    >
+                      Output Repository
+                    </label>
+                    <select
+                      class="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      name="defualtLab"
+                    >
+                      <option>
+                        Select
+                      </option>
+                      <option
+                        value="Phiysical file Location"
+                      >
+                        Phiysical file Location
+                      </option>
+                      <option
+                        value="Collection of a database"
+                      >
+                        Collection of a database
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    class="clearfix"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <span
+          class="flex flex-row space-x-3   justify-center  items-center"
+        >
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="-ml-1 -mt-1 mr-2 h-5 w-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Save
+            </button>
+          </div>
+          <div
+            class="undefined"
+          >
+            <button
+              class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+              type="button"
+            >
+              <svg
+                class="false h-5 w-5 text-gray-600 -ml-1 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 18L18 6M6 6l12 13"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+              Clear
+            </button>
+          </div>
+        </span>
+      </div>
+      <br />
+      <div
+        class="container"
+      />
+    </div>
+    <div
+      class="container"
+    />
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

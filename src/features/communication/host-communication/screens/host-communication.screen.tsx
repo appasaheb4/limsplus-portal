@@ -28,7 +28,7 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 let socket;
-const HostCommunication = HostCommunicationHoc(
+export const HostCommunication = HostCommunicationHoc(
   observer(() => {
     const {
       loginStore,
@@ -902,5 +902,3 @@ const HostCommunication = HostCommunicationHoc(
     );
   }),
 );
-
-export default HostCommunication;

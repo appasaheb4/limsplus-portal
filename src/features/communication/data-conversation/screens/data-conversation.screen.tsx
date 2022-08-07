@@ -22,7 +22,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
-const DataConversation = DataConversationHoc(
+export const DataConversation = DataConversationHoc(
   observer(() => {
     const {loginStore, dataConversationStore, routerStore} = useStores();
     const {
@@ -329,5 +329,3 @@ const DataConversation = DataConversationHoc(
     );
   }),
 );
-
-export default DataConversation;
