@@ -15,3 +15,4 @@ export * from './molecules/page-branding/sub-header.component';
 export * from './molecules/page-branding/footer.component';
 export * from './molecules/page-branding/page-number.component';
 export * from './molecules/page-branding/pdf/patient-report/temp0001/pdf-temp0001.component';
+export * from './molecules/page-branding/page-branding-list.components';
