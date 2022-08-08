@@ -34,9 +34,9 @@ export const PdfTemp0001SubHeader = ({data}: PdfTemp0001SubHeaderProps) => {
       titleCSS.current = {};
     }
   }
-  if (data.subHeader?.subTitle) {
+  if (data.subHeader?.subTitleCSS) {
     try {
-      subTitleCSS.current = eval('({' + data.subHeader?.subTitle + '})');
+      subTitleCSS.current = eval('({' + data.subHeader?.subTitleCSS + '})');
     } catch (e) {
       subTitleCSS.current = {};
     }
@@ -47,7 +47,7 @@ export const PdfTemp0001SubHeader = ({data}: PdfTemp0001SubHeaderProps) => {
       <PdfRegular style={{...titleCSS.current}}>
         {data.subHeader?.title || 'Title'}
       </PdfRegular>
-      <PdfRegular style={{...subTitleCSS.current}}>{`Web: ${
+      <PdfRegular style={{...subTitleCSS.current}}>{`${
         data.subHeader?.subTitle || 'web-url'
       }`}</PdfRegular>
     </PdfSubHeader>

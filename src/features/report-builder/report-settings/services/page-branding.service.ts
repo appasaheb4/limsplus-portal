@@ -11,8 +11,7 @@ import {
   PAGE_BRANDING_LIST,
   CREATE_PAGE_BRANDING,
   REMOVE_PAGE_BRANDING,
-  FIND_BY_FIELDS,
-  FILTER_BY_FIELDS,
+  UPDATE_PAGE_BRANDING,
 } from './mutation-page-branding.service';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -53,11 +52,28 @@ export class PageBrandingService {
         );
     });
 
-  deletePageBranding = (variables: any) =>
+  removePageBranding = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: REMOVE_PAGE_BRANDING,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  update = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({variables});
+
+      client
+        .mutate({
+          mutation: UPDATE_PAGE_BRANDING,
           variables,
         })
         .then((response: any) => {

@@ -34,9 +34,9 @@ export const PdfTemp0001Footer = ({data}: PdfTemp0001FooterProps) => {
       titleCSS.current = {};
     }
   }
-  if (data.footer?.subTitle) {
+  if (data.footer?.subTitleCSS) {
     try {
-      subTitleCSS.current = eval('({' + data.footer?.subTitle + '})');
+      subTitleCSS.current = eval('({' + data.footer?.subTitleCSS + '})');
     } catch (e) {
       subTitleCSS.current = {};
     }
@@ -46,8 +46,8 @@ export const PdfTemp0001Footer = ({data}: PdfTemp0001FooterProps) => {
       <PdfSmall style={{textAlign: 'center', ...titleCSS.current}}>
         {data.footer?.title || 'Title'}
       </PdfSmall>
-      <PdfSmall style={{...subTitleCSS.current}}>{`Tel: ${
-        data.footer?.subTitle || '1234'
+      <PdfSmall style={{...subTitleCSS.current}}>{`${
+        data.footer?.subTitle || 'Tel: 1234'
       }`}</PdfSmall>
     </PdfFooterView>
   );

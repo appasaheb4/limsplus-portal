@@ -10,9 +10,12 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  PdfMedium,
+  ModalView,
+  ModalViewProps,
 } from '@/library/components';
 import {
-  PageSettingsList,
+  PageBrandingList,
   PageBrandingHeader,
   PageBrandingSubHeader,
   PageBrandingFooter,
@@ -42,16 +45,24 @@ export const PageBranding = observer(() => {
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
-  const [isInputView, setIsInputView] = useState<boolean>(false);
+  const [modalView, setModalView] = useState<ModalViewProps>();
+  const [isInputView, setIsInputView] = useState<boolean>(true);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const onSave = () => {
-    reportSettingStore.pageSettingService
-      .addPageSetting({input: {...reportSettingStore.pageSetting}})
+    reportSettingStore.pageBrandingService
+      .addPageBranding({
+        input: {
+          ...reportSettingStore.pageBranding,
+          header: {
+            ...reportSettingStore.pageBranding?.header,
+          },
+        },
+      })
       .then(res => {
-        if (res.createPageSetting.success) {
+        if (res.createPageBranding.success) {
           Toast.success({
-            message: `😊 ${res.createPageSetting.message}`,
+            message: `😊 ${res.createPageBranding.message}`,
           });
         }
         setTimeout(() => {
@@ -60,10 +71,10 @@ export const PageBranding = observer(() => {
       });
   };
 
-  const getTemplate = (tempCode: string) => {
+  const getTemplate = (tempCode: string, data: any) => {
     switch (tempCode) {
       case 'TEMP0001':
-        return <PdfTemp0001 data={reportSettingStore.pageBranding} />;
+        return <PdfTemp0001 data={data} />;
       default:
         return (
           <div className='justify-center items-center'>
@@ -90,7 +101,7 @@ export const PageBranding = observer(() => {
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
-          style={{bottom: 140}}
+          style={{bottom: 50}}
           show={isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
@@ -236,7 +247,10 @@ export const PageBranding = observer(() => {
             </Accordion>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
-            {getTemplate(reportSettingStore.pageBranding?.tempCode)}
+            {getTemplate(
+              reportSettingStore.pageBranding?.tempCode,
+              reportSettingStore.pageBranding,
+            )}
           </List>
         </Grid>
         <br />
@@ -262,9 +276,9 @@ export const PageBranding = observer(() => {
         </List>
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-        <PageSettingsList
-          data={[]}
-          totalSize={0}
+        <PageBrandingList
+          data={reportSettingStore.pageBrandingList}
+          totalSize={reportSettingStore.pageBrandingListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -283,11 +297,11 @@ export const PageBranding = observer(() => {
               body: 'Delete selected items!',
             });
           }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
+          onUpdateItem={(fields: any, id: string) => {
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: {fields, id},
               title: 'Are you sure?',
               body: 'Update banner!',
             });
@@ -300,6 +314,12 @@ export const PageBranding = observer(() => {
             //   input: {type, filter, page, limit},
             // });
           }}
+          onPdfPreview={item => {
+            setModalView({
+              visible: true,
+              children: <>{getTemplate(item.tempCode, item)}</>,
+            });
+          }}
         />
       </div>
       <ModalConfirm
@@ -307,17 +327,38 @@ export const PageBranding = observer(() => {
         click={(type?: string) => {
           switch (type) {
             case 'delete': {
-              reportSettingStore.pageSettingService
-                .deletePageSetting({
+              reportSettingStore.pageBrandingService
+                .removePageBranding({
                   input: {id: modalConfirm.id},
                 })
                 .then((res: any) => {
-                  if (res.removePageSetting.success) {
+                  if (res.removePageBranding.success) {
                     Toast.success({
-                      message: `😊 ${res.removePageSetting.message}`,
+                      message: `😊 ${res.removePageBranding.message}`,
                     });
                     setModalConfirm({show: false});
-                    reportSettingStore.pageSettingService.listPageSetting();
+                    reportSettingStore.pageBrandingService.listPageBranding();
+                  }
+                });
+              break;
+            }
+            case 'update': {
+              reportSettingStore.pageBrandingService
+                .update({
+                  input: {
+                    ...modalConfirm.data.fields,
+                    _id: modalConfirm.data.id,
+                  },
+                })
+                .then((res: any) => {
+                  setModalConfirm({show: false});
+                  if (res.updatePageBranding.success) {
+                    Toast.success({
+                      message: `😊 ${res.updatePageBranding.message}`,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
                   }
                 });
               break;
@@ -325,6 +366,10 @@ export const PageBranding = observer(() => {
           }
         }}
         onClose={() => setModalConfirm({show: false})}
+      />
+      <ModalView
+        {...modalView}
+        onClose={() => setModalView({visible: false})}
       />
     </>
   );

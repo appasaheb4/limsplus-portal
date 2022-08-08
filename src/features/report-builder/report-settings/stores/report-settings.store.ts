@@ -1,6 +1,8 @@
 import {makeObservable, action, observable, computed} from 'mobx';
+
 import {
   TemplateSettingService,
+  PageBrandingService,
   ReportSectionService,
   SectionSettingService,
   PageSettingService,
@@ -124,6 +126,7 @@ export class ReportSettingStore {
       reportFieldMappingListCount: observable,
 
       templateSettingsService: computed,
+      pageBrandingService: computed,
       reportSectionService: computed,
       sectionSettingService: computed,
       pageSettingService: computed,
@@ -150,6 +153,10 @@ export class ReportSettingStore {
 
   get templateSettingsService() {
     return new TemplateSettingService();
+  }
+
+  get pageBrandingService() {
+    return new PageBrandingService();
   }
 
   get reportSectionService() {
@@ -190,7 +197,8 @@ export class ReportSettingStore {
   }
 
   updatePageBrandingList(res: any) {
-    this.pageBrandingList = res;
+    this.pageBrandingList = res.pageBrandings.data;
+    this.pageBrandingListCount = res.pageBrandings.paginatorInfo.count;
   }
 
   updateReportSectionList(res: any) {

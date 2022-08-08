@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const PAGE_BRANDING_LIST = gql`
-  mutation ($input: PageSettingInput!) {
-    pageSettings(input: $input) {
+  mutation ($input: PageBrandingInput!) {
+    pageBrandings(input: $input) {
       paginatorInfo {
         count
       }
@@ -11,18 +11,15 @@ export const PAGE_BRANDING_LIST = gql`
       data {
         _id
         tempCode
-        pageSize
-        topMargin
-        bottomMargin
-        leftMargin
-        rightMargin
-        headerSize
-        footerSize
-        lineSpacing
-        pageOrientation
-        backgroundImage
-        version
-        environment
+        templateSettings
+        header
+        subHeader
+        footer
+        pageNumber
+        isHeader
+        isSubHeader
+        isFooter
+        isPdfPageNumber
         documentType
         dateOfEntry
         lastUpdated
@@ -32,8 +29,8 @@ export const PAGE_BRANDING_LIST = gql`
 `;
 
 export const CREATE_PAGE_BRANDING = gql`
-  mutation ($input: CreatePageSettingInput!) {
-    createPageSetting(input: $input) {
+  mutation ($input: CreatePageBrandingInput!) {
+    createPageBranding(input: $input) {
       success
       message
     }
@@ -41,8 +38,8 @@ export const CREATE_PAGE_BRANDING = gql`
 `;
 
 export const REMOVE_PAGE_BRANDING = gql`
-  mutation ($input: PageSettingInput!) {
-    removePageSetting(input: $input) {
+  mutation ($input: PageBrandingInput!) {
+    removePageBranding(input: $input) {
       success
       message
     }
@@ -50,8 +47,8 @@ export const REMOVE_PAGE_BRANDING = gql`
 `;
 
 export const UPDATE_PAGE_BRANDING = gql`
-  mutation ($input: UpdateBannerInput!) {
-    updateBanner(input: $input) {
+  mutation ($input: UpdatePageBrandingInput!) {
+    updatePageBranding(input: $input) {
       success
       message
     }
@@ -69,18 +66,15 @@ export const FILTER = gql`
       data {
         _id
         tempCode
-        pageSize
-        topMargin
-        bottomMargin
-        leftMargin
-        rightMargin
-        headerSize
-        footerSize
-        lineSpacing
-        pageOrientation
-        backgroundImage
-        version
-        environment
+        templateSettings
+        header
+        subHeader
+        footer
+        pageNumber
+        isHeader
+        isSubHeader
+        isFooter
+        isPdfPageNumber
         documentType
         dateOfEntry
         lastUpdated
@@ -100,18 +94,15 @@ export const FILTER_BY_FIELDS = gql`
       data {
         _id
         tempCode
-        pageSize
-        topMargin
-        bottomMargin
-        leftMargin
-        rightMargin
-        headerSize
-        footerSize
-        lineSpacing
-        pageOrientation
-        backgroundImage
-        version
-        environment
+        templateSettings
+        header
+        subHeader
+        footer
+        pageNumber
+        isHeader
+        isSubHeader
+        isFooter
+        isPdfPageNumber
         documentType
         dateOfEntry
         lastUpdated
@@ -128,18 +119,15 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         tempCode
-        pageSize
-        topMargin
-        bottomMargin
-        leftMargin
-        rightMargin
-        headerSize
-        footerSize
-        lineSpacing
-        pageOrientation
-        backgroundImage
-        version
-        environment
+        templateSettings
+        header
+        subHeader
+        footer
+        pageNumber
+        isHeader
+        isSubHeader
+        isFooter
+        isPdfPageNumber
         documentType
         dateOfEntry
         lastUpdated

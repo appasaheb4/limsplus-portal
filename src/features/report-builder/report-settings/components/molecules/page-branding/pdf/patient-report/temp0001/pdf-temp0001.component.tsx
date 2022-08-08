@@ -60,6 +60,7 @@ export const PdfTemp0001 = observer(({data, children}: PdfTemp0001Props) => {
   return (
     <PdfTemplateSetting
       height={700}
+      documentTitle='Page Branding'
       isToolbar={data.templateSettings?.isToolbar}
       mainBoxCSS={data.templateSettings?.mainBoxCSS}
       pageSize={data.templateSettings?.pageSize}
