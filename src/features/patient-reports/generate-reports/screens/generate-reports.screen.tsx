@@ -32,7 +32,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import {PdfPatientReport} from '../components';
 import {PDFDownloadLink, PDFViewer} from '@react-pdf/renderer';
 
-const GenerateReport = observer(() => {
+export const GenerateReport = observer(() => {
   const {
     loading,
     patientManagerStore,
@@ -111,5 +111,3 @@ const GenerateReport = observer(() => {
     </>
   );
 });
-
-export default GenerateReport;

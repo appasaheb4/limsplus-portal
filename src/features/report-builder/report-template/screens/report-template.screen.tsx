@@ -29,7 +29,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-const ReportTemplate = observer(() => {
+export const ReportTemplate = observer(() => {
   const {
     loading,
     patientManagerStore,
@@ -60,5 +60,3 @@ const ReportTemplate = observer(() => {
     </>
   );
 });
-
-export default ReportTemplate;

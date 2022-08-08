@@ -21,7 +21,7 @@ import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-const HistoResultEntry = observer(() => {
+export const HistoResultEntry = observer(() => {
   const {
     loading,
     patientManagerStore,
@@ -52,5 +52,3 @@ const HistoResultEntry = observer(() => {
     </>
   );
 });
-
-export default HistoResultEntry;

@@ -15,7 +15,7 @@ import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-const DeliveryQueue = observer(() => {
+export const DeliveryQueue = observer(() => {
   const {
     loading,
     deliveryQueueStore,
@@ -158,5 +158,3 @@ const DeliveryQueue = observer(() => {
     </>
   );
 });
-
-export default DeliveryQueue;
