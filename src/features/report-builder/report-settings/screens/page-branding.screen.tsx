@@ -258,7 +258,10 @@ export const PageBranding = observer(() => {
             <Accordion>
               {getAccordionItem(reportSettingStore?.pageBranding).map(item => {
                 return (
-                  <AccordionItem title={`${item.title}`}>
+                  <AccordionItem
+                    title={`${item.title}`}
+                    // expanded={item.title === 'Header'}
+                  >
                     {item.title === 'Header' && <PageBrandingHeader />}
                     {item.title === 'Sub Header' && <PageBrandingSubHeader />}
                     {item.title === 'Footer' && <PageBrandingFooter />}
