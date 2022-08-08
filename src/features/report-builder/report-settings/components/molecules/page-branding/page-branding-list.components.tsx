@@ -10,7 +10,7 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-
+import {resizeFile} from '../../../utils/images.util';
 interface PageBrandingProps {
   data: any;
   totalSize: number;
@@ -78,19 +78,66 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
               dataField: 'header.title',
               text: 'Header Title',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row?.header?.title && (
+                    <Form.MultilineInput
+                      label=''
+                      className='w-40'
+                      onBlur={title => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {header: {...row?.header, title}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.header?.title}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'header.titleCSS',
               text: 'Header Title CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row?.header?.titleCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={titleCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {header: {...row?.header, titleCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row?.header.titleCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'header.logo',
               text: 'Header Logo',
               sort: true,
-              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -102,18 +149,95 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   </>
                 );
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.InputFile
+                    label='File'
+                    placeholder='File'
+                    onChange={async e => {
+                      const logo = e.target.files[0];
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            header: {
+                              ...row.header,
+                              logo,
+                              logoUrl: await resizeFile(logo),
+                            },
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'header.logoCSS',
               text: 'Header Logo CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row?.header?.logoCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={logoCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {header: {...row?.header, logoCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.header?.logoCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'header.mainBoxCSS',
               text: 'Header Main Box CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row?.header?.mainBoxCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={mainBoxCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {header: {...row?.header, mainBoxCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.header?.mainBoxCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'isSubHeader',
@@ -139,31 +263,151 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
               dataField: 'subHeader.title',
               text: 'Sub Header Title',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row?.subHeader?.title && (
+                    <Form.MultilineInput
+                      label=''
+                      className='w-40'
+                      onBlur={title => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {subHeader: {...row?.subHeader, title}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row?.subHeader?.title}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'subHeader.titleCSS',
               text: 'Sub Header Title CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row?.subHeader?.titleCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={titleCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {subHeader: {...row?.subHeader, titleCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row?.subHeader?.titleCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'subHeader.subTitle',
               text: 'Sub Header Sub Title',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.subHeader?.subTitle && (
+                    <Form.MultilineInput
+                      label=''
+                      className='w-40'
+                      onBlur={subTitle => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {subHeader: {...row?.subHeader, subTitle}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.subHeader?.subTitle}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'subHeader.subTitleCSS',
               text: 'Sub Header Sub Title CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.subHeader?.subTitleCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={subTitleCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {subHeader: {...row?.subHeader, subTitleCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row?.subHeader?.subTitleCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'subHeader.mainBoxCSS',
               text: 'Sub Header Main Box CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.subHeader?.mainBoxCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={mainBoxCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {subHeader: {...row?.subHeader, mainBoxCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row?.subHeader?.mainBoxCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'isFooter',
@@ -189,31 +433,151 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
               dataField: 'footer.title',
               text: 'Footer Title',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.footer?.title && (
+                    <Form.MultilineInput
+                      label=''
+                      className='w-40'
+                      onBlur={title => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {footer: {...row?.footer, title}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.footer?.title}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'footer.titleCSS',
               text: 'Footer Title CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.footer?.titleCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={titleCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {footer: {...row?.footer, titleCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.footer?.titleCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'footer.subTitle',
               text: 'Footer Sub Title',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.footer?.subTitle && (
+                    <Form.MultilineInput
+                      label=''
+                      className='w-40'
+                      onBlur={subTitle => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {footer: {...row?.footer, subTitle}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.footer?.subTitle}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'footer.subTitleCSS',
               text: 'Footer Sub Title CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.footer?.subTitleCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={subTitleCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {footer: {...row?.footer, subTitleCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.footer?.subTitleCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'footer.mainBoxCSS',
               text: 'Footer Main Box CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.footer?.mainBoxCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={mainBoxCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {footer: {...row?.footer, mainBoxCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.footer?.mainBoxCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'isPdfPageNumber',
@@ -245,7 +609,31 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
               dataField: 'pageNumber.pageNumberCSS',
               text: 'Page Number CSS',
               sort: true,
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  {row.pageNumber?.pageNumberCSS && (
+                    <Form.MultilineInput
+                      label=''
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      onBlur={pageNumberCSS => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {pageNumber: {...row?.pageNumber, pageNumberCSS}},
+                            row._id,
+                          );
+                      }}
+                      defaultValue={row.pageNumber?.pageNumberCSS}
+                    />
+                  )}
+                </>
+              ),
             },
             {
               dataField: 'operation',

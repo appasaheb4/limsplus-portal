@@ -41,7 +41,7 @@ export const TemplateSettings = observer(() => {
 
   const onSave = () => {
     if (isExistsTempCode)
-      return Toast.warning({
+      return Toast.error({
         message: '😔 Already exists temp code. Please enter diff.',
       });
     reportSettingStore.templateSettingsService
@@ -108,7 +108,7 @@ export const TemplateSettings = observer(() => {
                             if (res.findByFieldsTemplateSetting.success) {
                               setError('tempCode', {type: 'onBlur'});
                               setError('tempName', {type: 'onBlur'});
-                              Toast.warning({
+                              Toast.error({
                                 message:
                                   '😔 Already exists temp code. Please enter diff.',
                               });

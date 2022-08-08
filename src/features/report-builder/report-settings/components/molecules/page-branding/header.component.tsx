@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
-import Resizer from 'react-image-file-resizer';
+import {resizeFile} from '../../../utils/images.util';
 
 export const PageBrandingHeader = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -16,22 +16,6 @@ export const PageBrandingHeader = observer(() => {
     setError,
     clearErrors,
   } = useForm();
-
-  const resizeFile = file =>
-    new Promise(resolve => {
-      Resizer.imageFileResizer(
-        file,
-        50,
-        50,
-        'JPEG',
-        50,
-        0,
-        uri => {
-          resolve(uri);
-        },
-        'base64',
-      );
-    });
 
   return (
     <>
