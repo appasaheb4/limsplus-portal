@@ -50,6 +50,10 @@ export const PageBranding = observer(() => {
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const onSave = () => {
+    if (isExistsTempCode)
+      return Toast.error({
+        message: '😔 Already exists temp code. Please select diff.',
+      });
     reportSettingStore.pageBrandingService
       .addPageBranding({
         input: {
@@ -141,6 +145,27 @@ export const PageBranding = observer(() => {
                       tempCode: item.tempCode,
                       templateSettings: item,
                     });
+                    reportSettingStore.pageBrandingService
+                      .findByFields({
+                        input: {
+                          filter: {
+                            tempCode: item.tempCode,
+                          },
+                        },
+                      })
+                      .then(res => {
+                        if (res.findByFieldsPageBranding.success) {
+                          setError('tempCode', {type: 'onBlur'});
+                          Toast.error({
+                            message:
+                              '😔 Already exists temp code. Please select diff.',
+                          });
+                          return setIsExistsTempCode(true);
+                        } else {
+                          clearErrors('tempCode');
+                          return setIsExistsTempCode(false);
+                        }
+                      });
                   }}
                 />
               )}
@@ -233,10 +258,7 @@ export const PageBranding = observer(() => {
             <Accordion>
               {getAccordionItem(reportSettingStore?.pageBranding).map(item => {
                 return (
-                  <AccordionItem
-                    title={`${item.title}`}
-                    expanded={item.title === 'Header'}
-                  >
+                  <AccordionItem title={`${item.title}`}>
                     {item.title === 'Header' && <PageBrandingHeader />}
                     {item.title === 'Sub Header' && <PageBrandingSubHeader />}
                     {item.title === 'Footer' && <PageBrandingFooter />}

@@ -12,6 +12,7 @@ import {
   CREATE_PAGE_BRANDING,
   REMOVE_PAGE_BRANDING,
   UPDATE_PAGE_BRANDING,
+  FIND_BY_FIELDS,
 } from './mutation-page-branding.service';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -69,8 +70,6 @@ export class PageBrandingService {
 
   update = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
       client
         .mutate({
           mutation: UPDATE_PAGE_BRANDING,
@@ -112,20 +111,20 @@ export class PageBrandingService {
   //         );
   //     });
 
-  //   findByFields = (variables: any) =>
-  //     new Promise<any>((resolve, reject) => {
-  //       stores.uploadLoadingFlag(false);
-  //       client
-  //         .mutate({
-  //           mutation: FIND_BY_FIELDS,
-  //           variables,
-  //         })
-  //         .then((response: any) => {
-  //           stores.uploadLoadingFlag(true);
-  //           resolve(response.data);
-  //         })
-  //         .catch(error =>
-  //           reject(new ServiceResponse<any>(0, error.message, undefined)),
-  //         );
-  //     });
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }
