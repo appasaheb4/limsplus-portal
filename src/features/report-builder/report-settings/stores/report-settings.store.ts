@@ -55,6 +55,7 @@ export class ReportSettingStore {
   constructor() {
     this.templateSettings = new TemplateSettings({
       isToolbar: false,
+      isBackgroundImage: false,
       pageSize: 'A4',
       mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '80pt',",
     });

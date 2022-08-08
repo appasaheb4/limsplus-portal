@@ -36,7 +36,7 @@ export const TemplateSettings = observer(() => {
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
-  const [isInputView, setIsInputView] = useState<boolean>(true);
+  const [isInputView, setIsInputView] = useState<boolean>(false);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const onSave = () => {
@@ -175,26 +175,50 @@ export const TemplateSettings = observer(() => {
                   rules={{required: true}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Toggle
-                      label='Show tool bar'
-                      hasError={!!errors.isToolBar}
-                      value={reportSettingStore.templateSettings?.isToolbar}
-                      onChange={isToolbar => {
-                        onChange(isToolbar);
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          isToolbar,
-                        });
-                      }}
-                    />
-                  )}
-                  name='isToolBar'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+                <Grid cols={2}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Show tool bar'
+                        hasError={!!errors.isToolBar}
+                        value={reportSettingStore.templateSettings?.isToolbar}
+                        onChange={isToolbar => {
+                          onChange(isToolbar);
+                          reportSettingStore.updateTemplateSettings({
+                            ...reportSettingStore.templateSettings,
+                            isToolbar,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isToolBar'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Background Image Visible'
+                        hasError={!!errors.isBackgroundImage}
+                        value={
+                          reportSettingStore.templateSettings?.isBackgroundImage
+                        }
+                        onChange={isBackgroundImage => {
+                          onChange(isBackgroundImage);
+                          reportSettingStore.updateTemplateSettings({
+                            ...reportSettingStore.templateSettings,
+                            isBackgroundImage,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isBackgroundImage'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
@@ -317,7 +341,7 @@ export const TemplateSettings = observer(() => {
                 </a>
                 <p>
                   {
-                    "Note: if footer present then paddingBottom:'80pt' required."
+                    "Note: if footer present then min paddingBottom:'80pt' required."
                   }
                 </p>
               </List>
@@ -327,6 +351,9 @@ export const TemplateSettings = observer(() => {
             <PdfTemplateSetting
               documentTitle='Template Setting'
               isToolbar={reportSettingStore.templateSettings?.isToolbar}
+              isBackgroundImage={
+                reportSettingStore.templateSettings?.isBackgroundImage
+              }
               mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
               pageSize={reportSettingStore.templateSettings?.pageSize}
               children={<PdfMedium>Template Setting</PdfMedium>}
@@ -401,6 +428,7 @@ export const TemplateSettings = observer(() => {
                 <PdfTemplateSetting
                   documentTitle='Template Setting'
                   isToolbar={item.isToolbar}
+                  isBackgroundImage={item.isBackgroundImage}
                   mainBoxCSS={item.mainBoxCSS}
                   pageSize={item.pageSize}
                   children={<PdfMedium>Template Setting</PdfMedium>}

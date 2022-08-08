@@ -3,6 +3,8 @@ export class TemplateSettings {
   tempCode: string;
   tempName: string;
   isToolbar: boolean;
+  isBackgroundImage: boolean;
+  backgroundImage: any;
   pageSize: string;
   mainBoxCSS: string;
   documentType: string;
@@ -13,6 +15,8 @@ export class TemplateSettings {
     this.tempCode = rawData.tempCode;
     this.tempName = rawData.tempName;
     this.isToolbar = rawData.isToolbar;
+    this.isBackgroundImage = rawData.isBackgroundImage;
+    this.backgroundImage = rawData.backgroundImage;
     this.pageSize = rawData.pageSize;
     this.mainBoxCSS = rawData.mainBoxCSS;
     this.documentType = rawData.documentType;
