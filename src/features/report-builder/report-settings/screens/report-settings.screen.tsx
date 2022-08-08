@@ -16,7 +16,7 @@ import {GeneralSettings} from './general-setting.screen';
 import {FontSetting} from './font-setting.screen';
 import {ReportFieldMapping} from './report-field-mapping.screen';
 
-const ReportSettings = observer(() => {
+export const ReportSettings = observer(() => {
   const {
     loading,
     patientManagerStore,
@@ -71,5 +71,3 @@ const ReportSettings = observer(() => {
     </>
   );
 });
-
-export default ReportSettings;

@@ -1,0 +1,1794 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeliveryQueue Screen render deliveryQueue correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+      >
+        <div>
+          <h2
+            class="text-lg font-bold leading-4 text-gray-900 mt-0"
+          />
+        </div>
+        <div
+          class="flex flex-row items-center"
+        >
+          <img
+            alt="banner"
+            class="object-fill h-10 w-12 rounded-md mr-2"
+          />
+          <h2
+            class="text-base  leading-4 text-gray-900 mt-0"
+          />
+        </div>
+      </div>
+      <div
+        class="p-3 rounded-lg shadow-xl overflow-auto"
+      >
+        <span
+          class="font-bold text-lg underline"
+        >
+          Report Delivery
+        </span>
+        <div
+          style="position: relative;"
+        >
+          <div>
+            <div
+              class="flex items-center"
+            >
+              <label
+                class="search-label"
+                for="search-bar-0"
+              >
+                <span
+                  class="sr-only"
+                  id="search-bar-0-label"
+                >
+                  Search this table
+                </span>
+                <input
+                  aria-labelledby="search-bar-0-label"
+                  class="form-control "
+                  id="search-bar-0"
+                  placeholder="Search..."
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              >
+                Clear
+              </button>
+              <button
+                class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+              >
+                Clear all filters
+              </button>
+              <button
+                class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                type="button"
+              >
+                Export CSV!!
+              </button>
+              <div
+                class="undefined"
+              >
+                <button
+                  class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                  type="button"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="scrollTable"
+            >
+              <div
+                class="react-bootstrap-table"
+              >
+                <table
+                  class="table table-hover table-bordered"
+                >
+                  <thead>
+                    <tr
+                      class="bg-gray-500 text-white whitespace-nowrap"
+                    >
+                      <th
+                        aria-label="Lab Id sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Lab Id
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Delivery Id sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Delivery Id
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Delivery Date sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Delivery Date
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Report Date sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Report Date
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Delivery Status sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Delivery Status
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Report Type sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Report Type
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Delivery Mode sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Delivery Mode
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Destination sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Destination
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Comments sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Comments
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Start Date sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Start Date
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="End Date sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        End Date
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Error Msg sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Error Msg
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Client Code sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Client Code
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Client Name sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Client Name
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Qr Code sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Qr Code
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="PDF sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        PDF
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Entered By sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Entered By
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="User Comments sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        User Comments
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="react-bs-table-no-data"
+                        colspan="18"
+                        data-toggle="collapse"
+                      >
+                        Table is Empty
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="row react-bootstrap-table-pagination"
+              >
+                <div
+                  class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <span
+                    class="react-bs-table-sizePerPage-dropdown dropdown"
+                    style="visibility: visible;"
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="btn btn-default btn-secondary dropdown-toggle"
+                      data-toggle="dropdown"
+                      id="pageDropDown"
+                      type="button"
+                    >
+                      10
+                       
+                    </button>
+                    <ul
+                      aria-labelledby="pageDropDown"
+                      class="dropdown-menu "
+                      role="menu"
+                    >
+                      <a
+                        class="dropdown-item"
+                        data-page="10"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        10
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="25"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        25
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="30"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        30
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="50"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        50
+                      </a>
+                    </ul>
+                  </span>
+                </div>
+                <div
+                  class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <ul
+                    class="pagination react-bootstrap-table-page-btns-ul"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bs-table-sizePerPage-dropdown dropdown"
+                style="visibility: visible;"
+              >
+                <button
+                  aria-expanded="false"
+                  class="btn btn-default btn-secondary dropdown-toggle"
+                  data-toggle="dropdown"
+                  id="pageDropDown"
+                  type="button"
+                >
+                  10
+                   
+                  <span>
+                    <span
+                      class="caret"
+                    />
+                  </span>
+                </button>
+                <ul
+                  aria-labelledby="pageDropDown"
+                  class="dropdown-menu "
+                  role="menu"
+                >
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </li>
+                </ul>
+              </span>
+              <ul
+                class="pagination react-bootstrap-table-page-btns-ul"
+              />
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bootstrap-table-pagination-total"
+              >
+                 Showing rows 
+                0
+                 to 
+                0
+                 of 
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="p-3 rounded-lg shadow-xl overflow-auto"
+      >
+        <span
+          class="font-bold text-lg underline"
+        >
+          Order Delivered
+        </span>
+        <div
+          style="position: relative;"
+        >
+          <div>
+            <div
+              class="flex items-center"
+            >
+              <label
+                class="search-label"
+                for="search-bar-0"
+              >
+                <span
+                  class="sr-only"
+                  id="search-bar-0-label"
+                >
+                  Search this table
+                </span>
+                <input
+                  aria-labelledby="search-bar-0-label"
+                  class="form-control "
+                  id="search-bar-0"
+                  placeholder="Search..."
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              >
+                Clear
+              </button>
+              <button
+                class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+              >
+                Clear all filters
+              </button>
+              <button
+                class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+                type="button"
+              >
+                Export CSV!!
+              </button>
+              <div
+                class="undefined"
+              >
+                <button
+                  class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                  type="button"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="scrollTable"
+            >
+              <div
+                class="react-bootstrap-table"
+              >
+                <table
+                  class="table table-hover table-bordered"
+                >
+                  <thead>
+                    <tr
+                      class="bg-gray-500 text-white whitespace-nowrap"
+                    >
+                      <th
+                        aria-label="Delivery Id sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Delivery Id
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Lab Id sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Lab Id
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Order Id sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Order Id
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Panel Code sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Panel Code
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Panel Name sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Panel Name
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Test Code sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Test Code
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Test Name sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Test Name
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Analyte Code sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Analyte Code
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Analyte Name sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Analyte Name
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Rep sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Rep
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                      <th
+                        aria-label="Delivered sortable"
+                        class="sortable"
+                        tabindex="0"
+                      >
+                        Delivered
+                        <span
+                          class="order-4"
+                        />
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="react-bs-table-no-data"
+                        colspan="11"
+                        data-toggle="collapse"
+                      >
+                        Table is Empty
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="row react-bootstrap-table-pagination"
+              >
+                <div
+                  class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <span
+                    class="react-bs-table-sizePerPage-dropdown dropdown"
+                    style="visibility: visible;"
+                  >
+                    <button
+                      aria-expanded="false"
+                      class="btn btn-default btn-secondary dropdown-toggle"
+                      data-toggle="dropdown"
+                      id="pageDropDown"
+                      type="button"
+                    >
+                      10
+                       
+                    </button>
+                    <ul
+                      aria-labelledby="pageDropDown"
+                      class="dropdown-menu "
+                      role="menu"
+                    >
+                      <a
+                        class="dropdown-item"
+                        data-page="10"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        10
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="25"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        25
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="30"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        30
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        data-page="50"
+                        href="#"
+                        role="menuitem"
+                        tabindex="-1"
+                      >
+                        50
+                      </a>
+                    </ul>
+                  </span>
+                </div>
+                <div
+                  class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+                >
+                  <ul
+                    class="pagination react-bootstrap-table-page-btns-ul"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bs-table-sizePerPage-dropdown dropdown"
+                style="visibility: visible;"
+              >
+                <button
+                  aria-expanded="false"
+                  class="btn btn-default btn-secondary dropdown-toggle"
+                  data-toggle="dropdown"
+                  id="pageDropDown"
+                  type="button"
+                >
+                  10
+                   
+                  <span>
+                    <span
+                      class="caret"
+                    />
+                  </span>
+                </button>
+                <ul
+                  aria-labelledby="pageDropDown"
+                  class="dropdown-menu "
+                  role="menu"
+                >
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    role="presentation"
+                  >
+                    <a
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </li>
+                </ul>
+              </span>
+              <ul
+                class="pagination react-bootstrap-table-page-btns-ul"
+              />
+            </div>
+            <div
+              class="flex items-center gap-2 mt-2"
+            >
+              <span
+                class="react-bootstrap-table-pagination-total"
+              >
+                 Showing rows 
+                0
+                 to 
+                0
+                 of 
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="container"
+        />
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sticky top-0 z-20 flex justify-between items-center px-2 py-2 border-b border-gray-300 bg-white"
+    >
+      <div>
+        <h2
+          class="text-lg font-bold leading-4 text-gray-900 mt-0"
+        />
+      </div>
+      <div
+        class="flex flex-row items-center"
+      >
+        <img
+          alt="banner"
+          class="object-fill h-10 w-12 rounded-md mr-2"
+        />
+        <h2
+          class="text-base  leading-4 text-gray-900 mt-0"
+        />
+      </div>
+    </div>
+    <div
+      class="p-3 rounded-lg shadow-xl overflow-auto"
+    >
+      <span
+        class="font-bold text-lg underline"
+      >
+        Report Delivery
+      </span>
+      <div
+        style="position: relative;"
+      >
+        <div>
+          <div
+            class="flex items-center"
+          >
+            <label
+              class="search-label"
+              for="search-bar-0"
+            >
+              <span
+                class="sr-only"
+                id="search-bar-0-label"
+              >
+                Search this table
+              </span>
+              <input
+                aria-labelledby="search-bar-0-label"
+                class="form-control "
+                id="search-bar-0"
+                placeholder="Search..."
+                type="text"
+                value=""
+              />
+            </label>
+            <button
+              class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+            >
+              Clear
+            </button>
+            <button
+              class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+            >
+              Clear all filters
+            </button>
+            <button
+              class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              type="button"
+            >
+              Export CSV!!
+            </button>
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div
+            class="scrollTable"
+          >
+            <div
+              class="react-bootstrap-table"
+            >
+              <table
+                class="table table-hover table-bordered"
+              >
+                <thead>
+                  <tr
+                    class="bg-gray-500 text-white whitespace-nowrap"
+                  >
+                    <th
+                      aria-label="Lab Id sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Lab Id
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Delivery Id sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Delivery Id
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Delivery Date sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Delivery Date
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Report Date sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Report Date
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Delivery Status sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Delivery Status
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Report Type sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Report Type
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Delivery Mode sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Delivery Mode
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Destination sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Destination
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Comments sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Comments
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Start Date sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Start Date
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="End Date sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      End Date
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Error Msg sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Error Msg
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Client Code sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Client Code
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Client Name sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Client Name
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Qr Code sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Qr Code
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="PDF sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      PDF
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Entered By sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Entered By
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="User Comments sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      User Comments
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      class="react-bs-table-no-data"
+                      colspan="18"
+                      data-toggle="collapse"
+                    >
+                      Table is Empty
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              class="row react-bootstrap-table-pagination"
+            >
+              <div
+                class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+              >
+                <span
+                  class="react-bs-table-sizePerPage-dropdown dropdown"
+                  style="visibility: visible;"
+                >
+                  <button
+                    aria-expanded="false"
+                    class="btn btn-default btn-secondary dropdown-toggle"
+                    data-toggle="dropdown"
+                    id="pageDropDown"
+                    type="button"
+                  >
+                    10
+                     
+                  </button>
+                  <ul
+                    aria-labelledby="pageDropDown"
+                    class="dropdown-menu "
+                    role="menu"
+                  >
+                    <a
+                      class="dropdown-item"
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </ul>
+                </span>
+              </div>
+              <div
+                class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+              >
+                <ul
+                  class="pagination react-bootstrap-table-page-btns-ul"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2 mt-2"
+          >
+            <span
+              class="react-bs-table-sizePerPage-dropdown dropdown"
+              style="visibility: visible;"
+            >
+              <button
+                aria-expanded="false"
+                class="btn btn-default btn-secondary dropdown-toggle"
+                data-toggle="dropdown"
+                id="pageDropDown"
+                type="button"
+              >
+                10
+                 
+                <span>
+                  <span
+                    class="caret"
+                  />
+                </span>
+              </button>
+              <ul
+                aria-labelledby="pageDropDown"
+                class="dropdown-menu "
+                role="menu"
+              >
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="10"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    10
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="25"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    25
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="30"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    30
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="50"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    50
+                  </a>
+                </li>
+              </ul>
+            </span>
+            <ul
+              class="pagination react-bootstrap-table-page-btns-ul"
+            />
+          </div>
+          <div
+            class="flex items-center gap-2 mt-2"
+          >
+            <span
+              class="react-bootstrap-table-pagination-total"
+            >
+               Showing rows 
+              0
+               to 
+              0
+               of 
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-3 rounded-lg shadow-xl overflow-auto"
+    >
+      <span
+        class="font-bold text-lg underline"
+      >
+        Order Delivered
+      </span>
+      <div
+        style="position: relative;"
+      >
+        <div>
+          <div
+            class="flex items-center"
+          >
+            <label
+              class="search-label"
+              for="search-bar-0"
+            >
+              <span
+                class="sr-only"
+                id="search-bar-0-label"
+              >
+                Search this table
+              </span>
+              <input
+                aria-labelledby="search-bar-0-label"
+                class="form-control "
+                id="search-bar-0"
+                placeholder="Search..."
+                type="text"
+                value=""
+              />
+            </label>
+            <button
+              class="btn btn-default inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+            >
+              Clear
+            </button>
+            <button
+              class="ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white"
+            >
+              Clear all filters
+            </button>
+            <button
+              class="react-bs-table-csv-btn btn btn-default inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white"
+              type="button"
+            >
+              Export CSV!!
+            </button>
+            <div
+              class="undefined"
+            >
+              <button
+                class="undefined inline-flex items-center px-3 py-2 text-sm rounded-lg shadow-sm   font-medium text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center"
+                type="button"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div
+            class="scrollTable"
+          >
+            <div
+              class="react-bootstrap-table"
+            >
+              <table
+                class="table table-hover table-bordered"
+              >
+                <thead>
+                  <tr
+                    class="bg-gray-500 text-white whitespace-nowrap"
+                  >
+                    <th
+                      aria-label="Delivery Id sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Delivery Id
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Lab Id sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Lab Id
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Order Id sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Order Id
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Panel Code sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Panel Code
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Panel Name sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Panel Name
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Test Code sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Test Code
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Test Name sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Test Name
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Analyte Code sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Analyte Code
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Analyte Name sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Analyte Name
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Rep sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Rep
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                    <th
+                      aria-label="Delivered sortable"
+                      class="sortable"
+                      tabindex="0"
+                    >
+                      Delivered
+                      <span
+                        class="order-4"
+                      />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      class="react-bs-table-no-data"
+                      colspan="11"
+                      data-toggle="collapse"
+                    >
+                      Table is Empty
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              class="row react-bootstrap-table-pagination"
+            >
+              <div
+                class="col-md-6 col-xs-6 col-sm-6 col-lg-6"
+              >
+                <span
+                  class="react-bs-table-sizePerPage-dropdown dropdown"
+                  style="visibility: visible;"
+                >
+                  <button
+                    aria-expanded="false"
+                    class="btn btn-default btn-secondary dropdown-toggle"
+                    data-toggle="dropdown"
+                    id="pageDropDown"
+                    type="button"
+                  >
+                    10
+                     
+                  </button>
+                  <ul
+                    aria-labelledby="pageDropDown"
+                    class="dropdown-menu "
+                    role="menu"
+                  >
+                    <a
+                      class="dropdown-item"
+                      data-page="10"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      10
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="25"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      25
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="30"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      30
+                    </a>
+                    <a
+                      class="dropdown-item"
+                      data-page="50"
+                      href="#"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      50
+                    </a>
+                  </ul>
+                </span>
+              </div>
+              <div
+                class="react-bootstrap-table-pagination-list col-md-6 col-xs-6 col-sm-6 col-lg-6"
+              >
+                <ul
+                  class="pagination react-bootstrap-table-page-btns-ul"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2 mt-2"
+          >
+            <span
+              class="react-bs-table-sizePerPage-dropdown dropdown"
+              style="visibility: visible;"
+            >
+              <button
+                aria-expanded="false"
+                class="btn btn-default btn-secondary dropdown-toggle"
+                data-toggle="dropdown"
+                id="pageDropDown"
+                type="button"
+              >
+                10
+                 
+                <span>
+                  <span
+                    class="caret"
+                  />
+                </span>
+              </button>
+              <ul
+                aria-labelledby="pageDropDown"
+                class="dropdown-menu "
+                role="menu"
+              >
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="10"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    10
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="25"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    25
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="30"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    30
+                  </a>
+                </li>
+                <li
+                  class="dropdown-item"
+                  role="presentation"
+                >
+                  <a
+                    data-page="50"
+                    href="#"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    50
+                  </a>
+                </li>
+              </ul>
+            </span>
+            <ul
+              class="pagination react-bootstrap-table-page-btns-ul"
+            />
+          </div>
+          <div
+            class="flex items-center gap-2 mt-2"
+          >
+            <span
+              class="react-bootstrap-table-pagination-total"
+            >
+               Showing rows 
+              0
+               to 
+              0
+               of 
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="container"
+      />
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

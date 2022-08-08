@@ -250,7 +250,7 @@ Object {
                           step="60"
                           style="visibility: hidden; position: absolute; z-index: -999;"
                           type="datetime-local"
-                          value="2022-08-07T14:43"
+                          value="2022-08-08T17:00"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__leadingZero"
@@ -269,7 +269,7 @@ Object {
                           placeholder="--"
                           style="width: 5px;"
                           type="number"
-                          value="7"
+                          value="8"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -337,16 +337,21 @@ Object {
                           placeholder="--"
                           style="width: 5px;"
                           type="number"
-                          value="2"
+                          value="5"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
                         >
                           :
                         </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
                         <input
                           autocomplete="off"
-                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
                           data-input="true"
                           disabled=""
                           inputmode="numeric"
@@ -354,9 +359,9 @@ Object {
                           min="0"
                           name="minute"
                           placeholder="--"
-                          style="width: 10px;"
+                          style="width: 5px;"
                           type="number"
-                          value="43"
+                          value="0"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -375,7 +380,7 @@ Object {
                           placeholder="--"
                           style="width: 10px;"
                           type="number"
-                          value="59"
+                          value="23"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -494,7 +499,7 @@ Object {
                           step="60"
                           style="visibility: hidden; position: absolute; z-index: -999;"
                           type="datetime-local"
-                          value="2022-08-07T14:43"
+                          value="2022-08-08T17:00"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__leadingZero"
@@ -513,7 +518,7 @@ Object {
                           placeholder="--"
                           style="width: 5px;"
                           type="number"
-                          value="7"
+                          value="8"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -581,16 +586,21 @@ Object {
                           placeholder="--"
                           style="width: 5px;"
                           type="number"
-                          value="2"
+                          value="5"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
                         >
                           :
                         </span>
+                        <span
+                          class="react-datetime-picker__inputGroup__leadingZero"
+                        >
+                          0
+                        </span>
                         <input
                           autocomplete="off"
-                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                          class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
                           data-input="true"
                           disabled=""
                           inputmode="numeric"
@@ -598,9 +608,9 @@ Object {
                           min="0"
                           name="minute"
                           placeholder="--"
-                          style="width: 10px;"
+                          style="width: 5px;"
                           type="number"
-                          value="43"
+                          value="0"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -619,7 +629,7 @@ Object {
                           placeholder="--"
                           style="width: 10px;"
                           type="number"
-                          value="59"
+                          value="23"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -737,7 +747,7 @@ Object {
                           step="60"
                           style="visibility: hidden; position: absolute; z-index: -999;"
                           type="datetime-local"
-                          value="2023-08-07T05:30"
+                          value="2023-08-08T05:30"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__leadingZero"
@@ -755,7 +765,7 @@ Object {
                           placeholder="--"
                           style="width: 5px;"
                           type="number"
-                          value="7"
+                          value="8"
                         />
                         <span
                           class="react-datetime-picker__inputGroup__divider"
@@ -2102,7 +2112,7 @@ Object {
                         step="60"
                         style="visibility: hidden; position: absolute; z-index: -999;"
                         type="datetime-local"
-                        value="2022-08-07T14:43"
+                        value="2022-08-08T17:00"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__leadingZero"
@@ -2121,7 +2131,7 @@ Object {
                         placeholder="--"
                         style="width: 5px;"
                         type="number"
-                        value="7"
+                        value="8"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -2189,16 +2199,21 @@ Object {
                         placeholder="--"
                         style="width: 5px;"
                         type="number"
-                        value="2"
+                        value="5"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
                       >
                         :
                       </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
                       <input
                         autocomplete="off"
-                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
                         data-input="true"
                         disabled=""
                         inputmode="numeric"
@@ -2206,9 +2221,9 @@ Object {
                         min="0"
                         name="minute"
                         placeholder="--"
-                        style="width: 10px;"
+                        style="width: 5px;"
                         type="number"
-                        value="43"
+                        value="0"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -2227,7 +2242,7 @@ Object {
                         placeholder="--"
                         style="width: 10px;"
                         type="number"
-                        value="59"
+                        value="23"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -2346,7 +2361,7 @@ Object {
                         step="60"
                         style="visibility: hidden; position: absolute; z-index: -999;"
                         type="datetime-local"
-                        value="2022-08-07T14:43"
+                        value="2022-08-08T17:00"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__leadingZero"
@@ -2365,7 +2380,7 @@ Object {
                         placeholder="--"
                         style="width: 5px;"
                         type="number"
-                        value="7"
+                        value="8"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -2433,16 +2448,21 @@ Object {
                         placeholder="--"
                         style="width: 5px;"
                         type="number"
-                        value="2"
+                        value="5"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
                       >
                         :
                       </span>
+                      <span
+                        class="react-datetime-picker__inputGroup__leadingZero"
+                      >
+                        0
+                      </span>
                       <input
                         autocomplete="off"
-                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute"
+                        class="react-datetime-picker__inputGroup__input react-datetime-picker__inputGroup__minute react-datetime-picker__inputGroup__input--hasLeadingZero"
                         data-input="true"
                         disabled=""
                         inputmode="numeric"
@@ -2450,9 +2470,9 @@ Object {
                         min="0"
                         name="minute"
                         placeholder="--"
-                        style="width: 10px;"
+                        style="width: 5px;"
                         type="number"
-                        value="43"
+                        value="0"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -2471,7 +2491,7 @@ Object {
                         placeholder="--"
                         style="width: 10px;"
                         type="number"
-                        value="59"
+                        value="23"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"
@@ -2589,7 +2609,7 @@ Object {
                         step="60"
                         style="visibility: hidden; position: absolute; z-index: -999;"
                         type="datetime-local"
-                        value="2023-08-07T05:30"
+                        value="2023-08-08T05:30"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__leadingZero"
@@ -2607,7 +2627,7 @@ Object {
                         placeholder="--"
                         style="width: 5px;"
                         type="number"
-                        value="7"
+                        value="8"
                       />
                       <span
                         class="react-datetime-picker__inputGroup__divider"

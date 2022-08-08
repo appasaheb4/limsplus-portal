@@ -21,7 +21,7 @@ import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-const GeneralResultEntry = observer(() => {
+export const GeneralResultEntry = observer(() => {
   const {loginStore, routerStore, patientResultStore, generalResultEntryStore} =
     useStores();
 
@@ -144,5 +144,3 @@ const GeneralResultEntry = observer(() => {
     </>
   );
 });
-
-export default GeneralResultEntry;
