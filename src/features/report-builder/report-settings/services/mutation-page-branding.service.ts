@@ -11,6 +11,7 @@ export const PAGE_BRANDING_LIST = gql`
       data {
         _id
         tempCode
+        brandingTitle
         templateSettings
         header
         subHeader
@@ -66,6 +67,7 @@ export const FILTER = gql`
       data {
         _id
         tempCode
+        brandingTitle
         templateSettings
         header
         subHeader
@@ -94,6 +96,7 @@ export const FILTER_BY_FIELDS = gql`
       data {
         _id
         tempCode
+        brandingTitle
         templateSettings
         header
         subHeader
@@ -119,6 +122,7 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         tempCode
+        brandingTitle
         templateSettings
         header
         subHeader

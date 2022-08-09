@@ -10,7 +10,7 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {Type} from 'react-bootstrap-table2-editor';
+import {resizeFile} from '@/library/utils';
 
 interface TemplateSettingsProps {
   data: any;
@@ -83,6 +83,80 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                   </>
                 );
               },
+            },
+            {
+              dataField: 'isBackgroundImage',
+              text: 'Background Image Visible',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.isBackgroundImage
+                    ? row.isBackgroundImage
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.isBackgroundImage}
+                      onChange={isBackgroundImage => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem({isBackgroundImage}, row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'backgroundImage',
+              text: 'Background Image',
+              sort: true,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <img
+                      src={row?.backgroundImage}
+                      alt='logo'
+                      className='object-fill h-35 w-40 rounded-md'
+                    />
+                  </>
+                );
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.InputFile
+                    placeholder='File'
+                    onChange={async e => {
+                      const backgroundImage = e.target.files[0];
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            backgroundImage,
+                            backgroundImageBase64: await resizeFile(
+                              backgroundImage,
+                              300,
+                              300,
+                              100,
+                              0,
+                            ),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'pageSize',

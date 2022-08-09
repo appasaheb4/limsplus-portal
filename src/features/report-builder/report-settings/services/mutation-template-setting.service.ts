@@ -13,6 +13,9 @@ export const TEMPLATE_SETTING_LIST = gql`
         tempCode
         tempName
         isToolbar
+        isBackgroundImage
+        backgroundImage
+        backgroundImageBase64
         pageSize
         mainBoxCSS
         documentType
@@ -63,6 +66,9 @@ export const FILTER = gql`
         tempCode
         tempName
         isToolbar
+        isBackgroundImage
+        backgroundImage
+        backgroundImageBase64
         pageSize
         mainBoxCSS
         documentType
@@ -83,6 +89,9 @@ export const FIND_BY_FIELDS = gql`
         tempCode
         tempName
         isToolbar
+        isBackgroundImage
+        backgroundImage
+        backgroundImageBase64
         pageSize
         mainBoxCSS
         documentType

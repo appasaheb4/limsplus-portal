@@ -150,12 +150,16 @@ export const PageBranding = observer(() => {
                         input: {
                           filter: {
                             tempCode: item.tempCode,
+                            brandingTitle:
+                              reportSettingStore.pageBranding?.brandingTitle ||
+                              '',
                           },
                         },
                       })
                       .then(res => {
                         if (res.findByFieldsPageBranding.success) {
                           setError('tempCode', {type: 'onBlur'});
+                          setError('brandingTitle', {type: 'onBlur'});
                           Toast.error({
                             message:
                               '😔 Already exists temp code. Please select diff.',
@@ -163,6 +167,7 @@ export const PageBranding = observer(() => {
                           return setIsExistsTempCode(true);
                         } else {
                           clearErrors('tempCode');
+                          clearErrors('brandingTitle');
                           return setIsExistsTempCode(false);
                         }
                       });
@@ -173,6 +178,55 @@ export const PageBranding = observer(() => {
               rules={{required: true}}
               defaultValue={reportSettingStore.templateSettingsList}
             />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Form.Input
+                  label='Branding Title'
+                  placeholder='Branding Title'
+                  hasError={!!errors.brandingTitle}
+                  value={reportSettingStore.pageBranding?.brandingTitle?.toUpperCase()}
+                  onChange={brandingTitle => {
+                    onChange(brandingTitle);
+                    reportSettingStore.updatePageBranding({
+                      ...reportSettingStore.pageBranding,
+                      brandingTitle: brandingTitle?.toUpperCase(),
+                    });
+                  }}
+                  onBlur={brandingTitle => {
+                    reportSettingStore.pageBrandingService
+                      .findByFields({
+                        input: {
+                          filter: {
+                            tempCode:
+                              reportSettingStore.pageBranding?.tempCode || '',
+                            brandingTitle: brandingTitle?.toUpperCase(),
+                          },
+                        },
+                      })
+                      .then(res => {
+                        if (res.findByFieldsPageBranding.success) {
+                          setError('tempCode', {type: 'onBlur'});
+                          setError('brandingTitle', {type: 'onBlur'});
+                          Toast.error({
+                            message:
+                              '😔 Already exists temp code. Please select diff.',
+                          });
+                          return setIsExistsTempCode(true);
+                        } else {
+                          clearErrors('tempCode');
+                          clearErrors('brandingTitle');
+                          return setIsExistsTempCode(false);
+                        }
+                      });
+                  }}
+                />
+              )}
+              name='brandingTitle'
+              rules={{required: true}}
+              defaultValue=''
+            />
+
             <Grid cols={4}>
               <Controller
                 control={control}

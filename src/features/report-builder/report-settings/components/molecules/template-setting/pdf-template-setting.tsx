@@ -9,7 +9,7 @@ import {
   Image,
   View,
 } from '@react-pdf/renderer';
-import {use} from 'i18next';
+import axios from 'axios';
 
 Font.register({
   family: 'arimaRegular',
@@ -29,6 +29,7 @@ interface PdfTemplateSettingProps {
   documentTitle?: string;
   isToolbar?: boolean;
   isBackgroundImage?: boolean;
+  backgroundImage?: string;
   pageSize: any;
   mainBoxCSS?: any;
   children: React.ReactNode;
@@ -40,6 +41,7 @@ export const PdfTemplateSetting = ({
   documentTitle = 'Template Settings',
   isToolbar = false,
   isBackgroundImage = false,
+  backgroundImage,
   mainBoxCSS,
   pageSize,
   children,
@@ -53,6 +55,8 @@ export const PdfTemplateSetting = ({
       boxCSS.current = styles.page;
     }
   }
+  console.log({backgroundImage});
+
   return (
     <>
       {isToolbar ? (
@@ -78,9 +82,9 @@ export const PdfTemplateSetting = ({
                       left: 0,
                       right: 0,
                       top: 0,
-                      objectFit: 'cover',
+                      objectFit: 'fill',
                     }}
-                    src='https://picsum.photos/400/800'
+                    src={backgroundImage}
                   />
                 </View>
               )}
@@ -113,9 +117,9 @@ export const PdfTemplateSetting = ({
                         left: 0,
                         right: 0,
                         top: 0,
-                        objectFit: 'cover',
+                        objectFit: 'fill',
                       }}
-                      src='https://picsum.photos/400/800'
+                      src={backgroundImage}
                     />
                   </View>
                 )}
