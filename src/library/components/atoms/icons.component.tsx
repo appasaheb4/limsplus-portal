@@ -165,6 +165,7 @@ export const getIcons = (icon: string): any => {
   if (icon === 'Icons.Iconmd.MdBackHand') return Icons.Iconmd.MdBackHand;
   if (icon === 'Icons.Iconai.AiOutlineFilePdf')
     return Icons.Iconai.AiOutlineFilePdf;
+  if (icon === 'Icons.IconIm.ImFilePdf') return Icons.IconIm.ImFilePdf;
 
   return Icons.IconBs.BsList;
 };

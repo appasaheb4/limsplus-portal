@@ -118,5 +118,6 @@ module.exports = {
       },
     ],
     'no-extra-boolean-cast': 'off',
+    'react/no-children-prop': 'off',
   },
 };
