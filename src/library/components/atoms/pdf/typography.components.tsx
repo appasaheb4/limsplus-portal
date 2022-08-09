@@ -1,19 +1,15 @@
 import React from 'react';
-import {
-  Page,
-  Text,
-  View,
-  Image,
-  Document,
-  StyleSheet,
-  Font,
-} from '@react-pdf/renderer';
+import {Text} from '@react-pdf/renderer';
+import {Style} from '@react-pdf/types';
 
 interface PdfTextProps {
   fontWeight?: 'bold' | 'medium' | 'normal';
   fontSize?: number;
   fontFamily?: string;
   textAlign?: 'center' | 'left';
+  style?: Style | Style[];
+  bottom?: number;
+  fixed?: boolean;
   children?: React.ReactNode;
 }
 
@@ -21,6 +17,7 @@ export const PdfHeading = ({
   fontWeight = 'bold',
   fontSize = 22,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -29,6 +26,7 @@ export const PdfHeading = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
@@ -40,6 +38,7 @@ export const PdfSubHeading = ({
   fontWeight = 'bold',
   fontSize = 20,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -48,6 +47,7 @@ export const PdfSubHeading = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
@@ -60,6 +60,7 @@ export const PdfMedium = ({
   fontSize = 16,
   textAlign = 'left',
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -69,6 +70,7 @@ export const PdfMedium = ({
         fontSize: fontSize,
         fontFamily: fontFamily,
         textAlign: textAlign,
+        ...style,
       }}
     >
       {children}
@@ -80,6 +82,7 @@ export const PdfRegular = ({
   fontWeight = 'normal',
   fontSize = 12,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -88,6 +91,7 @@ export const PdfRegular = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
@@ -99,6 +103,7 @@ export const PdfSmall = ({
   fontWeight = 'normal',
   fontSize = 10,
   fontFamily = 'arimaRegular',
+  style,
   children,
 }: PdfTextProps) => {
   return (
@@ -107,6 +112,7 @@ export const PdfSmall = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        ...style,
       }}
     >
       {children}
@@ -114,21 +120,21 @@ export const PdfSmall = ({
   );
 };
 
-export const PdfPageNumber = () => {
+export const PdfPageNumber = ({style, bottom = 55}: PdfTextProps) => {
   return (
-    <View>
-      <Text
-        style={{
-          fontSize: 12,
-          marginVertical: 5,
-          textAlign: 'center',
-          color: 'grey',
-        }}
-        render={({pageNumber, totalPages}) =>
-          `Page ${pageNumber} of ${totalPages}`
-        }
-        fixed
-      />
-    </View>
+    <Text
+      style={{
+        position: 'absolute',
+        bottom: bottom,
+        right: 5,
+        fontSize: 12,
+        color: 'grey',
+        ...style,
+      }}
+      render={({pageNumber, totalPages}) =>
+        `Page ${pageNumber} of ${totalPages}`
+      }
+      fixed
+    />
   );
 };

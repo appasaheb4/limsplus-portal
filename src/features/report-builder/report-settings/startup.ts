@@ -1,5 +1,7 @@
 import {stores} from '@/stores';
 export const startup = async () => {
+  stores.reportSettingStore.templateSettingsService.listTemplateSetting();
+  stores.reportSettingStore.pageBrandingService.listPageBranding();
   stores.reportSettingStore.reportSectionService.listReportSection();
   stores.reportSettingStore.sectionSettingService.listSectionSetting();
   stores.reportSettingStore.pageSettingService.listPageSetting();

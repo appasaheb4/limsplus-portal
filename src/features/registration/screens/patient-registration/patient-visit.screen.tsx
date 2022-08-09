@@ -1832,8 +1832,8 @@ export const PatientVisit = PatientVisitHoc(
               setModalConfirm({
                 show: true,
                 type: 'delete',
-                id: rows.filter(item => item._id),
-                labId: rows.filter(item => item.labId),
+                id: rows.filter(item => item._id).map(item => item._id),
+                labId: rows.filter(item => item.labId).map(item => item.labId),
                 title: 'Are you sure?',
                 body: 'Delete selected items!',
               });
@@ -1934,9 +1934,15 @@ export const PatientVisit = PatientVisitHoc(
           {...modalConfirm}
           click={(type?: string) => {
             if (type === 'delete') {
+              console.log({modalConfirm});
+
               patientVisitStore.patientVisitService
                 .deletePatientVisit({
-                  input: {id: modalConfirm.id, labId: modalConfirm.labId},
+                  input: {
+                    id: modalConfirm.id,
+                    labId: modalConfirm.labId,
+                    __typename: undefined,
+                  },
                 })
                 .then((res: any) => {
                   if (res.removePatientVisit.success) {

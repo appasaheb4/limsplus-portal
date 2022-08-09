@@ -16,6 +16,8 @@ export * from './atoms/modals/modals.component';
 export * from './atoms/tooltip/tooltip.component';
 export * from './atoms/pdf/typography.components';
 export * from './atoms/pdf/wrapped-view.components';
+export * from './atoms/pdf/table.components';
+export * from './atoms/pdf/images.components';
 
 export * from './molecules/auto-complete/auto-complete.component';
 export * from './molecules/auto-complete-check/auto-complete-check.component';
@@ -35,6 +37,7 @@ export * from './molecules/modal/modal-session-allowed/modal-session-allowed.com
 export * from './molecules/modal/modal-token-expire/modal-token-expire.component';
 export * from './molecules/modal/modal-transition/modal-transition.component';
 export * from './molecules/modal/modal-file-upload/modal-file-upload.component';
+export * from './molecules/modal/modal-view/modal-view.component';
 
 export * from './organisms/filter-comp';
 export * from './organisms/table-bootstrap/table-bootstrap.component';
