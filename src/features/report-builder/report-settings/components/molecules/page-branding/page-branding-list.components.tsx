@@ -10,7 +10,7 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {resizeFile} from '../../../utils/images.util';
+import {resizeFile} from '@/library/utils';
 interface PageBrandingProps {
   data: any;
   totalSize: number;
@@ -51,6 +51,12 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
             {
               dataField: 'tempCode',
               text: 'Template Code',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'brandingTitle',
+              text: 'Branding Title',
               sort: true,
               editable: false,
             },

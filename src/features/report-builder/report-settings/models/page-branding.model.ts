@@ -2,6 +2,7 @@ import {TemplateSettings} from './template-setting.model';
 export class PageBranding {
   _id: string;
   tempCode: string;
+  brandingTitle: string;
   templateSettings: TemplateSettings;
   header: {
     title: string;
@@ -38,6 +39,7 @@ export class PageBranding {
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
     this.tempCode = rawData.tempCode;
+    this.brandingTitle = rawData.brandingTitle;
     this.templateSettings = rawData.templateSettings;
     this.header = rawData.header;
     this.subHeader = rawData.subHeader;

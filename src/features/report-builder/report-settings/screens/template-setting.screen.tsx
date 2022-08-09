@@ -18,7 +18,7 @@ import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
-import {PDFViewer} from '@react-pdf/renderer';
+import {resizeFile} from '@/library/utils';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
@@ -219,6 +219,34 @@ export const TemplateSettings = observer(() => {
                     defaultValue=''
                   />
                 </Grid>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputFile
+                      label='Background Image'
+                      placeholder='Background Image'
+                      hasError={!!errors.backgroundImage}
+                      onChange={async e => {
+                        const backgroundImage = e.target.files[0];
+                        onChange(backgroundImage);
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          backgroundImage,
+                          backgroundImageBase64: await resizeFile(
+                            backgroundImage,
+                            300,
+                            300,
+                            100,
+                            0,
+                          ),
+                        });
+                      }}
+                    />
+                  )}
+                  name='backgroundImage'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
@@ -354,6 +382,9 @@ export const TemplateSettings = observer(() => {
               isBackgroundImage={
                 reportSettingStore.templateSettings?.isBackgroundImage
               }
+              backgroundImage={
+                reportSettingStore.templateSettings?.backgroundImageBase64
+              }
               mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
               pageSize={reportSettingStore.templateSettings?.pageSize}
               children={<PdfMedium>Template Setting</PdfMedium>}
@@ -427,8 +458,10 @@ export const TemplateSettings = observer(() => {
               children: (
                 <PdfTemplateSetting
                   documentTitle='Template Setting'
+                  height={window.innerHeight / 1.3}
                   isToolbar={item.isToolbar}
-                  isBackgroundImage={item.isBackgroundImage}
+                  isBackgroundImage={item?.isBackgroundImage}
+                  backgroundImage={item?.backgroundImageBase64}
                   mainBoxCSS={item.mainBoxCSS}
                   pageSize={item.pageSize}
                   children={<PdfMedium>Template Setting</PdfMedium>}

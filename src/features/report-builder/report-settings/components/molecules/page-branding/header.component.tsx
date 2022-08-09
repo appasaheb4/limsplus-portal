@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
-import {resizeFile} from '../../../utils/images.util';
+import {resizeFile} from '@/library/utils';
 
 export const PageBrandingHeader = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
