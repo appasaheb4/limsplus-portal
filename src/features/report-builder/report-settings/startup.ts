@@ -9,3 +9,7 @@ export const startup = async () => {
   stores.reportSettingStore.fontSettingService.listFontSetting();
   stores.reportSettingStore.reportFieldMappingService.listReportFieldMapping();
 };
+
+export const startUpPageBranding = async () => {
+  stores.reportSettingStore.pageBrandingService.listPageBranding();
+};

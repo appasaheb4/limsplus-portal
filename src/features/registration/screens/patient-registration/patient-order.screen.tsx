@@ -231,6 +231,7 @@ export const PatientOrder = PatientOrderHoc(
                                   'panelCode',
                                   'serviceType',
                                   'confidential',
+                                  'reportTemplate',
                                 ]),
                               ),
                             });

@@ -13,6 +13,7 @@ import {
   REMOVE_PAGE_BRANDING,
   UPDATE_PAGE_BRANDING,
   FIND_BY_FIELDS,
+  FILTER_BY_FIELDS,
 } from './mutation-page-branding.service';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -83,33 +84,33 @@ export class PageBrandingService {
         );
     });
 
-  //   filterByFields = (variables: any) =>
-  //     new Promise<any>((resolve, reject) => {
-  //       stores.uploadLoadingFlag(false);
-  //       client
-  //         .mutate({
-  //           mutation: FILTER_BY_FIELDS,
-  //           variables,
-  //         })
-  //         .then((response: any) => {
-  //           if (!response.data.filterByFieldsPageBranding.success)
-  //             return this.listPageBranding();
-  //           stores.reportSettingStore.filterPageBrandingList({
-  //             filterPageBrandings: {
-  //               data: response.data.filterByFieldsPageBranding.data,
-  //               paginatorInfo: {
-  //                 count:
-  //                   response.data.filterByFieldsPageBranding.paginatorInfo.count,
-  //               },
-  //             },
-  //           });
-  //           stores.uploadLoadingFlag(true);
-  //           resolve(response.data);
-  //         })
-  //         .catch(error =>
-  //           reject(new ServiceResponse<any>(0, error.message, undefined)),
-  //         );
-  //     });
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsPageBranding.success)
+            return this.listPageBranding();
+          stores.reportSettingStore.updatePageBrandingList({
+            pageBrandings: {
+              data: response.data.filterByFieldsPageBranding.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsPageBranding.paginatorInfo.count,
+              },
+            },
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -120,6 +121,8 @@ export class PageBrandingService {
           variables,
         })
         .then((response: any) => {
+          console.log({response});
+
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
