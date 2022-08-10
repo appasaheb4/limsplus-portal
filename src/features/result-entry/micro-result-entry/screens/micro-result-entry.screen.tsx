@@ -29,7 +29,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-export const MicroResultEntry = observer(() => {
+const MicroResultEntry = observer(() => {
   const {
     loading,
     patientManagerStore,
@@ -60,3 +60,4 @@ export const MicroResultEntry = observer(() => {
     </>
   );
 });
+export default MicroResultEntry;

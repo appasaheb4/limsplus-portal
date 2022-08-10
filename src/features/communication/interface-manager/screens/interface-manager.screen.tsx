@@ -21,7 +21,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-export const InterfaceManager = InterfaceManagerHoc(
+const InterfaceManager = InterfaceManagerHoc(
   observer(() => {
     const {loginStore, interfaceManagerStore, routerStore} = useStores();
     const {
@@ -594,3 +594,4 @@ export const InterfaceManager = InterfaceManagerHoc(
     );
   }),
 );
+export default InterfaceManager;

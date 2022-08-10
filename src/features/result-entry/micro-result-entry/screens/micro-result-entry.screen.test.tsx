@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import {MicroResultEntry} from '.';
+import MicroResultEntry from './micro-result-entry.screen';
 
 describe('MicroResultEntry Screen', () => {
   it('render microResultEntry correctly', () => {

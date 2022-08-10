@@ -26,7 +26,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
-export const SegmentMapping = SegmentMappingHoc(
+const SegmentMapping = SegmentMappingHoc(
   observer(() => {
     const {
       loginStore,
@@ -1017,3 +1017,4 @@ export const SegmentMapping = SegmentMappingHoc(
     );
   }),
 );
+export default SegmentMapping;

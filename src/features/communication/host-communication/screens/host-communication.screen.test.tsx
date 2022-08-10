@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import {HostCommunication} from '.';
+import HostCommunication from './host-communication.screen';
 
 describe('HostCommunication Screen', () => {
   it('render hostCommunication correctly', () => {
