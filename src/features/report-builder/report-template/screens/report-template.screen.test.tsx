@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import {ReportTemplate} from './report-template.screen';
+import ReportTemplate from './report-template.screen';
 
 describe('ReportTemplate Screen', () => {
   it('render reportTemplate correctly', () => {
