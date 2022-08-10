@@ -60,4 +60,5 @@ const ReportTemplate = observer(() => {
     </>
   );
 });
+
 export default ReportTemplate;

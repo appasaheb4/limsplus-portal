@@ -77,4 +77,5 @@ const ReportSettings = observer(() => {
     </>
   );
 });
+
 export default ReportSettings;

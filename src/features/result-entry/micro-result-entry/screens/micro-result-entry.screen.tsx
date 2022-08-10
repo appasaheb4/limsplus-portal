@@ -60,4 +60,5 @@ const MicroResultEntry = observer(() => {
     </>
   );
 });
+
 export default MicroResultEntry;

@@ -1,1 +1,1 @@
-export * from './privacy-policy.screen';
+export {default as PrivacyPolicy} from './privacy-policy.screen';

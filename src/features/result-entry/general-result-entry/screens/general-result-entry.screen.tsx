@@ -144,4 +144,5 @@ const GeneralResultEntry = observer(() => {
     </>
   );
 });
+
 export default GeneralResultEntry;
