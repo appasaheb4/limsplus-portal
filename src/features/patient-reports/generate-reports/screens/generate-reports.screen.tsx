@@ -125,5 +125,4 @@ const GenerateReport = observer(() => {
     </>
   );
 });
-
 export default GenerateReport;

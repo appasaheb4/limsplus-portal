@@ -52,4 +52,5 @@ const HistoResultEntry = observer(() => {
     </>
   );
 });
+
 export default HistoResultEntry;
