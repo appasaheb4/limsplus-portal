@@ -41,6 +41,7 @@ const GenerateReport = observer(() => {
     patientRegistrationStore,
     loginStore,
     generateReportsStore,
+    reportSettingStore,
   } = useStores();
 
   const {
@@ -84,10 +85,29 @@ const GenerateReport = observer(() => {
               });
             }}
             onSelect={item => {
-              generateReportsStore.generateReportsService.listPatientReports(
-                item.labId,
-              );
-              console.log({item});
+              generateReportsStore.generateReportsService
+                .listPatientReports(item.labId)
+                .then(async res => {
+                  const {data, success} = res?.getPatientReports;
+                  if (success) {
+                    const getPageBranding =
+                      await reportSettingStore.pageBrandingService.findByFields(
+                        {
+                          input: {
+                            filter: {
+                              tempCode: data?.reportTemplate
+                                .split('-')[0]
+                                ?.slice(0, -1),
+                              brandingTitle: data?.reportTemplate
+                                .split('-')[1]
+                                .slice(1),
+                            },
+                          },
+                        },
+                      );
+                    console.log({getPageBranding});
+                  }
+                });
             }}
           />
         </div>

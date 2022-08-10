@@ -18,6 +18,7 @@ import {
   AutoCompleteFilterSingleSelectDepartment,
   AutoCompleteFilterSingleSelectPanelMethod,
   AutoCompleteInterpretation,
+  AutoCompleteFilterSingleSelectReportTemplate,
 } from '../index';
 import {FormHelper} from '@/helper';
 
@@ -1292,6 +1293,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectReportTemplate
+                    onSelect={item => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds({reportTemplate: item}, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
 
             {

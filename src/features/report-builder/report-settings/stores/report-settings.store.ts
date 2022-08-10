@@ -28,6 +28,7 @@ export class ReportSettingStore {
   templateSettingsListCount: number = 0;
   pageBranding!: PageBranding;
   pageBrandingList!: Array<PageBranding>;
+  pageBrandingListCopy!: Array<PageBranding>;
   pageBrandingListCount: number = 0;
 
   reportSectionList: ReportSection[] = [];
@@ -68,6 +69,7 @@ export class ReportSettingStore {
       isPdfPageNumber: true,
     });
     this.pageBrandingList = [];
+    this.pageBrandingListCopy = [];
 
     this.generalSetting = new GeneralSettings({});
     this.generalSettingList = [];
@@ -103,6 +105,7 @@ export class ReportSettingStore {
       templateSettingsListCount: observable,
       pageBranding: observable,
       pageBrandingList: observable,
+      pageBrandingListCopy: observable,
       pageBrandingListCount: observable,
       reportSectionList: observable,
       reportSectionListCopy: observable,
@@ -198,8 +201,14 @@ export class ReportSettingStore {
   }
 
   updatePageBrandingList(res: any) {
-    this.pageBrandingList = res.pageBrandings.data;
-    this.pageBrandingListCount = res.pageBrandings.paginatorInfo.count;
+    if (!Array.isArray(res)) {
+      this.pageBrandingList = res.pageBrandings.data;
+      this.pageBrandingListCopy = res.pageBrandings.data;
+      this.pageBrandingListCount = res.pageBrandings.paginatorInfo.count;
+    } else {
+      this.pageBrandingList = res;
+      this.pageBrandingListCount = res?.length;
+    }
   }
 
   updateReportSectionList(res: any) {

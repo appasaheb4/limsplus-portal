@@ -16,7 +16,10 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {PanelMasterList} from '../components';
+import {
+  PanelMasterList,
+  AutoCompleteFilterSingleSelectReportTemplate,
+} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {AutoCompleteFilterSingleSelectDepartment} from '../components';
 import {MasterPanelHoc} from '../hoc';
@@ -38,6 +41,7 @@ const MasterPanel = MasterPanelHoc(
       routerStore,
       loading,
       libraryStore,
+      reportSettingStore,
     } = useStores();
     const {
       control,
@@ -350,8 +354,6 @@ const MasterPanel = MasterPanelHoc(
                         lab={masterPanelStore.masterPanel?.pLab}
                         hasError={!!errors.department}
                         onSelect={item => {
-                          console.log({item});
-
                           onChange(item.name);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
@@ -808,7 +810,7 @@ const MasterPanel = MasterPanelHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label='AutoRelease'
+                        label='Auto Release'
                         id='modeAutoRelease'
                         hasError={!!errors.autoRelease}
                         value={masterPanelStore.masterPanel?.autoRelease}
@@ -871,6 +873,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Urgent'
+                        style={{marginLeft: 5}}
                         hasError={!!errors.urgent}
                         value={masterPanelStore.masterPanel?.urgent}
                         onChange={urgent => {
@@ -1276,33 +1279,28 @@ const MasterPanel = MasterPanelHoc(
                   }}
                   defaultValue=''
                 />
-
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label='Report Template'
-                      placeholder={
-                        errors.reportTemplate
-                          ? 'Please Enter ReportTemplate'
-                          : 'Report Template'
-                      }
                       hasError={!!errors.reportTemplate}
-                      value={masterPanelStore.masterPanel?.reportTemplate}
-                      onChange={reportTemplate => {
-                        onChange(reportTemplate);
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          reportTemplate,
-                        });
-                      }}
-                    />
+                    >
+                      <AutoCompleteFilterSingleSelectReportTemplate
+                        onSelect={reportTemplate => {
+                          onChange(reportTemplate);
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            reportTemplate,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
                   )}
                   name='reportTemplate'
                   rules={{required: false}}
                   defaultValue=''
                 />
-
                 <Grid cols={5}>
                   <Controller
                     control={control}

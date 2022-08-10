@@ -21,7 +21,7 @@ export class GenerateReportsService {
           variables: {input: {labId}},
         })
         .then((response: any) => {
-          stores.generateReportsStore.updatePatientReports(response.data);
+          //stores.generateReportsStore.updatePatientReports(response.data);
           resolve(response.data);
         })
         .catch(error =>

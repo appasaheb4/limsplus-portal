@@ -57,8 +57,8 @@ export const UPDATE_PAGE_BRANDING = gql`
 `;
 
 export const FILTER = gql`
-  mutation ($input: BannerInput!) {
-    filterBanners(input: $input) {
+  mutation ($input: PageBrandingInput!) {
+    filterByFieldsPageBranding(input: $input) {
       paginatorInfo {
         count
       }
@@ -86,8 +86,8 @@ export const FILTER = gql`
 `;
 
 export const FILTER_BY_FIELDS = gql`
-  mutation ($input: PageSettingInput!) {
-    filterByFieldsPageSetting(input: $input) {
+  mutation ($input: PageBrandingInput!) {
+    filterByFieldsPageBranding(input: $input) {
       paginatorInfo {
         count
       }
