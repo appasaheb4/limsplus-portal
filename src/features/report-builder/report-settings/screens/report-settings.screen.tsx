@@ -18,7 +18,7 @@ import {ReportFieldMapping} from './report-field-mapping.screen';
 import {PageBranding} from './page-branding.screen';
 import {TemplateSettings} from './template-setting.screen';
 
-export const ReportSettings = observer(() => {
+const ReportSettings = observer(() => {
   const {
     loading,
     patientManagerStore,
@@ -77,3 +77,4 @@ export const ReportSettings = observer(() => {
     </>
   );
 });
+export default ReportSettings;
