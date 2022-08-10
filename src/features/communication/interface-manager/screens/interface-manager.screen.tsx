@@ -594,4 +594,5 @@ const InterfaceManager = InterfaceManagerHoc(
     );
   }),
 );
+
 export default InterfaceManager;

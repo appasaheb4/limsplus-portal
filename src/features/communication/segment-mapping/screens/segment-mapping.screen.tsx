@@ -1017,4 +1017,5 @@ const SegmentMapping = SegmentMappingHoc(
     );
   }),
 );
+
 export default SegmentMapping;

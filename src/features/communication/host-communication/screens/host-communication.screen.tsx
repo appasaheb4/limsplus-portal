@@ -902,4 +902,5 @@ const HostCommunication = HostCommunicationHoc(
     );
   }),
 );
+
 export default HostCommunication;
