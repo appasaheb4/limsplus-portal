@@ -37,6 +37,6 @@ package-lock.json
 
 
 coverage/
-__snapshots__/
+__snaphots__/
 reports
 .scannerwork/
