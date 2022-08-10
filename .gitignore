@@ -35,8 +35,8 @@ yarn-error.log*
 yarn.lock
 package-lock.json
 
-# Unit tests
+
 coverage/
-_snapshots_/
+__snapshots__/
 reports
 .scannerwork/
