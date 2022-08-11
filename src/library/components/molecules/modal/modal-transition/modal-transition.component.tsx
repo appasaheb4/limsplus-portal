@@ -4,7 +4,7 @@ import {Transition} from '@headlessui/react';
 interface ModalProps {
   show: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const ModalTransition: React.FunctionComponent<any> = (

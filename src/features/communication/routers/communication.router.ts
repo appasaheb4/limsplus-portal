@@ -3,7 +3,7 @@ const HostCommunication = async(
   () => import('../host-communication/screens/host-communication.screen'),
 );
 const SegmentMapping = async(
-  () => import('../segment-mapping/screens/SegmentMapping.screen'),
+  () => import('../segment-mapping/screens/segment-mapping.screen'),
 );
 const DataConversation = async(
   () => import('../data-conversation/screens/data-conversation.screen'),
