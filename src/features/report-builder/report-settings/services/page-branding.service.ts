@@ -121,8 +121,6 @@ export class PageBrandingService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
-
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

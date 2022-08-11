@@ -48,10 +48,10 @@ interface PdfTemp0001Props {
 
 export const PdfTemp0001 = observer(({data, children}: PdfTemp0001Props) => {
   const pageNumberCSS = useRef<any>({});
-  if (data.pageNumber?.pageNumberCSS) {
+  if (data?.pageNumber?.pageNumberCSS) {
     try {
       pageNumberCSS.current = eval(
-        '({' + data.pageNumber?.pageNumberCSS + '})',
+        '({' + data?.pageNumber?.pageNumberCSS + '})',
       );
     } catch (e) {
       pageNumberCSS.current = {};
@@ -78,7 +78,7 @@ export const PdfTemp0001 = observer(({data, children}: PdfTemp0001Props) => {
           {children}
 
           {/* Page Number */}
-          {data.isPdfPageNumber && (
+          {data?.isPdfPageNumber && (
             <PdfPageNumber style={{...pageNumberCSS.current}} />
           )}
 

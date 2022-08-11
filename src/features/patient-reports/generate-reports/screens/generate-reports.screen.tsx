@@ -86,27 +86,15 @@ const GenerateReport = observer(() => {
             }}
             onSelect={item => {
               generateReportsStore.generateReportsService
-                .listPatientReports(item.labId)
-                .then(async res => {
-                  const {data, success} = res?.getPatientReports;
-                  if (success) {
-                    const getPageBranding =
-                      await reportSettingStore.pageBrandingService.findByFields(
-                        {
-                          input: {
-                            filter: {
-                              tempCode: data?.reportTemplate
-                                .split('-')[0]
-                                ?.slice(0, -1),
-                              brandingTitle: data?.reportTemplate
-                                .split('-')[1]
-                                .slice(1),
-                            },
-                          },
-                        },
-                      );
-                    console.log({getPageBranding});
-                  }
+                .getPatientReportAndPageBrandingFromLabId(item.labId)
+                .then(res => {
+                  generateReportsStore.updatePatientReports(res?.patientReport);
+                  generateReportsStore.updatePageBranding(res?.pageBranding);
+                })
+                .catch(errors => {
+                  return Toast.error({
+                    message: `😔 ${errors.message}`,
+                  });
                 });
             }}
           />
@@ -138,9 +126,12 @@ const GenerateReport = observer(() => {
           }
         </PDFDownloadLink>
       ) : (
-        <PDFViewer style={{width: '100%', height: '100%'}} showToolbar={false}>
-          <PdfPatientReport data={generateReportsStore.patientReports} />
-        </PDFViewer>
+        <PdfPatientReport
+          data={{
+            patientReports: generateReportsStore.patientReports,
+            pageBranding: generateReportsStore.patientReports,
+          }}
+        />
       )}
     </>
   );
