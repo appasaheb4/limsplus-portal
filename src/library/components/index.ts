@@ -35,7 +35,7 @@ export * from './molecules/modal/modal-clock/Modal-clock.component';
 export * from './molecules/modal/modal-idle-timeout/modal-idle-timeout.component';
 export * from './molecules/modal/modal-session-allowed/modal-session-allowed.component';
 export * from './molecules/modal/modal-token-expire/modal-token-expire.component';
-export * from './molecules/modal/modal-transition/moda-transition.component';
+export * from './molecules/modal/modal-transition/modal-transition.component';
 export * from './molecules/modal/modal-file-upload/modal-file-upload.component';
 export * from './molecules/modal/modal-view/modal-view.component';
 
