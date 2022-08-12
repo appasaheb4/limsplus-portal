@@ -33,7 +33,6 @@ export class GenerateReportsService {
     new Promise<any>((resolve, reject) => {
       this.listPatientReports(labId).then(async res => {
         const {data, success} = res?.getPatientReports;
-        console.log({success});
         if (success) {
           try {
             const getPageBranding =
@@ -48,7 +47,10 @@ export class GenerateReportsService {
             if (getPageBranding.findByFieldsPageBranding.success)
               resolve({
                 patientReport: data,
-                pageBranding: getPageBranding.findByFieldsPageBranding?.data,
+                pageBranding:
+                  getPageBranding.findByFieldsPageBranding?.data.length > 0
+                    ? getPageBranding.findByFieldsPageBranding?.data[0]
+                    : {},
               });
             else reject({message: 'Not found page branding'});
           } catch (error) {

@@ -1,15 +1,6 @@
-import React, {useState} from 'react';
-import {
-  Page,
-  Text,
-  View,
-  Image,
-  Document,
-  StyleSheet,
-  Font,
-} from '@react-pdf/renderer';
-
+import React from 'react';
 import dayjs from 'dayjs';
+import _ from 'lodash';
 import {
   PdfHeading,
   PdfRegular,
@@ -25,7 +16,6 @@ import {
   PdfTable,
 } from '@components';
 import {observer} from 'mobx-react';
-
 import {PdfTemp0001} from '@/features/report-builder/report-settings/components';
 
 interface PdfPatientReportProps {
@@ -34,8 +24,6 @@ interface PdfPatientReportProps {
 
 export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
   const {pageBranding, patientReports} = data;
-  console.log({pageBranding});
-
   const fields = [
     {
       title: 'Test Name',
@@ -54,6 +42,7 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
       width: '20',
     },
   ];
+
   return (
     <PdfTemp0001
       data={pageBranding}
@@ -110,7 +99,9 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
           <PdfTable
             headerFixed
             fields={fields}
-            data={patientReports?.patientResultList}
+            data={_.map(patientReports?.patientResultList, o =>
+              _.pick(o, ['testName', 'result', 'units', 'bioRefInterval']),
+            )}
           />
         </>
       }

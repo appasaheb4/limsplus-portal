@@ -25,7 +25,7 @@ export class GenerateReportsStore {
   }
 
   updatePatientReports(res: any) {
-    this.patientReports = res.getPatientReports?.data;
+    this.patientReports = res;
   }
 
   updatePageBranding(res: any) {

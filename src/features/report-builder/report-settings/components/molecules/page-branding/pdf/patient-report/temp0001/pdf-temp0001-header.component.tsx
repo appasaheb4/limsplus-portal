@@ -12,6 +12,7 @@ import {
   PdfTable,
   PdfImage,
 } from '@components';
+import {decompressString} from '@/library/utils';
 
 interface PdfTemp0001HeaderProps {
   data: any;
@@ -53,7 +54,7 @@ export const PdfTemp0001Header = ({data}: PdfTemp0001HeaderProps) => {
       fixed
     >
       <PdfImage
-        src={data.header?.logoUrl}
+        src={decompressString(data.header?.logoUrl || '')}
         style={{
           width: 50,
           height: 50,

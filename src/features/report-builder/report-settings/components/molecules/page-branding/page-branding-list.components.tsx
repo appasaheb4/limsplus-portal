@@ -10,7 +10,7 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {resizeFile} from '@/library/utils';
+import {resizeFile, compressString} from '@/library/utils';
 interface PageBrandingProps {
   data: any;
   totalSize: number;
@@ -175,7 +175,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                             header: {
                               ...row.header,
                               logo,
-                              logoUrl: await resizeFile(logo),
+                              logoUrl: compressString(await resizeFile(logo)),
                             },
                           },
                           row._id,

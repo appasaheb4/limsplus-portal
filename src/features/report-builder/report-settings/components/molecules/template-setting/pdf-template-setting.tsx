@@ -9,7 +9,7 @@ import {
   Image,
   View,
 } from '@react-pdf/renderer';
-import axios from 'axios';
+import {decompressString} from '@/library/utils';
 
 Font.register({
   family: 'arimaRegular',
@@ -55,7 +55,6 @@ export const PdfTemplateSetting = ({
       boxCSS.current = styles.page;
     }
   }
-  console.log({backgroundImage});
 
   return (
     <>
@@ -84,7 +83,7 @@ export const PdfTemplateSetting = ({
                       top: 0,
                       objectFit: 'fill',
                     }}
-                    src={backgroundImage}
+                    src={decompressString(backgroundImage || '')}
                   />
                 </View>
               )}
@@ -119,7 +118,7 @@ export const PdfTemplateSetting = ({
                         top: 0,
                         objectFit: 'fill',
                       }}
-                      src={backgroundImage}
+                      src={decompressString(backgroundImage || '')}
                     />
                   </View>
                 )}

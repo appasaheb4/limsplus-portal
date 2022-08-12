@@ -10,7 +10,7 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {resizeFile} from '@/library/utils';
+import {resizeFile, compressString} from '@/library/utils';
 
 interface TemplateSettingsProps {
   data: any;
@@ -143,12 +143,14 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                         props.onUpdateItem(
                           {
                             backgroundImage,
-                            backgroundImageBase64: await resizeFile(
-                              backgroundImage,
-                              300,
-                              300,
-                              100,
-                              0,
+                            backgroundImageBase64: compressString(
+                              await resizeFile(
+                                backgroundImage,
+                                300,
+                                300,
+                                100,
+                                0,
+                              ),
                             ),
                           },
                           row._id,

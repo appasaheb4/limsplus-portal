@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
+
 import {
   Toast,
   Buttons,
@@ -18,7 +19,7 @@ import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
-import {resizeFile} from '@/library/utils';
+import {resizeFile, compressString} from '@/library/utils';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
@@ -232,12 +233,8 @@ export const TemplateSettings = observer(() => {
                         reportSettingStore.updateTemplateSettings({
                           ...reportSettingStore.templateSettings,
                           backgroundImage,
-                          backgroundImageBase64: await resizeFile(
-                            backgroundImage,
-                            300,
-                            300,
-                            100,
-                            0,
+                          backgroundImageBase64: compressString(
+                            await resizeFile(backgroundImage, 300, 300, 100, 0),
                           ),
                         });
                       }}

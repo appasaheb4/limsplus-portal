@@ -129,7 +129,7 @@ const GenerateReport = observer(() => {
         <PdfPatientReport
           data={{
             patientReports: generateReportsStore.patientReports,
-            pageBranding: generateReportsStore.patientReports,
+            pageBranding: generateReportsStore.pageBranding,
           }}
         />
       )}
