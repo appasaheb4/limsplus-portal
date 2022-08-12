@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
-import {resizeFile} from '@/library/utils';
+import {resizeFile, compressString} from '@/library/utils';
 
 export const PageBrandingHeader = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -81,7 +81,7 @@ export const PageBrandingHeader = observer(() => {
                 header: {
                   ...reportSettingStore.pageBranding?.header,
                   logo,
-                  logoUrl: await resizeFile(logo),
+                  logoUrl: compressString(await resizeFile(logo)),
                 },
               });
             }}
