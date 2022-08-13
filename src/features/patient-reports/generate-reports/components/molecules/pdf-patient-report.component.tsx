@@ -60,7 +60,7 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
           {/* Patient Details */}
           <PdfBorderView mv={10} fixed>
             <PdfView mh={0} p={0} flexDirection='row'>
-              <PdfGrid cols={3}>
+              <PdfGrid cols={3} bg='transparent'>
                 <PdfSmall fontSize={11}>{`Name: ${
                   patientReports?.title || ''
                 } ${patientReports?.firstName || ''} ${
@@ -74,11 +74,11 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
                   patientReports?.ageUnits || ''
                 }`}</PdfSmall>
               </PdfGrid>
-              <PdfGrid cols={3}>
+              <PdfGrid cols={3} bg='transparent'>
                 <PdfSmall>{`Ref By: ${patientReports?.refBy || ''}`}</PdfSmall>
                 <PdfSmall>{`Gender: ${patientReports?.sex || ''}`}</PdfSmall>
               </PdfGrid>
-              <PdfGrid cols={3}>
+              <PdfGrid cols={3} bg='transparent'>
                 <PdfSmall>{`Collected: ${dayjs(
                   patientReports?.collectionDate,
                 ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>
@@ -97,6 +97,7 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
 
           {/* Table */}
           <PdfTable
+            headerStyle={{backgroundColor: 'transparent'}}
             headerFixed
             fields={fields}
             data={_.map(patientReports?.patientResultList, o =>

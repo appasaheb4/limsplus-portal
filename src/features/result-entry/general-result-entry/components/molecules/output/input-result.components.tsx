@@ -55,7 +55,6 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               });
             }
           });
-
         break;
       }
       case 'L':

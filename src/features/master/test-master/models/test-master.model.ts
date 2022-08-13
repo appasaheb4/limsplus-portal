@@ -10,6 +10,8 @@ export class TestMaster {
   rLab: string;
   pLab: string;
   department: string;
+  departmentName: string;
+  departmentReportOrder: number;
   section: Record<string, any>;
   testCode: string;
   testName: string;
@@ -75,6 +77,8 @@ export class TestMaster {
     this.rLab = rawData.rLab;
     this.pLab = rawData.pLab;
     this.department = rawData.department;
+    this.departmentName = rawData.departmentName;
+    this.departmentReportOrder = rawData.departmentReportOrder;
     this.section = rawData.section;
     this.testCode = rawData.testCode;
     this.testName = rawData.testName;

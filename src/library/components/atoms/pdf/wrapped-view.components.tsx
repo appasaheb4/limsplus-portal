@@ -143,7 +143,7 @@ export const PdfFooterView = ({
 
 interface GridProps {
   cols?: number;
-  bg?: string;
+  bg?: 'transparent' | string;
   style?: Style | Style[];
   children?: React.ReactNode;
 }
