@@ -41,6 +41,7 @@ export const PdfTemp0001Footer = ({data}: PdfTemp0001FooterProps) => {
       subTitleCSS.current = {};
     }
   }
+
   return (
     <PdfFooterView fixed style={{...mainBoxCSS.current}}>
       <PdfSmall style={{textAlign: 'center', ...titleCSS.current}}>

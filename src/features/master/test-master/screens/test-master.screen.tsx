@@ -348,7 +348,9 @@ const TestMater = TestMasterHOC(
                           onChange(item.name);
                           testMasterStore.updateTestMaster({
                             ...testMasterStore.testMaster,
-                            department: item.code,
+                            department: item?.code,
+                            departmentName: item?.name,
+                            departmentReportOrder: item?.reportOrder,
                           });
                           departmentStore.updateDepartmentList(
                             departmentStore.listDepartmentCopy,

@@ -88,8 +88,10 @@ const GenerateReport = observer(() => {
               generateReportsStore.generateReportsService
                 .getPatientReportAndPageBrandingFromLabId(item.labId)
                 .then(res => {
-                  generateReportsStore.updatePatientReports(res?.patientReport);
-                  generateReportsStore.updatePageBranding(res?.pageBranding);
+                  console.log({res});
+
+                  // generateReportsStore.updatePatientReports(res?.patientReport);
+                  // generateReportsStore.updatePageBranding(res?.pageBranding);
                 })
                 .catch(errors => {
                   return Toast.error({

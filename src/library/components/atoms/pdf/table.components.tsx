@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 
 interface PdfTableProps {
   style?: Style;
+  headerStyle?: Style;
   headerFixed?: boolean;
   fields: Array<any>;
   data: Array<any>;
@@ -48,9 +49,13 @@ export const PdfTable = ({
   fields,
   data,
   style,
+  headerStyle,
 }: PdfTableProps) => (
   <View style={[styles.table, {...style}]}>
-    <View style={[styles.tableRow, styles.headerBg]} fixed={headerFixed}>
+    <View
+      style={[styles.tableRow, styles.headerBg, {...headerStyle}]}
+      fixed={headerFixed}
+    >
       {fields.map((item, index) => (
         <View key={index} style={[{width: item.width + '%'}]}>
           <Text style={[styles.tableCellHeader]}>{item?.title}</Text>
