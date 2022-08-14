@@ -17,7 +17,6 @@ export class PatientReport {
   reportTemplate: string;
   sex: string;
   title: string;
-
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
     this.acStatus = rawData.acStatus;
