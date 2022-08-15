@@ -13,10 +13,10 @@ import {
   PdfFooterView,
   PdfGrid,
   PdfSmall,
-  PdfTable,
 } from '@components';
 import {observer} from 'mobx-react';
 import {PdfTemp0001} from '@/features/report-builder/report-settings/components';
+import {PdfPatientResultList} from './pdf-patient-result-list.component';
 
 interface PdfPatientReportProps {
   data: any;
@@ -24,24 +24,6 @@ interface PdfPatientReportProps {
 
 export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
   const {pageBranding, patientReports} = data;
-  const fields = [
-    {
-      title: 'Test Name',
-      width: '40',
-    },
-    {
-      title: 'Results',
-      width: '20',
-    },
-    {
-      title: 'Units',
-      width: '20',
-    },
-    {
-      title: 'Bio. Ref. Interval',
-      width: '20',
-    },
-  ];
 
   return (
     <PdfTemp0001
@@ -96,13 +78,10 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
           </PdfBorderView>
 
           {/* Table */}
-          <PdfTable
+          <PdfPatientResultList
             headerStyle={{backgroundColor: 'transparent'}}
             headerFixed
-            fields={fields}
-            data={_.map(patientReports?.patientResultList, o =>
-              _.pick(o, ['testName', 'result', 'units', 'bioRefInterval']),
-            )}
+            data={patientReports?.patientResultList}
           />
         </>
       }
