@@ -193,8 +193,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                   department = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,

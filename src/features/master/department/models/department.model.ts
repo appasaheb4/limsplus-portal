@@ -5,6 +5,7 @@ export class Department {
   name: string;
   shortName: string;
   hod: string;
+  hodUserId: string;
   reportOrder: number;
   mobileNo: string;
   contactNo: string;
@@ -28,6 +29,7 @@ export class Department {
     this.name = rawData.name;
     this.shortName = rawData.shortName;
     this.hod = rawData.hod;
+    this.hodUserId = rawData.hodUserId;
     this.reportOrder = rawData.reportOrder;
     this.contactNo = rawData.contactNo;
     this.mobileNo = rawData.mobileNo;
