@@ -343,6 +343,7 @@ export const Department = DeginisationHoc(
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
                             hod: item.fullName.toUpperCase(),
+                            hodUserId: item?.userId,
                           });
 
                           userStore.updateUserList(userStore.userListCopy);

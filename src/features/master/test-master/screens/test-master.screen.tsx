@@ -353,7 +353,7 @@ const TestMater = TestMasterHOC(
                             department: item?.code,
                             departmentName: item?.name,
                             departmentReportOrder: item?.reportOrder,
-                            departmentHOD: item?.hod,
+                            departmentHOD: item?.hodUserId,
                           });
                           departmentStore.updateDepartmentList(
                             departmentStore.listDepartmentCopy,
