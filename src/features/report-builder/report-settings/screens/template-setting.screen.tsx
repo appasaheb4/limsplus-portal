@@ -438,7 +438,7 @@ export const TemplateSettings = observer(() => {
               type: 'update',
               data: {fields, id},
               title: 'Are you sure?',
-              body: 'Update banner!',
+              body: 'Update items!',
             });
           }}
           onPageSizeChange={(page, limit) => {

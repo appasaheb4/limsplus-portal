@@ -68,7 +68,7 @@ const DeliveryQueue = observer(() => {
               type: 'update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: 'Update banner!',
+              body: 'Update items!',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -113,7 +113,7 @@ const DeliveryQueue = observer(() => {
               type: 'update',
               data: {value, dataField, id},
               title: 'Are you sure?',
-              body: 'Update banner!',
+              body: 'Update items!',
             });
           }}
           onPageSizeChange={(page, limit) => {
