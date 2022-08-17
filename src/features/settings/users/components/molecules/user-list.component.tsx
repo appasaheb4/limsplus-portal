@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {
+  lookupItems,
+  lookupValue,
+  resizeFile,
+  compressString,
+} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {FormHelper} from '@/helper';
 import {
@@ -20,9 +25,7 @@ import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterMutiSelectRoles,
   AutoCompleteFilterSingleSelectDegnisation,
-  AutoCompleteFilterMutiSelectDepartment,
   AutoCompleteReportingTo,
-  AutoCompleteDefaultDepartment,
   ModalDefaultLabDeptUpdate,
   ModalDefaultLabDeptUpdateProps,
 } from '..';
@@ -64,6 +67,7 @@ interface UserListProps {
   onDelete?: (selectedUser: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateFields?: (fields: any, id: string) => void;
   onUpdateImage?: (value: any, dataField: string, id: string) => void;
   onChangePassword?: (id: string, userId: string, email: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
@@ -632,12 +636,16 @@ export const UserList = (props: UserListProps) => {
                 <>
                   <Form.InputFile
                     placeholder='File'
-                    onChange={e => {
+                    onChange={async e => {
                       const signature = e.target.files[0];
-                      props.onUpdateImage &&
-                        props.onUpdateImage(
-                          signature,
-                          column.dataField,
+                      props.onUpdateFields &&
+                        props.onUpdateFields(
+                          {
+                            signature,
+                            signatureBase64: compressString(
+                              await resizeFile(signature, 200, 200, 100, 0),
+                            ),
+                          },
                           row._id,
                         );
                     }}

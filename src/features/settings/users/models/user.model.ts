@@ -22,6 +22,7 @@ export class Users {
   contactNo: string;
   email: string;
   signature: any;
+  signatureBase64: string;
   picture: any;
   validationLevel: number;
   dateOfBirth: Date;
@@ -69,6 +70,7 @@ export class Users {
     this.contactNo = rawData.contactNo;
     this.email = rawData.email;
     this.signature = rawData.signature;
+    this.signatureBase64 = rawData.signatureBase64;
     this.picture = rawData.picture;
     this.validationLevel = rawData.validationLevel;
     this.dateOfBirth = rawData.dateOfBirth;

@@ -16,7 +16,12 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {
+  lookupItems,
+  lookupValue,
+  resizeFile,
+  compressString,
+} from '@/library/utils';
 import {UserList} from '../components';
 import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';
@@ -128,6 +133,15 @@ export const Users = UsersHoc(
               data: {value, dataField, id},
               title: 'Are you sure?',
               body: 'Update user!',
+            });
+          }}
+          onUpdateFields={(fields: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              data: {fields, id},
+              title: 'Are you sure?',
+              body: 'Update items!',
             });
           }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -960,12 +974,15 @@ export const Users = UsersHoc(
                     <Form.InputFile
                       label='Signature'
                       placeholder='File'
-                      onChange={e => {
+                      onChange={async e => {
                         const signature = e.target.files[0];
                         onChange(signature);
                         userStore.updateUser({
                           ...userStore.user,
                           signature,
+                          signatureBase64: compressString(
+                            await resizeFile(signature, 200, 200, 100, 0),
+                          ),
                         });
                       }}
                     />
@@ -1466,6 +1483,25 @@ export const Users = UsersHoc(
                         userStore.loadUser();
                       }
                     });
+                  break;
+                }
+                case 'updateFields': {
+                  userStore.UsersService.updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fields,
+                      _id: modalConfirm.data.id,
+                    },
+                  }).then((res: any) => {
+                    setModalConfirm({show: false});
+                    if (res.updateUser.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateUser.message}`,
+                      });
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 2000);
+                    }
+                  });
 
                   break;
                 }
