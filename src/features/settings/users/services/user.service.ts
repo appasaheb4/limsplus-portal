@@ -25,6 +25,7 @@ import {
   FILTER,
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
+  GET_USER_BY_MATCH_USER_ID,
 } from '@/lp-core-service/settings/users';
 
 export class UserService {
@@ -296,6 +297,21 @@ export class UserService {
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getUserByMatchUserId = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: GET_USER_BY_MATCH_USER_ID,
           variables,
         })
         .then((response: any) => {

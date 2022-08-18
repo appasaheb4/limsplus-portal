@@ -19,21 +19,32 @@ export const AutoCompleteAuthorizedSignatory = observer(
     const {loading, departmentStore, userStore} = useStores();
 
     useEffect(() => {
-      if (selectedItems?.length > 0) {
-        const itemSelected: Array<any> = [];
-        selectedItems.filter(e => {
-          itemSelected.push(userStore.userList.find(item => item.userId === e));
-        });
-        departmentStore.updateSelectedItems({
-          ...departmentStore.selectedItems,
-          authorizedSignatory: itemSelected.map(item => ({
-            ...item,
-            selected: true,
-          })),
-        });
-      }
+      (async () => {
+        if (selectedItems?.length > 0) {
+          const itemSelected: Array<any> = [];
+          await userStore.UsersService.getUserByMatchUserId({
+            input: {filter: {userId: selectedItems}},
+          }).then(res => {
+            if (res.getUserByMatchUserId?.success) {
+              res.getUserByMatchUserId?.data.filter(item => {
+                itemSelected.push(item);
+              });
+            } else {
+              alert(res.getUserByMatchUserId?.message);
+            }
+          });
+          departmentStore.updateSelectedItems({
+            ...departmentStore.selectedItems,
+            authorizedSignatory: itemSelected.map(item => ({
+              ...item,
+              selected: true,
+            })),
+          });
+        }
+      })();
+      return () => {};
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedItems]);
+    }, [selectedItems, userStore.userList]);
 
     return (
       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
