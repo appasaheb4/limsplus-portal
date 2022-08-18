@@ -54,12 +54,14 @@ export const PdfBorderView = ({
   borderColor = 'gray',
   bw = 2,
   style,
+  flexDirection = 'column',
   fixed = false,
   children,
 }: PdfViewProps) => {
   return (
     <View
       style={{
+        flexDirection: flexDirection,
         marginHorizontal: mh,
         marginVertical: mv,
         padding: p,

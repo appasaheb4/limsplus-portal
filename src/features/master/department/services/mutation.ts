@@ -15,7 +15,7 @@ export const LIST = gql`
         name
         shortName
         hod
-        hodUserId
+        authorizedSignatory
         reportOrder
         mobileNo
         contactNo
@@ -87,7 +87,7 @@ export const FILTER = gql`
         name
         shortName
         hod
-        hodUserId
+        authorizedSignatory
         reportOrder
         mobileNo
         contactNo
@@ -123,7 +123,7 @@ export const FILTER_BY_FIELDS = gql`
         name
         shortName
         hod
-        hodUserId
+        authorizedSignatory
         reportOrder
         mobileNo
         contactNo
@@ -159,7 +159,7 @@ export const FIND_BY_FIELDS = gql`
         name
         shortName
         hod
-        hodUserId
+        authorizedSignatory
         reportOrder
         mobileNo
         contactNo

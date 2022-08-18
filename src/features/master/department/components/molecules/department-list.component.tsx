@@ -11,6 +11,7 @@ import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectHod,
+  AutoCompleteAuthorizedSignatory,
 } from '../index';
 import {useForm, Controller} from 'react-hook-form';
 import {FormHelper} from '@/helper';
@@ -168,6 +169,41 @@ export const DepartmentList = (props: DepartmentListProps) => {
                         column.dataField,
                         row._id,
                       );
+                  }}
+                />
+              </>
+            ),
+          },
+          {
+            dataField: 'authorizedSignatory',
+            text: 'Authorized Signatory',
+            headerClasses: 'textHeader4',
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {row?.authorizedSignatory?.map(item => (
+                    <h4>{item}</h4>
+                  ))}
+                </>
+              );
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteAuthorizedSignatory
+                  selectedItems={row?.authorizedSignatory}
+                  onSelect={item => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(item, column.dataField, row._id);
                   }}
                 />
               </>
