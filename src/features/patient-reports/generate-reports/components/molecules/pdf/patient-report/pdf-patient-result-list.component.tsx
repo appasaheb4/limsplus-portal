@@ -190,7 +190,9 @@ export const PdfPatientResultList = ({
                   borderColor='#000'
                 >
                   <PdfSmall style={{marginLeft: 10}}>
-                    {panelItem?.panelHeader?.panelDescription}
+                    {panelItem?.panelHeader?.panelDescription}{' '}
+                  </PdfSmall>
+                  <PdfSmall style={{marginLeft: 10}}>
                     {panelItem?.panelHeader?.panelMethodDescription &&
                     panelItem?.panelHeader?.panelMethodFlag
                       ? panelItem?.panelHeader?.panelMethodDescription
@@ -211,7 +213,9 @@ export const PdfPatientResultList = ({
                       borderColor='#000'
                     >
                       <PdfSmall style={{marginLeft: 10}}>
-                        {testItem?.testHeader?.testDescription}
+                        {testItem?.testHeader?.testDescription}{' '}
+                      </PdfSmall>
+                      <PdfSmall style={{marginLeft: 10}}>
                         {testItem?.testHeader?.testMethodDescription &&
                         testItem?.testHeader?.testMethodFlag
                           ? testItem?.testHeader?.testMethodDescription
@@ -236,10 +240,14 @@ export const PdfPatientResultList = ({
                             borderColor='#000'
                           >
                             {typeof _item[1] == 'object' ? (
-                              <PdfSmall style={{textAlign: 'center'}}>
-                                {_item[1]?.analyteDescription}
-                                {_item[1]?.analyteMethodDescription}
-                              </PdfSmall>
+                              <>
+                                <PdfSmall style={{textAlign: 'center'}}>
+                                  {_item[1]?.analyteDescription}
+                                </PdfSmall>
+                                <PdfSmall style={{textAlign: 'center'}}>
+                                  {_item[1]?.analyteMethodDescription}
+                                </PdfSmall>
+                              </>
                             ) : (
                               <PdfSmall style={{textAlign: 'center'}}>
                                 {_item[1] || ''}
@@ -291,7 +299,7 @@ export const PdfPatientResultList = ({
             ))}
 
             {/* Department Footer */}
-            {deptItem?.departmentFooter?.signature && (
+            {deptItem?.departmentFooter?.signature?.length > 0 && (
               <PdfBorderView
                 style={{
                   width: '100%',
@@ -300,12 +308,20 @@ export const PdfPatientResultList = ({
                 mv={0}
                 p={0}
                 bw={1}
+                flexDirection='row'
                 borderColor='#000'
               >
-                <PdfImage
-                  src={decompressString(deptItem?.departmentFooter?.signature)}
-                  style={{width: 150, height: 100, marginLeft: 10, padding: 5}}
-                />
+                {deptItem?.departmentFooter?.signature?.map(signItem => (
+                  <PdfImage
+                    src={decompressString(signItem)}
+                    style={{
+                      width: 150,
+                      height: 100,
+                      marginLeft: 10,
+                      padding: 5,
+                    }}
+                  />
+                ))}
               </PdfBorderView>
             )}
           </PdfView>

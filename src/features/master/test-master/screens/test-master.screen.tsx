@@ -345,15 +345,13 @@ const TestMater = TestMasterHOC(
                         lab={testMasterStore.testMaster?.pLab}
                         hasError={!!errors.department}
                         onSelect={item => {
-                          console.log({item});
-
                           onChange(item.name);
                           testMasterStore.updateTestMaster({
                             ...testMasterStore.testMaster,
                             department: item?.code,
                             departmentName: item?.name,
                             departmentReportOrder: item?.reportOrder,
-                            departmentHOD: item?.hodUserId,
+                            departmentHOD: item?.authorizedSignatory,
                           });
                           departmentStore.updateDepartmentList(
                             departmentStore.listDepartmentCopy,

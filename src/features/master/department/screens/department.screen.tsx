@@ -13,8 +13,9 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {DepartmentList} from '../components';
+import {DepartmentList, AutoCompleteAuthorizedSignatory} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {DeginisationHoc} from '../hoc';
@@ -343,9 +344,17 @@ export const Department = DeginisationHoc(
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
                             hod: item.fullName.toUpperCase(),
-                            hodUserId: item?.userId,
                           });
-
+                          if (
+                            !departmentStore.selectedItems
+                              ?.authorizedSignatory ||
+                            departmentStore.selectedItems?.authorizedSignatory
+                              ?.length === 0
+                          )
+                            departmentStore.updateSelectedItems({
+                              ...departmentStore.selectedItems,
+                              authorizedSignatory: [item],
+                            });
                           userStore.updateUserList(userStore.userListCopy);
                         }}
                       />
@@ -355,6 +364,32 @@ export const Department = DeginisationHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Authorized Signatory'
+                      hasError={!!errors.authorizedSignatory}
+                    >
+                      <AutoCompleteAuthorizedSignatory
+                        hasError={!!errors.authorizedSignatory}
+                        onSelect={authorizedSignatory => {
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
+                            authorizedSignatory,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='authorizedSignatory'
+                  rules={{required: false}}
+                  defaultValue={
+                    departmentStore.selectedItems.authorizedSignatory
+                  }
+                />
+
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
