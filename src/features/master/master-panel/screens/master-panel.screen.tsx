@@ -57,7 +57,7 @@ const MasterPanel = MasterPanelHoc(
     setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
     const onSubmitMasterPanel = () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (
@@ -783,6 +783,32 @@ const MasterPanel = MasterPanelHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Report Order'
+                      type='number'
+                      placeholder={
+                        errors.reportOrder
+                          ? 'Please Enter ReportOrder'
+                          : 'Report Order'
+                      }
+                      hasError={!!errors.reportOrder}
+                      value={masterPanelStore.masterPanel?.reportOrder}
+                      onChange={reportOrder => {
+                        onChange(reportOrder);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          reportOrder: Number.parseInt(reportOrder),
+                        });
+                      }}
+                    />
+                  )}
+                  name='reportOrder'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
 
                 <Grid cols={5}>
                   <Controller
@@ -893,32 +919,6 @@ const MasterPanel = MasterPanelHoc(
               </List>
 
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Report Order'
-                      type='number'
-                      placeholder={
-                        errors.reportOrder
-                          ? 'Please Enter ReportOrder'
-                          : 'Report Order'
-                      }
-                      hasError={!!errors.reportOrder}
-                      value={masterPanelStore.masterPanel?.reportOrder}
-                      onChange={reportOrder => {
-                        onChange(reportOrder);
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          reportOrder: Number.parseInt(reportOrder),
-                        });
-                      }}
-                    />
-                  )}
-                  name='reportOrder'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -1301,6 +1301,130 @@ const MasterPanel = MasterPanelHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Internal Comments'
+                      placeholder='Internal Comments'
+                      hasError={!!errors.internalComments}
+                      value={masterPanelStore.masterPanel?.internalComments}
+                      onChange={internalComments => {
+                        onChange(internalComments);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          internalComments,
+                        });
+                      }}
+                    />
+                  )}
+                  name='internalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='External Comments'
+                      placeholder='External Comments'
+                      hasError={!!errors.externalComments}
+                      value={masterPanelStore.masterPanel?.externalComments}
+                      onChange={externalComments => {
+                        onChange(externalComments);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          externalComments,
+                        });
+                      }}
+                    />
+                  )}
+                  name='externalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Panel Bottom Marker'
+                      hasError={!!errors.panelBottomMarker}
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code or details'
+                        data={{
+                          list: libraryStore.listLibrary,
+                          displayKey: ['code', 'details'],
+                        }}
+                        hasError={!!errors.panelBottomMarker}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['code', 'details'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.details);
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            panelBottomMarker: {
+                              code: item?.code,
+                              details: item?.details,
+                            },
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='panelBottomMarker'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Panel Right Marker'
+                      placeholder='Panel Right Marker'
+                      hasError={!!errors.panelRightMarker}
+                      value={masterPanelStore.masterPanel?.panelRightMarker}
+                      onChange={panelRightMarker => {
+                        onChange(panelRightMarker);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          panelRightMarker,
+                        });
+                      }}
+                    />
+                  )}
+                  name='panelRightMarker'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
                 <Grid cols={5}>
                   <Controller
                     control={control}

@@ -52,6 +52,10 @@ export class MasterPanel {
   sampleType: string;
   specalInstructions: string;
   interpretation: string;
+  internalComments: string;
+  externalComments: string;
+  panelBottomMarker: object;
+  panelRightMarker: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -110,6 +114,10 @@ export class MasterPanel {
     this.reportTemplate = rawData.reportTemplate;
     this.sampleType = rawData.sampleType;
     this.specalInstructions = rawData.specalInstructions;
+    this.internalComments = rawData.internalComments;
+    this.externalComments = rawData.externalComments;
+    this.panelBottomMarker = rawData.panelBottomMarker;
+    this.panelRightMarker = rawData.panelRightMarker;
     this.status = rawData.status;
     this.serviceType = rawData.serviceType;
     this.interpretation = rawData.interpretation;

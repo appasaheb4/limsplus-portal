@@ -54,6 +54,10 @@ let workflow;
 let reportTemplate;
 let sampleType;
 let specalInstructions;
+let internalComments;
+let externalComments;
+let panelBottomMarker;
+let panelRightMarker;
 let status;
 let environment;
 let dateCreation;
@@ -1344,7 +1348,91 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 textTransform: 'uppercase',
               },
             },
+            {
+              dataField: 'interpretation',
+              text: 'Interpretation',
+              headerClasses: 'textHeader5',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  interpretation = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteInterpretation
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'internalComments',
+              text: 'Internal Comments',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  internalComments = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'externalComments',
+              text: 'External Comments',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  externalComments = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'panelBottomMarker',
+              text: 'Panel Bottom Marker',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
 
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              formatter: (cell, row) => {
+                return <span>{row?.panelBottomMarker?.details}</span>;
+              },
+            },
+            {
+              dataField: 'panelRightMarker',
+              text: 'Panel Right Marker',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  panelRightMarker = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
             {
               dataField: 'status',
               text: 'Status',
@@ -1548,37 +1636,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
             },
-            {
-              dataField: 'interpretation',
-              text: 'Interpretation',
-              headerClasses: 'textHeader5',
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  interpretation = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteInterpretation
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(item, column.dataField, row._id);
-                    }}
-                  />
-                </>
-              ),
-            },
+
             {
               dataField: 'environment',
               text: 'Environment',
@@ -1737,11 +1795,14 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             serviceType('');
             panelType('');
             labelInstruction('');
-
             workflow('');
             reportTemplate('');
             interpretation('');
             specalInstructions('');
+            internalComments('');
+            externalComments('');
+            panelBottomMarker('');
+            panelRightMarker('');
             status('');
             environment('');
           }}
