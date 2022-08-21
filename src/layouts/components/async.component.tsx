@@ -28,11 +28,3 @@ export default function asyncComponent(importComponent) {
   }
   return AsyncComponent;
 }
-
-// const asyncComponent = (Component: any) => {
-//   return (props: any): JSX.Element => {
-//     return Component ? <Component {...props} /> : <Loader />;
-//   };
-// };
-
-// export default asyncComponent;
