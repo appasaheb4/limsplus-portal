@@ -247,7 +247,6 @@ const Dashboard = observer(({children}) => {
 
   const router = async () => {
     let router: any = toJS(loginStore.login);
-    // console.log({router});
     if (router?.userId) {
       if (router && !stores.routerStore.userRouter) {
         router = JSON.parse(router.roleMapping.router[0]);
@@ -259,6 +258,7 @@ const Dashboard = observer(({children}) => {
       });
     }
   };
+
   const permission = async () => {
     let selectedCategory: any = await Storage.getItem(
       `__persist_mobx_stores_routerStore_SelectedCategory__`,

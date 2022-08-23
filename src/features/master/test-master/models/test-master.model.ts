@@ -58,6 +58,10 @@ export class TestMaster {
   collectionContainer: string;
   interpretation: string;
   testResultDate: Date;
+  internalComments: string;
+  externalComments: string;
+  testBottomMarker: object;
+  testRightMarker: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -129,6 +133,10 @@ export class TestMaster {
     this.collectionContainer = rawData.collectionContainer;
     this.interpretation = rawData.interpretation;
     this.testResultDate = rawData.testResultDate;
+    this.internalComments = rawData.internalComments;
+    this.externalComments = rawData.externalComments;
+    this.testBottomMarker = rawData.testBottomMarker;
+    this.testRightMarker = rawData.testRightMarker;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

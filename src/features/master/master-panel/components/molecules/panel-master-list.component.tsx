@@ -19,6 +19,7 @@ import {
   AutoCompleteFilterSingleSelectPanelMethod,
   AutoCompleteInterpretation,
   AutoCompleteFilterSingleSelectReportTemplate,
+  AutoCompletePanelBottomMarker,
 } from '../index';
 import {FormHelper} from '@/helper';
 
@@ -1412,12 +1413,28 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               text: 'Panel Bottom Marker',
               sort: true,
               csvFormatter: col => (col ? col : ''),
-
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               formatter: (cell, row) => {
                 return <span>{row?.panelBottomMarker?.details}</span>;
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompletePanelBottomMarker
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'panelRightMarker',
@@ -1695,7 +1712,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete' position='top'>
+                    <Tooltip tooltipText='Delete' position='bottom'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
@@ -1715,7 +1732,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     </Tooltip>
                     {row.status !== 'I' && (
                       <>
-                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
+                        <Tooltip
+                          className='ml-2'
+                          tooltipText='Version Upgrade'
+                          position='bottom'
+                        >
                           <Icons.IconContext
                             color='#fff'
                             size='20'
@@ -1727,7 +1748,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip className='ml-2' tooltipText='Duplicate'>
+                        <Tooltip
+                          className='ml-2'
+                          tooltipText='Duplicate'
+                          position='bottom'
+                        >
                           <Icons.IconContext
                             color='#fff'
                             size='20'

@@ -51,7 +51,7 @@ const TestMater = TestMasterHOC(
     setValue('environment', testMasterStore.testMaster?.environment);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const onSubmitTestMaster = () => {
       if (!testMasterStore.checkExitsLabEnvCode) {
         if (
@@ -216,14 +216,14 @@ const TestMater = TestMasterHOC(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -775,7 +775,83 @@ const TestMater = TestMasterHOC(
                 rules={{ required: false }}
                 defaultValue=""
               /> */}
-
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Sample Run On'
+                      hasError={!!errors.sampleRunOn}
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.sampleRunOn
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const sampleRunOn = e.target.value as
+                            | 'LABID'
+                            | 'SAMPLEID';
+                          onChange(sampleRunOn);
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            sampleRunOn,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {['LABID', 'SAMPLEID'].map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {item}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='sampleRunOn'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Workflow'
+                      hasError={!!errors.workflow}
+                    >
+                      <select
+                        value={testMasterStore.testMaster?.workflow}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.workflow
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const workflow = e.target.value as string;
+                          onChange(workflow);
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            workflow,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'WORKFLOW').map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='workflow'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
                 <Grid cols={5}>
                   <Controller
                     control={control}
@@ -918,83 +994,7 @@ const TestMater = TestMasterHOC(
                   })
                 }}
               /> */}
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='Sample Run On'
-                      hasError={!!errors.sampleRunOn}
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sampleRunOn
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const sampleRunOn = e.target.value as
-                            | 'LABID'
-                            | 'SAMPLEID';
-                          onChange(sampleRunOn);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            sampleRunOn,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {['LABID', 'SAMPLEID'].map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='sampleRunOn'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='Workflow'
-                      hasError={!!errors.workflow}
-                    >
-                      <select
-                        value={testMasterStore.testMaster?.workflow}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.workflow
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const workflow = e.target.value as string;
-                          onChange(workflow);
-                          testMasterStore.updateTestMaster({
-                            ...testMasterStore.testMaster,
-                            workflow,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'WORKFLOW').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='workflow'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+
                 {/* <Form.Input
                 label="Sample Type"
                 placeholder="Sample Type"
@@ -1306,6 +1306,129 @@ const TestMater = TestMasterHOC(
                   )}
                   name='sufix'
                   rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Internal Comments'
+                      placeholder='Internal Comments'
+                      hasError={!!errors.internalComments}
+                      value={testMasterStore.testMaster?.internalComments}
+                      onChange={internalComments => {
+                        onChange(internalComments);
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
+                          internalComments,
+                        });
+                      }}
+                    />
+                  )}
+                  name='internalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='External Comments'
+                      placeholder='External Comments'
+                      hasError={!!errors.externalComments}
+                      value={testMasterStore.testMaster?.externalComments}
+                      onChange={externalComments => {
+                        onChange(externalComments);
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
+                          externalComments,
+                        });
+                      }}
+                    />
+                  )}
+                  name='externalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Test Bottom Marker'
+                      hasError={!!errors.panelBottomMarker}
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code or details'
+                        data={{
+                          list: libraryStore.listLibrary,
+                          displayKey: ['code', 'details'],
+                        }}
+                        hasError={!!errors.panelBottomMarker}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['code', 'details'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.details);
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
+                            testBottomMarker: {
+                              code: item?.code,
+                              details: item?.details,
+                            },
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='panelBottomMarker'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Test Right Marker'
+                      placeholder='Panel Right Marker'
+                      hasError={!!errors.panelRightMarker}
+                      value={testMasterStore.testMaster?.testRightMarker}
+                      onChange={testRightMarker => {
+                        onChange(testRightMarker);
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
+                          testRightMarker,
+                        });
+                      }}
+                    />
+                  )}
+                  name='panelRightMarker'
+                  rules={{
+                    required: false,
+                  }}
                   defaultValue=''
                 />
                 <Grid cols={5}>
@@ -1947,7 +2070,7 @@ const TestMater = TestMasterHOC(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateActiveFrom: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsInputView(!isInputView);
                   setValue('rLab', modalConfirm.data.rLab);
                   setValue('pLab', modalConfirm.data.pLab);
                   setValue('department', modalConfirm.data.department);
