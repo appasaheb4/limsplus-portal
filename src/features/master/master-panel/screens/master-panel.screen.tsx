@@ -41,7 +41,6 @@ const MasterPanel = MasterPanelHoc(
       routerStore,
       loading,
       libraryStore,
-      reportSettingStore,
     } = useStores();
     const {
       control,
@@ -57,7 +56,7 @@ const MasterPanel = MasterPanelHoc(
     setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const onSubmitMasterPanel = () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (
@@ -220,14 +219,14 @@ const MasterPanel = MasterPanelHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -2007,7 +2006,7 @@ const MasterPanel = MasterPanelHoc(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateActiveFrom: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsInputView(!isInputView);
                   setValue('rLab', modalConfirm.data.rLab);
                   setValue('pLab', modalConfirm.data.pLab);
                   setValue('panelCode', modalConfirm.data.panelCode);

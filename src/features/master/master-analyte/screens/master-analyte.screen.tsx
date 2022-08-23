@@ -51,7 +51,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     setValue('status', masterAnalyteStore.masterAnalyte?.status);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
     const onSubmitMasterAnalyte = () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {
         if (
@@ -641,106 +641,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Grid cols={5}>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Method'
-                        id='modeMethod'
-                        hasError={!!errors.method}
-                        value={masterAnalyteStore.masterAnalyte?.method}
-                        onChange={method => {
-                          onChange(method);
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            method,
-                            analyteCode: !method
-                              ? ''
-                              : masterAnalyteStore.masterAnalyte?.analyteCode,
-                            analyteName: !method
-                              ? ''
-                              : masterAnalyteStore.masterAnalyte?.analyteName,
-                          });
-                        }}
-                      />
-                    )}
-                    name='method'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Bill'
-                        id='modeBill'
-                        hasError={!!errors.bill}
-                        value={masterAnalyteStore.masterAnalyte?.bill}
-                        onChange={bill => {
-                          onChange(bill);
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            bill,
-                          });
-                        }}
-                      />
-                    )}
-                    name='bill'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Reportable'
-                        id='modeDisplay'
-                        hasError={!!errors.reportable}
-                        value={masterAnalyteStore.masterAnalyte?.reportable}
-                        onChange={reportable => {
-                          onChange(reportable);
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            reportable,
-                          });
-                        }}
-                      />
-                    )}
-                    name='reportable'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Calculation Flag'
-                        id='modeCalculationFlag'
-                        hasError={!!errors.calculationFlag}
-                        value={
-                          masterAnalyteStore.masterAnalyte?.calculationFlag
-                        }
-                        onChange={calculationFlag => {
-                          onChange(calculationFlag);
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            calculationFlag,
-                            calcyName: !calculationFlag
-                              ? ''
-                              : masterAnalyteStore.masterAnalyte?.calcyName,
-                          });
-                        }}
-                      />
-                    )}
-                    name='calculationFlag'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                </Grid>
-              </List>
-
-              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -856,6 +756,106 @@ const MasterAnalyte = MasterAnalyteHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Method'
+                        id='modeMethod'
+                        hasError={!!errors.method}
+                        value={masterAnalyteStore.masterAnalyte?.method}
+                        onChange={method => {
+                          onChange(method);
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            method,
+                            analyteCode: !method
+                              ? ''
+                              : masterAnalyteStore.masterAnalyte?.analyteCode,
+                            analyteName: !method
+                              ? ''
+                              : masterAnalyteStore.masterAnalyte?.analyteName,
+                          });
+                        }}
+                      />
+                    )}
+                    name='method'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Bill'
+                        id='modeBill'
+                        hasError={!!errors.bill}
+                        value={masterAnalyteStore.masterAnalyte?.bill}
+                        onChange={bill => {
+                          onChange(bill);
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            bill,
+                          });
+                        }}
+                      />
+                    )}
+                    name='bill'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Reportable'
+                        id='modeDisplay'
+                        hasError={!!errors.reportable}
+                        value={masterAnalyteStore.masterAnalyte?.reportable}
+                        onChange={reportable => {
+                          onChange(reportable);
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            reportable,
+                          });
+                        }}
+                      />
+                    )}
+                    name='reportable'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Calculation Flag'
+                        id='modeCalculationFlag'
+                        hasError={!!errors.calculationFlag}
+                        value={
+                          masterAnalyteStore.masterAnalyte?.calculationFlag
+                        }
+                        onChange={calculationFlag => {
+                          onChange(calculationFlag);
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            calculationFlag,
+                            calcyName: !calculationFlag
+                              ? ''
+                              : masterAnalyteStore.masterAnalyte?.calcyName,
+                          });
+                        }}
+                      />
+                    )}
+                    name='calculationFlag'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
+              </List>
+
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -1184,7 +1184,133 @@ const MasterAnalyte = MasterAnalyteHoc(
                   defaultValue=''
                 />
 
-                <Grid cols={5}>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Internal Comments'
+                      placeholder='Internal Comments'
+                      hasError={!!errors.internalComments}
+                      value={masterAnalyteStore.masterAnalyte?.internalComments}
+                      onChange={internalComments => {
+                        onChange(internalComments);
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          internalComments,
+                        });
+                      }}
+                    />
+                  )}
+                  name='internalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='External Comments'
+                      placeholder='External Comments'
+                      hasError={!!errors.externalComments}
+                      value={masterAnalyteStore.masterAnalyte?.externalComments}
+                      onChange={externalComments => {
+                        onChange(externalComments);
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          externalComments,
+                        });
+                      }}
+                    />
+                  )}
+                  name='externalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Analyte Bottom Marker'
+                      hasError={!!errors.analyteBottomMarker}
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code or details'
+                        data={{
+                          list: libraryStore.listLibrary,
+                          displayKey: ['code', 'details'],
+                        }}
+                        hasError={!!errors.analyteBottomMarker}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['code', 'details'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.details);
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            analyteBottomMarker: {
+                              code: item?.code,
+                              details: item?.details,
+                            },
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='analyteBottomMarker'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Analyte Right Marker'
+                      placeholder='Analyte Right Marker'
+                      hasError={!!errors.analyteRightMarker}
+                      value={
+                        masterAnalyteStore.masterAnalyte?.analyteRightMarker
+                      }
+                      onChange={analyteRightMarker => {
+                        onChange(analyteRightMarker);
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          analyteRightMarker,
+                        });
+                      }}
+                    />
+                  )}
+                  name='analyteRightMarker'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Grid cols={3}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
@@ -1230,6 +1356,54 @@ const MasterAnalyte = MasterAnalyteHoc(
                 </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
+                <Controller
+                  control={control}
+                  render={() => (
+                    <Form.MultilineInput
+                      label='Abnormal Highlighter CSS'
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={
+                        masterAnalyteStore.masterAnalyte?.abnormalHighlighterCSS
+                      }
+                      onChange={abnormalHighlighterCSS => {
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          abnormalHighlighterCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='abnormalHighlighterCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={() => (
+                    <Form.MultilineInput
+                      label='Critical Highlighter CSS'
+                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={
+                        masterAnalyteStore.masterAnalyte?.criticalHighlighterCSS
+                      }
+                      onChange={criticalHighlighterCSS => {
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          criticalHighlighterCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='criticalHighlighterCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (

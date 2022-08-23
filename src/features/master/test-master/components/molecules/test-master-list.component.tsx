@@ -18,6 +18,7 @@ import {
   AutoCompleteFilterSingleSelectDeliverySchedule,
   AutoCompleteFilterSingleSelectTestMethod,
   AutoCompleteInterpretation,
+  AutoCompleteTestBottomMarker,
 } from '../index';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
@@ -59,6 +60,9 @@ let prefix;
 let sufix;
 let collectionContainer;
 let holdingDays;
+let internalComments;
+let externalComments;
+let testRightMarker;
 let status;
 let environment;
 let interpretation;
@@ -1304,6 +1308,76 @@ export const TestMasterList = (props: TestMasterProps) => {
                   </>
                 );
               },
+            },
+            {
+              dataField: 'internalComments',
+              text: 'Internal Comments',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  internalComments = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'externalComments',
+              text: 'External Comments',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  externalComments = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'testBottomMarker',
+              text: 'Test Bottom Marker',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              formatter: (cell, row) => {
+                return <span>{row?.testBottomMarker?.details}</span>;
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteTestBottomMarker
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'testRightMarker',
+              text: 'Test Right Marker',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  testRightMarker = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
 
             {

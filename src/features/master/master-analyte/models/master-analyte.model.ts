@@ -38,6 +38,12 @@ export class MasterAnalyte {
   resultType: string;
   defaultResult: string;
   analyteType: string;
+  abnormalHighlighterCSS: string;
+  criticalHighlighterCSS: string;
+  internalComments: string;
+  externalComments: string;
+  analyteBottomMarker: object;
+  analyteRightMarker: string;
   status: string;
   minReportable: string;
   maxReportable: string;
@@ -86,6 +92,12 @@ export class MasterAnalyte {
     this.resultType = rawData.resultType;
     this.defaultResult = rawData.defaultResult;
     this.analyteType = rawData.analyteType;
+    this.abnormalHighlighterCSS = rawData.abnormalHighlighterCSS;
+    this.criticalHighlighterCSS = rawData.criticalHighlighterCSS;
+    this.internalComments = rawData.internalComments;
+    this.externalComments = rawData.externalComments;
+    this.analyteBottomMarker = rawData.analyteBottomMarker;
+    this.analyteRightMarker = rawData.analyteRightMarker;
     this.status = rawData.status;
     this.minReportable = rawData.minReportable;
     this.maxReportable = rawData.maxReportable;
