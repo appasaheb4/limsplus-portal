@@ -20,6 +20,8 @@ export class MasterPackageStore {
     this.checkExitsLabEnvCode = false;
     this.masterPackage = {
       ...this.masterPackage,
+      packageInterpretation: true,
+      panelInterpretation: true,
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(

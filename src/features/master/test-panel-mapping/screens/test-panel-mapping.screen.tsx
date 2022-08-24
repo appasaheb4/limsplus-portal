@@ -58,7 +58,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
 
     const onSubmitTestPanelMapping = () => {
@@ -230,14 +230,14 @@ const TestPanelMapping = TestPanelMappingHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
             }
           >
             <Grid cols={2}>
@@ -614,7 +614,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   defaultValue=''
                 />
 
-                <Grid cols={4}>
+                <Grid cols={3}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
@@ -662,6 +662,30 @@ const TestPanelMapping = TestPanelMappingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
+                        label='Print Panel Name'
+                        hasError={!!errors.printPanelName}
+                        value={
+                          testPanelMappingStore.testPanelMapping?.printPanelName
+                        }
+                        onChange={printPanelName => {
+                          onChange(printPanelName);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            printPanelName,
+                          });
+                        }}
+                      />
+                    )}
+                    name='printPanelName'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
+                <Grid cols={3}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
                         label='Panel Method'
                         hasError={!!errors.panelMethod}
                         value={
@@ -699,6 +723,99 @@ const TestPanelMapping = TestPanelMappingHoc(
                       />
                     )}
                     name='testMethod'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Analyte Method'
+                        hasError={!!errors.analyteMethod}
+                        value={
+                          testPanelMappingStore.testPanelMapping?.analyteMethod
+                        }
+                        onChange={analyteMethod => {
+                          onChange(analyteMethod);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            analyteMethod,
+                          });
+                        }}
+                      />
+                    )}
+                    name='analyteMethod'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
+                <Grid cols={3}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Panel Interpretation'
+                        hasError={!!errors.panelInterpretation}
+                        value={
+                          testPanelMappingStore.testPanelMapping
+                            ?.panelInterpretation
+                        }
+                        onChange={panelInterpretation => {
+                          onChange(panelInterpretation);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            panelInterpretation,
+                          });
+                        }}
+                      />
+                    )}
+                    name='panelInterpretation'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Test Interpretation'
+                        hasError={!!errors.testInterpretation}
+                        value={
+                          testPanelMappingStore.testPanelMapping
+                            ?.testInterpretation
+                        }
+                        onChange={testInterpretation => {
+                          onChange(testInterpretation);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            testInterpretation,
+                          });
+                        }}
+                      />
+                    )}
+                    name='testInterpretation'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Analyte Interpretation'
+                        hasError={!!errors.analyteInterpretation}
+                        value={
+                          testPanelMappingStore.testPanelMapping
+                            ?.analyteInterpretation
+                        }
+                        onChange={analyteInterpretation => {
+                          onChange(analyteInterpretation);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            analyteInterpretation,
+                          });
+                        }}
+                      />
+                    )}
+                    name='analyteInterpretation'
                     rules={{required: false}}
                     defaultValue=''
                   />
@@ -1081,7 +1198,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateActiveFrom: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsInputView(!isInputView);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('testCode', modalConfirm.data.testCode);
