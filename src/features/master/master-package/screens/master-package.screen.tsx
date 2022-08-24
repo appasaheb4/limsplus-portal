@@ -63,7 +63,7 @@ const MasterPackage = MasterPackageHOC(
     setValue('environment', masterPackageStore.masterPackage?.environment);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
 
     const getServiceTypes = (fileds: any) => {
@@ -253,14 +253,14 @@ const MasterPackage = MasterPackageHOC(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
@@ -796,6 +796,71 @@ const MasterPackage = MasterPackageHOC(
                     rules={{required: false}}
                     defaultValue=''
                   />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Print Panel Name'
+                        id='printPanelName'
+                        hasError={!!errors.printPanelName}
+                        value={masterPackageStore.masterPackage?.printPanelName}
+                        onChange={printPanelName => {
+                          masterPackageStore.updateMasterPackage({
+                            ...masterPackageStore.masterPackage,
+                            printPanelName,
+                          });
+                        }}
+                      />
+                    )}
+                    name='printPanelName'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Package Interpretation'
+                        hasError={!!errors.packageInterpretation}
+                        value={
+                          masterPackageStore.masterPackage
+                            ?.packageInterpretation
+                        }
+                        onChange={packageInterpretation => {
+                          masterPackageStore.updateMasterPackage({
+                            ...masterPackageStore.masterPackage,
+                            packageInterpretation,
+                          });
+                        }}
+                      />
+                    )}
+                    name='packageInterpretation'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Panel Interpretation'
+                        hasError={!!errors.panelInterpretation}
+                        value={
+                          masterPackageStore.masterPackage?.panelInterpretation
+                        }
+                        onChange={panelInterpretation => {
+                          masterPackageStore.updateMasterPackage({
+                            ...masterPackageStore.masterPackage,
+                            panelInterpretation,
+                          });
+                        }}
+                      />
+                    )}
+                    name='panelInterpretation'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
                 </Grid>
               </List>
 
@@ -1160,7 +1225,7 @@ const MasterPackage = MasterPackageHOC(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateActive: dayjs().unix(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsInputView(!isInputView);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);

@@ -26,8 +26,13 @@ export class TestPanelMappingStore {
       version: 1,
       bill: false,
       printTestName: false,
+      printPanelName: true,
       panelMethod: false,
       testMethod: true,
+      analyteMethod: false,
+      panelInterpretation: true,
+      testInterpretation: false,
+      analyteInterpretation: true,
     };
     makeObservable<TestPanelMappingStore, any>(this, {
       testPanelMapping: observable,
