@@ -254,17 +254,16 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                 columnIndex,
               ) => (
                 <>
-                  {row?.mainBoxCSS && (
-                    <Form.MultilineInput
-                      label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
-                      onBlur={mainBoxCSS => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem({mainBoxCSS}, row._id);
-                      }}
-                      defaultValue={row?.mainBoxCSS}
-                    />
-                  )}
+                  <Form.MultilineInput
+                    label=''
+                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
+                    onBlur={mainBoxCSS => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem({mainBoxCSS}, row._id);
+                    }}
+                    defaultValue={row?.mainBoxCSS}
+                  />
                 </>
               ),
             },
