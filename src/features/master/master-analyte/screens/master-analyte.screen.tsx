@@ -51,7 +51,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     setValue('status', masterAnalyteStore.masterAnalyte?.status);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const onSubmitMasterAnalyte = () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {
         if (
@@ -209,14 +209,14 @@ const MasterAnalyte = MasterAnalyteHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -1798,7 +1798,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     version: Number.parseInt(modalConfirm.data.version),
                     dateActive: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsInputView(!isInputView);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('analyteCode', modalConfirm.data.analyteCode);
                   setValue('analyteName', modalConfirm.data.analyteName);
