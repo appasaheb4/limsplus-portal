@@ -15,6 +15,7 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  Icons,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {TestPanelMappingList} from '../components';
@@ -60,6 +61,23 @@ const TestPanelMapping = TestPanelMappingHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
+
+    const [masterFlag, setMasgterFlag] = useState<any>([
+      {
+        title: 'PM',
+        isSelected: true,
+        icon: 'Icons.IconFa.FaSolarPanel',
+      },
+      {
+        title: 'TM',
+        isSelected: false,
+      },
+      {
+        title: 'AM',
+        isSelected: false,
+      },
+    ]);
+    const MasterIcon = icon => Icons.getIcons(icon);
 
     const onSubmitTestPanelMapping = () => {
       if (!testPanelMappingStore.checkExitsLabEnvCode) {
@@ -681,74 +699,53 @@ const TestPanelMapping = TestPanelMappingHoc(
                     defaultValue=''
                   />
                 </Grid>
-                <Grid cols={3}>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Panel Method'
-                        hasError={!!errors.panelMethod}
-                        value={
-                          testPanelMappingStore.testPanelMapping?.panelMethod
+                <Form.InputWrapper
+                  label='Master Flags'
+                  hasError={!!errors.status}
+                >
+                  <div className='inline-flex rounded-md' role='group'>
+                    {masterFlag.map((item, index) => (
+                      <button
+                        type='button'
+                        className={
+                          'inline-flex items-center py-2 px-4 text-sm font-medium text-white ' +
+                          (item.isSelected ? 'bg-green-800 ' : 'bg-red ') +
+                          (index === 0 ? 'rounded-l-lg' : 'rounded-r-md') +
+                          ' border border-gray-900'
                         }
-                        onChange={panelMethod => {
-                          onChange(panelMethod);
+                        onClick={() => {
+                          const arrMasterFlag: any = masterFlag.filter(e => {
+                            if (e.title === item.title) {
+                              e.isSelected = true;
+                            } else {
+                              e.isSelected = false;
+                            }
+                            return e;
+                          });
                           testPanelMappingStore.updateTestPanelMapping({
                             ...testPanelMappingStore.testPanelMapping,
-                            panelMethod,
+                            panelMethod: arrMasterFlag.find(
+                              item => item.title === 'PM',
+                            ).isSelected,
+                            testMethod: arrMasterFlag.find(
+                              item => item.title === 'TM',
+                            ).isSelected,
+                            analyteMethod: arrMasterFlag.find(
+                              item => item.title === 'AM',
+                            ).isSelected,
                           });
+                          setMasgterFlag(arrMasterFlag);
                         }}
-                      />
-                    )}
-                    name='panelMethod'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Test Method'
-                        hasError={!!errors.testMethod}
-                        value={
-                          testPanelMappingStore.testPanelMapping?.testMethod
-                        }
-                        onChange={testMethod => {
-                          onChange(testMethod);
-                          testPanelMappingStore.updateTestPanelMapping({
-                            ...testPanelMappingStore.testPanelMapping,
-                            testMethod,
-                          });
-                        }}
-                      />
-                    )}
-                    name='testMethod'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Analyte Method'
-                        hasError={!!errors.analyteMethod}
-                        value={
-                          testPanelMappingStore.testPanelMapping?.analyteMethod
-                        }
-                        onChange={analyteMethod => {
-                          onChange(analyteMethod);
-                          testPanelMappingStore.updateTestPanelMapping({
-                            ...testPanelMappingStore.testPanelMapping,
-                            analyteMethod,
-                          });
-                        }}
-                      />
-                    )}
-                    name='analyteMethod'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                </Grid>
+                      >
+                        <Icons.IconContext>
+                          <MasterIcon icon={item.icon} />
+                        </Icons.IconContext>
+                        {item.title}
+                      </button>
+                    ))}
+                  </div>
+                </Form.InputWrapper>
+
                 <Grid cols={3}>
                   <Controller
                     control={control}
