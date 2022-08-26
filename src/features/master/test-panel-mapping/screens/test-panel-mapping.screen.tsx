@@ -59,7 +59,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
 
     const [masterFlag, setMasgterFlag] = useState<any>([
@@ -737,9 +737,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                           setMasgterFlag(arrMasterFlag);
                         }}
                       >
-                        <Icons.IconContext>
-                          <MasterIcon icon={item.icon} />
-                        </Icons.IconContext>
                         {item.title}
                       </button>
                     ))}
