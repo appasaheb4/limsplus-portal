@@ -61,6 +61,26 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
     return row.status !== 'I' ? true : false;
   };
 
+  const getMasterFlags = row => {
+    console.log({row});
+
+    return [
+      {
+        title: 'PM',
+        isSelected: row?.panelMethod || false,
+        icon: 'Icons.IconFa.FaSolarPanel',
+      },
+      {
+        title: 'TM',
+        isSelected: row?.testMethod || false,
+      },
+      {
+        title: 'AM',
+        isSelected: row?.analyteMethod || false,
+      },
+    ];
+  };
+
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -273,23 +293,25 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
             {
-              dataField: 'panelMethod',
-              text: 'Panel Method',
+              dataField: 'printPanelName',
+              text: 'Print Panel Name',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.panelMethod ? (row.panelMethod ? 'Yes' : 'No') : 'No'}`,
+                `${
+                  row.printTestName ? (row.printPanelName ? 'Yes' : 'No') : 'No'
+                }`,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
                       disabled={!editorCell(row)}
-                      value={row.panelMethod}
-                      onChange={panelMethod => {
+                      value={row.printPanelName}
+                      onChange={printPanelName => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            panelMethod,
-                            'panelMethod',
+                            printPanelName,
+                            'printPanelName',
                             row._id,
                           );
                       }}
@@ -299,21 +321,156 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
             {
-              dataField: 'testMethod',
-              text: 'Test Method',
+              dataField: 'masterFlags',
+              text: 'Master Flags',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.testMethod ? (row.testMethod ? 'Yes' : 'No') : 'No'}`,
+                `${row.panelMethod ? (row.panelMethod ? 'Yes' : 'No') : 'No'}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <div className='inline-flex rounded-md' role='group'>
+                    {getMasterFlags(row).map((item, index) => (
+                      <button
+                        type='button'
+                        className={
+                          'inline-flex items-center py-2 px-4 text-sm font-medium text-white ' +
+                          (item.isSelected ? 'bg-green-800 ' : 'bg-red ') +
+                          (index === 0 ? 'rounded-l-lg' : 'rounded-r-md') +
+                          ' border border-gray-900'
+                        }
+                        onClick={() => {
+                          const arrMasterFlag: any = getMasterFlags(row).find(
+                            e => {
+                              if (e.isSelected) return e;
+                            },
+                          );
+                          if (
+                            arrMasterFlag.title !==
+                            getMasterFlags(row)[index].title
+                          )
+                            props.onUpdateFileds &&
+                              props.onUpdateFileds(
+                                {
+                                  panelMethod: index === 0 ? true : false,
+                                  testMethod: index === 1 ? true : false,
+                                  analyteMethod: index === 2 ? true : false,
+                                },
+                                row._id,
+                              );
+                          //console.log({arrMasterFlag});
+
+                          // testPanelMappingStore.updateTestPanelMapping({
+                          //   ...testPanelMappingStore.testPanelMapping,
+                          //   panelMethod: arrMasterFlag.find(
+                          //     item => item.title === 'PM',
+                          //   ).isSelected,
+                          //   testMethod: arrMasterFlag.find(
+                          //     item => item.title === 'TM',
+                          //   ).isSelected,
+                          //   analyteMethod: arrMasterFlag.find(
+                          //     item => item.title === 'AM',
+                          //   ).isSelected,
+                          // });
+                        }}
+                      >
+                        {item.title}
+                      </button>
+                    ))}
+                  </div>
+                );
+              },
+            },
+            {
+              dataField: 'panelInterpretation',
+              text: 'Panel Interpretation',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.panelInterpretation
+                    ? row.panelInterpretation
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
                       disabled={!editorCell(row)}
-                      value={row.testMethod}
-                      onChange={testMethod => {
+                      value={row.panelInterpretation}
+                      onChange={panelInterpretation => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(testMethod, 'testMethod', row._id);
+                          props.onUpdateItem(
+                            panelInterpretation,
+                            'panelInterpretation',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'testInterpretation',
+              text: 'Test Interpretation',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.testInterpretation
+                    ? row.testInterpretation
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.testInterpretation}
+                      onChange={testInterpretation => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            testInterpretation,
+                            'testInterpretation',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'analyteInterpretation',
+              text: 'Analyte Interpretation',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.analyteInterpretation
+                    ? row.analyteInterpretation
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.analyteInterpretation}
+                      onChange={analyteInterpretation => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            analyteInterpretation,
+                            'analyteInterpretation',
+                            row._id,
+                          );
                       }}
                     />
                   </>

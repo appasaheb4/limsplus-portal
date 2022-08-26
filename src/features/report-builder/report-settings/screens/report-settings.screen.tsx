@@ -47,12 +47,12 @@ const ReportSettings = observer(() => {
           {[
             {title: 'TEMPLATE SETTING'},
             {title: 'PAGE BRANDING'},
-            {title: 'REPORT SECTION'},
-            {title: 'SECTION SETTING'},
-            {title: 'PAGE SETTING'},
-            {title: 'GENERAL SETTING'},
-            {title: 'FONT SETTING'},
-            {title: 'REPORT FIELD MAPPING'},
+            // {title: 'REPORT SECTION'},
+            // {title: 'SECTION SETTING'},
+            // {title: 'PAGE SETTING'},
+            // {title: 'GENERAL SETTING'},
+            // {title: 'FONT SETTING'},
+            // {title: 'REPORT FIELD MAPPING'},
           ].map(item => {
             return (
               <AccordionItem
