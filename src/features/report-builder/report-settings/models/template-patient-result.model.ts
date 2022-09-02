@@ -3,8 +3,8 @@ export class TemplatePatientResult {
   templateCode: string;
   templateTitle: string;
   pageBranding: object;
-  endOfPage: string;
-  endOfReport: string;
+  endOfPage: any[];
+  endOfReport: any[];
   reportTemplateType: string;
   documentType: string;
   dateOfEntry: Date;
@@ -25,7 +25,9 @@ export class TemplatePatientResult {
 
 export class SelectedItemsTemplatePatientResult {
   endOfPage: any[];
+  endOfReport: any[];
   constructor(rawData: {[key in string]: any}) {
     this.endOfPage = rawData.endOfPage;
+    this.endOfReport = rawData.endOfReport;
   }
 }

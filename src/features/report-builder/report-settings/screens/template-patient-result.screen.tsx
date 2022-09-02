@@ -327,16 +327,17 @@ export const TemplatePatientResult = observer(() => {
                       }}
                       hasError={!!errors.endOfPage}
                       onUpdate={item => {
-                        // const items =
-                        //   environmentStore.selectedItems?.department;
-                        // onChange(items);
-                        // environmentStore.updateEnvironmentSettings({
-                        //   ...environmentStore.environmentSettings,
-                        //   department: items,
-                        // });
-                        // departmentStore.updateDepartmentList(
-                        //   departmentStore.listDepartmentCopy,
-                        // );
+                        const endOfPage =
+                          reportSettingStore.selectedItemTemplatePatientResult
+                            ?.endOfPage;
+                        onChange(endOfPage);
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          endOfPage,
+                        });
+                        libraryStore.updateLibraryList(
+                          libraryStore.listLibraryCopy,
+                        );
                       }}
                       onFilter={(value: string) => {
                         libraryStore.libraryService.filterByFields({
@@ -382,6 +383,174 @@ export const TemplatePatientResult = observer(() => {
                     ?.endOfPage
                 }
               />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.InputWrapper
+                    label='End Of Report'
+                    hasError={!!errors.endOfReport}
+                  >
+                    <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                      loader={loading}
+                      placeholder='Search by code or details'
+                      data={{
+                        list: libraryStore.listLibrary,
+                        selected:
+                          reportSettingStore.selectedItemTemplatePatientResult
+                            ?.endOfReport,
+                        displayKey: ['code', 'details'],
+                      }}
+                      hasError={!!errors.endOfReport}
+                      onUpdate={item => {
+                        const endOfReport =
+                          reportSettingStore.selectedItemTemplatePatientResult
+                            ?.endOfReport;
+                        onChange(endOfReport);
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          endOfReport,
+                        });
+                        libraryStore.updateLibraryList(
+                          libraryStore.listLibraryCopy,
+                        );
+                      }}
+                      onFilter={(value: string) => {
+                        libraryStore.libraryService.filterByFields({
+                          input: {
+                            filter: {
+                              fields: ['code', 'details'],
+                              srText: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        });
+                      }}
+                      onSelect={item => {
+                        onChange(item);
+                        let endOfReport =
+                          reportSettingStore.selectedItemTemplatePatientResult
+                            ?.endOfReport;
+                        if (!item.selected) {
+                          if (endOfReport && endOfReport.length > 0) {
+                            endOfReport.push(item);
+                          } else endOfReport = [item];
+                        } else {
+                          endOfReport = endOfReport.filter(items => {
+                            return items._id !== item._id;
+                          });
+                        }
+                        reportSettingStore.updateSelectedItemTemplatePatientResult(
+                          {
+                            ...reportSettingStore.selectedItemTemplatePatientResult,
+                            endOfReport,
+                          },
+                        );
+                      }}
+                    />
+                  </Form.InputWrapper>
+                )}
+                name='endOfReport'
+                rules={{required: false}}
+                defaultValue={
+                  libraryStore.listLibrary ||
+                  reportSettingStore.selectedItemTemplatePatientResult
+                    ?.endOfReport
+                }
+              />
+            </List>
+            <List direction='col' space={4} justify='stretch' fill>
+              <div className='p-3 border border-gray-800 relative mt-2'>
+                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+                  Department Header
+                </h2>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Name CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
+              <div className='p-3 border border-gray-800 relative mt-2'>
+                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+                  Panel Header
+                </h2>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Description CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Method Description CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
             </List>
           </Grid>
           <List direction='col' space={4} justify='stretch' fill>
