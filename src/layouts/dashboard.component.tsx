@@ -228,6 +228,7 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/report-builder/report-settings') {
         await ReportSettings.startup();
+        await Library.startup();
       }
       // patient reports
       if (pathname === '/patient-reports/delivery-queue') {

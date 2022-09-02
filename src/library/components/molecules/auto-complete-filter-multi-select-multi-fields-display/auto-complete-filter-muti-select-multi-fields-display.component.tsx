@@ -68,6 +68,8 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
       });
       list = finalList;
     }
+    console.log({list});
+
     return list;
   };
 
