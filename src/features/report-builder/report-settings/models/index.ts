@@ -6,3 +6,4 @@ export * from './page-branding.model';
 export * from './general-setting.model';
 export * from './font-setting.model';
 export * from './report-field-mapping.model';
+export * from './template-patient-result.model';

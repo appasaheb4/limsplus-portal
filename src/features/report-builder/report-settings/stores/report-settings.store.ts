@@ -20,6 +20,8 @@ import {
   FontSetting,
   ReportFieldMapping,
   PageBranding,
+  TemplatePatientResult,
+  SelectedItemsTemplatePatientResult,
 } from '../models';
 
 export class ReportSettingStore {
@@ -30,6 +32,10 @@ export class ReportSettingStore {
   pageBrandingList!: Array<PageBranding>;
   pageBrandingListCopy!: Array<PageBranding>;
   pageBrandingListCount: number = 0;
+  templatePatientResult!: TemplatePatientResult;
+  templatePatientResultList!: Array<TemplatePatientResult>;
+  templatePatientResultListCount: number = 0;
+  selectedItemTemplatePatientResult!: SelectedItemsTemplatePatientResult;
 
   reportSectionList: ReportSection[] = [];
   reportSectionListCopy: ReportSection[] = [];
@@ -70,6 +76,10 @@ export class ReportSettingStore {
     });
     this.pageBrandingList = [];
     this.pageBrandingListCopy = [];
+    this.templatePatientResult = new TemplatePatientResult({});
+    this.templatePatientResultList = [];
+    this.selectedItemTemplatePatientResult =
+      new SelectedItemsTemplatePatientResult({});
 
     this.generalSetting = new GeneralSettings({});
     this.generalSettingList = [];
@@ -107,6 +117,11 @@ export class ReportSettingStore {
       pageBrandingList: observable,
       pageBrandingListCopy: observable,
       pageBrandingListCount: observable,
+      templatePatientResult: observable,
+      templatePatientResultList: observable,
+      templatePatientResultListCount: observable,
+      selectedItemTemplatePatientResult: observable,
+
       reportSectionList: observable,
       reportSectionListCopy: observable,
       reportSectionListCount: observable,
@@ -142,6 +157,10 @@ export class ReportSettingStore {
       updateTemplateSettingsList: action,
       updatePageBranding: action,
       updatePageBrandingList: action,
+      updateTemplatePatientResult: action,
+      updateTemplatePatientResultList: action,
+      updateSelectedItemTemplatePatientResult: action,
+
       updateReportSectionList: action,
       updateSectionSetting: action,
       updateSectionSettingList: action,
@@ -209,6 +228,19 @@ export class ReportSettingStore {
       this.pageBrandingList = res;
       this.pageBrandingListCount = res?.length;
     }
+  }
+
+  updateTemplatePatientResult(payload: TemplatePatientResult) {
+    this.templatePatientResult = payload;
+  }
+
+  updateTemplatePatientResultList(res: any) {
+    this.templatePatientResultList = res;
+    this.templatePatientResultListCount = res;
+  }
+
+  updateSelectedItemTemplatePatientResult(res: any) {
+    this.selectedItemTemplatePatientResult = res;
   }
 
   updateReportSectionList(res: any) {
