@@ -551,6 +551,195 @@ export const TemplatePatientResult = observer(() => {
                   defaultValue=''
                 />
               </div>
+
+              <div className='p-3 border border-gray-800 relative mt-2'>
+                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+                  Test Header
+                </h2>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Description CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Method Description CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
+            </List>
+
+            <List direction='col' space={4} justify='stretch' fill>
+              <div className='p-3 border border-gray-800 relative mt-2'>
+                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+                  Patient Result List
+                </h2>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Fields Text CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
+              <div className='p-3 border border-gray-800 relative mt-2'>
+                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+                  Test Footer
+                </h2>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Interpretation CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
+              <div className='p-3 border border-gray-800 relative mt-2'>
+                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+                  Panel Footer
+                </h2>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Interpretation CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={
+                        "Like fontSize: 12,backgroundColor:'#000000'"
+                      }
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
+              <div className='p-3 border border-gray-800 relative mt-2'>
+                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+                  Department Footer
+                </h2>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      label='Image CSS'
+                      className='text-sm'
+                      style={{
+                        color: '#ffffff',
+                        backgroundColor: '#000000',
+                        fontSize: 12,
+                      }}
+                      placeholder={'Like width:150,height: 100'}
+                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      onChange={mainBoxCSS => {
+                        reportSettingStore.updateTemplateSettings({
+                          ...reportSettingStore.templateSettings,
+                          mainBoxCSS,
+                        });
+                      }}
+                    />
+                  )}
+                  name='mainBoxCSS'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
             </List>
           </Grid>
           <List direction='col' space={4} justify='stretch' fill>
