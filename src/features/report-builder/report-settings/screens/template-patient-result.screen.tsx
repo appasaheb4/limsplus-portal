@@ -14,14 +14,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import {
-  PageBrandingList,
-  PageBrandingHeader,
-  PageBrandingSubHeader,
-  PageBrandingFooter,
-  PageNumber,
-  PdfTemp0001,
-} from '../components';
+import {TemplatePatientResultList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
@@ -52,21 +45,16 @@ export const TemplatePatientResult = observer(() => {
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({
-        message: '😔 Already exists temp code. Please select diff.',
+        message: '😔 Already exists records.',
       });
-    reportSettingStore.pageBrandingService
-      .addPageBranding({
-        input: {
-          ...reportSettingStore.pageBranding,
-          header: {
-            ...reportSettingStore.pageBranding?.header,
-          },
-        },
+    reportSettingStore.templatePatientResultService
+      .addTemplatePatientResult({
+        input: {...reportSettingStore.templatePatientResult},
       })
       .then(res => {
-        if (res.createPageBranding.success) {
+        if (res.createTemplatePatientResult.success) {
           Toast.success({
-            message: `😊 ${res.createPageBranding.message}`,
+            message: `😊 ${res.createTemplatePatientResult.message}`,
           });
         }
         setTimeout(() => {
@@ -78,7 +66,7 @@ export const TemplatePatientResult = observer(() => {
   const getTemplate = (tempCode: string, data: any) => {
     switch (tempCode) {
       case 'TEMP0001':
-        return <PdfTemp0001 data={data} />;
+        return <h1>hi</h1>;
       default:
         return (
           <div className='justify-center items-center'>
@@ -146,8 +134,74 @@ export const TemplatePatientResult = observer(() => {
                   </Form.InputWrapper>
                 )}
                 name='reportTemplateType'
-                rules={{required: false}}
+                rules={{required: true}}
                 defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.InputWrapper
+                    label='Page Branding'
+                    hasError={!!errors.pageBranding}
+                  >
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      placeholder='Page Branding'
+                      data={{
+                        list: reportSettingStore.pageBrandingList,
+                        displayKey: ['tempCode', 'brandingTitle'],
+                      }}
+                      hasError={!!errors.pageBranding}
+                      onFilter={(value: string) => {
+                        // reportSettingStore.updateReportSectionList(
+                        //   reportSettingStore.reportSectionListCopy.filter(item =>
+                        //     item.section
+                        //       .toString()
+                        //       .toLowerCase()
+                        //       .includes(value.toLowerCase()),
+                        //   ),
+                        // );
+                      }}
+                      onSelect={item => {
+                        onChange(item.tempCode);
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          pageBranding: item,
+                        });
+                        // reportSettingStore.pageBrandingService
+                        //   .findByFields({
+                        //     input: {
+                        //       filter: {
+                        //         tempCode: item.tempCode,
+                        //         brandingTitle:
+                        //           reportSettingStore.pageBranding?.brandingTitle ||
+                        //           '',
+                        //       },
+                        //     },
+                        //   })
+                        //   .then(res => {
+                        //     console.log({res});
+                        //     if (res.findByFieldsPageBranding.success) {
+                        //       setError('tempCode', {type: 'onBlur'});
+                        //       setError('brandingTitle', {type: 'onBlur'});
+                        //       Toast.error({
+                        //         message:
+                        //           '😔 Already exists temp code. Please select diff.',
+                        //       });
+                        //       return setIsExistsTempCode(true);
+                        //     } else {
+                        //       clearErrors('tempCode');
+                        //       clearErrors('brandingTitle');
+                        //       return setIsExistsTempCode(false);
+                        //     }
+                        //   });
+                      }}
+                    />
+                  </Form.InputWrapper>
+                )}
+                name='pageBranding'
+                rules={{required: false}}
+                defaultValue={reportSettingStore.templateSettingsList}
               />
               <Controller
                 control={control}
@@ -245,69 +299,7 @@ export const TemplatePatientResult = observer(() => {
                 rules={{required: true}}
                 defaultValue=''
               />
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Form.InputWrapper label='Page Branding'>
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder='Page Branding'
-                      data={{
-                        list: reportSettingStore.pageBrandingList,
-                        displayKey: ['tempCode', 'brandingTitle'],
-                      }}
-                      hasError={!!errors.tempCode}
-                      onFilter={(value: string) => {
-                        // reportSettingStore.updateReportSectionList(
-                        //   reportSettingStore.reportSectionListCopy.filter(item =>
-                        //     item.section
-                        //       .toString()
-                        //       .toLowerCase()
-                        //       .includes(value.toLowerCase()),
-                        //   ),
-                        // );
-                      }}
-                      onSelect={item => {
-                        onChange(item.tempCode);
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          pageBranding: item,
-                        });
-                        // reportSettingStore.pageBrandingService
-                        //   .findByFields({
-                        //     input: {
-                        //       filter: {
-                        //         tempCode: item.tempCode,
-                        //         brandingTitle:
-                        //           reportSettingStore.pageBranding?.brandingTitle ||
-                        //           '',
-                        //       },
-                        //     },
-                        //   })
-                        //   .then(res => {
-                        //     console.log({res});
-                        //     if (res.findByFieldsPageBranding.success) {
-                        //       setError('tempCode', {type: 'onBlur'});
-                        //       setError('brandingTitle', {type: 'onBlur'});
-                        //       Toast.error({
-                        //         message:
-                        //           '😔 Already exists temp code. Please select diff.',
-                        //       });
-                        //       return setIsExistsTempCode(true);
-                        //     } else {
-                        //       clearErrors('tempCode');
-                        //       clearErrors('brandingTitle');
-                        //       return setIsExistsTempCode(false);
-                        //     }
-                        //   });
-                      }}
-                    />
-                  </Form.InputWrapper>
-                )}
-                name='tempCode'
-                rules={{required: true}}
-                defaultValue={reportSettingStore.templateSettingsList}
-              />
+
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
@@ -333,7 +325,9 @@ export const TemplatePatientResult = observer(() => {
                         onChange(endOfPage);
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
-                          endOfPage,
+                          endOfPage: _.map(endOfPage, o =>
+                            _.pick(o, ['_id', 'code', 'details']),
+                          ),
                         });
                         libraryStore.updateLibraryList(
                           libraryStore.listLibraryCopy,
@@ -408,7 +402,9 @@ export const TemplatePatientResult = observer(() => {
                         onChange(endOfReport);
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
-                          endOfReport,
+                          endOfReport: _.map(endOfReport, o =>
+                            _.pick(o, ['_id', 'code', 'details']),
+                          ),
                         });
                         libraryStore.updateLibraryList(
                           libraryStore.listLibraryCopy,
@@ -478,16 +474,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult
+                          .departmentHeader?.nameCSS
+                      }
+                      onChange={nameCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          departmentHeader: {
+                            ...reportSettingStore.templatePatientResult
+                              ?.departmentHeader,
+                            nameCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='departmentNameCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -510,16 +513,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult.panelHeader
+                          ?.descriptionCSS
+                      }
+                      onChange={descriptionCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          panelHeader: {
+                            ...reportSettingStore.templatePatientResult
+                              ?.panelHeader,
+                            descriptionCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='panelDescriptionCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -537,16 +547,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult.panelHeader
+                          ?.methodDescriptionCSS
+                      }
+                      onChange={methodDescriptionCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          panelHeader: {
+                            ...reportSettingStore.templatePatientResult
+                              ?.panelHeader,
+                            methodDescriptionCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='panelMethodDescriptionCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -570,16 +587,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult?.testHeader
+                          ?.descriptionCSS
+                      }
+                      onChange={descriptionCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          testHeader: {
+                            ...reportSettingStore.templatePatientResult
+                              .testHeader,
+                            descriptionCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='testDescriptionCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -597,16 +621,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult.testHeader
+                          ?.methodDescriptionCSS
+                      }
+                      onChange={methodDescriptionCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          testHeader: {
+                            ...reportSettingStore.templatePatientResult
+                              ?.testHeader,
+                            methodDescriptionCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='testMethodDescriptionCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -632,16 +663,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult
+                          .patientResultList?.fieldsTextCSS
+                      }
+                      onChange={fieldsTextCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          patientResultList: {
+                            ...reportSettingStore.templatePatientResult
+                              .patientResultList,
+                            fieldsTextCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='prListFieldsTextCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -664,16 +702,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult.testFooter
+                          ?.interpretationCSS
+                      }
+                      onChange={interpretationCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          testFooter: {
+                            ...reportSettingStore.templatePatientResult
+                              .testFooter,
+                            interpretationCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='testInterpretationCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -696,16 +741,23 @@ export const TemplatePatientResult = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult.panelFooter
+                          ?.interpretationCSS
+                      }
+                      onChange={interpretationCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          panelFooter: {
+                            ...reportSettingStore.templatePatientResult
+                              .panelFooter,
+                            interpretationCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='panelInterpretationCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -726,16 +778,23 @@ export const TemplatePatientResult = observer(() => {
                         fontSize: 12,
                       }}
                       placeholder={'Like width:150,height: 100'}
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
-                      onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
-                          mainBoxCSS,
+                      value={
+                        reportSettingStore.templatePatientResult
+                          .departmentFooter?.imageCSS
+                      }
+                      onChange={imageCSS => {
+                        reportSettingStore.updateTemplatePatientResult({
+                          ...reportSettingStore.templatePatientResult,
+                          departmentFooter: {
+                            ...reportSettingStore.templatePatientResult
+                              ?.departmentFooter,
+                            imageCSS,
+                          },
                         });
                       }}
                     />
                   )}
-                  name='mainBoxCSS'
+                  name='departmentImageCSS'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -772,9 +831,9 @@ export const TemplatePatientResult = observer(() => {
         </List>
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-        <PageBrandingList
-          data={reportSettingStore.pageBrandingList}
-          totalSize={reportSettingStore.pageBrandingListCount}
+        <TemplatePatientResultList
+          data={reportSettingStore.templatePatientResultList}
+          totalSize={reportSettingStore.templatePatientResultListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -823,17 +882,17 @@ export const TemplatePatientResult = observer(() => {
         click={(type?: string) => {
           switch (type) {
             case 'delete': {
-              reportSettingStore.pageBrandingService
-                .removePageBranding({
+              reportSettingStore.templatePatientResultService
+                .removeTemplatePatientResult({
                   input: {id: modalConfirm.id},
                 })
                 .then((res: any) => {
-                  if (res.removePageBranding.success) {
+                  if (res.removeTemplatePatientResult.success) {
                     Toast.success({
-                      message: `😊 ${res.removePageBranding.message}`,
+                      message: `😊 ${res.removeTemplatePatientResult.message}`,
                     });
                     setModalConfirm({show: false});
-                    reportSettingStore.pageBrandingService.listPageBranding();
+                    reportSettingStore.templatePatientResultService.listTemplatePatientResult();
                   }
                 });
               break;
