@@ -8,6 +8,7 @@ export const startup = async () => {
   stores.reportSettingStore.generalSettingService.listGeneralSetting();
   stores.reportSettingStore.fontSettingService.listFontSetting();
   stores.reportSettingStore.reportFieldMappingService.listReportFieldMapping();
+  stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();
 };
 
 export const startUpPageBranding = async () => {

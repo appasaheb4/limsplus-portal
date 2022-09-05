@@ -1,6 +1,7 @@
+// eslint-disable-next-line folders/match-regex
 import React from 'react';
 import {render} from '@testing-library/react';
-import {SectionSettings} from './section-settings.screen';
+import {SectionSettings} from '../section-settings.screen';
 
 describe('SectionSettings Screen', () => {
   it('render sectionSettings correctly', () => {

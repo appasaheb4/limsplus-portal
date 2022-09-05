@@ -9,6 +9,7 @@ import {
   GeneralSettingService,
   FontSettingService,
   ReportFieldMappingService,
+  TemplatePatientResultService,
 } from '../services';
 
 import {
@@ -152,6 +153,7 @@ export class ReportSettingStore {
       generalSettingService: computed,
       fontSettingService: computed,
       reportFieldMappingService: computed,
+      templatePatientResultService: computed,
 
       updateTemplateSettings: action,
       updateTemplateSettingsList: action,
@@ -206,6 +208,10 @@ export class ReportSettingStore {
     return new ReportFieldMappingService();
   }
 
+  get templatePatientResultService() {
+    return new TemplatePatientResultService();
+  }
+
   updateTemplateSettings(payload: TemplateSettings) {
     this.templateSettings = payload;
   }
@@ -235,8 +241,9 @@ export class ReportSettingStore {
   }
 
   updateTemplatePatientResultList(res: any) {
-    this.templatePatientResultList = res;
-    this.templatePatientResultListCount = res;
+    this.templatePatientResultList = res.templatePatientResults.data;
+    this.templatePatientResultListCount =
+      res.templatePatientResults.paginatorInfo.count;
   }
 
   updateSelectedItemTemplatePatientResult(res: any) {

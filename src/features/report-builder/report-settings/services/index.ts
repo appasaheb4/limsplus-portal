@@ -6,3 +6,4 @@ export * from './page-setting.service';
 export * from './general-setting.service';
 export * from './font-setting.service';
 export * from './report-field-mapping.service';
+export * from './template-patient-result.service';

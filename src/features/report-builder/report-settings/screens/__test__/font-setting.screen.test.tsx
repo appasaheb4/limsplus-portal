@@ -1,6 +1,7 @@
+// eslint-disable-next-line folders/match-regex
 import React from 'react';
 import {render} from '@testing-library/react';
-import {FontSetting} from './font-setting.screen';
+import {FontSetting} from '../font-setting.screen';
 
 describe('FontSetting Screen', () => {
   it('render fontSetting correctly', () => {
