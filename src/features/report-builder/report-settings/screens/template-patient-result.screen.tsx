@@ -40,10 +40,10 @@ export const TemplatePatientResult = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
   const [isInputView, setIsInputView] = useState<boolean>(true);
-  const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
+  const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
   const onSave = () => {
-    if (isExistsTempCode)
+    if (isExistsRecord)
       return Toast.error({
         message: '😔 Already exists records.',
       });
@@ -120,6 +120,26 @@ export const TemplatePatientResult = observer(() => {
                           ...reportSettingStore.templatePatientResult,
                           reportTemplateType,
                         });
+                        reportSettingStore.templatePatientResultService
+                          .findByFields({
+                            input: {
+                              filter: {
+                                reportTemplateType,
+                              },
+                            },
+                          })
+                          .then(res => {
+                            if (res.findByFieldsTemplatePatientResult.success) {
+                              setError('reportTemplateType', {type: 'onBlur'});
+                              Toast.error({
+                                message: '😔 Already exists record.',
+                              });
+                              return setIsExistsRecord(true);
+                            } else {
+                              clearErrors('reportTemplateType');
+                              return setIsExistsRecord(false);
+                            }
+                          });
                       }}
                     >
                       <option selected>Select</option>
