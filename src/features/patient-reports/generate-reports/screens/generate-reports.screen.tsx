@@ -88,6 +88,8 @@ const GenerateReport = observer(() => {
               generateReportsStore.generateReportsService
                 .getPatientReportAndPageBrandingFromLabId(item.labId)
                 .then(res => {
+                  console.log({res});
+
                   generateReportsStore.updatePatientReports(res?.patientReport);
                   generateReportsStore.updatePageBranding(res?.pageBranding);
                 })
