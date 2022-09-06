@@ -30,6 +30,8 @@ export const PdfView = ({
   flexDirection = 'column',
   style,
   fixed = false,
+  alignItems,
+  mt,
   children,
 }: PdfViewProps) => {
   return (
@@ -38,6 +40,7 @@ export const PdfView = ({
         marginHorizontal: mh,
         padding: p,
         flexDirection: flexDirection,
+        alignItems: alignItems,
         ...style,
       }}
       fixed={fixed}

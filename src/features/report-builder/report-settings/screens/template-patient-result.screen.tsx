@@ -186,35 +186,12 @@ export const TemplatePatientResult = observer(() => {
                         onChange(item.tempCode);
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
-                          pageBranding: item,
+                          pageBranding: {
+                            _id: item?._id,
+                            tempCode: item?.tempCode,
+                            brandingTitle: item?.brandingTitle,
+                          },
                         });
-                        // reportSettingStore.pageBrandingService
-                        //   .findByFields({
-                        //     input: {
-                        //       filter: {
-                        //         tempCode: item.tempCode,
-                        //         brandingTitle:
-                        //           reportSettingStore.pageBranding?.brandingTitle ||
-                        //           '',
-                        //       },
-                        //     },
-                        //   })
-                        //   .then(res => {
-                        //     console.log({res});
-                        //     if (res.findByFieldsPageBranding.success) {
-                        //       setError('tempCode', {type: 'onBlur'});
-                        //       setError('brandingTitle', {type: 'onBlur'});
-                        //       Toast.error({
-                        //         message:
-                        //           '😔 Already exists temp code. Please select diff.',
-                        //       });
-                        //       return setIsExistsTempCode(true);
-                        //     } else {
-                        //       clearErrors('tempCode');
-                        //       clearErrors('brandingTitle');
-                        //       return setIsExistsTempCode(false);
-                        //     }
-                        //   });
                       }}
                     />
                   </Form.InputWrapper>

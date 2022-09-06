@@ -147,16 +147,12 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
       <ModalFileUpload
         {...modalFileUpload}
         onClick={(picture: any) => {
-          console.log({picture});
-
           userStore.UsersService.uploadImage({
             input: {
               picture,
               _id: loginStore.login?._id,
             },
           }).then((res: any) => {
-            console.log({res});
-
             setModalFileUpload({show: false});
             if (res.updateUserImages.success) {
               loginStore.updateLogin({

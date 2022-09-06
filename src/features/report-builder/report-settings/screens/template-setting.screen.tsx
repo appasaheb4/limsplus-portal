@@ -366,7 +366,7 @@ export const TemplateSettings = observer(() => {
                 </a>
                 <p>
                   {
-                    "Note: if footer present then min paddingBottom:'80pt' required."
+                    "Note: if footer present then min paddingBottom:'100pt' required."
                   }
                 </p>
               </List>
