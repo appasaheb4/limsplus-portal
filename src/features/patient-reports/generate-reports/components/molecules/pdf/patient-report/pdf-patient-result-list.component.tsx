@@ -72,8 +72,6 @@ export const PdfPatientResultList = ({
 
   useEffect(() => {
     if (data?.length > 0) {
-      console.log({data});
-
       const patientResultList: Array<any> = [];
       const departmentList = _.groupBy(
         data,
@@ -98,6 +96,8 @@ export const PdfPatientResultList = ({
                   testDescription: testKey,
                   testMethodDescription:
                     testItem?.testHeader?.testMethodDescription,
+                  testBottomMarker: testItem?.testHeader?.testBottomMarker,
+                  testRightMarker: testItem?.testHeader?.testRightMarker,
                 },
                 patientResultList: {
                   testName: testItem?.testName,
@@ -141,7 +141,6 @@ export const PdfPatientResultList = ({
           },
         });
       }
-      console.log({patientResultList});
       setPatientResultList(patientResultList);
     }
   }, [data]);
@@ -214,6 +213,7 @@ export const PdfPatientResultList = ({
                     >
                       <PdfSmall style={{marginLeft: 10}}>
                         {testItem?.testHeader?.testDescription}{' '}
+                        {` ${testItem.testHeader?.testRightMarker}`}
                       </PdfSmall>
                       <PdfSmall style={{marginLeft: 10}}>
                         {testItem?.testHeader?.testMethodDescription &&
