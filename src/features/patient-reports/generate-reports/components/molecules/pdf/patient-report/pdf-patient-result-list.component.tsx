@@ -135,9 +135,9 @@ export const PdfPatientResultList = ({
           },
           panelHeader,
           departmentFooter: {
-            signature: deptItems?.find(
+            userInfo: deptItems?.find(
               item => item?.departmentHeader?.departmentName == deptKey,
-            )?.departmentFooter?.signature,
+            )?.departmentFooter?.userInfo,
           },
         });
       }
@@ -299,7 +299,7 @@ export const PdfPatientResultList = ({
             ))}
 
             {/* Department Footer */}
-            {deptItem?.departmentFooter?.signature?.length > 0 && (
+            {deptItem?.departmentFooter?.userInfo?.length > 0 && (
               <PdfBorderView
                 style={{
                   width: '100%',
@@ -311,16 +311,21 @@ export const PdfPatientResultList = ({
                 flexDirection='row'
                 borderColor='#000'
               >
-                {deptItem?.departmentFooter?.signature?.map(signItem => (
-                  <PdfImage
-                    src={decompressString(signItem)}
-                    style={{
-                      width: 150,
-                      height: 100,
-                      marginLeft: 10,
-                      padding: 5,
-                    }}
-                  />
+                {deptItem?.departmentFooter?.userInfo?.map(deptFooterItem => (
+                  <PdfView flexDirection='column' alignItems='center'>
+                    <PdfImage
+                      src={decompressString(deptFooterItem?.signatureBase64)}
+                      style={{
+                        width: 100,
+                        height: 80,
+                        marginLeft: 10,
+                        padding: 5,
+                      }}
+                    />
+                    <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
+                    <PdfSmall>{deptFooterItem?.userDegree}</PdfSmall>
+                    <PdfSmall>{deptFooterItem?.deginisation}</PdfSmall>
+                  </PdfView>
                 ))}
               </PdfBorderView>
             )}

@@ -91,7 +91,7 @@ export const TemplatePatientResultList = observer(
                   return (
                     <>
                       {row?.endOfPage?.map(item => (
-                        <p>{`* ${item?.details}`}</p>
+                        <p>{` ${item?.details}`}</p>
                       ))}
                     </>
                   );
@@ -107,7 +107,7 @@ export const TemplatePatientResultList = observer(
                   return (
                     <>
                       {row?.endOfReport?.map(item => (
-                        <p>{`* ${item?.details}`}</p>
+                        <p>{` ${item?.details}`}</p>
                       ))}
                     </>
                   );
