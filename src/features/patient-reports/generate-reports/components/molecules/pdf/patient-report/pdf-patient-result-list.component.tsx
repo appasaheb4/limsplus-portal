@@ -266,6 +266,11 @@ export const PdfPatientResultList = ({
                                 <PdfSmall style={{textAlign: 'center'}}>
                                   {_item[1]?.analyteMethodDescription}
                                 </PdfSmall>
+                                {_item[1]?.tpmAnalyteInterpretation ? (
+                                  <PdfSmall style={{textAlign: 'center'}}>
+                                    {_item[1]?.analyteMasterInterpretation}
+                                  </PdfSmall>
+                                ) : null}
                               </>
                             ) : (
                               <PdfSmall style={{textAlign: 'center'}}>
@@ -335,15 +340,19 @@ export const PdfPatientResultList = ({
                     <PdfImage
                       src={decompressString(deptFooterItem?.signatureBase64)}
                       style={{
-                        width: 100,
-                        height: 80,
+                        width: 80,
+                        height: 60,
                         marginLeft: 10,
                         padding: 5,
                       }}
                     />
                     <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
-                    <PdfSmall>{deptFooterItem?.userDegree}</PdfSmall>
-                    <PdfSmall>{deptFooterItem?.deginisation}</PdfSmall>
+                    <PdfSmall style={{marginTop: -4}}>
+                      {deptFooterItem?.userDegree}
+                    </PdfSmall>
+                    <PdfSmall style={{marginTop: -4}}>
+                      {deptFooterItem?.deginisation}
+                    </PdfSmall>
                   </PdfView>
                 ))}
               </PdfBorderView>
