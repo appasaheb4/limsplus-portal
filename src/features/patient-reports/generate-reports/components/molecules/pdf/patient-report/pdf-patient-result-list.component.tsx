@@ -98,6 +98,8 @@ export const PdfPatientResultList = ({
                     testItem?.testHeader?.testMethodDescription,
                   testBottomMarker: testItem?.testHeader?.testBottomMarker,
                   testRightMarker: testItem?.testHeader?.testRightMarker,
+                  tpmPrintTestName: testItem?.testHeader?.tpmPrintTestName,
+                  tpmTestMethod: testItem?.testHeader?.tpmTestMethod,
                 },
                 patientResultList: {
                   testName: testItem?.testName,
@@ -110,6 +112,10 @@ export const PdfPatientResultList = ({
                     testItem =>
                       testItem?.testHeader?.testDescription == testKey,
                   )?.testFooter?.testInterpretation,
+                  tpmTestInterpretation: testItems?.find(
+                    testItem =>
+                      testItem?.testHeader?.testDescription == testKey,
+                  )?.testFooter?.tpmTestInterpretation,
                 },
               });
             });
@@ -120,11 +126,20 @@ export const PdfPatientResultList = ({
               panelMethodDescription: panelItems?.find(
                 pItem => pItem?.panelHeader?.panelDescription == panelKey,
               )?.panelHeader?.panelMethodDescription,
+              tpmPrintPanelName: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.tpmPrintPanelName,
+              tpmPanelMethod: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.tpmPanelMethod,
             },
             panelFooter: {
               panelInterpretation: panelItems?.find(
                 pItem => pItem?.panelHeader?.panelDescription == panelKey,
               )?.panelFooter?.panelInterpretation,
+              tpmPanelInterpretation: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelFooter?.tpmPanelInterpretation,
             },
             testHeader,
           });
@@ -189,11 +204,12 @@ export const PdfPatientResultList = ({
                   borderColor='#000'
                 >
                   <PdfSmall style={{marginLeft: 10}}>
-                    {panelItem?.panelHeader?.panelDescription}{' '}
+                    {panelItem.panelHeader?.tpmPrintPanelName
+                      ? panelItem?.panelHeader?.panelDescription
+                      : ''}
                   </PdfSmall>
                   <PdfSmall style={{marginLeft: 10}}>
-                    {panelItem?.panelHeader?.panelMethodDescription &&
-                    panelItem?.panelHeader?.panelMethodFlag
+                    {panelItem?.panelHeader?.tpmPanelMethod
                       ? panelItem?.panelHeader?.panelMethodDescription
                       : ''}
                   </PdfSmall>
@@ -211,13 +227,14 @@ export const PdfPatientResultList = ({
                       bw={1}
                       borderColor='#000'
                     >
+                      {testItem.testHeader?.tpmPrintTestName ? (
+                        <PdfSmall style={{marginLeft: 10}}>
+                          {testItem?.testHeader?.testDescription}{' '}
+                          {` ${testItem.testHeader?.testRightMarker}`}
+                        </PdfSmall>
+                      ) : null}
                       <PdfSmall style={{marginLeft: 10}}>
-                        {testItem?.testHeader?.testDescription}{' '}
-                        {` ${testItem.testHeader?.testRightMarker}`}
-                      </PdfSmall>
-                      <PdfSmall style={{marginLeft: 10}}>
-                        {testItem?.testHeader?.testMethodDescription &&
-                        testItem?.testHeader?.testMethodFlag
+                        {testItem?.testHeader?.tpmTestMethod
                           ? testItem?.testHeader?.testMethodDescription
                           : ''}
                       </PdfSmall>
@@ -241,9 +258,11 @@ export const PdfPatientResultList = ({
                           >
                             {typeof _item[1] == 'object' ? (
                               <>
-                                <PdfSmall style={{textAlign: 'center'}}>
-                                  {_item[1]?.analyteDescription}
-                                </PdfSmall>
+                                {_item[1]?.tpmAnalyteMethod ? (
+                                  <PdfSmall style={{textAlign: 'center'}}>
+                                    {_item[1]?.analyteDescription}
+                                  </PdfSmall>
+                                ) : null}
                                 <PdfSmall style={{textAlign: 'center'}}>
                                   {_item[1]?.analyteMethodDescription}
                                 </PdfSmall>
@@ -259,7 +278,7 @@ export const PdfPatientResultList = ({
                     </View>
 
                     {/* Test Footer */}
-                    {testItem?.testFooter?.testInterpretation && (
+                    {testItem?.testFooter?.tpmTestInterpretation && (
                       <PdfBorderView
                         style={{
                           width: '100%',
@@ -279,7 +298,7 @@ export const PdfPatientResultList = ({
                 ))}
 
                 {/* Panel Footer */}
-                {panelItem?.panelFooter?.panelInterpretation && (
+                {panelItem?.panelFooter?.tpmPanelInterpretation && (
                   <PdfBorderView
                     style={{
                       width: '100%',
