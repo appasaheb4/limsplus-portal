@@ -9,8 +9,10 @@ import {
   Buttons,
   Icons,
 } from '@/library/components';
+
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
+
 import {patientRegistrationHoc} from '../../hoc';
 
 import {
@@ -122,8 +124,8 @@ const PatientRegistration = observer(() => {
         </Accordion>
       </div>
 
-      <div className='flex flex-row items-center justify-center mb-20'>
-        <h4>SPECIMEN AND TEST DETAILS</h4>
+      <div className='flex flex-row items-center justify-center -mt-10'>
+        <h4 className='underline'>Activity</h4>
       </div>
     </>
   );

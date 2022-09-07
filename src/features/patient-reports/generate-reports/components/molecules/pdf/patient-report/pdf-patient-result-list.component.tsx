@@ -258,14 +258,15 @@ export const PdfPatientResultList = ({
                           >
                             {typeof _item[1] == 'object' ? (
                               <>
+                                <PdfSmall style={{textAlign: 'center'}}>
+                                  {_item[1]?.analyteDescription}
+                                </PdfSmall>
+
                                 {_item[1]?.tpmAnalyteMethod ? (
                                   <PdfSmall style={{textAlign: 'center'}}>
-                                    {_item[1]?.analyteDescription}
+                                    {_item[1]?.analyteMethodDescription}
                                   </PdfSmall>
                                 ) : null}
-                                <PdfSmall style={{textAlign: 'center'}}>
-                                  {_item[1]?.analyteMethodDescription}
-                                </PdfSmall>
                                 {_item[1]?.tpmAnalyteInterpretation ? (
                                   <PdfSmall style={{textAlign: 'center'}}>
                                     {_item[1]?.analyteMasterInterpretation}
