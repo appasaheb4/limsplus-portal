@@ -264,34 +264,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 );
               },
             },
-            {
-              dataField: 'printTestName',
-              text: 'Print Test Name',
-              sort: true,
-              csvFormatter: (col, row) =>
-                `${
-                  row.printTestName ? (row.printTestName ? 'Yes' : 'No') : 'No'
-                }`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.printTestName}
-                      onChange={printTestName => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            printTestName,
-                            'printTestName',
-                            row._id,
-                          );
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
+
             {
               dataField: 'printPanelName',
               text: 'Print Panel Name',
@@ -321,8 +294,36 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
             {
+              dataField: 'printTestName',
+              text: 'Print Test Name',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.printTestName ? (row.printTestName ? 'Yes' : 'No') : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.printTestName}
+                      onChange={printTestName => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            printTestName,
+                            'printTestName',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'masterFlags',
-              text: 'Master Flags',
+              text: 'Method Flags',
               sort: true,
               csvFormatter: (col, row) =>
                 `${row.panelMethod ? (row.panelMethod ? 'Yes' : 'No') : 'No'}`,

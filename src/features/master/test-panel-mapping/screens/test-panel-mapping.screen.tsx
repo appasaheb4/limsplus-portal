@@ -248,7 +248,7 @@ const TestPanelMapping = TestPanelMappingHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={isInputView}
+            show={!isInputView}
             onClick={() => setIsInputView(!isInputView)}
           />
         )}
@@ -700,7 +700,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   />
                 </Grid>
                 <Form.InputWrapper
-                  label='Master Flags'
+                  label='Method Flags'
                   hasError={!!errors.status}
                 >
                   <div className='inline-flex rounded-md' role='group'>

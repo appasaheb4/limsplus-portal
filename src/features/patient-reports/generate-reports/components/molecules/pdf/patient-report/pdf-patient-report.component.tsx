@@ -93,21 +93,6 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
             data={patientReports?.patientResultList}
           />
 
-          {/* Test Bottom Marker */}
-          <PdfView
-            style={{
-              position: 'absolute',
-              bottom: 80,
-              right: 10,
-              fontSize: 12,
-            }}
-            fixed
-          >
-            {testBottomMarker?.map(item => (
-              <PdfSmall>{` * ${item}`}</PdfSmall>
-            ))}
-          </PdfView>
-
           {/* End of Page */}
           <PdfView
             style={{
@@ -118,9 +103,12 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
             }}
             fixed
           >
+            {testBottomMarker?.map(item => (
+              <PdfSmall>{` ${item}`}</PdfSmall>
+            ))}
             {patientReports?.templatePatientResultLabWise?.endOfPage?.map(
               item => (
-                <PdfSmall>{` * ${item?.details}`}</PdfSmall>
+                <PdfSmall>{` ${item?.details}`}</PdfSmall>
               ),
             )}
           </PdfView>

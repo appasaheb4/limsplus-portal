@@ -65,7 +65,7 @@ export class ReportSettingStore {
       isToolbar: false,
       isBackgroundImage: false,
       pageSize: 'A4',
-      mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '100pt',",
+      mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '120pt',",
     });
     this.templateSettingsList = [];
     this.pageBranding = new PageBranding({
