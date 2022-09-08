@@ -8,6 +8,7 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Buttons,
   Icons,
+  Grid,
 } from '@/library/components';
 
 import {Accordion, AccordionItem} from 'react-sanfona';
@@ -25,6 +26,7 @@ import {
 } from '../index';
 import {useStores} from '@/stores';
 import {stores} from '@/stores';
+import {patientOrder} from '../../utils';
 
 export const patientRegistrationOptions = [
   {title: 'PATIENT MANAGER'},
@@ -36,8 +38,13 @@ export const patientRegistrationOptions = [
 ];
 
 const PatientRegistration = observer(() => {
-  const {loading, loginStore, patientRegistrationStore, patientVisitStore} =
-    useStores();
+  const {
+    loading,
+    loginStore,
+    patientRegistrationStore,
+    patientVisitStore,
+    patientOrderStore,
+  } = useStores();
   return (
     <>
       <Header>
@@ -124,8 +131,53 @@ const PatientRegistration = observer(() => {
         </Accordion>
       </div>
 
-      <div className='flex flex-row items-center justify-center -mt-10'>
-        <h4 className='underline'>Activity</h4>
+      <div className='flex flex-col  -mt-10'>
+        <h4 className='underline text-center'>Activity</h4>
+        <Grid cols={3}>
+          <div className='p-3 border border-gray-800 relative mt-2'>
+            <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+              Reload Patient Result
+            </h2>
+            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              loader={loading}
+              placeholder='Lab Id'
+              className='h-4'
+              data={{
+                list: patientOrderStore.listPatientOrder?.filter(
+                  item => item.labId !== undefined,
+                ),
+                displayKey: ['labId'],
+              }}
+              displayValue={
+                patientRegistrationStore.defaultValues?.labId?.toString() || ''
+              }
+              onFilter={(labId: string) => {
+                patientVisitStore.patientVisitService.filterByLabId({
+                  input: {
+                    filter: {labId},
+                  },
+                });
+              }}
+              onSelect={item => {
+                console.log({item});
+
+                // generateReportsStore.generateReportsService
+                //   .getPatientReportAndPageBrandingFromLabId(item.labId)
+                //   .then(res => {
+                //     console.log({res});
+
+                //     generateReportsStore.updatePatientReports(res?.patientReport);
+                //     generateReportsStore.updatePageBranding(res?.pageBranding);
+                //   })
+                //   .catch(errors => {
+                //     return Toast.error({
+                //       message: `😔 ${errors.message}`,
+                //     });
+                //   });
+              }}
+            />
+          </div>
+        </Grid>
       </div>
     </>
   );
