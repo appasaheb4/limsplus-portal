@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -29,7 +29,10 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import {PdfTPRTemp0001} from '@features/report-builder/report-template/components';
+import {
+  PdfTPRTemp0001,
+  PdfTPRTemp0002,
+} from '@features/report-builder/report-template/components';
 import {PDFViewer, PDFDownloadLink} from '@react-pdf/renderer';
 
 const GenerateReport = observer(() => {
@@ -43,6 +46,7 @@ const GenerateReport = observer(() => {
     generateReportsStore,
     reportSettingStore,
   } = useStores();
+  const [tempCode, setTempCode] = useState('');
 
   const {
     control,
@@ -52,9 +56,24 @@ const GenerateReport = observer(() => {
   } = useForm();
   setValue('species', patientManagerStore.patientManger.species);
 
-  const [hideInputView, setHideInputView] = useState<boolean>(true);
-
-  const onSubmitPatientManager = () => {};
+  const getTemplate = (tempCode: string, data: any) => {
+    switch (tempCode) {
+      case 'TEMP0001':
+        return <PdfTPRTemp0001 data={data} />;
+      case 'TEMP0002':
+        return <PdfTPRTemp0002 data={data} />;
+      default:
+        return (
+          <div className='justify-center items-center'>
+            <h4 className='text-center mt-10 text-red'>
+              Template not found. Please select correct template code and labId.
+              🚨
+            </h4>
+          </div>
+        );
+        break;
+    }
+  };
 
   return (
     <>
@@ -74,9 +93,6 @@ const GenerateReport = observer(() => {
               ),
               displayKey: ['labId'],
             }}
-            displayValue={
-              patientRegistrationStore.defaultValues?.labId?.toString() || ''
-            }
             onFilter={(labId: string) => {
               patientVisitStore.patientVisitService.filterByLabId({
                 input: {
@@ -100,13 +116,37 @@ const GenerateReport = observer(() => {
                 });
             }}
           />
+          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+            loader={loading}
+            placeholder='Template code'
+            className='h-4'
+            data={{
+              list: reportSettingStore.templatePatientResultList,
+              displayKey: ['templateCode', 'templateTitle'],
+            }}
+            onFilter={(labId: string) => {
+              // patientVisitStore.patientVisitService.filterByLabId({
+              //   input: {
+              //     filter: {labId},
+              //   },
+              // });
+            }}
+            onSelect={item => {
+              setTempCode(item.templateCode);
+            }}
+          />
         </div>
         <PageHeadingLabDetails store={loginStore} />
       </Header>
       {window.innerWidth <= 768 ? (
         <PDFDownloadLink
           document={
-            <PdfTPRTemp0001 data={generateReportsStore.patientReports} />
+            <>
+              {getTemplate(tempCode, {
+                patientReports: generateReportsStore.patientReports,
+                pageBranding: generateReportsStore.pageBranding,
+              })}
+            </>
           }
           fileName='Patient Reports'
           style={{
@@ -128,12 +168,12 @@ const GenerateReport = observer(() => {
           }
         </PDFDownloadLink>
       ) : (
-        <PdfTPRTemp0001
-          data={{
+        <>
+          {getTemplate(tempCode, {
             patientReports: generateReportsStore.patientReports,
             pageBranding: generateReportsStore.pageBranding,
-          }}
-        />
+          })}
+        </>
       )}
     </>
   );

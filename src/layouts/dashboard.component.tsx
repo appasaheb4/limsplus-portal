@@ -236,11 +236,12 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/patient-reports/generate-report') {
         stores.appStore.updateFooterView({visible: false});
+        stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();
         await GenerateReport.startup();
+        //await ReportSettings.startup();
       } else {
         stores.appStore.updateFooterView({visible: true});
       }
-
       stores;
     }
     stores.appStore.updateLoadApi({count: 1});

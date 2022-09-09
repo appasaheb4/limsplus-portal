@@ -125,18 +125,30 @@ export const TemplatePatientResult = observer(() => {
                             input: {
                               filter: {
                                 reportTemplateType,
+                                templateCode:
+                                  reportSettingStore.templatePatientResult
+                                    ?.templateCode || '',
+                                templateTitle:
+                                  reportSettingStore.templatePatientResult
+                                    ?.templateTitle || '',
                               },
                             },
                           })
                           .then(res => {
+                            console.log({res});
+
                             if (res.findByFieldsTemplatePatientResult.success) {
                               setError('reportTemplateType', {type: 'onBlur'});
+                              setError('templateCode', {type: 'onBlur'});
+                              setError('templateTitle', {type: 'onBlur'});
                               Toast.error({
                                 message: '😔 Already exists record.',
                               });
                               return setIsExistsRecord(true);
                             } else {
                               clearErrors('reportTemplateType');
+                              clearErrors('templateCode');
+                              clearErrors('templateTitle');
                               return setIsExistsRecord(false);
                             }
                           });
@@ -216,31 +228,36 @@ export const TemplatePatientResult = observer(() => {
                       });
                     }}
                     onBlur={templateCode => {
-                      // reportSettingStore.pageBrandingService
-                      //   .findByFields({
-                      //     input: {
-                      //       filter: {
-                      //         tempCode:
-                      //           reportSettingStore.pageBranding?.tempCode || '',
-                      //         brandingTitle: brandingTitle?.toUpperCase(),
-                      //       },
-                      //     },
-                      //   })
-                      //   .then(res => {
-                      //     if (res.findByFieldsPageBranding.success) {
-                      //       setError('tempCode', {type: 'onBlur'});
-                      //       setError('brandingTitle', {type: 'onBlur'});
-                      //       Toast.error({
-                      //         message:
-                      //           '😔 Already exists temp code. Please select diff.',
-                      //       });
-                      //       return setIsExistsTempCode(true);
-                      //     } else {
-                      //       clearErrors('tempCode');
-                      //       clearErrors('brandingTitle');
-                      //       return setIsExistsTempCode(false);
-                      //     }
-                      //   });
+                      reportSettingStore.templatePatientResultService
+                        .findByFields({
+                          input: {
+                            filter: {
+                              reportTemplateType:
+                                reportSettingStore.templatePatientResult
+                                  ?.reportTemplateType || '',
+                              templateCode,
+                              templateTitle:
+                                reportSettingStore.templatePatientResult
+                                  ?.templateTitle || '',
+                            },
+                          },
+                        })
+                        .then(res => {
+                          if (res.findByFieldsTemplatePatientResult.success) {
+                            setError('reportTemplateType', {type: 'onBlur'});
+                            setError('templateCode', {type: 'onBlur'});
+                            setError('templateTitle', {type: 'onBlur'});
+                            Toast.error({
+                              message: '😔 Already exists record.',
+                            });
+                            return setIsExistsRecord(true);
+                          } else {
+                            clearErrors('reportTemplateType');
+                            clearErrors('templateCode');
+                            clearErrors('templateTitle');
+                            return setIsExistsRecord(false);
+                          }
+                        });
                     }}
                   />
                 )}
@@ -264,31 +281,36 @@ export const TemplatePatientResult = observer(() => {
                       });
                     }}
                     onBlur={templateTitle => {
-                      // reportSettingStore.pageBrandingService
-                      //   .findByFields({
-                      //     input: {
-                      //       filter: {
-                      //         tempCode:
-                      //           reportSettingStore.pageBranding?.tempCode || '',
-                      //         brandingTitle: brandingTitle?.toUpperCase(),
-                      //       },
-                      //     },
-                      //   })
-                      //   .then(res => {
-                      //     if (res.findByFieldsPageBranding.success) {
-                      //       setError('tempCode', {type: 'onBlur'});
-                      //       setError('brandingTitle', {type: 'onBlur'});
-                      //       Toast.error({
-                      //         message:
-                      //           '😔 Already exists temp code. Please select diff.',
-                      //       });
-                      //       return setIsExistsTempCode(true);
-                      //     } else {
-                      //       clearErrors('tempCode');
-                      //       clearErrors('brandingTitle');
-                      //       return setIsExistsTempCode(false);
-                      //     }
-                      //   });
+                      reportSettingStore.templatePatientResultService
+                        .findByFields({
+                          input: {
+                            filter: {
+                              reportTemplateType:
+                                reportSettingStore.templatePatientResult
+                                  ?.reportTemplateType || '',
+                              templateCode:
+                                reportSettingStore.templatePatientResult
+                                  ?.templateCode || '',
+                              templateTitle,
+                            },
+                          },
+                        })
+                        .then(res => {
+                          if (res.findByFieldsTemplatePatientResult.success) {
+                            setError('reportTemplateType', {type: 'onBlur'});
+                            setError('templateCode', {type: 'onBlur'});
+                            setError('templateTitle', {type: 'onBlur'});
+                            Toast.error({
+                              message: '😔 Already exists record.',
+                            });
+                            return setIsExistsRecord(true);
+                          } else {
+                            clearErrors('reportTemplateType');
+                            clearErrors('templateCode');
+                            clearErrors('templateTitle');
+                            return setIsExistsRecord(false);
+                          }
+                        });
                     }}
                   />
                 )}
