@@ -12,7 +12,7 @@ export interface ButtonProps {
   size?: 'small' | 'medium' | 'large';
   icon?: React.FunctionComponent<IconProps>;
   pill?: boolean;
-  disabled?: string;
+  disabled?: boolean;
   id?: string;
   innerRef?: any;
   className?: string;
@@ -42,8 +42,7 @@ export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
       <button
         onClick={props.onClick}
         type='button'
-        disabled={!!props.disabled}
-        title={props.disabled}
+        disabled={props.disabled}
         id={props.id}
         ref={props.innerRef}
         className={`${props.buttonClass} inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}

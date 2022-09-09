@@ -20,7 +20,6 @@ import {
   PageBrandingSubHeader,
   PageBrandingFooter,
   PageNumber,
-  PdfTemp0001,
 } from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
@@ -32,6 +31,8 @@ import '@/library/assets/css/accordion.css';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
+
+import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
 
 export const PageBranding = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -78,7 +79,7 @@ export const PageBranding = observer(() => {
   const getTemplate = (tempCode: string, data: any) => {
     switch (tempCode) {
       case 'TEMP0001':
-        return <PdfTemp0001 data={data} />;
+        return <PdfPBTemp0001 data={data} />;
       default:
         return (
           <div className='justify-center items-center'>

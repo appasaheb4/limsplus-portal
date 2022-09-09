@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface PdfTemplateSettingProps {
+interface PdfTSTemp0001Props {
   width?: string | number;
   height?: number;
   documentTitle?: string;
@@ -35,7 +35,7 @@ interface PdfTemplateSettingProps {
   children: React.ReactNode;
 }
 
-export const PdfTemplateSetting = ({
+export const PdfTSTemp0001 = ({
   width = '100%',
   height = 300,
   documentTitle = 'Template Settings',
@@ -45,7 +45,7 @@ export const PdfTemplateSetting = ({
   mainBoxCSS,
   pageSize,
   children,
-}: PdfTemplateSettingProps) => {
+}: PdfTSTemp0001Props) => {
   //const [boxCSS, setBoxCSS] = useState<any>(mainBoxCSS);
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {

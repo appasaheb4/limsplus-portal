@@ -44,6 +44,8 @@ export class PatientOrderStore {
   }
 
   updatePatientOrderList(res: any) {
+    console.log({res});
+
     if (!Array.isArray(res)) {
       if (!res.patientOrders.success) return alert(res.patientOrders.message);
       this.listPatientOrder = res.patientOrders.data;

@@ -10,8 +10,12 @@ export const LIST_PATIENT_ORDER = gql`
       message
       data {
         _id
+        pId
+        age
+        ageUnits
         labId
         orderId
+        rLab
         visitId
         patientName
         panelCode
@@ -111,8 +115,12 @@ export const FILTER_PATIENT_ORDER = gql`
       message
       data {
         _id
+        pId
+        age
+        ageUnits
         labId
         orderId
+        rLab
         visitId
         patientName
         panelCode
@@ -204,8 +212,12 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
       message
       data {
         _id
+        pId
+        age
+        ageUnits
         labId
         orderId
+        rLab
         visitId
         patientName
         panelCode

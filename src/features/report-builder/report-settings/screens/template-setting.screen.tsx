@@ -14,7 +14,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import {TemplateSettingsList, PdfTemplateSetting} from '../components';
+import {TemplateSettingsList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
@@ -23,6 +23,8 @@ import {resizeFile, compressString} from '@/library/utils';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
+
+import {PdfTSTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/template-setting/temp0001/temp0001.component';
 
 export const TemplateSettings = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -373,7 +375,7 @@ export const TemplateSettings = observer(() => {
             </Grid>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
-            <PdfTemplateSetting
+            <PdfTSTemp0001
               documentTitle='Template Setting'
               isToolbar={reportSettingStore.templateSettings?.isToolbar}
               isBackgroundImage={
@@ -453,7 +455,7 @@ export const TemplateSettings = observer(() => {
             setModalView({
               visible: true,
               children: (
-                <PdfTemplateSetting
+                <PdfTSTemp0001
                   documentTitle='Template Setting'
                   height={window.innerHeight / 1.3}
                   isToolbar={item.isToolbar}
