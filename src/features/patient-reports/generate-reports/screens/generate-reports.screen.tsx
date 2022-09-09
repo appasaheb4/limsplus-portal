@@ -29,7 +29,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import {PdfPatientReport} from '../components';
+import {PdfTPRTemp0001} from '@features/report-builder/report-template/components';
 import {PDFViewer, PDFDownloadLink} from '@react-pdf/renderer';
 
 const GenerateReport = observer(() => {
@@ -106,7 +106,7 @@ const GenerateReport = observer(() => {
       {window.innerWidth <= 768 ? (
         <PDFDownloadLink
           document={
-            <PdfPatientReport data={generateReportsStore.patientReports} />
+            <PdfTPRTemp0001 data={generateReportsStore.patientReports} />
           }
           fileName='Patient Reports'
           style={{
@@ -128,7 +128,7 @@ const GenerateReport = observer(() => {
           }
         </PDFDownloadLink>
       ) : (
-        <PdfPatientReport
+        <PdfTPRTemp0001
           data={{
             patientReports: generateReportsStore.patientReports,
             pageBranding: generateReportsStore.pageBranding,

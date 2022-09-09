@@ -1,6 +1,5 @@
 // template setting
 export * from './molecules/template-setting/template-settings-list.components';
-export * from './molecules/template-setting/pdf-template-setting';
 
 export * from './molecules/report-section/report-section-list.components';
 export * from './molecules/section-settings/section-settings-list.components';
@@ -14,7 +13,6 @@ export * from './molecules/page-branding/header.component';
 export * from './molecules/page-branding/sub-header.component';
 export * from './molecules/page-branding/footer.component';
 export * from './molecules/page-branding/page-number.component';
-export * from './molecules/page-branding/pdf/patient-report/temp0001/pdf-temp0001.component';
 export * from './molecules/page-branding/page-branding-list.components';
 
 // template patient result

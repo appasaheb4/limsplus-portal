@@ -37,19 +37,19 @@ const styles = StyleSheet.create({
   },
 });
 
-interface PdfPatientResultListProps {
+interface PdfTPRTemp0001ListProps {
   style?: Style;
   headerStyle?: Style;
   headerFixed?: boolean;
   data: Array<any>;
 }
 
-export const PdfPatientResultList = ({
+export const PdfTPRTemp0001List = ({
   headerFixed = false,
   data,
   style,
   headerStyle,
-}: PdfPatientResultListProps) => {
+}: PdfTPRTemp0001ListProps) => {
   const [patientResultList, setPatientResultList] = useState<Array<any>>();
   const fields = [
     {
@@ -208,7 +208,14 @@ export const PdfPatientResultList = ({
                       ? panelItem?.panelHeader?.panelDescription
                       : ''}
                   </PdfSmall>
-                  <PdfSmall style={{marginLeft: 10}}>
+                  <PdfSmall
+                    style={{
+                      marginLeft: 10,
+                      fontSize: 0,
+                      marginTop: -2,
+                      fontWeight: 'bold',
+                    }}
+                  >
                     {panelItem?.panelHeader?.tpmPanelMethod
                       ? panelItem?.panelHeader?.panelMethodDescription
                       : ''}
@@ -233,7 +240,14 @@ export const PdfPatientResultList = ({
                           {` ${testItem.testHeader?.testRightMarker}`}
                         </PdfSmall>
                       ) : null}
-                      <PdfSmall style={{marginLeft: 10}}>
+                      <PdfSmall
+                        style={{
+                          marginLeft: 10,
+                          fontSize: 8,
+                          marginTop: -2,
+                          fontWeight: 'bold',
+                        }}
+                      >
                         {testItem?.testHeader?.tpmTestMethod
                           ? testItem?.testHeader?.testMethodDescription
                           : ''}
@@ -258,17 +272,17 @@ export const PdfPatientResultList = ({
                           >
                             {typeof _item[1] == 'object' ? (
                               <>
-                                <PdfSmall style={{textAlign: 'center'}}>
+                                <PdfSmall style={{marginLeft: 10}}>
                                   {_item[1]?.analyteDescription}
                                 </PdfSmall>
 
                                 {_item[1]?.tpmAnalyteMethod ? (
-                                  <PdfSmall style={{textAlign: 'center'}}>
+                                  <PdfSmall style={{marginLeft: 10}}>
                                     {_item[1]?.analyteMethodDescription}
                                   </PdfSmall>
                                 ) : null}
                                 {_item[1]?.tpmAnalyteInterpretation ? (
-                                  <PdfSmall style={{textAlign: 'center'}}>
+                                  <PdfSmall style={{marginLeft: 10}}>
                                     {_item[1]?.analyteMasterInterpretation}
                                   </PdfSmall>
                                 ) : null}

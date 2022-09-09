@@ -15,14 +15,14 @@ import {
   PdfSmall,
 } from '@components';
 import {observer} from 'mobx-react';
-import {PdfTemp0001} from '@/features/report-builder/report-settings/components';
-import {PdfPatientResultList} from './pdf-patient-result-list.component';
+import {PdfPBTemp0001} from '../../page-branding/temp0001/temp0001.component';
+import {PdfTPRTemp0001List} from './temp0001-list.component';
 
-interface PdfPatientReportProps {
+interface PdfTPRTemp0001Props {
   data: any;
 }
 
-export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
+export const PdfTPRTemp0001 = observer(({data}: PdfTPRTemp0001Props) => {
   const {pageBranding, patientReports} = data;
   const [testBottomMarker, setTestBottomMarker] = useState<Array<any>>();
   useEffect(() => {
@@ -35,7 +35,7 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
   }, [patientReports]);
 
   return (
-    <PdfTemp0001
+    <PdfPBTemp0001
       data={pageBranding}
       children={
         <>
@@ -87,7 +87,7 @@ export const PdfPatientReport = observer(({data}: PdfPatientReportProps) => {
           </PdfBorderView>
 
           {/* Table */}
-          <PdfPatientResultList
+          <PdfTPRTemp0001List
             headerStyle={{backgroundColor: 'transparent'}}
             headerFixed
             data={patientReports?.patientResultList}

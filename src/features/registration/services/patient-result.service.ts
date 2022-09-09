@@ -16,6 +16,7 @@ import {
   PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
   GET_PATIENT_RESULT_DISTINCT,
   UPDATE_RECORD,
+  RELOAD_RECORD,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -195,6 +196,21 @@ export class PatientResultService {
       client
         .mutate({
           mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  reloadRecordByPatientOrder = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: RELOAD_RECORD,
           variables,
         })
         .then((response: any) => {
