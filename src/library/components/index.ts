@@ -3,7 +3,7 @@ import Toast from '../../library/modules/toast';
 import * as Buttons from './atoms/buttons/button.component';
 import * as Form from './atoms/form/form.component';
 import * as Svg from './atoms/svg.component';
-import * as Icons from './atoms/icons.component';
+import * as Icons from './atoms/icons/icons.component';
 export {ToastContainer, Toast, Buttons, Form, Svg, Icons};
 
 export * from './atoms/carousel/carousel.component';

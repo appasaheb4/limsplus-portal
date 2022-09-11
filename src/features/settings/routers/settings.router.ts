@@ -37,19 +37,19 @@ export const settingsRoutes = {
       component: User,
     },
     {
-      path: '/settings/loginActivity',
+      path: '/settings/login-activity',
       name: 'Login Activity',
       icon: 'Icons.IconFi.FiActivity',
       component: LoginActivity,
     },
     {
-      path: '/settings/mapping/roleMapping',
+      path: '/settings/mapping/role-mapping',
       name: 'Role Mapping',
       icon: 'Icons.IconRi.RiShieldKeyholeFill',
       component: RoleMapping,
     },
     {
-      path: '/settings/shortcutMenu',
+      path: '/settings/shortcut-menu',
       name: 'Shortcut Menu',
       icon: 'Icons.IconCg.CgShortcut',
       component: ShortcutMenu,
@@ -61,7 +61,7 @@ export const settingsRoutes = {
       component: Environment,
     },
     {
-      path: '/settings/noticeBoards',
+      path: '/settings/notice-boards',
       name: 'Notice Boards',
       icon: 'Icons.IconFa.FaClipboardList',
       component: NoticeBoards,
