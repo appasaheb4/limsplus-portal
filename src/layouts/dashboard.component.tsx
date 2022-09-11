@@ -102,10 +102,10 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/collection/banner') await Banner.startup();
       if (
-        pathname === '/collection/masterAnalyte' ||
-        pathname === '/collection/testAnalyteMapping' ||
-        pathname === '/collection/possibleResults' ||
-        pathname === '/collection/referenceRanges'
+        pathname === '/collection/master-analyte' ||
+        pathname === '/collection/test-analyte-mapping' ||
+        pathname === '/collection/possible-results' ||
+        pathname === '/collection/reference-ranges'
       ) {
         await MasterAnalyte.startup();
         await Methods.startup();
@@ -113,21 +113,21 @@ const Dashboard = observer(({children}) => {
         await Library.startup();
       }
       if (
-        pathname === '/collection/testMaster' ||
-        pathname === '/collection/testSampleMapping' ||
-        pathname === '/collection/testAnalyteMapping' ||
-        pathname === '/collection/testPanelMapping'
+        pathname === '/collection/test-master' ||
+        pathname === '/collection/test-sample-mapping' ||
+        pathname === '/collection/test-analyte-mapping' ||
+        pathname === '/collection/test-panel-mapping'
       ) {
         await TestMaster.startup();
         await Methods.startup();
         await Library.startup();
       }
       if (
-        pathname === '/collection/masterPanel' ||
-        pathname === '/collection/testPanelMapping' ||
-        pathname === '/collection/masterPackage' ||
+        pathname === '/collection/master-panel' ||
+        pathname === '/collection/test-panel-mapping' ||
+        pathname === '/collection/master-package' ||
         pathname === '/collection/library' ||
-        pathname === '/collection/priceList'
+        pathname === '/collection/price-list'
       ) {
         await PanelMaster.startup();
         await Methods.startup();
@@ -135,24 +135,24 @@ const Dashboard = observer(({children}) => {
         await ReportSettings.startUpPageBranding();
       }
       if (
-        pathname === '/collection/sampleContainer' ||
-        pathname === '/collection/testSampleMapping'
+        pathname === '/collection/sample-container' ||
+        pathname === '/collection/test-sample-mapping'
       )
         await SampleContainer.startup();
       if (
-        pathname === '/collection/sampleType' ||
-        pathname === '/collection/testSampleMapping'
+        pathname === '/collection/sample-type' ||
+        pathname === '/collection/test-sample-mapping'
       )
         await SampleType.startup();
-      if (pathname === '/collection/testSampleMapping') {
+      if (pathname === '/collection/test-sample-mapping') {
         await TestSampleMapping.startup();
         await Department.startup();
       }
-      if (pathname === '/collection/testAnalyteMapping')
+      if (pathname === '/collection/test-analyte-mapping')
         await TestAnalyteMapping.startup();
-      if (pathname === '/collection/testPanelMapping')
+      if (pathname === '/collection/test-panel-mapping')
         await TestPanelMapping.startup();
-      if (pathname === '/collection/masterPackage')
+      if (pathname === '/collection/master-package')
         await PackageMaster.startup();
       if (pathname === '/collection/methods') await Methods.startup();
       if (pathname === '/collection/doctors') {
@@ -161,15 +161,15 @@ const Dashboard = observer(({children}) => {
         await RegistrationLocations.startup();
         await SalesTeam.startup();
       }
-      if (pathname === '/collection/registrationLocations') {
+      if (pathname === '/collection/registration-locations') {
         await RegistrationLocations.startup();
         await AdministrativeDivisions.startup();
         await PriceList.startup();
       }
       if (
-        pathname === '/collection/corporateClients' ||
-        pathname === '/collection/registrationLocations' ||
-        pathname === '/collection/priceList'
+        pathname === '/collection/corporate-clients' ||
+        pathname === '/collection/registration-locations' ||
+        pathname === '/collection/price-list'
       ) {
         await CorporateClients.startup();
         await AdministrativeDivisions.startup();
@@ -177,39 +177,39 @@ const Dashboard = observer(({children}) => {
         await PriceList.startup();
       }
       if (
-        pathname === '/collection/deliverySchedule' ||
-        pathname === '/collection/testMaster' ||
-        pathname === '/collection/masterPanel'
+        pathname === '/collection/delivery-schedule' ||
+        pathname === '/collection/test-master' ||
+        pathname === '/collection/master-panel'
       )
         await DeliverySchdule.startup();
       if (
-        pathname === '/collection/administrativeDivisions' ||
-        pathname === '/collection/salesTeam' ||
+        pathname === '/collection/administrative-divisions' ||
+        pathname === '/collection/sales-team' ||
         pathname === '/collection/lab'
       )
         await AdministrativeDivisions.startup();
       if (
-        pathname === '/collection/salesTeam' ||
+        pathname === '/collection/sales-team' ||
         pathname === '/collection/lab'
       )
         await SalesTeam.startup();
       if (pathname === '/collection/section') await Section.startup();
-      if (pathname === '/collection/possibleResults')
+      if (pathname === '/collection/possible-results')
         await PossibleResults.startup();
       if (pathname === '/collection/library') await Library.startup();
-      if (pathname === '/collection/priceList') await PriceList.startup();
-      if (pathname === '/collection/referenceRanges') {
+      if (pathname === '/collection/price-list') await PriceList.startup();
+      if (pathname === '/collection/reference-ranges') {
         await ReferenceRanges.startup();
         await InterfaceManager.startup();
       }
       if (pathname === '/settings/environment') await Environment.startup();
-      if (pathname === '/settings/mapping/roleMapping')
+      if (pathname === '/settings/mapping/role-mapping')
         await RoleMappping.startup();
-      if (pathname === '/communication/interfaceManager')
+      if (pathname === '/communication/interface-manager')
         await InterfaceManager.startup();
-      if (pathname === '/communication/mapping/conversationMapping')
+      if (pathname === '/communication/mapping/conversation-mapping')
         await DataConveration.startup();
-      if (pathname === '/communication/mapping/segmentMapping') {
+      if (pathname === '/communication/mapping/segment-mapping') {
         await InterfaceManager.startup();
         await SegmentMapping.startup();
       }

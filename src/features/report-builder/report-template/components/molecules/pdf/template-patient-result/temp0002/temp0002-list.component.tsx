@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     flexDirection: 'row',
+    marginTop: 5,
   },
   headerBg: {
     backgroundColor: '#aaa',
@@ -209,9 +210,8 @@ export const PdfTPRTemp0002List = ({
                   <PdfSmall
                     style={{
                       marginLeft: 10,
-                      fontSize: 0,
+                      fontSize: 8,
                       marginTop: -2,
-                      fontWeight: 'bold',
                     }}
                   >
                     {panelItem?.panelHeader?.tpmPanelMethod
@@ -243,7 +243,6 @@ export const PdfTPRTemp0002List = ({
                           marginLeft: 10,
                           fontSize: 8,
                           marginTop: -2,
-                          fontWeight: 'bold',
                         }}
                       >
                         {testItem?.testHeader?.tpmTestMethod
@@ -275,12 +274,16 @@ export const PdfTPRTemp0002List = ({
                                 </PdfSmall>
 
                                 {_item[1]?.tpmAnalyteMethod ? (
-                                  <PdfSmall style={{marginLeft: 10}}>
+                                  <PdfSmall
+                                    style={{marginLeft: 10, fontSize: 8}}
+                                  >
                                     {_item[1]?.analyteMethodDescription}
                                   </PdfSmall>
                                 ) : null}
                                 {_item[1]?.tpmAnalyteInterpretation ? (
-                                  <PdfSmall style={{marginLeft: 10}}>
+                                  <PdfSmall
+                                    style={{marginLeft: 10, fontSize: 8}}
+                                  >
                                     {_item[1]?.analyteMasterInterpretation}
                                   </PdfSmall>
                                 ) : null}

@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-indent-props */
 import React from 'react';
 import {IconContext as Context, IconType} from 'react-icons';
-import {Icons} from '..';
+import {Icons} from '../..';
 import Icon from 'react-eva-icons';
 
 import * as IconRi from 'react-icons/ri';
@@ -158,6 +158,15 @@ export const getIcons = (icon: string): any => {
     return Icons.IconGi.GiRegeneration;
   if (icon === 'Icons.Iconmd.MdOutlineDeliveryDining')
     return Icons.Iconmd.MdOutlineDeliveryDining;
+  // account-receivable
+  if (icon === 'Icons.Iconmd.MdAccountBalance')
+    return Icons.Iconmd.MdAccountBalance;
+  if (icon === 'Icons.Iconmd.MdAccountBalanceWallet')
+    return Icons.Iconmd.MdAccountBalanceWallet;
+  if (icon === 'Icons.IconGr.GrTransaction') return Icons.IconGr.GrTransaction;
+  if (icon === 'Icons.Iconmd.MdOutlineBatchPrediction')
+    return Icons.Iconmd.MdOutlineBatchPrediction;
+  if (icon === 'Icons.IconBs.BsReceipt') return Icons.IconBs.BsReceipt;
   //common
   if (icon === 'Icons.IconBs.BsFillTrashFill')
     return Icons.IconBs.BsFillTrashFill;
