@@ -16,13 +16,13 @@ export const accountReceivableRoutes = {
     {
       path: '/account-receivable/transaction-details',
       name: 'Transaction Details',
-      icon: 'Icons.IconGr.GrTransaction',
+      icon: 'Icons.IconRi.RiCouponLine',
       component: TransactionDetails,
     },
     {
       path: '/account-receivable/payment',
       name: 'Payment',
-      icon: 'Icons.IconGr.GrTransaction',
+      icon: 'Icons.IconBs.BsPiggyBank',
       component: Payment,
     },
     {

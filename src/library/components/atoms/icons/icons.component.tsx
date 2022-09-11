@@ -167,6 +167,9 @@ export const getIcons = (icon: string): any => {
   if (icon === 'Icons.Iconmd.MdOutlineBatchPrediction')
     return Icons.Iconmd.MdOutlineBatchPrediction;
   if (icon === 'Icons.IconBs.BsReceipt') return Icons.IconBs.BsReceipt;
+  if (icon === 'Icons.IconBs.BsPiggyBank') return Icons.IconBs.BsPiggyBank;
+  if (icon === 'Icons.IconRi.RiCouponLine') return Icons.IconRi.RiCouponLine;
+
   //common
   if (icon === 'Icons.IconBs.BsFillTrashFill')
     return Icons.IconBs.BsFillTrashFill;

@@ -40,7 +40,7 @@ const TransactionDetails = observer(() => {
         <PageHeadingLabDetails store={loginStore} />
       </Header>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
-        <span className='font-bold text-lg underline'>Report Delivery</span>
+        <span className='font-bold text-lg underline'>Transaction Header</span>
         <ReportDeliveryList
           data={deliveryQueueStore.reportDeliveryList || []}
           totalSize={deliveryQueueStore.reportDeliveryListCount}
@@ -85,7 +85,7 @@ const TransactionDetails = observer(() => {
         />
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
-        <span className='font-bold text-lg underline'>Order Delivered</span>
+        <span className='font-bold text-lg underline'>Transaction Line</span>
         <OrderDeliveredList
           data={deliveryQueueStore.orderDeliveredList || []}
           totalSize={deliveryQueueStore.orderDeliveredListCount}
