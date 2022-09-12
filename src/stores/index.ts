@@ -69,6 +69,9 @@ import {GeneralResultEntryStore} from '@/features/result-entry/general-result-en
 import {DeliveryQueueStore} from '@/features/patient-reports/delivery-queue/stores';
 import {GenerateReportsStore} from '@/features/patient-reports/generate-reports/stores';
 
+// Account Receivable
+import {TransactionDetailsStore} from '@/features/account-receivable/transaction-details/stores';
+
 export class Stores extends Store {
   rootStore!: RootStore;
   appStore!: AppStore;
@@ -137,6 +140,9 @@ export class Stores extends Store {
   deliveryQueueStore!: DeliveryQueueStore;
   generateReportsStore!: GenerateReportsStore;
 
+  // account receivable
+  transactionDetailsStore!: TransactionDetailsStore;
+
   constructor() {
     super();
     this.rootStore = new RootStore();
@@ -204,6 +210,9 @@ export class Stores extends Store {
     // patient report
     this.deliveryQueueStore = new DeliveryQueueStore();
     this.generateReportsStore = new GenerateReportsStore();
+
+    // account receivable
+    this.transactionDetailsStore = new TransactionDetailsStore();
   }
 }
 

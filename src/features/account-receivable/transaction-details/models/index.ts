@@ -1,2 +1,2 @@
-export * from './reportDelivery.model';
-export * from './orderDelivered.model';
+export * from './transaction-line.model';
+export * from './transaction-header.model';
