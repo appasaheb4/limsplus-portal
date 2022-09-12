@@ -16,14 +16,8 @@ import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const TransactionDetails = observer(() => {
-  const {
-    loading,
-    deliveryQueueStore,
-    routerStore,
-    administrativeDivisions,
-    doctorsStore,
-    loginStore,
-  } = useStores();
+  const {loading, transactionDetailsStore, routerStore, loginStore} =
+    useStores();
 
   const {
     control,
@@ -42,8 +36,8 @@ const TransactionDetails = observer(() => {
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Transaction Header</span>
         <ReportDeliveryList
-          data={deliveryQueueStore.reportDeliveryList || []}
-          totalSize={deliveryQueueStore.reportDeliveryListCount}
+          data={transactionDetailsStore.transactionHeaderList || []}
+          totalSize={transactionDetailsStore.transactionHeaderListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -80,15 +74,15 @@ const TransactionDetails = observer(() => {
             // });
           }}
           onClickRow={(item, index) => {
-            deliveryQueueStore.updateOrderDeliveredList([item]);
+            // deliveryQueueStore.updateOrderDeliveredList([item]);
           }}
         />
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Transaction Line</span>
         <OrderDeliveredList
-          data={deliveryQueueStore.orderDeliveredList || []}
-          totalSize={deliveryQueueStore.orderDeliveredListCount}
+          data={transactionDetailsStore.transactionListList || []}
+          totalSize={transactionDetailsStore.transactionListListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -128,27 +122,27 @@ const TransactionDetails = observer(() => {
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            deliveryQueueStore.deliveryQueueService
-              .updateDeliveryQueue({
-                input: {
-                  _id: modalConfirm.id,
-                  deliveryStatus:
-                    type == 'cancel'
-                      ? 'Cancel'
-                      : type == 'hold'
-                      ? 'Hold'
-                      : 'Done',
-                },
-              })
-              .then(res => {
-                if (res.updateDeliveryQueue.success) {
-                  Toast.success({
-                    message: `😊 ${res.updateDeliveryQueue.message}`,
-                  });
-                  setModalConfirm({show: false});
-                  deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
-                }
-              });
+            // deliveryQueueStore.deliveryQueueService
+            //   .updateDeliveryQueue({
+            //     input: {
+            //       _id: modalConfirm.id,
+            //       deliveryStatus:
+            //         type == 'cancel'
+            //           ? 'Cancel'
+            //           : type == 'hold'
+            //           ? 'Hold'
+            //           : 'Done',
+            //     },
+            //   })
+            //   .then(res => {
+            //     if (res.updateDeliveryQueue.success) {
+            //       Toast.success({
+            //         message: `😊 ${res.updateDeliveryQueue.message}`,
+            //       });
+            //       setModalConfirm({show: false});
+            //       deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+            //     }
+            //   });
           }}
           onClose={() => {
             setModalConfirm({show: false});

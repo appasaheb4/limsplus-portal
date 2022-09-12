@@ -35,8 +35,9 @@ export class DeliveryQueueStore {
     if (!Array.isArray(res)) {
       this.orderDeliveredList = res;
       this.orderDeliveredListCount = res;
+    } else {
+      this.orderDeliveredList = res;
+      this.orderDeliveredListCount = res?.length || 0;
     }
-    this.orderDeliveredList = res;
-    this.orderDeliveredListCount = res?.length || 0;
   }
 }
