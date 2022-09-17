@@ -4,9 +4,9 @@ export class TransactionLine {
   lineId: number;
   rLab: string;
   pLab: string;
-  locationCode: string;
-  locationName: string;
-  clientCode: string;
+  collectionCenter: string;
+  collectionCenterName: string;
+  corporateCode: string;
   invoiceAC: string;
   invoiceDate: Date;
   actionDate: Date;
@@ -30,6 +30,9 @@ export class TransactionLine {
   customerGroup: string;
   status: string;
   enteredBy: string;
+  documentType: string;
+  dateOfEntry: Date;
+  lastUpdated: Date;
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
@@ -37,9 +40,9 @@ export class TransactionLine {
     this.lineId = rawData.lineId;
     this.rLab = rawData.rLab;
     this.pLab = rawData.pLab;
-    this.locationCode = rawData.locationCode;
-    this.locationName = rawData.locationName;
-    this.clientCode = rawData.clientCode;
+    this.collectionCenter = rawData.collectionCenter;
+    this.collectionCenterName = rawData.collectionCenterName;
+    this.corporateCode = rawData.corporateCode;
     this.invoiceAC = rawData.invoiceAC;
     this.invoiceDate = rawData.invoiceDate;
     this.actionDate = rawData.actionDate;
@@ -63,5 +66,8 @@ export class TransactionLine {
     this.customerGroup = rawData.customerGroup;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
+    this.documentType = rawData.documentType;
+    this.dateOfEntry = rawData.dateOfEntry;
+    this.lastUpdated = rawData.lastUpdated;
   }
 }

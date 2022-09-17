@@ -1,1 +1,1 @@
-export * from './delivery-queue.service';
+export * from './transaction-details.service';

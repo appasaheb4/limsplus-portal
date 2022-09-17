@@ -74,6 +74,7 @@ export const PatientOrder = PatientOrderHoc(
               ...patientOrderStore.patientOrder,
               packageList,
               documentType: 'patientOrder',
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -229,9 +230,11 @@ export const PatientOrder = PatientOrderHoc(
                               panelCode: _.map(panels, o =>
                                 _.pick(o, [
                                   'panelCode',
+                                  'panelName',
                                   'serviceType',
                                   'confidential',
                                   'reportTemplate',
+                                  'bill',
                                 ]),
                               ),
                             });

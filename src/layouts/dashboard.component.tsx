@@ -69,6 +69,9 @@ import * as ReportSettings from '@/features/report-builder/report-settings';
 import * as DeliveryQueue from '@/features/patient-reports/delivery-queue';
 import * as GenerateReport from '@/features/patient-reports/generate-reports';
 
+// Account Receivable
+import * as TransactionDetails from '@/features/account-receivable/transaction-details';
+
 const Dashboard = observer(({children}) => {
   const {loginStore} = useStores();
   const history: any = useHistory();
@@ -241,6 +244,9 @@ const Dashboard = observer(({children}) => {
         //await ReportSettings.startup();
       } else {
         stores.appStore.updateFooterView({visible: true});
+      }
+      if (pathname === '/account-receivable/transaction-details') {
+        await TransactionDetails.startup();
       }
       stores;
     }

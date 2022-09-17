@@ -1,8 +1,8 @@
 export class TransactionHeader {
   _id: string;
   headerId: number;
-  locationCode: string;
-  clientCode: string;
+  collectionCenter: string;
+  corporateCode: string;
   labId: string;
   invoiceAc: number;
   invoiceDate: Date;
@@ -23,12 +23,15 @@ export class TransactionHeader {
   customerGroup: string;
   status: string;
   enteredBy: string;
+  documentType: string;
+  dateOfEntry: Date;
+  lastUpdated: Date;
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
     this.headerId = rawData.headerId;
-    this.locationCode = rawData.locationCode;
-    this.clientCode = rawData.clientCode;
+    this.collectionCenter = rawData.collectionCenter;
+    this.corporateCode = rawData.corporateCode;
     this.labId = rawData.labId;
     this.invoiceAc = rawData.invoiceAc;
     this.invoiceDate = rawData.invoiceDate;
@@ -49,5 +52,8 @@ export class TransactionHeader {
     this.customerGroup = rawData.customerGroup;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
+    this.documentType = rawData.documentType;
+    this.dateOfEntry = rawData.dateOfEntry;
+    this.lastUpdated = rawData.lastUpdated;
   }
 }
