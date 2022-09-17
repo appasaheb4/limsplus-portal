@@ -10,7 +10,7 @@ import {
 } from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import {ReportDeliveryList, OrderDeliveredList} from '../components';
+import {TransactionHeaderList, TransactionLineList} from '../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -35,7 +35,7 @@ const TransactionDetails = observer(() => {
       </Header>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Transaction Header</span>
-        <ReportDeliveryList
+        <TransactionHeaderList
           data={transactionDetailsStore.transactionHeaderList || []}
           totalSize={transactionDetailsStore.transactionHeaderListCount}
           isDelete={RouterFlow.checkPermission(
@@ -74,13 +74,23 @@ const TransactionDetails = observer(() => {
             // });
           }}
           onClickRow={(item, index) => {
+            console.log({item});
+            transactionDetailsStore.transactionDetailsService.findByFieldsTransactionLine(
+              {
+                input: {
+                  filter: {
+                    headerId: item?.headerId,
+                  },
+                },
+              },
+            );
             // deliveryQueueStore.updateOrderDeliveredList([item]);
           }}
         />
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Transaction Line</span>
-        <OrderDeliveredList
+        <TransactionLineList
           data={transactionDetailsStore.transactionListList || []}
           totalSize={transactionDetailsStore.transactionListListCount}
           isDelete={RouterFlow.checkPermission(

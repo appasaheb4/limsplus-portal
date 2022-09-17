@@ -1,12 +1,14 @@
 import {makeObservable, action, observable, computed} from 'mobx';
 import {TransactionHeader, TransactionLine} from '../models';
-import {DeliveryQueueService} from '../services';
+import {TransactionDetailsService} from '../services';
+import _ from 'lodash';
 
 export class TransactionDetailsStore {
   transactionHeaderList!: Array<TransactionHeader>;
   transactionHeaderListCount: number = 0;
   transactionListList!: Array<TransactionLine>;
   transactionListListCount: number = 0;
+
   constructor() {
     this.transactionHeaderList = [];
     this.transactionListList = [];
@@ -16,25 +18,32 @@ export class TransactionDetailsStore {
       transactionListList: observable,
       transactionListListCount: observable,
 
-      deliveryQueueService: computed,
+      transactionDetailsService: computed,
 
       updateTransactionHeaderList: action,
       updateTransactionListList: action,
     });
   }
 
-  get deliveryQueueService() {
-    return new DeliveryQueueService();
+  get transactionDetailsService() {
+    return new TransactionDetailsService();
   }
 
   updateTransactionHeaderList(res) {
-    this.transactionHeaderList = res.deliveryQueues.data;
-    this.transactionHeaderListCount = res.deliveryQueues.paginatorInfo.count;
+    this.transactionHeaderList = res.transactionHeaders.data;
+    this.transactionHeaderListCount =
+      res.transactionHeaders.paginatorInfo.count;
   }
+
   updateTransactionListList(res) {
     if (!Array.isArray(res)) {
-      this.transactionListList = res;
-      this.transactionListListCount = res;
+      this.transactionListList = _.orderBy(
+        res.findByFieldsTransactionLine.data,
+        ['lineId'],
+        ['asc'],
+      );
+      this.transactionListListCount =
+        res.findByFieldsTransactionLine.data?.length;
     } else {
       this.transactionListList = res;
       this.transactionListListCount = res?.length || 0;

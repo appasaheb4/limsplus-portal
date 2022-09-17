@@ -1,0 +1,231 @@
+import React from 'react';
+import {observer} from 'mobx-react';
+import {
+  NumberFilter,
+  textFilter,
+  customFilter,
+  Form,
+  Tooltip,
+  Icons,
+} from '@/library/components';
+import {Confirm} from '@/library/models';
+import dayjs from 'dayjs';
+
+import {TableBootstrap} from './table-bootstrap.components';
+
+interface TransactionHeaderProps {
+  data: any;
+  totalSize: number;
+  isDelete?: boolean;
+  isEditModify?: boolean;
+  onUpdate?: (selectedItem: Confirm) => void;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onPageSizeChange?: (page: number, totalSize: number) => void;
+  onFilter?: (
+    type: string,
+    filter: any,
+    page: number,
+    totalSize: number,
+  ) => void;
+  onClickRow?: (item: any, index: number) => void;
+}
+
+export const TransactionHeaderList = observer(
+  (props: TransactionHeaderProps) => {
+    return (
+      <>
+        <div style={{position: 'relative'}}>
+          <TableBootstrap
+            id='_id'
+            data={props.data}
+            totalSize={props.totalSize}
+            columns={[
+              {
+                dataField: '_id',
+                text: 'Id',
+                hidden: true,
+                csvExport: false,
+              },
+              {
+                dataField: 'headerId',
+                text: 'Header Id',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'collectionCenter',
+                text: 'Collection Center',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'corporateCode',
+                text: 'Corporate Code',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'labId',
+                text: 'Lab Id',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'invoiceAc',
+                text: 'Invoice Ac',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'invoiceDate',
+                text: 'Invoice Date',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return dayjs(row.invoiceDate).format('YYYY-MM-DD');
+                },
+              },
+              {
+                dataField: 'actionDate',
+                text: 'Action Date',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return dayjs(row.actionDate).format('YYYY-MM-DD');
+                },
+              },
+              {
+                dataField: 'registrationDate',
+                text: 'Registration Date',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return dayjs(row.registrationDate).format('YYYY-MM-DD');
+                },
+              },
+              {
+                dataField: 'dueDate',
+                text: 'Due Date',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return dayjs(row.dueDate).format('YYYY-MM-DD');
+                },
+              },
+              {
+                dataField: 'reportingDate',
+                text: 'Reporting Date',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return dayjs(row.reportingDate).format('YYYY-MM-DD');
+                },
+              },
+              {
+                dataField: 'doctorId',
+                text: 'Doctor Id',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'pId',
+                text: 'PId',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'priceList',
+                text: 'Price List',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'grossAmount',
+                text: 'Gross Amount',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'netAmount',
+                text: 'NetAmount',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'discount',
+                text: 'Discount',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'receivedAmount',
+                text: 'Received Amount',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'balance',
+                text: 'Balance',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'acClass',
+                text: 'AC Class',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'accountType',
+                text: 'Account Type',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'customerGroup',
+                text: 'Customer Group',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'status',
+                text: 'Status',
+                sort: true,
+                editable: false,
+              },
+
+              {
+                dataField: 'enteredBy',
+                text: 'Entered By',
+                sort: true,
+                csvFormatter: col => (col ? col : ''),
+                editable: false,
+              },
+            ]}
+            isEditModify={props.isEditModify}
+            isSelectRow={true}
+            fileName='Report Delivery'
+            onSelectedRow={rows => {
+              props.onSelectedRow &&
+                props.onSelectedRow(rows.map((item: any) => item._id));
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              props.onUpdateItem && props.onUpdateItem(value, dataField, id);
+            }}
+            onPageSizeChange={(page, size) => {
+              props.onPageSizeChange && props.onPageSizeChange(page, size);
+            }}
+            onFilter={(type, filter, page, size) => {
+              props.onFilter && props.onFilter(type, filter, page, size);
+            }}
+            clearAllFilter={() => {}}
+            onClickRow={(item, index) => {
+              props.onClickRow && props.onClickRow(item, index);
+            }}
+          />
+        </div>
+      </>
+    );
+  },
+);
