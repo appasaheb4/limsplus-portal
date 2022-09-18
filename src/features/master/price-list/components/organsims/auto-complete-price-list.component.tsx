@@ -5,12 +5,11 @@ import {useStores} from '@/stores';
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
 
 interface AutoCompletePriceListProps {
-  priceGroup?: string;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompletePriceList = observer(
-  ({onSelect, priceGroup}: AutoCompletePriceListProps) => {
+  ({onSelect}: AutoCompletePriceListProps) => {
     const {loading, corporateClientsStore, priceListStore} = useStores();
     return (
       <>
@@ -23,7 +22,6 @@ export const AutoCompletePriceList = observer(
             displayKey: ['invoiceAc', 'corporateName'],
           }}
           displayValue={priceListStore.priceList?.priceList?.toString()}
-          disable={priceGroup !== 'CSP001' ? true : false}
           onFilter={(value: string) => {
             corporateClientsStore.corporateClientsService.filterByFields({
               input: {
@@ -37,7 +35,6 @@ export const AutoCompletePriceList = observer(
             });
           }}
           onSelect={item => {
-            console.log({item});
             onSelect && onSelect(item);
             corporateClientsStore.updateCorporateClientsList(
               corporateClientsStore.listCorporateClientsCopy,

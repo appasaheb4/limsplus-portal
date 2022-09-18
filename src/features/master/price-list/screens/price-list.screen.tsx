@@ -14,6 +14,7 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
+
 import {lookupItems, lookupValue} from '@/library/utils';
 import {PriceListList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
@@ -35,14 +36,17 @@ export const PriceList = PriceListHoc(
       routerStore,
       loading,
     } = useStores();
+
     const {
       control,
       handleSubmit,
       formState: {errors},
       setValue,
-      // clearErrors,
+      setError,
     } = useForm();
 
+    setValue('priceGroup', priceListStore.priceList?.priceGroup);
+    setValue('priceList', priceListStore.priceList?.priceList);
     setValue('status', priceListStore.priceList?.status);
     setValue('environment', priceListStore.priceList?.environment);
 
@@ -117,6 +121,15 @@ export const PriceList = PriceListHoc(
           message: '😔 Please enter diff code',
         });
       }
+    };
+
+    const getPriceList = priceList => {
+      const list = priceList.filter(item => {
+        if (item.code.slice(0, 3) === priceListStore.priceList?.priceGroup) {
+          return item;
+        }
+      });
+      return list || [];
     };
 
     const tableView = useMemo(
@@ -241,8 +254,7 @@ export const PriceList = PriceListHoc(
                           priceListStore.updatePriceList({
                             ...priceListStore.priceList,
                             priceGroup,
-                            priceList:
-                              priceGroup !== 'CSP001' ? priceGroup : '',
+                            priceList: '',
                             description: _.first(
                               lookupItems(
                                 routerStore.lookupItems,
@@ -273,6 +285,7 @@ export const PriceList = PriceListHoc(
                                   );
                               });
                           }
+                          setError('priceList', {type: 'onBlur'});
                         }}
                       >
                         <option selected>Select</option>
@@ -298,49 +311,73 @@ export const PriceList = PriceListHoc(
                       label='Price List'
                       hasError={!!errors.priceList}
                     >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: corporateClientsStore?.listCorporateClients,
-                          displayKey: ['invoiceAc', 'corporateName'],
-                        }}
-                        displayValue={priceListStore.priceList?.priceList}
-                        disable={
-                          priceListStore.priceList?.priceGroup !== 'CSP001'
-                            ? true
-                            : false
-                        }
-                        hasError={!!errors.priceList}
-                        onFilter={(value: string) => {
-                          corporateClientsStore.corporateClientsService.filterByFields(
-                            {
-                              input: {
-                                filter: {
-                                  fields: ['invoiceAc', 'corporateName'],
-                                  srText: value,
+                      {priceListStore.priceList?.priceGroup === 'CSP' ? (
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: corporateClientsStore?.listCorporateClients,
+                            displayKey: ['invoiceAc', 'corporateName'],
+                          }}
+                          displayValue={priceListStore.priceList?.priceList}
+                          hasError={!!errors.priceList}
+                          onFilter={(value: string) => {
+                            corporateClientsStore.corporateClientsService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ['invoiceAc', 'corporateName'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
                                 },
-                                page: 0,
-                                limit: 10,
                               },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          priceListStore.updatePriceList({
-                            ...priceListStore.priceList,
-                            priceList: item.invoiceAc?.toString(),
-                            description: item.corporateName,
-                          });
-                          corporateClientsStore.updateCorporateClientsList(
-                            corporateClientsStore.listCorporateClientsCopy,
-                          );
-                        }}
-                      />
+                            );
+                          }}
+                          onSelect={item => {
+                            onChange(item.invoiceAc?.toString());
+                            priceListStore.updatePriceList({
+                              ...priceListStore.priceList,
+                              priceList: item.invoiceAc?.toString(),
+                              description: item.corporateName,
+                            });
+                            corporateClientsStore.updateCorporateClientsList(
+                              corporateClientsStore.listCorporateClientsCopy,
+                            );
+                          }}
+                        />
+                      ) : (
+                        <select
+                          value={priceListStore.priceList?.priceList}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.priceList
+                              ? 'border-red-500  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const priceList = e.target.value as string;
+                            onChange(priceList);
+                            priceListStore.updatePriceList({
+                              ...priceListStore.priceList,
+                              priceList: priceList,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {getPriceList(
+                            lookupItems(routerStore.lookupItems, 'PRICE_LIST'),
+                          )?.map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </Form.InputWrapper>
                   )}
                   name='priceList'
-                  rules={{required: false}}
+                  rules={{required: true}}
                   defaultValue=''
                 />
 

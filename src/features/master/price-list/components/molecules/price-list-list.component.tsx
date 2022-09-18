@@ -18,6 +18,7 @@ import {
   AutoCompleteFilterSingleSelectPanelCode,
   AutoCompleteFilterSingleSelectPanelName,
 } from '../index';
+import {toJS} from 'mobx';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let panelCode;
@@ -63,6 +64,18 @@ export const PriceListList = (props: PriceListProps) => {
     return row.status !== 'I' ? true : false;
   };
 
+  const getPriceList = (priceList, priceGroup) => {
+    console.log({priceList, priceGroup});
+
+    const list = priceList.filter(item => {
+      if (item.code.slice(0, 3) === priceGroup?.slice(0, 3)) {
+        return item;
+      }
+    });
+    console.log({list});
+
+    return list || [];
+  };
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -108,8 +121,7 @@ export const PriceListList = (props: PriceListProps) => {
                         props.onUpdateFileds(
                           {
                             priceGroup: priceGroup,
-                            priceList:
-                              priceGroup !== 'CSP001' ? priceGroup : '',
+                            priceList: '',
                             description: _.first(
                               lookupItems(
                                 props.extraData.lookupItems,
@@ -119,8 +131,6 @@ export const PriceListList = (props: PriceListProps) => {
                           },
                           row._id,
                         );
-                      // props.onUpdateItem &&
-                      //   props.onUpdateItem(priceGroup, column.dataField, row._id)
                     }}
                   >
                     <option selected>Select</option>
@@ -158,19 +168,49 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <AutoCompletePriceList
-                    priceGroup={row.priceGroup}
-                    onSelect={item => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds(
-                          {
-                            priceList: item.invoiceAc?.toString(),
-                            description: item.corporateName,
-                          },
-                          row._id,
-                        );
-                    }}
-                  />
+                  {row?.priceGroup === 'CSP' ? (
+                    <AutoCompletePriceList
+                      onSelect={item => {
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              priceList: item.invoiceAc?.toString(),
+                            },
+                            row._id,
+                          );
+                      }}
+                    />
+                  ) : (
+                    <select
+                      value={row?.priceList}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                      }
+                      onChange={e => {
+                        const priceList = e.target.value as string;
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              priceList,
+                            },
+                            row._id,
+                          );
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {getPriceList(
+                        lookupItems(
+                          toJS(props.extraData.lookupItems),
+                          'PRICE_LIST',
+                        ),
+                        row?.priceGroup,
+                      )?.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </>
               ),
             },
