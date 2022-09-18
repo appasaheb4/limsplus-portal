@@ -15,6 +15,7 @@ export const PriceListHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'PRICE_GROUP',
         ),
+        priceList: getDefaultLookupItem(routerStore.lookupItems, 'PRICE_LIST'),
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',
