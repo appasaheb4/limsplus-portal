@@ -65,17 +65,14 @@ export const PriceListList = (props: PriceListProps) => {
   };
 
   const getPriceList = (priceList, priceGroup) => {
-    console.log({priceList, priceGroup});
-
     const list = priceList.filter(item => {
       if (item.code.slice(0, 3) === priceGroup?.slice(0, 3)) {
         return item;
       }
     });
-    console.log({list});
-
     return list || [];
   };
+
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -122,12 +119,6 @@ export const PriceListList = (props: PriceListProps) => {
                           {
                             priceGroup: priceGroup,
                             priceList: '',
-                            description: _.first(
-                              lookupItems(
-                                props.extraData.lookupItems,
-                                'PRICE_GROUP',
-                              ).filter(item => item.code === priceGroup),
-                            ).value,
                           },
                           row._id,
                         );
@@ -175,6 +166,7 @@ export const PriceListList = (props: PriceListProps) => {
                           props.onUpdateFileds(
                             {
                               priceList: item.invoiceAc?.toString(),
+                              description: item.corporateName,
                             },
                             row._id,
                           );
@@ -187,11 +179,12 @@ export const PriceListList = (props: PriceListProps) => {
                         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
                       }
                       onChange={e => {
-                        const priceList = e.target.value as string;
+                        const priceList: any = JSON.stringify(e.target.value);
                         props.onUpdateFileds &&
                           props.onUpdateFileds(
                             {
-                              priceList,
+                              priceList: priceList?.code,
+                              description: priceList?.value,
                             },
                             row._id,
                           );
@@ -205,7 +198,7 @@ export const PriceListList = (props: PriceListProps) => {
                         ),
                         row?.priceGroup,
                       )?.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={JSON.stringify(item)}>
                           {lookupValue(item)}
                         </option>
                       ))}
