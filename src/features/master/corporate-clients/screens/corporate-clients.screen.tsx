@@ -1699,7 +1699,7 @@ const CorporateClients = CorporateClientsHoc(
               </List>
             </Grid>
             <br />
-            <List direction='row' space={3} align='center'>
+            {/* <List direction='row' space={3} align='center'>
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
@@ -1714,7 +1714,7 @@ const CorporateClients = CorporateClientsHoc(
                 rules={{required: false}}
                 defaultValue=''
               />
-            </List>
+            </List> */}
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button

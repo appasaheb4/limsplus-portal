@@ -1,6 +1,7 @@
+// eslint-disable-next-line folders/match-regex
 import React from 'react';
 import {render} from '@testing-library/react';
-import {CorporateClients} from '.';
+import {CorporateClients} from '..';
 
 describe('Corporate Client Screen', () => {
   it('render corporateClient correctly', () => {
