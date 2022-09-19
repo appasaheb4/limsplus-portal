@@ -27,16 +27,36 @@ export const PriceListTable = observer(() => {
     clearErrors,
   } = useForm();
 
-  const [priceGroupLookupItems, setPriceGroupLookupItems] = useState<any>();
+  const [priceGroupItems, setPriceGroupItems] = useState<any>();
+  const [priceListItems, setPriceListItems] = useState<any>();
+
+  const getPriceList = (priceList, priceGroup) => {
+    const list = priceList?.filter(item => {
+      if (item.code.slice(0, 3) === priceGroup) {
+        return item;
+      }
+    });
+    return list || [];
+  };
 
   useEffect(() => {
     (async function () {
       try {
-        RouterFlow.getLookupValuesByPathNField(
-          '/collection/priceList',
+        await RouterFlow.getLookupValuesByPathNField(
+          '/collection/price-list',
           'PRICE_GROUP',
-        ).then(res => {
-          setPriceGroupLookupItems(res);
+        ).then(async res => {
+          if (res?.length > 0) {
+            setPriceGroupItems(res.filter(item => item.code !== 'CSP'));
+            await RouterFlow.getLookupValuesByPathNField(
+              '/collection/price-list',
+              'PRICE_LIST',
+            ).then(items => {
+              if (items?.length > 0) {
+                setPriceListItems(items);
+              }
+            });
+          }
         });
       } catch (e) {
         console.error(e);
@@ -96,120 +116,73 @@ export const PriceListTable = observer(() => {
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder='Search by priceGroup or description'
-                      data={{
-                        list: _.unionBy(
-                          priceListStore?.listPriceList.filter(item => {
-                            if (item.priceGroup === 'CSP001') return;
-                            else return item;
-                          }),
-                          'priceGroup',
-                        ),
-                        displayKey: ['priceGroup', 'description'],
+                    <select
+                      value={item?.priceGroup}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.priceGroup
+                          ? 'border-red-500  '
+                          : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const priceGroup = e.target.value as string;
+                        onChange(priceGroup);
+                        const priceList = labStore.labs?.priceList;
+                        priceList[index] = {
+                          ...priceList[index],
+                          priceGroup: priceGroup,
+                          priceList: '',
+                          description: '',
+                        };
                       }}
-                      hasError={!!errors.priceGroup}
-                      displayValue={item?.priceGroup}
-                      onFilter={(value: string) => {
-                        priceListStore.priceListService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ['priceGroup', 'description'],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        });
-                      }}
-                      onSelect={item => {
-                        onChange(item.priceGroup);
-                        const priceList = toJS(labStore.labs?.priceList);
-                        if (
-                          _.findIndex(priceList, o => {
-                            return _.isMatch(o, {priceGroup: item.priceGroup});
-                          }) >= 0
-                        ) {
-                          removeItem(index);
-                          Toast.warning({
-                            message: '😔 Already exists same record found!',
-                          });
-                        } else {
-                          priceList[index] = {
-                            ...priceList[index],
-                            priceGroup: item.priceGroup,
-                            priceList:
-                              item.priceGroup !== 'CSP001'
-                                ? item.priceGroup
-                                : item.priceList,
-                            description: item.description,
-                          };
-                          labStore.updateLabs({
-                            ...labStore.labs,
-                            priceList,
-                          });
-                        }
-                        priceListStore.updatePriceListRecords(
-                          priceListStore.listPriceListCopy,
-                        );
-                      }}
-                    />
+                    >
+                      <option selected>Select</option>
+                      {priceGroupItems?.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
                   )}
                   name='priceGroup'
                   rules={{required: true}}
-                  defaultValue={priceListStore?.listPriceList}
+                  defaultValue={priceGroupItems}
                 />
               </td>
               <td>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder='Search by code or name'
-                      data={{
-                        list: corporateClientsStore?.listCorporateClients,
-                        displayKey: ['invoiceAc', 'corporateName'],
-                      }}
-                      displayValue={item?.priceList}
-                      disable={item?.priceGroup !== 'CSP001' ? true : false}
-                      hasError={!!errors.priceList}
-                      onFilter={(value: string) => {
-                        corporateClientsStore.corporateClientsService.filterByFields(
-                          {
-                            input: {
-                              filter: {
-                                fields: ['invoiceAc', 'corporateName'],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          },
-                        );
-                      }}
-                      onSelect={item => {
-                        onChange(item.invoiceAc);
+                    <select
+                      value={item?.priceList || ''}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.priceList
+                          ? 'border-red-500  '
+                          : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const priceItem = JSON.parse(e.target.value);
+                        onChange(priceItem.code);
                         const priceList = labStore.labs?.priceList;
                         priceList[index] = {
                           ...priceList[index],
-                          priceList: item.invoiceAc,
-                          description: item.corporateName,
+                          priceList: priceItem?.code,
+                          description: priceItem?.value,
                         };
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          priceList,
-                        });
-                        corporateClientsStore.updateCorporateClientsList(
-                          corporateClientsStore.listCorporateClientsCopy,
-                        );
                       }}
-                    />
+                    >
+                      <option selected>{item.priceList || 'Select'}</option>
+                      {getPriceList(priceListItems, item?.priceGroup)?.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {lookupValue(item)}
+                          </option>
+                        ),
+                      )}
+                    </select>
                   )}
                   name='priceList'
                   rules={{required: false}}
-                  defaultValue={labStore.labs?.priceList}
+                  defaultValue={priceListItems}
                 />
               </td>
               <td>
@@ -226,7 +199,7 @@ export const PriceListTable = observer(() => {
                           : 'Description'
                       }
                       hasError={!!errors.description}
-                      value={item?.description}
+                      value={item?.description || ''}
                       onChange={description => {
                         onChange(description);
                       }}

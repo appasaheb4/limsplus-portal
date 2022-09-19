@@ -145,35 +145,35 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               },
             }),
           },
-          {
-            dataField: 'priceList',
-            text: 'Price List',
-            headerClasses: 'textHeader5 z-10',
-            sort: true,
-            editable: false,
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                priceList = filter;
-              },
-            }),
-            formatter: (cell, row) => {
-              return (
-                <>
-                  {row?.priceList ? (
-                    <PriceListTableForCopClientList
-                      data={row?.priceList}
-                      invoiceAc={row.invoiceAc}
-                      onUpdate={data => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(data, 'priceList', row._id);
-                      }}
-                    />
-                  ) : null}
-                </>
-              );
-            },
-          },
+          // {
+          //   dataField: 'priceList',
+          //   text: 'Price List',
+          //   headerClasses: 'textHeader5 z-10',
+          //   sort: true,
+          //   editable: false,
+          //   csvFormatter: col => (col ? col : ''),
+          //   filter: textFilter({
+          //     getFilter: filter => {
+          //       priceList = filter;
+          //     },
+          //   }),
+          //   formatter: (cell, row) => {
+          //     return (
+          //       <>
+          //         {row?.priceList ? (
+          //           <PriceListTableForCopClientList
+          //             data={row?.priceList}
+          //             invoiceAc={row.invoiceAc}
+          //             onUpdate={data => {
+          //               props.onUpdateItem &&
+          //                 props.onUpdateItem(data, 'priceList', row._id);
+          //             }}
+          //           />
+          //         ) : null}
+          //       </>
+          //     );
+          //   },
+          // },
           {
             dataField: 'acType',
             text: 'Ac Type',
