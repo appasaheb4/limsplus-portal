@@ -119,6 +119,7 @@ export const PriceListList = (props: PriceListProps) => {
                           {
                             priceGroup: priceGroup,
                             priceList: '',
+                            description: '',
                           },
                           row._id,
                         );

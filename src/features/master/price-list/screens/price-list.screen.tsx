@@ -255,6 +255,7 @@ export const PriceList = PriceListHoc(
                             ...priceListStore.priceList,
                             priceGroup,
                             priceList: '',
+                            description: '',
                           });
                           if (!priceListStore.priceList?.existsVersionId) {
                             priceListStore.priceListService
