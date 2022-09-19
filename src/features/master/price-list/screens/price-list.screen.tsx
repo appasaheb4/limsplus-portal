@@ -255,12 +255,6 @@ export const PriceList = PriceListHoc(
                             ...priceListStore.priceList,
                             priceGroup,
                             priceList: '',
-                            description: _.first(
-                              lookupItems(
-                                routerStore.lookupItems,
-                                'PRICE_GROUP',
-                              ).filter(item => item.code === priceGroup),
-                            ).value,
                           });
                           if (!priceListStore.priceList?.existsVersionId) {
                             priceListStore.priceListService
@@ -356,11 +350,12 @@ export const PriceList = PriceListHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
-                            const priceList = e.target.value as string;
+                            const priceList = JSON.parse(e.target.value);
                             onChange(priceList);
                             priceListStore.updatePriceList({
                               ...priceListStore.priceList,
-                              priceList: priceList,
+                              priceList: priceList?.code,
+                              description: priceList?.value,
                             });
                           }}
                         >
@@ -368,7 +363,7 @@ export const PriceList = PriceListHoc(
                           {getPriceList(
                             lookupItems(routerStore.lookupItems, 'PRICE_LIST'),
                           )?.map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
+                            <option key={index} value={JSON.stringify(item)}>
                               {lookupValue(item)}
                             </option>
                           ))}
