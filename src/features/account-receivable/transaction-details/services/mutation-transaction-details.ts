@@ -22,10 +22,13 @@ export const TRANSACTION_HEADER_LIST = gql`
         reportingDate
         doctorId
         pId
+        priceGroup
         priceList
         grossAmount
         netAmount
-        discount
+        discountAmount
+        discountPer
+        miscellaneousCharges
         receivedAmount
         balance
         acClass
@@ -70,8 +73,9 @@ export const FIND_BY_FIELDS_TRANSACTION_LINE = gql`
         priceList
         grossAmount
         netAmount
-        discount
-        miscCharges
+        discountAmount
+        discountPer
+        miscellaneousCharges
         transaction
         acClass
         accountType

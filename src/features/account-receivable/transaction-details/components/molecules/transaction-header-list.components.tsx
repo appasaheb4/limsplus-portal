@@ -135,6 +135,12 @@ export const TransactionHeaderList = observer(
                 editable: false,
               },
               {
+                dataField: 'priceGroup',
+                text: 'Price Group',
+                sort: true,
+                editable: false,
+              },
+              {
                 dataField: 'priceList',
                 text: 'Price List',
                 sort: true,
@@ -153,8 +159,20 @@ export const TransactionHeaderList = observer(
                 editable: false,
               },
               {
-                dataField: 'discount',
-                text: 'Discount',
+                dataField: 'discountAmount',
+                text: 'Discount Amount',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'discountPer',
+                text: 'Discount Per',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'miscellaneousCharges',
+                text: 'Miscellaneous Charges',
                 sort: true,
                 editable: false,
               },
