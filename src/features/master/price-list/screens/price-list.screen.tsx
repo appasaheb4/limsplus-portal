@@ -173,7 +173,7 @@ export const PriceList = PriceListHoc(
           onUpdateFileds={(fileds: any, id: string) => {
             setModalConfirm({
               show: true,
-              type: 'UpdateFileds',
+              type: 'updateFields',
               data: {fileds, id},
               title: 'Are you sure?',
               body: 'Update records!',
@@ -889,7 +889,7 @@ export const PriceList = PriceListHoc(
 
                   break;
                 }
-                case 'UpdateFileds': {
+                case 'updateFields': {
                   priceListStore.priceListService
                     .updateSingleFiled({
                       input: {

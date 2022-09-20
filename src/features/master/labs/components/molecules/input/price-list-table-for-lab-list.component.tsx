@@ -256,7 +256,7 @@ export const PriceListTableForLabList = observer(
                             onChange(priority);
                             priceList.current[index] = {
                               ...priceList.current[index],
-                              priority,
+                              priority: Number.parseInt(priority),
                             };
                           }}
                         />
