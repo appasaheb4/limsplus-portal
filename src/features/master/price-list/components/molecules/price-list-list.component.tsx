@@ -180,7 +180,7 @@ export const PriceListList = (props: PriceListProps) => {
                         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
                       }
                       onChange={e => {
-                        const priceList: any = JSON.stringify(e.target.value);
+                        const priceList: any = JSON.parse(e.target.value);
                         props.onUpdateFileds &&
                           props.onUpdateFileds(
                             {
