@@ -43,6 +43,7 @@ export const PriceList = PriceListHoc(
       formState: {errors},
       setValue,
       setError,
+      clearErrors,
     } = useForm();
 
     setValue('priceGroup', priceListStore.priceList?.priceGroup);
@@ -262,22 +263,37 @@ export const PriceList = PriceListHoc(
                               .checkExitsRecords({
                                 input: {
                                   priceGroup,
-                                  panelCode: priceListStore.priceList.panelCode,
-                                  env: priceListStore.priceList.environment,
+                                  priceList:
+                                    priceListStore.priceList?.priceList || '',
+                                  panelCode:
+                                    priceListStore.priceList.panelCode || '',
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                  env:
+                                    priceListStore.priceList.environment || '',
                                 },
                               })
                               .then(res => {
                                 if (res.checkPriceListExistsRecord.success) {
+                                  setError('priceGroup', {type: 'onBlur'});
+                                  setError('panelCode', {type: 'onBlur'});
+                                  setError('version', {type: 'onBlur'});
+                                  setError('environment', {type: 'onBlur'});
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     true,
                                   );
                                   Toast.error({
                                     message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                   });
-                                } else
+                                } else {
+                                  clearErrors('priceGroup');
+                                  clearErrors('panelCode');
+                                  clearErrors('version');
+                                  clearErrors('environment');
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     false,
                                   );
+                                }
                               });
                           }
                           setError('priceList', {type: 'onBlur'});
@@ -340,6 +356,49 @@ export const PriceList = PriceListHoc(
                             corporateClientsStore.updateCorporateClientsList(
                               corporateClientsStore.listCorporateClientsCopy,
                             );
+
+                            if (!priceListStore.priceList?.existsVersionId) {
+                              priceListStore.priceListService
+                                .checkExitsRecords({
+                                  input: {
+                                    priceGroup:
+                                      priceListStore.priceList?.priceGroup ||
+                                      '',
+                                    priceList: item.invoiceAc?.toString(),
+                                    panelCode:
+                                      priceListStore.priceList.panelCode || '',
+                                    version:
+                                      priceListStore.priceList?.version || 0,
+                                    env:
+                                      priceListStore.priceList.environment ||
+                                      '',
+                                  },
+                                })
+                                .then(res => {
+                                  if (res.checkPriceListExistsRecord.success) {
+                                    setError('priceGroup', {type: 'onBlur'});
+                                    setError('priceList', {type: 'onBlur'});
+                                    setError('panelCode', {type: 'onBlur'});
+                                    setError('version', {type: 'onBlur'});
+                                    setError('environment', {type: 'onBlur'});
+                                    priceListStore.updateExitsPriceGEnvLabCode(
+                                      true,
+                                    );
+                                    Toast.error({
+                                      message: `😔 ${res.checkPriceListExistsRecord.message}`,
+                                    });
+                                  } else {
+                                    clearErrors('priceGroup');
+                                    clearErrors('priceList');
+                                    clearErrors('panelCode');
+                                    clearErrors('version');
+                                    clearErrors('environment');
+                                    priceListStore.updateExitsPriceGEnvLabCode(
+                                      false,
+                                    );
+                                  }
+                                });
+                            }
                           }}
                         />
                       ) : (
@@ -429,23 +488,39 @@ export const PriceList = PriceListHoc(
                               .checkExitsRecords({
                                 input: {
                                   priceGroup:
-                                    priceListStore.priceList.priceGroup,
-                                  panelCode: item.panelCode,
-                                  env: priceListStore.priceList.environment,
+                                    priceListStore.priceList?.priceGroup || '',
+                                  priceList:
+                                    priceListStore.priceList?.priceList || '',
+                                  panelCode: item?.panelCode,
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                  env:
+                                    priceListStore.priceList.environment || '',
                                 },
                               })
                               .then(res => {
                                 if (res.checkPriceListExistsRecord.success) {
+                                  setError('priceGroup', {type: 'onBlur'});
+                                  setError('priceList', {type: 'onBlur'});
+                                  setError('panelCode', {type: 'onBlur'});
+                                  setError('version', {type: 'onBlur'});
+                                  setError('environment', {type: 'onBlur'});
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     true,
                                   );
                                   Toast.error({
                                     message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                   });
-                                } else
+                                } else {
+                                  clearErrors('priceGroup');
+                                  clearErrors('priceList');
+                                  clearErrors('panelCode');
+                                  clearErrors('version');
+                                  clearErrors('environment');
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     false,
                                   );
+                                }
                               });
                           }
                         }}
@@ -781,23 +856,39 @@ export const PriceList = PriceListHoc(
                               .checkExitsRecords({
                                 input: {
                                   priceGroup:
-                                    priceListStore.priceList.priceGroup,
-                                  panelCode: priceListStore.priceList.panelCode,
-                                  env: environment,
+                                    priceListStore.priceList?.priceGroup || '',
+                                  priceList:
+                                    priceListStore.priceList?.priceList,
+                                  panelCode:
+                                    priceListStore.priceList.panelCode || '',
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                  env: environment || '',
                                 },
                               })
                               .then(res => {
                                 if (res.checkPriceListExistsRecord.success) {
+                                  setError('priceGroup', {type: 'onBlur'});
+                                  setError('priceList', {type: 'onBlur'});
+                                  setError('panelCode', {type: 'onBlur'});
+                                  setError('version', {type: 'onBlur'});
+                                  setError('environment', {type: 'onBlur'});
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     true,
                                   );
                                   Toast.error({
                                     message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                   });
-                                } else
+                                } else {
+                                  clearErrors('priceGroup');
+                                  clearErrors('priceList');
+                                  clearErrors('panelCode');
+                                  clearErrors('version');
+                                  clearErrors('environment');
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     false,
                                   );
+                                }
                               });
                           }
                         }}
