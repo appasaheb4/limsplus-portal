@@ -30,9 +30,13 @@ export const LIST_PATIENT_ORDER = gql`
           pLab
           rLab
           bill
-          grossAmt
-          netAmt
-          discount
+          priceGroup
+          priceList
+          grossAmount
+          netAmount
+          discountAmount
+          discountPer
+          miscellaneousCharges
           dueDate
           resultDate
           cretical
@@ -135,9 +139,13 @@ export const FILTER_PATIENT_ORDER = gql`
           pLab
           rLab
           bill
-          grossAmt
-          netAmt
-          discount
+          priceGroup
+          priceList
+          grossAmount
+          netAmount
+          discountAmount
+          discountPer
+          miscellaneousCharges
           dueDate
           resultDate
           cretical
@@ -232,9 +240,13 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
           pLab
           rLab
           bill
-          grossAmt
-          netAmt
-          discount
+          priceGroup
+          priceList
+          grossAmount
+          netAmount
+          discountAmount
+          discountPer
+          miscellaneousCharges
           dueDate
           resultDate
           cretical
