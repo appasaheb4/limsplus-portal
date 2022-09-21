@@ -21,9 +21,13 @@ export class PatientOrder {
       pLab: string;
       rLab: string;
       bill: boolean;
-      grossAmt: number;
-      netAmt: number;
-      discount: number;
+      priceGroup: string;
+      priceList: string;
+      grossAmount: number;
+      netAmount: number;
+      discountAmount: number;
+      discountPer: number;
+      miscellaneousCharges: number;
       dueDate: Date;
       resultDate: Date;
       abnFlag: boolean;

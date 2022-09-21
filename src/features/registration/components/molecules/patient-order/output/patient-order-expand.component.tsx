@@ -363,16 +363,33 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'grossAmt',
-              text: 'Gross Amt',
+              dataField: 'priceGroup',
+              text: 'Price Group',
             },
             {
-              dataField: 'netAmt',
-              text: 'Net Amt',
+              dataField: 'priceList',
+              text: 'Price List',
             },
             {
-              dataField: 'discount',
-              text: 'Discount',
+              dataField: 'grossAmount',
+              text: 'Gross Amount',
+            },
+
+            {
+              dataField: 'netAmount',
+              text: 'Net Amount',
+            },
+            {
+              dataField: 'discountAmount',
+              text: 'Discount Amount',
+            },
+            {
+              dataField: 'discountPer',
+              text: 'Discount Per',
+            },
+            {
+              dataField: 'miscellaneousCharges',
+              text: 'Miscellaneous Charges',
             },
             {
               dataField: 'dueDate',
