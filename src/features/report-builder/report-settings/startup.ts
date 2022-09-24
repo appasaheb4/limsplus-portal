@@ -14,3 +14,7 @@ export const startup = async () => {
 export const startUpPageBranding = async () => {
   stores.reportSettingStore.pageBrandingService.listPageBranding();
 };
+
+export const loadTemplatePatientResultList = () => {
+  stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();
+};

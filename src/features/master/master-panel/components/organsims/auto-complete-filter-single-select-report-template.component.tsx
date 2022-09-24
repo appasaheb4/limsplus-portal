@@ -17,14 +17,14 @@ export const AutoCompleteFilterSingleSelectReportTemplate = observer(
           loader={loading}
           placeholder='Report Template'
           data={{
-            list: reportSettingStore?.pageBrandingList,
-            displayKey: ['tempCode', 'brandingTitle'],
+            list: reportSettingStore?.templatePatientResultList,
+            displayKey: ['templateCode', 'templateTitle'],
           }}
           onFilter={(value: string) => {
-            reportSettingStore.pageBrandingService.filterByFields({
+            reportSettingStore.templatePatientResultService.filterByFields({
               input: {
                 filter: {
-                  fields: ['tempCode', 'brandingTitle'],
+                  fields: ['templateCode', 'templateTitle'],
                   srText: value,
                 },
                 page: 0,
@@ -33,7 +33,7 @@ export const AutoCompleteFilterSingleSelectReportTemplate = observer(
             });
           }}
           onSelect={element => {
-            onSelect(`${element.tempCode} - ${element.brandingTitle}`);
+            onSelect(`${element.templateCode} - ${element.templateTitle}`);
             reportSettingStore.updatePageBrandingList(
               reportSettingStore.pageBrandingListCopy,
             );

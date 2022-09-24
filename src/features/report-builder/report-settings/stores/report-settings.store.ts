@@ -241,9 +241,14 @@ export class ReportSettingStore {
   }
 
   updateTemplatePatientResultList(res: any) {
-    this.templatePatientResultList = res.templatePatientResults.data;
-    this.templatePatientResultListCount =
-      res.templatePatientResults.paginatorInfo.count;
+    if (!Array.isArray(res)) {
+      this.templatePatientResultList = res.templatePatientResults.data;
+      this.templatePatientResultListCount =
+        res.templatePatientResults.paginatorInfo.count;
+    } else {
+      this.templatePatientResultList = res;
+      this.templatePatientResultListCount = res?.length;
+    }
   }
 
   updateSelectedItemTemplatePatientResult(res: any) {

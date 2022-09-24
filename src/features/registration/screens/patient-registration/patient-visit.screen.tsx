@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
+import {Table} from 'reactstrap';
+import _ from 'lodash';
 import {
   Toast,
   Heading,
@@ -9,6 +11,7 @@ import {
   Buttons,
   Grid,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   AutoCompleteFilterSingleSelect,
   ModalConfirm,
   Svg,
@@ -566,10 +569,13 @@ export const PatientVisit = PatientVisitHoc(
                         }}
                         onSelect={item => {
                           onChange(item.corporateCode);
+                          console.log({item});
+
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             corporateCode: item.corporateCode,
                             corporateName: item.corporateName,
+                            acClass: item?.acClass,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
                               invoiceAc: item?.invoiceAc?.toString(),
@@ -609,7 +615,11 @@ export const PatientVisit = PatientVisitHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option selected>
+                          {patientVisitStore.patientVisit?.acClass
+                            ? `Selected: ${patientVisitStore.patientVisit?.acClass}`
+                            : 'Select'}
+                        </option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'PATIENT VISIT - AC_CLASS',
@@ -625,6 +635,168 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: true}}
                   defaultValue={patientVisitStore.patientVisit?.acClass}
                 />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Misc Charges'
+                      hasError={!!errors.acClass}
+                    >
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Misc Charges'
+                        data={{
+                          list: lookupItems(
+                            routerStore.lookupItems,
+                            'PATIENT VISIT - MISC_CHARGES',
+                          )?.map((item, index) => {
+                            return {...item, _id: index.toString()};
+                          }),
+                          selected:
+                            patientVisitStore.selectedItems?.miscCharges,
+                          displayKey: ['code', 'value'],
+                        }}
+                        hasError={!!errors.miscCharges}
+                        onUpdate={item => {
+                          const miscCharges =
+                            patientVisitStore.selectedItems?.miscCharges;
+                          onChange(miscCharges);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            miscCharges: _.map(miscCharges, o =>
+                              _.pick(o, ['code', 'value']),
+                            ),
+                          });
+                        }}
+                        onSelect={item => {
+                          let miscCharges: any =
+                            patientVisitStore.selectedItems?.miscCharges;
+                          if (!item.selected) {
+                            if (miscCharges && miscCharges?.length > 0) {
+                              miscCharges.push(item);
+                            } else miscCharges = [item];
+                          } else {
+                            miscCharges = miscCharges.filter(items => {
+                              return items._id !== item._id;
+                            });
+                          }
+                          patientVisitStore.updateSelectedItems({
+                            ...patientVisitStore.selectedItems,
+                            miscCharges,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='miscCharges'
+                  rules={{required: false}}
+                  defaultValue={patientVisitStore.selectedItems?.miscCharges}
+                />
+
+                <Table striped bordered>
+                  <thead>
+                    <tr className='p-0 text-xs'>
+                      <th className='text-white sticky left-0 z-10'>
+                        MISC CHARGES
+                      </th>
+                      <th className='text-white'>AMOUNT</th>
+                    </tr>
+                  </thead>
+                  <tbody className='text-xs'>
+                    {patientVisitStore.patientVisit?.miscCharges?.map(
+                      (item, index) => (
+                        <tr key={item.code}>
+                          <td className='sticky left-0'>
+                            {item?.value + ' - ' + item?.code}
+                          </td>
+                          <td className='sticky left-0'>
+                            <Form.Input
+                              style={{height: 30}}
+                              label=''
+                              type='number'
+                              placeholder='Amount'
+                              onChange={amount => {
+                                const miscCharges =
+                                  patientVisitStore.patientVisit?.miscCharges;
+                                miscCharges[index] = Object.assign(item, {
+                                  amount: Number.parseFloat(amount),
+                                });
+                                patientVisitStore.updatePatientVisit({
+                                  ...patientVisitStore.patientVisit,
+                                  miscCharges,
+                                });
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ),
+                    )}
+                  </tbody>
+                </Table>
+                {!patientVisitStore.patientVisit?.acClass ||
+                patientVisitStore.patientVisit?.acClass == '0' ? (
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.InputWrapper
+                        label='Discount Charges'
+                        hasError={!!errors.discountCharges}
+                      >
+                        <div className='flex flex-row gap-2 '>
+                          <select
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.discountCharges
+                                ? 'border-red-500  '
+                                : 'border-gray-300'
+                            } rounded-md`}
+                            onChange={e => {
+                              const discountCharges = e.target.value;
+                              onChange(discountCharges);
+                              patientVisitStore.updatePatientVisit({
+                                ...patientVisitStore.patientVisit,
+                                discountCharges: {
+                                  ...patientVisitStore.patientVisit
+                                    ?.discountCharges,
+                                  code: discountCharges,
+                                },
+                              });
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'PATIENT VISIT - DISCOUNT_CHARGES',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                          <Form.Input
+                            label=''
+                            type='number'
+                            placeholder='Amount'
+                            className='-mt-1'
+                            onChange={amount => {
+                              patientVisitStore.updatePatientVisit({
+                                ...patientVisitStore.patientVisit,
+                                discountCharges: {
+                                  ...patientVisitStore.patientVisit
+                                    ?.discountCharges,
+                                  amount,
+                                },
+                              });
+                            }}
+                          />
+                        </div>
+                      </Form.InputWrapper>
+                    )}
+                    name='discountCharges'
+                    rules={{required: false}}
+                    defaultValue={''}
+                  />
+                ) : null}
 
                 {doctorsStore.listDoctors && (
                   <>

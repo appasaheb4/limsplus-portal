@@ -32,6 +32,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import {
   PdfTPRTemp0001,
   PdfTPRTemp0002,
+  PdfTPRTemp0003,
 } from '@features/report-builder/report-template/components';
 import {PDFViewer, PDFDownloadLink} from '@react-pdf/renderer';
 
@@ -57,22 +58,35 @@ const GenerateReport = observer(() => {
   setValue('species', patientManagerStore.patientManger.species);
 
   const getTemplate = (tempCode: string, data: any) => {
-    switch (tempCode) {
-      case 'TEMP0001':
-        return <PdfTPRTemp0001 data={data} />;
-      case 'TEMP0002':
-        return <PdfTPRTemp0002 data={data} />;
-      default:
-        return (
-          <div className='justify-center items-center'>
-            <h4 className='text-center mt-10 text-red'>
-              Template not found. Please select correct template code and labId.
-              🚨
-            </h4>
-          </div>
-        );
-        break;
+    console.log({data});
+
+    if (data?.patientReports?.templatePatientResult?.templateCode) {
+      switch (tempCode) {
+        case 'TEMP0001':
+          return <PdfTPRTemp0001 data={data} />;
+        case 'TEMP0002':
+          return <PdfTPRTemp0002 data={data} />;
+        case 'TEMP0003':
+          return <PdfTPRTemp0003 data={data} />;
+        default:
+          return (
+            <div className='justify-center items-center'>
+              <h4 className='text-center mt-10 text-red'>
+                Template not found. Please select correct template code and
+                labId. 🚨
+              </h4>
+            </div>
+          );
+          break;
+      }
     }
+    return (
+      <div className='justify-center items-center'>
+        <h4 className='text-center mt-10 text-red'>
+          Template not found. Please select correct template code and labId. 🚨
+        </h4>
+      </div>
+    );
   };
 
   return (
@@ -106,8 +120,10 @@ const GenerateReport = observer(() => {
                 .then(res => {
                   console.log({res});
 
-                  generateReportsStore.updatePatientReports(res?.patientReport);
-                  generateReportsStore.updatePageBranding(res?.pageBranding);
+                  generateReportsStore.updatePatientReports(res?.data);
+                  generateReportsStore.updatePageBranding(
+                    res?.data?.templatePatientResult?.pageBranding,
+                  );
                 })
                 .catch(errors => {
                   return Toast.error({
@@ -169,7 +185,7 @@ const GenerateReport = observer(() => {
         </PDFDownloadLink>
       ) : (
         <>
-          {getTemplate(tempCode, {
+          {getTemplate(tempCode || 'TEMP0003', {
             patientReports: generateReportsStore.patientReports,
             pageBranding: generateReportsStore.pageBranding,
           })}

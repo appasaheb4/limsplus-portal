@@ -94,7 +94,7 @@ export const TemplatePatientResult = observer(() => {
         }
       >
         <Grid cols={2}>
-          <Grid cols={3}>
+          <Grid cols={2}>
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
@@ -318,7 +318,9 @@ export const TemplatePatientResult = observer(() => {
                 rules={{required: true}}
                 defaultValue=''
               />
+            </List>
 
+            <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
@@ -474,7 +476,8 @@ export const TemplatePatientResult = observer(() => {
                 }
               />
             </List>
-            <List direction='col' space={4} justify='stretch' fill>
+
+            {/* <List direction='col' space={4} justify='stretch' fill>
               <div className='p-3 border border-gray-800 relative mt-2'>
                 <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
                   Department Header
@@ -818,14 +821,14 @@ export const TemplatePatientResult = observer(() => {
                   defaultValue=''
                 />
               </div>
-            </List>
+            </List> */}
           </Grid>
-          <List direction='col' space={4} justify='stretch' fill>
+          {/* <List direction='col' space={4} justify='stretch' fill>
             {getTemplate(
               reportSettingStore.pageBranding?.tempCode,
               reportSettingStore.pageBranding,
             )}
-          </List>
+          </List> */}
         </Grid>
         <br />
         <List direction='row' space={3} align='center'>

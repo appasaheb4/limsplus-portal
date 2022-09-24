@@ -14,6 +14,7 @@ import {
   REMOVE_TEMPLATE_PATIENT_RESULT,
   UPDATE_TEMPLATE_PATIENT_RESULT,
   FIND_BY_FIELDS,
+  FILTER_BY_FIELDS,
 } from './mutation-template-patient-result.service';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -97,6 +98,35 @@ export class TemplatePatientResultService {
           variables,
         })
         .then((response: any) => {
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsTemplatePatientResult.success)
+            return this.listTemplatePatientResult();
+          stores.reportSettingStore.updateTemplatePatientResultList({
+            templatePatientResults: {
+              data: response.data.filterByFieldsTemplatePatientResult.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsTemplatePatientResult
+                    .paginatorInfo.count,
+              },
+            },
+          });
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

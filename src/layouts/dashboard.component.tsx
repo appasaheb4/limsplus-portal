@@ -135,7 +135,7 @@ const Dashboard = observer(({children}) => {
         await PanelMaster.startup();
         await Methods.startup();
         await Library.startup();
-        await ReportSettings.startUpPageBranding();
+        await ReportSettings.loadTemplatePatientResultList();
       }
       if (
         pathname === '/collection/sample-container' ||

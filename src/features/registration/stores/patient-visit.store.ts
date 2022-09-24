@@ -1,7 +1,7 @@
 import {makeObservable, action, observable, computed} from 'mobx';
 import _ from 'lodash';
 import {PatientVisitService} from '../services';
-import {PatientVisit} from '../models';
+import {PatientVisit, SelectedPatientVisitItems} from '../models';
 
 export class PatientVisitStore {
   patientVisit!: PatientVisit;
@@ -11,6 +11,7 @@ export class PatientVisitStore {
   listPatientVisitCount!: number;
   checkExistsVisitId!: boolean;
   checkExistsLabId!: boolean;
+  selectedItems!: SelectedPatientVisitItems;
 
   constructor() {
     this.listPatientVisit = [];
@@ -33,12 +34,14 @@ export class PatientVisitStore {
       listPatientVisitCopy: observable,
       listPatientVisitCount: observable,
       labIdList: observable,
+      selectedItems: observable,
 
       patientVisitService: computed,
       updateLabIdList: action,
       updatePatientVisitList: action,
       filterPatientVisitList: action,
       updatePatientVisit: action,
+      updateSelectedItems: action,
     });
   }
 
@@ -76,5 +79,9 @@ export class PatientVisitStore {
 
   updateExistsLabId(flag: boolean) {
     this.checkExistsLabId = flag;
+  }
+
+  updateSelectedItems(items: SelectedPatientVisitItems) {
+    this.selectedItems = items;
   }
 }
