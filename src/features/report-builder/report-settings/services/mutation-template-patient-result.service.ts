@@ -58,9 +58,9 @@ export const UPDATE_TEMPLATE_PATIENT_RESULT = gql`
   }
 `;
 
-export const FILTER = gql`
-  mutation ($input: BannerInput!) {
-    filterBanners(input: $input) {
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: TemplatePatientResultInput!) {
+    filterByFieldsTemplatePatientResult(input: $input) {
       paginatorInfo {
         count
       }

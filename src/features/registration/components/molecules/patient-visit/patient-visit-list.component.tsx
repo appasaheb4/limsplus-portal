@@ -532,6 +532,48 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
             },
             {
+              dataField: 'miscCharges',
+              text: 'Misc Charges',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : ''),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <div className='flex flex-row gap-2'>
+                      {row?.miscCharges?.map(item => (
+                        <span>
+                          {item?.code || '' + ' - ' + item?.amount || ''}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'discountCharges',
+              text: 'Discount Charges',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : ''),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row?.discountCharges && (
+                      <span>
+                        {row?.discountCharges?.code ||
+                          '' + ' - ' + row?.discountCharges?.amount ||
+                          ''}
+                      </span>
+                    )}
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'doctorId',
               text: 'Doctor Id',
               headerClasses: 'textHeader3',

@@ -35,24 +35,9 @@ export class GenerateReportsService {
         const {data, success} = res?.getPatientReports;
         if (success) {
           try {
-            const getPageBranding =
-              await stores.reportSettingStore.pageBrandingService.findByFields({
-                input: {
-                  filter: {
-                    tempCode: data?.reportTemplate.split('-')[0]?.slice(0, -1),
-                    brandingTitle: data?.reportTemplate.split('-')[1].slice(1),
-                  },
-                },
-              });
-            if (getPageBranding.findByFieldsPageBranding.success)
-              resolve({
-                patientReport: data,
-                pageBranding:
-                  getPageBranding.findByFieldsPageBranding?.data.length > 0
-                    ? getPageBranding.findByFieldsPageBranding?.data[0]
-                    : {},
-              });
-            else reject({message: 'Not found page branding'});
+            resolve({
+              data,
+            });
           } catch (error) {
             reject({message: 'Not found page branding'});
           }

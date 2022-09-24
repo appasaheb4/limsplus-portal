@@ -27,6 +27,8 @@ export const LIST_PATIENT_VISIT = gql`
         corporateCode
         corporateName
         acClass
+        miscCharges
+        discountCharges
         doctorId
         doctorName
         reportType
@@ -131,6 +133,8 @@ export const FILTER_PATIENT_VISIT = gql`
         corporateCode
         corporateName
         acClass
+        miscCharges
+        discountCharges
         doctorId
         doctorName
         reportType
@@ -238,6 +242,8 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         corporateCode
         corporateName
         acClass
+        miscCharges
+        discountCharges
         doctorId
         doctorName
         reportType

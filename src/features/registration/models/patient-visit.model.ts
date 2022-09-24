@@ -16,6 +16,8 @@ export class PatientVisit {
   corporateCode: string;
   corporateName: string;
   acClass: string;
+  miscCharges: Array<any>;
+  discountCharges: object;
   doctorId: string;
   doctorName: string;
   reportType: string;
@@ -76,6 +78,8 @@ export class PatientVisit {
     this.corporateCode = rawData.corporateCode;
     this.corporateName = rawData.corporateName;
     this.acClass = rawData.acClass;
+    this.miscCharges = rawData.miscCharges;
+    this.discountCharges = rawData.discountCharges;
     this.doctorId = rawData.doctorId;
     this.doctorName = rawData.doctorName;
     this.reportType = rawData.reportType;
@@ -87,5 +91,12 @@ export class PatientVisit {
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
+  }
+}
+
+export class SelectedPatientVisitItems {
+  miscCharges: any[];
+  constructor(rawData: {[key in string]: any}) {
+    this.miscCharges = rawData.miscCharges;
   }
 }
