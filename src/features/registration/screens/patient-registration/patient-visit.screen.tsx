@@ -690,7 +690,7 @@ export const PatientVisit = PatientVisitHoc(
                     </Form.InputWrapper>
                   )}
                   name='miscCharges'
-                  rules={{required: false}}
+                  rules={{required: true}}
                   defaultValue={patientVisitStore.selectedItems?.miscCharges}
                 />
 
