@@ -32,8 +32,6 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {patientRegistrationHoc} from '../../hoc';
-import hydrateStore from '@/library/modules/startup';
 
 import {PatientVisitHoc} from '../../hoc';
 import {useStores} from '@/stores';
@@ -784,7 +782,7 @@ export const PatientVisit = PatientVisitHoc(
                                 discountCharges: {
                                   ...patientVisitStore.patientVisit
                                     ?.discountCharges,
-                                  amount,
+                                  amount: Number.parseFloat(amount),
                                 },
                               });
                             }}

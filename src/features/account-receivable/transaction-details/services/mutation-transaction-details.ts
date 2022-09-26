@@ -34,6 +34,10 @@ export const TRANSACTION_HEADER_LIST = gql`
         acClass
         accountType
         customerGroup
+        rLab
+        allMiscCharges
+        discountCharges
+        customerName
         status
         enteredBy
         documentType
@@ -80,6 +84,10 @@ export const FIND_BY_FIELDS_TRANSACTION_LINE = gql`
         acClass
         accountType
         customerGroup
+        rLab
+        allMiscCharges
+        discountCharges
+        customerName
         status
         enteredBy
         documentType

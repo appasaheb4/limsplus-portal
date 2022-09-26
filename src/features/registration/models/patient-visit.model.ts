@@ -16,6 +16,11 @@ export class PatientVisit {
   corporateCode: string;
   corporateName: string;
   acClass: string;
+  grossAmount: number;
+  netAmount: number;
+  discountAmount: number;
+  discountPer: number;
+  miscellaneousCharges: number;
   miscCharges: Array<any>;
   discountCharges: object;
   doctorId: string;
@@ -78,6 +83,11 @@ export class PatientVisit {
     this.corporateCode = rawData.corporateCode;
     this.corporateName = rawData.corporateName;
     this.acClass = rawData.acClass;
+    this.grossAmount = rawData.grossAmount;
+    this.netAmount = rawData.netAmount;
+    this.discountAmount = rawData.discountAmount;
+    this.discountPer = rawData.discountPer;
+    this.miscellaneousCharges = rawData.miscellaneousCharges;
     this.miscCharges = rawData.miscCharges;
     this.discountCharges = rawData.discountCharges;
     this.doctorId = rawData.doctorId;
