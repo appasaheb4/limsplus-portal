@@ -84,10 +84,6 @@ export const FIND_BY_FIELDS_TRANSACTION_LINE = gql`
         acClass
         accountType
         customerGroup
-        rLab
-        allMiscCharges
-        discountCharges
-        customerName
         status
         enteredBy
         documentType

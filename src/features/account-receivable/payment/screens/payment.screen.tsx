@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
+import {Table} from 'reactstrap';
 import {
   ModalConfirm,
   Header,
@@ -40,13 +41,24 @@ const Payment = observer(() => {
   const onSubmitPayment = () => {};
 
   const updatePayment = payload => {
-    console.log({payload});
-
     paymentStore.updatePayment({
       ...paymentStore.payment,
       pId: payload?.pId,
       labId: payload?.labId,
       rLab: payload?.rLab,
+      invoiceAC: payload?.invoiceAC,
+      customerName: payload?.customerName,
+      customerGroup: payload?.customerGroup,
+      acClass: payload?.acClass,
+      acType: payload?.acType,
+      discountCharges: payload?.discountCharges,
+      invoiceDate: payload?.invoiceDate,
+      grossAmount: payload?.grossAmount,
+      netAmount: payload?.netAmount,
+      discountAmount: payload?.discountAmount,
+      discountPer: payload?.discountPer,
+      miscellaneousCharges: payload?.miscellaneousCharges,
+      allMiscCharges: payload?.allMiscCharges,
     });
   };
 
@@ -177,6 +189,262 @@ const Payment = observer(() => {
                 rules={{required: false}}
                 defaultValue={paymentStore.payment?.rLab}
               />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Invoice AC'
+                    placeholder={'Invoice AC'}
+                    hasError={!!errors.invoiceAC}
+                    disabled={true}
+                    value={paymentStore.payment?.invoiceAC}
+                  />
+                )}
+                name='invoiceAC'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.invoiceAC}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Customer Name'
+                    placeholder={'Customer Name'}
+                    hasError={!!errors.customerName}
+                    disabled={true}
+                    value={paymentStore.payment?.customerName}
+                  />
+                )}
+                name='customerName'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.customerName}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Customer Group'
+                    placeholder={'Customer Group'}
+                    hasError={!!errors.customerGroup}
+                    disabled={true}
+                    value={paymentStore.payment?.customerGroup}
+                  />
+                )}
+                name='customerGroup'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.customerGroup}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='AC Class'
+                    placeholder={'AC Class'}
+                    hasError={!!errors.acClass}
+                    disabled={true}
+                    value={paymentStore.payment?.acClass}
+                  />
+                )}
+                name='acClass'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.acClass}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Ac Type'
+                    placeholder={'Ac Type'}
+                    hasError={!!errors.acType}
+                    disabled={true}
+                    value={paymentStore.payment?.acType}
+                  />
+                )}
+                name='acType'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.acType}
+              />
+            </List>
+
+            <List direction='col' space={4} justify='stretch' fill>
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Discount Charges'
+                    placeholder={'Discount Charges'}
+                    hasError={!!errors.discountCharges}
+                    disabled={true}
+                    value={paymentStore.payment?.discountCharges}
+                  />
+                )}
+                name='discountCharges'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.discountCharges}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Invoice Date'
+                    placeholder={'Invoice Date'}
+                    hasError={!!errors.invoiceDate}
+                    disabled={true}
+                    value={paymentStore.payment?.invoiceDate}
+                  />
+                )}
+                name='invoiceDate'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.invoiceDate}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Gross Amount'
+                    placeholder={'Gross Amount'}
+                    hasError={!!errors.grossAmount}
+                    disabled={true}
+                    value={paymentStore.payment?.grossAmount}
+                  />
+                )}
+                name='grossAmount'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.grossAmount}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Net Amount'
+                    placeholder={'Net Amount'}
+                    hasError={!!errors.netAmount}
+                    disabled={true}
+                    value={paymentStore.payment?.netAmount}
+                  />
+                )}
+                name='netAmount'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.netAmount}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Discount Amount'
+                    placeholder={'Discount Amount'}
+                    hasError={!!errors.discountAmount}
+                    disabled={true}
+                    value={paymentStore.payment?.discountAmount}
+                  />
+                )}
+                name='discountAmount'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.discountAmount}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Discount Per'
+                    placeholder={'Discount Per'}
+                    hasError={!!errors.discountPer}
+                    disabled={true}
+                    value={paymentStore.payment?.discountPer}
+                  />
+                )}
+                name='discountPer'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.discountPer}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Discount Per'
+                    placeholder={'Discount Per'}
+                    hasError={!!errors.discountPer}
+                    disabled={true}
+                    value={paymentStore.payment?.discountPer}
+                  />
+                )}
+                name='discountPer'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.discountPer}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Miscellaneous Charges'
+                    placeholder={'Miscellaneous Charges'}
+                    hasError={!!errors.miscellaneousCharges}
+                    disabled={true}
+                    value={paymentStore.payment?.miscellaneousCharges}
+                  />
+                )}
+                name='miscellaneousCharges'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.miscellaneousCharges}
+              />
+            </List>
+            <List direction='col' space={4} justify='stretch' fill>
+              <Table striped bordered>
+                <thead>
+                  <tr className='p-0 text-xs'>
+                    <th className='text-white sticky left-0 z-10'>
+                      MISC CHARGES
+                    </th>
+                    <th className='text-white'>AMOUNT</th>
+                  </tr>
+                </thead>
+                <tbody className='text-xs'>
+                  {paymentStore.payment?.allMiscCharges?.map((item, index) => (
+                    <tr key={item.code}>
+                      <td className='sticky left-0'>
+                        {item?.value + ' - ' + item?.code}
+                      </td>
+                      <td className='sticky left-0'>
+                        <Form.Input
+                          style={{height: 30}}
+                          label=''
+                          type='number'
+                          placeholder='Amount'
+                          value={item.amount}
+                          disabled={true}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Amount Payable'
+                    placeholder={'Amount Payable'}
+                    hasError={!!errors.amountPayable}
+                    disabled={true}
+                    value={paymentStore.payment?.amountPayable}
+                  />
+                )}
+                name='amountPayable'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.amountPayable}
+              />
+
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
