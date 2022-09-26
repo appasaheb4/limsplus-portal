@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
-export class DeliveryQueueService {
+export class PaymentService {
   listDeliveryQueue = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const environment =

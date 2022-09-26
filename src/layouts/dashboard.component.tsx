@@ -71,6 +71,7 @@ import * as GenerateReport from '@/features/patient-reports/generate-reports';
 
 // Account Receivable
 import * as TransactionDetails from '@/features/account-receivable/transaction-details';
+import * as Payment from '@/features/account-receivable/payment';
 
 const Dashboard = observer(({children}) => {
   const {loginStore} = useStores();
@@ -247,6 +248,10 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/account-receivable/transaction-details') {
         await TransactionDetails.startup();
+      }
+      if (pathname === '/account-receivable/payment') {
+        await TransactionDetails.startup();
+        await Payment.startup();
       }
       stores;
     }

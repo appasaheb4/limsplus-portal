@@ -285,7 +285,13 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dueDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row?.dueDate
+                      ? dayjs(row?.dueDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
               },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -324,7 +330,13 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.birthDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row?.birthDate
+                      ? dayjs(row?.birthDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
               },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -532,6 +544,41 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
             },
             {
+              dataField: 'grossAmount',
+              text: 'Gross Amount',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'netAmount',
+              text: 'Net Amount',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'discountAmount',
+              text: 'Discount Amount',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'discountPer',
+              text: 'Discount Per',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'miscellaneousCharges',
+              text: 'Miscellaneous Charges',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
               dataField: 'miscCharges',
               text: 'Misc Charges',
               headerClasses: 'textHeader3',
@@ -544,7 +591,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     <div className='flex flex-row gap-2'>
                       {row?.miscCharges?.map(item => (
                         <span>
-                          {item?.code || '' + ' - ' + item?.amount || ''}
+                          {item?.code + ' - ' + item?.amount?.toString()}
                         </span>
                       ))}
                     </div>
@@ -564,9 +611,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                   <>
                     {row?.discountCharges && (
                       <span>
-                        {row?.discountCharges?.code ||
-                          '' + ' - ' + row?.discountCharges?.amount ||
-                          ''}
+                        {row?.discountCharges?.code +
+                          ' - ' +
+                          row?.discountCharges?.amount?.toString()}
                       </span>
                     )}
                   </>

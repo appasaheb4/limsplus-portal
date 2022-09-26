@@ -91,10 +91,7 @@ export class MasterPanelStore {
   };
 
   updateSectionListByDeptCode(res: any) {
-    if (!res.findSectionListByDeptCode.success)
-      return Toast.warning({
-        message: `😔 ${res.findSectionListByDeptCode.message}`,
-      });
+    if (!res.findSectionListByDeptCode.success) return;
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data;
   }
 

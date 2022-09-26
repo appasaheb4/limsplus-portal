@@ -71,6 +71,7 @@ import {GenerateReportsStore} from '@/features/patient-reports/generate-reports/
 
 // Account Receivable
 import {TransactionDetailsStore} from '@/features/account-receivable/transaction-details/stores';
+import {PaymentStore} from '@/features/account-receivable/payment/stores';
 
 export class Stores extends Store {
   rootStore!: RootStore;
@@ -142,6 +143,7 @@ export class Stores extends Store {
 
   // account receivable
   transactionDetailsStore!: TransactionDetailsStore;
+  paymentStore!: PaymentStore;
 
   constructor() {
     super();
@@ -213,6 +215,7 @@ export class Stores extends Store {
 
     // account receivable
     this.transactionDetailsStore = new TransactionDetailsStore();
+    this.paymentStore = new PaymentStore();
   }
 }
 

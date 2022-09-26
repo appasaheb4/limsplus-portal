@@ -1,5 +1,6 @@
 export class TransactionHeader {
   _id: string;
+  rLab: string;
   headerId: number;
   collectionCenter: string;
   corporateCode: string;
@@ -20,7 +21,10 @@ export class TransactionHeader {
   balance: number;
   acClass: string;
   accountType: string;
+  customerName: string;
   customerGroup: string;
+  allMiscCharges: Array<any>;
+  discountCharges: object;
   status: string;
   enteredBy: string;
   documentType: string;
@@ -29,6 +33,7 @@ export class TransactionHeader {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.rLab = rawData.rLab;
     this.headerId = rawData.headerId;
     this.collectionCenter = rawData.collectionCenter;
     this.corporateCode = rawData.corporateCode;
@@ -50,6 +55,9 @@ export class TransactionHeader {
     this.acClass = rawData.acClass;
     this.accountType = rawData.accountType;
     this.customerGroup = rawData.customerGroup;
+    this.customerName = rawData.customerName;
+    this.allMiscCharges = rawData.allMiscCharges;
+    this.discountCharges = rawData.discountCharges;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
     this.documentType = rawData.documentType;
