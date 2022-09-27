@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {Table} from 'reactstrap';
@@ -19,6 +19,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useStores} from '@/stores';
+import {PaymentList} from '../components';
 
 const Payment = observer(() => {
   const {
@@ -34,32 +35,69 @@ const Payment = observer(() => {
     handleSubmit,
     formState: {errors},
     setValue,
+    clearErrors,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
-  const [isInputView, setIsInputView] = useState<boolean>(true);
+  const [isInputView, setIsInputView] = useState<boolean>(false);
 
-  const onSubmitPayment = () => {};
-
-  const updatePayment = payload => {
+  useEffect(() => {
     paymentStore.updatePayment({
       ...paymentStore.payment,
-      pId: payload?.pId,
-      labId: payload?.labId,
+      enteredBy: loginStore.login?.userId,
+    });
+  }, [loginStore.login?.userId, paymentStore]);
+
+  const onSubmitPayment = () => {
+    paymentStore.paymentService
+      .create({
+        input: {
+          ...paymentStore.payment,
+        },
+      })
+      .then(res => {
+        if (res.createPayment.success) {
+          Toast.success({
+            message: `😊 ${res.createPayment.message}`,
+          });
+        }
+      });
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
+
+  const updatePayment = payload => {
+    console.log({payload});
+
+    paymentStore.updatePayment({
+      ...paymentStore.payment,
+      pId: Number.parseInt(payload?.pId),
+      labId: Number.parseInt(payload?.labId),
       rLab: payload?.rLab,
-      invoiceAC: payload?.invoiceAC,
+      invoiceAC: Number.parseInt(payload?.invoiceAC),
       customerName: payload?.customerName,
       customerGroup: payload?.customerGroup,
       acClass: payload?.acClass,
       acType: payload?.acType,
-      discountCharges: payload?.discountCharges,
+      discountCharges:
+        payload?.discountCharges?.code + ' ' + payload.discountCharges?.amount,
       invoiceDate: payload?.invoiceDate,
-      grossAmount: payload?.grossAmount,
-      netAmount: payload?.netAmount,
-      discountAmount: payload?.discountAmount,
-      discountPer: payload?.discountPer,
-      miscellaneousCharges: payload?.miscellaneousCharges,
+      grossAmount: Number.parseFloat(payload?.grossAmount),
+      netAmount: Number.parseFloat(payload?.netAmount),
+      discountAmount: Number.parseFloat(payload?.discountAmount),
+      discountPer: Number.parseFloat(payload?.discountPer),
+      miscellaneousCharges: Number.parseFloat(payload?.miscellaneousCharges),
       allMiscCharges: payload?.allMiscCharges,
+      amountPayable:
+        payload?.netAmount +
+          payload?.miscellaneousCharges -
+          payload?.discountCharges?.amount || 0,
+      patientOrderId: payload?.patientOrderId,
     });
+    setValue('pId', payload?.pId);
+    setValue('labId', payload?.labId);
+    clearErrors('pId');
+    clearErrors('labId');
   };
 
   return (
@@ -198,7 +236,7 @@ const Payment = observer(() => {
                     placeholder={'Invoice AC'}
                     hasError={!!errors.invoiceAC}
                     disabled={true}
-                    value={paymentStore.payment?.invoiceAC}
+                    value={paymentStore.payment?.invoiceAC?.toString() || ''}
                   />
                 )}
                 name='invoiceAC'
@@ -267,9 +305,6 @@ const Payment = observer(() => {
                 rules={{required: false}}
                 defaultValue={paymentStore.payment?.acType}
               />
-            </List>
-
-            <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
@@ -285,7 +320,6 @@ const Payment = observer(() => {
                 rules={{required: false}}
                 defaultValue={paymentStore.payment?.discountCharges}
               />
-
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
@@ -301,7 +335,9 @@ const Payment = observer(() => {
                 rules={{required: false}}
                 defaultValue={paymentStore.payment?.invoiceDate}
               />
+            </List>
 
+            <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
@@ -310,7 +346,7 @@ const Payment = observer(() => {
                     placeholder={'Gross Amount'}
                     hasError={!!errors.grossAmount}
                     disabled={true}
-                    value={paymentStore.payment?.grossAmount}
+                    value={paymentStore.payment?.grossAmount?.toString()}
                   />
                 )}
                 name='grossAmount'
@@ -326,7 +362,7 @@ const Payment = observer(() => {
                     placeholder={'Net Amount'}
                     hasError={!!errors.netAmount}
                     disabled={true}
-                    value={paymentStore.payment?.netAmount}
+                    value={paymentStore.payment?.netAmount?.toString()}
                   />
                 )}
                 name='netAmount'
@@ -342,7 +378,7 @@ const Payment = observer(() => {
                     placeholder={'Discount Amount'}
                     hasError={!!errors.discountAmount}
                     disabled={true}
-                    value={paymentStore.payment?.discountAmount}
+                    value={paymentStore.payment?.discountAmount?.toString()}
                   />
                 )}
                 name='discountAmount'
@@ -358,23 +394,7 @@ const Payment = observer(() => {
                     placeholder={'Discount Per'}
                     hasError={!!errors.discountPer}
                     disabled={true}
-                    value={paymentStore.payment?.discountPer}
-                  />
-                )}
-                name='discountPer'
-                rules={{required: false}}
-                defaultValue={paymentStore.payment?.discountPer}
-              />
-
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Form.Input
-                    label='Discount Per'
-                    placeholder={'Discount Per'}
-                    hasError={!!errors.discountPer}
-                    disabled={true}
-                    value={paymentStore.payment?.discountPer}
+                    value={paymentStore.payment?.discountPer?.toString()}
                   />
                 )}
                 name='discountPer'
@@ -390,15 +410,13 @@ const Payment = observer(() => {
                     placeholder={'Miscellaneous Charges'}
                     hasError={!!errors.miscellaneousCharges}
                     disabled={true}
-                    value={paymentStore.payment?.miscellaneousCharges}
+                    value={paymentStore.payment?.miscellaneousCharges?.toString()}
                   />
                 )}
                 name='miscellaneousCharges'
                 rules={{required: false}}
                 defaultValue={paymentStore.payment?.miscellaneousCharges}
               />
-            </List>
-            <List direction='col' space={4} justify='stretch' fill>
               <Table striped bordered>
                 <thead>
                   <tr className='p-0 text-xs'>
@@ -428,23 +446,8 @@ const Payment = observer(() => {
                   ))}
                 </tbody>
               </Table>
-
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Form.Input
-                    label='Amount Payable'
-                    placeholder={'Amount Payable'}
-                    hasError={!!errors.amountPayable}
-                    disabled={true}
-                    value={paymentStore.payment?.amountPayable}
-                  />
-                )}
-                name='amountPayable'
-                rules={{required: false}}
-                defaultValue={paymentStore.payment?.amountPayable}
-              />
-
+            </List>
+            <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
                 render={({field: {onChange}}) => (
@@ -481,6 +484,129 @@ const Payment = observer(() => {
                 rules={{required: true}}
                 defaultValue=''
               />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.MultilineInput
+                    label='Payment Remark'
+                    placeholder='Payment Remark'
+                    hasError={!!errors.paymentRemark}
+                    value={paymentStore.payment?.paymentRemark}
+                    onChange={paymentRemark => {
+                      onChange(paymentRemark);
+                      paymentStore.updatePayment({
+                        ...paymentStore.payment,
+                        paymentRemark,
+                      });
+                    }}
+                  />
+                )}
+                name='paymentRemark'
+                rules={{required: true}}
+                defaultValue={paymentStore.payment?.paymentRemark}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Amount Payable'
+                    placeholder={'Amount Payable'}
+                    hasError={!!errors.amountPayable}
+                    disabled={true}
+                    value={paymentStore.payment?.amountPayable?.toString()}
+                  />
+                )}
+                name='amountPayable'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.amountPayable}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Received Amount'
+                    placeholder={'Received Amount'}
+                    type='number'
+                    hasError={!!errors.receivedAmount}
+                    value={paymentStore.payment?.receivedAmount}
+                    onChange={receivedAmount => {
+                      if (
+                        paymentStore.payment?.amountPayable -
+                          Number.parseFloat(receivedAmount) <
+                        0
+                      ) {
+                        alert('Please enter correct amount!');
+                      } else {
+                        onChange(Number.parseFloat(receivedAmount));
+                        paymentStore.updatePayment({
+                          ...paymentStore.payment,
+                          receivedAmount: Number.parseFloat(receivedAmount),
+                          balance:
+                            paymentStore.payment?.amountPayable -
+                            Number.parseFloat(receivedAmount),
+                          status:
+                            paymentStore.payment?.amountPayable -
+                              Number.parseFloat(receivedAmount) ===
+                            0
+                              ? 'Complete'
+                              : 'Partial',
+                        });
+                      }
+                    }}
+                  />
+                )}
+                name='receivedAmount'
+                rules={{required: true}}
+                defaultValue={paymentStore.payment?.receivedAmount}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Balance'
+                    placeholder={'Balance'}
+                    type='number'
+                    hasError={!!errors.balance}
+                    value={paymentStore.payment?.balance?.toString()}
+                  />
+                )}
+                name='balance'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.balance}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Status'
+                    placeholder={'Status'}
+                    hasError={!!errors.status}
+                    value={paymentStore.payment?.status}
+                    disabled={true}
+                  />
+                )}
+                name='status'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.status}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Form.Input
+                    label='Entered By'
+                    placeholder={'Entered By'}
+                    hasError={!!errors.status}
+                    value={paymentStore.payment?.enteredBy}
+                    disabled={true}
+                  />
+                )}
+                name='enteredBy'
+                rules={{required: false}}
+                defaultValue={paymentStore.payment?.enteredBy}
+              />
             </List>
           </Grid>
           <br />
@@ -507,9 +633,9 @@ const Payment = observer(() => {
           </List>
         </div>
         <div className='p-2 rounded-lg shadow-xl'>
-          {/* <DeginisationList
-            data={deginisationStore.listDeginisation || []}
-            totalSize={deginisationStore.listDeginisationCount}
+          <PaymentList
+            data={paymentStore.paymentList || []}
+            totalSize={paymentStore.paymentListCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
             }}
@@ -541,14 +667,14 @@ const Payment = observer(() => {
               });
             }}
             onPageSizeChange={(page, limit) => {
-              deginisationStore.fetchListDeginisation(page, limit);
+              // deginisationStore.fetchListDeginisation(page, limit);
             }}
             onFilter={(type, filter, page, limit) => {
-              deginisationStore.DeginisationService.filter({
-                input: {type, filter, page, limit},
-              });
+              // deginisationStore.DeginisationService.filter({
+              //   input: {type, filter, page, limit},
+              // });
             }}
-          /> */}
+          />
         </div>
         {/* <ModalConfirm
           {...modalConfirm}

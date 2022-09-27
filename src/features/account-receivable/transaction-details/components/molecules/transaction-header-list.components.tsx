@@ -177,6 +177,27 @@ export const TransactionHeaderList = observer(
                 editable: false,
               },
               {
+                dataField: 'allMiscCharges',
+                text: 'All Misc Charges',
+                headerClasses: 'textHeader3',
+                sort: true,
+                csvFormatter: (col, row) => (col ? col : ''),
+                editable: false,
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <div className='flex flex-row gap-2'>
+                        {row?.allMiscCharges?.map(item => (
+                          <span>
+                            {item?.code + ' - ' + item?.amount?.toString()}
+                          </span>
+                        ))}
+                      </div>
+                    </>
+                  );
+                },
+              },
+              {
                 dataField: 'receivedAmount',
                 text: 'Received Amount',
                 sort: true,

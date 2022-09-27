@@ -23,6 +23,9 @@ export class Payment {
   paymentRemark: string;
   status: string;
   enteredBy: string;
+  patientOrderId: string;
+  dateOfEntry: Date;
+  lastUpdated: Date;
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
@@ -49,5 +52,8 @@ export class Payment {
     this.paymentRemark = rawData.paymentRemark;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
+    this.patientOrderId = rawData.patientOrderId;
+    this.dateOfEntry = rawData.dateOfEntry;
+    this.lastUpdated = rawData.lastUpdated;
   }
 }
