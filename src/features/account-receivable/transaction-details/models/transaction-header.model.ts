@@ -27,6 +27,7 @@ export class TransactionHeader {
   discountCharges: object;
   status: string;
   enteredBy: string;
+  patientOrderId: string;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -60,6 +61,7 @@ export class TransactionHeader {
     this.discountCharges = rawData.discountCharges;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
+    this.patientOrderId = rawData.patientOrderId;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
