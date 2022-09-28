@@ -309,8 +309,8 @@ const Payment = observer(() => {
                 control={control}
                 render={({field: {onChange}}) => (
                   <Form.Input
-                    label='Discount Charges'
-                    placeholder={'Discount Charges'}
+                    label='Other Charges'
+                    placeholder={'Other Charges'}
                     hasError={!!errors.discountCharges}
                     disabled={true}
                     value={paymentStore.payment?.discountCharges}

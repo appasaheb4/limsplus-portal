@@ -738,7 +738,7 @@ export const PatientVisit = PatientVisitHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
-                        label='Discount Charges'
+                        label='Other Charges'
                         hasError={!!errors.discountCharges}
                       >
                         <div className='flex flex-row gap-2 '>

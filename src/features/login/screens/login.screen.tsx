@@ -366,11 +366,6 @@ export const Login = observer(() => {
                       Clear
                     </Buttons.Button>
                   </List>
-                  <h4 className='text-center mt-2 text-white'>
-                    {' '}
-                    <b>Note</b>: After 3 invalid login attempts, accounts will
-                    be locked.
-                  </h4>
                   <h4 className='text-center text-white'>
                     In that case contact the Support Team.
                   </h4>
@@ -414,15 +409,6 @@ export const Login = observer(() => {
             </div>
           </Col>
         </Row>
-        <div className='flex flex-row justify-center'>
-          <a href='https://appho.st/d/VZXlvzKV'>
-            <img src={images.playStore} className='h-15' />
-          </a>
-          &nbsp; &nbsp;&nbsp;
-          <a href='https://apps.apple.com/us/app/memetoons/id1517184743'>
-            <img src={images.appStore} className='h-15' />
-          </a>
-        </div>
         <ModalNoticeBoard
           {...noticeBoard}
           click={async action => {

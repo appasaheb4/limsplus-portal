@@ -1,6 +1,7 @@
+// eslint-disable-next-line folders/match-regex
 import React from 'react';
 import {render} from '@testing-library/react';
-import {Page404} from '.';
+import {Page404} from '..';
 
 describe('Page404 Screen', () => {
   it('render Page404 correctly', () => {
