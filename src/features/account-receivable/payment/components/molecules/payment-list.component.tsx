@@ -101,7 +101,7 @@ export const PaymentList = (props: PaymentListProps) => {
         },
         {
           dataField: 'discountCharges',
-          text: 'Discount Charges',
+          text: 'Other Charges',
           sort: true,
           editable: false,
         },

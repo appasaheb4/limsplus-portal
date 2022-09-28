@@ -601,7 +601,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             },
             {
               dataField: 'discountCharges',
-              text: 'Discount Charges',
+              text: 'Other Charges',
               headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) => (col ? col : ''),
