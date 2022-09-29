@@ -36,9 +36,11 @@ const Payment = observer(() => {
     formState: {errors},
     setValue,
     clearErrors,
+    setError,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [isInputView, setIsInputView] = useState<boolean>(false);
+  const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
 
   useEffect(() => {
     paymentStore.updatePayment({
@@ -67,8 +69,6 @@ const Payment = observer(() => {
   };
 
   const updatePayment = payload => {
-    console.log({payload});
-
     paymentStore.updatePayment({
       ...paymentStore.payment,
       pId: Number.parseInt(payload?.pId),
@@ -91,9 +91,13 @@ const Payment = observer(() => {
       amountPayable:
         payload?.netAmount +
           payload?.miscellaneousCharges -
-          payload?.discountCharges?.amount || 0,
+          payload?.discountCharges?.amount -
+          payload?.receivedAmount || 0,
       patientOrderId: payload?.patientOrderId,
+      transactionHeaderId: payload?._id,
+      visitId: payload?.visitId,
     });
+    setTotalReceivedAmount(payload?.receivedAmount);
     setValue('pId', payload?.pId);
     setValue('labId', payload?.labId);
     clearErrors('pId');
@@ -539,13 +543,28 @@ const Payment = observer(() => {
                         0
                       ) {
                         alert('Please enter correct amount!');
+                        setError('receivedAmount', {type: 'onBlur'});
+                      } else if (receivedAmount == '') {
+                        paymentStore.updatePayment({
+                          ...paymentStore.payment,
+                          receivedAmount,
+                        });
+                        setError('receivedAmount', {type: 'onBlur'});
                       } else {
+                        console.log({
+                          finalAmount:
+                            totalReceivedAmount +
+                            Number.parseFloat(receivedAmount),
+                        });
                         onChange(Number.parseFloat(receivedAmount));
                         paymentStore.updatePayment({
                           ...paymentStore.payment,
                           receivedAmount: Number.parseFloat(receivedAmount),
                           balance:
                             paymentStore.payment?.amountPayable -
+                            Number.parseFloat(receivedAmount),
+                          totalReceivedAmount:
+                            totalReceivedAmount +
                             Number.parseFloat(receivedAmount),
                           status:
                             paymentStore.payment?.amountPayable -
@@ -554,6 +573,7 @@ const Payment = observer(() => {
                               ? 'Complete'
                               : 'Partial',
                         });
+                        clearErrors('receivedAmount');
                       }
                     }}
                   />

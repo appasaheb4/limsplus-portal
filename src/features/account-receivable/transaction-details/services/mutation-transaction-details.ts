@@ -35,6 +35,7 @@ export const TRANSACTION_HEADER_LIST = gql`
         accountType
         customerGroup
         patientOrderId
+        visitId
         rLab
         allMiscCharges
         discountCharges
