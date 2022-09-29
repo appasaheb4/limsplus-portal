@@ -16,10 +16,11 @@ const PrivacyPolicy = observer(() => {
           Toast.error({
             message: `😔 ${res.librarysByCode.message}`,
           });
+        console.log({res});
         setContent(
           res?.librarysByCode?.data?.length > 0
             ? res.librarysByCode.data[0].details
-            : null,
+            : '',
         );
       });
   });

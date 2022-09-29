@@ -1,13 +1,12 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {
-  NumberFilter,
-  textFilter,
-  customFilter,
   Form,
   TableBootstrap,
   Tooltip,
   Icons,
+  Buttons,
+  Svg,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {resizeFile, compressString} from '@/library/utils';
@@ -118,11 +117,13 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <img
-                      src={row?.backgroundImage}
-                      alt='logo'
-                      className='object-fill h-35 w-40 rounded-md'
-                    />
+                    {row?.backgroundImage && (
+                      <img
+                        src={row?.backgroundImage}
+                        alt='logo'
+                        className='object-fill h-35 w-40 rounded-md'
+                      />
+                    )}
                   </>
                 );
               },
@@ -134,7 +135,7 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                 rowIndex,
                 columnIndex,
               ) => (
-                <>
+                <div className='flex flex-col justify-center items-center gap-2'>
                   <Form.InputFile
                     placeholder='File'
                     onChange={async e => {
@@ -157,7 +158,24 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                         );
                     }}
                   />
-                </>
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    icon={Svg.Remove}
+                    onClick={() => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            backgroundImage: null,
+                            backgroundImageBase64: '',
+                          },
+                          row._id,
+                        );
+                    }}
+                  >
+                    Remove Image
+                  </Buttons.Button>
+                </div>
               ),
             },
             {

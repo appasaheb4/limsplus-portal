@@ -261,6 +261,8 @@ export const PatientOrder = PatientOrderHoc(
                                           'confidential',
                                         ]),
                                       ),
+                                      visitId:
+                                        patientOrderStore.patientOrder?.visitId,
                                     },
                                   },
                                 },
