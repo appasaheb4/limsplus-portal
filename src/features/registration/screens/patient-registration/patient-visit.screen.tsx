@@ -761,7 +761,6 @@ export const PatientVisit = PatientVisitHoc(
                             } rounded-md`}
                             onChange={e => {
                               const discountCharges = e.target.value;
-                              onChange(discountCharges);
                               patientVisitStore.updatePatientVisit({
                                 ...patientVisitStore.patientVisit,
                                 discountCharges: {
@@ -787,7 +786,9 @@ export const PatientVisit = PatientVisitHoc(
                             type='number'
                             placeholder='Amount'
                             className='-mt-1'
+                            hasError={!!errors.discountCharges}
                             onChange={amount => {
+                              onChange(amount);
                               patientVisitStore.updatePatientVisit({
                                 ...patientVisitStore.patientVisit,
                                 discountCharges: {
@@ -802,7 +803,7 @@ export const PatientVisit = PatientVisitHoc(
                       </Form.InputWrapper>
                     )}
                     name='discountCharges'
-                    rules={{required: false}}
+                    rules={{required: true}}
                     defaultValue={''}
                   />
                 ) : null}

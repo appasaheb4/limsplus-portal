@@ -18,12 +18,15 @@ export class Payment {
   allMiscCharges: Array<any>;
   amountPayable: number;
   receivedAmount: number;
+  totalReceivedAmount: number;
   balance: number;
   modeOfPayment: string;
   paymentRemark: string;
   status: string;
   enteredBy: string;
   patientOrderId: string;
+  transactionHeaderId: string;
+  visitId: number;
   dateOfEntry: Date;
   lastUpdated: Date;
 
@@ -47,12 +50,15 @@ export class Payment {
     this.allMiscCharges = rawData.allMiscCharges;
     this.amountPayable = rawData.amountPayable;
     this.receivedAmount = rawData.receivedAmount;
+    this.totalReceivedAmount = rawData.totalReceivedAmount;
     this.balance = rawData.balance;
     this.modeOfPayment = rawData.modeOfPayment;
     this.paymentRemark = rawData.paymentRemark;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
     this.patientOrderId = rawData.patientOrderId;
+    this.transactionHeaderId = rawData.transactionHeaderId;
+    this.visitId = rawData.visitId;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }
