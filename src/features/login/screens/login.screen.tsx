@@ -143,12 +143,28 @@ export const Login = observer(() => {
 
   return (
     <>
-      <Container fluid className='bg-yellow-300 h-screen'>
-        <Row className='items-center pt-4 mb-4'>
+      <Container
+        fluid
+        className='h-screen from-blue-600 bg-gradient-to-r w-full  block'
+      >
+        <svg
+          width='60%'
+          height='100%'
+          viewBox='0 0 100 100'
+          preserveAspectRatio='none'
+          style={{position: 'absolute'}}
+        >
+          <path
+            d='M0,0 
+           L100,0
+           C4,20 200,100 0,120'
+            fill='#2563EB'
+          />
+        </svg>
+        <Row className='h-screen items-center pt-4 mb-4'>
           <Col md='7'>
-            <div className='flex flex-col justify-center items-center'>
-              <img src={logo} className='w-20 h-15' alt='logo' />
-              <div className='mt-2'>
+            <div className='flex flex-col justify-center items-center -ml-20'>
+              <div className='mt-10'>
                 <Carousel>
                   {bannerStore.listAllBanner.map((item, key) => (
                     <Carousel.Item interval={5000} key={key}>
@@ -158,8 +174,8 @@ export const Login = observer(() => {
                         className='img-thumbnail img-fluid'
                         alt={key.toString()}
                         style={{
-                          width: width <= 768 ? 400 : 700,
-                          height: width <= 768 ? 300 : 600,
+                          width: width <= 768 ? 400 : 600,
+                          height: width <= 768 ? 300 : 500,
                         }}
                       />
                     </Carousel.Item>
@@ -171,9 +187,9 @@ export const Login = observer(() => {
           <Col md='5'>
             <div className='flex flex-col items-center'>
               <img src={logo} className='w-20 h-15  self-center' alt='logo' />
-              <div className='flex flex-col p-3 mt-2 rounded-md bg-black shadow-sm w-full'>
+              <div className='flex flex-col p-3 mt-2 rounded-lg bg-white shadow-sm w-fit'>
                 <div className='flex mt-2 justify-center items-center'>
-                  <label className='font-bold text-3xl text-white'>Login</label>
+                  <label className='font-bold text-3xl text-black'>Login</label>
                 </div>
                 <div>
                   <List direction='col' space={4} justify='stretch' fill>
@@ -185,7 +201,7 @@ export const Login = observer(() => {
                           id='userId'
                           name='userId'
                           inputRef={refUserId}
-                          wrapperStyle={{color: 'white'}}
+                          wrapperStyle={{color: 'black'}}
                           placeholder={
                             errors.userId ? 'Please enter userId' : 'UserId'
                           }
@@ -247,7 +263,7 @@ export const Login = observer(() => {
                         <Form.Input
                           type='password'
                           label='Password'
-                          wrapperStyle={{color: 'white'}}
+                          wrapperStyle={{color: 'black'}}
                           placeholder={
                             errors.password
                               ? 'Please enter password'
@@ -278,7 +294,7 @@ export const Login = observer(() => {
                         <Form.InputWrapper
                           label='Lab'
                           hasError={!!errors.lab}
-                          style={{color: 'white'}}
+                          style={{color: 'black'}}
                         >
                           <select
                             value={loginStore.inputLogin?.lab}
@@ -314,7 +330,7 @@ export const Login = observer(() => {
                         <Form.InputWrapper
                           label='Role'
                           hasError={!!errors.role}
-                          style={{color: 'white'}}
+                          style={{color: 'black'}}
                         >
                           <select
                             value={loginStore.inputLogin?.role}
@@ -366,48 +382,30 @@ export const Login = observer(() => {
                       Clear
                     </Buttons.Button>
                   </List>
-                  <h4 className='text-center text-white'>
+                  <h4 className='text-center text-black mt-2 text-sm'>
                     In that case contact the Support Team.
                   </h4>
                 </div>
-                <div className='flex p-4 flex-row items-center justify-around'>
-                  <div className='flex mt-2 justify-center items-center'>
-                    <a
-                      href='#'
-                      onClick={() => setModalForgotPassword({show: true})}
-                      className='text-white mr-2'
-                    >
-                      {'Forgot Password'}
-                    </a>
-                    <a
-                      onClick={() =>
-                        Toast.warning({
-                          message: `
-                        PASSWORD REQUIREMENTS: \n
-                  Minimum 4 Total Characters
-                  Maximum 8 Total Characters
-                  Minimum 1 Special Character
-                  Minimum 1 Number
-                  Minimum 1 Upper case Character
-                  Minimum 1 Lower case Character
-                  Cannot user previous 4 password
-                  Cannot use same password before specify number of days \n
-                  `,
-                          // eslint-disable-next-line unicorn/numeric-separators-style
-                          timer: 50000,
-                        })
-                      }
-                    ></a>
-                  </div>
-                  <div>
-                    <a href='privacy-policy' className='text-white'>
-                      Privacy and Policy
-                    </a>
-                  </div>
+                <div className='flex p-4 flex-row  w-full justify-between gap-4'>
+                  <a
+                    href='#'
+                    onClick={() => setModalForgotPassword({show: true})}
+                    className='text-black text-sm'
+                  >
+                    {'Forgot Password'}
+                  </a>
+                  <a href='privacy-policy' className='text-black text-sm'>
+                    Privacy and Policy
+                  </a>
                 </div>
               </div>
             </div>
           </Col>
+          {/* <button className='m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r'>
+            <span className='block text-black px-4 py-2 font-semibold rounded-full bg-white'>
+              Follow Me
+            </span>
+          </button> */}
         </Row>
         <ModalNoticeBoard
           {...noticeBoard}

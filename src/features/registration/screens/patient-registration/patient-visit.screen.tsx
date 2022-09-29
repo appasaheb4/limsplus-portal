@@ -709,22 +709,33 @@ export const PatientVisit = PatientVisitHoc(
                             {item?.value + ' - ' + item?.code}
                           </td>
                           <td className='sticky left-0'>
-                            <Form.Input
-                              style={{height: 30}}
-                              label=''
-                              type='number'
-                              placeholder='Amount'
-                              onChange={amount => {
-                                const miscCharges =
-                                  patientVisitStore.patientVisit?.miscCharges;
-                                miscCharges[index] = Object.assign(item, {
-                                  amount: Number.parseFloat(amount),
-                                });
-                                patientVisitStore.updatePatientVisit({
-                                  ...patientVisitStore.patientVisit,
-                                  miscCharges,
-                                });
-                              }}
+                            <Controller
+                              control={control}
+                              render={({field: {onChange}}) => (
+                                <Form.Input
+                                  style={{height: 30}}
+                                  label=''
+                                  type='number'
+                                  placeholder='Amount'
+                                  hasError={!!errors[item?.code]}
+                                  onChange={amount => {
+                                    onChange(amount);
+                                    const miscCharges =
+                                      patientVisitStore.patientVisit
+                                        ?.miscCharges;
+                                    miscCharges[index] = Object.assign(item, {
+                                      amount: Number.parseFloat(amount),
+                                    });
+                                    patientVisitStore.updatePatientVisit({
+                                      ...patientVisitStore.patientVisit,
+                                      miscCharges,
+                                    });
+                                  }}
+                                />
+                              )}
+                              name={item?.code}
+                              rules={{required: true}}
+                              defaultValue=''
                             />
                           </td>
                         </tr>
