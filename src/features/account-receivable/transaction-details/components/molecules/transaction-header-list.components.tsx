@@ -186,6 +186,27 @@ export const TransactionHeaderList = observer(
                 },
               },
               {
+                dataField: 'discountCharges',
+                text: 'Other Charges',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <div className='flex flex-row gap-2'>
+                        {row?.discountCharges && (
+                          <span>
+                            {row?.discountCharges?.code +
+                              ' - ' +
+                              row?.discountCharges?.amount?.toString()}
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  );
+                },
+              },
+              {
                 dataField: 'receivedAmount',
                 text: 'Received Amount',
                 sort: true,

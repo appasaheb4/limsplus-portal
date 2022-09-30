@@ -382,9 +382,6 @@ export const Login = observer(() => {
                       Clear
                     </Buttons.Button>
                   </List>
-                  <h4 className='text-center text-black mt-2 text-sm'>
-                    In that case contact the Support Team.
-                  </h4>
                 </div>
                 <div className='flex p-4 flex-row  w-full justify-between gap-4'>
                   <a

@@ -34,6 +34,7 @@ export class PatientOrderService {
           variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
+          console.log({response});
           stores.patientOrderStore.updatePatientOrderList(response.data);
           resolve(response.data);
         })
@@ -184,8 +185,6 @@ export class PatientOrderService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
-
           stores.patientOrderStore.updatePackageList(
             response.data.getPatientOrderPackagesList.packageList,
           );

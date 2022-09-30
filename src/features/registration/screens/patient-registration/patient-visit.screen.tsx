@@ -719,17 +719,24 @@ export const PatientVisit = PatientVisitHoc(
                                   placeholder='Amount'
                                   hasError={!!errors[item?.code]}
                                   onChange={amount => {
-                                    onChange(amount);
-                                    const miscCharges =
-                                      patientVisitStore.patientVisit
-                                        ?.miscCharges;
-                                    miscCharges[index] = Object.assign(item, {
-                                      amount: Number.parseFloat(amount),
-                                    });
-                                    patientVisitStore.updatePatientVisit({
-                                      ...patientVisitStore.patientVisit,
-                                      miscCharges,
-                                    });
+                                    if (Number.parseFloat(amount) > 0) {
+                                      onChange(amount);
+                                      const miscCharges =
+                                        patientVisitStore.patientVisit
+                                          ?.miscCharges;
+                                      miscCharges[index] = Object.assign(item, {
+                                        amount: Number.parseFloat(amount),
+                                      });
+                                      patientVisitStore.updatePatientVisit({
+                                        ...patientVisitStore.patientVisit,
+                                        miscCharges,
+                                      });
+                                    } else {
+                                      onChange('');
+                                      Toast.error({
+                                        message: 'Please enter correct value!',
+                                      });
+                                    }
                                   }}
                                 />
                               )}
@@ -788,15 +795,22 @@ export const PatientVisit = PatientVisitHoc(
                             className='-mt-1'
                             hasError={!!errors.discountCharges}
                             onChange={amount => {
-                              onChange(amount);
-                              patientVisitStore.updatePatientVisit({
-                                ...patientVisitStore.patientVisit,
-                                discountCharges: {
-                                  ...patientVisitStore.patientVisit
-                                    ?.discountCharges,
-                                  amount: Number.parseFloat(amount),
-                                },
-                              });
+                              if (Number.parseFloat(amount) > 0) {
+                                onChange(amount);
+                                patientVisitStore.updatePatientVisit({
+                                  ...patientVisitStore.patientVisit,
+                                  discountCharges: {
+                                    ...patientVisitStore.patientVisit
+                                      ?.discountCharges,
+                                    amount: Number.parseFloat(amount),
+                                  },
+                                });
+                              } else {
+                                onChange('');
+                                Toast.error({
+                                  message: 'Please enter correct value!',
+                                });
+                              }
                             }}
                           />
                         </div>
