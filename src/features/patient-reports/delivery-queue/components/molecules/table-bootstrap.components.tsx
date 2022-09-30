@@ -34,6 +34,7 @@ interface TableBootstrapProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   isSelectRow?: boolean;
+  selectedItem?: any;
   onDelete?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -58,6 +59,7 @@ export const TableBootstrap = ({
   fileName,
   isEditModify,
   isSelectRow,
+  selectedItem,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
@@ -276,6 +278,14 @@ export const TableBootstrap = ({
     },
   };
 
+  const rowStyle = (row, rowIndex) => {
+    console.log({row, selectedItem});
+
+    if (row._id == selectedItem?._id) {
+      return {backgroundColor: '#a9a9a9'};
+    }
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -372,6 +382,7 @@ export const TableBootstrap = ({
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
                   rowEvents={rowEvents}
+                  rowStyle={rowStyle}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>
