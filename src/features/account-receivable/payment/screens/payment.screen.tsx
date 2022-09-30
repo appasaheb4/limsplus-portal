@@ -68,7 +68,11 @@ const Payment = observer(() => {
     }, 2000);
   };
 
-  const updatePayment = payload => {
+  const updatePayment = (payload: any) => {
+    const discountChargesAmount: number =
+      typeof payload.discountCharges?.amount == 'number'
+        ? Number.parseFloat(payload?.discountCharges?.amount)
+        : 0;
     paymentStore.updatePayment({
       ...paymentStore.payment,
       pId: Number.parseInt(payload?.pId),
@@ -89,15 +93,15 @@ const Payment = observer(() => {
       miscellaneousCharges: Number.parseFloat(payload?.miscellaneousCharges),
       allMiscCharges: payload?.allMiscCharges,
       amountPayable:
-        payload?.netAmount +
-          payload?.miscellaneousCharges -
-          payload?.discountCharges?.amount -
-          payload?.receivedAmount || 0,
+        Number.parseFloat(payload?.netAmount) +
+        Number.parseFloat(payload?.miscellaneousCharges) -
+        discountChargesAmount -
+        Number.parseFloat(payload?.receivedAmount),
       patientOrderId: payload?.patientOrderId,
       transactionHeaderId: payload?._id,
       visitId: payload?.visitId,
     });
-    setTotalReceivedAmount(payload?.receivedAmount);
+    setTotalReceivedAmount(Number.parseFloat(payload?.receivedAmount));
     setValue('pId', payload?.pId);
     setValue('labId', payload?.labId);
     clearErrors('pId');
