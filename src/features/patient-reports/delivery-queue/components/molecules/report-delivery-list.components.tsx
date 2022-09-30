@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   NumberFilter,
@@ -32,6 +32,7 @@ interface ReportDeliveryProps {
 }
 
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
+  const [selectedItem, setSelectedItem] = useState<any>({});
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -39,6 +40,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
+          selectedItem={selectedItem}
           columns={[
             {
               dataField: '_id',
@@ -287,6 +289,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           }}
           clearAllFilter={() => {}}
           onClickRow={(item, index) => {
+            setSelectedItem(item);
             props.onClickRow && props.onClickRow(item, index);
           }}
         />
