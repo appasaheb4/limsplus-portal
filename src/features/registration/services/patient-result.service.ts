@@ -150,7 +150,6 @@ export class PatientResultService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
           if (!response.data.patientResultListForGenResEntry.success)
             return this.listPatientResult({
               pLab: stores.loginStore.login?.lab,

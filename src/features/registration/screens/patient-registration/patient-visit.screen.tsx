@@ -57,12 +57,14 @@ export const PatientVisit = PatientVisitHoc(
       doctorsStore,
       patientRegistrationStore,
     } = useStores();
+
     const {
       control,
       handleSubmit,
       formState: {errors},
       setValue,
       clearErrors,
+      setError,
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -797,6 +799,7 @@ export const PatientVisit = PatientVisitHoc(
                             onChange={amount => {
                               if (Number.parseFloat(amount) > 0) {
                                 onChange(amount);
+                                clearErrors('discountCharges');
                                 patientVisitStore.updatePatientVisit({
                                   ...patientVisitStore.patientVisit,
                                   discountCharges: {
@@ -806,7 +809,7 @@ export const PatientVisit = PatientVisitHoc(
                                   },
                                 });
                               } else {
-                                onChange('');
+                                setError('discountCharges', {type: 'onBlur'});
                                 Toast.error({
                                   message: 'Please enter correct value!',
                                 });
@@ -817,7 +820,7 @@ export const PatientVisit = PatientVisitHoc(
                       </Form.InputWrapper>
                     )}
                     name='discountCharges'
-                    rules={{required: true}}
+                    rules={{required: false}}
                     defaultValue={''}
                   />
                 ) : null}

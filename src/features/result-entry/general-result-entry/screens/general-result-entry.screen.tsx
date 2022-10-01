@@ -32,6 +32,7 @@ const GeneralResultEntry = observer(() => {
     setValue,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [tableReaload, setTableReload] = useState<boolean>(false);
 
   const tableView = useMemo(
     () => (
@@ -59,15 +60,19 @@ const GeneralResultEntry = observer(() => {
           );
           patientResultStore.updatePatientResult(updated);
         }}
-        onSaveFields={(updatedRecords, id) => {
-          setModalConfirm({
-            show: true,
-            type: 'save',
-            id: id,
-            data: updatedRecords,
-            title: 'Are you sure?',
-            body: `Update records!`,
-          });
+        onSaveFields={async (updatedRecords, id, type) => {
+          if (type == 'directSave') {
+            updateRecords(id, updatedRecords);
+          } else {
+            setModalConfirm({
+              show: true,
+              type: 'save',
+              id: id,
+              data: updatedRecords,
+              title: 'Are you sure?',
+              body: `Update records!`,
+            });
+          }
         }}
         onPageSizeChange={(page, limit) => {
           patientResultStore.patientResultService.listPatientResult(
@@ -82,8 +87,47 @@ const GeneralResultEntry = observer(() => {
         }}
       />
     ),
-    [patientResultStore.patientResultList],
+    [patientResultStore.patientResultList, tableReaload],
   );
+
+  const updateRecords = (id, data) => {
+    patientResultStore.patientResultService
+      .updateSingleFiled({
+        input: {
+          ...data,
+          enteredBy: loginStore.login?.userId,
+          resultDate: new Date(),
+          _id: id,
+          __v: undefined,
+        },
+      })
+      .then(res => {
+        if (res.updatePatientResult.success) {
+          Toast.success({
+            message: `😊 ${res.updatePatientResult.message}`,
+          });
+          if (!generalResultEntryStore.filterGeneralResEntry)
+            patientResultStore.patientResultService.listPatientResult({
+              pLab: loginStore.login?.lab,
+              resultStatus: 'P',
+              testStatus: 'P',
+            });
+          else
+            patientResultStore.patientResultService.patientListForGeneralResultEntry(
+              {
+                input: {
+                  filter: {
+                    ...generalResultEntryStore.filterGeneralResEntry,
+                  },
+                  page: 0,
+                  limit: 10,
+                },
+              },
+            );
+        }
+      });
+    setTableReload(!tableReaload);
+  };
 
   return (
     <>
@@ -100,41 +144,7 @@ const GeneralResultEntry = observer(() => {
         click={(type?: string) => {
           setModalConfirm({show: false});
           if (type === 'save') {
-            patientResultStore.patientResultService
-              .updateSingleFiled({
-                input: {
-                  ...modalConfirm.data,
-                  enteredBy: loginStore.login?.userId,
-                  resultDate: new Date(),
-                  _id: modalConfirm.id,
-                  __v: undefined,
-                },
-              })
-              .then(res => {
-                if (res.updatePatientResult.success) {
-                  Toast.success({
-                    message: `😊 ${res.updatePatientResult.message}`,
-                  });
-                  if (!generalResultEntryStore.filterGeneralResEntry)
-                    patientResultStore.patientResultService.listPatientResult({
-                      pLab: loginStore.login?.lab,
-                      resultStatus: 'P',
-                      testStatus: 'P',
-                    });
-                  else
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      },
-                    );
-                }
-              });
+            updateRecords(modalConfirm.id, modalConfirm.data);
           }
         }}
         onClose={() => {
