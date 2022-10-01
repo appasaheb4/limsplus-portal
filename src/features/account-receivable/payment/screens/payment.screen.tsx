@@ -511,7 +511,7 @@ const Payment = observer(() => {
                   />
                 )}
                 name='paymentRemark'
-                rules={{required: true}}
+                rules={{required: false}}
                 defaultValue={paymentStore.payment?.paymentRemark}
               />
 

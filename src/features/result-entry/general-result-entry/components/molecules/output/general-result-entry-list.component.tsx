@@ -6,7 +6,8 @@ import {Form, Buttons} from '@/library/components';
 import {InputResult} from './input-result.components';
 import {DisplayResult} from './display-result.components';
 import TableBootstrap from './table-bootstrap.component';
-import {RefRangesExpandList} from './ref-ranges-expand-list.component';
+
+import {GeneralResultEntryExpand} from './general-result-entry-expand.component';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -14,7 +15,7 @@ interface GeneralResultEntryListProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   onUpdateValue: (item: any, id: string) => void;
-  onSaveFields: (fileds: any, id: string) => void;
+  onSaveFields: (fileds: any, id: string, type: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -122,62 +123,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     }
   };
 
-  const expandRow = {
-    renderer: row =>
-      row?.resultType === 'V' ? (
-        <div className='z-0'>
-          <RefRangesExpandList
-            id='_id'
-            data={row?.refRangesList || []}
-            totalSize={row?.refRangesList?.length || 0}
-            columns={[
-              {
-                dataField: 'result',
-                text: 'Result',
-                editable: false,
-                formatter: () => (
-                  <>
-                    <span>{row.result}</span>
-                  </>
-                ),
-              },
-              {
-                dataField: 'rangeType',
-                text: 'Range Type',
-              },
-              {
-                dataField: 'low',
-                text: 'Low',
-              },
-              {
-                dataField: 'high',
-                text: 'High',
-              },
-              {
-                dataField: 'rangeSetOn',
-                text: 'Range Set On',
-              },
-              {
-                dataField: 'rangeId',
-                text: 'Range Id',
-              },
-              {
-                dataField: 'version',
-                text: 'Range Version',
-              },
-            ]}
-            onSelectedRow={rows => {}}
-            onUpdateItem={(value: any, dataField: string, id: string) => {}}
-          />
-        </div>
-      ) : null,
-    showExpandColumn: true,
-  };
-
   return (
     <>
       <div style={{position: 'relative'}}>
-        <TableBootstrap
+        <GeneralResultEntryExpand
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
@@ -208,8 +157,25 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 <>
                   <InputResult
                     row={row}
-                    onSelect={result => {
-                      props.onUpdateValue(result, row._id);
+                    onSelect={async result => {
+                      await props.onUpdateValue(result, row._id);
+                      _.isEmpty(row?.result)
+                        ? props.onSaveFields(
+                            {
+                              ...row,
+                              resultStatus: getResultStatus(
+                                row.resultType,
+                                row,
+                              ),
+                              testStatus: getTestStatus(row.resultType, row),
+                              abnFlag: getAbnFlag(row.resultType, row),
+                              critical: getCretical(row.resultType, row),
+                              ...result,
+                            },
+                            row._id,
+                            'directSave',
+                          )
+                        : null;
                     }}
                   />
                 </>
@@ -446,6 +412,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                 critical: getCretical(row.resultType, row),
                               },
                               row._id,
+                              'save',
                             );
                         }}
                       >
@@ -462,7 +429,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
           ]}
-          expandRow={expandRow}
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName='General Result Entry'

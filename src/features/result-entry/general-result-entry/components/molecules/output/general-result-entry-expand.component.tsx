@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
@@ -17,12 +16,16 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons} from '@/library/components';
+import {Buttons, Icons, Form} from '@/library/components';
+import {Confirm} from '@/library/models';
+
+import * as Config from '@/config';
+import {RefRangesExpandList} from './ref-ranges-expand-list.component';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
 
-interface TableBootstrapProps {
+interface GeneralResultEntryExpandProps {
   id: string;
   data: any;
   totalSize?: number;
@@ -34,7 +37,7 @@ interface TableBootstrapProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   isSelectRow?: boolean;
-  expandRow?: any;
+  onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
@@ -46,7 +49,7 @@ interface TableBootstrapProps {
   ) => void;
   clearAllFilter?: () => void;
 }
-const TableBootstrap = ({
+export const GeneralResultEntryExpand = ({
   id,
   data,
   totalSize = 10,
@@ -57,13 +60,12 @@ const TableBootstrap = ({
   fileName,
   isEditModify,
   isSelectRow,
-  expandRow,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
   onFilter,
   clearAllFilter,
-}: TableBootstrapProps) => {
+}: GeneralResultEntryExpandProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
@@ -148,13 +150,13 @@ const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
-  let searchProps: any = {
+  const searchProps: any = {
     placeholder: searchPlaceholder,
   };
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
-        let itemSelected: any[] = selectedRow;
+        const itemSelected: any[] = selectedRow;
         itemSelected.push(rows);
         setSelectedRow(itemSelected);
       } else {
@@ -268,27 +270,57 @@ const TableBootstrap = ({
     </div>
   );
 
-  const rowStyle = (row, rowIndex) => {
-    switch (row?.colorScheme?.envRangeColor) {
-      case 'BOTH':
-        return {
-          backgroundColor: row?.colorScheme?.cellColor,
-          color: row?.colorScheme?.fontColor,
-        };
-        break;
-      case 'BACKGROUND':
-        return {
-          backgroundColor: row?.colorScheme?.cellColor,
-        };
-        break;
-      case 'FONT':
-        return {
-          color: row?.colorScheme?.fontColor,
-        };
-        break;
-      default:
-        break;
-    }
+  const expandRow = {
+    renderer: row =>
+      row?.resultType === 'V' ? (
+        <div className='z-0'>
+          <RefRangesExpandList
+            id='_id'
+            data={row?.refRangesList || []}
+            totalSize={row?.refRangesList?.length || 0}
+            columns={[
+              {
+                dataField: 'result',
+                text: 'Result',
+                editable: false,
+                formatter: () => (
+                  <>
+                    <span>{row.result}</span>
+                  </>
+                ),
+              },
+              {
+                dataField: 'rangeType',
+                text: 'Range Type',
+              },
+              {
+                dataField: 'low',
+                text: 'Low',
+              },
+              {
+                dataField: 'high',
+                text: 'High',
+              },
+              {
+                dataField: 'rangeSetOn',
+                text: 'Range Set On',
+              },
+              {
+                dataField: 'rangeId',
+                text: 'Range Id',
+              },
+              {
+                dataField: 'version',
+                text: 'Range Version',
+              },
+            ]}
+            onSelectedRow={rows => {}}
+            onUpdateItem={(value: any, dataField: string, id: string) => {}}
+          />
+        </div>
+      ) : null,
+    showExpandColumn: true,
+    expandByColumnOnly: true,
   };
 
   return (
@@ -327,17 +359,23 @@ const TableBootstrap = ({
                   onChange={value => {}}
                 />
                 <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={
+                    'inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                  }
                   {...props.searchProps}
                 />
                 <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  className={
+                    'ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white'
+                  }
                   onClick={clearAllFilter}
                 >
                   Clear all filters
                 </button>
                 <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={
+                    'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                  }
                   {...props.csvProps}
                 >
                   Export CSV!!
@@ -382,6 +420,31 @@ const TableBootstrap = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
+                  //   selectRow={
+                  //     isSelectRow
+                  //       ? {
+                  //           mode: 'checkbox',
+                  //           onSelect: handleOnSelect,
+                  //           onSelectAll: handleOnSelectAll,
+                  //           selectColumnStyle: ({
+                  //             checked,
+                  //             disabled,
+                  //             rowIndex,
+                  //             rowKey,
+                  //           }) => {
+                  //             if (checked) {
+                  //               return {
+                  //                 backgroundColor: 'yellow',
+                  //               };
+                  //             }
+                  //             return {
+                  //               backgroundColor: 'pink',
+                  //               display: 'none',
+                  //             };
+                  //           },
+                  //         }
+                  //       : undefined
+                  //   }
                   cellEdit={
                     isEditModify
                       ? cellEditFactory({
@@ -390,10 +453,9 @@ const TableBootstrap = ({
                         })
                       : undefined
                   }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
-                  //expandRow={expandRow}
-                  rowStyle={rowStyle}
+                  expandRow={expandRow}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>
@@ -415,5 +477,3 @@ const TableBootstrap = ({
     </PaginationProvider>
   );
 };
-
-export default TableBootstrap;

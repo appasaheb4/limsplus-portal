@@ -1830,7 +1830,6 @@ const CorporateClients = CorporateClientsHoc(
                   setValue('corporateName', modalConfirm.data.corporateName);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
                   break;
                 }
                 // No default
