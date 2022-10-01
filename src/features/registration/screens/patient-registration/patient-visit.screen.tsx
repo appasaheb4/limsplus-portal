@@ -1809,40 +1809,7 @@ export const PatientVisit = PatientVisitHoc(
                           rules={{required: false}}
                           defaultValue=''
                         />
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.Input
-                              label='Balance'
-                              name='txtBalance'
-                              disabled={true}
-                              placeholder={
-                                errors.balance
-                                  ? 'Please Enter Balance'
-                                  : 'Balance'
-                              }
-                              hasError={!!errors.balance}
-                              type='number'
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.balance
-                              }
-                              onChange={balance => {
-                                onChange(balance);
-                                patientVisitStore.updatePatientVisit({
-                                  ...patientVisitStore.patientVisit,
-                                  extraData: {
-                                    ...patientVisitStore.patientVisit.extraData,
-                                    balance,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='balance'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
+
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
