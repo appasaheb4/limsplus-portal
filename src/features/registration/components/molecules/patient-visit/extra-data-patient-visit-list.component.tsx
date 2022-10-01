@@ -33,7 +33,6 @@ let loginInterface;
 let registrationInterface;
 let submittingSystem;
 let submittindOn;
-let balance;
 let accountType;
 let deliveryMode;
 let environment;
@@ -895,22 +894,6 @@ export const ExtraDataPatientVisitList = observer(
                 },
               },
               {
-                dataField: 'balance',
-                text: 'Balance',
-                headerClasses: 'textHeader4',
-                sort: true,
-                csvFormatter: (col, row) =>
-                  row.extraData?.balance ? row.extraData.balance : '',
-                filter: textFilter({
-                  getFilter: filter => {
-                    balance = filter;
-                  },
-                }),
-                formatter: (cell, row) => {
-                  return <>{row.extraData.balance}</>;
-                },
-              },
-              {
                 dataField: 'accountType',
                 text: 'Account Type',
                 headerClasses: 'textHeader4',
@@ -1139,7 +1122,6 @@ export const ExtraDataPatientVisitList = observer(
               registrationInterface('');
               submittingSystem('');
               submittindOn('');
-              balance('');
               accountType('');
               deliveryMode('');
               environment('');

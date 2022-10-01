@@ -58,7 +58,6 @@ export class PatientVisit {
     registrationInterface: string;
     submittedSystem: string;
     submittedOn: string;
-    balance: string;
     environment: string;
   };
   documentType: string;

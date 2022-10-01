@@ -483,14 +483,11 @@ export const PatientOrder = PatientOrderHoc(
               patientOrderStore.patientOrderService
                 .deletePatientOrder({input: {id: modalConfirm.id}})
                 .then((res: any) => {
+                  setModalConfirm({show: false});
                   if (res.removePatientOrder.success) {
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
                     });
-                    setModalConfirm({show: false});
-                    // patientOrderStore.patientOrderService.listPatientOrder({
-                    //   documentType: 'patientOrder',
-                    // });
                     setTimeout(() => {
                       window.location.reload();
                     }, 1000);

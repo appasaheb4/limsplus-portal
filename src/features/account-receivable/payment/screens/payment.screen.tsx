@@ -68,11 +68,21 @@ const Payment = observer(() => {
     }, 2000);
   };
 
-  const updatePayment = (payload: any) => {
+  const getAmountPayable = payload => {
     const discountChargesAmount: number =
       typeof payload.discountCharges?.amount == 'number'
         ? Number.parseFloat(payload?.discountCharges?.amount)
         : 0;
+    const amountPayable =
+      Number.parseFloat(payload?.netAmount) +
+      Number.parseFloat(payload?.miscellaneousCharges) -
+      discountChargesAmount -
+      Number.parseFloat(payload?.receivedAmount);
+
+    return amountPayable;
+  };
+
+  const updatePayment = (payload: any) => {
     paymentStore.updatePayment({
       ...paymentStore.payment,
       pId: Number.parseInt(payload?.pId),
@@ -92,11 +102,7 @@ const Payment = observer(() => {
       discountPer: Number.parseFloat(payload?.discountPer),
       miscellaneousCharges: Number.parseFloat(payload?.miscellaneousCharges),
       allMiscCharges: payload?.allMiscCharges,
-      amountPayable:
-        Number.parseFloat(payload?.netAmount) +
-        Number.parseFloat(payload?.miscellaneousCharges) -
-        discountChargesAmount -
-        Number.parseFloat(payload?.receivedAmount),
+      amountPayable: getAmountPayable(payload),
       patientOrderId: payload?.patientOrderId,
       transactionHeaderId: payload?._id,
       visitId: payload?.visitId,
@@ -136,7 +142,12 @@ const Payment = observer(() => {
                       loader={loading}
                       placeholder='Search by pId or customer name'
                       data={{
-                        list: transactionDetailsStore.transactionHeaderList,
+                        list:
+                          transactionDetailsStore.transactionHeaderList.filter(
+                            item => {
+                              if (getAmountPayable(item) !== 0) return item;
+                            },
+                          ) || [],
                         displayKey: ['pId', 'customerName'],
                       }}
                       disable={false}
@@ -182,7 +193,12 @@ const Payment = observer(() => {
                       loader={loading}
                       placeholder='Search by labId or customer name'
                       data={{
-                        list: transactionDetailsStore.transactionHeaderList,
+                        list:
+                          transactionDetailsStore.transactionHeaderList.filter(
+                            item => {
+                              if (getAmountPayable(item) !== 0) return item;
+                            },
+                          ) || [],
                         displayKey: ['labId', 'customerName'],
                       }}
                       disable={false}
@@ -555,11 +571,6 @@ const Payment = observer(() => {
                         });
                         setError('receivedAmount', {type: 'onBlur'});
                       } else {
-                        console.log({
-                          finalAmount:
-                            totalReceivedAmount +
-                            Number.parseFloat(receivedAmount),
-                        });
                         onChange(Number.parseFloat(receivedAmount));
                         paymentStore.updatePayment({
                           ...paymentStore.payment,
