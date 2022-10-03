@@ -420,31 +420,6 @@ export const GeneralResultEntryExpand = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
-                  //   selectRow={
-                  //     isSelectRow
-                  //       ? {
-                  //           mode: 'checkbox',
-                  //           onSelect: handleOnSelect,
-                  //           onSelectAll: handleOnSelectAll,
-                  //           selectColumnStyle: ({
-                  //             checked,
-                  //             disabled,
-                  //             rowIndex,
-                  //             rowKey,
-                  //           }) => {
-                  //             if (checked) {
-                  //               return {
-                  //                 backgroundColor: 'yellow',
-                  //               };
-                  //             }
-                  //             return {
-                  //               backgroundColor: 'pink',
-                  //               display: 'none',
-                  //             };
-                  //           },
-                  //         }
-                  //       : undefined
-                  //   }
                   cellEdit={
                     isEditModify
                       ? cellEditFactory({
