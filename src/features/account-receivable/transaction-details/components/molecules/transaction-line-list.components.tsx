@@ -10,7 +10,7 @@ import {
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
-import {TableBootstrap} from './table-bootstrap.components';
+import {TableBootstrapTranLine} from './table-bootstrap-tran-line.components';
 
 interface TransactionLineProps {
   data: any;
@@ -33,7 +33,7 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
   return (
     <>
       <div style={{position: 'relative'}}>
-        <TableBootstrap
+        <TableBootstrapTranLine
           id='_id'
           data={props.data}
           totalSize={props.totalSize}

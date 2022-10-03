@@ -313,6 +313,30 @@ export const PriceListList = (props: PriceListProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.price}
+                    onBlur={price => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            price: Number.parseFloat(price),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'minSp',
@@ -330,6 +354,30 @@ export const PriceListList = (props: PriceListProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.minSp}
+                    onBlur={minSp => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            minSp: Number.parseFloat(minSp),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'maxSp',
@@ -347,6 +395,30 @@ export const PriceListList = (props: PriceListProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.maxSp}
+                    onBlur={maxSp => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            maxSp: Number.parseFloat(maxSp),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'maxDis',
@@ -361,6 +433,30 @@ export const PriceListList = (props: PriceListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.maxDis}
+                    onBlur={maxDis => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            maxDis: Number.parseFloat(maxDis),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'fixedPrice',

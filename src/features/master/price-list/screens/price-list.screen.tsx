@@ -576,6 +576,7 @@ export const PriceList = PriceListHoc(
                         priceListStore.updatePriceList({
                           ...priceListStore.priceList,
                           price: Number.parseFloat(price),
+                          maxSp: Number.parseFloat(price),
                         });
                       }}
                     />

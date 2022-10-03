@@ -24,8 +24,8 @@ export class PriceListStore {
       ),
       fixedPrice: false,
       minSp: 0,
-      maxDis: 0,
       maxSp: 0,
+      maxDis: 100,
       version: 1,
     };
 

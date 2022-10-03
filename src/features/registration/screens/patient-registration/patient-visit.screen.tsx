@@ -641,7 +641,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Misc Charges'
-                      hasError={!!errors.acClass}
+                      hasError={!!errors.miscCharges}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -690,7 +690,12 @@ export const PatientVisit = PatientVisitHoc(
                     </Form.InputWrapper>
                   )}
                   name='miscCharges'
-                  rules={{required: true}}
+                  rules={{
+                    required:
+                      patientVisitStore.patientVisit?.miscCharges?.length > 0
+                        ? true
+                        : false,
+                  }}
                   defaultValue={patientVisitStore.selectedItems?.miscCharges}
                 />
 
@@ -743,7 +748,13 @@ export const PatientVisit = PatientVisitHoc(
                                 />
                               )}
                               name={item?.code}
-                              rules={{required: true}}
+                              rules={{
+                                required:
+                                  patientVisitStore.patientVisit?.miscCharges
+                                    ?.length > 0
+                                    ? true
+                                    : false,
+                              }}
                               defaultValue=''
                             />
                           </td>
@@ -778,6 +789,7 @@ export const PatientVisit = PatientVisitHoc(
                                   code: discountCharges,
                                 },
                               });
+                              setError('discountCharges', {type: 'onBlur'});
                             }}
                           >
                             <option selected>Select</option>
