@@ -22,7 +22,7 @@ import {Buttons, Icons} from '@/library/components';
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
 
-interface TableBootstrapProps {
+interface TableBootstrapTranHeaderProps {
   id: string;
   data: any;
   totalSize?: number;
@@ -48,7 +48,7 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
 }
-export const TableBootstrap = ({
+export const TableBootstrapTranHeader = ({
   id,
   data,
   totalSize = 10,
@@ -66,7 +66,7 @@ export const TableBootstrap = ({
   onFilter,
   clearAllFilter,
   onClickRow,
-}: TableBootstrapProps) => {
+}: TableBootstrapTranHeaderProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
@@ -282,6 +282,7 @@ export const TableBootstrap = ({
     if (row._id == selectedItem?._id) {
       return {backgroundColor: '#a9a9a9'};
     }
+    if (row.balance == 0) return {backgroundColor: '#90EE90'};
   };
 
   return (

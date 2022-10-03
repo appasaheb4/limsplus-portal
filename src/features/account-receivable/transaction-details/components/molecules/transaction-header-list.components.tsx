@@ -11,7 +11,7 @@ import {
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
 
-import {TableBootstrap} from './table-bootstrap.components';
+import {TableBootstrapTranHeader} from './table-bootstrap-tran-header.components';
 
 interface TransactionHeaderProps {
   data: any;
@@ -37,7 +37,7 @@ export const TransactionHeaderList = observer(
     return (
       <>
         <div style={{position: 'relative'}}>
-          <TableBootstrap
+          <TableBootstrapTranHeader
             id='_id'
             data={props.data}
             totalSize={props.totalSize}
