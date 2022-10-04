@@ -96,7 +96,7 @@ const Payment = PaymentHoc(
         customerName: payload?.customerName,
         customerGroup: payload?.customerGroup,
         acClass: payload?.acClass,
-        acType: payload?.acType,
+        acType: payload?.accountType,
         discountCharges:
           payload?.discountCharges?.code +
           ' ' +

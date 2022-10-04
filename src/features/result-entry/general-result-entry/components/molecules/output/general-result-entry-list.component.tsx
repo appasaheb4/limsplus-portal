@@ -159,23 +159,38 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     row={row}
                     onSelect={async result => {
                       await props.onUpdateValue(result, row._id);
+                      const rows = {...row, ...result};
                       _.isEmpty(row?.result)
                         ? props.onSaveFields(
                             {
-                              ...row,
+                              ...rows,
                               resultStatus: getResultStatus(
-                                row.resultType,
-                                row,
+                                rows.resultType,
+                                rows,
                               ),
-                              testStatus: getTestStatus(row.resultType, row),
-                              abnFlag: getAbnFlag(row.resultType, row),
-                              critical: getCretical(row.resultType, row),
+                              testStatus: getTestStatus(rows.resultType, rows),
+                              abnFlag: getAbnFlag(rows.resultType, rows),
+                              critical: getCretical(rows.resultType, rows),
                               ...result,
                             },
-                            row._id,
+                            rows._id,
                             'directSave',
                           )
-                        : null;
+                        : props.onSaveFields(
+                            {
+                              ...rows,
+                              resultStatus: getResultStatus(
+                                rows.resultType,
+                                rows,
+                              ),
+                              testStatus: getTestStatus(rows.resultType, rows),
+                              abnFlag: getAbnFlag(rows.resultType, rows),
+                              critical: getCretical(rows.resultType, rows),
+                              ...result,
+                            },
+                            rows._id,
+                            'save',
+                          );
                     }}
                   />
                 </>
@@ -388,39 +403,42 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
-                    {/* {row.testStatus === 'P' && ( */}
-                    <>
-                      <Buttons.Button
-                        size='small'
-                        type='outline'
-                        buttonClass='text-white'
-                        onClick={() => {
-                          if (!row?.result)
-                            return alert('Please enter result value ');
-                          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                          props.onSaveFields &&
-                            props.onSaveFields(
-                              {
-                                ...row,
-                                resultStatus: getResultStatus(
-                                  row.resultType,
-                                  row,
-                                ),
-                                testStatus: getTestStatus(row.resultType, row),
-                                abnFlag: getAbnFlag(row.resultType, row),
-                                critical: getCretical(row.resultType, row),
-                              },
-                              row._id,
-                              'save',
-                            );
-                        }}
-                      >
-                        {'Save'}
-                      </Buttons.Button>
-                    </>
-                    {/* )} */}
-                  </div>
+                  {!_.isEmpty(row?.result) && (
+                    <div className='flex flex-row'>
+                      <>
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          buttonClass='text-white'
+                          onClick={() => {
+                            if (!row?.result)
+                              return alert('Please enter result value ');
+                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                            props.onSaveFields &&
+                              props.onSaveFields(
+                                {
+                                  ...row,
+                                  resultStatus: getResultStatus(
+                                    row.resultType,
+                                    row,
+                                  ),
+                                  testStatus: getTestStatus(
+                                    row.resultType,
+                                    row,
+                                  ),
+                                  abnFlag: getAbnFlag(row.resultType, row),
+                                  critical: getCretical(row.resultType, row),
+                                },
+                                row._id,
+                                'save',
+                              );
+                          }}
+                        >
+                          {'Update'}
+                        </Buttons.Button>
+                      </>
+                    </div>
+                  )}
                 </>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white',
