@@ -36,56 +36,64 @@ const GeneralResultEntry = observer(() => {
 
   const tableView = useMemo(
     () => (
-      <GeneralResultEntryList
-        data={patientResultStore.patientResultList || []}
-        totalSize={patientResultStore.patientResultListCount}
-        isDelete={RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Delete',
-        )}
-        isEditModify={RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Edit/Modify',
-        )}
-        onUpdateValue={(item, id) => {
-          const updated = patientResultStore.patientResultList?.map(
-            (e: any) => {
-              if (e._id === id)
-                return {
-                  ...e,
-                  ...item,
-                };
-              else return e;
-            },
-          );
-          patientResultStore.updatePatientResult(updated);
-        }}
-        onSaveFields={async (updatedRecords, id, type) => {
-          if (type == 'directSave') {
-            updateRecords(id, updatedRecords);
-          } else {
-            setModalConfirm({
-              show: true,
-              type: 'save',
-              id: id,
-              data: updatedRecords,
-              title: 'Are you sure?',
-              body: `Update records!`,
-            });
-          }
-        }}
-        onPageSizeChange={(page, limit) => {
-          patientResultStore.patientResultService.listPatientResult(
-            page,
-            limit,
-          );
-        }}
-        onFilter={(type, filter, page, limit) => {
-          // refernceRangesStore.referenceRangesService.filter({
-          //   input: {type, filter, page, limit},
-          // });
-        }}
-      />
+      <>
+        <GeneralResultEntryList
+          data={patientResultStore.patientResultList || []}
+          totalSize={patientResultStore.patientResultListCount}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Edit/Modify',
+          )}
+          onUpdateValue={(item, id) => {
+            const updated = patientResultStore.patientResultList?.map(
+              (e: any) => {
+                if (e._id === id)
+                  return {
+                    ...e,
+                    ...item,
+                    refRangesList: e.refRangesList?.map(item => {
+                      return {
+                        ...item,
+                        updateDate: new Date(),
+                      };
+                    }),
+                  };
+                else return e;
+              },
+            );
+            patientResultStore.updatePatientResult(updated);
+          }}
+          onSaveFields={async (updatedRecords, id, type) => {
+            if (type == 'directSave') {
+              updateRecords(id, updatedRecords);
+            } else {
+              setModalConfirm({
+                show: true,
+                type: 'save',
+                id: id,
+                data: updatedRecords,
+                title: 'Are you sure?',
+                body: `Update records!`,
+              });
+            }
+          }}
+          onPageSizeChange={(page, limit) => {
+            patientResultStore.patientResultService.listPatientResult(
+              page,
+              limit,
+            );
+          }}
+          onFilter={(type, filter, page, limit) => {
+            // refernceRangesStore.referenceRangesService.filter({
+            //   input: {type, filter, page, limit},
+            // });
+          }}
+        />
+      </>
     ),
     [patientResultStore.patientResultList, tableReaload],
   );

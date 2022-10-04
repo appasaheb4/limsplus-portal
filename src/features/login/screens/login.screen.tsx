@@ -148,7 +148,7 @@ export const Login = observer(() => {
         className='h-screen from-blue-600 bg-gradient-to-r w-full  block'
       >
         <svg
-          width='60%'
+          width='80%'
           height='100%'
           viewBox='0 0 100 100'
           preserveAspectRatio='none'
@@ -157,7 +157,7 @@ export const Login = observer(() => {
           <path
             d='M0,0 
            L100,0
-           C4,20 200,100 0,120'
+           C4,30 130,90 0,120'
             fill='#2563EB'
           />
         </svg>
@@ -171,12 +171,8 @@ export const Login = observer(() => {
                       <img
                         key={key}
                         src={item.image}
-                        className='img-thumbnail img-fluid'
+                        className='img-thumbnail img-fluid rounded-full w-fit'
                         alt={key.toString()}
-                        style={{
-                          width: width <= 768 ? 400 : 600,
-                          height: width <= 768 ? 300 : 500,
-                        }}
                       />
                     </Carousel.Item>
                   ))}
@@ -186,8 +182,8 @@ export const Login = observer(() => {
           </Col>
           <Col md='5'>
             <div className='flex flex-col items-center'>
-              <img src={logo} className='w-20 h-15  self-center' alt='logo' />
-              <div className='flex flex-col p-3 mt-2 rounded-lg bg-white shadow-sm w-fit'>
+              {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
+              <div className='flex flex-col p-3 mt-2 rounded-lg bg-white shadow-sm w-96'>
                 <div className='flex mt-2 justify-center items-center'>
                   <label className='font-bold text-3xl text-black'>Login</label>
                 </div>
@@ -396,6 +392,17 @@ export const Login = observer(() => {
                   </a>
                 </div>
               </div>
+            </div>
+            <div className='mt-4'>
+              <span className='underline font-bold font-arimaRegular'>
+                Quick Access :
+              </span>
+              <span className='flex flex-row items-center gap-2 '>
+                {' '}
+                1.
+                <Icons.Iconmd.MdPayments size={20} />
+                Online Payment
+              </span>
             </div>
           </Col>
           {/* <button className='m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r'>

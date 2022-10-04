@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -153,23 +153,6 @@ export const GeneralResultEntryExpand = ({
   const searchProps: any = {
     placeholder: searchPlaceholder,
   };
-  const handleOnSelect = (rows: any, isSelect) => {
-    if (isSelect) {
-      if (selectedRow) {
-        const itemSelected: any[] = selectedRow;
-        itemSelected.push(rows);
-        setSelectedRow(itemSelected);
-      } else {
-        setSelectedRow([rows]);
-      }
-    }
-  };
-
-  const handleOnSelectAll = (isSelect, rows) => {
-    if (isSelect) {
-      setSelectedRow(rows);
-    }
-  };
 
   const handleTableChange = (
     type,
@@ -274,6 +257,7 @@ export const GeneralResultEntryExpand = ({
     renderer: row =>
       row?.resultType === 'V' ? (
         <div className='z-0'>
+          <h1 className='hidden'>{JSON.stringify(row)}</h1>
           <RefRangesExpandList
             id='_id'
             data={row?.refRangesList || []}
@@ -323,6 +307,28 @@ export const GeneralResultEntryExpand = ({
     expandByColumnOnly: true,
   };
 
+  const rowStyle = (row, rowIndex) => {
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -431,6 +437,7 @@ export const GeneralResultEntryExpand = ({
                   headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
                   expandRow={expandRow}
+                  rowStyle={rowStyle}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>
