@@ -143,51 +143,70 @@ export const Login = observer(() => {
 
   return (
     <>
-      <Container
-        fluid
-        className='h-screen from-blue-600 bg-gradient-to-r w-full  block'
-      >
+      <div className='flex h-screen bg-[#FF6C99]  w-full  justify-center items-center'>
         <svg
           width='80%'
           height='100%'
           viewBox='0 0 100 100'
           preserveAspectRatio='none'
-          style={{position: 'absolute'}}
+          style={{position: 'absolute', left: 0, right: 0}}
         >
           <path
             d='M0,0 
            L100,0
-           C4,30 130,90 0,120'
-            fill='#2563EB'
+           C4,30 130,100 0,120'
+            fill='#394D7F'
           />
         </svg>
-        <Row className='h-screen items-center pt-4 mb-4'>
-          <Col md='7'>
-            <div className='flex flex-col justify-center items-center -ml-20'>
-              <div className='mt-10'>
-                <Carousel>
-                  {bannerStore.listAllBanner.map((item, key) => (
-                    <Carousel.Item interval={5000} key={key}>
-                      <img
-                        key={key}
-                        src={item.image}
-                        className='img-thumbnail img-fluid rounded-full w-fit'
-                        alt={key.toString()}
-                      />
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
-              </div>
+        <div
+          className='flex flex-row w-fit m-auto rounded-3xl shadow-lg bg-white items-center absolute  p-2 gap-4'
+          style={{minWidth: '70%'}}
+        >
+          <svg
+            width='50%'
+            height='100%'
+            viewBox='0 0 100 100'
+            preserveAspectRatio='none'
+            style={{position: 'absolute', left: 0, right: 0}}
+          >
+            <path
+              d='M0,0 
+           L100,0
+           C100,125 120,100 0,120'
+              fill='#5788FE'
+            />
+          </svg>
+          <Col md='6'>
+            <div className='flex justify-center items-center'>
+              <Carousel style={{width: 600, height: 400}} indicators={false}>
+                {bannerStore.listAllBanner.map((item, key) => (
+                  <Carousel.Item interval={3000} key={key}>
+                    <img
+                      key={key}
+                      src={item.image}
+                      className='img-fluid rounded-full w-fit'
+                      alt={key.toString()}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '50%',
+                      }}
+                    />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
             </div>
           </Col>
-          <Col md='5'>
-            <div className='flex flex-col items-center'>
+          <Col md='6'>
+            <div className='flex justify-center items-center'>
               {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
-              <div className='flex flex-col p-3 mt-2 rounded-lg bg-white shadow-sm w-96'>
-                <div className='flex mt-2 justify-center items-center'>
-                  <label className='font-bold text-3xl text-black'>Login</label>
+              <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-md'>
+                <div className='flex mt-2 p-2'>
+                  <label className='font-bold text-lg text-black underline ml-4'>
+                    Sign In
+                  </label>
                 </div>
-                <div>
+                <div className='rounded-2xl bg-white p-4'>
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
@@ -356,7 +375,6 @@ export const Login = observer(() => {
                       defaultValue={loginStore.inputLogin?.role}
                     />
                   </List>
-
                   <br />
                   <List direction='row' space={3} align='center'>
                     <Buttons.Button
@@ -367,29 +385,19 @@ export const Login = observer(() => {
                     >
                       {t('common:login').toString()}
                     </Buttons.Button>
-                    <Buttons.Button
-                      size='medium'
-                      type='solid'
-                      icon={Svg.Remove}
-                      onClick={() => {
-                        window.location.reload();
-                      }}
-                    >
-                      Clear
-                    </Buttons.Button>
                   </List>
-                </div>
-                <div className='flex p-4 flex-row  w-full justify-between gap-4'>
-                  <a
-                    href='#'
-                    onClick={() => setModalForgotPassword({show: true})}
-                    className='text-black text-sm'
-                  >
-                    {'Forgot Password'}
-                  </a>
-                  <a href='privacy-policy' className='text-black text-sm'>
-                    Privacy and Policy
-                  </a>
+                  <div className='flex p-4 flex-row  w-full justify-between gap-4'>
+                    <a
+                      href='#'
+                      onClick={() => setModalForgotPassword({show: true})}
+                      className='text-black text-sm'
+                    >
+                      {'Forgot Password'}
+                    </a>
+                    <a href='privacy-policy' className='text-black text-sm'>
+                      Privacy and Policy
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -405,12 +413,7 @@ export const Login = observer(() => {
               </span>
             </div>
           </Col>
-          {/* <button className='m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r'>
-            <span className='block text-black px-4 py-2 font-semibold rounded-full bg-white'>
-              Follow Me
-            </span>
-          </button> */}
-        </Row>
+        </div>
         <ModalNoticeBoard
           {...noticeBoard}
           click={async action => {
@@ -446,21 +449,21 @@ export const Login = observer(() => {
         <ModalForgotPassword
           {...modalForgotPassword}
           onClick={(userInfo: any) => {
-            loginStore.LoginService.forgotPassword({input: {...userInfo}}).then(
-              res => {
-                if (res.userForgotPassword.success) {
-                  setModalForgotPassword({show: false});
-                  loginStore.updateForgotPassword();
-                  Toast.success({
-                    message: `😊 ${res.userForgotPassword.message}`,
-                  });
-                } else {
-                  Toast.error({
-                    message: `😔 ${res.userForgotPassword.message}`,
-                  });
-                }
-              },
-            );
+            loginStore.LoginService.forgotPassword({
+              input: {...userInfo},
+            }).then(res => {
+              if (res.userForgotPassword.success) {
+                setModalForgotPassword({show: false});
+                loginStore.updateForgotPassword();
+                Toast.success({
+                  message: `😊 ${res.userForgotPassword.message}`,
+                });
+              } else {
+                Toast.error({
+                  message: `😔 ${res.userForgotPassword.message}`,
+                });
+              }
+            });
           }}
           onClose={() => {
             setModalForgotPassword({show: false});
@@ -542,7 +545,7 @@ export const Login = observer(() => {
           }}
           onClose={() => {}}
         />
-      </Container>
+      </div>
     </>
   );
 });
