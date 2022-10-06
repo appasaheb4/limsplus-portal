@@ -13,8 +13,7 @@ import {
 } from '@/library/components';
 
 import {ModalForgotPassword, ModalNoticeBoard} from '../components';
-import {Col, Container, Row} from 'reactstrap';
-import {logo, images} from '@/library/assets';
+import {Col} from 'reactstrap';
 import {Carousel} from 'react-bootstrap';
 import dayjs from 'dayjs';
 import {useForm, Controller} from 'react-hook-form';
@@ -140,7 +139,7 @@ export const Login = observer(() => {
         });
     }
   };
-
+  const carouselSize = 500;
   return (
     <>
       <div className='flex h-screen bg-[#FF6C99]  w-full  justify-center items-center'>
@@ -159,10 +158,10 @@ export const Login = observer(() => {
           />
         </svg>
         <div
-          className='flex flex-row w-fit m-auto rounded-3xl shadow-lg bg-white items-center absolute  p-2 gap-4'
+          className='flex flex-row w-fit m-auto rounded-3xl shadow-lg bg-white items-center absolute  p-2 gap-4 from-blue-600 bg-gradient-to-r'
           style={{minWidth: '70%'}}
         >
-          <svg
+          {/* <svg
             width='50%'
             height='100%'
             viewBox='0 0 100 100'
@@ -175,21 +174,23 @@ export const Login = observer(() => {
            C100,125 120,100 0,120'
               fill='#5788FE'
             />
-          </svg>
+          </svg> */}
           <Col md='6'>
             <div className='flex justify-center items-center'>
-              <Carousel style={{width: 600, height: 400}} indicators={false}>
+              <Carousel
+                style={{width: carouselSize, height: carouselSize}}
+                indicators={false}
+              >
                 {bannerStore.listAllBanner.map((item, key) => (
                   <Carousel.Item interval={3000} key={key}>
                     <img
                       key={key}
                       src={item.image}
-                      className='img-fluid rounded-full w-fit'
                       alt={key.toString()}
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
+                        width: carouselSize,
+                        height: carouselSize,
+                        borderRadius: carouselSize / 2,
                       }}
                     />
                   </Carousel.Item>
@@ -200,13 +201,13 @@ export const Login = observer(() => {
           <Col md='6'>
             <div className='flex justify-center items-center'>
               {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
-              <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-md'>
+              <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'>
                 <div className='flex mt-2 p-2'>
-                  <label className='font-bold text-lg text-black underline ml-4'>
+                  <label className='font-nunitoSansBold text-lg text-black underline ml-4'>
                     Sign In
                   </label>
                 </div>
-                <div className='rounded-2xl bg-white p-4'>
+                <div className='rounded-2xl bg-white p-4 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'>
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
@@ -217,6 +218,8 @@ export const Login = observer(() => {
                           name='userId'
                           inputRef={refUserId}
                           wrapperStyle={{color: 'black'}}
+                          className='font-nunitoSansRegular'
+                          labelClassName='font-nunitoSansRegular'
                           placeholder={
                             errors.userId ? 'Please enter userId' : 'UserId'
                           }
@@ -279,6 +282,8 @@ export const Login = observer(() => {
                           type='password'
                           label='Password'
                           wrapperStyle={{color: 'black'}}
+                          className='font-nunitoSansRegular'
+                          labelClassName='font-nunitoSansRegular'
                           placeholder={
                             errors.password
                               ? 'Please enter password'
@@ -310,12 +315,13 @@ export const Login = observer(() => {
                           label='Lab'
                           hasError={!!errors.lab}
                           style={{color: 'black'}}
+                          className='font-nunitoSansRegular'
                         >
                           <select
                             value={loginStore.inputLogin?.lab}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.lab ? 'border-red-500' : 'border-gray-300'
-                            } rounded-md`}
+                            } rounded-md cursor-pointer font-nunitoSansRegular`}
                             onChange={e => {
                               const lab = e.target.value;
                               onChange(lab);
@@ -346,12 +352,13 @@ export const Login = observer(() => {
                           label='Role'
                           hasError={!!errors.role}
                           style={{color: 'black'}}
+                          className='font-nunitoSansRegular'
                         >
                           <select
                             value={loginStore.inputLogin?.role}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.role ? 'border-red-500' : 'border-gray-300'
-                            } rounded-md`}
+                            } rounded-md cursor-pointer font-nunitoSansRegular`}
                             onChange={e => {
                               const role = e.target.value;
                               onChange(role);
@@ -382,6 +389,7 @@ export const Login = observer(() => {
                       type='solid'
                       icon={Svg.Check}
                       onClick={handleSubmit(onLogin)}
+                      className='cursor-pointer font-nunitoSansRegular'
                     >
                       {t('common:login').toString()}
                     </Buttons.Button>
@@ -390,11 +398,14 @@ export const Login = observer(() => {
                     <a
                       href='#'
                       onClick={() => setModalForgotPassword({show: true})}
-                      className='text-black text-sm'
+                      className='text-black text-sm cursor-pointer font-nunitoSansRegular'
                     >
                       {'Forgot Password'}
                     </a>
-                    <a href='privacy-policy' className='text-black text-sm'>
+                    <a
+                      href='privacy-policy'
+                      className='text-black text-sm cursor-pointer font-nunitoSansRegular'
+                    >
                       Privacy and Policy
                     </a>
                   </div>
@@ -402,15 +413,18 @@ export const Login = observer(() => {
               </div>
             </div>
             <div className='mt-4'>
-              <span className='underline font-bold font-arimaRegular'>
+              <span className='underline font-bold font-nunitoSansBold'>
                 Quick Access :
               </span>
-              <span className='flex flex-row items-center gap-2 '>
+              <a
+                href='#'
+                className='flex flex-row items-center gap-2 cursor-pointer font-nunitoSansRegular'
+              >
                 {' '}
                 1.
                 <Icons.Iconmd.MdPayments size={20} />
                 Online Payment
-              </span>
+              </a>
             </div>
           </Col>
         </div>
