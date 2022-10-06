@@ -13,7 +13,7 @@ import {
 } from '@/library/components';
 
 import {ModalForgotPassword, ModalNoticeBoard} from '../components';
-import {Col} from 'reactstrap';
+import {Col, Row} from 'reactstrap';
 import {Carousel} from 'react-bootstrap';
 import dayjs from 'dayjs';
 import {useForm, Controller} from 'react-hook-form';
@@ -139,7 +139,7 @@ export const Login = observer(() => {
         });
     }
   };
-  const carouselSize = 500;
+  const carouselSize = width <= 768 ? 300 : 500;
   return (
     <>
       <div className='flex h-screen bg-[#FF6C99]  w-full  justify-center items-center'>
@@ -175,7 +175,8 @@ export const Login = observer(() => {
               fill='#5788FE'
             />
           </svg> */}
-          <Col md='6'>
+
+          <Col md='6' sm='12' xs='12'>
             <div className='flex justify-center items-center'>
               <Carousel
                 style={{width: carouselSize, height: carouselSize}}
@@ -198,7 +199,7 @@ export const Login = observer(() => {
               </Carousel>
             </div>
           </Col>
-          <Col md='6'>
+          <Col md='6' sm='12' xs='12'>
             <div className='flex justify-center items-center'>
               {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
               <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'>
