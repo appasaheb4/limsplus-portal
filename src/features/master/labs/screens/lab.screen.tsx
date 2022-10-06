@@ -627,47 +627,6 @@ const Lab = LabHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                {/* <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='Delivery Type'
-                      hasError={!!errors.deliveryType}
-                    >
-                      <select
-                        value={labStore.labs?.deliveryType}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryType
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const deliveryType = e.target.value;
-                          onChange(deliveryType);
-                          labStore.updateLabs({
-                            ...labStore.labs,
-                            deliveryType,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'DELIVERY_TYPE',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='deliveryType'
-                  rules={{required: false}}
-                  defaultValue=''
-                /> */}
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -757,6 +716,47 @@ const Lab = LabHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                {/* <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Delivery Type'
+                      hasError={!!errors.deliveryType}
+                    >
+                      <select
+                        value={labStore.labs?.deliveryType}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.deliveryType
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const deliveryType = e.target.value;
+                          onChange(deliveryType);
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            deliveryType,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'DELIVERY_TYPE',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='deliveryType'
+                  rules={{required: false}}
+                  defaultValue=''
+                /> */}
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -962,6 +962,112 @@ const Lab = LabHoc(
                   rules={{required: true}}
                   defaultValue={labStore.listLabs}
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Clock
+                      label='Opening Time'
+                      hasError={!!errors.openingTime}
+                      value={labStore.labs?.openingTime}
+                      onChange={openingTime => {
+                        onChange(openingTime);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          openingTime,
+                        });
+                      }}
+                    />
+                  )}
+                  name='openingTime'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Clock
+                      label='Closing Time'
+                      hasError={!!errors.closingTime}
+                      value={labStore.labs?.closingTime}
+                      onChange={closingTime => {
+                        onChange(closingTime);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          closingTime,
+                        });
+                      }}
+                    />
+                  )}
+                  name='closingTime'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Email'
+                      placeholder={
+                        errors.email ? 'Please Enter Email' : 'Email'
+                      }
+                      hasError={!!errors.email}
+                      value={labStore.labs?.email}
+                      onChange={email => {
+                        onChange(email);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          email,
+                        });
+                      }}
+                    />
+                  )}
+                  name='email'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Web'
+                      placeholder='Web'
+                      hasError={!!errors.email}
+                      value={labStore.labs?.web}
+                      onChange={web => {
+                        onChange(web);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          web,
+                        });
+                      }}
+                    />
+                  )}
+                  name='web'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Registered Office'
+                      placeholder='Registered Office'
+                      hasError={!!errors.registeredOffice}
+                      value={labStore.labs?.registeredOffice}
+                      onChange={registeredOffice => {
+                        onChange(registeredOffice);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          registeredOffice,
+                        });
+                      }}
+                    />
+                  )}
+                  name='registeredOffice'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+
                 <Grid cols={4}>
                   <Controller
                     control={control}
@@ -1049,40 +1155,21 @@ const Lab = LabHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Clock
-                      label='Opening Time'
-                      hasError={!!errors.openingTime}
-                      value={labStore.labs?.openingTime}
-                      onChange={openingTime => {
-                        onChange(openingTime);
+                    <Form.Input
+                      label='Corporate Office'
+                      placeholder='Corporate Office'
+                      hasError={!!errors.corporateOffice}
+                      value={labStore.labs?.corporateOffice}
+                      onChange={corporateOffice => {
+                        onChange(corporateOffice);
                         labStore.updateLabs({
                           ...labStore.labs,
-                          openingTime,
+                          corporateOffice,
                         });
                       }}
                     />
                   )}
-                  name='openingTime'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Clock
-                      label='Closing Time'
-                      hasError={!!errors.closingTime}
-                      value={labStore.labs?.closingTime}
-                      onChange={closingTime => {
-                        onChange(closingTime);
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          closingTime,
-                        });
-                      }}
-                    />
-                  )}
-                  name='closingTime'
+                  name='corporateOffice'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1090,22 +1177,62 @@ const Lab = LabHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label='Email'
-                      placeholder={
-                        errors.email ? 'Please Enter Email' : 'Email'
-                      }
-                      hasError={!!errors.email}
-                      value={labStore.labs?.email}
-                      onChange={email => {
-                        onChange(email);
+                      label='GST'
+                      placeholder='GST'
+                      hasError={!!errors.gst}
+                      value={labStore.labs?.gst}
+                      onChange={gst => {
+                        onChange(gst);
                         labStore.updateLabs({
                           ...labStore.labs,
-                          email,
+                          gst,
                         });
                       }}
                     />
                   )}
-                  name='email'
+                  name='gst'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Sac Code'
+                      placeholder='Sac Code'
+                      hasError={!!errors.sacCode}
+                      value={labStore.labs?.sacCode}
+                      onChange={sacCode => {
+                        onChange(sacCode);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          sacCode,
+                        });
+                      }}
+                    />
+                  )}
+                  name='sacCode'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='CIN No'
+                      placeholder='CIN No'
+                      hasError={!!errors.cinNo}
+                      value={labStore.labs?.cinNo}
+                      onChange={cinNo => {
+                        onChange(cinNo);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          cinNo,
+                        });
+                      }}
+                    />
+                  )}
+                  name='cinNo'
                   rules={{required: false}}
                   defaultValue=''
                 />
