@@ -7,6 +7,14 @@
     font-family: 'Arima Regular';
     src: url('./library/assets/fonts/arima/Arima-Regular.ttf');
   }
+  @font-face {
+    font-family: 'NunitoSans Regular';
+    src: url('./library/assets/fonts/nunito-sans/NunitoSans-Regular.ttf');
+  }
+  @font-face {
+    font-family: 'NunitoSans Bold';
+    src: url('./library/assets/fonts/nunito-sans/NunitoSans-Bold.ttf');
+  }
 }
 
 body {

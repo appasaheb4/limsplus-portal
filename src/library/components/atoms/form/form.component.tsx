@@ -61,6 +61,7 @@ interface InputProps extends InputWrapperProps {
   required?: boolean;
   disabled?: boolean;
   className?: string;
+  labelClassName?: string;
   rows?: number;
   style?: any;
   wrapperStyle?: any;
@@ -88,6 +89,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
       id={props.id}
       hasError={props.hasError}
       style={props.wrapperStyle}
+      className={props.labelClassName}
     >
       <input
         type={props.type || 'text'}
