@@ -1,4 +1,4 @@
-export class OrderDelivered {
+export class Receipt {
   _id: string;
   deliveryId: number;
   labId: string;

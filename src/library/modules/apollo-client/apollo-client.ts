@@ -12,18 +12,22 @@ import {stores} from '@/stores';
 import {setContext} from '@apollo/client/link/context';
 import {createUploadLink} from 'apollo-upload-client';
 
-const customFetch = (uri, options): Promise<any> => {
-  stores.setLoading(true);
-  //console.log({uri, options});
-  const response = fetch(uri, options).then(response => {
-    stores.setLoading(false);
-    if (response.status >= 500) {
-      // or handle 400 errors
-      return Promise.reject(response.status);
-    }
+const customFetch = async (uri, options): Promise<any> => {
+  try {
+    stores.setLoading(true);
+    //console.log({uri, options});
+    const response = await fetch(uri, options).then(response => {
+      if (response.status >= 500) {
+        return Promise.reject(response.status);
+      }
+      return response;
+    });
     return response;
-  });
-  return response;
+  } catch (error) {
+    return await Promise.reject(error);
+  } finally {
+    stores.setLoading(false);
+  }
 };
 
 const authLink = setContext(async (_, {headers}) => {

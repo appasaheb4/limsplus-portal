@@ -1,2 +1,1 @@
-export * from './reportDelivery.model';
-export * from './orderDelivered.model';
+export * from './receipt.model';

@@ -7,15 +7,12 @@
 
 import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
-import {
-  DELIVERY_QUEUE_LIST,
-  UPDATE_DELIVERY_QUEUE,
-} from './mutation-delivery-queue';
+import {DELIVERY_QUEUE_LIST, UPDATE_DELIVERY_QUEUE} from './mutation-receipt';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
-export class DeliveryQueueService {
+export class ReceiptService {
   listDeliveryQueue = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const environment =
