@@ -1,1 +1,1 @@
-export * from './delivery-queue.store';
+export * from './receipt.store';

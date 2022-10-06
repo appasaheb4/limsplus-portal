@@ -24,8 +24,15 @@ import {useStores} from '@/stores';
 import {t} from '@/localization';
 
 export const Login = observer(() => {
-  const {userStore, loginStore, rootStore, labStore, roleStore, bannerStore} =
-    useStores();
+  const {
+    loading,
+    userStore,
+    loginStore,
+    rootStore,
+    labStore,
+    roleStore,
+    bannerStore,
+  } = useStores();
   const history = useHistory();
   const [noticeBoard, setNoticeBoard] = useState<any>({});
   const [width, setWidth] = useState<number>(window.innerWidth);
@@ -97,6 +104,8 @@ export const Login = observer(() => {
         },
       })
         .then(res => {
+          console.log({res});
+
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0);
             if (!res.login.data.user.passChanged) {
@@ -204,7 +213,7 @@ export const Login = observer(() => {
               {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
               <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'>
                 <div className='flex mt-2 p-2'>
-                  <label className='font-nunitoSansBold text-lg text-black underline ml-4'>
+                  <label className='font-bold text-lg text-black underline ml-4'>
                     Sign In
                   </label>
                 </div>
@@ -219,8 +228,6 @@ export const Login = observer(() => {
                           name='userId'
                           inputRef={refUserId}
                           wrapperStyle={{color: 'black'}}
-                          className='font-nunitoSansRegular'
-                          labelClassName='font-nunitoSansRegular'
                           placeholder={
                             errors.userId ? 'Please enter userId' : 'UserId'
                           }
@@ -283,8 +290,6 @@ export const Login = observer(() => {
                           type='password'
                           label='Password'
                           wrapperStyle={{color: 'black'}}
-                          className='font-nunitoSansRegular'
-                          labelClassName='font-nunitoSansRegular'
                           placeholder={
                             errors.password
                               ? 'Please enter password'
@@ -316,13 +321,12 @@ export const Login = observer(() => {
                           label='Lab'
                           hasError={!!errors.lab}
                           style={{color: 'black'}}
-                          className='font-nunitoSansRegular'
                         >
                           <select
                             value={loginStore.inputLogin?.lab}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.lab ? 'border-red-500' : 'border-gray-300'
-                            } rounded-md cursor-pointer font-nunitoSansRegular`}
+                            } rounded-md cursor-pointer `}
                             onChange={e => {
                               const lab = e.target.value;
                               onChange(lab);
@@ -353,13 +357,12 @@ export const Login = observer(() => {
                           label='Role'
                           hasError={!!errors.role}
                           style={{color: 'black'}}
-                          className='font-nunitoSansRegular'
                         >
                           <select
                             value={loginStore.inputLogin?.role}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.role ? 'border-red-500' : 'border-gray-300'
-                            } rounded-md cursor-pointer font-nunitoSansRegular`}
+                            } rounded-md cursor-pointer`}
                             onChange={e => {
                               const role = e.target.value;
                               onChange(role);
@@ -390,7 +393,8 @@ export const Login = observer(() => {
                       type='solid'
                       icon={Svg.Check}
                       onClick={handleSubmit(onLogin)}
-                      className='cursor-pointer font-nunitoSansRegular'
+                      className='cursor-pointer'
+                      disabled={loading}
                     >
                       {t('common:login').toString()}
                     </Buttons.Button>
@@ -399,13 +403,13 @@ export const Login = observer(() => {
                     <a
                       href='#'
                       onClick={() => setModalForgotPassword({show: true})}
-                      className='text-black text-sm cursor-pointer font-nunitoSansRegular'
+                      className='text-black text-sm cursor-pointer'
                     >
                       {'Forgot Password'}
                     </a>
                     <a
                       href='privacy-policy'
-                      className='text-black text-sm cursor-pointer font-nunitoSansRegular'
+                      className='text-black text-sm cursor-pointer'
                     >
                       Privacy and Policy
                     </a>
@@ -414,12 +418,10 @@ export const Login = observer(() => {
               </div>
             </div>
             <div className='mt-4'>
-              <span className='underline font-bold font-nunitoSansBold'>
-                Quick Access :
-              </span>
+              <span className='underline font-bold'>Quick Access :</span>
               <a
                 href='#'
-                className='flex flex-row items-center gap-2 cursor-pointer font-nunitoSansRegular'
+                className='flex flex-row items-center gap-2 cursor-pointer'
               >
                 {' '}
                 1.
