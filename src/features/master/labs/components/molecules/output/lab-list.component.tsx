@@ -758,7 +758,6 @@ export const LabList = (props: LabListProps) => {
               text: 'Web',
               headerClasses: 'textHeader3',
               sort: true,
-              editable: false,
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -766,7 +765,6 @@ export const LabList = (props: LabListProps) => {
               text: 'Registered Office',
               headerClasses: 'textHeader3',
               sort: true,
-              editable: false,
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -774,7 +772,6 @@ export const LabList = (props: LabListProps) => {
               text: 'Corporate Office',
               headerClasses: 'textHeader3',
               sort: true,
-              editable: false,
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -782,7 +779,6 @@ export const LabList = (props: LabListProps) => {
               text: 'GST',
               headerClasses: 'textHeader3',
               sort: true,
-              editable: false,
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -790,7 +786,6 @@ export const LabList = (props: LabListProps) => {
               text: 'Sac Code',
               headerClasses: 'textHeader3',
               sort: true,
-              editable: false,
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -798,7 +793,6 @@ export const LabList = (props: LabListProps) => {
               text: 'CIN No',
               headerClasses: 'textHeader3',
               sort: true,
-              editable: false,
               csvFormatter: col => (col ? col : ''),
             },
             {
