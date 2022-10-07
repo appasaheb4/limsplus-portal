@@ -12,7 +12,7 @@ import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
 import {TableBootstrap} from './table-bootstrap.components';
 
-interface OrderDeliveredProps {
+interface ReceiptListProps {
   data: any;
   totalSize: number;
   isDelete?: boolean;
@@ -21,6 +21,7 @@ interface OrderDeliveredProps {
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
+  onReport?: (item: any) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -29,7 +30,7 @@ interface OrderDeliveredProps {
   ) => void;
 }
 
-export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
+export const ReceiptList = observer((props: ReceiptListProps) => {
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -45,8 +46,8 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               csvExport: false,
             },
             {
-              dataField: 'deliveryId',
-              text: 'Delivery Id',
+              dataField: 'headerId',
+              text: 'Header Id',
               sort: true,
               editable: false,
             },
@@ -57,76 +58,80 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               editable: false,
             },
             {
-              dataField: 'orderId',
-              text: 'Order Id',
+              dataField: 'grossAmount',
+              text: 'Gross Amount',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'panelCode',
-              text: 'Panel Code',
+              dataField: 'netAmount',
+              text: 'Net Amount',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'panelName',
-              text: 'Panel Name',
+              dataField: 'discount',
+              text: 'Discount',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'testCode',
-              text: 'Test Code',
+              dataField: 'receivedAmount',
+              text: 'Received Amount',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'testName',
-              text: 'Test Name',
+              dataField: 'balance',
+              text: 'Balance',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
             {
-              dataField: 'analyteCode',
-              text: 'Analyte Code',
+              dataField: 'acClass',
+              text: 'AC Class',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
             {
-              dataField: 'analyteName',
-              text: 'Analyte Name',
+              dataField: 'enteredBy',
+              text: 'Entered By',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
             {
-              dataField: 'rep',
-              text: 'Rep',
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
+              dataField: 'operation',
+              text: 'Report',
               editable: false,
-            },
-            {
-              dataField: 'delivered',
-              text: 'Delivered',
-              sort: true,
-              csvFormatter: (col, row) =>
-                `${row.delivered ? (row.delivered ? 'Yes' : 'No') : 'No'}`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle disabled={true} value={row.delivered} />
-                  </>
-                );
+              csvExport: false,
+              hidden: !props.isDelete,
+              formatter: (cellContent, row) => (
+                <>
+                  <div className='flex flex-row'>
+                    <Tooltip tooltipText='Generate PDF' position='bottom'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => props.onReport && props.onReport(row)}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiOutlineFilePdf)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  </div>
+                </>
+              ),
+              headerClasses: 'sticky right-0  bg-gray-500 text-white',
+              classes: (cell, row, rowIndex, colIndex) => {
+                return 'sticky right-0 bg-gray-500';
               },
             },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='Order Delivered'
+          fileName='Receipt'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

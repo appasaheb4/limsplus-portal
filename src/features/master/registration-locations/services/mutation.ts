@@ -52,6 +52,7 @@ export const LIST = gql`
         workLine
         acClass
         accountType
+        gstNo
         openingTime
         closingTime
         status
@@ -169,6 +170,7 @@ export const FILTER = gql`
         workLine
         acClass
         accountType
+        gstNo
         openingTime
         closingTime
         status
@@ -232,6 +234,7 @@ export const FILTER_BY_FIELDS = gql`
         workLine
         acClass
         accountType
+        gstNo
         openingTime
         closingTime
         status

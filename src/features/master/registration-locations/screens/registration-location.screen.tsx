@@ -1636,6 +1636,29 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='GST No'
+                      placeholder='GST No'
+                      hasError={!!errors.gstNo}
+                      value={
+                        registrationLocationsStore.registrationLocations?.gstNo
+                      }
+                      onChange={gstNo => {
+                        onChange(gstNo);
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          gstNo,
+                        });
+                      }}
+                    />
+                  )}
+                  name='gstNo'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={

@@ -40,6 +40,7 @@ export class RegistrationLocations {
   printLabel: boolean;
   neverBill: boolean;
   reportFormat: boolean;
+  gstNo: string;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -96,6 +97,7 @@ export class RegistrationLocations {
     this.workLine = rawData.workLine;
     this.acClass = rawData.acClass;
     this.accountType = rawData.accountType;
+    this.gstNo = rawData.gstNo;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

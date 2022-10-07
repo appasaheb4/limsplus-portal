@@ -22,7 +22,7 @@ export class ReceiptStore {
   }
 
   updateReceiptList(res) {
-    this.receiptList = res.deliveryQueues.data;
-    this.receiptListCount = res.deliveryQueues.paginatorInfo.count;
+    this.receiptList = res.receipts.data;
+    this.receiptListCount = res.receipts.paginatorInfo.count;
   }
 }

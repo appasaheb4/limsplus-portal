@@ -1,29 +1,31 @@
 export class Receipt {
   _id: string;
-  deliveryId: number;
+  headerId: number;
   labId: string;
-  orderId: string;
-  panelCode: string;
-  panelName: string;
-  testCode: string;
-  testName: string;
-  analyteCode: string;
-  analyteName: string;
-  rep: number;
-  delivered: boolean;
+  grossAmount: number;
+  netAmount: number;
+  discount: number;
+  receivedAmount: number;
+  balance: number;
+  acClass: string;
+  enteredBy: string;
+  documentType: string;
+  dateOfEntry: Date;
+  lastUpdated: Date;
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
-    this.deliveryId = rawData.deliveryId;
+    this.headerId = rawData.headerId;
     this.labId = rawData.labId;
-    this.orderId = rawData.orderId;
-    this.panelCode = rawData.panelCode;
-    this.panelName = rawData.panelName;
-    this.testCode = rawData.testCode;
-    this.testName = rawData.testName;
-    this.analyteCode = rawData.analyteCode;
-    this.analyteName = rawData.analyteName;
-    this.rep = rawData.rep;
-    this.delivered = rawData.delivered;
+    this.grossAmount = rawData.grossAmount;
+    this.netAmount = rawData.netAmount;
+    this.discount = rawData.discount;
+    this.receivedAmount = rawData.receivedAmount;
+    this.balance = rawData.balance;
+    this.acClass = rawData.acClass;
+    this.enteredBy = rawData.enteredBy;
+    this.documentType = rawData.documentType;
+    this.dateOfEntry = rawData.dateOfEntry;
+    this.lastUpdated = rawData.lastUpdated;
   }
 }

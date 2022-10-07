@@ -1204,7 +1204,14 @@ export const RegistrationLocationsList = (
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
-
+          {
+            dataField: 'gstNo',
+            text: 'GST No',
+            headerClasses: 'textHeader3',
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
           {
             dataField: 'dateCreation',
             text: 'Date Creation',
