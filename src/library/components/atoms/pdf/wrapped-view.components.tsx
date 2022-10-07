@@ -38,6 +38,7 @@ export const PdfView = ({
     <View
       style={{
         marginHorizontal: mh,
+        marginTop: mt,
         padding: p,
         flexDirection: flexDirection,
         alignItems: alignItems,
