@@ -479,11 +479,11 @@ export const PatientOrder = PatientOrderHoc(
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
+            setModalConfirm({show: false});
             if (type === 'delete') {
               patientOrderStore.patientOrderService
                 .deletePatientOrder({input: {id: modalConfirm.id}})
                 .then((res: any) => {
-                  setModalConfirm({show: false});
                   if (res.removePatientOrder.success) {
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,

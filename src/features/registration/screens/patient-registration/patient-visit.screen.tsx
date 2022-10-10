@@ -2111,9 +2111,8 @@ export const PatientVisit = PatientVisitHoc(
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
+            setModalConfirm({show: false});
             if (type === 'delete') {
-              console.log({modalConfirm});
-
               patientVisitStore.patientVisitService
                 .deletePatientVisit({
                   input: {
@@ -2127,7 +2126,6 @@ export const PatientVisit = PatientVisitHoc(
                     Toast.success({
                       message: `😊 ${res.removePatientVisit.message}`,
                     });
-                    setModalConfirm({show: false});
                     // patientVisitStore.patientVisitService.listPatientVisit({
                     //   documentType: 'patientVisit',
                     // });
@@ -2149,7 +2147,6 @@ export const PatientVisit = PatientVisitHoc(
                     Toast.success({
                       message: `😊 ${res.updatePatientVisit.message}`,
                     });
-                    setModalConfirm({show: false});
                     patientVisitStore.patientVisitService.listPatientVisit({
                       documentType: 'patientVisit',
                     });
