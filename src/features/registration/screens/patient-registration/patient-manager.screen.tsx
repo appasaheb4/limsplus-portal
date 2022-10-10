@@ -1519,6 +1519,7 @@ export const PatientManager = PatientManagerHoc(
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
+            setModalConfirm({show: false});
             if (type === 'delete') {
               patientManagerStore.patientManagerService
                 .deletePatientManager({input: {id: modalConfirm.id}})
@@ -1527,7 +1528,6 @@ export const PatientManager = PatientManagerHoc(
                     Toast.success({
                       message: `😊 ${res.removePatientManager.message}`,
                     });
-                    setModalConfirm({show: false});
                     // patientManagerStore.patientManagerService.listPatientManager(
                     //   {
                     //     documentType: 'patientManager',
@@ -1551,7 +1551,6 @@ export const PatientManager = PatientManagerHoc(
                     Toast.success({
                       message: `😊 ${res.updatePatientManager.message}`,
                     });
-                    setModalConfirm({show: false});
                     patientManagerStore.patientManagerService.listPatientManager(
                       {
                         documentType: 'patientManager',

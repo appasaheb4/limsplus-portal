@@ -41,6 +41,7 @@ const Receipt = observer(() => {
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
 
+  const headerGridSpace = 120;
   return (
     <>
       <Header>
@@ -54,6 +55,51 @@ const Receipt = observer(() => {
           <>
             <PdfView mt={20}>
               <PdfImage style={{width: 150, height: 40}} />
+
+              <PdfView mh={0} p={0}>
+                <PdfView mt={4} mh={0} p={0} flexDirection='row'>
+                  <PdfSmall style={{width: headerGridSpace}}>
+                    {'Regd. Office:'}
+                  </PdfSmall>
+                  <PdfSmall> {`${'Pune'}`} </PdfSmall>
+                </PdfView>
+                <PdfView mh={0} p={0} flexDirection='row'>
+                  <PdfSmall style={{width: headerGridSpace}}>
+                    {'Customer Care:'}
+                  </PdfSmall>
+                  <PdfSmall> {`${'91-11-664253244'}`} </PdfSmall>
+                </PdfView>
+                <PdfView mh={0} p={0} flexDirection='row'>
+                  <PdfSmall style={{width: headerGridSpace}}>
+                    {'Email:'}
+                  </PdfSmall>
+                  <PdfSmall> {`${'customer.care@limsplus.com'}`} </PdfSmall>
+                </PdfView>
+                <PdfView mh={0} p={0} flexDirection='row'>
+                  <PdfSmall style={{width: headerGridSpace}}>
+                    {'Registration Location:'}
+                  </PdfSmall>
+                  <PdfSmall>
+                    {`${'In publishing and graphic design, Lorem ipsum is a placeholder'}`}
+                  </PdfSmall>
+                </PdfView>
+                <PdfView mh={0} p={0} flexDirection='row'>
+                  <PdfSmall style={{width: headerGridSpace}}>
+                    {'Phone:'}
+                  </PdfSmall>
+                  <PdfSmall> {`${'0123456789 / 1234567890'}`} </PdfSmall>
+                </PdfView>
+                <PdfView mh={0} p={0} flexDirection='row'>
+                  <PdfSmall style={{width: headerGridSpace}}>{'Web:'}</PdfSmall>
+                  <PdfSmall> {`${'www.limsplus.com'}`} </PdfSmall>
+                </PdfView>
+              </PdfView>
+
+              <PdfView>
+                <PdfRegular textAlign='right' fontWeight={600}>
+                  87698798
+                </PdfRegular>
+              </PdfView>
             </PdfView>
           </>
         }
