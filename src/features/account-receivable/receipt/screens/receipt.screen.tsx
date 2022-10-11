@@ -10,7 +10,7 @@ import {
 } from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import {ReceiptList, PdfReceipt} from '../components';
+import {ReceiptList, PdfReceipt, PdfTransactionLineTable} from '../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -96,10 +96,68 @@ const Receipt = observer(() => {
               </PdfView>
 
               <PdfView>
-                <PdfRegular textAlign='right' fontWeight={600}>
+                <PdfRegular textAlign='right' fontFamily='Times-Bold'>
                   87698798
                 </PdfRegular>
+                <PdfRegular
+                  textAlign='center'
+                  fontSize={10}
+                  fontFamily='Times-Bold'
+                >
+                  Bill of Supply/Cash Receipt
+                </PdfRegular>
+                <PdfSmall
+                  textAlign='center'
+                  fontFamily='Times-Italic'
+                  style={{textDecoration: 'underline'}}
+                >
+                  Please bring this receipt for report collections
+                </PdfSmall>
               </PdfView>
+
+              <PdfBorderView mh={0} mv={0} bw={1}>
+                <PdfView
+                  mh={0}
+                  p={0}
+                  flexDirection='row'
+                  style={{
+                    borderBottomColor: 'gray',
+                    borderBottomWidth: 1,
+                    marginBottom: 4,
+                    paddingBottom: 4,
+                  }}
+                >
+                  <PdfGrid cols={2} bg='transparent'>
+                    <PdfSmall>{`Invoice No: ${'8769879'}`}</PdfSmall>
+                    <PdfSmall>{'Patient Name: '}</PdfSmall>
+                    <PdfSmall>{'Lab ID:'}</PdfSmall>
+                    <PdfSmall>{'Patient ID: '}</PdfSmall>
+                    <PdfSmall>{'Age & Sex: '}</PdfSmall>
+                    <PdfSmall>{'Contact Number: '}</PdfSmall>
+                  </PdfGrid>
+                  <PdfGrid cols={2} bg='transparent'>
+                    <PdfSmall>{`GST No: ${'8769879'}`}</PdfSmall>
+                    <PdfSmall>{'Lab Code / CC Code: '}</PdfSmall>
+                    <PdfSmall>{'Date & Time:'}</PdfSmall>
+                    <PdfSmall>{'Mode of Payment: '}</PdfSmall>
+                    <PdfSmall>{'SAC Code: '}</PdfSmall>
+                    <PdfSmall>{'CIN No: '}</PdfSmall>
+                  </PdfGrid>
+                </PdfView>
+                <PdfView mh={0} p={0} flexDirection='row'>
+                  <PdfGrid cols={2} bg='transparent'>
+                    <PdfSmall>{`Patient Employee Code: ${'8769879'}`}</PdfSmall>
+                    <PdfSmall>{'Card No: '}</PdfSmall>
+                  </PdfGrid>
+                  <PdfGrid cols={2} bg='transparent'>
+                    <PdfSmall>{`Reference Doctor: ${'4'}`}</PdfSmall>
+                    <PdfSmall>{'Corporate Code: '}</PdfSmall>
+                  </PdfGrid>
+                </PdfView>
+                <PdfView mh={0} p={0} mt={4}>
+                  <PdfTransactionLineTable data={[]} />
+                </PdfView>
+              </PdfBorderView>
             </PdfView>
           </>
         }
