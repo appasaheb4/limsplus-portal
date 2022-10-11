@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import dayjs from 'dayjs';
@@ -41,6 +41,15 @@ const Receipt = observer(() => {
     setValue,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
+
+  useEffect(() => {
+    receiptStore.receiptService
+      .generatePaymentReceipt({input: {headerId: 189}})
+      .then(res => {
+        console.log({res});
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const headerGridSpace = 120;
   return (

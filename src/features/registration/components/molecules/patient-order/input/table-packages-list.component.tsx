@@ -58,10 +58,9 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
     setPackages(data);
   }, [data]);
 
-  const onDeletePackage = id => {
-    console.log({id});
-
+  const onDeletePackage = (id, delPanelCode) => {
     let panels = patientOrderStore.selectedItems?.panels;
+
     panels = panels.filter(items => {
       return items._id !== id;
     });
@@ -80,9 +79,16 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
         },
       },
     });
+    const panelCode = patientOrderStore.patientOrder?.panelCode?.filter(
+      item => item.panelCode != delPanelCode,
+    );
+    patientOrderStore.updatePatientOrder({
+      ...patientOrderStore.patientOrder,
+      panelCode,
+    });
   };
 
-  const onRemoveItem = (serviceType, packageCode, index) => {
+  const onRemoveItem = (serviceType, packageCode, index, delPanelCode) => {
     const packageList = patientOrderStore.packageList;
     let pacakgeListS: any[] = [];
     let pacakgeListM: any[] = [];
@@ -124,6 +130,13 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
       ...patientOrderStore.packageList,
       pacakgeListM,
     });
+    const panelCode = patientOrderStore.patientOrder?.panelCode?.filter(
+      item => item.panelCode != delPanelCode,
+    );
+    patientOrderStore.updatePatientOrder({
+      ...patientOrderStore.patientOrder,
+      panelCode,
+    });
   };
   return (
     <>
@@ -149,7 +162,6 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
             <th className='text-white'>Due Date</th>
             <th className='text-white'>Result Date</th>
             <th className='text-white'>Order Status</th>
-
             <th className='text-white'>Status</th>
           </tr>
         </thead>
@@ -161,8 +173,14 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                   color='#fff'
                   size='20'
                   onClick={() => {
-                    if (item._id) onDeletePackage(item._id);
-                    else onRemoveItem('S', item.packageCode, item.index);
+                    if (item._id) onDeletePackage(item._id, item.panelCode);
+                    else
+                      onRemoveItem(
+                        'S',
+                        item.packageCode,
+                        item.index,
+                        item.panelCode,
+                      );
                   }}
                 >
                   {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
@@ -404,10 +422,15 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                   color='#fff'
                   size='20'
                   onClick={() => {
-                    if (item._id) onDeletePackage(item._id);
+                    if (item._id) onDeletePackage(item._id, item.panelCode);
                     else
                       onRemoveItem &&
-                        onRemoveItem('M', item.packageCode, item.index);
+                        onRemoveItem(
+                          'M',
+                          item.packageCode,
+                          item.index,
+                          item.panelCode,
+                        );
                   }}
                 >
                   {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
@@ -639,7 +662,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                   color='#fff'
                   size='20'
                   onClick={() => {
-                    onDeletePackage(item._id);
+                    onDeletePackage(item._id, item.panelCode);
                   }}
                 >
                   {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
@@ -872,7 +895,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                     color='#fff'
                     size='20'
                     onClick={() => {
-                      onDeletePackage(item._id);
+                      onDeletePackage(item._id, item.panelCode);
                     }}
                   >
                     {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}

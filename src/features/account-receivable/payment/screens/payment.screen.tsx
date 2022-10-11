@@ -98,9 +98,9 @@ const Payment = PaymentHoc(
         acClass: payload?.acClass,
         acType: payload?.accountType,
         discountCharges:
-          payload?.discountCharges?.code +
-          ' ' +
-          payload.discountCharges?.amount,
+          payload?.discountCharges?.code ||
+          '' + ' ' + payload.discountCharges?.amount ||
+          '',
         invoiceDate: payload?.invoiceDate,
         grossAmount: Number.parseFloat(payload?.grossAmount),
         netAmount: Number.parseFloat(payload?.netAmount),

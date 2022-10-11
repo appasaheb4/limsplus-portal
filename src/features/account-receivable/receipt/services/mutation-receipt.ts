@@ -26,3 +26,13 @@ export const RECEIPTS_LIST = gql`
     }
   }
 `;
+
+export const RECEIPTS = gql`
+  mutation ($input: ReceiptInput!) {
+    generatePaymentReceipt(input: $input) {
+      success
+      message
+      receiptData
+    }
+  }
+`;
