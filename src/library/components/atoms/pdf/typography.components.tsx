@@ -24,7 +24,7 @@ import {Style} from '@react-pdf/types';
 // };
 
 interface PdfTextProps {
-  fontWeight?: 'bold' | 'medium' | 'normal' | number;
+  fontWeight?: 'bold' | 'medium' | 'normal';
   fontSize?: number;
   fontFamily?: string;
   textAlign?: 'center' | 'left' | 'right';
@@ -126,6 +126,7 @@ export const PdfSmall = ({
   fontWeight = 'normal',
   fontSize = 10,
   fontFamily = 'arimaRegular',
+  textAlign = 'left',
   style,
   children,
 }: PdfTextProps) => {
@@ -136,6 +137,7 @@ export const PdfSmall = ({
         fontSize: fontSize,
         fontFamily: fontFamily,
         lineHeight: 1.2,
+        textAlign: textAlign,
         ...style,
       }}
     >

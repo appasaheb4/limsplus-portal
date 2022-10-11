@@ -71,6 +71,7 @@ export const PdfBorderView = ({
         padding: p,
         borderColor: borderColor,
         borderWidth: bw,
+
         ...style,
       }}
       fixed={fixed}
