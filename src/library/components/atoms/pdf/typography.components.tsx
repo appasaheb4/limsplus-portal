@@ -26,7 +26,12 @@ import {Style} from '@react-pdf/types';
 interface PdfTextProps {
   fontWeight?: 'bold' | 'medium' | 'normal';
   fontSize?: number;
-  fontFamily?: string;
+  fontFamily?:
+    | 'Times-Roman'
+    | 'Times-Bold'
+    | 'Times-Italic'
+    | 'Times-BoldItalic'
+    | string;
   textAlign?: 'center' | 'left' | 'right';
   style?: Style | Style[];
   bottom?: number;

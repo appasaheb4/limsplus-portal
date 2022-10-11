@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
+import dayjs from 'dayjs';
 import {
   ModalConfirm,
   Header,
@@ -156,7 +157,37 @@ const Receipt = observer(() => {
                 </PdfView>
                 <PdfView mh={0} p={0} mt={4}>
                   <PdfTransactionLineTable data={[]} />
+                  <PdfView mh={0} p={0} mt={2} style={{}} alignItems='flex-end'>
+                    <PdfSmall>Total: 876</PdfSmall>
+                    <PdfSmall>Misc Charges: 10</PdfSmall>
+                    <PdfSmall>Other Charges: 20</PdfSmall>
+                    <PdfSmall>Paid Amount: 87987</PdfSmall>
+                    <PdfSmall fontFamily='Times-Bold'>Balance: 87987</PdfSmall>
+                  </PdfView>
+                  <PdfSmall>
+                    Amount Paid in Words: One Thousand One Hundred and Forty
+                    Five Only
+                  </PdfSmall>
                 </PdfView>
+              </PdfBorderView>
+              <PdfSmall>
+                This is a computer generated receipt and does not require
+                signature/stamp
+              </PdfSmall>
+              <PdfSmall fontFamily='Times-Bold' style={{marginTop: 4}}>
+                {`*Final Report Delivery Date: ${dayjs(new Date()).format(
+                  'YYYY-MM-DD',
+                )}. *Report Collection Time: 6:00 AM to 7:30 PM`}
+              </PdfSmall>
+
+              <PdfBorderView mh={0} mv={4} bw={1}>
+                <PdfSmall>
+                  * In publishing and graphic design, Lorem ipsum is a
+                  placeholder text commonly used to demonstrate the visual form
+                  of a document or a typeface without relying on meaningful
+                  content. Lorem ipsum may be used as a placeholder before final
+                  copy is available.
+                </PdfSmall>
               </PdfBorderView>
             </PdfView>
           </>
