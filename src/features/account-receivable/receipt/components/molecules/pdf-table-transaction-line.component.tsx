@@ -114,25 +114,27 @@ export const PdfTransactionLineTable = ({
         ))}
       </View>
 
-      <View style={styles.tableRow}>
-        {list.map((item: any, _idx) => (
-          <PdfBorderView
-            key={_idx}
-            style={{
-              width: fields[_idx]?.width + '%',
-            }}
-            mh={0}
-            mv={0}
-            p={0}
-            bw={1}
-            borderColor='gray'
-          >
-            <PdfSmall style={{textAlign: 'center', padding: 2}}>
-              {'testing'}
-            </PdfSmall>
-          </PdfBorderView>
-        ))}
-      </View>
+      {list.map(tranItem => (
+        <View style={styles.tableRow}>
+          {Object.entries(tranItem).map((item: any, _idx) => (
+            <PdfBorderView
+              key={_idx}
+              style={{
+                width: fields[_idx]?.width + '%',
+              }}
+              mh={0}
+              mv={0}
+              p={0}
+              bw={1}
+              borderColor='gray'
+            >
+              <PdfSmall style={{textAlign: 'center', padding: 2}}>
+                {item[1]}
+              </PdfSmall>
+            </PdfBorderView>
+          ))}
+        </View>
+      ))}
     </View>
   );
 };
