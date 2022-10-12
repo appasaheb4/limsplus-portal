@@ -44,32 +44,6 @@ export const PdfTransactionLineTable = ({
   style,
   headerStyle,
 }: PdfTableTransactionLineProps) => {
-  const [list, setList] = useState<Array<any>>([
-    {
-      srNo: 1,
-      testCode: 'Test001',
-      testName: 'Testing Name',
-      price: 220,
-    },
-    {
-      srNo: 2,
-      testCode: 'Test002',
-      testName: 'Testing Name',
-      price: 220,
-    },
-    {
-      srNo: 3,
-      testCode: 'Test002',
-      testName: 'Testing Name',
-      price: 220,
-    },
-    {
-      srNo: 4,
-      testCode: 'Test002',
-      testName: 'Testing Name',
-      price: 220,
-    },
-  ]);
   const fields = [
     {
       title: 'Sr.No',
@@ -114,7 +88,7 @@ export const PdfTransactionLineTable = ({
         ))}
       </View>
 
-      {list.map(tranItem => (
+      {data?.map(tranItem => (
         <View style={styles.tableRow}>
           {Object.entries(tranItem).map((item: any, _idx) => (
             <PdfBorderView
