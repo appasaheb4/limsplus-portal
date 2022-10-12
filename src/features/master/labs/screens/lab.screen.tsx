@@ -1156,6 +1156,27 @@ const Lab = LabHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
+                      label='Customer Care'
+                      placeholder='Customer Care'
+                      hasError={!!errors.customerCare}
+                      value={labStore.labs?.customerCare}
+                      onChange={customerCare => {
+                        onChange(customerCare);
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          customerCare,
+                        });
+                      }}
+                    />
+                  )}
+                  name='customerCare'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
                       label='Corporate Office'
                       placeholder='Corporate Office'
                       hasError={!!errors.corporateOffice}

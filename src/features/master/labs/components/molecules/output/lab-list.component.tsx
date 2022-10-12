@@ -768,6 +768,13 @@ export const LabList = (props: LabListProps) => {
               csvFormatter: col => (col ? col : ''),
             },
             {
+              dataField: 'customerCare',
+              text: 'Customer Care',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
               dataField: 'corporateOffice',
               text: 'Corporate Office',
               headerClasses: 'textHeader3',
