@@ -25,6 +25,7 @@ export class Labs {
   email: string;
   web: string;
   registeredOffice: string;
+  customerCare: string;
   corporateOffice: string;
   gst: string;
   sacCode: string;
@@ -74,6 +75,7 @@ export class Labs {
     this.email = rawData.email;
     this.web = rawData.web;
     this.registeredOffice = rawData.registeredOffice;
+    this.customerCare = rawData.customerCare;
     this.corporateOffice = rawData.corporateOffice;
     this.gst = rawData.gst;
     this.sacCode = rawData.sacCode;
