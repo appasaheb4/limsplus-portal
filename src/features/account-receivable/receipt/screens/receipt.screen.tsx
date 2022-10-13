@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
-import {PDFDownloadLink} from '@react-pdf/renderer';
 
 import {
   ModalConfirm,
@@ -12,7 +11,7 @@ import {
 } from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import {ReceiptList, PdfReceipt} from '../components';
+import {ReceiptList, ModalReceiptShare} from '../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -26,7 +25,7 @@ const Receipt = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  const [modalConfirm, setModalConfirm] = useState<any>();
+  const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
   const [receiptDetails, setReceiptDetails] = useState<any>();
 
   // useEffect(() => {
@@ -42,19 +41,6 @@ const Receipt = observer(() => {
   //     });
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
-
-  const downloadPdf = () => {
-    return (
-      <PDFDownloadLink
-        document={<PdfReceipt data={receiptDetails} />}
-        fileName='Receipt.pdf'
-      >
-        {({blob, url, loading, error}) =>
-          loading ? 'Loading document...' : <button>Download Pdf</button>
-        }
-      </PDFDownloadLink>
-    );
-  };
 
   return (
     <>
@@ -75,24 +61,6 @@ const Receipt = observer(() => {
             routerStore.userPermission,
             'Edit/Modify',
           )}
-          onSelectedRow={rows => {
-            setModalConfirm({
-              show: true,
-              type: 'delete',
-              id: rows,
-              title: 'Are you sure?',
-              body: 'Delete selected items!',
-            });
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: 'update',
-              data: {value, dataField, id},
-              title: 'Are you sure?',
-              body: 'Update items!',
-            });
-          }}
           onPageSizeChange={(page, limit) => {
             // bannerStore.fetchListBanner(page, limit);
           }}
@@ -106,18 +74,24 @@ const Receipt = observer(() => {
               .generatePaymentReceipt({input: {headerId: item?.headerId}})
               .then(res => {
                 if (res.generatePaymentReceipt?.success)
-                  setReceiptDetails(res.generatePaymentReceipt?.receiptData);
+                  setModalPaymentReceipt({
+                    show: true,
+                    data: res.generatePaymentReceipt?.receiptData,
+                  });
                 else
                   Toast.error({
                     message: `😔 ${res.generatePaymentReceipt.message}`,
                   });
-              })
-              .finally(() => {
-                downloadPdf();
               });
           }}
         />
       </div>
+      <ModalReceiptShare
+        {...modalPaymentReceipt}
+        onClose={() => {
+          setModalPaymentReceipt({show: false});
+        }}
+      />
     </>
   );
 });
