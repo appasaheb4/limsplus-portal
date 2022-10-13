@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
+import {PDFDownloadLink} from '@react-pdf/renderer';
 
 import {
   ModalConfirm,
@@ -28,19 +29,32 @@ const Receipt = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [receiptDetails, setReceiptDetails] = useState<any>();
 
-  useEffect(() => {
-    receiptStore.receiptService
-      .generatePaymentReceipt({input: {headerId: 189}})
-      .then(res => {
-        if (res.generatePaymentReceipt?.success)
-          setReceiptDetails(res.generatePaymentReceipt?.receiptData);
-        else
-          Toast.error({
-            message: `😔 ${res.generatePaymentReceipt.message}`,
-          });
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   receiptStore.receiptService
+  //     .generatePaymentReceipt({input: {headerId: 189}})
+  //     .then(res => {
+  //       if (res.generatePaymentReceipt?.success)
+  //         setReceiptDetails(res.generatePaymentReceipt?.receiptData);
+  //       else
+  //         Toast.error({
+  //           message: `😔 ${res.generatePaymentReceipt.message}`,
+  //         });
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  const downloadPdf = () => {
+    return (
+      <PDFDownloadLink
+        document={<PdfReceipt data={receiptDetails} />}
+        fileName='Receipt.pdf'
+      >
+        {({blob, url, loading, error}) =>
+          loading ? 'Loading document...' : <button>Download Pdf</button>
+        }
+      </PDFDownloadLink>
+    );
+  };
 
   return (
     <>
@@ -48,7 +62,7 @@ const Receipt = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-      <PdfReceipt data={receiptDetails} />
+      {/*  */}
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <ReceiptList
           data={receiptStore.receiptList || []}
@@ -88,7 +102,19 @@ const Receipt = observer(() => {
             // });
           }}
           onReport={item => {
-            console.log({item});
+            receiptStore.receiptService
+              .generatePaymentReceipt({input: {headerId: item?.headerId}})
+              .then(res => {
+                if (res.generatePaymentReceipt?.success)
+                  setReceiptDetails(res.generatePaymentReceipt?.receiptData);
+                else
+                  Toast.error({
+                    message: `😔 ${res.generatePaymentReceipt.message}`,
+                  });
+              })
+              .finally(() => {
+                downloadPdf();
+              });
           }}
         />
       </div>
