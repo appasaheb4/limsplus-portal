@@ -7,7 +7,11 @@
 
 import {client, ServiceResponse} from '@/library/modules/apollo-client';
 import {stores} from '@/stores';
-import {RECEIPTS_LIST, RECEIPTS} from './mutation-receipt';
+import {
+  RECEIPTS_LIST,
+  RECEIPTS,
+  PAYMENT_RECEIPT_UPLOAD,
+} from './mutation-receipt';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -36,6 +40,21 @@ export class ReceiptService {
       client
         .mutate({
           mutation: RECEIPTS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  paymentReceiptUpload = variables =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: PAYMENT_RECEIPT_UPLOAD,
           variables,
         })
         .then((response: any) => {

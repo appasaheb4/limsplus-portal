@@ -29,6 +29,7 @@ interface TransactionHeaderProps {
     totalSize: number,
   ) => void;
   onClickRow?: (item: any, index: number) => void;
+  onReport?: (item: any) => void;
 }
 const selectedItem = {};
 export const TransactionHeaderList = observer(
@@ -251,6 +252,32 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 csvFormatter: col => (col ? col : ''),
                 editable: false,
+              },
+              {
+                dataField: 'operation',
+                text: 'Report',
+                editable: false,
+                csvExport: false,
+                hidden: !props.isDelete,
+                formatter: (cellContent, row) => (
+                  <>
+                    <div className='flex flex-row'>
+                      <Tooltip tooltipText='Generate PDF' position='bottom'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => props.onReport && props.onReport(row)}
+                        >
+                          {Icons.getIconTag(Icons.Iconai.AiOutlineFilePdf)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    </div>
+                  </>
+                ),
+                headerClasses: 'sticky right-0  bg-gray-500 text-white',
+                classes: (cell, row, rowIndex, colIndex) => {
+                  return 'sticky right-0 bg-gray-500';
+                },
               },
             ]}
             isEditModify={props.isEditModify}

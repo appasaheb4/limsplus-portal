@@ -11,13 +11,19 @@ import {
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {TransactionHeaderList, TransactionLineList} from '../components';
+import {ModalReceiptShare} from '../../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const TransactionDetails = observer(() => {
-  const {loading, transactionDetailsStore, routerStore, loginStore} =
-    useStores();
+  const {
+    loading,
+    transactionDetailsStore,
+    routerStore,
+    loginStore,
+    receiptStore,
+  } = useStores();
 
   const {
     control,
@@ -26,6 +32,8 @@ const TransactionDetails = observer(() => {
     setValue,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
+  const [receiptPath, setReceiptPath] = useState<string>();
 
   return (
     <>
@@ -85,6 +93,21 @@ const TransactionDetails = observer(() => {
               },
             );
             // deliveryQueueStore.updateOrderDeliveredList([item]);
+          }}
+          onReport={item => {
+            receiptStore.receiptService
+              .generatePaymentReceipt({input: {headerId: item?.headerId}})
+              .then(res => {
+                if (res.generatePaymentReceipt?.success)
+                  setModalPaymentReceipt({
+                    show: true,
+                    data: res.generatePaymentReceipt?.receiptData,
+                  });
+                else
+                  Toast.error({
+                    message: `😔 ${res.generatePaymentReceipt.message}`,
+                  });
+              });
           }}
         />
       </div>
@@ -156,6 +179,29 @@ const TransactionDetails = observer(() => {
           }}
           onClose={() => {
             setModalConfirm({show: false});
+          }}
+        />
+        <ModalReceiptShare
+          {...modalPaymentReceipt}
+          onClose={() => {
+            setModalPaymentReceipt({show: false});
+          }}
+          onReceiptUpload={(file, type) => {
+            if (!receiptPath) {
+              receiptStore.receiptService
+                .paymentReceiptUpload({input: {file}})
+                .then(res => {
+                  if (res.paymentReceiptUpload.success) {
+                    setReceiptPath(res.paymentReceiptUpload?.receiptPath);
+                    window.open(
+                      `${type} ${res.paymentReceiptUpload?.receiptPath}`,
+                      '_blank',
+                    );
+                  }
+                });
+            } else {
+              window.open(type + receiptPath, '_blank');
+            }
           }}
         />
       </div>
