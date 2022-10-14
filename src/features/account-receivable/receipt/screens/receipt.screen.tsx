@@ -19,6 +19,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 
 const Receipt = observer(() => {
   const {receiptStore, routerStore, loginStore} = useStores();
+  const [receiptPath, setReceiptPath] = useState<string>();
 
   const {
     control,
@@ -91,6 +92,23 @@ const Receipt = observer(() => {
         {...modalPaymentReceipt}
         onClose={() => {
           setModalPaymentReceipt({show: false});
+        }}
+        onReceiptUpload={(file, type) => {
+          if (!receiptPath) {
+            receiptStore.receiptService
+              .paymentReceiptUpload({input: {file}})
+              .then(res => {
+                if (res.paymentReceiptUpload.success) {
+                  setReceiptPath(res.paymentReceiptUpload?.receiptPath);
+                  window.open(
+                    `${type} ${res.paymentReceiptUpload?.receiptPath}`,
+                    '_blank',
+                  );
+                }
+              });
+          } else {
+            window.open(type + receiptPath, '_blank');
+          }
         }}
       />
     </>

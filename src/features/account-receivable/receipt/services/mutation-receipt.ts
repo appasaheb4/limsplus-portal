@@ -36,3 +36,13 @@ export const RECEIPTS = gql`
     }
   }
 `;
+
+export const PAYMENT_RECEIPT_UPLOAD = gql`
+  mutation ($input: ReceiptInput!) {
+    paymentReceiptUpload(input: $input) {
+      success
+      message
+      receiptPath
+    }
+  }
+`;

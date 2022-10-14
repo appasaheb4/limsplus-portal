@@ -13,12 +13,14 @@ interface ModalReceiptShareProps {
   data?: any;
   onClick: (data: any, item: any, index: number) => void;
   onClose: () => void;
+  onReceiptUpload: (file: any, type: string) => void;
 }
 
 export const ModalReceiptShare = ({
   show = false,
   data,
   onClose,
+  onReceiptUpload,
 }: ModalReceiptShareProps) => {
   const [showModal, setShowModal] = React.useState(show);
 
@@ -26,7 +28,14 @@ export const ModalReceiptShare = ({
     setShowModal(show);
   }, [show]);
 
-  const currentpageurl = 'url';
+  const sharePdfLink = async (type: string) => {
+    const doc = <PdfReceipt data={data} />;
+    const asPdf = pdf(doc);
+    asPdf.updateContainer(doc);
+    const blob: any = await asPdf.toBlob();
+    blob.name = 'Payment-Receipt.pdf';
+    onReceiptUpload(blob, type);
+  };
 
   return (
     <Container>
@@ -81,10 +90,11 @@ export const ModalReceiptShare = ({
                         <SocialIcon
                           network='email'
                           style={{height: 32, width: 32}}
-                          onClick={() => {
-                            window.open(
-                              'mailto:recipient@domain.com?subject=Payment%20Receipt&body=Your%20payment%20receipt%20link:www.limsplus.com',
-                              '_blank',
+                          onClick={async () => {
+                            sharePdfLink(
+                              `mailto:${
+                                data.patientDetails?.email || ''
+                              }?subject=Payment%20Receipt&body=Your%20payment%20receipt%20link:`,
                             );
                           }}
                         />
@@ -92,10 +102,8 @@ export const ModalReceiptShare = ({
                           network='whatsapp'
                           style={{height: 32, width: 32}}
                           onClick={() => {
-                            window.open(
-                              'https://web.whatsapp.com/send?text=/' +
-                                currentpageurl,
-                              '_blank',
+                            sharePdfLink(
+                              'https://web.whatsapp.com/send?text=Your%20payment%20receipt%20link:',
                             );
                           }}
                         />
@@ -103,31 +111,17 @@ export const ModalReceiptShare = ({
                           network='twitter'
                           style={{height: 32, width: 32}}
                           onClick={() => {
-                            window.open(
-                              'https://twitter.com/intent/tweet?url=/' +
-                                currentpageurl,
-                              '_blank',
+                            sharePdfLink(
+                              'https://twitter.com/intent/tweet?url=Your%20payment%20receipt%20link:',
                             );
                           }}
                         />
                         <SocialIcon
-                          network='facebook'
+                          network='telegram'
                           style={{height: 32, width: 32}}
                           onClick={() => {
-                            window.open(
-                              'https://www.facebook.com/sharer.php?u=/' +
-                                currentpageurl,
-                              '_blank',
-                            );
-                          }}
-                        />
-                        <SocialIcon
-                          network='instagram'
-                          style={{height: 32, width: 32}}
-                          onClick={() => {
-                            window.open(
-                              'https://www.instagram.com/accounts/onetap/?next=' +
-                                'http://test-consumer.doctall.com',
+                            sharePdfLink(
+                              'https://t.me/share/url?url=Your%20payment%20receipt%20link:',
                             );
                           }}
                         />
