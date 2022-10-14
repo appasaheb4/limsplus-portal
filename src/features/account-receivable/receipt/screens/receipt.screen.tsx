@@ -11,7 +11,8 @@ import {
 } from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import {ReceiptList, ModalReceiptShare} from '../components';
+import {ReceiptList} from '../components';
+import {ModalReceiptShare} from '../../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
