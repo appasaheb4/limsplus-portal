@@ -29,6 +29,7 @@ export interface IconsProps {
   color?: string;
   onClick?: () => void;
   children?: React.ReactNode;
+  style?: any;
 }
 
 export const IconContext: React.FunctionComponent<IconsProps> = props => {
@@ -36,7 +37,9 @@ export const IconContext: React.FunctionComponent<IconsProps> = props => {
     <Context.Provider
       value={{color: props.color || '#fff', size: props.size || '20'}}
     >
-      <div onClick={props.onClick && props.onClick}>{props.children}</div>
+      <div onClick={props.onClick && props.onClick} style={props.style}>
+        {props.children}
+      </div>
     </Context.Provider>
   );
 };
