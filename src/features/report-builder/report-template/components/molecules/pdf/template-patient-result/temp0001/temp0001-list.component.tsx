@@ -4,7 +4,6 @@ import _ from 'lodash';
 import {Style} from '@react-pdf/types';
 import {} from '@storybook/addons';
 import {PdfSmall, PdfBorderView, PdfImage, PdfView} from '@/library/components';
-import {decompressString} from '@/library/utils';
 
 const styles = StyleSheet.create({
   table: {
@@ -353,7 +352,7 @@ export const PdfTPRTemp0001List = ({
                 {deptItem?.departmentFooter?.userInfo?.map(deptFooterItem => (
                   <PdfView flexDirection='column' alignItems='center'>
                     <PdfImage
-                      src={decompressString(deptFooterItem?.signatureBase64)}
+                      src={deptFooterItem?.signature}
                       style={{
                         width: 80,
                         height: 60,

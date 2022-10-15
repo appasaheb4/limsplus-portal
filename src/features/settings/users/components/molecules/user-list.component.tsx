@@ -1,11 +1,6 @@
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
-import {
-  lookupItems,
-  lookupValue,
-  resizeFile,
-  compressString,
-} from '@/library/utils';
+import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {FormHelper} from '@/helper';
 import {
@@ -642,9 +637,6 @@ export const UserList = (props: UserListProps) => {
                         props.onUpdateFields(
                           {
                             signature,
-                            signatureBase64: compressString(
-                              await resizeFile(signature, 200, 200, 100, 0),
-                            ),
                           },
                           row._id,
                         );

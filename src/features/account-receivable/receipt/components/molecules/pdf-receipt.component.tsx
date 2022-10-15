@@ -65,7 +65,10 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
       children={
         <>
           <PdfView mt={20}>
-            <PdfImage style={{width: 150, height: 40}} />
+            <PdfImage
+              src={headerDetails?.labLogo}
+              style={{width: 150, height: 40}}
+            />
 
             <PdfView mh={0} p={0}>
               <PdfView mt={4} mh={0} p={0} flexDirection='row'>
