@@ -6,6 +6,7 @@ import {pdf} from '@react-pdf/renderer';
 import {PdfReceipt} from '../../../receipt/components';
 import {saveAs} from 'file-saver';
 import {SocialIcon} from 'react-social-icons';
+import printjs from 'print-js';
 
 interface ModalReceiptShareProps {
   show?: boolean;
@@ -87,6 +88,28 @@ export const ModalReceiptShare = ({
                             Icons.Iconhi.HiOutlineFolderDownload,
                           )}
                         </Icons.IconContext>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='25'
+                          style={{
+                            backgroundColor: '#808080',
+                            width: 32,
+                            height: 32,
+                            borderRadius: 16,
+                            align: 'center',
+                            padding: 4,
+                          }}
+                          onClick={async () => {
+                            const blob = await pdf(
+                              <PdfReceipt data={data} />,
+                            ).toBlob();
+                            const blobURL = URL.createObjectURL(blob);
+                            printjs(blobURL);
+                            //saveAs(blob, 'Receipt.pdf');
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.IconBi.BiPrinter)}
+                        </Icons.IconContext>
                         <SocialIcon
                           network='email'
                           style={{height: 32, width: 32}}
@@ -103,7 +126,9 @@ export const ModalReceiptShare = ({
                           style={{height: 32, width: 32}}
                           onClick={() => {
                             sharePdfLink(
-                              'https://web.whatsapp.com/send?text=Your%20payment%20receipt%20link:',
+                              data.patientDetails?.whatsappNumber
+                                ? `https://api.whatsapp.com/send?phone=+91${data.patientDetails?.whatsappNumber.toString()}&text=Your%20payment%20receipt%20link:`
+                                : 'https://api.whatsapp.com/send?text=Your%20payment%20receipt%20link:',
                             );
                           }}
                         />
