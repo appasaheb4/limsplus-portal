@@ -16,12 +16,7 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {
-  lookupItems,
-  lookupValue,
-  resizeFile,
-  compressString,
-} from '@/library/utils';
+import {lookupItems, lookupValue} from '@/library/utils';
 import {UserList} from '../components';
 import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';
@@ -980,9 +975,6 @@ export const Users = UsersHoc(
                         userStore.updateUser({
                           ...userStore.user,
                           signature,
-                          signatureBase64: compressString(
-                            await resizeFile(signature, 200, 200, 100, 0),
-                          ),
                         });
                       }}
                     />

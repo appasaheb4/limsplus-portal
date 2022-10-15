@@ -354,7 +354,7 @@ export const PdfTPRTemp0002List = ({
                 {deptItem?.departmentFooter?.userInfo?.map(deptFooterItem => (
                   <PdfView flexDirection='column' alignItems='center'>
                     <PdfImage
-                      src={decompressString(deptFooterItem?.signatureBase64)}
+                      src={deptFooterItem?.signature}
                       style={{
                         width: 80,
                         height: 60,

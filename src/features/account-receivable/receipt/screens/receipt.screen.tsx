@@ -16,6 +16,7 @@ import {ModalReceiptShare} from '../../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import axios from 'axios';
 
 const Receipt = observer(() => {
   const {receiptStore, routerStore, loginStore} = useStores();
@@ -29,20 +30,6 @@ const Receipt = observer(() => {
   } = useForm();
   const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
   const [receiptDetails, setReceiptDetails] = useState<any>();
-
-  // useEffect(() => {
-  //   receiptStore.receiptService
-  //     .generatePaymentReceipt({input: {headerId: 189}})
-  //     .then(res => {
-  //       if (res.generatePaymentReceipt?.success)
-  //         setReceiptDetails(res.generatePaymentReceipt?.receiptData);
-  //       else
-  //         Toast.error({
-  //           message: `😔 ${res.generatePaymentReceipt.message}`,
-  //         });
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <>
@@ -74,13 +61,18 @@ const Receipt = observer(() => {
           onReport={item => {
             receiptStore.receiptService
               .generatePaymentReceipt({input: {headerId: item?.headerId}})
-              .then(res => {
-                if (res.generatePaymentReceipt?.success)
+              .then(async res => {
+                if (res.generatePaymentReceipt?.success) {
+                  console.log({
+                    labLogo:
+                      res.generatePaymentReceipt?.receiptData?.headerDetails
+                        ?.labLogo,
+                  });
                   setModalPaymentReceipt({
                     show: true,
                     data: res.generatePaymentReceipt?.receiptData,
                   });
-                else
+                } else
                   Toast.error({
                     message: `😔 ${res.generatePaymentReceipt.message}`,
                   });
