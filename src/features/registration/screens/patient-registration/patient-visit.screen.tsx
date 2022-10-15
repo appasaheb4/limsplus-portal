@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {Table} from 'reactstrap';
@@ -104,6 +104,81 @@ export const PatientVisit = PatientVisitHoc(
       }
     };
 
+    const labId = useMemo(() => {
+      return (
+        <>
+          <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Form.Input
+                label='Lab Id'
+                placeholder={errors.labId ? 'Please Enter Lab ID' : 'Lab ID'}
+                hasError={!!errors.labId}
+                disabled={
+                  appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+                  'no'
+                }
+                type='number'
+                value={patientVisitStore.patientVisit?.labId}
+                onChange={labId => {
+                  onChange(labId);
+                  patientVisitStore.updatePatientVisit({
+                    ...patientVisitStore.patientVisit,
+                    labId: Number.parseFloat(labId),
+                  });
+                }}
+                onBlur={labId => {
+                  patientVisitStore.patientVisitService
+                    .checkExistsRecord({
+                      input: {
+                        filter: {
+                          labId: Number.parseFloat(labId),
+                          documentType: 'patientVisit',
+                        },
+                      },
+                    })
+                    .then(res => {
+                      if (res.checkExistsPatientVisitRecord.success) {
+                        patientVisitStore.updateExistsLabId(true);
+                        Toast.error({
+                          message: `😔 ${res.checkExistsPatientVisitRecord.message}`,
+                        });
+                      } else patientVisitStore.updateExistsLabId(false);
+                    });
+                }}
+              />
+            )}
+            name='labId'
+            rules={{
+              required:
+                appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+                'no'
+                  ? false
+                  : true,
+              minLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
+              maxLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
+            }}
+            defaultValue=''
+          />
+          {appStore.environmentValues?.LABID_LENGTH?.value ? (
+            <span className='text-red-600 font-medium relative'>
+              {`Lab id must be ${appStore.environmentValues?.LABID_LENGTH?.value} digit`}
+            </span>
+          ) : (
+            <span className='text-red-600 font-medium relative'>
+              Lab id must be 4 digit.
+            </span>
+          )}
+          {patientVisitStore.checkExistsLabId && (
+            <span className='text-red-600 font-medium relative'>
+              Lab Id already exits. Please use diff lab Id.
+            </span>
+          )}
+        </>
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [patientVisitStore.patientVisit?.labId]);
+
     return (
       <>
         {patientVisitStore.patientVisit.patientName && (
@@ -150,78 +225,7 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Lab Id'
-                      placeholder={
-                        errors.labId ? 'Please Enter Lab ID' : 'Lab ID'
-                      }
-                      hasError={!!errors.labId}
-                      disabled={
-                        appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-                        'no'
-                      }
-                      type='number'
-                      value={patientVisitStore.patientVisit?.labId}
-                      onChange={labId => {
-                        onChange(labId);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          labId: Number.parseFloat(labId),
-                        });
-                      }}
-                      onBlur={labId => {
-                        patientVisitStore.patientVisitService
-                          .checkExistsRecord({
-                            input: {
-                              filter: {
-                                labId: Number.parseFloat(labId),
-                                documentType: 'patientVisit',
-                              },
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkExistsPatientVisitRecord.success) {
-                              patientVisitStore.updateExistsLabId(true);
-                              Toast.error({
-                                message: `😔 ${res.checkExistsPatientVisitRecord.message}`,
-                              });
-                            } else patientVisitStore.updateExistsLabId(false);
-                          });
-                      }}
-                    />
-                  )}
-                  name='labId'
-                  rules={{
-                    required:
-                      appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-                      'no'
-                        ? false
-                        : true,
-                    minLength:
-                      appStore.environmentValues?.LABID_LENGTH?.value || 4,
-                    maxLength:
-                      appStore.environmentValues?.LABID_LENGTH?.value || 4,
-                  }}
-                  defaultValue=''
-                />
-                {appStore.environmentValues?.LABID_LENGTH?.value ? (
-                  <span className='text-red-600 font-medium relative'>
-                    {`Lab id must be ${appStore.environmentValues?.LABID_LENGTH?.value} digit`}
-                  </span>
-                ) : (
-                  <span className='text-red-600 font-medium relative'>
-                    Lab id must be 4 digit.
-                  </span>
-                )}
-
-                {patientVisitStore.checkExistsLabId && (
-                  <span className='text-red-600 font-medium relative'>
-                    Lab Id already exits. Please use diff lab Id.
-                  </span>
-                )}
+                {labId}
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (

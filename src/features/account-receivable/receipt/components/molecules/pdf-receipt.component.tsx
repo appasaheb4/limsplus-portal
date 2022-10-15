@@ -54,7 +54,7 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
         : 0;
     const amountPayable =
       Number.parseFloat(payload?.netAmount) +
-      Number.parseFloat(payload?.miscellaneousCharges) -
+      Number.parseFloat(payload?.miscellaneousCharges) +
       discountChargesAmount;
     return amountPayable;
   };

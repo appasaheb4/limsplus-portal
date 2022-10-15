@@ -79,7 +79,7 @@ const Payment = PaymentHoc(
           : 0;
       const amountPayable =
         Number.parseFloat(payload?.netAmount) +
-        Number.parseFloat(payload?.miscellaneousCharges) -
+        Number.parseFloat(payload?.miscellaneousCharges) +
         discountChargesAmount -
         Number.parseFloat(payload?.receivedAmount);
 
@@ -87,6 +87,8 @@ const Payment = PaymentHoc(
     };
 
     const updatePayment = (payload: any) => {
+      console.log({payload});
+
       paymentStore.updatePayment({
         ...paymentStore.payment,
         pId: Number.parseInt(payload?.pId),
@@ -97,10 +99,9 @@ const Payment = PaymentHoc(
         customerGroup: payload?.customerGroup,
         acClass: payload?.acClass,
         acType: payload?.accountType,
-        discountCharges:
-          payload?.discountCharges?.code ||
-          '' + ' ' + payload.discountCharges?.amount ||
-          '',
+        discountCharges: `${
+          payload.discountCharges?.code
+        } - ${payload.discountCharges?.amount?.toString()}`,
         invoiceDate: payload?.invoiceDate,
         grossAmount: Number.parseFloat(payload?.grossAmount),
         netAmount: Number.parseFloat(payload?.netAmount),
