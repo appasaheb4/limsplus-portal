@@ -64,7 +64,7 @@ const SidebarCategory = withRouter(
           aria-expanded={isOpen ? 'true' : 'false'}
         >
           {icon !== undefined ? (
-            <Icons.IconContext>
+            <Icons.IconContext color='#ffffff'>
               <Icon />
             </Icons.IconContext>
           ) : null}
@@ -117,7 +117,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
       <NavLink to={props.to} className='sidebar-link' activeClassName='active'>
         <span className='flex items-center'>
           {props.icon ? (
-            <Icons.IconContext>
+            <Icons.IconContext color='#ffffff'>
               <props.icon />
             </Icons.IconContext>
           ) : null}

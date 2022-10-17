@@ -316,7 +316,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
 
             {
               dataField: 'birthDate',
-              text: 'BithDate',
+              text: 'Birth Date',
               headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) =>
