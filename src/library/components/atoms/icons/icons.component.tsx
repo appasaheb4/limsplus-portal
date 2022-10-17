@@ -181,6 +181,11 @@ export const getIcons = (icon: string): any => {
   if (icon === 'Icons.Iconai.AiOutlineFilePdf')
     return Icons.Iconai.AiOutlineFilePdf;
   if (icon === 'Icons.IconIm.ImFilePdf') return Icons.IconIm.ImFilePdf;
+  // validation
+  if (icon === 'Icons.IconGr.GrValidate') return Icons.IconGr.GrValidate;
+  if (icon === 'Icons.Iconmd.MdOutlineRule') return Icons.Iconmd.MdOutlineRule;
+  if (icon === 'Icons.Iconmd.MdOutlineApproval')
+    return Icons.Iconmd.MdOutlineApproval;
 
   return Icons.IconBs.BsList;
 };

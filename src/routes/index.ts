@@ -9,6 +9,7 @@ import {collectionRoutes} from '@/features/master/routers/masters.router';
 import {loginRoutes} from '@/features/login/routers/login.router';
 import {privacyPolicyRoutes} from '@/features/privacy-policy/routers/privacy-policy.router';
 import {accountReceivableRoutes} from '@features/account-receivable/routers/account-receivable.router';
+import {validationRoutes} from '@features/validation/routers/validation.router';
 
 export const loginRouter = [loginRoutes];
 export const privacyPolicyRoute = [privacyPolicyRoutes];
@@ -24,4 +25,5 @@ export const dashboardRouter = [
   patientReportsRoutes,
   reportBuilderRoutes,
   accountReceivableRoutes,
+  validationRoutes,
 ];

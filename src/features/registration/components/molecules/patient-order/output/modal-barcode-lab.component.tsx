@@ -78,6 +78,10 @@ export const ModalBarcodeLab = ({
                       </button>
                     )}
                     content={() => barCodeRef?.current}
+                    onAfterPrint={() => {
+                      setShowModal(false);
+                      onClose && onClose();
+                    }}
                   />
                 </div>
               </div>

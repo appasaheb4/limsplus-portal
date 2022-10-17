@@ -74,6 +74,9 @@ import {TransactionDetailsStore} from '@/features/account-receivable/transaction
 import {PaymentStore} from '@/features/account-receivable/payment/stores';
 import {ReceiptStore} from '@/features/account-receivable/receipt/stores';
 
+// validation
+import {PanelApprovalStore} from '@/features/validation/panel-approval/stores';
+
 export class Stores extends Store {
   rootStore!: RootStore;
   appStore!: AppStore;
@@ -147,6 +150,9 @@ export class Stores extends Store {
   paymentStore!: PaymentStore;
   receiptStore!: ReceiptStore;
 
+  // validation
+  panelApprovalStore!: PanelApprovalStore;
+
   constructor() {
     super();
     this.rootStore = new RootStore();
@@ -219,6 +225,9 @@ export class Stores extends Store {
     this.transactionDetailsStore = new TransactionDetailsStore();
     this.paymentStore = new PaymentStore();
     this.receiptStore = new ReceiptStore();
+
+    // validation
+    this.panelApprovalStore = new PanelApprovalStore();
   }
 }
 
