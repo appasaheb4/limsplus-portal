@@ -1,11 +1,10 @@
 /* eslint-disable no-case-declarations */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {Form, Buttons} from '@/library/components';
 import {InputResult} from './input-result.components';
 import {DisplayResult} from './display-result.components';
-import TableBootstrap from './table-bootstrap.component';
 
 import {GeneralResultEntryExpand} from './general-result-entry-expand.component';
 
@@ -26,6 +25,7 @@ interface GeneralResultEntryListProps {
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
+  const [data, setData] = useState<any>([]);
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -123,6 +123,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     }
   };
 
+  useEffect(() => {
+    setData(props.data);
+  }, [props.data]);
+
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -160,37 +164,23 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     onSelect={async result => {
                       await props.onUpdateValue(result, row._id);
                       const rows = {...row, ...result};
-                      _.isEmpty(row?.result)
-                        ? props.onSaveFields(
-                            {
-                              ...rows,
-                              resultStatus: getResultStatus(
-                                rows.resultType,
-                                rows,
-                              ),
-                              testStatus: getTestStatus(rows.resultType, rows),
-                              abnFlag: getAbnFlag(rows.resultType, rows),
-                              critical: getCretical(rows.resultType, rows),
-                              ...result,
-                            },
-                            rows._id,
-                            'directSave',
-                          )
-                        : props.onSaveFields(
-                            {
-                              ...rows,
-                              resultStatus: getResultStatus(
-                                rows.resultType,
-                                rows,
-                              ),
-                              testStatus: getTestStatus(rows.resultType, rows),
-                              abnFlag: getAbnFlag(rows.resultType, rows),
-                              critical: getCretical(rows.resultType, rows),
-                              ...result,
-                            },
-                            rows._id,
-                            'save',
-                          );
+                      if (_.isEmpty(row?.result)) {
+                        props.onSaveFields(
+                          {
+                            ...rows,
+                            resultStatus: getResultStatus(
+                              rows.resultType,
+                              rows,
+                            ),
+                            testStatus: getTestStatus(rows.resultType, rows),
+                            abnFlag: getAbnFlag(rows.resultType, rows),
+                            critical: getCretical(rows.resultType, rows),
+                            ...result,
+                          },
+                          rows._id,
+                          'directSave',
+                        );
+                      }
                     }}
                   />
                 </>
@@ -401,7 +391,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
-              formatter: (cellContent, row) => (
+              formatter: (cell, row, rowIndex, formatExtraData) => (
                 <>
                   {!_.isEmpty(row?.result) && (
                     <div className='flex flex-row'>
@@ -410,6 +400,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           size='small'
                           type='outline'
                           buttonClass='text-white'
+                          disabled={!row?.flagUpdate}
                           onClick={() => {
                             if (!row?.result)
                               return alert('Please enter result value ');

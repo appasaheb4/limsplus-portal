@@ -9,9 +9,7 @@ import {
   PageHeadingLabDetails,
   ModalConfirm,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import {useForm} from 'react-hook-form';
 import {FilterInputTable, GeneralResultEntryList} from '../components';
 
 import {RouterFlow} from '@/flows';
@@ -55,6 +53,7 @@ const GeneralResultEntry = observer(() => {
                   return {
                     ...e,
                     ...item,
+                    flagUpdate: true,
                     refRangesList: e.refRangesList?.map(item => {
                       return {
                         ...item,
@@ -107,6 +106,7 @@ const GeneralResultEntry = observer(() => {
           resultDate: new Date(),
           _id: id,
           __v: undefined,
+          flagUpdate: undefined,
         },
       })
       .then(res => {

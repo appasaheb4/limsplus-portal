@@ -28,6 +28,7 @@ interface PatientOrderListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onBarcode?: (item: any) => void;
 }
 let labid;
 let visitId;
@@ -138,7 +139,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
+                  <div className='flex flex-row gap-2'>
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#000'
@@ -155,6 +156,15 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                         }
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    <Tooltip tooltipText='Barcode'>
+                      <Icons.IconContext
+                        color='#000'
+                        size='20'
+                        onClick={() => props.onBarcode && props.onBarcode(row)}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiOutlineBarcode)}
                       </Icons.IconContext>
                     </Tooltip>
                   </div>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -16,7 +16,7 @@ import {
 import {lookupItems, lookupValue} from '@/library/utils';
 import '@/library/assets/css/accordion.css';
 import {useForm, Controller} from 'react-hook-form';
-import {PatientOrderList} from '../../components';
+import {PatientOrderList, ModalBarcodeLab} from '../../components';
 import {PatientOrderHoc} from '../../hoc';
 
 import {useStores} from '@/stores';
@@ -59,6 +59,18 @@ export const PatientOrder = PatientOrderHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
+    const [modalBarcodeLab, setModalBarcodeLab] = useState<any>();
+
+    useEffect(() => {
+      const barCodeLabId = localStorage.getItem('barCodeLabId');
+      console.log({barCodeLabId});
+      if (!_.isEmpty(barCodeLabId)) {
+        setModalBarcodeLab({
+          visible: true,
+          data: {value: barCodeLabId},
+        });
+      }
+    }, []);
 
     const onSubmitPatientOrder = () => {
       if (!patientOrderStore.checkExistsRecord) {
@@ -83,6 +95,10 @@ export const PatientOrder = PatientOrderHoc(
               Toast.success({
                 message: `😊 ${res.createPatientOrder.message}`,
               });
+              localStorage.setItem(
+                'barCodeLabId',
+                patientOrderStore.patientOrder?.labId?.toString(),
+              );
             }
             setTimeout(() => {
               window.location.reload();
@@ -474,6 +490,9 @@ export const PatientOrder = PatientOrderHoc(
                 input: {type, filter, page, limit},
               });
             }}
+            onBarcode={(item: any) => {
+              setModalBarcodeLab({visible: true, data: {value: item.labId}});
+            }}
           />
         </div>
         <ModalConfirm
@@ -496,6 +515,13 @@ export const PatientOrder = PatientOrderHoc(
             }
           }}
           onClose={() => setModalConfirm({show: false})}
+        />
+        <ModalBarcodeLab
+          {...modalBarcodeLab}
+          onClose={() => {
+            setModalBarcodeLab({visible: false});
+            localStorage.setItem('barCodeLabId', '');
+          }}
         />
       </>
     );
