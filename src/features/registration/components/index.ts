@@ -13,6 +13,7 @@ export * from './molecules/patient-test/input/panel-list-table.component';
 export * from './molecules/patient-test/input/extra-data-panel-list-table.component';
 export * from './molecules/patient-test/output/patient-test-list.component';
 export * from './molecules/patient-sample/patient-sample-list.component';
+export * from './molecules/patient-visit/modal-barcode-lab.component';
 
 export * from './orgransims/auto-complete-filter-single-select-city.component';
 export * from './orgransims/auto-complete-filter-single-select-country.component';
