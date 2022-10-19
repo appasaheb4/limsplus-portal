@@ -1,6 +1,7 @@
 export class ReportDelivery {
   _id: string;
   labId: string;
+  visitId: number;
   deliveryId: number;
   deliveryDate: Date;
   reportDate: Date;
@@ -22,6 +23,7 @@ export class ReportDelivery {
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
     this.labId = rawData.labId;
+    this.visitId = rawData.visitId;
     this.deliveryId = rawData.deliveryId;
     this.deliveryDate = rawData.deliveryDate;
     this.reportDate = rawData.reportDate;

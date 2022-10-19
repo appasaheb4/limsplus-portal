@@ -279,8 +279,6 @@ export const TableBootstrap = ({
   };
 
   const rowStyle = (row, rowIndex) => {
-    console.log({row, selectedItem});
-
     if (row._id == selectedItem?._id) {
       return {backgroundColor: '#a9a9a9'};
     }

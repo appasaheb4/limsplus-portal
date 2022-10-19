@@ -132,6 +132,7 @@ const DeliveryQueue = observer(() => {
               .updateDeliveryQueue({
                 input: {
                   _id: modalConfirm.id,
+                  visitId: modalConfirm?.visitId,
                   deliveryStatus:
                     type == 'cancel'
                       ? 'Cancel'
@@ -141,11 +142,11 @@ const DeliveryQueue = observer(() => {
                 },
               })
               .then(res => {
+                setModalConfirm({show: false});
                 if (res.updateDeliveryQueue.success) {
                   Toast.success({
                     message: `😊 ${res.updateDeliveryQueue.message}`,
                   });
-                  setModalConfirm({show: false});
                   deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
                 }
               });

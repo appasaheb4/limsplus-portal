@@ -27,6 +27,8 @@ export class DeliveryQueueService {
           variables: {input: {page, limit, environment, role}},
         })
         .then((response: any) => {
+          console.log({response});
+
           stores.deliveryQueueStore.updateReportDeliveryList(response.data);
           resolve(response.data);
         })
