@@ -18,7 +18,7 @@ interface ReportDeliveryProps {
   totalSize: number;
   isDelete?: boolean;
   isEditModify?: boolean;
-  onUpdate?: (selectedItem: Confirm) => void;
+  onUpdate?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
@@ -252,6 +252,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                           props.onUpdate &&
                           props.onUpdate({
                             type: 'generatePdf',
+                            visitId: row?.visitId,
                             show: true,
                             id: row._id,
                             title: 'Are you sure?',

@@ -11,6 +11,7 @@ export const DELIVERY_QUEUE_LIST = gql`
       data {
         _id
         labId
+        visitId
         deliveryId
         deliveryDate
         reportDate
