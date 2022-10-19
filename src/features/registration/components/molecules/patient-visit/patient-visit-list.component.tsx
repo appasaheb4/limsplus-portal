@@ -313,7 +313,6 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 </>
               ),
             },
-
             {
               dataField: 'birthDate',
               text: 'Birth Date',

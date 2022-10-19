@@ -495,17 +495,6 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'analysisDoneDate',
-              text: 'Analysis Done Date',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.analysisDoneDate}</span>
-                  </>
-                );
-              },
-            },
-            {
               dataField: 'autoRelease',
               text: 'Auto Release',
               formatter: (cell, row) => {

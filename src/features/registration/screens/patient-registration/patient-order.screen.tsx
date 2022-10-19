@@ -63,7 +63,6 @@ export const PatientOrder = PatientOrderHoc(
 
     useEffect(() => {
       const barCodeLabId = localStorage.getItem('barCodeLabId');
-      console.log({barCodeLabId});
       if (!_.isEmpty(barCodeLabId)) {
         setModalBarcodeLab({
           visible: true,
@@ -84,7 +83,7 @@ export const PatientOrder = PatientOrderHoc(
           .addPatientOrder({
             input: {
               ...patientOrderStore.patientOrder,
-              packageList,
+              packageList: packageList?.map(v => ({...v, orderStatus: 'P'})),
               documentType: 'patientOrder',
               enteredBy: loginStore.login.userId,
               __typename: undefined,

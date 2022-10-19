@@ -35,6 +35,9 @@ export class PatientOrder {
       orderStatus: string;
       status: string;
       reportGroup: number;
+      approvalDate: Date;
+      approvalStatus: string;
+      autoRelease: string;
       extraData: {
         priority: string;
         outsourceLab: string;
