@@ -2,6 +2,9 @@
 const webpack = require('webpack');
 
 module.exports = {
+  eslint: {
+    enable: false,
+  },
   plugins: [
     {
       plugin: require('craco-alias'),
