@@ -13,11 +13,9 @@ steps:
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
 
-
- - script: |
-    git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" \
-        submodule update --init --recursive
-  displayName: Fetch Submodules
+ - checkout: self             #Set to self in order for the parent repo to clone
+      submodules: true           #This must be set to true
+      persistCredentials: true   #I'm not sure if this line is needed 
 
   - task: AzureStaticWebApp@0
     inputs:
