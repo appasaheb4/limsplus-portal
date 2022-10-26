@@ -13,9 +13,8 @@ steps:
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
 
- - checkout: self             #Set to self in order for the parent repo to clone
-      submodules: true           #This must be set to true
-      persistCredentials: true   #I'm not sure if this line is needed 
+ - checkout: self           
+      submodules: true         
 
   - task: AzureStaticWebApp@0
     inputs:
