@@ -12,8 +12,6 @@ pool:
 steps:
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
-  - name: Checkout Repo
-     uses: actions/checkout@v2
   - name: Checkout Submodules
      run: git submodule update --init
 
