@@ -10,22 +10,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
-- task: Permission
- inputs:
-  clean: boolean  # whether to fetch clean each time
-  fetchDepth: number  # the depth of commits to ask Git to fetch
-  lfs: boolean  # whether to download Git-LFS files
-  submodules: true | recursive  # set to 'true' for a single level of submodules or 'recursive' to get submodules of submodules
-  path: string  # path to check out source code, relative to the agent's build directory (e.g. \_work\1)
-  persistCredentials: boolean  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
-
-
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
 
   - task: AzureStaticWebApp@0
     inputs:
-      app_location: '/'
       output_location: 'build'
       azure_static_web_apps_api_token: '88869188c7c4aaf4f7fbaea54d09bdb17113adaba993e88c2b40cbb50e15e1642-770158a9-e108-44f0-b69e-326347cd71f8010140695'
