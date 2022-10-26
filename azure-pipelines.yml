@@ -12,8 +12,12 @@ pool:
 steps:
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
-  - name: Checkout Submodules
-     run: git submodule update --init
+
+
+ - script: |
+    git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" \
+        submodule update --init --recursive
+  displayName: Fetch Submodules
 
   - task: AzureStaticWebApp@0
     inputs:
