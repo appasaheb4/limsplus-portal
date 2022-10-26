@@ -130,6 +130,13 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 editorCell(row),
             },
             {
+              dataField: 'panelCode',
+              text: 'Panel Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
               dataField: 'testCode',
               text: 'Test Code',
               headerClasses: 'textHeader4',

@@ -192,6 +192,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               editable: false,
             },
             {
+              dataField: 'panelCode',
+              text: 'Panel Code',
+              editable: false,
+            },
+            {
               dataField: 'testCode',
               text: 'Test Code - Name',
               editable: false,

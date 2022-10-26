@@ -198,7 +198,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
-
             {
               dataField: 'operation',
               text: 'Action',
@@ -216,6 +215,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                           props.onUpdate &&
                           props.onUpdate({
                             type: 'cancel',
+                            visitId: row?.visitId,
                             show: true,
                             id: row._id,
                             title: 'Are you sure?',
@@ -234,6 +234,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                           props.onUpdate &&
                           props.onUpdate({
                             type: 'hold',
+                            visitId: row?.visitId,
                             show: true,
                             id: row._id,
                             title: 'Are you sure?',

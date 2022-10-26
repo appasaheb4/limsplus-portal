@@ -29,7 +29,7 @@ export class MasterPanelStore {
         dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
       ),
       version: 1,
-      bill: false,
+      bill: true,
       autoRelease: false,
       holdOOS: false,
       confidential: false,
