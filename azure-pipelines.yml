@@ -12,10 +12,6 @@ pool:
 steps:
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
-
- - uses: actions/checkout@v2
-   with:
-         submodules: true
   - name: Checkout Repo
      uses: actions/checkout@v2
   - name: Checkout Submodules
