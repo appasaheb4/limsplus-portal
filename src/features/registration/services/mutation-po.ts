@@ -10,8 +10,12 @@ export const LIST_PATIENT_ORDER = gql`
       message
       data {
         _id
+        pId
+        age
+        ageUnits
         labId
         orderId
+        rLab
         visitId
         patientName
         panelCode
@@ -26,15 +30,23 @@ export const LIST_PATIENT_ORDER = gql`
           pLab
           rLab
           bill
-          grossAmt
-          netAmt
-          discount
+          priceGroup
+          priceList
+          grossAmount
+          netAmount
+          discountAmount
+          discountPer
+          miscellaneousCharges
           dueDate
           resultDate
           cretical
           abnFlag
           orderStatus
           status
+          reportGroup
+          approvalDate
+          approvalStatus
+          autoRelease
           extraData {
             priority
             outsourceLab
@@ -52,7 +64,7 @@ export const LIST_PATIENT_ORDER = gql`
             eqtype
             methodOn
             methodName
-            porder
+            reportOrder
             confidential
             workflow
             loginServgrp
@@ -110,8 +122,12 @@ export const FILTER_PATIENT_ORDER = gql`
       message
       data {
         _id
+        pId
+        age
+        ageUnits
         labId
         orderId
+        rLab
         visitId
         patientName
         panelCode
@@ -126,15 +142,23 @@ export const FILTER_PATIENT_ORDER = gql`
           pLab
           rLab
           bill
-          grossAmt
-          netAmt
-          discount
+          priceGroup
+          priceList
+          grossAmount
+          netAmount
+          discountAmount
+          discountPer
+          miscellaneousCharges
           dueDate
           resultDate
           cretical
           abnFlag
           orderStatus
           status
+          reportGroup
+          approvalDate
+          approvalStatus
+          autoRelease
           extraData {
             priority
             outsourceLab
@@ -152,7 +176,7 @@ export const FILTER_PATIENT_ORDER = gql`
             eqtype
             methodOn
             methodName
-            porder
+            reportOrder
             confidential
             workflow
             loginServgrp
@@ -202,8 +226,12 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
       message
       data {
         _id
+        pId
+        age
+        ageUnits
         labId
         orderId
+        rLab
         visitId
         patientName
         panelCode
@@ -218,15 +246,23 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
           pLab
           rLab
           bill
-          grossAmt
-          netAmt
-          discount
+          priceGroup
+          priceList
+          grossAmount
+          netAmount
+          discountAmount
+          discountPer
+          miscellaneousCharges
           dueDate
           resultDate
           cretical
           abnFlag
           orderStatus
           status
+          reportGroup
+          approvalDate
+          approvalStatus
+          autoRelease
           extraData {
             priority
             outsourceLab
@@ -244,7 +280,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
             eqtype
             methodOn
             methodName
-            porder
+            reportOrder
             confidential
             workflow
             loginServgrp

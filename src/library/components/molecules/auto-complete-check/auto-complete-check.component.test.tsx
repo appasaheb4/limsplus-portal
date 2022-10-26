@@ -1,10 +1,12 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
 import {AutocompleteCheck} from './auto-complete-check.component';
 
-it('render autocompleteCheck correctly', () => {
-  const autocompleteCheck = render(
-    <AutocompleteCheck hasError={false} onUpdate={() => jest.fn()} />,
-  );
-  expect(autocompleteCheck).toMatchSnapshot();
+describe('AutocompleteCheck component', () => {
+  it('render autocompleteCheck correctly', () => {
+    const autoCompleteCheck = render(
+      <AutocompleteCheck onUpdate={() => jest.fn()} />,
+    );
+    expect(autoCompleteCheck).toMatchSnapshot();
+  });
 });

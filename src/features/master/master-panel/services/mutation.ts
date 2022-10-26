@@ -61,6 +61,10 @@ export const LIST = gql`
         sampleType
         specalInstructions
         interpretation
+        internalComments
+        externalComments
+        panelBottomMarker
+        panelRightMarker
         status
         environment
         dateOfEntry
@@ -185,6 +189,10 @@ export const FILTER = gql`
         sampleType
         specalInstructions
         interpretation
+        internalComments
+        externalComments
+        panelBottomMarker
+        panelRightMarker
         status
         environment
         dateOfEntry
@@ -255,6 +263,10 @@ export const FILTER_BY_FIELDS = gql`
         sampleType
         specalInstructions
         interpretation
+        internalComments
+        externalComments
+        panelBottomMarker
+        panelRightMarker
         status
         environment
         dateOfEntry
@@ -322,6 +334,10 @@ export const FIND_BY_FIELDS = gql`
         sampleType
         specalInstructions
         interpretation
+        internalComments
+        externalComments
+        panelBottomMarker
+        panelRightMarker
         status
         environment
         dateOfEntry

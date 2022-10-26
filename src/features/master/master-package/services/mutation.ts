@@ -25,6 +25,8 @@ export const LIST = gql`
         bill
         printPackageName
         printPanelName
+        packageInterpretation
+        panelInterpretation
         status
         serviceType
         reportOrder
@@ -124,6 +126,8 @@ export const FILTER = gql`
         bill
         printPackageName
         printPanelName
+        packageInterpretation
+        panelInterpretation
         status
         serviceType
         reportOrder
@@ -160,6 +164,8 @@ export const FILTER_BY_FIELDS = gql`
         bill
         printPackageName
         printPanelName
+        packageInterpretation
+        panelInterpretation
         status
         serviceType
         reportOrder
@@ -193,6 +199,8 @@ export const FIND_BY_FIELDS = gql`
         bill
         printPackageName
         printPanelName
+        packageInterpretation
+        panelInterpretation
         status
         serviceType
         reportOrder

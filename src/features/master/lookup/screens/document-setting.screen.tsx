@@ -32,6 +32,7 @@ export const DocumentSettings = DocumentSettingHoc(
       formState: {errors},
       setValue,
     } = useForm();
+
     setValue('environment', lookupStore.lookup?.environment);
     const onSubmitNewField = (data: any) => {
       if (
@@ -65,11 +66,11 @@ export const DocumentSettings = DocumentSettingHoc(
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  hasError={errors.documentName}
+                  hasError={!!errors.documentName}
                   label='Document Name'
                 >
                   <AutocompleteGroupBy
-                    hasError={errors.documentName}
+                    hasError={!!errors.documentName}
                     data={router}
                     onChange={async (item: any, children: any) => {
                       const documentName = {
@@ -97,7 +98,7 @@ export const DocumentSettings = DocumentSettingHoc(
                 <Form.Input
                   label='Field Name'
                   placeholder='Field Name'
-                  hasError={errors.fieldName}
+                  hasError={!!errors.fieldName}
                   value={lookupStore.lookup?.fieldName}
                   onChange={fieldName => {
                     onChange(fieldName.toUpperCase());
@@ -158,7 +159,7 @@ export const DocumentSettings = DocumentSettingHoc(
                 <div className='mt-2 flex flex-row justify-between'>
                   <Form.Toggle
                     label='Enable Upper Case'
-                    hasError={errors.method}
+                    hasError={!!errors.method}
                     value={lookupStore.flagUpperCase}
                     onChange={flag => {
                       lookupStore.updateFlagUppperCase(flag);
@@ -236,7 +237,7 @@ export const DocumentSettings = DocumentSettingHoc(
               control={control}
               render={({field: {onChange}}) => (
                 <Form.InputWrapper
-                  hasError={errors.defaulItem}
+                  hasError={!!errors.defaulItem}
                   label='Default Item'
                 >
                   <select

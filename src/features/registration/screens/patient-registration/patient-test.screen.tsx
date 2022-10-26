@@ -94,7 +94,7 @@ export const PatientTest = PatientOrderHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Order Id'
-                        hasError={errors.orderId}
+                        hasError={!!errors.orderId}
                       >
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
@@ -103,7 +103,7 @@ export const PatientTest = PatientOrderHoc(
                             list: patientOrderStore.listPatientOrder,
                             displayKey: ['orderId', 'patientName'],
                           }}
-                          hasError={errors.orderId}
+                          hasError={!!errors.orderId}
                           onFilter={(value: string) => {
                             patientOrderStore.patientOrderService.filterByFields(
                               {
@@ -170,7 +170,7 @@ export const PatientTest = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab Id' hasError={errors.labId}>
+                    <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by lab id, visit id or name'
@@ -181,7 +181,7 @@ export const PatientTest = PatientOrderHoc(
                           list: patientVisitStore.listPatientVisit,
                           displayKey: ['labId', 'patientName'],
                         }}
-                        hasError={errors.labId}
+                        hasError={!!errors.labId}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
@@ -220,7 +220,7 @@ export const PatientTest = PatientOrderHoc(
                       placeholder={
                         errors.testId ? 'Please enter test id' : 'Test Id'
                       }
-                      hasError={errors.testId}
+                      hasError={!!errors.testId}
                       disabled={true}
                       value={patientTestStore.patientTest?.testId}
                       onChange={testId => {

@@ -11,6 +11,7 @@ import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectHod,
+  AutoCompleteAuthorizedSignatory,
 } from '../index';
 import {useForm, Controller} from 'react-hook-form';
 import {FormHelper} from '@/helper';
@@ -19,6 +20,7 @@ let code;
 let name;
 let shortName;
 let hod;
+let reportOrder;
 let mobileNo;
 let contactNo;
 let openingTime;
@@ -173,6 +175,96 @@ export const DepartmentList = (props: DepartmentListProps) => {
             ),
           },
           {
+            dataField: 'authorizedSignatory',
+            text: 'Authorized Signatory',
+            headerClasses: 'textHeader4',
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {row?.authorizedSignatory?.map(item => (
+                    <h4>{item}</h4>
+                  ))}
+                </>
+              );
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteAuthorizedSignatory
+                  selectedItems={row?.authorizedSignatory}
+                  onSelect={item => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(item, column.dataField, row._id);
+                  }}
+                />
+              </>
+            ),
+          },
+          {
+            dataField: 'reportOrder',
+            text: 'Report Order',
+            headerClasses: 'textHeader3',
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                reportOrder = filter;
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      placeholder={
+                        errors.reportOrder
+                          ? 'Please enter report order'
+                          : 'Report Order'
+                      }
+                      type='number'
+                      hasError={!!errors.reportOrder}
+                      defaultValue={row?.reportOrder}
+                      onChange={reportOrder => {
+                        onChange(reportOrder);
+                      }}
+                      onBlur={reportOrder => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            Number.parseFloat(reportOrder),
+                            'reportOrder',
+                            row._id,
+                          );
+                      }}
+                    />
+                  )}
+                  name='reportOrder'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+              </>
+            ),
+          },
+          {
             dataField: 'mobileNo',
             text: 'Mobile No',
             headerClasses: 'textHeader3',
@@ -201,7 +293,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                         errors.mobileNo ? 'Please Enter MobileNo' : 'MobileNo'
                       }
                       type='number'
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row?.mobileNo}
                       onChange={mobileNo => {
@@ -253,7 +345,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                           ? 'Please Enter contactNo'
                           : 'contactNo'
                       }
-                      hasError={errors.contactNo}
+                      hasError={!!errors.contactNo}
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row?.contactNo}
@@ -581,6 +673,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
           name('');
           shortName('');
           hod('');
+          reportOrder('');
           mobileNo('');
           contactNo('');
           openingTime('');

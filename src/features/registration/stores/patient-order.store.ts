@@ -12,9 +12,11 @@ export class PatientOrderStore {
   checkExistsRecord!: boolean;
 
   constructor() {
+    this.patientOrder = new PatientOrder({});
+    this.selectedItems = new SelectedItems({});
     this.listPatientOrder = [];
     this.listPatientOrderCopy = [];
-    this.packageList = [];
+    this.packageList = undefined;
     this.listPatientOrderCount = 0;
     this.checkExistsRecord = false;
 

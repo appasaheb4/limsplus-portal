@@ -16,7 +16,10 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {PanelMasterList} from '../components';
+import {
+  PanelMasterList,
+  AutoCompleteFilterSingleSelectReportTemplate,
+} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {AutoCompleteFilterSingleSelectDepartment} from '../components';
 import {MasterPanelHoc} from '../hoc';
@@ -53,7 +56,7 @@ const MasterPanel = MasterPanelHoc(
     setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const onSubmitMasterPanel = () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (
@@ -216,14 +219,14 @@ const MasterPanel = MasterPanelHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -231,7 +234,7 @@ const MasterPanel = MasterPanelHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='RLab' hasError={errors.rLab}>
+                    <Form.InputWrapper label='RLab' hasError={!!errors.rLab}>
                       <select
                         value={masterPanelStore.masterPanel?.rLab}
                         disabled={
@@ -295,7 +298,7 @@ const MasterPanel = MasterPanelHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='PLab' hasError={errors.pLab}>
+                    <Form.InputWrapper label='PLab' hasError={!!errors.pLab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
@@ -310,7 +313,7 @@ const MasterPanel = MasterPanelHoc(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
-                        hasError={errors.name}
+                        hasError={!!errors.name}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -344,16 +347,17 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Department'
-                      hasError={errors.department}
+                      hasError={!!errors.department}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
                         lab={masterPanelStore.masterPanel?.pLab}
-                        hasError={errors.department}
+                        hasError={!!errors.department}
                         onSelect={item => {
                           onChange(item.name);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
                             department: item.code,
+                            reportGroup: Number.parseFloat(item?.reportOrder),
                           });
                           departmentStore.updateDepartmentList(
                             departmentStore.listDepartmentCopy,
@@ -374,7 +378,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Section'
-                        hasError={errors.section}
+                        hasError={!!errors.section}
                       >
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
@@ -383,7 +387,7 @@ const MasterPanel = MasterPanelHoc(
                             displayKey: 'name',
                             findKey: 'name',
                           }}
-                          hasError={errors.name}
+                          hasError={!!errors.name}
                           onFilter={(value: string) => {
                             masterPanelStore.masterPanelService.filter({
                               input: {
@@ -417,7 +421,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Service Type'
-                      hasError={errors.serviceType}
+                      hasError={!!errors.serviceType}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.serviceType}
@@ -462,7 +466,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter Panel  Code'
                           : 'Panel  Code'
                       }
-                      hasError={errors.panelCode}
+                      hasError={!!errors.panelCode}
                       value={masterPanelStore.masterPanel?.panelCode}
                       onChange={panelCode => {
                         onChange(panelCode);
@@ -522,7 +526,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter Panel  Name'
                           : 'Panel  Name'
                       }
-                      hasError={errors.panelName}
+                      hasError={!!errors.panelName}
                       disabled={
                         masterPanelStore.masterPanelActivity?.disablePanelName
                       }
@@ -552,7 +556,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter Description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={masterPanelStore.masterPanel?.description}
                       onChange={description => {
                         onChange(description);
@@ -573,7 +577,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Method'
-                      hasError={errors.panelMethod}
+                      hasError={!!errors.panelMethod}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -583,7 +587,7 @@ const MasterPanel = MasterPanelHoc(
                           displayKey: ['methodsCode', 'methodsName'],
                         }}
                         disable={!masterPanelStore.masterPanel?.method}
-                        hasError={errors.panelMethod}
+                        hasError={!!errors.panelMethod}
                         onFilter={(value: string) => {
                           methodsStore.methodsService.filterByFields({
                             input: {
@@ -629,7 +633,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter ShortName'
                           : 'Short Name'
                       }
-                      hasError={errors.shortName}
+                      hasError={!!errors.shortName}
                       value={masterPanelStore.masterPanel?.shortName}
                       onChange={shortName => {
                         onChange(shortName);
@@ -653,7 +657,7 @@ const MasterPanel = MasterPanelHoc(
                         errors.price ? 'Please Enter Price' : 'Price'
                       }
                       type='number'
-                      hasError={errors.price}
+                      hasError={!!errors.price}
                       value={masterPanelStore.masterPanel?.price}
                       onChange={price => {
                         onChange(price);
@@ -674,7 +678,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Schedule'
-                      hasError={errors.schedule}
+                      hasError={!!errors.schedule}
                     >
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -684,7 +688,7 @@ const MasterPanel = MasterPanelHoc(
                           displayKey: 'schCode',
                           findKey: 'schCode',
                         }}
-                        hasError={errors.schedule}
+                        hasError={!!errors.schedule}
                         onFilter={(value: string) => {
                           deliveryScheduleStore.deliveryScheduleService.filter({
                             input: {
@@ -719,7 +723,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Validation Level'
-                      hasError={errors.validationLevel}
+                      hasError={!!errors.validationLevel}
                     >
                       <select
                         value={masterPanelStore.masterPanel.validationLevel}
@@ -762,8 +766,9 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter ReportGroup'
                           : 'Report Groups'
                       }
-                      hasError={errors.reportGroup}
+                      hasError={!!errors.reportGroup}
                       value={masterPanelStore.masterPanel?.reportGroup}
+                      disabled={true}
                       onChange={reportGroup => {
                         onChange(reportGroup);
                         masterPanelStore.updateMasterPanel({
@@ -777,6 +782,32 @@ const MasterPanel = MasterPanelHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Report Order'
+                      type='number'
+                      placeholder={
+                        errors.reportOrder
+                          ? 'Please Enter ReportOrder'
+                          : 'Report Order'
+                      }
+                      hasError={!!errors.reportOrder}
+                      value={masterPanelStore.masterPanel?.reportOrder}
+                      onChange={reportOrder => {
+                        onChange(reportOrder);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          reportOrder: Number.parseInt(reportOrder),
+                        });
+                      }}
+                    />
+                  )}
+                  name='reportOrder'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
 
                 <Grid cols={5}>
                   <Controller
@@ -785,7 +816,7 @@ const MasterPanel = MasterPanelHoc(
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
-                        hasError={errors.bill}
+                        hasError={!!errors.bill}
                         value={masterPanelStore.masterPanel?.bill}
                         onChange={bill => {
                           onChange(bill);
@@ -804,9 +835,9 @@ const MasterPanel = MasterPanelHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label='AutoRelease'
+                        label='Auto Release'
                         id='modeAutoRelease'
-                        hasError={errors.autoRelease}
+                        hasError={!!errors.autoRelease}
                         value={masterPanelStore.masterPanel?.autoRelease}
                         onChange={autoRelease => {
                           onChange(autoRelease);
@@ -827,7 +858,7 @@ const MasterPanel = MasterPanelHoc(
                       <Form.Toggle
                         label='Hold OOS'
                         id='modeHoldOOS'
-                        hasError={errors.holdOOS}
+                        hasError={!!errors.holdOOS}
                         value={masterPanelStore.masterPanel?.holdOOS}
                         onChange={holdOOS => {
                           onChange(holdOOS);
@@ -847,7 +878,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Confidential'
-                        hasError={errors.confidential}
+                        hasError={!!errors.confidential}
                         value={masterPanelStore.masterPanel?.confidential}
                         onChange={confidential => {
                           onChange(confidential);
@@ -867,7 +898,8 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Urgent'
-                        hasError={errors.urgent}
+                        style={{marginLeft: 5}}
+                        hasError={!!errors.urgent}
                         value={masterPanelStore.masterPanel?.urgent}
                         onChange={urgent => {
                           onChange(urgent);
@@ -889,35 +921,9 @@ const MasterPanel = MasterPanelHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Report Order'
-                      type='number'
-                      placeholder={
-                        errors.reportOrder
-                          ? 'Please Enter ReportOrder'
-                          : 'Report Order'
-                      }
-                      hasError={errors.reportOrder}
-                      value={masterPanelStore.masterPanel?.reportOrder}
-                      onChange={reportOrder => {
-                        onChange(reportOrder);
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          reportOrder: Number.parseInt(reportOrder),
-                        });
-                      }}
-                    />
-                  )}
-                  name='reportOrder'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Processing'
-                      hasError={errors.processing}
+                      hasError={!!errors.processing}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.processing}
@@ -958,7 +964,7 @@ const MasterPanel = MasterPanelHoc(
                       placeholder={
                         errors.workflow ? 'Please Enter Workflow' : 'Workflow'
                       }
-                      hasError={errors.workflow}
+                      hasError={!!errors.workflow}
                       value={masterPanelStore.masterPanel?.workflow}
                       onChange={workflow => {
                         onChange(workflow);
@@ -978,7 +984,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Category'
-                      hasError={errors.category}
+                      hasError={!!errors.category}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.category}
@@ -1016,7 +1022,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Type'
-                      hasError={errors.panelType}
+                      hasError={!!errors.panelType}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.panelType}
@@ -1055,7 +1061,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Sex Action'
-                      hasError={errors.sexAction}
+                      hasError={!!errors.sexAction}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.sexAction}
@@ -1092,7 +1098,7 @@ const MasterPanel = MasterPanelHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Sex' hasError={errors.sex}>
+                    <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                       <select
                         value={masterPanelStore.masterPanel?.sex}
                         disabled={!masterPanelStore.masterPanel?.ageSexAction}
@@ -1129,7 +1135,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Age Action'
-                      hasError={errors.ageAction}
+                      hasError={!!errors.ageAction}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.ageAction}
@@ -1172,7 +1178,7 @@ const MasterPanel = MasterPanelHoc(
                       placeholder={
                         errors.loAge ? 'Please Enter LoAge' : 'Lo Age'
                       }
-                      hasError={errors.loAge}
+                      hasError={!!errors.loAge}
                       value={masterPanelStore.masterPanel?.loAge}
                       onChange={loAge => {
                         const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
@@ -1213,7 +1219,7 @@ const MasterPanel = MasterPanelHoc(
                       placeholder={
                         errors.hiAge ? 'Please Enter HiAge' : 'Hi Age'
                       }
-                      hasError={errors.hiAge}
+                      hasError={!!errors.hiAge}
                       value={masterPanelStore.masterPanel?.hiAge}
                       onChange={hiAge => {
                         const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
@@ -1251,7 +1257,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter action message'
                           : 'Action Message'
                       }
-                      hasError={errors.actionMessage}
+                      hasError={!!errors.actionMessage}
                       value={masterPanelStore.masterPanel?.actionMessage}
                       onChange={actionMessage => {
                         onChange(actionMessage);
@@ -1272,30 +1278,149 @@ const MasterPanel = MasterPanelHoc(
                   }}
                   defaultValue=''
                 />
-
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label='Report Template'
-                      placeholder={
-                        errors.reportTemplate
-                          ? 'Please Enter ReportTemplate'
-                          : 'Report Template'
-                      }
-                      hasError={errors.reportTemplate}
-                      value={masterPanelStore.masterPanel?.reportTemplate}
-                      onChange={reportTemplate => {
-                        onChange(reportTemplate);
+                      hasError={!!errors.reportTemplate}
+                    >
+                      <AutoCompleteFilterSingleSelectReportTemplate
+                        onSelect={reportTemplate => {
+                          onChange(reportTemplate);
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            reportTemplate,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='reportTemplate'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Internal Comments'
+                      placeholder='Internal Comments'
+                      hasError={!!errors.internalComments}
+                      value={masterPanelStore.masterPanel?.internalComments}
+                      onChange={internalComments => {
+                        onChange(internalComments);
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
-                          reportTemplate,
+                          internalComments,
                         });
                       }}
                     />
                   )}
-                  name='reportTemplate'
-                  rules={{required: false}}
+                  name='internalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='External Comments'
+                      placeholder='External Comments'
+                      hasError={!!errors.externalComments}
+                      value={masterPanelStore.masterPanel?.externalComments}
+                      onChange={externalComments => {
+                        onChange(externalComments);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          externalComments,
+                        });
+                      }}
+                    />
+                  )}
+                  name='externalComments'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Panel Bottom Marker'
+                      hasError={!!errors.panelBottomMarker}
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code or details'
+                        data={{
+                          list: libraryStore.listLibrary,
+                          displayKey: ['code', 'details'],
+                        }}
+                        hasError={!!errors.panelBottomMarker}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['code', 'details'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.details);
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
+                            panelBottomMarker: {
+                              code: item?.code,
+                              details: item?.details,
+                            },
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='panelBottomMarker'
+                  rules={{
+                    required: false,
+                  }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.MultilineInput
+                      rows={2}
+                      label='Panel Right Marker'
+                      placeholder='Panel Right Marker'
+                      hasError={!!errors.panelRightMarker}
+                      value={masterPanelStore.masterPanel?.panelRightMarker}
+                      onChange={panelRightMarker => {
+                        onChange(panelRightMarker);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          panelRightMarker,
+                        });
+                      }}
+                    />
+                  )}
+                  name='panelRightMarker'
+                  rules={{
+                    required: false,
+                  }}
                   defaultValue=''
                 />
 
@@ -1305,7 +1430,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Page Break'
-                        hasError={errors.pageBreak}
+                        hasError={!!errors.pageBreak}
                         value={masterPanelStore.masterPanel?.pageBreak}
                         onChange={pageBreak => {
                           onChange(pageBreak);
@@ -1326,7 +1451,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Age/Sex Action'
-                        hasError={errors.ageSexAction}
+                        hasError={!!errors.ageSexAction}
                         value={masterPanelStore.masterPanel?.ageSexAction}
                         onChange={ageSexAction => {
                           onChange(ageSexAction);
@@ -1353,7 +1478,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Repetition'
-                        hasError={errors.repitation}
+                        hasError={!!errors.repitation}
                         value={masterPanelStore.masterPanel?.repitation}
                         onChange={repitation => {
                           onChange(repitation);
@@ -1373,7 +1498,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Print Label'
-                        hasError={errors.printLabel}
+                        hasError={!!errors.printLabel}
                         value={masterPanelStore.masterPanel?.printLabel}
                         onChange={printLabel => {
                           onChange(printLabel);
@@ -1432,7 +1557,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter LabelInstruction'
                           : 'Label Instruction'
                       }
-                      hasError={errors.labelInstruction}
+                      hasError={!!errors.labelInstruction}
                       value={masterPanelStore.masterPanel?.labelInstruction}
                       onChange={labelInstruction => {
                         masterPanelStore.updateMasterPanel({
@@ -1456,7 +1581,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter SpecalInstructions'
                           : 'Special Instruction'
                       }
-                      hasError={errors.specalInstructions}
+                      hasError={!!errors.specalInstructions}
                       value={masterPanelStore.masterPanel?.specalInstructions}
                       onChange={specalInstructions => {
                         onChange(specalInstructions);
@@ -1474,7 +1599,10 @@ const MasterPanel = MasterPanelHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={masterPanelStore.masterPanel?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1512,7 +1640,7 @@ const MasterPanel = MasterPanelHoc(
                       placeholder={
                         errors.userId ? 'Please Enter UserID' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                       // onChange={(analyteCode) => {
@@ -1550,7 +1678,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
                       label='Date Active'
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       placeholder={
                         errors.dateActive
                           ? 'Please Enter dateActive'
@@ -1593,7 +1721,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Version'
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
@@ -1612,7 +1740,7 @@ const MasterPanel = MasterPanelHoc(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by code'
-                        hasError={errors.interpretation}
+                        hasError={!!errors.interpretation}
                         data={{
                           list: libraryStore.listLibrary.filter(
                             item => item.libraryType === 'I',
@@ -1653,7 +1781,7 @@ const MasterPanel = MasterPanelHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={masterPanelStore.masterPanel?.environment}
@@ -1727,7 +1855,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Cumulative'
-                        hasError={errors.cumulative}
+                        hasError={!!errors.cumulative}
                         value={masterPanelStore.masterPanel?.cumulative}
                         onChange={cumulative => {
                           onChange(cumulative);
@@ -1747,7 +1875,7 @@ const MasterPanel = MasterPanelHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Method'
-                        hasError={errors.method}
+                        hasError={!!errors.method}
                         value={masterPanelStore.masterPanel?.method}
                         onChange={method => {
                           onChange(method);
@@ -1878,7 +2006,7 @@ const MasterPanel = MasterPanelHoc(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateActiveFrom: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsInputView(!isInputView);
                   setValue('rLab', modalConfirm.data.rLab);
                   setValue('pLab', modalConfirm.data.pLab);
                   setValue('panelCode', modalConfirm.data.panelCode);

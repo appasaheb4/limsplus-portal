@@ -1,90 +1,123 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   CheckBox,
-  MultilineInput,
   Input,
+  Toggle,
+  SelectOption,
+  MultilineInput,
+  Clock,
+  Label,
   InputDate,
   InputDateTime,
   InputFile,
-  SelectOption,
   InputRadio,
-  Toggle,
   InputWrapper,
-  Label,
-  Clock,
 } from './form.component';
 
-it('render checkBox correctly', () => {
-  const checkBox = render(
-    <CheckBox className='w-40' onClick={() => jest.fn()}>
-      Permanent Address
-    </CheckBox>,
-  );
-  expect(checkBox).toMatchSnapshot();
+describe('Checkbox component', () => {
+  it('render checkbox correctly', () => {
+    const checkbox = render(<CheckBox />);
+    expect(checkbox).toMatchSnapshot();
+  });
 });
 
-it('render  multilineInput correctly', () => {
-  const multilineInput = render(
-    <MultilineInput className='w-40' onBlur={() => jest.fn()} />,
-  );
-  expect(multilineInput).toMatchSnapshot();
+describe('Input component', () => {
+  it('render input correctly', () => {
+    const inputComp = render(
+      <Input
+        type='text'
+        value='test'
+        onChange={val => jest.fn()}
+        onBlur={value => jest.fn()}
+        onKeyDown={val => jest.fn()}
+      />,
+    );
+    const input = inputComp.getByTestId('INPT');
+    fireEvent.change(input, {target: {value: 'check'}});
+    userEvent.type(input, 'value');
+    fireEvent.blur(input);
+    fireEvent.keyDown(input, {
+      key: 'Escape',
+      code: 'Escape',
+      keyCode: 27,
+      charCode: 27,
+    });
+    fireEvent.keyPress(input, {key: 'Enter', keyCode: 13});
+
+    expect(input).toMatchSnapshot();
+  });
+});
+describe('Toggle component', () => {
+  it('render toggle correctly', () => {
+    const toggle = render(<Toggle />);
+    expect(toggle).toMatchSnapshot();
+  });
 });
 
-it('render  input correctly', () => {
-  const input = render(<Input className='w-40' onBlur={() => jest.fn()} />);
-  expect(input).toMatchSnapshot();
-});
-it('render  inputDate correctly', () => {
-  const inputDate = render(
-    <InputDate className='w-40' onChange={() => jest.fn()} />,
-  );
-  expect(inputDate).toMatchSnapshot();
-});
-
-it('render  inputDateTime correctly', () => {
-  const inputDateTime = render(
-    <InputDateTime className='w-40' onChange={() => jest.fn()} />,
-  );
-  expect(inputDateTime).toMatchSnapshot();
-});
-
-it('render  inputFile correctly', () => {
-  const inputFile = render(
-    <InputFile className='w-40' onChange={() => jest.fn()} />,
-  );
-  expect(inputFile).toMatchSnapshot();
+// describe('SelectOption component', () => {
+//   it('render selectOption correctly', () => {
+//     const select = render(
+//       <SelectOption key='test' onChange={value => jest.fn()} value='test' />,
+//     );
+//     const selectOption = select.getByTestId('SELECT');
+//     fireEvent.change(selectOption, {target: {value: 'check'}});
+//     userEvent.type(selectOption, 'value');
+//     expect(select).toMatchSnapshot();
+//   });
+// });
+describe('MultilineInput component', () => {
+  it('render multilineInput correctly', () => {
+    const multi = render(<MultilineInput />);
+    expect(multi).toMatchSnapshot();
+  });
 });
 
-it('render  selectOption correctly', () => {
-  const selectOption = render(
-    <SelectOption key='' className='w-40' onChange={() => jest.fn()} />,
-  );
-  expect(selectOption).toMatchSnapshot();
-});
-it('render  inputRadio correctly', () => {
-  const inputRadio = render(
-    <InputRadio className='w-40' onChange={() => jest.fn()} />,
-  );
-  expect(inputRadio).toMatchSnapshot();
-});
-it('render  toggle correctly', () => {
-  const toggle = render(<Toggle className='w-40' onChange={() => jest.fn()} />);
-  expect(toggle).toMatchSnapshot();
-});
-it('render  inputWrapper correctly', () => {
-  const inputWrapper = render(
-    <InputWrapper className='w-40' label='Iam Input Wrapper' />,
-  );
-  expect(inputWrapper).toMatchSnapshot();
+// describe('Clock component', () => {
+//   it('render clock correctly', () => {
+//     const clock = render(
+//       <Clock value='2022-02-20' onChange={value => jest.fn()} />,
+//     );
+//     expect(clock).toMatchSnapshot();
+//   });
+// });
+describe('Label component', () => {
+  it('render label correctly', () => {
+    const label = render(<Label htmlFor='vsdvrf' />);
+    expect(label).toMatchSnapshot();
+  });
 });
 
-it('render  label correctly', () => {
-  const label = render(<Label hasError={false} htmlFor='' />);
-  expect(label).toMatchSnapshot();
+describe('InputDate component', () => {
+  it('render inputDate correctly', () => {
+    const inputDate = render(<InputDate />);
+    expect(inputDate).toMatchSnapshot();
+  });
+});
+describe('InputDateTime component', () => {
+  it('render inputDateTime correctly', () => {
+    const inputDateTime = render(<InputDateTime />);
+    expect(inputDateTime).toMatchSnapshot();
+  });
 });
 
-it('render  clock correctly', () => {
-  const clock = render(<Clock hasError={false} className='w-10' />);
-  expect(clock).toMatchSnapshot();
+describe('InputFile component', () => {
+  it('render inputFile correctly', () => {
+    const inputFile = render(<InputFile />);
+    expect(inputFile).toMatchSnapshot();
+  });
+});
+describe('InputRadio component', () => {
+  it('render inputRadio correctly', () => {
+    const inputRadio = render(<InputRadio />);
+    expect(inputRadio).toMatchSnapshot();
+  });
+});
+
+describe('InputWrapper component', () => {
+  it('render inputWrapper correctly', () => {
+    const inputWrapper = render(<InputWrapper />);
+    expect(inputWrapper).toMatchSnapshot();
+  });
 });

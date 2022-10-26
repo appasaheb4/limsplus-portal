@@ -1,1 +1,1 @@
-export * from './SegmentMapping.screen';
+export * from './segment-mapping.screen';

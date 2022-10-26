@@ -4,7 +4,6 @@ import {Department, SelectedItems} from '../models';
 import {DepartmentService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class DepartmentStore {
   listDepartment!: Department[];
   listDepartmentCopy!: Department[];
@@ -15,6 +14,7 @@ export class DepartmentStore {
 
   constructor() {
     this.listDepartment = [];
+    this.listDepartmentCopy = [];
     this.department = {
       ...this.department,
       autoRelease: false,
@@ -24,6 +24,7 @@ export class DepartmentStore {
       openingTime: dayjs().format('hh:mm a'),
       closingTime: dayjs().format('hh:mm a'),
     };
+    this.selectedItems = new SelectedItems({});
     makeObservable<DepartmentStore, any>(this, {
       listDepartment: observable,
       listDepartmentCount: observable,

@@ -153,8 +153,6 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
               _id: loginStore.login?._id,
             },
           }).then((res: any) => {
-            console.log({res});
-
             setModalFileUpload({show: false});
             if (res.updateUserImages.success) {
               loginStore.updateLogin({

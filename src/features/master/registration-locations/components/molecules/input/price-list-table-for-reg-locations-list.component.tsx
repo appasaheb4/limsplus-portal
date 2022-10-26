@@ -16,6 +16,9 @@ import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
+import {RouterFlow} from '@/flows';
+import {lookupItems, lookupValue} from '@/library/utils';
+
 interface PriceListTableForRegLocationsListProps {
   data?: any;
   invoiceAc: string | undefined;
@@ -36,6 +39,43 @@ export const PriceListTableForRegLocationsList = observer(
     const priceList = useRef(data);
     const [reload, setReload] = useState(false);
     const [displayPriceList, setDisplayPriceList] = useState('');
+
+    const [priceGroupItems, setPriceGroupItems] = useState<any>();
+    const [priceListItems, setPriceListItems] = useState<any>();
+
+    const getPriceList = (priceList, priceGroup) => {
+      const list = priceList?.filter(item => {
+        if (item.code.slice(0, 3) === priceGroup) {
+          return item;
+        }
+      });
+      return list || [];
+    };
+
+    useEffect(() => {
+      (async function () {
+        try {
+          await RouterFlow.getLookupValuesByPathNField(
+            '/collection/price-list',
+            'PRICE_GROUP',
+          ).then(async res => {
+            if (res?.length > 0) {
+              setPriceGroupItems(res.filter(item => item.code !== 'CSP'));
+              await RouterFlow.getLookupValuesByPathNField(
+                '/collection/price-list',
+                'PRICE_LIST',
+              ).then(items => {
+                if (items?.length > 0) {
+                  setPriceListItems(items);
+                }
+              });
+            }
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    }, []);
 
     const addItem = () => {
       priceList.current.push({
@@ -107,71 +147,31 @@ export const PriceListTableForRegLocationsList = observer(
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          posstion='sticky'
-                          loader={loading}
-                          placeholder='Search by priceGroup or description'
-                          displayValue={item?.priceGroup}
-                          data={{
-                            list: _.unionBy(
-                              invoiceAc
-                                ? priceListStore?.listPriceList
-                                : priceListStore?.listPriceList.filter(item => {
-                                    if (item.priceGroup === 'CSP001') return;
-                                    else return item;
-                                  }),
-                              'priceGroup',
-                            ),
-                            displayKey: ['priceGroup', 'description'],
+                        <select
+                          value={item?.priceGroup}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.priceGroup
+                              ? 'border-red-500  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const priceGroup = e.target.value as string;
+                            onChange(priceGroup);
+                            priceList.current[index] = {
+                              ...priceList.current[index],
+                              priceGroup,
+                              priceList: '',
+                              description: '',
+                            };
                           }}
-                          hasError={errors.priceGroup}
-                          onFilter={(value: string) => {
-                            priceListStore.priceListService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ['priceGroup', 'description'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            });
-                          }}
-                          onSelect={element => {
-                            onChange(element.priceGroup);
-                            if (
-                              _.findIndex(priceList.current, (o: any) => {
-                                return _.isMatch(o, {
-                                  priceGroup: element.priceGroup,
-                                  priceList:
-                                    element.priceGroup !== 'CSP001'
-                                      ? element.priceGroup
-                                      : invoiceAc,
-                                });
-                              }) >= 0
-                            ) {
-                              removeItem(index);
-                              Toast.warning({
-                                message: '😔 Already exists same record found!',
-                              });
-                            } else {
-                              priceList.current[index] = {
-                                ...priceList.current[index],
-                                priceGroup: element.priceGroup,
-                                priceList:
-                                  element.priceGroup !== 'CSP001'
-                                    ? element.priceGroup
-                                    : invoiceAc,
-                                description: element.description,
-                              };
-                              setReload(!reload);
-                            }
-
-                            priceListStore.updatePriceListRecords(
-                              priceListStore.listPriceListCopy,
-                            );
-                          }}
-                        />
+                        >
+                          <option selected>Select</option>
+                          {priceGroupItems?.map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
                       )}
                       name='priceGroup'
                       rules={{required: false}}
@@ -182,43 +182,32 @@ export const PriceListTableForRegLocationsList = observer(
                     <Controller
                       control={control}
                       render={({field: {onChange}}) => (
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          posstion='relative'
-                          placeholder='Search by invoiceAc or name'
-                          data={{
-                            list: corporateClientsStore?.listCorporateClients,
-                            displayKey: ['invoiceAc', 'corporateName'],
-                          }}
-                          displayValue={item?.priceList}
-                          disable={item?.priceGroup !== 'CSP001' ? true : false}
-                          hasError={errors.priceList}
-                          onFilter={(value: string) => {
-                            corporateClientsStore.corporateClientsService.filterByFields(
-                              {
-                                input: {
-                                  filter: {
-                                    fields: ['invoiceAc', 'corporateName'],
-                                    srText: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              },
-                            );
-                          }}
-                          onSelect={item => {
-                            onChange(item.corporateCode);
+                        <select
+                          value={item?.priceList || ''}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.priceList
+                              ? 'border-red-500  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const priceItem = JSON.parse(e.target.value);
+                            onChange(priceItem.code);
                             priceList.current[index] = {
                               ...priceList.current[index],
-                              priceList: item.corporateCode,
-                              description: item.corporateName,
+                              priceList: priceItem?.code,
+                              description: priceItem?.value,
                             };
-                            corporateClientsStore.updateCorporateClientsList(
-                              corporateClientsStore.listCorporateClientsCopy,
-                            );
                           }}
-                        />
+                        >
+                          <option selected>{item.priceList || 'Select'}</option>
+                          {getPriceList(priceListItems, item?.priceGroup)?.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={JSON.stringify(item)}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
                       )}
                       name='priceList'
                       rules={{required: false}}
@@ -238,7 +227,7 @@ export const PriceListTableForRegLocationsList = observer(
                               ? 'Please Enter description'
                               : 'Description'
                           }
-                          hasError={errors.description}
+                          hasError={!!errors.description}
                           value={item?.description}
                           onChange={description => {
                             onChange(description);
@@ -262,7 +251,7 @@ export const PriceListTableForRegLocationsList = observer(
                           className={
                             'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                           }
-                          hasError={errors.priority}
+                          hasError={!!errors.priority}
                           onChange={priority => {
                             onChange(priority);
                             priceList.current[index] = {
@@ -288,7 +277,7 @@ export const PriceListTableForRegLocationsList = observer(
                           className={
                             'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                           }
-                          hasError={errors.maxDis}
+                          hasError={!!errors.maxDis}
                           onChange={maxDis => {
                             onChange(maxDis);
                             priceList.current[index] = {

@@ -83,7 +83,7 @@ const Role = RolesHoc(
                     <Form.Input
                       label='Code'
                       id='code'
-                      hasError={errors.code}
+                      hasError={!!errors.code}
                       placeholder={errors.code ? 'Please Enter Code ' : 'Code'}
                       value={roleStore.role?.code}
                       onChange={code => {
@@ -125,7 +125,7 @@ const Role = RolesHoc(
                     <Form.Input
                       label='Description'
                       name='description'
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       placeholder={
                         errors.description
                           ? 'Please Enter Description'

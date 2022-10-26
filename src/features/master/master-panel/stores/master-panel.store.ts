@@ -6,7 +6,6 @@ import {MasterPanelService} from '../services';
 import * as ModelsSection from '@/features/master/section/models';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class MasterPanelStore {
   masterPanel!: MasterPanel;
   listMasterPanel: MasterPanel[];
@@ -19,7 +18,9 @@ export class MasterPanelStore {
   constructor() {
     this.listMasterPanel = [];
     this.listMasterPanelCount = 0;
+    this.sectionListByDeptCode = [];
     this.checkExitsLabEnvCode = false;
+    this.masterPanelActivity = new MasterPanelActivity({});
     this.masterPanel = {
       ...this.masterPanel,
       dateCreation: new Date(),
@@ -28,7 +29,7 @@ export class MasterPanelStore {
         dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
       ),
       version: 1,
-      bill: false,
+      bill: true,
       autoRelease: false,
       holdOOS: false,
       confidential: false,
@@ -90,10 +91,7 @@ export class MasterPanelStore {
   };
 
   updateSectionListByDeptCode(res: any) {
-    if (!res.findSectionListByDeptCode.success)
-      return Toast.warning({
-        message: `😔 ${res.findSectionListByDeptCode.message}`,
-      });
+    if (!res.findSectionListByDeptCode.success) return;
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data;
   }
 

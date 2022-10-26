@@ -142,7 +142,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 render={({field: {onChange}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
-                    hasError={errors.analyte}
+                    hasError={!!errors.analyte}
                     placeholder='Search by code or name'
                     data={{
                       list: masterAnalyteStore.listMasterAnalyte,
@@ -197,7 +197,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 render={({field: {onChange}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
-                    hasError={errors.department}
+                    hasError={!!errors.department}
                     placeholder='Search by code or name'
                     data={{
                       list: departmentStore.listDepartment.filter(item =>
@@ -357,7 +357,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder='Search by code or name'
-                    hasError={errors.lab}
+                    hasError={!!errors.lab}
                     data={{
                       list: labStore.listLabs,
                       displayKey: ['code', 'name'],
@@ -398,7 +398,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder='Search by instrumentType'
-                    hasError={errors.equipmentType}
+                    hasError={!!errors.equipmentType}
                     disable={isDisableEquipmentType}
                     data={{
                       list: interfaceManagerStore.listInterfaceManager,

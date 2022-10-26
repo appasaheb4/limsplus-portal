@@ -9,7 +9,7 @@ interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
   data: any;
   hasError?: boolean;
   disable?: boolean;
-  onFilter: (value: string) => void;
+  onFilter?: (value: string) => void;
   onUpdate: (item: any) => void;
   onSelect: (item: any) => any;
 }
@@ -79,14 +79,14 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   const onChange = e => {
     const search = e.target.value;
     setValue(search);
-    onFilter(search);
+    onFilter && onFilter(search);
   };
 
   const onKeyUp = e => {
     const charCode = e.which ? e.which : e.keyCode;
     if (charCode === 8) {
       const search = e.target.value;
-      onFilter(search);
+      onFilter && onFilter(search);
     }
   };
 

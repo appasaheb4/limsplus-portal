@@ -17,6 +17,9 @@ export class UserStore {
     this.userList = [];
     this.checkExitsUserId = false;
     this.checkExistsEmpCode = false;
+    this.userListCopy = [];
+    this.changePassword = new ChangePassword({});
+    this.selectedItems = new SelectedItems({});
     this.user = {
       ...this.user,
       exipreDate: new Date(

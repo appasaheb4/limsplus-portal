@@ -15,6 +15,8 @@ export class MasterPackage {
   bill: boolean;
   printPackageName: boolean;
   printPanelName: boolean;
+  packageInterpretation: boolean;
+  panelInterpretation: boolean;
   status: string;
   serviceType: string;
   reportOrder: any;
@@ -39,6 +41,8 @@ export class MasterPackage {
     this.bill = rawData.bill;
     this.printPackageName = rawData.printPackageName;
     this.printPanelName = rawData.printPanelName;
+    this.packageInterpretation = rawData.packageInterpretation;
+    this.panelInterpretation = rawData.panelInterpretation;
     this.status = rawData.status;
     this.serviceType = rawData.serviceType;
     this.reportOrder = rawData.reportOrder;

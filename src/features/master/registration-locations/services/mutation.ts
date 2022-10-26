@@ -31,8 +31,8 @@ export const LIST = gql`
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportType
+        deliveryMode
         corporateCode
         invoiceAc
         priceList
@@ -52,6 +52,7 @@ export const LIST = gql`
         workLine
         acClass
         accountType
+        gstNo
         openingTime
         closingTime
         status
@@ -148,8 +149,8 @@ export const FILTER = gql`
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportType
+        deliveryMode
         corporateCode
         invoiceAc
         priceList
@@ -169,6 +170,7 @@ export const FILTER = gql`
         workLine
         acClass
         accountType
+        gstNo
         openingTime
         closingTime
         status
@@ -211,8 +213,8 @@ export const FILTER_BY_FIELDS = gql`
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportType
+        deliveryMode
         corporateCode
         invoiceAc
         priceList
@@ -232,6 +234,7 @@ export const FILTER_BY_FIELDS = gql`
         workLine
         acClass
         accountType
+        gstNo
         openingTime
         closingTime
         status

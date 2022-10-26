@@ -15,6 +15,7 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  Icons,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {TestPanelMappingList} from '../components';
@@ -58,8 +59,25 @@ const TestPanelMapping = TestPanelMappingHoc(
     );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
+
+    const [masterFlag, setMasgterFlag] = useState<any>([
+      {
+        title: 'PM',
+        isSelected: true,
+        icon: 'Icons.IconFa.FaSolarPanel',
+      },
+      {
+        title: 'TM',
+        isSelected: false,
+      },
+      {
+        title: 'AM',
+        isSelected: false,
+      },
+    ]);
+    const MasterIcon = icon => Icons.getIcons(icon);
 
     const onSubmitTestPanelMapping = () => {
       if (!testPanelMappingStore.checkExitsLabEnvCode) {
@@ -230,14 +248,14 @@ const TestPanelMapping = TestPanelMappingHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={!isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
             }
           >
             <Grid cols={2}>
@@ -245,7 +263,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab' hasError={errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
@@ -263,7 +281,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         displayValue={
                           testPanelMappingStore.testPanelMapping?.lab
                         }
-                        hasError={errors.lab}
+                        hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -330,10 +348,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
-                      hasError={errors.panelCode}
+                      hasError={!!errors.panelCode}
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
-                        hasError={errors.panelCode}
+                        hasError={!!errors.panelCode}
                         lab={testPanelMappingStore.testPanelMapping?.lab}
                         onSelect={item => {
                           onChange(item.panelName);
@@ -399,7 +417,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       placeholder={
                         errors.testCode ? 'Please Enter testCode' : 'Test Code'
                       }
-                      hasError={errors.testCode}
+                      hasError={!!errors.testCode}
                       disabled={true}
                       value={testPanelMappingStore.testPanelMapping?.testCode}
                       onChange={testCode => {
@@ -420,7 +438,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Test Name'
-                      hasError={errors.testName}
+                      hasError={!!errors.testName}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -436,7 +454,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                             testPanelMappingStore.selectedItems?.testName,
                           displayKey: ['testCode', 'testName'],
                         }}
-                        hasError={errors.testName}
+                        hasError={!!errors.testName}
                         onUpdate={item => {
                           const items =
                             testPanelMappingStore.selectedItems?.testName;
@@ -536,7 +554,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={testPanelMappingStore.testPanelMapping?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -575,7 +596,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         errors.userId ? 'Please Enter userId' : 'Entered By'
                       }
                       value={loginStore.login?.userId}
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       disabled={true}
                       // onChange={(analyteCode) => {
                       //   masterAnalyteStore.updateMasterAnalyte({
@@ -599,7 +620,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           ? 'Please Enter DateCreation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={
                         testPanelMappingStore.testPanelMapping?.dateCreation
                       }
@@ -611,14 +632,14 @@ const TestPanelMapping = TestPanelMappingHoc(
                   defaultValue=''
                 />
 
-                <Grid cols={4}>
+                <Grid cols={3}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
-                        hasError={errors.bill}
+                        hasError={!!errors.bill}
                         value={testPanelMappingStore.testPanelMapping?.bill}
                         onChange={bill => {
                           onChange(bill);
@@ -638,7 +659,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Print Test Name'
-                        hasError={errors.printTestName}
+                        hasError={!!errors.printTestName}
                         value={
                           testPanelMappingStore.testPanelMapping?.printTestName
                         }
@@ -659,21 +680,90 @@ const TestPanelMapping = TestPanelMappingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label='Panel Method'
-                        hasError={errors.panelMethod}
+                        label='Print Panel Name'
+                        hasError={!!errors.printPanelName}
                         value={
-                          testPanelMappingStore.testPanelMapping?.panelMethod
+                          testPanelMappingStore.testPanelMapping?.printPanelName
                         }
-                        onChange={panelMethod => {
-                          onChange(panelMethod);
+                        onChange={printPanelName => {
+                          onChange(printPanelName);
                           testPanelMappingStore.updateTestPanelMapping({
                             ...testPanelMappingStore.testPanelMapping,
-                            panelMethod,
+                            printPanelName,
                           });
                         }}
                       />
                     )}
-                    name='panelMethod'
+                    name='printPanelName'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
+                <Form.InputWrapper
+                  label='Method Flags'
+                  hasError={!!errors.status}
+                >
+                  <div className='inline-flex rounded-md' role='group'>
+                    {masterFlag.map((item, index) => (
+                      <button
+                        type='button'
+                        className={
+                          'inline-flex items-center py-2 px-4 text-sm font-medium text-white ' +
+                          (item.isSelected ? 'bg-green-800 ' : 'bg-red ') +
+                          (index === 0 ? 'rounded-l-lg' : 'rounded-r-md') +
+                          ' border border-gray-900'
+                        }
+                        onClick={() => {
+                          const arrMasterFlag: any = masterFlag.filter(e => {
+                            if (e.title === item.title) {
+                              e.isSelected = true;
+                            } else {
+                              e.isSelected = false;
+                            }
+                            return e;
+                          });
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            panelMethod: arrMasterFlag.find(
+                              item => item.title === 'PM',
+                            ).isSelected,
+                            testMethod: arrMasterFlag.find(
+                              item => item.title === 'TM',
+                            ).isSelected,
+                            analyteMethod: arrMasterFlag.find(
+                              item => item.title === 'AM',
+                            ).isSelected,
+                          });
+                          setMasgterFlag(arrMasterFlag);
+                        }}
+                      >
+                        {item.title}
+                      </button>
+                    ))}
+                  </div>
+                </Form.InputWrapper>
+
+                <Grid cols={3}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Panel Interpretation'
+                        hasError={!!errors.panelInterpretation}
+                        value={
+                          testPanelMappingStore.testPanelMapping
+                            ?.panelInterpretation
+                        }
+                        onChange={panelInterpretation => {
+                          onChange(panelInterpretation);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            panelInterpretation,
+                          });
+                        }}
+                      />
+                    )}
+                    name='panelInterpretation'
                     rules={{required: false}}
                     defaultValue=''
                   />
@@ -681,21 +771,45 @@ const TestPanelMapping = TestPanelMappingHoc(
                     control={control}
                     render={({field: {onChange}}) => (
                       <Form.Toggle
-                        label='Test Method'
-                        hasError={errors.testMethod}
+                        label='Test Interpretation'
+                        hasError={!!errors.testInterpretation}
                         value={
-                          testPanelMappingStore.testPanelMapping?.testMethod
+                          testPanelMappingStore.testPanelMapping
+                            ?.testInterpretation
                         }
-                        onChange={testMethod => {
-                          onChange(testMethod);
+                        onChange={testInterpretation => {
+                          onChange(testInterpretation);
                           testPanelMappingStore.updateTestPanelMapping({
                             ...testPanelMappingStore.testPanelMapping,
-                            testMethod,
+                            testInterpretation,
                           });
                         }}
                       />
                     )}
-                    name='testMethod'
+                    name='testInterpretation'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Analyte Interpretation'
+                        hasError={!!errors.analyteInterpretation}
+                        value={
+                          testPanelMappingStore.testPanelMapping
+                            ?.analyteInterpretation
+                        }
+                        onChange={analyteInterpretation => {
+                          onChange(analyteInterpretation);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            analyteInterpretation,
+                          });
+                        }}
+                      />
+                    )}
+                    name='analyteInterpretation'
                     rules={{required: false}}
                     defaultValue=''
                   />
@@ -823,7 +937,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           ? 'Please Enter DateActiveFrom'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={testPanelMappingStore.testPanelMapping?.dateActive}
                       disabled={true}
                     />
@@ -842,7 +956,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           ? 'Please Enter dateExpire'
                           : 'Date Expire'
                       }
-                      hasError={errors.dateExpire}
+                      hasError={!!errors.dateExpire}
                       value={testPanelMappingStore.testPanelMapping?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -865,7 +979,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       placeholder={
                         errors.version ? 'Please Enter version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={testPanelMappingStore.testPanelMapping?.version}
                       disabled={true}
                     />
@@ -880,7 +994,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={
@@ -1078,7 +1192,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateActiveFrom: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsInputView(!isInputView);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('testCode', modalConfirm.data.testCode);

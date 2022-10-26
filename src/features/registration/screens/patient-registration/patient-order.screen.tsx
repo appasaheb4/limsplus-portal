@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -16,7 +16,7 @@ import {
 import {lookupItems, lookupValue} from '@/library/utils';
 import '@/library/assets/css/accordion.css';
 import {useForm, Controller} from 'react-hook-form';
-import {PatientOrderList} from '../../components';
+import {PatientOrderList, ModalBarcodeLab} from '../../components';
 import {PatientOrderHoc} from '../../hoc';
 
 import {useStores} from '@/stores';
@@ -59,6 +59,17 @@ export const PatientOrder = PatientOrderHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
+    const [modalBarcodeLab, setModalBarcodeLab] = useState<any>();
+
+    useEffect(() => {
+      const barCodeLabId = localStorage.getItem('barCodeLabId');
+      if (!_.isEmpty(barCodeLabId)) {
+        setModalBarcodeLab({
+          visible: true,
+          data: {value: barCodeLabId},
+        });
+      }
+    }, []);
 
     const onSubmitPatientOrder = () => {
       if (!patientOrderStore.checkExistsRecord) {
@@ -72,8 +83,9 @@ export const PatientOrder = PatientOrderHoc(
           .addPatientOrder({
             input: {
               ...patientOrderStore.patientOrder,
-              packageList,
+              packageList: packageList?.map(v => ({...v, orderStatus: 'P'})),
               documentType: 'patientOrder',
+              enteredBy: loginStore.login.userId,
               __typename: undefined,
             },
           })
@@ -82,6 +94,10 @@ export const PatientOrder = PatientOrderHoc(
               Toast.success({
                 message: `😊 ${res.createPatientOrder.message}`,
               });
+              localStorage.setItem(
+                'barCodeLabId',
+                patientOrderStore.patientOrder?.labId?.toString(),
+              );
             }
             setTimeout(() => {
               window.location.reload();
@@ -120,7 +136,10 @@ export const PatientOrder = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Lab Id' hasError={errors.visitId}>
+                    <Form.InputWrapper
+                      label='Lab Id'
+                      hasError={!!errors.visitId}
+                    >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by lab id, visit id or name'
@@ -128,7 +147,7 @@ export const PatientOrder = PatientOrderHoc(
                           list: patientVisitStore.listPatientVisit,
                           displayKey: ['labId', 'patientName'],
                         }}
-                        hasError={errors.visitId}
+                        hasError={!!errors.visitId}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
@@ -199,7 +218,10 @@ export const PatientOrder = PatientOrderHoc(
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
-                      <Form.InputWrapper label='Panel' hasError={errors.panel}>
+                      <Form.InputWrapper
+                        label='Panel'
+                        hasError={!!errors.panel}
+                      >
                         <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder='Search by code or name'
@@ -213,7 +235,7 @@ export const PatientOrder = PatientOrderHoc(
                             displayKey: ['panelCode', 'panelName'],
                           }}
                           disable={!patientOrderStore.patientOrder?.rLab}
-                          hasError={errors.panel}
+                          hasError={!!errors.panel}
                           onUpdate={item => {
                             const panels =
                               patientOrderStore.selectedItems?.panels;
@@ -223,8 +245,11 @@ export const PatientOrder = PatientOrderHoc(
                               panelCode: _.map(panels, o =>
                                 _.pick(o, [
                                   'panelCode',
+                                  'panelName',
                                   'serviceType',
                                   'confidential',
+                                  'reportTemplate',
+                                  'bill',
                                 ]),
                               ),
                             });
@@ -251,6 +276,8 @@ export const PatientOrder = PatientOrderHoc(
                                           'confidential',
                                         ]),
                                       ),
+                                      visitId:
+                                        patientOrderStore.patientOrder?.visitId,
                                     },
                                   },
                                 },
@@ -306,7 +333,7 @@ export const PatientOrder = PatientOrderHoc(
                       placeholder={
                         errors.orderId ? 'Please Enter order id' : 'Order Id'
                       }
-                      hasError={errors.orderId}
+                      hasError={!!errors.orderId}
                       disabled={true}
                       value={patientOrderStore.patientOrder?.orderId}
                       onChange={orderId => {
@@ -462,11 +489,15 @@ export const PatientOrder = PatientOrderHoc(
                 input: {type, filter, page, limit},
               });
             }}
+            onBarcode={(item: any) => {
+              setModalBarcodeLab({visible: true, data: {value: item.labId}});
+            }}
           />
         </div>
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
+            setModalConfirm({show: false});
             if (type === 'delete') {
               patientOrderStore.patientOrderService
                 .deletePatientOrder({input: {id: modalConfirm.id}})
@@ -475,10 +506,6 @@ export const PatientOrder = PatientOrderHoc(
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
                     });
-                    setModalConfirm({show: false});
-                    // patientOrderStore.patientOrderService.listPatientOrder({
-                    //   documentType: 'patientOrder',
-                    // });
                     setTimeout(() => {
                       window.location.reload();
                     }, 1000);
@@ -487,6 +514,13 @@ export const PatientOrder = PatientOrderHoc(
             }
           }}
           onClose={() => setModalConfirm({show: false})}
+        />
+        <ModalBarcodeLab
+          {...modalBarcodeLab}
+          onClose={() => {
+            setModalBarcodeLab({visible: false});
+            localStorage.setItem('barCodeLabId', '');
+          }}
         />
       </>
     );

@@ -95,7 +95,7 @@ export const SalesHierarchyTable = observer(
                       //     list: employeeList,
                       //     displayKey: ['empCode', 'fullName'],
                       //   }}
-                      //   hasError={errors.empCode}
+                      //   hasError={!!errors.empCode}
                       //   displayValue={item?.empCode}
                       //   onFilter={(value: string) => {
                       //     userStore.UsersService.filter({

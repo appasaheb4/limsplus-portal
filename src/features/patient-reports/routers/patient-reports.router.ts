@@ -1,6 +1,10 @@
 import async from '@/layouts/components/async.component';
-const GenerateReport = async(() => import('../screens/generate-report.screen'));
-const DeliveryQueue = async(() => import('../screens/delivery-queue'));
+const GenerateReport = async(
+  () => import('../generate-reports/screens/generate-reports.screen'),
+);
+const DeliveryQueue = async(
+  () => import('../delivery-queue/screens/delivery-queue.screen'),
+);
 
 export const patientReportsRoutes = {
   path: '/patient-reports',

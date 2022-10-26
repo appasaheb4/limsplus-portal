@@ -4,3 +4,4 @@ export * from './organsims/auto-complete-filter-single-select-delivery-schedule.
 export * from './organsims/auto-complete-filter-single-select-test-method.component';
 export * from './organsims/auto-complete-filter-single-select-department.component';
 export * from './organsims/auto-complete-interpretation.component';
+export * from './organsims/auto-coplete-test-bottom-marker.component';

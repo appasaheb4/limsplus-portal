@@ -68,7 +68,6 @@ export class BannerService {
         })
         .then((response: any) => {
           resolve(response.data);
-          stores.bannerStore.updateBanner(new Model.Banner({}));
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),

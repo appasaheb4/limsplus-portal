@@ -348,6 +348,10 @@ export const PatientOrderExpand = ({
               text: 'RLab',
             },
             {
+              dataField: 'reportGroup',
+              text: 'Report Group',
+            },
+            {
               dataField: 'bill',
               text: 'Bill',
               formatter: (cell, row) => {
@@ -359,16 +363,33 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'grossAmt',
-              text: 'Gross Amt',
+              dataField: 'priceGroup',
+              text: 'Price Group',
             },
             {
-              dataField: 'netAmt',
-              text: 'Net Amt',
+              dataField: 'priceList',
+              text: 'Price List',
             },
             {
-              dataField: 'discount',
-              text: 'Discount',
+              dataField: 'grossAmount',
+              text: 'Gross Amount',
+            },
+
+            {
+              dataField: 'netAmount',
+              text: 'Net Amount',
+            },
+            {
+              dataField: 'discountAmount',
+              text: 'Discount Amount',
+            },
+            {
+              dataField: 'discountPer',
+              text: 'Discount Per',
+            },
+            {
+              dataField: 'miscellaneousCharges',
+              text: 'Miscellaneous Charges',
             },
             {
               dataField: 'dueDate',
@@ -474,45 +495,12 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'analysisDoneDate',
-              text: 'Analysis Done Date',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.analysisDoneDate}</span>
-                  </>
-                );
-              },
-            },
-            {
               dataField: 'autoRelease',
               text: 'Auto Release',
               formatter: (cell, row) => {
                 return (
                   <>
                     <span>{row.extraData?.autoRelease}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'abNormal',
-              text: 'ABNormal',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.abNormal}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.critical}</span>
                   </>
                 );
               },
@@ -573,12 +561,12 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'porder',
-              text: 'Porder',
+              dataField: 'reportOrder',
+              text: 'Report Order',
               formatter: (cell, row) => {
                 return (
                   <>
-                    <span>{row.extraData?.porder}</span>
+                    <span>{row.extraData?.reportOrder}</span>
                   </>
                 );
               },

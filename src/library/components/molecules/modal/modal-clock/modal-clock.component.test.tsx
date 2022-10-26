@@ -1,14 +1,16 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
 import {ModalClock} from './Modal-clock.component';
 
-it('render modalClock correctly', () => {
-  const modalClock = render(
-    <ModalClock
-      show={true}
-      onClick={() => jest.fn()}
-      onClose={() => jest.fn()}
-    />,
-  );
-  expect(modalClock).toMatchSnapshot();
+describe('ModalClock component', () => {
+  it('render modalClock correctly', () => {
+    const modalClock = render(
+      <ModalClock
+        onClick={() => jest.fn()}
+        onClose={() => jest.fn()}
+        show={true}
+      />,
+    );
+    expect(modalClock).toMatchSnapshot();
+  });
 });

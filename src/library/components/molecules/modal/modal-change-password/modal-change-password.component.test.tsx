@@ -1,14 +1,16 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
 import {ModalChangePassword} from './modal-change-password.component';
 
-it('render modalChangePassword correctly', () => {
-  const modalChangePassword = render(
-    <ModalChangePassword
-      show={true}
-      onClick={() => jest.fn()}
-      onClose={() => jest.fn()}
-    />,
-  );
-  expect(modalChangePassword).toMatchSnapshot();
+describe('ModalChangePassword component', () => {
+  it('render modalChangePassword correctly', () => {
+    const modalChangePassword = render(
+      <ModalChangePassword
+        onClick={() => jest.fn()}
+        onClose={() => jest.fn()}
+        show={true}
+      />,
+    );
+    expect(modalChangePassword).toMatchSnapshot();
+  });
 });

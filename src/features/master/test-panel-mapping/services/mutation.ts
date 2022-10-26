@@ -21,11 +21,16 @@ export const LIST = gql`
         panelCode
         testCode
         testName
+        reportOrder
         bill
         printTestName
+        printPanelName
         panelMethod
         testMethod
-        reportOrder
+        analyteMethod
+        panelInterpretation
+        testInterpretation
+        analyteInterpretation
         status
         environment
         dateOfEntry
@@ -119,11 +124,16 @@ export const FILTER = gql`
         panelCode
         testCode
         testName
+        reportOrder
         bill
         printTestName
+        printPanelName
         panelMethod
         testMethod
-        reportOrder
+        analyteMethod
+        panelInterpretation
+        testInterpretation
+        analyteInterpretation
         status
         environment
         dateOfEntry
@@ -154,11 +164,16 @@ export const FIND_BY_FIELDS = gql`
         panelCode
         testCode
         testName
+        reportOrder
         bill
         printTestName
+        printPanelName
         panelMethod
         testMethod
-        reportOrder
+        analyteMethod
+        panelInterpretation
+        testInterpretation
+        analyteInterpretation
         status
         environment
         dateOfEntry

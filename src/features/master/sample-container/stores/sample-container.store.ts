@@ -12,6 +12,8 @@ export class SampleContainerStore {
   constructor() {
     this.listSampleContainer = [];
     this.checkExitsEnvCode = false;
+    this.sampleContainer = new SampleContainer({});
+    this.listSampleContainerCount = 0;
 
     makeObservable<SampleContainerStore, any>(this, {
       sampleContainer: observable,

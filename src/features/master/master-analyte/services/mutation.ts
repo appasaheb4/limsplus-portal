@@ -48,6 +48,12 @@ export const LIST = gql`
         resultType
         defaultResult
         analyteType
+        abnormalHighlighterCSS
+        criticalHighlighterCSS
+        internalComments
+        externalComments
+        analyteBottomMarker
+        analyteRightMarker
         status
         minReportable
         maxReportable
@@ -162,6 +168,12 @@ export const FILTER = gql`
         resultType
         defaultResult
         analyteType
+        abnormalHighlighterCSS
+        criticalHighlighterCSS
+        internalComments
+        externalComments
+        analyteBottomMarker
+        analyteRightMarker
         status
         minReportable
         maxReportable
@@ -222,6 +234,12 @@ export const FILTER_BY_FIELDS = gql`
         resultType
         defaultResult
         analyteType
+        abnormalHighlighterCSS
+        criticalHighlighterCSS
+        internalComments
+        externalComments
+        analyteBottomMarker
+        analyteRightMarker
         status
         minReportable
         maxReportable
@@ -279,6 +297,12 @@ export const FIND_BY_FIELDS = gql`
         resultType
         defaultResult
         analyteType
+        abnormalHighlighterCSS
+        criticalHighlighterCSS
+        internalComments
+        externalComments
+        analyteBottomMarker
+        analyteRightMarker
         status
         minReportable
         maxReportable

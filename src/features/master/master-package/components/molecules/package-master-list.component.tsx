@@ -325,6 +325,70 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             },
           },
           {
+            dataField: 'packageInterpretation',
+            text: 'Package Interpretation',
+            sort: true,
+            csvFormatter: (row, col) =>
+              `${
+                row.packageInterpretation
+                  ? row.packageInterpretation
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
+              }`,
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.packageInterpretation}
+                    onChange={packageInterpretation => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          packageInterpretation,
+                          'packageInterpretation',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
+          {
+            dataField: 'panelInterpretation',
+            text: 'Panel Interpretation',
+            sort: true,
+            csvFormatter: (row, col) =>
+              `${
+                row.panelInterpretation
+                  ? row.panelInterpretation
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
+              }`,
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.panelInterpretation}
+                    onChange={panelInterpretation => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          panelInterpretation,
+                          'panelInterpretation',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
+          {
             dataField: 'status',
             text: 'Status',
             headerClasses: 'textHeader1',

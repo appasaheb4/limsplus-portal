@@ -103,7 +103,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           ? 'Please Enter InterFace Type'
                           : 'Interface Type'
                       }
-                      hasError={errors.interfaceType}
+                      hasError={!!errors.interfaceType}
                       value={
                         interfaceManagerStore.interfaceManager?.interfaceType
                       }
@@ -132,7 +132,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           ? 'Please Enter instrumentType'
                           : 'Instrument Type'
                       }
-                      hasError={errors.instrumentType}
+                      hasError={!!errors.instrumentType}
                       value={
                         interfaceManagerStore.interfaceManager?.instrumentType
                       }
@@ -160,7 +160,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           ? 'Please Enter InstrumentName'
                           : 'Instrument Name'
                       }
-                      hasError={errors.instrumentName}
+                      hasError={!!errors.instrumentName}
                       value={
                         interfaceManagerStore.interfaceManager?.instrumentName
                       }
@@ -188,7 +188,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           ? 'Please Enter DataFlowFrom'
                           : 'Data Flow From'
                       }
-                      hasError={errors.dataFlowFrom}
+                      hasError={!!errors.dataFlowFrom}
                       value={
                         interfaceManagerStore.interfaceManager?.dataFlowFrom
                       }
@@ -216,7 +216,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           ? 'Please Enter communicationProtocal'
                           : 'Communication Protocal'
                       }
-                      hasError={errors.communicationProtocal}
+                      hasError={!!errors.communicationProtocal}
                       value={
                         interfaceManagerStore.interfaceManager
                           ?.communicationProtocol
@@ -250,7 +250,7 @@ const InterfaceManager = InterfaceManagerHoc(
                               ? 'Please Enter BlockStart'
                               : 'Start Block'
                           }
-                          hasError={errors.startBlock}
+                          hasError={!!errors.startBlock}
                           value={
                             interfaceManagerStore.interfaceManager?.blockStart
                           }
@@ -278,7 +278,7 @@ const InterfaceManager = InterfaceManagerHoc(
                               ? 'Please Enter endBlock'
                               : 'End Block'
                           }
-                          hasError={errors.endBlock}
+                          hasError={!!errors.endBlock}
                           value={
                             interfaceManagerStore.interfaceManager?.blockEnd
                           }
@@ -308,7 +308,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           placeholder={
                             errors.filed ? 'Please Enter Filed' : 'Filed'
                           }
-                          hasError={errors.filed}
+                          hasError={!!errors.filed}
                           value={interfaceManagerStore.interfaceManager?.filed}
                           onChange={filed => {
                             onChange(filed);
@@ -331,7 +331,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           placeholder={
                             errors.value ? 'Please Enter Value' : 'Value'
                           }
-                          hasError={errors.value}
+                          hasError={!!errors.value}
                           value={interfaceManagerStore.interfaceManager?.value}
                           onChange={value => {
                             onChange(value);

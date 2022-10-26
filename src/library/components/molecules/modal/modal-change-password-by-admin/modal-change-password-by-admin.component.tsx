@@ -72,7 +72,7 @@ export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
                           type='password'
                           label='New Password'
                           name='newPassword'
-                          hasError={errors.newPassword}
+                          hasError={!!errors.newPassword}
                           placeholder={
                             errors.newPassword
                               ? 'Please Enter New Password'
@@ -102,7 +102,7 @@ export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
                           type='password'
                           label='Confirm Password'
                           name='confirmPassword'
-                          hasError={errors.confirmPassword}
+                          hasError={!!errors.confirmPassword}
                           placeholder={
                             errors.confirmPassword
                               ? 'Please Enter Confirm Password'

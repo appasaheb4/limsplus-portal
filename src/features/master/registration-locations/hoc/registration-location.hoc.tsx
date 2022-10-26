@@ -26,11 +26,11 @@ export const RegistrationLocationHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'METHOD_COLN',
         ),
-        deliveryMethod: getDefaultLookupItem(
+        deliveryMode: getDefaultLookupItem(
           routerStore.lookupItems,
           'DELIVERY_METHOD',
         ),
-        deliveryType: getDefaultLookupItem(
+        reportType: getDefaultLookupItem(
           routerStore.lookupItems,
           'DELIVERY_TYPE',
         ),

@@ -5,9 +5,8 @@ import {stores} from '@/stores';
 export class RootStore {
   processLoading: boolean;
   session!: any;
-
-  //modals
   modalTokenExpire!: any;
+
   constructor() {
     this.processLoading = false;
     makeObservable<RootStore, any>(this, {

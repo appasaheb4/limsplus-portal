@@ -6,3 +6,6 @@ export * from './validation.util';
 export * from './utilites.util';
 export * from './single-ton.util';
 export * from './unit-test.util';
+export * from './colors.util';
+export * from './images.util';
+export * from './string.util';

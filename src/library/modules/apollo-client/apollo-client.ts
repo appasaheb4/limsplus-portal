@@ -12,18 +12,22 @@ import {stores} from '@/stores';
 import {setContext} from '@apollo/client/link/context';
 import {createUploadLink} from 'apollo-upload-client';
 
-const customFetch = (uri, options): Promise<any> => {
-  stores.setLoading(true);
-  //console.log({uri, options});
-  const response = fetch(uri, options).then(response => {
-    stores.setLoading(false);
-    if (response.status >= 500) {
-      // or handle 400 errors
-      return Promise.reject(response.status);
-    }
+const customFetch = async (uri, options): Promise<any> => {
+  try {
+    stores.setLoading(true);
+    //console.log({uri, options});
+    const response = await fetch(uri, options).then(response => {
+      if (response.status >= 500) {
+        return Promise.reject(response.status);
+      }
+      return response;
+    });
     return response;
-  });
-  return response;
+  } catch (error) {
+    return await Promise.reject(error);
+  } finally {
+    stores.setLoading(false);
+  }
 };
 
 const authLink = setContext(async (_, {headers}) => {
@@ -36,9 +40,10 @@ const authLink = setContext(async (_, {headers}) => {
 });
 
 const UploadLink = createUploadLink({
-  //uri: 'http://localhost:8080/graphql',
-  //uri: 'http://575f-2409-4042-4c12-e974-bd3d-b4d4-2dbc-8988.ngrok.io/graphql',
-  uri: process.env.REACT_APP_API_HOST,
+  // uri: process.env.REACT_APP_API_HOST_LOCAL,
+  // uri: process.env.REACT_APP_API_HOST_DEV,
+  // uri: process.env.REACT_APP_API_HOST_STAGE,
+  uri: process.env.REACT_APP_API_HOST_PORD,
   fetch: customFetch,
 });
 

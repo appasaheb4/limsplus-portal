@@ -21,15 +21,23 @@ export class PatientOrder {
       pLab: string;
       rLab: string;
       bill: boolean;
-      grossAmt: number;
-      netAmt: number;
-      discount: number;
+      priceGroup: string;
+      priceList: string;
+      grossAmount: number;
+      netAmount: number;
+      discountAmount: number;
+      discountPer: number;
+      miscellaneousCharges: number;
       dueDate: Date;
       resultDate: Date;
       abnFlag: boolean;
       cretical: boolean;
       orderStatus: string;
       status: string;
+      reportGroup: number;
+      approvalDate: Date;
+      approvalStatus: string;
+      autoRelease: string;
       extraData: {
         priority: string;
         outsourceLab: string;
@@ -47,7 +55,7 @@ export class PatientOrder {
         eqtype: string;
         methodOn: string;
         methodName: string;
-        porder: string;
+        reportOrder: string;
         confidential: string;
         workflow: string;
         loginServgrp: string;

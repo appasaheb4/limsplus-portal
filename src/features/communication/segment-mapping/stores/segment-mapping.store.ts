@@ -14,7 +14,7 @@ export class SegmentMappingStore {
   listSegmentMapping: SegmentMapping[];
   listSegmentMappingCount: number;
   selectedItems: SegmentMapping[];
-  updateItem!: UpdateItem;
+  updateItem!: UpdateItem | undefined;
   mapping: Mapping[];
 
   constructor() {
@@ -22,6 +22,8 @@ export class SegmentMappingStore {
     this.listSegmentMappingCount = 0;
     this.selectedItems = [];
     this.mapping = [];
+    this.updateItem = undefined;
+    this.segmentMapping = new SegmentMapping({});
     makeObservable<SegmentMappingStore, any>(this, {
       segmentMapping: observable,
       listSegmentMapping: observable,
@@ -79,7 +81,7 @@ export class SegmentMappingStore {
     this.selectedItems = items;
   };
 
-  changeUpdateItem = (item: UpdateItem) => {
+  changeUpdateItem = (item: UpdateItem | undefined) => {
     this.updateItem = item;
   };
 }

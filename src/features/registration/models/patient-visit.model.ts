@@ -16,14 +16,23 @@ export class PatientVisit {
   corporateCode: string;
   corporateName: string;
   acClass: string;
+  grossAmount: number;
+  netAmount: number;
+  discountAmount: number;
+  discountPer: number;
+  miscellaneousCharges: number;
+  miscCharges: Array<any>;
+  discountCharges: object;
   doctorId: string;
   doctorName: string;
-  deliveryType: string;
+  reportType: string;
   history: boolean;
+  holdReport: boolean;
+  holdReason: string;
   status: string;
   extraData: {
     accountType: string;
-    deliveryMethod: string;
+    deliveryMode: string;
     additionalInfo: string;
     invoiceAc: string;
     billingMethod: string;
@@ -49,7 +58,6 @@ export class PatientVisit {
     registrationInterface: string;
     submittedSystem: string;
     submittedOn: string;
-    balance: string;
     environment: string;
   };
   documentType: string;
@@ -74,14 +82,30 @@ export class PatientVisit {
     this.corporateCode = rawData.corporateCode;
     this.corporateName = rawData.corporateName;
     this.acClass = rawData.acClass;
+    this.grossAmount = rawData.grossAmount;
+    this.netAmount = rawData.netAmount;
+    this.discountAmount = rawData.discountAmount;
+    this.discountPer = rawData.discountPer;
+    this.miscellaneousCharges = rawData.miscellaneousCharges;
+    this.miscCharges = rawData.miscCharges;
+    this.discountCharges = rawData.discountCharges;
     this.doctorId = rawData.doctorId;
     this.doctorName = rawData.doctorName;
-    this.deliveryType = rawData.deliveryType;
+    this.reportType = rawData.reportType;
     this.history = rawData.history;
+    this.holdReport = rawData.holdReport;
+    this.holdReason = rawData.holdReason;
     this.status = rawData.status;
     this.extraData = rawData.extraData;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
+  }
+}
+
+export class SelectedPatientVisitItems {
+  miscCharges: any[];
+  constructor(rawData: {[key in string]: any}) {
+    this.miscCharges = rawData.miscCharges;
   }
 }

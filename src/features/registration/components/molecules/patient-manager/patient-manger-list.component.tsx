@@ -132,7 +132,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                             ? 'Please Enter MobileNo'
                             : 'Mobile No'
                         }
-                        hasError={errors.mobileNo}
+                        hasError={!!errors.mobileNo}
                         type='number'
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.mobileNo}
