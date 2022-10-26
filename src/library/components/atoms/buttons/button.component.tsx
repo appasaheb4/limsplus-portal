@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-indent-props */
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, Ref} from 'react';
 import {IconProps} from '../svg.component';
 import {Buttons, Icons} from '../..';
 
@@ -12,7 +12,7 @@ export interface ButtonProps {
   size?: 'small' | 'medium' | 'large';
   icon?: React.FunctionComponent<IconProps>;
   pill?: boolean;
-  disabled?: string;
+  disabled?: boolean;
   id?: string;
   innerRef?: any;
   className?: string;
@@ -20,7 +20,7 @@ export interface ButtonProps {
   children?: React.ReactNode;
 }
 
-export const Button = React.forwardRef((props: ButtonProps) => {
+export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
   const buttonSizeClass =
     props.size === 'small'
       ? 'px-2 py-1 text-xs'
@@ -42,8 +42,7 @@ export const Button = React.forwardRef((props: ButtonProps) => {
       <button
         onClick={props.onClick}
         type='button'
-        disabled={!!props.disabled}
-        title={props.disabled}
+        disabled={props.disabled}
         id={props.id}
         ref={props.innerRef}
         className={`${props.buttonClass} inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}

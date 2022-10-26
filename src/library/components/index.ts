@@ -3,7 +3,7 @@ import Toast from '../../library/modules/toast';
 import * as Buttons from './atoms/buttons/button.component';
 import * as Form from './atoms/form/form.component';
 import * as Svg from './atoms/svg.component';
-import * as Icons from './atoms/icons.component';
+import * as Icons from './atoms/icons/icons.component';
 export {ToastContainer, Toast, Buttons, Form, Svg, Icons};
 
 export * from './atoms/carousel/carousel.component';
@@ -14,6 +14,10 @@ export * from './atoms/list/list.component';
 export * from './atoms/loader/loader.component';
 export * from './atoms/modals/modals.component';
 export * from './atoms/tooltip/tooltip.component';
+export * from './atoms/pdf/typography.components';
+export * from './atoms/pdf/wrapped-view.components';
+export * from './atoms/pdf/table.components';
+export * from './atoms/pdf/images.components';
 
 export * from './molecules/auto-complete/auto-complete.component';
 export * from './molecules/auto-complete-check/auto-complete-check.component';
@@ -31,8 +35,9 @@ export * from './molecules/modal/modal-clock/Modal-clock.component';
 export * from './molecules/modal/modal-idle-timeout/modal-idle-timeout.component';
 export * from './molecules/modal/modal-session-allowed/modal-session-allowed.component';
 export * from './molecules/modal/modal-token-expire/modal-token-expire.component';
-export * from './molecules/modal/modal-transition/moda-transition.component';
+export * from './molecules/modal/modal-transition/modal-transition.component';
 export * from './molecules/modal/modal-file-upload/modal-file-upload.component';
+export * from './molecules/modal/modal-view/modal-view.component';
 
 export * from './organisms/filter-comp';
 export * from './organisms/table-bootstrap/table-bootstrap.component';

@@ -13,6 +13,7 @@ export class PatientTestStore {
 
   constructor() {
     this.patientListTest = [];
+    this.patientTest = new PatientTest({});
     //this.packageList = []
     this.patientListTestCount = 0;
     // this.checkExistsOrderId = false

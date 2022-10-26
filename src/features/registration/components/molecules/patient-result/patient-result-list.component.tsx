@@ -34,43 +34,55 @@ export const PatientResultList = observer((props: PatientResultProps) => {
   };
 
   const expandRow = {
-    renderer: row => (
-      <div className='z-0'>
-        <RefRangesExpandList
-          id='_id'
-          data={row?.refRangesList || []}
-          totalSize={row?.refRangesList?.length || 0}
-          columns={[
-            {
-              dataField: 'rangeType',
-              text: 'Range Type',
-            },
-            {
-              dataField: 'low',
-              text: 'Low',
-            },
-            {
-              dataField: 'high',
-              text: 'High',
-            },
-            {
-              dataField: 'rangeSetOn',
-              text: 'Range Set On',
-            },
-            {
-              dataField: 'rangeId',
-              text: 'Range Id',
-            },
-            {
-              dataField: 'version',
-              text: 'Range Version',
-            },
-          ]}
-          onSelectedRow={rows => {}}
-          onUpdateItem={(value: any, dataField: string, id: string) => {}}
-        />
-      </div>
-    ),
+    renderer: row =>
+      row?.resultType === 'V' ? (
+        <div className='z-0'>
+          <RefRangesExpandList
+            id='_id'
+            data={row?.refRangesList || []}
+            totalSize={row?.refRangesList?.length || 0}
+            columns={[
+              {
+                dataField: 'result',
+                text: 'Result',
+                editable: false,
+                formatter: () => (
+                  <>
+                    <span>{row.result}</span>
+                  </>
+                ),
+              },
+              {
+                dataField: 'rangeType',
+                text: 'Range Type',
+              },
+              {
+                dataField: 'low',
+                text: 'Low',
+              },
+              {
+                dataField: 'high',
+                text: 'High',
+              },
+              {
+                dataField: 'rangeSetOn',
+                text: 'Range Set On',
+              },
+              {
+                dataField: 'rangeId',
+                text: 'Range Id',
+              },
+              {
+                dataField: 'version',
+                text: 'Range Version',
+              },
+            ]}
+            onSelectedRow={rows => {}}
+            onUpdateItem={(value: any, dataField: string, id: string) => {}}
+          />
+        </div>
+      ) : null,
+
     showExpandColumn: true,
   };
 
@@ -116,6 +128,13 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+            },
+            {
+              dataField: 'panelCode',
+              text: 'Panel Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
             },
             {
               dataField: 'testCode',
@@ -595,6 +614,21 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 return (
                   <>
                     <span>{row.extraData.version}</span>
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'reportOrder',
+              text: 'Report Order',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.reportOrder}</span>
                   </>
                 );
               },

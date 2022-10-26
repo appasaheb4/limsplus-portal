@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -8,9 +8,13 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Buttons,
   Icons,
+  Grid,
+  Toast,
 } from '@/library/components';
+
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
+
 import {patientRegistrationHoc} from '../../hoc';
 
 import {
@@ -23,9 +27,29 @@ import {
 } from '../index';
 import {useStores} from '@/stores';
 import {stores} from '@/stores';
-const PatientRegistation = observer(() => {
-  const {loading, loginStore, patientRegistrationStore, patientVisitStore} =
-    useStores();
+import {patientOrder} from '../../utils';
+
+export const patientRegistrationOptions = [
+  {title: 'PATIENT MANAGER'},
+  {title: 'PATIENT VISIT'},
+  {title: 'PATIENT ORDER'},
+  {title: 'PATIENT TEST'},
+  {title: 'PATIENT RESULT'},
+  {title: 'PATIENT SAMPLE'},
+];
+
+const PatientRegistration = observer(() => {
+  const [reloadPatientResult, setReloadPatientResult] = useState<Array<any>>(
+    [],
+  );
+  const {
+    loading,
+    loginStore,
+    patientRegistrationStore,
+    patientVisitStore,
+    patientOrderStore,
+    patientResultStore,
+  } = useStores();
   return (
     <>
       <Header>
@@ -94,14 +118,7 @@ const PatientRegistation = observer(() => {
       </Header>
       <div>
         <Accordion>
-          {[
-            {title: 'PATIENT MANAGER'},
-            {title: 'PATIENT VISIT'},
-            {title: 'PATIENT ORDER'},
-            {title: 'PATIENT TEST'},
-            {title: 'PATIENT RESULT'},
-            {title: 'PATIENT SAMPLE'},
-          ].map(item => {
+          {patientRegistrationOptions.map(item => {
             return (
               <AccordionItem
                 title={`${item.title}`}
@@ -119,33 +136,69 @@ const PatientRegistation = observer(() => {
         </Accordion>
       </div>
 
-      <div className='flex flex-row items-center justify-center mb-20'>
-        <h4>SPECIMEN AND TEST DETAILS</h4>
-      </div>
-      {/* <div>
-        <Accordion>
-          {[
-            {title: 'INFORMATION GROUP'},
-            {title: 'SPECIAL RESULT'},
-            {title: 'SAMPLE'},
-            {title: 'PANEL'},
-            {title: 'ANALYTE'},
-          ].map(item => {
-            return (
-              <AccordionItem
-                title={`${item.title}`}
-                // expanded={item.title === "Patient Manager"}
+      <div className='flex flex-col  -mt-10'>
+        <h4 className='underline text-center'>Activity</h4>
+        <Grid cols={3}>
+          <div className='p-3 border border-gray-800  relative mt-2'>
+            <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
+              Reload Patient Result
+            </h2>
+            <div className='flex flex-col items-center content-center'>
+              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                loader={loading}
+                placeholder='Lab Id'
+                className='h-4'
+                data={{
+                  list: patientOrderStore.listPatientOrder?.filter(
+                    item => item.labId !== undefined,
+                  ),
+                  displayKey: ['labId'],
+                }}
+                displayValue={
+                  setReloadPatientResult?.length > 0
+                    ? setReloadPatientResult[0]?.labId
+                    : ''
+                }
+                onFilter={(labId: string) => {
+                  patientVisitStore.patientVisitService.filterByLabId({
+                    input: {
+                      filter: {labId},
+                    },
+                  });
+                }}
+                onSelect={item => {
+                  setReloadPatientResult([item]);
+                  console.log({item});
+                }}
+              />
+
+              <Buttons.Button
+                size='medium'
+                type='solid'
+                className='mt-2'
+                disabled={reloadPatientResult?.length > 0 ? false : true}
+                onClick={() => {
+                  patientResultStore.patientResultService
+                    .reloadRecordByPatientOrder({
+                      input: {filter: {reloadPatientResult}},
+                    })
+                    .then(res => {
+                      if (res.reloadPatientResult.success) {
+                        Toast.success({
+                          message: `😊 ${res.reloadPatientResult.message}`,
+                        });
+                      }
+                    });
+                }}
               >
-                {item.title === 'INFORMATION GROUP' && <InformationGroup />},
-                {item.title === 'SPECIAL RESULT' && <InformationGroup />}
-                {item.title === 'SAMPLE' && <></>}
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
-      </div> */}
+                Reload
+              </Buttons.Button>
+            </div>
+          </div>
+        </Grid>
+      </div>
     </>
   );
 });
 
-export default PatientRegistation;
+export default PatientRegistration;

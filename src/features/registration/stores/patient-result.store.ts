@@ -14,6 +14,9 @@ export class PatientResultStore {
     this.patientResultList = [];
     this.patientResultListWithLabId = [];
     this.patientResultTestCount = 0;
+    this.patientResultListCount = 0;
+    this.distinctPatientResult = undefined;
+    this.distinctPatientResultCopy = undefined;
 
     makeObservable<PatientResultStore, any>(this, {
       patientResultList: observable,

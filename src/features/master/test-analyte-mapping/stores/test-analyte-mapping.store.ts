@@ -4,7 +4,6 @@ import {TestAnalyteMapping, SelectedItems} from '../models';
 import {TestAnalyteMappingService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class TestAnalyteMappingStore {
   testAnalyteMapping!: TestAnalyteMapping;
   listTestAnalyteMapping!: TestAnalyteMapping[];
@@ -15,6 +14,7 @@ export class TestAnalyteMappingStore {
 
   constructor() {
     this.listTestAnalyteMapping = [];
+    this.listTestAnalyteMappingCopy = [];
     this.testAnalyteMapping = {
       ...this.testAnalyteMapping,
       dateCreation: new Date(),
@@ -27,6 +27,7 @@ export class TestAnalyteMappingStore {
       testMethod: true,
       analyteMethod: false,
     };
+    this.selectedItems = new SelectedItems({});
     makeObservable<TestAnalyteMappingStore, any>(this, {
       testAnalyteMapping: observable,
       listTestAnalyteMapping: observable,

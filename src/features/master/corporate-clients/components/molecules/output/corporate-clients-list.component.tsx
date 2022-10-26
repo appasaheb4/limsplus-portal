@@ -42,14 +42,17 @@ let city;
 let state;
 let country;
 let postalCode;
+let address;
+let creditLimit;
+let consumedLimit;
 let district;
 let customerGroup;
 let category;
 let telephone;
 let mobileNo;
 let email;
-let deliveryType;
-let deliveryMethod;
+let reportType;
+let deliveryMode;
 let salesTerritoRy;
 let area;
 let zone;
@@ -142,35 +145,35 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               },
             }),
           },
-          {
-            dataField: 'priceList',
-            text: 'Price List',
-            headerClasses: 'textHeader5 z-10',
-            sort: true,
-            editable: false,
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                priceList = filter;
-              },
-            }),
-            formatter: (cell, row) => {
-              return (
-                <>
-                  {row?.priceList ? (
-                    <PriceListTableForCopClientList
-                      data={row?.priceList}
-                      invoiceAc={row.invoiceAc}
-                      onUpdate={data => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(data, 'priceList', row._id);
-                      }}
-                    />
-                  ) : null}
-                </>
-              );
-            },
-          },
+          // {
+          //   dataField: 'priceList',
+          //   text: 'Price List',
+          //   headerClasses: 'textHeader5 z-10',
+          //   sort: true,
+          //   editable: false,
+          //   csvFormatter: col => (col ? col : ''),
+          //   filter: textFilter({
+          //     getFilter: filter => {
+          //       priceList = filter;
+          //     },
+          //   }),
+          //   formatter: (cell, row) => {
+          //     return (
+          //       <>
+          //         {row?.priceList ? (
+          //           <PriceListTableForCopClientList
+          //             data={row?.priceList}
+          //             invoiceAc={row.invoiceAc}
+          //             onUpdate={data => {
+          //               props.onUpdateItem &&
+          //                 props.onUpdateItem(data, 'priceList', row._id);
+          //             }}
+          //           />
+          //         ) : null}
+          //       </>
+          //     );
+          //   },
+          // },
           {
             dataField: 'acType',
             text: 'Ac Type',
@@ -679,6 +682,45 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             ),
           },
           {
+            dataField: 'address',
+            text: 'Address',
+            headerClasses: 'textHeader3',
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                address = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'creditLimit',
+            text: 'Credit Limit',
+            headerClasses: 'textHeader3',
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                creditLimit = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'consumedLimit',
+            text: 'Consumed Limit',
+            headerClasses: 'textHeader3',
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                consumedLimit = filter;
+              },
+            }),
+          },
+          {
             dataField: 'zone',
             text: 'Zone',
             headerClasses: 'textHeader1',
@@ -776,7 +818,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
                       }
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row.mobileNo}
@@ -817,15 +859,15 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             }),
           },
           {
-            dataField: 'deliveryType',
-            text: 'Delivery Type',
+            dataField: 'reportType',
+            text: 'Report Type',
             headerClasses: 'textHeader4',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                deliveryType = filter;
+                reportType = filter;
               },
             }),
             editorRenderer: (
@@ -863,15 +905,15 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             ),
           },
           {
-            dataField: 'deliveryMethod',
-            text: 'Delivery Method',
+            dataField: 'deliveryMode',
+            text: 'Delivery Mode',
             headerClasses: 'textHeader5',
             sort: true,
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                deliveryMethod = filter;
+                deliveryMode = filter;
               },
             }),
             editorRenderer: (
@@ -1367,6 +1409,9 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           country('');
           district('');
           postalCode('');
+          address('');
+          creditLimit('');
+          consumedLimit('');
           customerGroup('');
           category('');
           telephone('');
@@ -1374,8 +1419,8 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           billingFrequency('');
           sbu('');
           email('');
-          deliveryType('');
-          deliveryMethod('');
+          reportType('');
+          deliveryMode('');
           corporateCode('');
           invoiceAc('');
           salesTerritoRy('');

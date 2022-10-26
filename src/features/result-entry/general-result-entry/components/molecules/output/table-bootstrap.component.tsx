@@ -392,7 +392,7 @@ const TableBootstrap = ({
                   }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
-                  expandRow={expandRow}
+                  //expandRow={expandRow}
                   rowStyle={rowStyle}
                 />
               </div>

@@ -1,14 +1,16 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
 import {ModalFileUpload} from './modal-file-upload.component';
 
-it('render modalFileUpload correctly', () => {
-  const modalFileUpload = render(
-    <ModalFileUpload
-      show={true}
-      onClick={() => jest.fn()}
-      onClose={() => jest.fn()}
-    />,
-  );
-  expect(modalFileUpload).toMatchSnapshot();
+describe('ModalFileUpload component', () => {
+  it('render modalFileUpload correctly', () => {
+    const modalFileUpload = render(
+      <ModalFileUpload
+        onClose={() => jest.fn()}
+        show={true}
+        onClick={() => jest.fn()}
+      />,
+    );
+    expect(modalFileUpload).toMatchSnapshot();
+  });
 });

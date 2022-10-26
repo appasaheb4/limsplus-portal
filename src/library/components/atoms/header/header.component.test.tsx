@@ -1,17 +1,36 @@
 import React from 'react';
-import {render} from '@utils';
-import {Header, PageHeading, PageHeadingLabDetails} from './header.component';
+import {render} from '@testing-library/react';
+import {
+  Header,
+  Heading,
+  PageHeading,
+  PageHeadingLabDetails,
+} from './header.component';
 
-it('render header correctly', () => {
-  const header = render(<Header> Im Heading</Header>);
-  expect(header).toMatchSnapshot();
+describe('Header component', () => {
+  it('render header correctly', () => {
+    const head = render(<Header />);
+    expect(head).toMatchSnapshot();
+  });
 });
 
-it('render pageHeading correctly', () => {
-  const pageHeading = render(<PageHeading title='Im Page Title' />);
-  expect(pageHeading).toMatchSnapshot();
+describe('Heading component', () => {
+  it('render imagebackground correctly', () => {
+    const heading = render(<Heading title='frefg' />);
+    expect(heading).toMatchSnapshot();
+  });
 });
-it('render pageHeadingLabDetails correctly', () => {
-  const pageHeadingLabDetails = render(<PageHeadingLabDetails store={''} />);
-  expect(pageHeadingLabDetails).toMatchSnapshot();
+
+describe('PageHeading component', () => {
+  it('render pageHeading correctly', () => {
+    const pageHeading = render(<PageHeading title='frefg' />);
+    expect(pageHeading).toMatchSnapshot();
+  });
+});
+
+describe('PageHeadingLabDetails component', () => {
+  it('render pageHeadingLabDetails correctly', () => {
+    const pageHeadingLab = render(<PageHeadingLabDetails store={[]} />);
+    expect(pageHeadingLab).toMatchSnapshot();
+  });
 });

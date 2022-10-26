@@ -4,7 +4,6 @@ import {MasterAnalyte, SelectedItems, MasterAnalyteActivity} from '../models';
 import {MasterAnalyteService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class MasterAnalyteStore {
   masterAnalyte!: MasterAnalyte;
   listMasterAnalyte!: MasterAnalyte[];
@@ -16,6 +15,7 @@ export class MasterAnalyteStore {
 
   constructor() {
     this.listMasterAnalyte = [];
+    this.listMasterAnalyteCopy = [];
     this.masterAnalyte = {
       ...this.masterAnalyte,
       dateCreation: new Date(),
@@ -32,6 +32,8 @@ export class MasterAnalyteStore {
       calculationFlag: false,
       repetition: false,
     };
+    this.selectedItems = new SelectedItems({});
+    this.masterAnalyteActivity = new MasterAnalyteActivity({});
     makeObservable<MasterAnalyteStore, any>(this, {
       masterAnalyte: observable,
       listMasterAnalyte: observable,

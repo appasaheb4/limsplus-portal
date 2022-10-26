@@ -1,14 +1,15 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
 import {ModalSessionAllowed} from './modal-session-allowed.component';
 
-it('render modalSessionAllowed correctly', () => {
-  const modalSessionAllowed = render(
-    <ModalSessionAllowed
-      show={true}
-      onClick={() => jest.fn()}
-      onClose={() => jest.fn()}
-    />,
-  );
-  expect(modalSessionAllowed).toMatchSnapshot();
+describe('ModalSessionAllowed component', () => {
+  it('render modalSessionAllowed correctly', () => {
+    const modalSessionAllowed = render(
+      <ModalSessionAllowed
+        onClick={() => jest.fn()}
+        onClose={() => jest.fn()}
+      />,
+    );
+    expect(modalSessionAllowed).toMatchSnapshot();
+  });
 });

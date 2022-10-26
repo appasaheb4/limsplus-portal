@@ -4,7 +4,6 @@ import {makeObservable, action, observable, computed} from 'mobx';
 import {Labs, SelectedItems} from '../models';
 import {LabService} from '../services';
 
-@version(0.1)
 export class LabStore {
   listLabs!: Labs[];
   listLabsCopy!: Labs[];
@@ -25,7 +24,7 @@ export class LabStore {
       critical: false,
       priceList: [{id: 0, maxDis: 0}],
     };
-
+    this.selectedItems = new SelectedItems({});
     makeObservable<LabStore, any>(this, {
       listLabs: observable,
       listLabsCount: observable,

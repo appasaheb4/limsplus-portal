@@ -13,10 +13,13 @@ export class AdministrativeDivisionsStore {
   listAdministrativeDivCount: number = 0;
   listAdministrativeDiv!: AdministrativeDivisions[];
   listAdministrativeDivCopy!: AdministrativeDivisions[];
-  localState!: LocalState;
+  localState!: Partial<LocalState>;
 
   constructor() {
+    this.administrativeDiv = new AdministrativeDivisions({});
     this.listAdministrativeDiv = [];
+    this.listAdministrativeDivCopy = [];
+    this.localState = {};
     makeObservable<AdministrativeDivisionsStore, any>(this, {
       administrativeDiv: observable,
       listAdministrativeDivCount: observable,
@@ -68,19 +71,19 @@ export class AdministrativeDivisionsStore {
   updateAdministrativeDiv(administrative: AdministrativeDivisions) {
     this.administrativeDiv = administrative;
   }
-  updateLocalState(state: LocalState) {
+  updateLocalState(state: Partial<LocalState>) {
     this.localState = state;
   }
-  updateLocalDistrict(district: LocalState) {
+  updateLocalDistrict(district: Partial<LocalState>) {
     this.localState = district;
   }
-  updateLocalCity(city: LocalState) {
+  updateLocalCity(city: Partial<LocalState>) {
     this.localState = city;
   }
-  updateLocalArea(area: LocalState) {
+  updateLocalArea(area: Partial<LocalState>) {
     this.localState = area;
   }
-  updateLocalPostalCode(postalCode: LocalState) {
+  updateLocalPostalCode(postalCode: Partial<LocalState>) {
     this.localState = postalCode;
   }
 }

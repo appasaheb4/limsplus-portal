@@ -34,7 +34,6 @@ const getListStyle = isDraggingOver => ({
 
 const RoleMapping = observer(() => {
   const {loginStore, roleMappingStore, roleStore, routerStore} = useStores();
-
   const [hideRole, setHideRole] = useState<boolean>(false);
   const [modalConfirm, setModalConfirm] = useState<any>();
   let roleList: any = roleStore.listRole || [];
@@ -73,7 +72,7 @@ const RoleMapping = observer(() => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;
         item.title = item.name;
-        item = item.children.filter(childernItem => {
+        item = item.children.filter((childernItem: any) => {
           childernItem.title = childernItem.name;
           childernItem.toggle = false;
           childernItem.permission = permission;
@@ -417,6 +416,8 @@ const RoleMapping = observer(() => {
                   routerStore.router !== undefined
                 ) {
                   let router: any[] = [];
+                  // console.log({fullRouter: routerStore.router});
+
                   routerStore.router.filter(item => {
                     return item.children.filter((childern, indexChildern) => {
                       childern.permission.filter(
@@ -548,7 +549,7 @@ const RoleMapping = observer(() => {
               'Edit/Modify',
             )}
             onDelete={selectedUser => setModalConfirm(selectedUser)}
-            onDuplicate={(selectedItem: any) => {
+            onDuplicate={async (selectedItem: any) => {
               if (selectedItem.code !== 'SYSADMIN') {
                 const routers: any = routerStore.router.filter((item: any) => {
                   const children = item.children.filter(childernItem => {
@@ -572,7 +573,6 @@ const RoleMapping = observer(() => {
               }
               setHideAddRoleMapping(!hideAddRoleMapping);
               setHideRole(true);
-              console.log({selectedItem});
               roleMappingStore.updateSelectedRole(toJS(selectedItem));
               setIsModify({status: true, id: selectedItem.id});
             }}

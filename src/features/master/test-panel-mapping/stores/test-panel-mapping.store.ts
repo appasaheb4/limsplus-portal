@@ -4,7 +4,6 @@ import {TestPanelMapping, SelectedItems} from '../models';
 import {TestPanelMappingService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class TestPanelMappingStore {
   testPanelMapping!: TestPanelMapping;
   listTestPanelMapping: TestPanelMapping[];
@@ -14,6 +13,7 @@ export class TestPanelMappingStore {
 
   constructor() {
     this.listTestPanelMapping = [];
+    this.selectedItems = new SelectedItems({});
     this.listTestPanelMappingCount = 0;
     this.checkExitsLabEnvCode = false;
     this.testPanelMapping = {
@@ -26,8 +26,13 @@ export class TestPanelMappingStore {
       version: 1,
       bill: false,
       printTestName: false,
-      panelMethod: false,
-      testMethod: true,
+      printPanelName: true,
+      panelMethod: true,
+      testMethod: false,
+      analyteMethod: false,
+      panelInterpretation: true,
+      testInterpretation: false,
+      analyteInterpretation: true,
     };
     makeObservable<TestPanelMappingStore, any>(this, {
       testPanelMapping: observable,

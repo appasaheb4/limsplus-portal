@@ -26,8 +26,8 @@ export class RegistrationLocations {
   telephone: string;
   mobileNo: string;
   email: string;
-  deliveryType: string;
-  deliveryMethod: string;
+  reportType: string;
+  deliveryMode: string;
   route: string;
   lab: string;
   openingTime: string;
@@ -40,6 +40,7 @@ export class RegistrationLocations {
   printLabel: boolean;
   neverBill: boolean;
   reportFormat: boolean;
+  gstNo: string;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -72,8 +73,8 @@ export class RegistrationLocations {
     this.telephone = rawData.telephone;
     this.mobileNo = rawData.mobileNo;
     this.email = rawData.email;
-    this.deliveryType = rawData.deliveryType;
-    this.deliveryMethod = rawData.deliveryMethod;
+    this.reportType = rawData.reportType;
+    this.deliveryMode = rawData.deliveryMode;
     this.urgent = rawData.urgent;
     this.corporateCode = rawData.corporateCode;
     this.invoiceAc = rawData.invoiceAc;
@@ -96,6 +97,7 @@ export class RegistrationLocations {
     this.workLine = rawData.workLine;
     this.acClass = rawData.acClass;
     this.accountType = rawData.accountType;
+    this.gstNo = rawData.gstNo;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

@@ -65,6 +65,10 @@ export const LIST = gql`
         collectionContainer
         interpretation
         testResultDate
+        internalComments
+        externalComments
+        testBottomMarker
+        testRightMarker
         status
         environment
         dateOfEntry
@@ -193,6 +197,10 @@ export const FILTER = gql`
         collectionContainer
         interpretation
         testResultDate
+        internalComments
+        externalComments
+        testBottomMarker
+        testRightMarker
         status
         environment
         dateOfEntry
@@ -267,6 +275,10 @@ export const FILTER_BY_FIELDS = gql`
         collectionContainer
         interpretation
         testResultDate
+        internalComments
+        externalComments
+        testBottomMarker
+        testRightMarker
         status
         environment
         dateOfEntry
@@ -341,6 +353,10 @@ export const FIND_BY_FIELDS = gql`
         collectionContainer
         interpretation
         testResultDate
+        internalComments
+        externalComments
+        testBottomMarker
+        testRightMarker
         status
         environment
         dateOfEntry

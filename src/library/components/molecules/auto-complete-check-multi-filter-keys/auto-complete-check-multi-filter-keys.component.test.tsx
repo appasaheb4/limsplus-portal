@@ -1,13 +1,12 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
 import {AutoCompleteCheckMultiFilterKeys} from './auto-complete-check-multi-filter-keys.component';
 
-it('render autoCompleteCheckMultiFilterKeys correctly', () => {
-  const autoCompleteCheckMultiFilterKeys = render(
-    <AutoCompleteCheckMultiFilterKeys
-      hasError={false}
-      onUpdate={() => jest.fn()}
-    />,
-  );
-  expect(autoCompleteCheckMultiFilterKeys).toMatchSnapshot();
+describe('AutoCompleteCheckMultiFilterKeys component', () => {
+  it('render autoCompleteCheckMultiFilterKeys correctly', () => {
+    const autoCompleteCheckMultiFilterKeys = render(
+      <AutoCompleteCheckMultiFilterKeys />,
+    );
+    expect(autoCompleteCheckMultiFilterKeys).toMatchSnapshot();
+  });
 });

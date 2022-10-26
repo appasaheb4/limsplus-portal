@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const plugin = require('tailwindcss/plugin');
+const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   content: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   darkMode: 'media',
@@ -23,10 +24,9 @@ module.exports = {
         mono: '#754c00',
       },
       fontFamily: {
-        nunitoSansRegular: ['Nunito Sans Regular'],
-        nunitoSansBold: ['Nunito Sans Bold'],
-        inspiration: ['Inspiration Regular'],
-        FugazOne: ['Fugaz One'],
+        arimaRegular: ["'Arima Regular'"],
+        nunitoSansRegular: ["'NunitoSans Regular'"],
+        nunitoSansBold: ["'NunitoSans Bold'"],
       },
       spacing: {
         '8xl': '96rem',

@@ -23,6 +23,13 @@ export class Labs {
   openingTime: string;
   closingTime: string;
   email: string;
+  web: string;
+  registeredOffice: string;
+  customerCare: string;
+  corporateOffice: string;
+  gst: string;
+  sacCode: string;
+  cinNo: string;
   labLog: any;
   image: string;
   autoRelease: boolean;
@@ -66,6 +73,13 @@ export class Labs {
     this.openingTime = rawData.openingTime;
     this.closingTime = rawData.closingTime;
     this.email = rawData.email;
+    this.web = rawData.web;
+    this.registeredOffice = rawData.registeredOffice;
+    this.customerCare = rawData.customerCare;
+    this.corporateOffice = rawData.corporateOffice;
+    this.gst = rawData.gst;
+    this.sacCode = rawData.sacCode;
+    this.cinNo = rawData.cinNo;
     this.labLog = rawData.labLog;
     this.image = rawData.image;
     this.autoRelease = rawData.autoRelease;
@@ -81,7 +95,6 @@ export class Labs {
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.priceList = rawData.priceList;
-
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

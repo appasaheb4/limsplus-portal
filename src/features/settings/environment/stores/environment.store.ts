@@ -28,7 +28,8 @@ export class EnvironmentStore {
     this.environmentSettingsList = [];
     this.environmentSettingsListCount = 0;
     this.checkExistsEnvSettingsRecord = false;
-
+    this.selectedItems = new SelectedItems({});
+    this.permission = new Permission({});
     this.environmentVariableList = [];
     this.environmentVariableListCopy = [];
     this.environmentVariableListCount = 0;

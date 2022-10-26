@@ -3,7 +3,6 @@ import {makeObservable, action, observable, computed} from 'mobx';
 import {Deginisation} from '../models';
 import {DeginisationService} from '../services';
 
-@version(0.1)
 export class DeginisationStore {
   listDeginisation!: Deginisation[];
   listDeginisationCopy!: Deginisation[];
@@ -13,6 +12,8 @@ export class DeginisationStore {
 
   constructor() {
     this.listDeginisation = [];
+    this.listDeginisationCopy = [];
+    this.deginisation = new Deginisation({});
     makeObservable<DeginisationStore, any>(this, {
       listDeginisation: observable,
       listDeginisationCount: observable,

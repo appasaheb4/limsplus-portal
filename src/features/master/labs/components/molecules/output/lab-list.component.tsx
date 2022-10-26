@@ -31,8 +31,8 @@ let district;
 let city;
 let area;
 let postalCode;
+let address;
 let priceList;
-let deliveryType;
 let salesTerritory;
 let labLicence;
 let defaultLab;
@@ -360,6 +360,18 @@ export const LabList = (props: LabListProps) => {
               ),
             },
             {
+              dataField: 'address',
+              text: 'Address',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: false,
+              filter: textFilter({
+                getFilter: filter => {
+                  address = filter;
+                },
+              }),
+            },
+            {
               dataField: 'priceList',
               text: 'Price List',
               headerClasses: 'textHeader3 z-10',
@@ -394,53 +406,7 @@ export const LabList = (props: LabListProps) => {
                 );
               },
             },
-            {
-              dataField: 'deliveryType',
-              text: 'Delivery Type',
-              headerClasses: 'textHeader3',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  deliveryType = filter;
-                },
-              }),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const deliveryType = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          deliveryType,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      'DELIVERY_TYPE',
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              ),
-            },
+
             {
               dataField: 'salesTerritory',
               text: 'Sales Territory',
@@ -570,7 +536,7 @@ export const LabList = (props: LabListProps) => {
                             ? 'Please Enter MobileNo'
                             : 'Mobile No'
                         }
-                        hasError={errors.mobileNo}
+                        hasError={!!errors.mobileNo}
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.mobileNo}
                         type='number'
@@ -628,7 +594,7 @@ export const LabList = (props: LabListProps) => {
                             ? 'Please Enter ContactNo'
                             : 'Contact No'
                         }
-                        hasError={errors.contactNo}
+                        hasError={!!errors.contactNo}
                         pattern={FormHelper.patterns.mobileNo}
                         defaultValue={row.contactNo}
                         type='number'
@@ -786,6 +752,55 @@ export const LabList = (props: LabListProps) => {
                   email = filter;
                 },
               }),
+            },
+            {
+              dataField: 'web',
+              text: 'Web',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
+              dataField: 'registeredOffice',
+              text: 'Registered Office',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
+              dataField: 'customerCare',
+              text: 'Customer Care',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
+              dataField: 'corporateOffice',
+              text: 'Corporate Office',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
+              dataField: 'gst',
+              text: 'GST',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
+              dataField: 'sacCode',
+              text: 'Sac Code',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
+              dataField: 'cinNo',
+              text: 'CIN No',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'image',
@@ -1214,8 +1229,8 @@ export const LabList = (props: LabListProps) => {
             city('');
             area('');
             postalCode('');
+            address('');
             priceList('');
-            deliveryType('');
             salesTerritory('');
             labLicence('');
             director('');

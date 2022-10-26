@@ -57,7 +57,8 @@ let corporateCode;
 let acClass;
 let doctorId;
 let doctorName;
-let deliveryType;
+let reportType;
+let holdReason;
 let status;
 
 export const PatientVisitList = observer((props: PatientVisitProps) => {
@@ -284,7 +285,13 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dueDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row?.dueDate
+                      ? dayjs(row?.dueDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
               },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -306,10 +313,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 </>
               ),
             },
-
             {
               dataField: 'birthDate',
-              text: 'BithDate',
+              text: 'Birth Date',
               headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) =>
@@ -323,7 +329,13 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.birthDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row?.birthDate
+                      ? dayjs(row?.birthDate).format('YYYY-MM-DD')
+                      : ''}
+                  </>
+                );
               },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -531,6 +543,83 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
             },
             {
+              dataField: 'grossAmount',
+              text: 'Gross Amount',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'netAmount',
+              text: 'Net Amount',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'discountAmount',
+              text: 'Discount Amount',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'discountPer',
+              text: 'Discount Per',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'miscellaneousCharges',
+              text: 'Miscellaneous Charges',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'miscCharges',
+              text: 'Misc Charges',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : ''),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <div className='flex flex-row gap-2'>
+                      {row?.miscCharges?.map(item => (
+                        <span>
+                          {item?.code + ' - ' + item?.amount?.toString()}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'discountCharges',
+              text: 'Other Charges',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : ''),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row?.discountCharges && (
+                      <span>
+                        {row?.discountCharges?.code +
+                          ' - ' +
+                          row?.discountCharges?.amount?.toString()}
+                      </span>
+                    )}
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'doctorId',
               text: 'Doctor Id',
               headerClasses: 'textHeader3',
@@ -601,14 +690,14 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
             },
             {
-              dataField: 'deliveryType',
-              text: 'Delivery Type',
+              dataField: 'reportType',
+              text: 'Report Type',
               headerClasses: 'textHeader3',
               sort: true,
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  deliveryType = filter;
+                  reportType = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -623,15 +712,15 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <select
-                    value={row.deliveryType}
+                    value={row.reportType}
                     className={
                       'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                     }
                     onChange={e => {
-                      const deliveryType = e.target.value as string;
+                      const reportType = e.target.value as string;
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          deliveryType,
+                          reportType,
                           column.dataField,
                           row._id,
                         );
@@ -687,6 +776,41 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 editorCell(row),
             },
 
+            {
+              dataField: 'holdReport',
+              text: 'Hold Report',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row.holdReport ? (row.holdReport ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.holdReport}
+                      onChange={holdReport => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(holdReport, 'holdReport', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+
+            {
+              dataField: 'holdReason',
+              text: 'Hold Reason',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: false,
+              filter: textFilter({
+                getFilter: filter => {
+                  holdReason = filter;
+                },
+              }),
+            },
             {
               dataField: 'abnFlag',
               text: 'Abn Flag',
@@ -845,7 +969,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             acClass('');
             doctorId('');
             doctorName('');
-            deliveryType('');
+            reportType('');
+            holdReason('');
             status('');
           }}
         />

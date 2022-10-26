@@ -141,7 +141,7 @@ const Section = SectionHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Department Code'
-                      hasError={errors.departmentCode}
+                      hasError={!!errors.departmentCode}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
                         onSelect={item => {
@@ -168,8 +168,8 @@ const Section = SectionHoc(
                     <Form.Input
                       label='Code'
                       id='code'
-                      hasError={errors.code}
-                      placeholder={errors.code ? 'Please Enter Code' : 'Code'}
+                      hasError={!!errors.code}
+                      placeholder={!!errors.code ? 'Please Enter Code' : 'Code'}
                       value={sectionStore.section?.code}
                       onChange={code => {
                         onChange(code);
@@ -211,8 +211,8 @@ const Section = SectionHoc(
                   render={({field: {onChange}}) => (
                     <Form.Input
                       label='Name'
-                      hasError={errors.name}
-                      placeholder={errors.name ? 'Please Enter Name' : 'Name'}
+                      hasError={!!errors.name}
+                      placeholder={!!errors.name ? 'Please Enter Name' : 'Name'}
                       value={sectionStore.section?.name}
                       onChange={name => {
                         onChange(name);
@@ -238,7 +238,7 @@ const Section = SectionHoc(
                           ? 'Please Enter shortName'
                           : 'Short Name'
                       }
-                      hasError={errors.shortName}
+                      hasError={!!errors.shortName}
                       value={sectionStore.section?.shortName}
                       onChange={shortName => {
                         onChange(shortName);
@@ -263,7 +263,7 @@ const Section = SectionHoc(
                           ? 'Please Enter sectionInCharge'
                           : 'Section In Charge'
                       }
-                      hasError={errors.sectionInCharge}
+                      hasError={!!errors.sectionInCharge}
                       value={sectionStore.section?.sectionInCharge}
                       onChange={sectionInCharge => {
                         onChange(sectionInCharge);
@@ -289,7 +289,7 @@ const Section = SectionHoc(
                       }
                       pattern={FormHelper.patterns.mobileNo}
                       value={sectionStore.section?.mobileNo}
-                      hasError={errors.mobieNo}
+                      hasError={!!errors.mobieNo}
                       onChange={mobileNo => {
                         onChange(mobileNo);
                         sectionStore.updateSection({
@@ -317,7 +317,7 @@ const Section = SectionHoc(
                           ? 'Please Enter contactNo'
                           : 'Contact No'
                       }
-                      hasError={errors.contactNo}
+                      hasError={!!errors.contactNo}
                       pattern={FormHelper.patterns.mobileNo}
                       value={sectionStore.section?.contactNo}
                       onChange={contactNo => {
@@ -370,7 +370,7 @@ const Section = SectionHoc(
                       placeholder={
                         errors.workLine ? 'Please Enter workLine' : 'Work line'
                       }
-                      hasError={errors.workLine}
+                      hasError={!!errors.workLine}
                       value={sectionStore.section?.workLine}
                       onChange={workLine => {
                         onChange(workLine);
@@ -388,7 +388,10 @@ const Section = SectionHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={sectionStore.section?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${

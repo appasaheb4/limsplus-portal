@@ -1,12 +1,12 @@
 /* eslint-disable no-case-declarations */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {Form, Buttons} from '@/library/components';
 import {InputResult} from './input-result.components';
 import {DisplayResult} from './display-result.components';
-import TableBootstrap from './table-bootstrap.component';
-import {RefRangesExpandList} from './ref-ranges-expand-list.component';
+
+import {GeneralResultEntryExpand} from './general-result-entry-expand.component';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -14,7 +14,7 @@ interface GeneralResultEntryListProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   onUpdateValue: (item: any, id: string) => void;
-  onSaveFields: (fileds: any, id: string) => void;
+  onSaveFields: (fileds: any, id: string, type: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -25,6 +25,7 @@ interface GeneralResultEntryListProps {
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
+  const [data, setData] = useState<any>([]);
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -104,57 +105,32 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   const getCretical = (type: string, row: any) => {
     switch (type) {
+      case 'V':
+        const numberResult = Number.parseFloat(row?.result);
+        const numberLo = Number.parseFloat(
+          row?.refRangesList?.find(item => item.rangeType === 'C')?.low,
+        );
+        const numberHi = Number.parseFloat(
+          row?.refRangesList?.find(item => item.rangeType === 'C')?.high,
+        );
+        if (!numberLo && !numberHi) return false;
+        if (numberResult >= numberLo && numberResult <= numberHi) return false;
+        return true;
+        break;
       default:
-        return row?.cretical;
+        return row?.critical;
         break;
     }
   };
 
-  const expandRow = {
-    renderer: row => (
-      <div className='z-0'>
-        <RefRangesExpandList
-          id='_id'
-          data={row?.refRangesList || []}
-          totalSize={row?.refRangesList?.length || 0}
-          columns={[
-            {
-              dataField: 'rangeType',
-              text: 'Range Type',
-            },
-            {
-              dataField: 'low',
-              text: 'Low',
-            },
-            {
-              dataField: 'high',
-              text: 'High',
-            },
-            {
-              dataField: 'rangeSetOn',
-              text: 'Range Set On',
-            },
-            {
-              dataField: 'rangeId',
-              text: 'Range Id',
-            },
-            {
-              dataField: 'version',
-              text: 'Range Version',
-            },
-          ]}
-          onSelectedRow={rows => {}}
-          onUpdateItem={(value: any, dataField: string, id: string) => {}}
-        />
-      </div>
-    ),
-    showExpandColumn: true,
-  };
+  useEffect(() => {
+    setData(props.data);
+  }, [props.data]);
 
   return (
     <>
       <div style={{position: 'relative'}}>
-        <TableBootstrap
+        <GeneralResultEntryExpand
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
@@ -185,8 +161,26 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 <>
                   <InputResult
                     row={row}
-                    onSelect={result => {
-                      props.onUpdateValue(result, row._id);
+                    onSelect={async result => {
+                      await props.onUpdateValue(result, row._id);
+                      const rows = {...row, ...result};
+                      if (_.isEmpty(row?.result)) {
+                        props.onSaveFields(
+                          {
+                            ...rows,
+                            resultStatus: getResultStatus(
+                              rows.resultType,
+                              rows,
+                            ),
+                            testStatus: getTestStatus(rows.resultType, rows),
+                            abnFlag: getAbnFlag(rows.resultType, rows),
+                            critical: getCretical(rows.resultType, rows),
+                            ...result,
+                          },
+                          rows._id,
+                          'directSave',
+                        );
+                      }
                     }}
                   />
                 </>
@@ -195,6 +189,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
+              editable: false,
+            },
+            {
+              dataField: 'panelCode',
+              text: 'Panel Code',
               editable: false,
             },
             {
@@ -397,40 +396,45 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
-              formatter: (cellContent, row) => (
+              formatter: (cell, row, rowIndex, formatExtraData) => (
                 <>
-                  <div className='flex flex-row'>
-                    {/* {row.testStatus === 'P' && ( */}
-                    <>
-                      <Buttons.Button
-                        size='small'
-                        type='outline'
-                        buttonClass='text-white'
-                        onClick={() => {
-                          if (!row?.result)
-                            return alert('Please enter result value ');
-                          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                          props.onSaveFields &&
-                            props.onSaveFields(
-                              {
-                                ...row,
-                                resultStatus: getResultStatus(
-                                  row.resultType,
-                                  row,
-                                ),
-                                testStatus: getTestStatus(row.resultType, row),
-                                abnFlag: getAbnFlag(row.resultType, row),
-                                cretical: getCretical(row.resultType, row),
-                              },
-                              row._id,
-                            );
-                        }}
-                      >
-                        {'Save'}
-                      </Buttons.Button>
-                    </>
-                    {/* )} */}
-                  </div>
+                  {!_.isEmpty(row?.result) && (
+                    <div className='flex flex-row'>
+                      <>
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          buttonClass='text-white'
+                          disabled={!row?.flagUpdate}
+                          onClick={() => {
+                            if (!row?.result)
+                              return alert('Please enter result value ');
+                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                            props.onSaveFields &&
+                              props.onSaveFields(
+                                {
+                                  ...row,
+                                  resultStatus: getResultStatus(
+                                    row.resultType,
+                                    row,
+                                  ),
+                                  testStatus: getTestStatus(
+                                    row.resultType,
+                                    row,
+                                  ),
+                                  abnFlag: getAbnFlag(row.resultType, row),
+                                  critical: getCretical(row.resultType, row),
+                                },
+                                row._id,
+                                'save',
+                              );
+                          }}
+                        >
+                          {'Update'}
+                        </Buttons.Button>
+                      </>
+                    </div>
+                  )}
                 </>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white',
@@ -439,7 +443,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
           ]}
-          expandRow={expandRow}
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName='General Result Entry'

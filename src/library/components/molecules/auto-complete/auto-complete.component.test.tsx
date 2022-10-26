@@ -1,10 +1,11 @@
 import React from 'react';
-import {render} from '@utils';
+import {render, fireEvent} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {AutoComplete} from './auto-complete.component';
 
-it('render autoComplete correctly', () => {
-  const autoComplete = render(
-    <AutoComplete hasError={false} onChange={() => jest.fn()} />,
-  );
-  expect(autoComplete).toMatchSnapshot();
+describe('AutoComplete component', () => {
+  it('render autoComplete correctly', () => {
+    const autoComplete = render(<AutoComplete onChange={value => jest.fn()} />);
+    expect(autoComplete).toMatchSnapshot();
+  });
 });

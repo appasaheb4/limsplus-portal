@@ -1,10 +1,12 @@
 import React from 'react';
-import {render} from '@utils';
-import {ModalTransition} from './moda-transition.component';
+import {render, fireEvent} from '@testing-library/react';
+import {ModalTransition} from './modal-transition.component';
 
-it('render modalTransition correctly', () => {
-  const modalTransition = render(
-    <ModalTransition show={true} onClick={() => jest.fn()} />,
-  );
-  expect(modalTransition).toMatchSnapshot();
+describe('ModalTransition component', () => {
+  it('render modalTransition correctly', () => {
+    const modalTransition = render(
+      <ModalTransition show={true} onClose={() => jest.fn()} />,
+    );
+    expect(modalTransition).toMatchSnapshot();
+  });
 });

@@ -24,7 +24,7 @@ export const AutoCompleteDefaultDepartment = observer(
             ),
             displayKey: ['code', 'name'],
           }}
-          // hasError={errors.defaultDepartment}
+          // hasError={!!errors.defaultDepartment}
           onFilter={(value: string) => {
             departmentStore.DepartmentService.filter({
               input: {

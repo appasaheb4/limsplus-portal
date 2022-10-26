@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Ref} from 'react';
 import {List, ModalClock} from '../..';
 import dayjs from 'dayjs';
 import '../css/toggle.css';
@@ -37,9 +37,9 @@ interface InputWrapperProps {
   children?: React.ReactNode;
 }
 
-export const InputWrapper: React.FunctionComponent<
-  InputWrapperProps
-> = props => (
+export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
+  props: InputWrapperProps,
+) => (
   <div className={props.className} ref={props.ref}>
     <Label
       htmlFor={props.id || ''}
@@ -61,6 +61,7 @@ interface InputProps extends InputWrapperProps {
   required?: boolean;
   disabled?: boolean;
   className?: string;
+  labelClassName?: string;
   rows?: number;
   style?: any;
   wrapperStyle?: any;
@@ -73,7 +74,7 @@ interface InputProps extends InputWrapperProps {
   inputRef?: any;
 }
 
-export const Input = React.forwardRef((props: InputProps) => {
+export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
   const handleKeyPress = e => {
     const key = e.key;
     const regex = props.pattern;
@@ -88,11 +89,13 @@ export const Input = React.forwardRef((props: InputProps) => {
       id={props.id}
       hasError={props.hasError}
       style={props.wrapperStyle}
+      className={props.labelClassName}
     >
       <input
         type={props.type || 'text'}
         id={props.id}
         ref={props.inputRef}
+        data-testid='INPT'
         name={props.name}
         style={props.style}
         defaultValue={props.defaultValue}
@@ -128,7 +131,10 @@ export const MultilineInput = (props: InputProps) => (
       placeholder={props.placeholder}
       onChange={e => props.onChange && props.onChange(e.target.value)}
       onBlur={e => props.onBlur && props.onBlur(e.target.value)}
-      className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+        props.hasError ? 'border-red-500 ' : 'border-gray-300'
+      } rounded-md`}
+      defaultValue={props.defaultValue}
     />
   </InputWrapper>
 );
@@ -252,6 +258,8 @@ export const SelectOption = (props: SelectOptionProps) => (
       name={props.name}
       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
       onChange={e => props.onChange && props.onChange(e.target.value)}
+      data-testid='SELECT'
+      value={props.value}
     >
       <option selected>Select</option>
       {props.values?.map((item: any) => (

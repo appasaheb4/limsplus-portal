@@ -19,6 +19,7 @@ import {
   AutoCompleteDepartment,
   AutoCompleteEquipmentType,
   AutoCompleteInterpretation,
+  AutoCompleteAnalyteBottomMarker,
 } from '../index';
 import {FormHelper} from '@/helper';
 
@@ -46,6 +47,9 @@ let enteredBy;
 let dateCreation;
 let dateActive;
 let dateExpire;
+let internalComments;
+let externalComments;
+let analyteRightMarker;
 let status;
 let version;
 let minReportable;
@@ -935,6 +939,138 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+            },
+            {
+              dataField: 'internalComments',
+              text: 'Internal Comments',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  internalComments = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'externalComments',
+              text: 'External Comments',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  externalComments = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'analyteBottomMarker',
+              text: 'Analyte Bottom Marker',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              formatter: (cell, row) => {
+                return <span>{row?.analyteBottomMarker?.details}</span>;
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteAnalyteBottomMarker
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(item, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'analyteRightMarker',
+              text: 'Analyte Right Marker',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  analyteRightMarker = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'abnormalHighlighterCSS',
+              text: 'Abnormal Highlighter CSS',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.MultilineInput
+                    label=''
+                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
+                    onBlur={abnormalHighlighterCSS => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          abnormalHighlighterCSS,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                    defaultValue={row?.abnormalHighlighterCSS}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'criticalHighlighterCSS',
+              text: 'Critical Highlighter CSS',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.MultilineInput
+                    label=''
+                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
+                    onBlur={criticalHighlighterCSS => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          criticalHighlighterCSS,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                    defaultValue={row?.criticalHighlighterCSS}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'status',

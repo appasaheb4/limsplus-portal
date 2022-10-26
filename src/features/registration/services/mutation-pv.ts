@@ -27,17 +27,26 @@ export const LIST_PATIENT_VISIT = gql`
         corporateCode
         corporateName
         acClass
+        grossAmount
+        netAmount
+        discountAmount
+        discountPer
+        miscellaneousCharges
+        miscCharges
+        discountCharges
         doctorId
         doctorName
-        deliveryType
+        reportType
         history
+        holdReport
+        holdReason
         resultDate
         abnFlag
         critical
         status
         extraData {
           accountType
-          deliveryMethod
+          deliveryMode
           additionalInfo
           invoiceAc
           billingMethod
@@ -129,17 +138,26 @@ export const FILTER_PATIENT_VISIT = gql`
         corporateCode
         corporateName
         acClass
+        grossAmount
+        netAmount
+        discountAmount
+        discountPer
+        miscellaneousCharges
+        miscCharges
+        discountCharges
         doctorId
         doctorName
-        deliveryType
+        reportType
         history
+        holdReport
+        holdReason
         resultDate
         abnFlag
         critical
         status
         extraData {
           accountType
-          deliveryMethod
+          deliveryMode
           additionalInfo
           invoiceAc
           billingMethod
@@ -234,17 +252,26 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         corporateCode
         corporateName
         acClass
+        grossAmount
+        netAmount
+        discountAmount
+        discountPer
+        miscellaneousCharges
+        miscCharges
+        discountCharges
         doctorId
         doctorName
-        deliveryType
+        reportType
         history
+        holdReport
+        holdReason
         resultDate
         abnFlag
         critical
         status
         extraData {
           accountType
-          deliveryMethod
+          deliveryMode
           additionalInfo
           invoiceAc
           billingMethod

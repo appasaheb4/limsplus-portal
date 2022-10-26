@@ -22,10 +22,11 @@ export class PriceListStore {
       dateExpire: new Date(
         dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
       ),
-      version: 1,
+      fixedPrice: false,
       minSp: 0,
-      maxDis: 0,
       maxSp: 0,
+      maxDis: 100,
+      version: 1,
     };
 
     makeObservable<PriceListStore, any>(this, {

@@ -21,7 +21,7 @@ export const AutoCompleteReportingTo = observer(
             list: userStore.userList,
             displayKey: ['empCode', 'fullName'],
           }}
-          // hasError={errors.reportingTo}
+          // hasError={!!errors.reportingTo}
           onFilter={(value: string) => {
             userStore.UsersService.filterByFields({
               input: {

@@ -96,3 +96,12 @@ export const UPDATE_RECORD = gql`
     }
   }
 `;
+
+export const RELOAD_RECORD = gql`
+  mutation ($input: PatientResultInput!) {
+    reloadPatientResult(input: $input) {
+      success
+      message
+    }
+  }
+`;

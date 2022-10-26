@@ -16,7 +16,7 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@utils';
+import {lookupItems, lookupValue} from '@/library/utils';
 import {UserList} from '../components';
 import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';
@@ -130,6 +130,15 @@ export const Users = UsersHoc(
               body: 'Update user!',
             });
           }}
+          onUpdateFields={(fields: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              data: {fields, id},
+              title: 'Are you sure?',
+              body: 'Update items!',
+            });
+          }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
             setModalConfirm({
               show: true,
@@ -207,7 +216,7 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      hasError={errors.defaultLab}
+                      hasError={!!errors.defaultLab}
                       label='Default Lab'
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
@@ -218,7 +227,7 @@ export const Users = UsersHoc(
                           displayKey: ['code', 'name'],
                         }}
                         displayValue={userStore.user?.defaultLab}
-                        hasError={errors.defaultLab}
+                        hasError={!!errors.defaultLab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
                             input: {
@@ -276,7 +285,7 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      hasError={errors.defaultDepartment}
+                      hasError={!!errors.defaultDepartment}
                       label='Default Department'
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
@@ -289,7 +298,7 @@ export const Users = UsersHoc(
                           displayKey: ['code', 'name'],
                         }}
                         displayValue={userStore.user?.defaultDepartment}
-                        hasError={errors.defaultDepartment}
+                        hasError={!!errors.defaultDepartment}
                         onFilter={(value: string) => {
                           departmentStore.DepartmentService.filter({
                             input: {
@@ -336,7 +345,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='User Group'
-                      hasError={errors.userGroup}
+                      hasError={!!errors.userGroup}
                     >
                       <select
                         value={userStore.user?.userGroup}
@@ -378,7 +387,7 @@ export const Users = UsersHoc(
                       placeholder={
                         errors.userId ? 'Please enter userId' : 'UserId'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={(userStore && userStore.user.userId) || ''}
                       onChange={userId => {
                         onChange(userId);
@@ -389,13 +398,13 @@ export const Users = UsersHoc(
                       }}
                       onBlur={userId => {
                         if (userId) {
-                          userStore.UsersService.checkExitsUserId(userId).then(
-                            res => {
+                          userStore.UsersService.serviceUser
+                            .checkExitsUserId(userId)
+                            .then(res => {
                               if (res.checkUserExitsUserId.success)
                                 userStore.setExitsUserId(true);
                               else userStore.setExitsUserId(false);
-                            },
-                          );
+                            });
                         }
                       }}
                     />
@@ -417,7 +426,7 @@ export const Users = UsersHoc(
                       placeholder={
                         errors.fullName ? 'Please enter full name' : 'Full Name'
                       }
-                      hasError={errors.fullName}
+                      hasError={!!errors.fullName}
                       value={userStore && userStore.user.fullName}
                       onChange={fullName => {
                         onChange(fullName);
@@ -440,7 +449,7 @@ export const Users = UsersHoc(
                       placeholder={
                         errors.empCode ? 'Please enter emp code' : 'Emp Code'
                       }
-                      hasError={errors.empCode}
+                      hasError={!!errors.empCode}
                       value={(userStore && userStore.user.empCode) || ''}
                       onChange={empCode => {
                         onChange(empCode);
@@ -478,7 +487,7 @@ export const Users = UsersHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      hasError={errors.reportingTo}
+                      hasError={!!errors.reportingTo}
                       label='Reporting To'
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
@@ -489,7 +498,7 @@ export const Users = UsersHoc(
                           displayKey: ['empCode', 'fullName'],
                         }}
                         displayValue={userStore.user?.reportingTo}
-                        hasError={errors.reportingTo}
+                        hasError={!!errors.reportingTo}
                         onFilter={(value: string) => {
                           userStore.UsersService.filterByFields({
                             input: {
@@ -523,7 +532,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Designation'
-                      hasError={errors.deginisation}
+                      hasError={!!errors.deginisation}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -533,7 +542,7 @@ export const Users = UsersHoc(
                           displayKey: ['code', 'description'],
                         }}
                         displayValue={userStore.user?.deginisation}
-                        hasError={errors.deginisation}
+                        hasError={!!errors.deginisation}
                         onFilter={(value: string) => {
                           deginisationStore.DeginisationService.filterByFields({
                             input: {
@@ -573,7 +582,7 @@ export const Users = UsersHoc(
                           ? 'Please enter user degree'
                           : 'User Degree'
                       }
-                      hasError={errors.userDegree}
+                      hasError={!!errors.userDegree}
                       value={userStore && userStore.user.userDegree}
                       onChange={userDegree => {
                         onChange(userDegree);
@@ -592,7 +601,7 @@ export const Users = UsersHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Role' hasError={errors.role}>
+                    <Form.InputWrapper label='Role' hasError={!!errors.role}>
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by code or name'
@@ -601,7 +610,7 @@ export const Users = UsersHoc(
                           selected: userStore.selectedItems?.roles,
                           displayKey: ['code', 'description'],
                         }}
-                        hasError={errors.role}
+                        hasError={!!errors.role}
                         onUpdate={item => {
                           const roles = userStore.selectedItems?.roles;
                           userStore.updateUser({
@@ -655,7 +664,7 @@ export const Users = UsersHoc(
                       placeholder={
                         errors.password ? 'Please enter password' : 'Password'
                       }
-                      hasError={errors.password}
+                      hasError={!!errors.password}
                       value={userStore && userStore.user.password}
                       onChange={password => {
                         onChange(password);
@@ -679,7 +688,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Assigned Lab'
-                      hasError={errors.labs}
+                      hasError={!!errors.labs}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -695,7 +704,7 @@ export const Users = UsersHoc(
                           selected: userStore.selectedItems?.labs,
                           displayKey: ['code', 'name'],
                         }}
-                        hasError={errors.labs}
+                        hasError={!!errors.labs}
                         onUpdate={item => {
                           const lab = userStore.selectedItems?.labs;
                           userStore.updateUser({
@@ -779,7 +788,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Assigned Department'
-                      hasError={errors.department}
+                      hasError={!!errors.department}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -805,7 +814,7 @@ export const Users = UsersHoc(
                           selected: userStore.selectedItems?.department,
                           displayKey: ['code', 'name'],
                         }}
-                        hasError={errors.department}
+                        hasError={!!errors.department}
                         onUpdate={item => {
                           const department =
                             userStore.selectedItems?.department;
@@ -882,7 +891,7 @@ export const Users = UsersHoc(
                       }
                       pattern={FormHelper.patterns.mobileNo}
                       type='number'
-                      hasError={errors.mobileNo}
+                      hasError={!!errors.mobileNo}
                       value={userStore && userStore.user.mobileNo}
                       onChange={mobileNo => {
                         onChange(mobileNo);
@@ -912,7 +921,7 @@ export const Users = UsersHoc(
                           : 'Contact No'
                       }
                       pattern={FormHelper.patterns.mobileNo}
-                      hasError={errors.contactNo}
+                      hasError={!!errors.contactNo}
                       value={userStore && userStore.user.contactNo}
                       onChange={contactNo => {
                         onChange(contactNo);
@@ -939,7 +948,7 @@ export const Users = UsersHoc(
                       placeholder={
                         errors.email ? 'Please enter email' : 'Email'
                       }
-                      hasError={errors.email}
+                      hasError={!!errors.email}
                       value={userStore && userStore.user.email}
                       onChange={email => {
                         onChange(email);
@@ -960,7 +969,7 @@ export const Users = UsersHoc(
                     <Form.InputFile
                       label='Signature'
                       placeholder='File'
-                      onChange={e => {
+                      onChange={async e => {
                         const signature = e.target.files[0];
                         onChange(signature);
                         userStore.updateUser({
@@ -1000,7 +1009,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Validation Level'
-                      hasError={errors.validationLevel}
+                      hasError={!!errors.validationLevel}
                     >
                       <select
                         value={userStore && userStore.user?.validationLevel}
@@ -1036,7 +1045,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
                       label='Birth date'
-                      hasError={errors.dateOfBirth}
+                      hasError={!!errors.dateOfBirth}
                       value={userStore && userStore.user.dateOfBirth}
                       onChange={dateOfBirth => {
                         onChange(dateOfBirth);
@@ -1056,7 +1065,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
                       label='Marriage Anniversary'
-                      hasError={errors.marriageAnniversary}
+                      hasError={!!errors.marriageAnniversary}
                       value={userStore && userStore.user.marriageAnniversary}
                       onChange={marriageAnniversary => {
                         onChange(marriageAnniversary);
@@ -1079,7 +1088,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputDateTime
                       label='Exipre Date'
-                      hasError={errors.exipreDate}
+                      hasError={!!errors.exipreDate}
                       value={userStore && userStore.user.exipreDate}
                       onChange={exipreDate => {
                         onChange(exipreDate);
@@ -1108,7 +1117,7 @@ export const Users = UsersHoc(
                             ? 'Please enter exipre days'
                             : 'Exipre Days'
                         }
-                        hasError={errors.expireDays}
+                        hasError={!!errors.expireDays}
                         value={userStore && userStore.user.expireDays}
                         onChange={expireDays => {
                           onChange(expireDays);
@@ -1185,7 +1194,7 @@ export const Users = UsersHoc(
                 </div>
                 <Form.InputWrapper
                   label='Access Permission'
-                  hasError={errors.environment}
+                  hasError={!!errors.environment}
                   style={{fontWeight: 'bold'}}
                 >
                   <div className='flex flex-row gap-4'>
@@ -1286,7 +1295,7 @@ export const Users = UsersHoc(
                           ? 'Please enter created by'
                           : 'Created By'
                       }
-                      hasError={errors.createdBy}
+                      hasError={!!errors.createdBy}
                       value={
                         userStore.user?.createdBy || loginStore.login?.userId
                       }
@@ -1300,7 +1309,10 @@ export const Users = UsersHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={userStore && userStore.user?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -1338,7 +1350,7 @@ export const Users = UsersHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={userStore.user?.version}
                       disabled={true}
                     />
@@ -1352,7 +1364,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={userStore && userStore.user?.environment}
@@ -1463,6 +1475,25 @@ export const Users = UsersHoc(
                         userStore.loadUser();
                       }
                     });
+                  break;
+                }
+                case 'updateFields': {
+                  userStore.UsersService.updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fields,
+                      _id: modalConfirm.data.id,
+                    },
+                  }).then((res: any) => {
+                    setModalConfirm({show: false});
+                    if (res.updateUser.success) {
+                      Toast.success({
+                        message: `😊 ${res.updateUser.message}`,
+                      });
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 2000);
+                    }
+                  });
 
                   break;
                 }

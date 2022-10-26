@@ -64,7 +64,7 @@ const SidebarCategory = withRouter(
           aria-expanded={isOpen ? 'true' : 'false'}
         >
           {icon !== undefined ? (
-            <Icons.IconContext>
+            <Icons.IconContext color='#ffffff'>
               <Icon />
             </Icons.IconContext>
           ) : null}
@@ -117,7 +117,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
       <NavLink to={props.to} className='sidebar-link' activeClassName='active'>
         <span className='flex items-center'>
           {props.icon ? (
-            <Icons.IconContext>
+            <Icons.IconContext color='#ffffff'>
               <props.icon />
             </Icons.IconContext>
           ) : null}
@@ -172,11 +172,10 @@ const Sidebar = observer(({location, sidebar, layout}) => {
           <PerfectScrollbar>
             <a className='flex sidebar-brand items-center' href='/'>
               <img
-                src={Assets.appIcon}
+                src={Assets.images.limsplusTran}
                 alt='appIcon'
-                style={{width: 40, height: 40}}
+                style={{width: '100%'}}
               />
-              <span className='align-middle ml-2'>{'Lims Plus'}</span>
             </a>
             <div className='p-2'>
               <AutocompleteGroupBy

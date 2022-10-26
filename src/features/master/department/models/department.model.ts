@@ -5,6 +5,8 @@ export class Department {
   name: string;
   shortName: string;
   hod: string;
+  authorizedSignatory: [string];
+  reportOrder: number;
   mobileNo: string;
   contactNo: string;
   autoRelease: boolean;
@@ -27,6 +29,8 @@ export class Department {
     this.name = rawData.name;
     this.shortName = rawData.shortName;
     this.hod = rawData.hod;
+    this.authorizedSignatory = rawData.authorizedSignatory;
+    this.reportOrder = rawData.reportOrder;
     this.contactNo = rawData.contactNo;
     this.mobileNo = rawData.mobileNo;
     this.autoRelease = rawData.autoRelease;
@@ -47,8 +51,10 @@ export class Department {
 export class SelectedItems {
   lab: any[];
   hod: any[];
+  authorizedSignatory: any[];
   constructor(rawData: {[key in string]: any}) {
     this.lab = rawData.lab;
     this.hod = rawData.hod;
+    this.authorizedSignatory = rawData.authorizedSignatory;
   }
 }

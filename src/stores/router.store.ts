@@ -7,12 +7,19 @@ export class RouterStore {
   userPermission: any[];
   selectedCategory!: SelectedCategory;
   router: any;
-  selectedComponents!: SelectedComponent;
+  selectedComponents!: Partial<SelectedComponent>;
   lookupItems: Array<any>;
 
   constructor() {
     this.userPermission = [];
     this.lookupItems = [];
+
+    // this.userRouter = [];
+    // this.selectedUserCategory = {};
+    // this.selectedCategory = {};
+    // this.router = undefined;
+    // this.selectedComponents = {};
+
     makeObservable<RouterStore, any>(this, {
       userRouter: observable,
       selectedUserCategory: observable,

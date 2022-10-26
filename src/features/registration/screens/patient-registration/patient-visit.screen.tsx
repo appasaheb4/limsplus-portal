@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
+import {Table} from 'reactstrap';
+import _ from 'lodash';
 import {
   Toast,
   Heading,
@@ -9,6 +11,7 @@ import {
   Buttons,
   Grid,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   AutoCompleteFilterSingleSelect,
   ModalConfirm,
   Svg,
@@ -29,8 +32,6 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {patientRegistrationHoc} from '../../hoc';
-import hydrateStore from '@/library/modules/startup';
 
 import {PatientVisitHoc} from '../../hoc';
 import {useStores} from '@/stores';
@@ -56,12 +57,14 @@ export const PatientVisit = PatientVisitHoc(
       doctorsStore,
       patientRegistrationStore,
     } = useStores();
+
     const {
       control,
       handleSubmit,
       formState: {errors},
       setValue,
       clearErrors,
+      setError,
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -101,6 +104,81 @@ export const PatientVisit = PatientVisitHoc(
       }
     };
 
+    const labId = useMemo(() => {
+      return (
+        <>
+          <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Form.Input
+                label='Lab Id'
+                placeholder={errors.labId ? 'Please Enter Lab ID' : 'Lab ID'}
+                hasError={!!errors.labId}
+                disabled={
+                  appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+                  'no'
+                }
+                type='number'
+                value={patientVisitStore.patientVisit?.labId}
+                onChange={labId => {
+                  onChange(labId);
+                  patientVisitStore.updatePatientVisit({
+                    ...patientVisitStore.patientVisit,
+                    labId: Number.parseFloat(labId),
+                  });
+                }}
+                onBlur={labId => {
+                  patientVisitStore.patientVisitService
+                    .checkExistsRecord({
+                      input: {
+                        filter: {
+                          labId: Number.parseFloat(labId),
+                          documentType: 'patientVisit',
+                        },
+                      },
+                    })
+                    .then(res => {
+                      if (res.checkExistsPatientVisitRecord.success) {
+                        patientVisitStore.updateExistsLabId(true);
+                        Toast.error({
+                          message: `😔 ${res.checkExistsPatientVisitRecord.message}`,
+                        });
+                      } else patientVisitStore.updateExistsLabId(false);
+                    });
+                }}
+              />
+            )}
+            name='labId'
+            rules={{
+              required:
+                appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+                'no'
+                  ? false
+                  : true,
+              minLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
+              maxLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
+            }}
+            defaultValue=''
+          />
+          {appStore.environmentValues?.LABID_LENGTH?.value ? (
+            <span className='text-red-600 font-medium relative'>
+              {`Lab id must be ${appStore.environmentValues?.LABID_LENGTH?.value} digit`}
+            </span>
+          ) : (
+            <span className='text-red-600 font-medium relative'>
+              Lab id must be 4 digit.
+            </span>
+          )}
+          {patientVisitStore.checkExistsLabId && (
+            <span className='text-red-600 font-medium relative'>
+              Lab Id already exits. Please use diff lab Id.
+            </span>
+          )}
+        </>
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [patientVisitStore.patientVisit?.labId]);
+
     return (
       <>
         {patientVisitStore.patientVisit.patientName && (
@@ -131,7 +209,7 @@ export const PatientVisit = PatientVisitHoc(
                       placeholder={
                         errors.visitId ? 'Please Enter Visit ID' : 'Visit ID'
                       }
-                      hasError={errors.visitId}
+                      hasError={!!errors.visitId}
                       disabled={true}
                       value={patientVisitStore.patientVisit?.visitId}
                       onChange={visitId => {
@@ -147,84 +225,13 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                {labId}
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Lab Id'
-                      placeholder={
-                        errors.labId ? 'Please Enter Lab ID' : 'Lab ID'
-                      }
-                      hasError={errors.labId}
-                      disabled={
-                        appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-                        'no'
-                      }
-                      type='number'
-                      value={patientVisitStore.patientVisit?.labId}
-                      onChange={labId => {
-                        onChange(labId);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          labId: Number.parseFloat(labId),
-                        });
-                      }}
-                      onBlur={labId => {
-                        patientVisitStore.patientVisitService
-                          .checkExistsRecord({
-                            input: {
-                              filter: {
-                                labId: Number.parseFloat(labId),
-                                documentType: 'patientVisit',
-                              },
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkExistsPatientVisitRecord.success) {
-                              patientVisitStore.updateExistsLabId(true);
-                              Toast.error({
-                                message: `😔 ${res.checkExistsPatientVisitRecord.message}`,
-                              });
-                            } else patientVisitStore.updateExistsLabId(false);
-                          });
-                      }}
-                    />
-                  )}
-                  name='labId'
-                  rules={{
-                    required:
-                      appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-                      'no'
-                        ? false
-                        : true,
-                    minLength:
-                      appStore.environmentValues?.LABID_LENGTH?.value || 4,
-                    maxLength:
-                      appStore.environmentValues?.LABID_LENGTH?.value || 4,
-                  }}
-                  defaultValue=''
-                />
-                {appStore.environmentValues?.LABID_LENGTH?.value ? (
-                  <span className='text-red-600 font-medium relative'>
-                    {`Lab id must be ${appStore.environmentValues?.LABID_LENGTH?.value} digit`}
-                  </span>
-                ) : (
-                  <span className='text-red-600 font-medium relative'>
-                    Lab id must be 4 digit.
-                  </span>
-                )}
-
-                {patientVisitStore.checkExistsLabId && (
-                  <span className='text-red-600 font-medium relative'>
-                    Lab Id already exits. Please use diff lab Id.
-                  </span>
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='PId' hasError={errors.pid}>
+                    <Form.InputWrapper label='PId' hasError={!!errors.pid}>
                       <AutoCompleteFilterSingleSelectPid
-                        hasError={errors.pid}
+                        hasError={!!errors.pid}
                         onSelect={item => {
                           onChange(item.pId);
                           const resultAge = calculateTimimg(
@@ -252,7 +259,7 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Rlab' hasError={errors.rLab}>
+                    <Form.InputWrapper label='Rlab' hasError={!!errors.rLab}>
                       <select
                         value={patientVisitStore.patientVisit?.rLab}
                         disabled={true}
@@ -295,7 +302,7 @@ export const PatientVisit = PatientVisitHoc(
                           ? 'Please Enter VisitDate'
                           : 'VisitDate'
                       }
-                      hasError={errors.visitDate}
+                      hasError={!!errors.visitDate}
                       value={patientVisitStore.patientVisit.visitDate}
                       onChange={visitDate => {
                         onChange(visitDate);
@@ -321,7 +328,7 @@ export const PatientVisit = PatientVisitHoc(
                           ? 'Please Enter RegistrationDate'
                           : 'RegistrationDate'
                       }
-                      hasError={errors.registrationDate}
+                      hasError={!!errors.registrationDate}
                       value={patientVisitStore.patientVisit?.registrationDate}
                       onChange={registrationDate => {
                         onChange(registrationDate);
@@ -347,7 +354,7 @@ export const PatientVisit = PatientVisitHoc(
                           ? 'Please Enter Collection Date'
                           : 'Collection Date'
                       }
-                      hasError={errors.collectionDate}
+                      hasError={!!errors.collectionDate}
                       value={patientVisitStore.patientVisit?.collectionDate}
                       onChange={collectionDate => {
                         patientVisitStore.updatePatientVisit({
@@ -371,7 +378,7 @@ export const PatientVisit = PatientVisitHoc(
                         errors.dueDate ? 'Please Enter Due Date' : 'Due Date'
                       }
                       disabled={true}
-                      hasError={errors.dueDate}
+                      hasError={!!errors.dueDate}
                       value={patientVisitStore.patientVisit?.dueDate}
                       onChange={dueDate => {
                         onChange(dueDate);
@@ -397,7 +404,7 @@ export const PatientVisit = PatientVisitHoc(
                         placeholder={
                           errors.birthDate ? 'Please Enter Age' : 'Age'
                         }
-                        hasError={errors.age}
+                        hasError={!!errors.age}
                         type='number'
                         value={patientVisitStore.patientVisit?.age}
                         onChange={age => {
@@ -420,7 +427,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Age Units'
-                      hasError={errors.ageUnits}
+                      hasError={!!errors.ageUnits}
                     >
                       <select
                         disabled={true}
@@ -463,7 +470,7 @@ export const PatientVisit = PatientVisitHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Collection Center'
-                        hasError={errors.collectionCenter}
+                        hasError={!!errors.collectionCenter}
                       >
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
@@ -477,7 +484,7 @@ export const PatientVisit = PatientVisitHoc(
                               ? `${patientVisitStore.patientVisit?.collectionCenter} - ${patientVisitStore.patientVisit?.collectionCenterName}`
                               : ''
                           }
-                          hasError={errors.collectionCenter}
+                          hasError={!!errors.collectionCenter}
                           onFilter={(value: string) => {
                             registrationLocationsStore.registrationLocationsService.filterByFields(
                               {
@@ -532,7 +539,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Corporate Code'
-                      hasError={errors.corporateCode}
+                      hasError={!!errors.corporateCode}
                     >
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -549,7 +556,7 @@ export const PatientVisit = PatientVisitHoc(
                           list: corporateClientsStore.listCorporateClients,
                           displayKey: ['corporateCode', 'corporateName'],
                         }}
-                        hasError={errors.corporateCode}
+                        hasError={!!errors.corporateCode}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(
                             {
@@ -566,10 +573,13 @@ export const PatientVisit = PatientVisitHoc(
                         }}
                         onSelect={item => {
                           onChange(item.corporateCode);
+                          console.log({item});
+
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             corporateCode: item.corporateCode,
                             corporateName: item.corporateName,
+                            acClass: item?.acClass,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
                               invoiceAc: item?.invoiceAc?.toString(),
@@ -591,7 +601,7 @@ export const PatientVisit = PatientVisitHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='AC Class'
-                      hasError={errors.acClass}
+                      hasError={!!errors.acClass}
                     >
                       <select
                         value={patientVisitStore.patientVisit?.acClass}
@@ -609,7 +619,11 @@ export const PatientVisit = PatientVisitHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option selected>
+                          {patientVisitStore.patientVisit?.acClass
+                            ? `Selected: ${patientVisitStore.patientVisit?.acClass}`
+                            : 'Select'}
+                        </option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'PATIENT VISIT - AC_CLASS',
@@ -626,6 +640,207 @@ export const PatientVisit = PatientVisitHoc(
                   defaultValue={patientVisitStore.patientVisit?.acClass}
                 />
 
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Misc Charges'
+                      hasError={!!errors.miscCharges}
+                    >
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Misc Charges'
+                        data={{
+                          list: lookupItems(
+                            routerStore.lookupItems,
+                            'PATIENT VISIT - MISC_CHARGES',
+                          )?.map((item, index) => {
+                            return {...item, _id: index.toString()};
+                          }),
+                          selected:
+                            patientVisitStore.selectedItems?.miscCharges,
+                          displayKey: ['code', 'value'],
+                        }}
+                        hasError={!!errors.miscCharges}
+                        onUpdate={item => {
+                          const miscCharges =
+                            patientVisitStore.selectedItems?.miscCharges;
+                          onChange(miscCharges);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            miscCharges: _.map(miscCharges, o =>
+                              _.pick(o, ['code', 'value']),
+                            ),
+                          });
+                        }}
+                        onSelect={item => {
+                          let miscCharges: any =
+                            patientVisitStore.selectedItems?.miscCharges;
+                          if (!item.selected) {
+                            if (miscCharges && miscCharges?.length > 0) {
+                              miscCharges.push(item);
+                            } else miscCharges = [item];
+                          } else {
+                            miscCharges = miscCharges.filter(items => {
+                              return items._id !== item._id;
+                            });
+                          }
+                          patientVisitStore.updateSelectedItems({
+                            ...patientVisitStore.selectedItems,
+                            miscCharges,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='miscCharges'
+                  rules={{
+                    required:
+                      patientVisitStore.patientVisit?.miscCharges?.length > 0
+                        ? true
+                        : false,
+                  }}
+                  defaultValue={patientVisitStore.selectedItems?.miscCharges}
+                />
+
+                <Table striped bordered>
+                  <thead>
+                    <tr className='p-0 text-xs'>
+                      <th className='text-white sticky left-0 z-10'>
+                        MISC CHARGES
+                      </th>
+                      <th className='text-white'>AMOUNT</th>
+                    </tr>
+                  </thead>
+                  <tbody className='text-xs'>
+                    {patientVisitStore.patientVisit?.miscCharges?.map(
+                      (item, index) => (
+                        <tr key={item.code}>
+                          <td className='sticky left-0'>
+                            {item?.value + ' - ' + item?.code}
+                          </td>
+                          <td className='sticky left-0'>
+                            <Controller
+                              control={control}
+                              render={({field: {onChange}}) => (
+                                <Form.Input
+                                  style={{height: 30}}
+                                  label=''
+                                  type='number'
+                                  placeholder='Amount'
+                                  hasError={!!errors[item?.code]}
+                                  onChange={amount => {
+                                    if (Number.parseFloat(amount) > 0) {
+                                      onChange(amount);
+                                      const miscCharges =
+                                        patientVisitStore.patientVisit
+                                          ?.miscCharges;
+                                      miscCharges[index] = Object.assign(item, {
+                                        amount: Number.parseFloat(amount),
+                                      });
+                                      patientVisitStore.updatePatientVisit({
+                                        ...patientVisitStore.patientVisit,
+                                        miscCharges,
+                                      });
+                                    } else {
+                                      onChange('');
+                                      Toast.error({
+                                        message: 'Please enter correct value!',
+                                      });
+                                    }
+                                  }}
+                                />
+                              )}
+                              name={item?.code}
+                              rules={{
+                                required:
+                                  patientVisitStore.patientVisit?.miscCharges
+                                    ?.length > 0
+                                    ? true
+                                    : false,
+                              }}
+                              defaultValue=''
+                            />
+                          </td>
+                        </tr>
+                      ),
+                    )}
+                  </tbody>
+                </Table>
+                {!patientVisitStore.patientVisit?.acClass ||
+                patientVisitStore.patientVisit?.acClass == '0' ? (
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.InputWrapper
+                        label='Other Charges'
+                        hasError={!!errors.discountCharges}
+                      >
+                        <div className='flex flex-row gap-2 '>
+                          <select
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.discountCharges
+                                ? 'border-red-500  '
+                                : 'border-gray-300'
+                            } rounded-md`}
+                            onChange={e => {
+                              const discountCharges = e.target.value;
+                              patientVisitStore.updatePatientVisit({
+                                ...patientVisitStore.patientVisit,
+                                discountCharges: {
+                                  ...patientVisitStore.patientVisit
+                                    ?.discountCharges,
+                                  code: discountCharges,
+                                },
+                              });
+                              setError('discountCharges', {type: 'onBlur'});
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'PATIENT VISIT - DISCOUNT_CHARGES',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                          <Form.Input
+                            label=''
+                            type='number'
+                            placeholder='Amount'
+                            className='-mt-1'
+                            hasError={!!errors.discountCharges}
+                            onChange={amount => {
+                              if (Number.parseFloat(amount) > 0) {
+                                onChange(amount);
+                                clearErrors('discountCharges');
+                                patientVisitStore.updatePatientVisit({
+                                  ...patientVisitStore.patientVisit,
+                                  discountCharges: {
+                                    ...patientVisitStore.patientVisit
+                                      ?.discountCharges,
+                                    amount: Number.parseFloat(amount),
+                                  },
+                                });
+                              } else {
+                                setError('discountCharges', {type: 'onBlur'});
+                                Toast.error({
+                                  message: 'Please enter correct value!',
+                                });
+                              }
+                            }}
+                          />
+                        </div>
+                      </Form.InputWrapper>
+                    )}
+                    name='discountCharges'
+                    rules={{required: false}}
+                    defaultValue={''}
+                  />
+                ) : null}
+
                 {doctorsStore.listDoctors && (
                   <>
                     <Controller
@@ -633,7 +848,7 @@ export const PatientVisit = PatientVisitHoc(
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
                           label='Doctor Id'
-                          hasError={errors.doctorId}
+                          hasError={!!errors.doctorId}
                         >
                           <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
@@ -647,7 +862,7 @@ export const PatientVisit = PatientVisitHoc(
                               list: doctorsStore.listDoctors,
                               displayKey: ['doctorCode', 'doctorName'],
                             }}
-                            hasError={errors.doctorId}
+                            hasError={!!errors.doctorId}
                             onFilter={(value: string) => {
                               doctorsStore.doctorsService.filterByFields({
                                 input: {
@@ -685,22 +900,22 @@ export const PatientVisit = PatientVisitHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Type'
-                      hasError={errors.deliveryType}
+                      label='Report Type'
+                      hasError={!!errors.reportType}
                     >
                       <select
-                        value={patientVisitStore.patientVisit.deliveryType}
+                        value={patientVisitStore.patientVisit.reportType}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryType
+                          errors.reportType
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const deliveryType = e.target.value as string;
-                          onChange(deliveryType);
+                          const reportType = e.target.value as string;
+                          onChange(reportType);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
-                            deliveryType,
+                            reportType,
                           });
                         }}
                       >
@@ -716,30 +931,52 @@ export const PatientVisit = PatientVisitHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='deliveryType'
+                  name='reportType'
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Toggle
-                      label='History'
-                      id='toggleHistory'
-                      hasError={errors.history}
-                      value={patientVisitStore.patientVisit?.history}
-                      onChange={history => {
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          history,
-                        });
-                      }}
-                    />
-                  )}
-                  name='history'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='History'
+                        id='toggleHistory'
+                        hasError={!!errors.history}
+                        value={patientVisitStore.patientVisit?.history}
+                        onChange={history => {
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            history,
+                          });
+                        }}
+                      />
+                    )}
+                    name='history'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Hold Report'
+                        id='toggleHistory'
+                        hasError={!!errors.holdReport}
+                        value={patientVisitStore.patientVisit?.holdReport}
+                        onChange={holdReport => {
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            holdReport,
+                          });
+                        }}
+                      />
+                    )}
+                    name='holdReport'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 {patientVisitStore.patientVisit && (
@@ -748,7 +985,7 @@ export const PatientVisit = PatientVisitHoc(
                     render={({field: {onChange}}) => (
                       <Form.InputWrapper
                         label='Status'
-                        hasError={errors.status}
+                        hasError={!!errors.status}
                       >
                         <select
                           value={patientVisitStore.patientVisit?.status}
@@ -809,7 +1046,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter AdditionalInformation'
                                   : 'AdditionalInformation'
                               }
-                              hasError={errors.additionalInfo}
+                              hasError={!!errors.additionalInfo}
                               value={
                                 patientVisitStore.patientVisit?.extraData
                                   ?.additionalInfo
@@ -835,7 +1072,7 @@ export const PatientVisit = PatientVisitHoc(
                           render={({field: {onChange}}) => (
                             <Form.InputWrapper
                               label='Invoice Ac'
-                              hasError={errors.invoiceAc}
+                              hasError={!!errors.invoiceAc}
                             >
                               <AutoCompleteFilterSingleSelect
                                 loader={loading}
@@ -849,7 +1086,7 @@ export const PatientVisit = PatientVisitHoc(
                                   list: corporateClientsStore.listCorporateClients,
                                   displayKey: 'invoiceAc',
                                 }}
-                                hasError={errors.invoiceAc}
+                                hasError={!!errors.invoiceAc}
                                 onFilter={(value: string) => {
                                   corporateClientsStore.corporateClientsService.filterByFields(
                                     {
@@ -939,7 +1176,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Bill Number'
                                   : 'Bill Number'
                               }
-                              hasError={errors.billNumber}
+                              hasError={!!errors.billNumber}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.billNumber
@@ -1009,7 +1246,7 @@ export const PatientVisit = PatientVisitHoc(
                             <Form.Input
                               label='Collection By'
                               placeholder='Collected By'
-                              hasError={errors.collectedBy}
+                              hasError={!!errors.collectedBy}
                               value={
                                 patientVisitStore.patientVisit?.extraData
                                   ?.collectedBy
@@ -1042,7 +1279,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Received Date'
                                   : 'Received Date'
                               }
-                              hasError={errors.receivedDate}
+                              hasError={!!errors.receivedDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.receivedDate
@@ -1075,7 +1312,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Result Date'
                                   : 'Result Date'
                               }
-                              hasError={errors.resultDate}
+                              hasError={!!errors.resultDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.resultDate
@@ -1103,7 +1340,7 @@ export const PatientVisit = PatientVisitHoc(
                               <Form.Toggle
                                 label='Urgent'
                                 id='toggleUrgent'
-                                hasError={errors.urgent}
+                                hasError={!!errors.urgent}
                                 value={
                                   patientVisitStore.patientVisit.extraData
                                     ?.urgent
@@ -1130,7 +1367,7 @@ export const PatientVisit = PatientVisitHoc(
                               <Form.Toggle
                                 label='Pending Data Entry'
                                 id='togglePendingDataEntry'
-                                hasError={errors.pendingDataEntry}
+                                hasError={!!errors.pendingDataEntry}
                                 value={
                                   patientVisitStore.patientVisit.extraData
                                     ?.pendingDataEntry
@@ -1165,7 +1402,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Result Date'
                                   : 'Result Date'
                               }
-                              hasError={errors.approvalDate}
+                              hasError={!!errors.approvalDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.approvalDate
@@ -1283,7 +1520,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Reported Date'
                                   : 'Reported Date'
                               }
-                              hasError={errors.reportedDate}
+                              hasError={!!errors.reportedDate}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.reportedDate
@@ -1314,7 +1551,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Entered By'
                                   : 'Entered By'
                               }
-                              hasError={errors.enteredBy}
+                              hasError={!!errors.enteredBy}
                               value={loginStore.login?.userId}
                               disabled={true}
                             />
@@ -1332,7 +1569,7 @@ export const PatientVisit = PatientVisitHoc(
                               placeholder={
                                 errors.height ? 'Please Enter Height' : 'Height'
                               }
-                              hasError={errors.height}
+                              hasError={!!errors.height}
                               value={
                                 patientVisitStore.patientVisit.extraData?.height
                               }
@@ -1365,7 +1602,7 @@ export const PatientVisit = PatientVisitHoc(
                               placeholder={
                                 errors.weight ? 'Please Enter Weight' : 'Weight'
                               }
-                              hasError={errors.weight}
+                              hasError={!!errors.weight}
                               value={
                                 patientVisitStore.patientVisit.extraData?.weight
                               }
@@ -1534,7 +1771,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Submitted System'
                                   : 'Submitted System'
                               }
-                              hasError={errors.submittedSystem}
+                              hasError={!!errors.submittedSystem}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.submittedSystem
@@ -1567,7 +1804,7 @@ export const PatientVisit = PatientVisitHoc(
                                   ? 'Please Enter Archieve'
                                   : 'Archieve'
                               }
-                              hasError={errors.submittedOn}
+                              hasError={!!errors.submittedOn}
                               value={
                                 patientVisitStore.patientVisit.extraData
                                   ?.submittedOn
@@ -1588,40 +1825,7 @@ export const PatientVisit = PatientVisitHoc(
                           rules={{required: false}}
                           defaultValue=''
                         />
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.Input
-                              label='Balance'
-                              name='txtBalance'
-                              disabled={true}
-                              placeholder={
-                                errors.balance
-                                  ? 'Please Enter Balance'
-                                  : 'Balance'
-                              }
-                              hasError={errors.balance}
-                              type='number'
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.balance
-                              }
-                              onChange={balance => {
-                                onChange(balance);
-                                patientVisitStore.updatePatientVisit({
-                                  ...patientVisitStore.patientVisit,
-                                  extraData: {
-                                    ...patientVisitStore.patientVisit.extraData,
-                                    balance,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='balance'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
+
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
@@ -1668,26 +1872,26 @@ export const PatientVisit = PatientVisitHoc(
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
-                            <Form.InputWrapper label='Delivery Method'>
+                            <Form.InputWrapper label='Delivery Mode'>
                               <select
                                 value={
                                   patientVisitStore.patientVisit?.extraData
-                                    ?.deliveryMethod
+                                    ?.deliveryMode
                                 }
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                  errors.deliveryMethod
+                                  errors.deliveryMode
                                     ? 'border-red-500  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
-                                  const deliveryMethod = e.target.value;
-                                  onChange(deliveryMethod);
+                                  const deliveryMode = e.target.value;
+                                  onChange(deliveryMode);
                                   patientVisitStore.updatePatientVisit({
                                     ...patientVisitStore.patientVisit,
                                     extraData: {
                                       ...patientVisitStore.patientVisit
                                         ?.extraData,
-                                      deliveryMethod,
+                                      deliveryMode,
                                     },
                                   });
                                 }}
@@ -1704,7 +1908,7 @@ export const PatientVisit = PatientVisitHoc(
                               </select>
                             </Form.InputWrapper>
                           )}
-                          name='deliveryMethod'
+                          name='deliveryMode'
                           rules={{required: false}}
                           defaultValue=''
                         />
@@ -1810,8 +2014,8 @@ export const PatientVisit = PatientVisitHoc(
               setModalConfirm({
                 show: true,
                 type: 'delete',
-                id: rows.filter(item => item._id),
-                labId: rows.filter(item => item.labId),
+                id: rows.filter(item => item._id).map(item => item._id),
+                labId: rows.filter(item => item.labId).map(item => item.labId),
                 title: 'Are you sure?',
                 body: 'Delete selected items!',
               });
@@ -1911,17 +2115,21 @@ export const PatientVisit = PatientVisitHoc(
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
+            setModalConfirm({show: false});
             if (type === 'delete') {
               patientVisitStore.patientVisitService
                 .deletePatientVisit({
-                  input: {id: modalConfirm.id, labId: modalConfirm.labId},
+                  input: {
+                    id: modalConfirm.id,
+                    labId: modalConfirm.labId,
+                    __typename: undefined,
+                  },
                 })
                 .then((res: any) => {
                   if (res.removePatientVisit.success) {
                     Toast.success({
                       message: `😊 ${res.removePatientVisit.message}`,
                     });
-                    setModalConfirm({show: false});
                     // patientVisitStore.patientVisitService.listPatientVisit({
                     //   documentType: 'patientVisit',
                     // });
@@ -1943,7 +2151,6 @@ export const PatientVisit = PatientVisitHoc(
                     Toast.success({
                       message: `😊 ${res.updatePatientVisit.message}`,
                     });
-                    setModalConfirm({show: false});
                     patientVisitStore.patientVisitService.listPatientVisit({
                       documentType: 'patientVisit',
                     });

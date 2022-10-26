@@ -1,14 +1,19 @@
 import React from 'react';
-import {render} from '@utils';
+import {render} from '@testing-library/react';
 import {Image, ImageBackground} from './image.component';
 
-it('render image correctly', () => {
-  const image = render(<Image source='' onClick={() => jest.fn()} />);
-  expect(image).toMatchSnapshot();
+describe('Image component', () => {
+  it('render image correctly', () => {
+    const image = render(<Image source='csdfrf' />);
+    expect(image).toMatchSnapshot();
+  });
 });
-it('render imageBackground correctly', () => {
-  const imageBackground = render(
-    <ImageBackground source='' position='center' fit='cover' />,
-  );
-  expect(imageBackground).toMatchSnapshot();
+
+describe('Image Background component', () => {
+  it('render imagebackground correctly', () => {
+    const image = render(
+      <ImageBackground fit='auto' position='bottom' source='nowec' />,
+    );
+    expect(image).toMatchSnapshot();
+  });
 });

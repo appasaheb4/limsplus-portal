@@ -18,6 +18,7 @@ import {
   AutoCompleteFilterSingleSelectPanelCode,
   AutoCompleteFilterSingleSelectPanelName,
 } from '../index';
+import {toJS} from 'mobx';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let panelCode;
@@ -61,6 +62,15 @@ interface PriceListProps {
 export const PriceListList = (props: PriceListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
+  };
+
+  const getPriceList = (priceList, priceGroup) => {
+    const list = priceList.filter(item => {
+      if (item.code.slice(0, 3) === priceGroup?.slice(0, 3)) {
+        return item;
+      }
+    });
+    return list || [];
   };
 
   return (
@@ -108,19 +118,11 @@ export const PriceListList = (props: PriceListProps) => {
                         props.onUpdateFileds(
                           {
                             priceGroup: priceGroup,
-                            priceList:
-                              priceGroup !== 'CSP001' ? priceGroup : '',
-                            description: _.first(
-                              lookupItems(
-                                props.extraData.lookupItems,
-                                'PRICE_GROUP',
-                              ).filter(item => item.code === priceGroup),
-                            ).value,
+                            priceList: '',
+                            description: '',
                           },
                           row._id,
                         );
-                      // props.onUpdateItem &&
-                      //   props.onUpdateItem(priceGroup, column.dataField, row._id)
                     }}
                   >
                     <option selected>Select</option>
@@ -158,19 +160,51 @@ export const PriceListList = (props: PriceListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <AutoCompletePriceList
-                    priceGroup={row.priceGroup}
-                    onSelect={item => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds(
-                          {
-                            priceList: item.invoiceAc?.toString(),
-                            description: item.corporateName,
-                          },
-                          row._id,
-                        );
-                    }}
-                  />
+                  {row?.priceGroup === 'CSP' ? (
+                    <AutoCompletePriceList
+                      onSelect={item => {
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              priceList: item.invoiceAc?.toString(),
+                              description: item.corporateName,
+                            },
+                            row._id,
+                          );
+                      }}
+                    />
+                  ) : (
+                    <select
+                      value={row?.priceList}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                      }
+                      onChange={e => {
+                        const priceList: any = JSON.parse(e.target.value);
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              priceList: priceList?.code,
+                              description: priceList?.value,
+                            },
+                            row._id,
+                          );
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {getPriceList(
+                        lookupItems(
+                          toJS(props.extraData.lookupItems),
+                          'PRICE_LIST',
+                        ),
+                        row?.priceGroup,
+                      )?.map((item: any, index: number) => (
+                        <option key={index} value={JSON.stringify(item)}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </>
               ),
             },
@@ -279,6 +313,30 @@ export const PriceListList = (props: PriceListProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.price}
+                    onBlur={price => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            price: Number.parseFloat(price),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'minSp',
@@ -296,6 +354,30 @@ export const PriceListList = (props: PriceListProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.minSp}
+                    onBlur={minSp => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            minSp: Number.parseFloat(minSp),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'maxSp',
@@ -313,6 +395,30 @@ export const PriceListList = (props: PriceListProps) => {
               ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.maxSp}
+                    onBlur={maxSp => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            maxSp: Number.parseFloat(maxSp),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'maxDis',
@@ -327,6 +433,30 @@ export const PriceListList = (props: PriceListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    placeholder={row.maxDis}
+                    onBlur={maxDis => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            maxDis: Number.parseFloat(maxDis),
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'fixedPrice',

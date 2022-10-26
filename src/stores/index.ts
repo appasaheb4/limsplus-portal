@@ -49,6 +49,7 @@ import {LoginActivityStore} from '@/features/settings/login-activity/stores/logi
 import {RoleMappingStore} from '@/features/settings/mapping/role/stores/role-mapping.store';
 import {ShortcutMenuStore} from '@/features/settings/shortcut-menu/stores/short-cut-menu.store';
 import {NoticeBoardStore} from '@/features/settings/notice-board/stores/notice-board.store';
+import {ReportSettingStore} from '@/features/report-builder/report-settings/stores';
 
 // registation
 import {
@@ -63,6 +64,18 @@ import {
 
 // Result Entry
 import {GeneralResultEntryStore} from '@/features/result-entry/general-result-entry/stores';
+
+// Patient Report
+import {DeliveryQueueStore} from '@/features/patient-reports/delivery-queue/stores';
+import {GenerateReportsStore} from '@/features/patient-reports/generate-reports/stores';
+
+// Account Receivable
+import {TransactionDetailsStore} from '@/features/account-receivable/transaction-details/stores';
+import {PaymentStore} from '@/features/account-receivable/payment/stores';
+import {ReceiptStore} from '@/features/account-receivable/receipt/stores';
+
+// validation
+import {PanelApprovalStore} from '@/features/validation/panel-approval/stores';
 
 export class Stores extends Store {
   rootStore!: RootStore;
@@ -125,6 +138,21 @@ export class Stores extends Store {
   // result entry
   generalResultEntryStore!: GeneralResultEntryStore;
 
+  // report builder
+  reportSettingStore!: ReportSettingStore;
+
+  // patient report
+  deliveryQueueStore!: DeliveryQueueStore;
+  generateReportsStore!: GenerateReportsStore;
+
+  // account receivable
+  transactionDetailsStore!: TransactionDetailsStore;
+  paymentStore!: PaymentStore;
+  receiptStore!: ReceiptStore;
+
+  // validation
+  panelApprovalStore!: PanelApprovalStore;
+
   constructor() {
     super();
     this.rootStore = new RootStore();
@@ -185,6 +213,21 @@ export class Stores extends Store {
 
     // result entry
     this.generalResultEntryStore = new GeneralResultEntryStore();
+
+    // report builder
+    this.reportSettingStore = new ReportSettingStore();
+
+    // patient report
+    this.deliveryQueueStore = new DeliveryQueueStore();
+    this.generateReportsStore = new GenerateReportsStore();
+
+    // account receivable
+    this.transactionDetailsStore = new TransactionDetailsStore();
+    this.paymentStore = new PaymentStore();
+    this.receiptStore = new ReceiptStore();
+
+    // validation
+    this.panelApprovalStore = new PanelApprovalStore();
   }
 }
 

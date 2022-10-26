@@ -179,7 +179,7 @@ export const SectionList = (props: SectionListProps) => {
                       }
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row?.mobileNo}
-                      hasError={errors.mobieNo}
+                      hasError={!!errors.mobieNo}
                       onChange={mobileNo => {
                         onChange(mobileNo);
                       }}
@@ -234,7 +234,7 @@ export const SectionList = (props: SectionListProps) => {
                           ? 'Please Enter contactNo'
                           : 'Contact No'
                       }
-                      hasError={errors.contactNo}
+                      hasError={!!errors.contactNo}
                       pattern={FormHelper.patterns.mobileNo}
                       defaultValue={row?.contactNo}
                       onChange={contactNo => {

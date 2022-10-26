@@ -9,9 +9,7 @@ import {
   PageHeadingLabDetails,
   ModalConfirm,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import {useForm} from 'react-hook-form';
 import {FilterInputTable, GeneralResultEntryList} from '../components';
 
 import {RouterFlow} from '@/flows';
@@ -32,58 +30,112 @@ const GeneralResultEntry = observer(() => {
     setValue,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [tableReaload, setTableReload] = useState<boolean>(false);
 
   const tableView = useMemo(
     () => (
-      <GeneralResultEntryList
-        data={patientResultStore.patientResultList || []}
-        totalSize={patientResultStore.patientResultListCount}
-        isDelete={RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Delete',
-        )}
-        isEditModify={RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Edit/Modify',
-        )}
-        onUpdateValue={(item, id) => {
-          const updated = patientResultStore.patientResultList?.map(
-            (e: any) => {
-              if (e._id === id)
-                return {
-                  ...e,
-                  ...item,
-                };
-              else return e;
-            },
-          );
-          patientResultStore.updatePatientResult(updated);
-        }}
-        onSaveFields={(updatedRecords, id) => {
-          setModalConfirm({
-            show: true,
-            type: 'save',
-            id: id,
-            data: updatedRecords,
-            title: 'Are you sure?',
-            body: `Update records!`,
-          });
-        }}
-        onPageSizeChange={(page, limit) => {
-          patientResultStore.patientResultService.listPatientResult(
-            page,
-            limit,
-          );
-        }}
-        onFilter={(type, filter, page, limit) => {
-          // refernceRangesStore.referenceRangesService.filter({
-          //   input: {type, filter, page, limit},
-          // });
-        }}
-      />
+      <>
+        <GeneralResultEntryList
+          data={patientResultStore.patientResultList || []}
+          totalSize={patientResultStore.patientResultListCount}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Edit/Modify',
+          )}
+          onUpdateValue={(item, id) => {
+            const updated = patientResultStore.patientResultList?.map(
+              (e: any) => {
+                if (e._id === id)
+                  return {
+                    ...e,
+                    ...item,
+                    flagUpdate: true,
+                    refRangesList: e.refRangesList?.map(item => {
+                      return {
+                        ...item,
+                        updateDate: new Date(),
+                      };
+                    }),
+                  };
+                else return e;
+              },
+            );
+            patientResultStore.updatePatientResult(updated);
+          }}
+          onSaveFields={async (updatedRecords, id, type) => {
+            if (type == 'directSave') {
+              updateRecords(id, updatedRecords);
+            } else {
+              setModalConfirm({
+                show: true,
+                type: 'save',
+                id: id,
+                data: updatedRecords,
+                title: 'Are you sure?',
+                body: `Update records!`,
+              });
+            }
+          }}
+          onPageSizeChange={(page, limit) => {
+            patientResultStore.patientResultService.listPatientResult(
+              page,
+              limit,
+            );
+          }}
+          onFilter={(type, filter, page, limit) => {
+            // refernceRangesStore.referenceRangesService.filter({
+            //   input: {type, filter, page, limit},
+            // });
+          }}
+        />
+      </>
     ),
-    [patientResultStore.patientResultList],
+    [patientResultStore.patientResultList, tableReaload],
   );
+
+  const updateRecords = (id, data) => {
+    patientResultStore.patientResultService
+      .updateSingleFiled({
+        input: {
+          ...data,
+          enteredBy: loginStore.login?.userId,
+          resultDate: new Date(),
+          _id: id,
+          __v: undefined,
+          flagUpdate: undefined,
+        },
+      })
+      .then(res => {
+        if (res.updatePatientResult.success) {
+          Toast.success({
+            message: `😊 ${res.updatePatientResult.message}`,
+          });
+          if (!generalResultEntryStore.filterGeneralResEntry)
+            patientResultStore.patientResultService.listPatientResult({
+              pLab: loginStore.login?.lab,
+              resultStatus: 'P',
+              testStatus: 'P',
+            });
+          else
+            patientResultStore.patientResultService.patientListForGeneralResultEntry(
+              {
+                input: {
+                  filter: {
+                    ...generalResultEntryStore.filterGeneralResEntry,
+                  },
+                  page: 0,
+                  limit: 10,
+                },
+              },
+            );
+        }
+      });
+    setTableReload(!tableReaload);
+  };
 
   return (
     <>
@@ -100,40 +152,7 @@ const GeneralResultEntry = observer(() => {
         click={(type?: string) => {
           setModalConfirm({show: false});
           if (type === 'save') {
-            patientResultStore.patientResultService
-              .updateSingleFiled({
-                input: {
-                  ...modalConfirm.data,
-                  resultDate: new Date(),
-                  _id: modalConfirm.id,
-                  __v: undefined,
-                },
-              })
-              .then(res => {
-                if (res.updatePatientResult.success) {
-                  Toast.success({
-                    message: `😊 ${res.updatePatientResult.message}`,
-                  });
-                  if (!generalResultEntryStore.filterGeneralResEntry)
-                    patientResultStore.patientResultService.listPatientResult({
-                      pLab: loginStore.login?.lab,
-                      resultStatus: 'P',
-                      testStatus: 'P',
-                    });
-                  else
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      },
-                    );
-                }
-              });
+            updateRecords(modalConfirm.id, modalConfirm.data);
           }
         }}
         onClose={() => {

@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Arima Regular';
+    src: url('./library/assets/fonts/arima/Arima-Regular.ttf');
+  }
+  @font-face {
+    font-family: 'NunitoSans Regular';
+    src: url('./library/assets/fonts/nunito-sans/NunitoSans-Regular.ttf');
+  }
+  @font-face {
+    font-family: 'NunitoSans Bold';
+    src: url('./library/assets/fonts/nunito-sans/NunitoSans-Bold.ttf');
+  }
+}
+
+body {
+  font-size: 14px;
+  font-family: 'Arima Regular';
+}
+
+/* .circle {
+  width: 10px;
+  height: 10px;
+  border: 0.5px solid #000;
+  position: absolute;
+  border-radius: 6px;
+  pointer-events: none;
+} */

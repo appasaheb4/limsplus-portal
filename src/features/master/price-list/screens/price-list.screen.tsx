@@ -14,6 +14,7 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
+
 import {lookupItems, lookupValue} from '@/library/utils';
 import {PriceListList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
@@ -35,14 +36,18 @@ export const PriceList = PriceListHoc(
       routerStore,
       loading,
     } = useStores();
+
     const {
       control,
       handleSubmit,
       formState: {errors},
       setValue,
-      // clearErrors,
+      setError,
+      clearErrors,
     } = useForm();
 
+    setValue('priceGroup', priceListStore.priceList?.priceGroup);
+    setValue('priceList', priceListStore.priceList?.priceList);
     setValue('status', priceListStore.priceList?.status);
     setValue('environment', priceListStore.priceList?.environment);
 
@@ -119,6 +124,15 @@ export const PriceList = PriceListHoc(
       }
     };
 
+    const getPriceList = priceList => {
+      const list = priceList.filter(item => {
+        if (item.code.slice(0, 3) === priceListStore.priceList?.priceGroup) {
+          return item;
+        }
+      });
+      return list || [];
+    };
+
     const tableView = useMemo(
       () => (
         <PriceListList
@@ -160,7 +174,7 @@ export const PriceList = PriceListHoc(
           onUpdateFileds={(fileds: any, id: string) => {
             setModalConfirm({
               show: true,
-              type: 'UpdateFileds',
+              type: 'updateFields',
               data: {fileds, id},
               title: 'Are you sure?',
               body: 'Update records!',
@@ -226,7 +240,7 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Price Group'
-                      hasError={errors.priceGroup}
+                      hasError={!!errors.priceGroup}
                     >
                       <select
                         value={priceListStore.priceList?.priceGroup}
@@ -241,38 +255,48 @@ export const PriceList = PriceListHoc(
                           priceListStore.updatePriceList({
                             ...priceListStore.priceList,
                             priceGroup,
-                            priceList:
-                              priceGroup !== 'CSP001' ? priceGroup : '',
-                            description: _.first(
-                              lookupItems(
-                                routerStore.lookupItems,
-                                'PRICE_GROUP',
-                              ).filter(item => item.code === priceGroup),
-                            ).value,
+                            priceList: '',
+                            description: '',
                           });
                           if (!priceListStore.priceList?.existsVersionId) {
                             priceListStore.priceListService
                               .checkExitsRecords({
                                 input: {
                                   priceGroup,
-                                  panelCode: priceListStore.priceList.panelCode,
-                                  env: priceListStore.priceList.environment,
+                                  priceList:
+                                    priceListStore.priceList?.priceList || '',
+                                  panelCode:
+                                    priceListStore.priceList.panelCode || '',
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                  env:
+                                    priceListStore.priceList.environment || '',
                                 },
                               })
                               .then(res => {
                                 if (res.checkPriceListExistsRecord.success) {
+                                  setError('priceGroup', {type: 'onBlur'});
+                                  setError('panelCode', {type: 'onBlur'});
+                                  setError('version', {type: 'onBlur'});
+                                  setError('environment', {type: 'onBlur'});
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     true,
                                   );
                                   Toast.error({
                                     message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                   });
-                                } else
+                                } else {
+                                  clearErrors('priceGroup');
+                                  clearErrors('panelCode');
+                                  clearErrors('version');
+                                  clearErrors('environment');
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     false,
                                   );
+                                }
                               });
                           }
+                          setError('priceList', {type: 'onBlur'});
                         }}
                       >
                         <option selected>Select</option>
@@ -296,51 +320,119 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Price List'
-                      hasError={errors.priceList}
+                      hasError={!!errors.priceList}
                     >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: corporateClientsStore?.listCorporateClients,
-                          displayKey: ['invoiceAc', 'corporateName'],
-                        }}
-                        displayValue={priceListStore.priceList?.priceList}
-                        disable={
-                          priceListStore.priceList?.priceGroup !== 'CSP001'
-                            ? true
-                            : false
-                        }
-                        hasError={errors.priceList}
-                        onFilter={(value: string) => {
-                          corporateClientsStore.corporateClientsService.filterByFields(
-                            {
-                              input: {
-                                filter: {
-                                  fields: ['invoiceAc', 'corporateName'],
-                                  srText: value,
+                      {priceListStore.priceList?.priceGroup === 'CSP' ? (
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: corporateClientsStore?.listCorporateClients,
+                            displayKey: ['invoiceAc', 'corporateName'],
+                          }}
+                          displayValue={priceListStore.priceList?.priceList}
+                          hasError={!!errors.priceList}
+                          onFilter={(value: string) => {
+                            corporateClientsStore.corporateClientsService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ['invoiceAc', 'corporateName'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
                                 },
-                                page: 0,
-                                limit: 10,
                               },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          priceListStore.updatePriceList({
-                            ...priceListStore.priceList,
-                            priceList: item.invoiceAc?.toString(),
-                            description: item.corporateName,
-                          });
-                          corporateClientsStore.updateCorporateClientsList(
-                            corporateClientsStore.listCorporateClientsCopy,
-                          );
-                        }}
-                      />
+                            );
+                          }}
+                          onSelect={item => {
+                            onChange(item.invoiceAc?.toString());
+                            priceListStore.updatePriceList({
+                              ...priceListStore.priceList,
+                              priceList: item.invoiceAc?.toString(),
+                              description: item.corporateName,
+                            });
+                            corporateClientsStore.updateCorporateClientsList(
+                              corporateClientsStore.listCorporateClientsCopy,
+                            );
+
+                            if (!priceListStore.priceList?.existsVersionId) {
+                              priceListStore.priceListService
+                                .checkExitsRecords({
+                                  input: {
+                                    priceGroup:
+                                      priceListStore.priceList?.priceGroup ||
+                                      '',
+                                    priceList: item.invoiceAc?.toString(),
+                                    panelCode:
+                                      priceListStore.priceList.panelCode || '',
+                                    version:
+                                      priceListStore.priceList?.version || 0,
+                                    env:
+                                      priceListStore.priceList.environment ||
+                                      '',
+                                  },
+                                })
+                                .then(res => {
+                                  if (res.checkPriceListExistsRecord.success) {
+                                    setError('priceGroup', {type: 'onBlur'});
+                                    setError('priceList', {type: 'onBlur'});
+                                    setError('panelCode', {type: 'onBlur'});
+                                    setError('version', {type: 'onBlur'});
+                                    setError('environment', {type: 'onBlur'});
+                                    priceListStore.updateExitsPriceGEnvLabCode(
+                                      true,
+                                    );
+                                    Toast.error({
+                                      message: `😔 ${res.checkPriceListExistsRecord.message}`,
+                                    });
+                                  } else {
+                                    clearErrors('priceGroup');
+                                    clearErrors('priceList');
+                                    clearErrors('panelCode');
+                                    clearErrors('version');
+                                    clearErrors('environment');
+                                    priceListStore.updateExitsPriceGEnvLabCode(
+                                      false,
+                                    );
+                                  }
+                                });
+                            }
+                          }}
+                        />
+                      ) : (
+                        <select
+                          value={priceListStore.priceList?.priceList}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.priceList
+                              ? 'border-red-500  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const priceList = JSON.parse(e.target.value);
+                            onChange(priceList);
+                            priceListStore.updatePriceList({
+                              ...priceListStore.priceList,
+                              priceList: priceList?.code,
+                              description: priceList?.value,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {getPriceList(
+                            lookupItems(routerStore.lookupItems, 'PRICE_LIST'),
+                          )?.map((item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </Form.InputWrapper>
                   )}
                   name='priceList'
-                  rules={{required: false}}
+                  rules={{required: true}}
                   defaultValue=''
                 />
 
@@ -356,7 +448,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter description'
                           : 'Description'
                       }
-                      hasError={errors.description}
+                      hasError={!!errors.description}
                       value={priceListStore.priceList?.description}
                       onChange={description => {
                         onChange(description);
@@ -376,10 +468,10 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
-                      hasError={errors.panelCode}
+                      hasError={!!errors.panelCode}
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
-                        hasError={errors.panelCode}
+                        hasError={!!errors.panelCode}
                         onSelect={item => {
                           onChange(item.panelName);
                           setValue('panelName', item.panelName);
@@ -396,23 +488,39 @@ export const PriceList = PriceListHoc(
                               .checkExitsRecords({
                                 input: {
                                   priceGroup:
-                                    priceListStore.priceList.priceGroup,
-                                  panelCode: item.panelCode,
-                                  env: priceListStore.priceList.environment,
+                                    priceListStore.priceList?.priceGroup || '',
+                                  priceList:
+                                    priceListStore.priceList?.priceList || '',
+                                  panelCode: item?.panelCode,
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                  env:
+                                    priceListStore.priceList.environment || '',
                                 },
                               })
                               .then(res => {
                                 if (res.checkPriceListExistsRecord.success) {
+                                  setError('priceGroup', {type: 'onBlur'});
+                                  setError('priceList', {type: 'onBlur'});
+                                  setError('panelCode', {type: 'onBlur'});
+                                  setError('version', {type: 'onBlur'});
+                                  setError('environment', {type: 'onBlur'});
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     true,
                                   );
                                   Toast.error({
                                     message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                   });
-                                } else
+                                } else {
+                                  clearErrors('priceGroup');
+                                  clearErrors('priceList');
+                                  clearErrors('panelCode');
+                                  clearErrors('version');
+                                  clearErrors('environment');
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     false,
                                   );
+                                }
                               });
                           }
                         }}
@@ -444,7 +552,7 @@ export const PriceList = PriceListHoc(
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.panelName ? 'border-red-500' : 'border-gray-300'
                       } rounded-md`}
-                      hasError={errors.panelName}
+                      hasError={!!errors.panelName}
                     />
                   )}
                   name='panelName'
@@ -461,13 +569,14 @@ export const PriceList = PriceListHoc(
                         errors.price ? 'Please Enter Price' : 'Price'
                       }
                       type='number'
-                      hasError={errors.price}
+                      hasError={!!errors.price}
                       value={priceListStore.priceList?.price}
                       onChange={price => {
                         onChange(price);
                         priceListStore.updatePriceList({
                           ...priceListStore.priceList,
                           price: Number.parseFloat(price),
+                          maxSp: Number.parseFloat(price),
                         });
                       }}
                     />
@@ -490,7 +599,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Min Sales Price'
                           : 'Min Sales Price'
                       }
-                      hasError={errors.minSp}
+                      hasError={!!errors.minSp}
                       value={priceListStore.priceList?.minSp}
                       onChange={minSp => {
                         onChange(minSp);
@@ -517,7 +626,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Max Sales Price'
                           : ' Max Sales Price'
                       }
-                      hasError={errors.minSp}
+                      hasError={!!errors.minSp}
                       value={priceListStore.priceList?.maxSp}
                       onChange={maxSp => {
                         onChange(maxSp);
@@ -540,7 +649,7 @@ export const PriceList = PriceListHoc(
                       name='txtMaxDis'
                       type='number'
                       placeholder='Max Dis%'
-                      hasError={errors.maxDis}
+                      hasError={!!errors.maxDis}
                       value={priceListStore.priceList?.maxDis}
                       onChange={maxDis => {
                         onChange(maxDis);
@@ -558,7 +667,10 @@ export const PriceList = PriceListHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Status' hasError={errors.status}>
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
                       <select
                         value={priceListStore.priceList?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -597,7 +709,7 @@ export const PriceList = PriceListHoc(
                       placeholder={
                         errors.userId ? 'Please Enter Entered By' : 'Entered By'
                       }
-                      hasError={errors.userId}
+                      hasError={!!errors.userId}
                       value={loginStore.login?.userId}
                       disabled={true}
                     />
@@ -612,7 +724,7 @@ export const PriceList = PriceListHoc(
                     render={({field: {onChange}}) => (
                       <Form.Toggle
                         label='Fixed Price'
-                        hasError={errors.fixedPrice}
+                        hasError={!!errors.fixedPrice}
                         value={priceListStore.priceList?.fixedPrice}
                         onChange={fixedPrice => {
                           onChange(fixedPrice);
@@ -640,7 +752,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Date Creation'
                           : 'Date Creation'
                       }
-                      hasError={errors.dateCreation}
+                      hasError={!!errors.dateCreation}
                       value={priceListStore.priceList?.dateCreation}
                       disabled={true}
                     />
@@ -659,7 +771,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter Date Active'
                           : 'Date Active'
                       }
-                      hasError={errors.dateActive}
+                      hasError={!!errors.dateActive}
                       value={priceListStore.priceList?.dateActive}
                       disabled={true}
                     />
@@ -678,7 +790,7 @@ export const PriceList = PriceListHoc(
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={errors.dateExpiry}
+                      hasError={!!errors.dateExpiry}
                       value={priceListStore.priceList?.dateExpire}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -701,7 +813,7 @@ export const PriceList = PriceListHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      hasError={errors.version}
+                      hasError={!!errors.version}
                       value={priceListStore.priceList?.version}
                       disabled={true}
                     />
@@ -715,7 +827,7 @@ export const PriceList = PriceListHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Environment'
-                      hasError={errors.environment}
+                      hasError={!!errors.environment}
                     >
                       <select
                         value={
@@ -745,23 +857,39 @@ export const PriceList = PriceListHoc(
                               .checkExitsRecords({
                                 input: {
                                   priceGroup:
-                                    priceListStore.priceList.priceGroup,
-                                  panelCode: priceListStore.priceList.panelCode,
-                                  env: environment,
+                                    priceListStore.priceList?.priceGroup || '',
+                                  priceList:
+                                    priceListStore.priceList?.priceList,
+                                  panelCode:
+                                    priceListStore.priceList.panelCode || '',
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                  env: environment || '',
                                 },
                               })
                               .then(res => {
                                 if (res.checkPriceListExistsRecord.success) {
+                                  setError('priceGroup', {type: 'onBlur'});
+                                  setError('priceList', {type: 'onBlur'});
+                                  setError('panelCode', {type: 'onBlur'});
+                                  setError('version', {type: 'onBlur'});
+                                  setError('environment', {type: 'onBlur'});
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     true,
                                   );
                                   Toast.error({
                                     message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                   });
-                                } else
+                                } else {
+                                  clearErrors('priceGroup');
+                                  clearErrors('priceList');
+                                  clearErrors('panelCode');
+                                  clearErrors('version');
+                                  clearErrors('environment');
                                   priceListStore.updateExitsPriceGEnvLabCode(
                                     false,
                                   );
+                                }
                               });
                           }
                         }}
@@ -853,7 +981,7 @@ export const PriceList = PriceListHoc(
 
                   break;
                 }
-                case 'UpdateFileds': {
+                case 'updateFields': {
                   priceListStore.priceListService
                     .updateSingleFiled({
                       input: {

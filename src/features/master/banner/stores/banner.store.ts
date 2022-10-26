@@ -3,7 +3,6 @@ import {makeObservable, action, observable, computed} from 'mobx';
 import {Banner} from '../models';
 import {BannerService} from '../services';
 
-@version(0.1)
 export class BannerStore {
   banner!: Banner;
   listBanner: Banner[];
@@ -11,6 +10,7 @@ export class BannerStore {
   listBannerCount: number;
 
   constructor() {
+    this.banner = new Banner({});
     this.listBanner = [];
     this.listAllBanner = [];
     this.listBannerCount = 0;

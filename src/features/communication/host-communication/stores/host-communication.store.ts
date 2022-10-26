@@ -8,6 +8,9 @@ export class HostCommunicationStore {
   convertTo!: ConvertTo;
   selectedInterfaceManager?: InterfaceManager;
   constructor() {
+    this.hostCommuication = new HostCommunication({});
+    this.convertTo = new ConvertTo({});
+    this.selectedInterfaceManager = new InterfaceManager({});
     makeObservable<HostCommunicationStore, any>(this, {
       hostCommuication: observable,
       convertTo: observable,

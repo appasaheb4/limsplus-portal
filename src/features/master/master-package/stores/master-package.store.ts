@@ -4,7 +4,6 @@ import {MasterPackage, SelectedItems} from '../models';
 import {MasterPackageService} from '../services';
 import dayjs from 'dayjs';
 
-@version(0.1)
 export class MasterPackageStore {
   masterPackage!: MasterPackage;
   listMasterPackage!: MasterPackage[];
@@ -15,11 +14,14 @@ export class MasterPackageStore {
 
   constructor() {
     this.listMasterPackage = [];
+    this.selectedItems = new SelectedItems({});
     this.listMasterPackageCopy = [];
     this.listMasterPackageCount = 0;
     this.checkExitsLabEnvCode = false;
     this.masterPackage = {
       ...this.masterPackage,
+      packageInterpretation: true,
+      panelInterpretation: true,
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
