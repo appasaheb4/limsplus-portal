@@ -10,14 +10,8 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-  - checkout: self
-     submodules: true
-
-     
   - script: echo Hello, world!
     displayName: 'Run a one-line script'
-
-      
 
   - task: AzureStaticWebApp@0
     inputs:
