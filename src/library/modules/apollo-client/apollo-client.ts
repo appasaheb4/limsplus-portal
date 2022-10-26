@@ -40,9 +40,10 @@ const authLink = setContext(async (_, {headers}) => {
 });
 
 const UploadLink = createUploadLink({
-  uri: 'http://localhost:8080/graphql',
-  //uri: 'http://575f-2409-4042-4c12-e974-bd3d-b4d4-2dbc-8988.ngrok.io/graphql',
-  //uri: process.env.REACT_APP_API_HOST,
+  // uri: process.env.REACT_APP_API_HOST_LOCAL,
+  uri: process.env.REACT_APP_API_HOST_DEV,
+  // uri: process.env.REACT_APP_API_HOST_STAGE,
+  // uri: process.env.REACT_APP_API_HOST_PORD,
   fetch: customFetch,
 });
 

@@ -22,6 +22,7 @@ import {FormHelper} from '@/helper';
 import {useHistory} from 'react-router-dom';
 import {useStores} from '@/stores';
 import {t} from '@/localization';
+import * as Assets from '@/library/assets';
 
 export const Login = observer(() => {
   const {
@@ -151,7 +152,7 @@ export const Login = observer(() => {
   const carouselSize = width <= 768 ? 300 : 500;
   return (
     <>
-      <div className='flex h-screen bg-[#FF6C99]  w-full  justify-center items-center'>
+      <div className='flex h-screen bg-[#394D7F]  w-full  justify-center items-center'>
         <svg
           width='80%'
           height='100%'
@@ -163,28 +164,27 @@ export const Login = observer(() => {
             d='M0,0 
            L100,0
            C4,30 130,100 0,120'
-            fill='#394D7F'
+            fill='#FF6C99'
           />
         </svg>
         <div
-          className='flex flex-row w-fit m-auto rounded-3xl shadow-lg bg-white items-center absolute  p-2 gap-4 from-blue-600 bg-gradient-to-r'
+          style={{
+            zIndex: 0,
+            marginTop: -window.innerHeight / 1.14,
+            marginLeft: window.innerWidth / 16,
+            position: 'absolute',
+          }}
+        >
+          <img
+            src={Assets.images.limsplusTran}
+            alt='appIcon'
+            style={{width: 200}}
+          />
+        </div>
+        <div
+          className='flex flex-row  w-fit m-auto rounded-3xl shadow-lg bg-white items-center absolute  p-2 gap-4 from-blue-600 bg-gradient-to-r'
           style={{minWidth: '70%'}}
         >
-          {/* <svg
-            width='50%'
-            height='100%'
-            viewBox='0 0 100 100'
-            preserveAspectRatio='none'
-            style={{position: 'absolute', left: 0, right: 0}}
-          >
-            <path
-              d='M0,0 
-           L100,0
-           C100,125 120,100 0,120'
-              fill='#5788FE'
-            />
-          </svg> */}
-
           <Col md='6' sm='12' xs='12'>
             <div className='flex justify-center items-center'>
               <Carousel

@@ -172,11 +172,10 @@ const Sidebar = observer(({location, sidebar, layout}) => {
           <PerfectScrollbar>
             <a className='flex sidebar-brand items-center' href='/'>
               <img
-                src={Assets.appIcon}
+                src={Assets.images.limsplusTran}
                 alt='appIcon'
-                style={{width: 40, height: 40}}
+                style={{width: '100%'}}
               />
-              <span className='align-middle ml-2'>{'Lims Plus'}</span>
             </a>
             <div className='p-2'>
               <AutocompleteGroupBy
