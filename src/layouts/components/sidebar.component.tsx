@@ -75,16 +75,16 @@ const SidebarCategory = withRouter(
             </Badge>
           ) : null}
         </span>
-        <Collapse isOpen={isOpen}>
+        {isOpen && (
           <ul
             id='item'
             className={`sidebar-dropdown list-unstyled ${
               title === 'MASTER SETUP' ? 'overflow-y-scroll h-80' : ''
             }`}
           >
-            {children}
+            <div>{children}</div>
           </ul>
-        </Collapse>
+        )}
       </li>
     );
   },
@@ -210,51 +210,58 @@ const Sidebar = observer(({location, sidebar, layout}) => {
                           isOpen={openRoutes[index]}
                           onClick={() => toggle(index)}
                         >
-                          {category.children.map((route, index) => (
-                            <SidebarItem
-                              key={index}
-                              category={category.name}
-                              name={route.name}
-                              title={route.title}
-                              to={route.path}
-                              badgeColor={route.badgeColor}
-                              badgeText={route.badgeText}
-                              icon={
-                                Icons.getIcons(route.icon) ||
-                                Icons.IconBs.BsList
-                              }
-                              onChangeItem={async (category, item) => {
-                                const {permission, selectedComp} =
-                                  await RouterFlow.updateSelectedCategory(
-                                    category,
-                                    item,
+                          {category?.children?.map((route, index) => (
+                            <>
+                              <SidebarItem
+                                key={index}
+                                category={category.name}
+                                name={route.name}
+                                title={route.title}
+                                to={route.path}
+                                badgeColor={route.badgeColor}
+                                badgeText={route.badgeText}
+                                icon={
+                                  Icons.getIcons(route.icon) ||
+                                  Icons.IconBs.BsList
+                                }
+                                onChangeItem={async (category, item) => {
+                                  const {permission, selectedComp} =
+                                    await RouterFlow.updateSelectedCategory(
+                                      category,
+                                      item,
+                                    );
+                                  routerStore.updateSelectedComponents(
+                                    selectedComp,
                                   );
-                                routerStore.updateSelectedComponents(
-                                  selectedComp,
-                                );
-                                routerStore.updateUserPermission(permission);
-                              }}
-                            />
+                                  routerStore.updateUserPermission(permission);
+                                }}
+                              />
+                            </>
                           ))}
                         </SidebarCategory>
                       ) : (
-                        <SidebarItem
-                          name={category.name}
-                          title={category.title}
-                          to={category.path}
-                          icon={Icons.getIcons(category.icon)}
-                          badgeColor={category.badgeColor}
-                          badgeText={category.badgeText}
-                          onChangeItem={async (category, item) => {
-                            const {permission, selectedComp} =
-                              await RouterFlow.updateSelectedCategory(
-                                category,
-                                item,
+                        <>
+                          <h1>secound</h1>
+                          <SidebarItem
+                            name={category.name}
+                            title={category.title}
+                            to={category.path}
+                            icon={Icons.getIcons(category.icon)}
+                            badgeColor={category.badgeColor}
+                            badgeText={category.badgeText}
+                            onChangeItem={async (category, item) => {
+                              const {permission, selectedComp} =
+                                await RouterFlow.updateSelectedCategory(
+                                  category,
+                                  item,
+                                );
+                              routerStore.updateSelectedComponents(
+                                selectedComp,
                               );
-                            routerStore.updateSelectedComponents(selectedComp);
-                            routerStore.updateUserPermission(permission);
-                          }}
-                        />
+                              routerStore.updateUserPermission(permission);
+                            }}
+                          />
+                        </>
                       )}
                     </React.Fragment>
                   );

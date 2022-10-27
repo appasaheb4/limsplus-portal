@@ -215,5 +215,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "assets": [
+    "src/web.config"
+  ]
 }
