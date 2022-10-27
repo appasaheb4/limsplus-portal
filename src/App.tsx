@@ -32,6 +32,7 @@ import {ApolloProvider, client} from '@/library/modules/apollo-client';
 //   measurementId: "G-46WKN1KLQM"
 // };
 
+// setup again
 configure({
   reactionScheduler: f => {
     setTimeout(f, 1);
