@@ -1,3 +1,4 @@
 [submodule "src/lp-core-service"]
 	path = src/lp-core-service
-	url = https://limsplus0644@dev.azure.com/limsplus0644/lp-core-service/_git/lp-core-service
+	url = https://limsplus0644@dev.azure.com/limsplus0644/lp-core-service
+	branch = master
