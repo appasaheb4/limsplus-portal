@@ -30,6 +30,9 @@ import {
   DropdownMenu,
   DropdownItem,
   Form,
+  Button,
+  CardBody,
+  Card,
 } from 'reactstrap';
 
 const NavbarComponent = observer(({dispatch}) => {
@@ -122,7 +125,7 @@ const NavbarComponent = observer(({dispatch}) => {
           </Form>
         </div>
         <div className='flex-1 ml-2'>
-          <Collapse navbar>
+          <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
               <Buttons.Button
                 size='medium'
@@ -264,7 +267,7 @@ const NavbarComponent = observer(({dispatch}) => {
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
-          </Collapse>
+          </div>
         </div>
       </Navbar>
       <ModalAccount

@@ -26,7 +26,7 @@ import {
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
   GET_USER_BY_MATCH_USER_ID,
-} from '@/core-services/settings/users';
+} from '@/lp-core-service/settings/users';
 
 export class UserService {
   env = stores.loginStore.login && stores.loginStore.login.environment;

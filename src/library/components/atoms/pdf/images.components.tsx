@@ -12,8 +12,6 @@ export const PdfImage = ({
   src = 'https://picsum.photos/200/300',
   style,
 }: PdfImageProps) => {
-  console.log({src});
-
   return (
     <>
       <Image

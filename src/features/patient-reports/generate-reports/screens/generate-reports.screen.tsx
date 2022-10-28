@@ -13,20 +13,10 @@ import {
   PageHeading,
   PageHeadingLabDetails,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import {useForm} from 'react-hook-form';
 
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 import {
