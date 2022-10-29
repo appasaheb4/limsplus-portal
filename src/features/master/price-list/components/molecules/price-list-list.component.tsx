@@ -740,7 +740,7 @@ export const PriceListList = (props: PriceListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row '>
-                    <Tooltip tooltipText='Delete' position='bottom'>
+                    <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
@@ -760,11 +760,7 @@ export const PriceListList = (props: PriceListProps) => {
                     </Tooltip>
                     {row.status !== 'I' && (
                       <>
-                        <Tooltip
-                          className='ml-2'
-                          tooltipText='Version Upgrade'
-                          position='bottom'
-                        >
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
                             color='#fff'
                             size='20'
@@ -776,11 +772,7 @@ export const PriceListList = (props: PriceListProps) => {
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip
-                          className='ml-2'
-                          tooltipText='Duplicate'
-                          position='bottom'
-                        >
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
                           <Icons.IconContext
                             color='#fff'
                             size='20'
