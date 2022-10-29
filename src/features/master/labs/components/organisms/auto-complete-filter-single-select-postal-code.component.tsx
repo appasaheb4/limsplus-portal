@@ -56,15 +56,16 @@ export const AutoCompleteFilterSingleSelectPostalCode = observer(
         _.uniqBy(
           administrativeDivisions.listAdministrativeDiv.filter(
             item =>
-              item.country === country &&
-              item.state === state &&
-              item.district === district &&
-              item.city === city &&
-              item.area === area,
+              item.country?.toLowerCase() === country?.toLowerCase() &&
+              item.state?.toLowerCase() === state?.toLowerCase() &&
+              item.district?.toLowerCase() === district?.toLowerCase() &&
+              item.city?.toLowerCase() === city?.toLowerCase() &&
+              item.area?.toLowerCase() === area?.toLowerCase(),
           ),
           'postalCode',
         ),
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       administrativeDivisions.listAdministrativeDiv,
       area,
