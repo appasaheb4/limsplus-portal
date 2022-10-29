@@ -351,7 +351,7 @@ export const LabList = (props: LabListProps) => {
                     onSelect={item => {
                       props.onUpdateFileds &&
                         props.onUpdateFileds(
-                          {postalCode: item.postalCode},
+                          {postalCode: item?.postalCode?.toString()},
                           row._id,
                         );
                     }}
@@ -364,12 +364,89 @@ export const LabList = (props: LabListProps) => {
               text: 'Address',
               headerClasses: 'textHeader3',
               sort: true,
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               filter: textFilter({
                 getFilter: filter => {
                   address = filter;
                 },
               }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.MultilineInput
+                    label=''
+                    placeholder='Address'
+                    onBlur={address => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds({address}, row._id);
+                    }}
+                    defaultValue={row.address}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'registeredOffice',
+              text: 'Registered Office',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.MultilineInput
+                    label=''
+                    placeholder='Registered Office'
+                    onBlur={registeredOffice => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds({registeredOffice}, row._id);
+                    }}
+                    defaultValue={row.registeredOffice}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'corporateOffice',
+              text: 'Corporate Office',
+              headerClasses: 'textHeader3',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.MultilineInput
+                    label=''
+                    placeholder='Corporate Office'
+                    onBlur={corporateOffice => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds({corporateOffice}, row._id);
+                    }}
+                    defaultValue={row.corporateOffice}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'priceList',

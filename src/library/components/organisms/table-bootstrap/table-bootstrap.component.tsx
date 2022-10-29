@@ -366,7 +366,7 @@ export const TableBootstrap = ({
                 )}
               </div>
               {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
+                <div className={'mb-2 overflow-auto h-10 '}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'

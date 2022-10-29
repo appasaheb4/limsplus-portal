@@ -3,9 +3,13 @@ import React, {useRef} from 'react';
 const getPosition = (position: 'bottom' | 'left' | 'top') => {
   if (position === 'left')
     return {
-      left: -20,
-      bottom: -50,
+      left: -75,
+      bottom: -25,
       opacity: 0,
+      writingMode: 'vertical-rl',
+      textOrientation: 'mixed',
+      padding: 2,
+      margin: 2,
     };
   if (position === 'top')
     return {
@@ -16,7 +20,7 @@ const getPosition = (position: 'bottom' | 'left' | 'top') => {
   else
     return {
       left: -20,
-      bottom: -50,
+      bottom: -40,
       opacity: 0,
     };
 };
@@ -48,16 +52,19 @@ export const Tooltip: React.FunctionComponent<TooltipProps> = ({
       className={`${className} relative flex items-center`}
       onMouseEnter={() => handleMouseEnter(tipRef)}
       onMouseLeave={() => handleMouseLeave(tipRef)}
+      style={{position: 'relative'}}
     >
       <div
-        className='absolute  whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150 z-50'
-        style={getPosition(position)}
+        className='absolute  whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150'
+        style={getPosition(position) as any}
         ref={tipRef}
       >
         <div
           className='bg-black h-3 w-3 absolute'
           style={
-            position !== 'bottom'
+            position == 'left'
+              ? {right: '-6px', transform: 'rotate(45deg)'}
+              : position !== 'bottom'
               ? {bottom: '-6px', transform: 'rotate(45deg)'}
               : {top: '-6px', transform: 'rotate(45deg)'}
           }

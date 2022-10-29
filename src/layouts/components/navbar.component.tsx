@@ -57,7 +57,7 @@ const NavbarComponent = observer(({dispatch}) => {
         }}
         light
         expand
-        className='flex flex-row w-full pr-5'
+        className='flex flex-row w-full pr-5 '
       >
         <div className='flex w-8'>
           <span
@@ -69,7 +69,7 @@ const NavbarComponent = observer(({dispatch}) => {
             <i className='hamburger align-self-center' />
           </span>
         </div>
-        <div className='flex flex-2 overflow-y-auto scrollbar-hide'>
+        <div className='flex flex-2  scrollbar-hide'>
           {/* overflow-auto */}
           <Form inline>
             <div className='flex flex-row'>
@@ -108,14 +108,16 @@ const NavbarComponent = observer(({dispatch}) => {
                             history.push(item.path);
                           }}
                         >
-                          <Tooltip tooltipText={item.title}>
-                            <Icons.IconContext color='#000' size='22'>
-                              {Icons.getIconTag(
-                                Icons.getIcons(item.icon) ||
-                                  Icons.IconBs.BsList,
-                              )}
-                            </Icons.IconContext>
-                          </Tooltip>
+                          <div style={{position: 'relative', zIndex: 999}}>
+                            <Tooltip tooltipText={item.title}>
+                              <Icons.IconContext color='#000' size='22'>
+                                {Icons.getIconTag(
+                                  Icons.getIcons(item.icon) ||
+                                    Icons.IconBs.BsList,
+                                )}
+                              </Icons.IconContext>
+                            </Tooltip>
+                          </div>
                         </Buttons.Button>
                       </div>
                     </>

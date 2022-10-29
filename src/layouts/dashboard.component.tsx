@@ -324,6 +324,7 @@ const Dashboard = observer(({children}) => {
           count == 0 && loadApi();
         }
       });
+      window.scrollTo(0, 0);
     }, 1000);
   }, [loginStore.login]);
 
