@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/library/modules/apollo-client';
+import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
 import {PAYMENT_LIST, CREATE_PAYMENT, UPDATE_PAYMENT} from './mutation-payment';
 import dayjs from 'dayjs';

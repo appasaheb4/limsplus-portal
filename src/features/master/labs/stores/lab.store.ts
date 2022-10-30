@@ -11,6 +11,7 @@ export class LabStore {
   labs!: Labs;
   checkExitsEnvCode = false;
   selectedItems!: SelectedItems;
+  addressDetails!: any;
 
   constructor() {
     this.listLabs = [];
@@ -31,6 +32,7 @@ export class LabStore {
       labs: observable,
       checkExitsEnvCode: observable,
       selectedItems: observable,
+      addressDetails: observable,
 
       LabService: computed,
       fetchListLab: action,
@@ -39,6 +41,7 @@ export class LabStore {
       setExitsEnvCode: action,
       updateLabs: action,
       updateSelectedItems: action,
+      updateAddressDetails: action,
     });
   }
 
@@ -77,5 +80,9 @@ export class LabStore {
   updateSelectedItems(items: SelectedItems | undefined) {
     if (items) this.selectedItems = items;
     else this.selectedItems = new SelectedItems({});
+  }
+
+  updateAddressDetails(res: any) {
+    this.addressDetails = res;
   }
 }
