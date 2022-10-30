@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/library/modules/apollo-client';
+import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {PATIENT_REPORT_LIST} from './mutation-generate-reports';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';

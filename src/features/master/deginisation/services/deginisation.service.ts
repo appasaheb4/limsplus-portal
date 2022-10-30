@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/library/modules/apollo-client';
+import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
 import * as Model from '../models';
 import {

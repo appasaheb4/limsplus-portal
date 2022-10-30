@@ -5,7 +5,12 @@
  * @author limsplus
  */
 import * as Model from '../models';
-import {client, ServiceResponse} from '@/library/modules/apollo-client';
+import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
+import {
+  Service,
+  BASE_URL_POSTAL_PIN_CODE,
+  endpoints,
+} from '@/core-services/rest-api';
 import {stores} from '@/stores';
 import {
   LABS_LIST,
@@ -178,5 +183,23 @@ export class LabService {
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
+    });
+
+  getAddressDetailsByPincode = (pincode: string) =>
+    new Promise<any>((resolve, reject) => {
+      const service = new Service(BASE_URL_POSTAL_PIN_CODE);
+      try {
+        service
+          ?.get(`${endpoints.external.postalpincode}/${pincode}`)
+          .then(response => {
+            stores.labStore.updateAddressDetails(response.data[0]?.PostOffice);
+            resolve(response?.data);
+          })
+          .catch(error => {
+            reject(error.message);
+          });
+      } catch (error) {
+        reject(error);
+      }
     });
 }

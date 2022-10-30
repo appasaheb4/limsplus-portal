@@ -18,7 +18,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import {stores} from '@/stores';
 
 import hydrateStore from '@/library/modules/startup';
-import {ApolloProvider, client} from '@/library/modules/apollo-client';
+import {ApolloProvider, client} from '@/core-services/graphql/apollo-client';
 
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
