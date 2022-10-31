@@ -359,203 +359,6 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ),
           },
           {
-            dataField: 'country',
-            text: 'Country',
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            filter: textFilter({
-              getFilter: filter => {
-                country = filter;
-              },
-            }),
-            headerClasses: 'textHeader4',
-            style: {textTransform: 'uppercase'},
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectCountry
-                  onSelect={item => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          country: item.country,
-                          state: '',
-                          district: '',
-                          city: '',
-                          area: '',
-                          postalCode: Number.parseInt(''),
-                        },
-                        row._id,
-                      );
-                  }}
-                />
-              </>
-            ),
-          },
-          {
-            dataField: 'state',
-            text: 'State',
-            headerClasses: 'textHeader4',
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                state = filter;
-              },
-            }),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectState
-                  country={row.country}
-                  onSelect={item => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          state: item.state,
-                          district: '',
-                          city: '',
-                          area: '',
-                          postalCode: Number.parseInt(''),
-                        },
-                        row._id,
-                      );
-                  }}
-                />
-              </>
-            ),
-          },
-          {
-            dataField: 'district',
-            text: 'District',
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                district = filter;
-              },
-            }),
-            headerClasses: 'textHeader4',
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectDistrict
-                  country={row.country}
-                  state={row.state}
-                  onSelect={item => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          district: item.district,
-                          city: '',
-                          area: '',
-                          postalCode: Number.parseInt(''),
-                        },
-                        row._id,
-                      );
-                  }}
-                />
-              </>
-            ),
-          },
-          {
-            dataField: 'city',
-            text: 'City',
-            headerClasses: 'textHeader3',
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                city = filter;
-              },
-            }),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectCity
-                  country={row.country}
-                  state={row.state}
-                  district={row.district}
-                  onSelect={item => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          city: item.city,
-                          area: '',
-                          postalCode: Number.parseInt(''),
-                        },
-                        row._id,
-                      );
-                  }}
-                />
-              </>
-            ),
-          },
-          {
-            dataField: 'area',
-            text: 'Area',
-            headerClasses: 'textHeader4',
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                area = filter;
-              },
-            }),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectArea
-                  country={row.country}
-                  state={row.state}
-                  district={row.district}
-                  city={row.city}
-                  onSelect={item => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {area: item.area, postalCode: Number.parseInt('')},
-                        row._id,
-                      );
-                  }}
-                />
-              </>
-            ),
-          },
-          {
             dataField: 'postalCode',
             text: 'Postal Code',
             headerClasses: 'textHeader5',
@@ -577,26 +380,80 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ) => (
               <>
                 <AutoCompleteFilterSingleSelectPostalCode
-                  country={row.country}
-                  state={row.state}
-                  district={row.district}
-                  city={row.city}
-                  area={row.area}
                   onSelect={item => {
                     props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          postalCode: Number.parseInt(item.postalCode),
-                          zone: item.zone,
-                          sbu: item.sbu,
-                        },
-                        row._id,
-                      );
+                      props.onUpdateFileds({...item}, row._id);
                   }}
                 />
               </>
             ),
           },
+          {
+            dataField: 'country',
+            text: 'Country',
+            sort: true,
+            editable: false,
+            filter: textFilter({
+              getFilter: filter => {
+                country = filter;
+              },
+            }),
+            headerClasses: 'textHeader4',
+            style: {textTransform: 'uppercase'},
+          },
+          {
+            dataField: 'state',
+            text: 'State',
+            headerClasses: 'textHeader4',
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                state = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'district',
+            text: 'District',
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                district = filter;
+              },
+            }),
+            headerClasses: 'textHeader4',
+          },
+          {
+            dataField: 'city',
+            text: 'City',
+            headerClasses: 'textHeader3',
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                city = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'area',
+            text: 'Area',
+            headerClasses: 'textHeader4',
+            sort: true,
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                area = filter;
+              },
+            }),
+          },
+
           {
             dataField: 'sbu',
             text: 'SBU',
