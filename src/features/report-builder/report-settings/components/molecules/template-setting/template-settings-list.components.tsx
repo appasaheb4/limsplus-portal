@@ -326,9 +326,14 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                   </div>
                 </>
               ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white',
+              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
               classes: (cell, row, rowIndex, colIndex) => {
                 return 'sticky right-0 bg-gray-500';
+              },
+              style: (cell, row, rowIndex, colIndex) => {
+                return {
+                  zIndex: props.data?.length - rowIndex,
+                };
               },
             },
           ]}
