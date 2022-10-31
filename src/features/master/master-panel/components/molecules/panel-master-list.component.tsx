@@ -1712,7 +1712,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete' position='bottom'>
+                    <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
@@ -1732,11 +1732,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     </Tooltip>
                     {row.status !== 'I' && (
                       <>
-                        <Tooltip
-                          className='ml-2'
-                          tooltipText='Version Upgrade'
-                          position='bottom'
-                        >
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
                             color='#fff'
                             size='20'
@@ -1748,11 +1744,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                             {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
                           </Icons.IconContext>
                         </Tooltip>
-                        <Tooltip
-                          className='ml-2'
-                          tooltipText='Duplicate'
-                          position='bottom'
-                        >
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
                           <Icons.IconContext
                             color='#fff'
                             size='20'
@@ -1768,9 +1760,14 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   </div>
                 </>
               ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white',
+              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
               classes: (cell, row, rowIndex, colIndex) => {
                 return 'sticky right-0 bg-gray-500';
+              },
+              style: (cell, row, rowIndex, colIndex) => {
+                return {
+                  zIndex: props.data?.length - rowIndex,
+                };
               },
             },
           ]}
