@@ -650,7 +650,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Preview' position='bottom'>
+                    <Tooltip tooltipText='Preview'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
@@ -661,7 +661,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                         {Icons.getIconTag(Icons.IconIm.ImFilePdf)}
                       </Icons.IconContext>
                     </Tooltip>
-                    <Tooltip tooltipText='Delete' position='bottom'>
+                    <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
@@ -682,9 +682,14 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   </div>
                 </>
               ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white',
+              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
               classes: (cell, row, rowIndex, colIndex) => {
                 return 'sticky right-0 bg-gray-500';
+              },
+              style: (cell, row, rowIndex, colIndex) => {
+                return {
+                  zIndex: props.data?.length - rowIndex,
+                };
               },
             },
           ]}
