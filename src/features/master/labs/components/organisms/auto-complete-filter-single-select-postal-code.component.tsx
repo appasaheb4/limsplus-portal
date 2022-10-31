@@ -70,6 +70,7 @@ export const AutoCompleteFilterSingleSelectPostalCode = observer(
                   area: item?.Name?.toUpperCase(),
                   postalCode: item.Pincode,
                 });
+              labStore.updateAddressDetails([]);
             }}
           />
         </div>

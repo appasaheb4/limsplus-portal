@@ -289,6 +289,7 @@ const Lab = LabHoc(
                             area: item?.Name?.toUpperCase(),
                             postalCode: item.Pincode,
                           });
+                          labStore.updateAddressDetails([]);
                         }}
                       />
                     </Form.InputWrapper>
@@ -317,7 +318,7 @@ const Lab = LabHoc(
                     />
                   )}
                   name='country'
-                  rules={{required: true}}
+                  rules={{required: false}}
                   defaultValue={labStore.labs}
                 />
 

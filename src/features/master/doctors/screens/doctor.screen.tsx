@@ -48,6 +48,7 @@ const Doctors = DoctorsHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+
     const onSubmitDoctors = () => {
       if (!doctorsStore.checkExitsLabEnvCode) {
         if (
@@ -213,7 +214,8 @@ const Doctors = DoctorsHoc(
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddSection ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' +
+              (hideAddSection ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
@@ -509,361 +511,47 @@ const Doctors = DoctorsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Country'
-                      id='country'
-                      hasError={!!errors.country}
-                    >
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        data={{
-                          list: _.uniqBy(
-                            administrativeDivisions.listAdministrativeDiv,
-                            'country',
-                          ),
-                          displayKey: 'country',
-                          findKey: 'country',
-                        }}
-                        hasError={!!errors.country}
-                        onFilter={(value: string) => {
-                          administrativeDivisions.administrativeDivisionsService.filter(
-                            {
-                              input: {
-                                filter: {
-                                  type: 'search',
-                                  ['country']: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(item.country);
-                          doctorsStore.updateDoctors({
-                            ...doctorsStore.doctors,
-                            country: item?.country?.toUpperCase(),
-                            state: '',
-                            district: '',
-                            city: '',
-                            area: '',
-                            postalCode: '',
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='country'
-                  rules={{required: true}}
-                  defaultValue={administrativeDivisions.listAdministrativeDiv}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='State'
-                      id='state'
-                      hasError={!!errors.state}
-                    >
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        disable={!doctorsStore.doctors?.country}
-                        data={{
-                          list: _.uniqBy(
-                            administrativeDivisions.listAdministrativeDiv.filter(
-                              item =>
-                                item.country === doctorsStore.doctors?.country,
-                            ),
-                            'state',
-                          ),
-                          displayKey: 'state',
-                          findKey: 'state',
-                        }}
-                        hasError={!!errors.state}
-                        displayValue={doctorsStore.doctors?.state}
-                        onFilter={(value: string) => {
-                          administrativeDivisions.administrativeDivisionsService.filter(
-                            {
-                              input: {
-                                filter: {
-                                  type: 'search',
-                                  country: labStore.labs.country,
-                                  state: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(item.state);
-                          doctorsStore.updateDoctors({
-                            ...doctorsStore.doctors,
-                            state: item?.state?.toUpperCase(),
-                            district: '',
-                            city: '',
-                            area: '',
-                            postalCode: '',
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='state'
-                  rules={{required: false}}
-                  defaultValue={doctorsStore.doctors?.country}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='District'
-                      id='district'
-                      hasError={!!errors.district}
-                    >
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        disable={!doctorsStore.doctors?.state}
-                        data={{
-                          list: _.uniqBy(
-                            administrativeDivisions.listAdministrativeDiv.filter(
-                              item =>
-                                item.country ===
-                                  doctorsStore.doctors?.country &&
-                                item.state === doctorsStore.doctors?.state,
-                            ),
-                            'district',
-                          ),
-                          displayKey: 'district',
-                          findKey: 'district',
-                        }}
-                        displayValue={doctorsStore.doctors.district}
-                        hasError={!!errors.district}
-                        onFilter={(value: string) => {
-                          administrativeDivisions.administrativeDivisionsService.filter(
-                            {
-                              input: {
-                                filter: {
-                                  type: 'search',
-                                  country: labStore.labs.country,
-                                  state: labStore.labs.state,
-                                  district: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(item.district);
-                          doctorsStore.updateDoctors({
-                            ...doctorsStore.doctors,
-                            district: item?.district?.toUpperCase(),
-                            city: '',
-                            area: '',
-                            postalCode: '',
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='district'
-                  rules={{required: false}}
-                  defaultValue={doctorsStore.doctors?.state}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='City'
-                      id='city'
-                      hasError={!!errors.city}
-                    >
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        disable={!doctorsStore.doctors?.district}
-                        data={{
-                          list: _.uniqBy(
-                            administrativeDivisions.listAdministrativeDiv.filter(
-                              item =>
-                                item.country ===
-                                  doctorsStore.doctors?.country &&
-                                item.state === doctorsStore.doctors?.state &&
-                                item.district ===
-                                  doctorsStore.doctors?.district,
-                            ),
-                            'city',
-                          ),
-                          displayKey: 'city',
-                          findKey: 'city',
-                        }}
-                        hasError={!!errors.city}
-                        displayValue={doctorsStore.doctors.city}
-                        onFilter={(value: string) => {
-                          administrativeDivisions.administrativeDivisionsService.filter(
-                            {
-                              input: {
-                                filter: {
-                                  type: 'search',
-                                  country: doctorsStore.doctors?.country,
-                                  state: doctorsStore.doctors?.state,
-                                  district: doctorsStore.doctors?.district,
-                                  city: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(item.city);
-                          doctorsStore.updateDoctors({
-                            ...doctorsStore.doctors,
-                            city: item?.city?.toUpperCase(),
-                            area: '',
-                            postalCode: '',
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='city'
-                  rules={{required: false}}
-                  defaultValue={doctorsStore.doctors.district}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='Area'
-                      id='area'
-                      hasError={!!errors.area}
-                    >
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        disable={!doctorsStore.doctors?.city}
-                        data={{
-                          list: _.uniqBy(
-                            administrativeDivisions.listAdministrativeDiv.filter(
-                              item =>
-                                item.country ===
-                                  doctorsStore.doctors?.country &&
-                                item.state === doctorsStore.doctors?.state &&
-                                item.district ===
-                                  doctorsStore.doctors?.district &&
-                                item.city === doctorsStore.doctors?.city,
-                            ),
-                            'area',
-                          ),
-                          displayKey: 'area',
-                          findKey: 'area',
-                        }}
-                        hasError={!!errors.area}
-                        displayValue={doctorsStore.doctors.area}
-                        onFilter={(value: string) => {
-                          administrativeDivisions.administrativeDivisionsService.filter(
-                            {
-                              input: {
-                                filter: {
-                                  type: 'search',
-                                  country: doctorsStore.doctors?.country,
-                                  state: doctorsStore.doctors?.state,
-                                  district: doctorsStore.doctors?.district,
-                                  city: doctorsStore.doctors?.city,
-                                  area: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(item.area);
-                          doctorsStore.updateDoctors({
-                            ...doctorsStore.doctors,
-                            area: item?.area?.toUpperCase(),
-                            postalCode: '',
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='area'
-                  rules={{required: false}}
-                  defaultValue={doctorsStore.doctors.city}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
                       label='Postal Code'
                       id='postalCode'
                       hasError={!!errors.postalCode}
                     >
-                      <AutoCompleteFilterSingleSelect
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
-                        disable={!doctorsStore.doctors?.area}
                         data={{
-                          list: _.uniqBy(
-                            administrativeDivisions.listAdministrativeDiv.filter(
-                              item =>
-                                item.country ===
-                                  doctorsStore.doctors?.country &&
-                                item.state === doctorsStore.doctors?.state &&
-                                item.district ===
-                                  doctorsStore.doctors?.district &&
-                                item.city === doctorsStore.doctors?.city &&
-                                item.area === doctorsStore.doctors?.area,
-                            ),
-                            'postalCode',
-                          ),
-                          displayKey: 'postalCode',
-                          findKey: 'postalCode',
+                          list: labStore.addressDetails,
+                          displayKey: [
+                            'Name',
+                            'Block',
+                            'District',
+                            'State',
+                            'Country',
+                            'Pincode',
+                          ],
                         }}
                         hasError={!!errors.postalCode}
                         displayValue={
                           doctorsStore.doctors?.postalCode?.toString() || ''
                         }
                         onFilter={(value: string) => {
-                          administrativeDivisions.administrativeDivisionsService.filter(
-                            {
-                              input: {
-                                filter: {
-                                  type: 'search',
-                                  country: doctorsStore.doctors?.country,
-                                  state: doctorsStore.doctors?.state,
-                                  district: doctorsStore.doctors?.district,
-                                  city: doctorsStore.doctors?.city,
-                                  area: doctorsStore.doctors?.area,
-                                  postalCode: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
+                          if (value?.length == 6) {
+                            labStore.LabService?.getAddressDetailsByPincode(
+                              value,
+                            );
+                          }
                         }}
                         onSelect={item => {
-                          onChange(item.postalCode);
-                          console.log({item});
+                          onChange(item.Pincode);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            postalCode: Number.parseInt(item?.postalCode),
-                            zone: item?.zone,
-                            sbu: item?.sbu,
+                            country: item?.Country?.toUpperCase(),
+                            state: item?.State?.toUpperCase(),
+                            district: item?.District?.toUpperCase(),
+                            city: item?.Block?.toUpperCase(),
+                            area: item?.Name?.toUpperCase(),
+                            postalCode: Number.parseInt(item.Pincode),
+                            zone: '',
+                            sbu: '',
                           });
-                          administrativeDivisions.updateAdministrativeDivList(
-                            administrativeDivisions.listAdministrativeDivCopy,
-                          );
                         }}
                       />
                     </Form.InputWrapper>
@@ -871,6 +559,121 @@ const Doctors = DoctorsHoc(
                   name='postalCode'
                   rules={{required: false}}
                   defaultValue={doctorsStore.doctors.area}
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Country'
+                      hasError={!!errors.country}
+                      placeholder='Country'
+                      value={doctorsStore.doctors?.country}
+                      disabled={true}
+                      onChange={country => {
+                        onChange(country);
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          country: country?.toUpperCase(),
+                        });
+                      }}
+                    />
+                  )}
+                  name='country'
+                  rules={{required: false}}
+                  defaultValue={doctorsStore.doctors}
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='State'
+                      hasError={!!errors.state}
+                      placeholder='State'
+                      value={doctorsStore.doctors?.state}
+                      disabled={true}
+                      onChange={state => {
+                        onChange(state);
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          state: state?.toUpperCase(),
+                        });
+                      }}
+                    />
+                  )}
+                  name='state'
+                  rules={{required: false}}
+                  defaultValue={doctorsStore.doctors}
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='District'
+                      hasError={!!errors.district}
+                      placeholder='District'
+                      value={doctorsStore.doctors?.district}
+                      disabled={true}
+                      onChange={district => {
+                        onChange(district);
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          district: district?.toUpperCase(),
+                        });
+                      }}
+                    />
+                  )}
+                  name='district'
+                  rules={{required: false}}
+                  defaultValue={doctorsStore.doctors}
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='City'
+                      hasError={!!errors.city}
+                      placeholder='City'
+                      value={doctorsStore.doctors?.city}
+                      disabled={true}
+                      onChange={city => {
+                        onChange(city);
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          city: city?.toUpperCase(),
+                        });
+                      }}
+                    />
+                  )}
+                  name='city'
+                  rules={{required: false}}
+                  defaultValue={doctorsStore.doctors}
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Area'
+                      hasError={!!errors.area}
+                      placeholder='Area'
+                      value={doctorsStore.doctors?.area}
+                      disabled={true}
+                      onChange={area => {
+                        onChange(area);
+                        doctorsStore.updateDoctors({
+                          ...doctorsStore.doctors,
+                          area: area?.toUpperCase(),
+                        });
+                      }}
+                    />
+                  )}
+                  name='area'
+                  rules={{required: false}}
+                  defaultValue={doctorsStore.doctors}
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
