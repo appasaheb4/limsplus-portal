@@ -95,6 +95,7 @@ const Lookup = observer(() => {
           <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
             <LookupList
               data={lookupStore.listLookup || []}
+              uiVariable={lookupStore.uiVariable}
               totalSize={lookupStore.listLookupCount}
               extraData={{
                 localInput: lookupStore.localInput,
@@ -106,6 +107,20 @@ const Lookup = observer(() => {
                 routerStore.userPermission,
                 'Delete',
               )}
+              onUpdateValues={(arrValues, id) => {
+                lookupStore.updateLookupList(
+                  lookupStore.listLookup?.filter(item => {
+                    if (item._id === id) {
+                      item.arrValue = arrValues;
+                    }
+                    return item;
+                  }),
+                );
+                lookupStore.updateUiVariable({
+                  ...lookupStore.uiVariable,
+                  editorId: id,
+                });
+              }}
               isEditModify={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Edit/Modify',
@@ -165,6 +180,10 @@ const Lookup = observer(() => {
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
+                    lookupStore.updateUiVariable({
+                      ...lookupStore.uiVariable,
+                      editorId: '',
+                    });
                     if (res.updateLookup.success) {
                       Toast.success({
                         message: `😊 ${res.updateLookup.message}`,

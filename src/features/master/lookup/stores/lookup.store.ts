@@ -9,12 +9,17 @@ export class LookupStore {
   globalSettings!: GlobalSettings;
   localInput!: LocalInput;
   flagUpperCase: boolean;
+  uiVariable!: {
+    editorId: string;
+  };
 
   constructor() {
     this.listLookup = [];
     this.lookup = new Lookup({});
     this.globalSettings = new GlobalSettings({});
-    this.localInput = new LocalInput({});
+    this.localInput = new LocalInput({
+      flagUpperCase: true,
+    });
     this.flagUpperCase = true;
     makeObservable<LookupStore, any>(this, {
       listLookup: observable,
@@ -23,6 +28,7 @@ export class LookupStore {
       globalSettings: observable,
       localInput: observable,
       flagUpperCase: observable,
+      uiVariable: observable,
 
       LookupService: computed,
       fetchListLookup: action,
@@ -32,6 +38,7 @@ export class LookupStore {
       updateLocalInput: action,
       updateFlagUppperCase: action,
       filterLookupList: action,
+      updateUiVariable: action,
     });
   }
 
@@ -44,9 +51,14 @@ export class LookupStore {
   }
 
   updateLookupList(res: any) {
-    if (!res.lookups.success) return alert(res.lookups.message);
-    this.listLookup = res.lookups.data;
-    this.listLookupCount = res.lookups.paginatorInfo.count;
+    if (!Array.isArray(res)) {
+      if (!res.lookups.success) return alert(res.lookups.message);
+      this.listLookup = res.lookups.data;
+      this.listLookupCount = res.lookups.paginatorInfo.count;
+    } else {
+      this.listLookup = res;
+      this.listLookupCount = res?.length;
+    }
   }
 
   filterLookupList(res: any) {
@@ -68,5 +80,9 @@ export class LookupStore {
 
   updateFlagUppperCase(flag: boolean) {
     this.flagUpperCase = flag;
+  }
+
+  updateUiVariable(payload: any) {
+    this.uiVariable = payload;
   }
 }

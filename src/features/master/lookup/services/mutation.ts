@@ -10,6 +10,7 @@ export const LOOKUPITEM_BY_PATH = gql`
         defaultItem {
           code
           value
+          flagUpperCase
         }
         documentName {
           name
@@ -21,6 +22,7 @@ export const LOOKUPITEM_BY_PATH = gql`
         arrValue {
           code
           value
+          flagUpperCase
         }
         environment
         dateOfEntry
@@ -40,6 +42,7 @@ export const LOOKUPITEM_BY_PATH_N_FIELD = gql`
         defaultItem {
           code
           value
+          flagUpperCase
         }
         documentName {
           name
@@ -51,6 +54,7 @@ export const LOOKUPITEM_BY_PATH_N_FIELD = gql`
         arrValue {
           code
           value
+          flagUpperCase
         }
         environment
         dateOfEntry
@@ -73,6 +77,7 @@ export const LIST = gql`
         defaultItem {
           code
           value
+          flagUpperCase
         }
         documentName {
           name
@@ -84,6 +89,7 @@ export const LIST = gql`
         arrValue {
           code
           value
+          flagUpperCase
         }
         environment
         dateOfEntry
@@ -142,6 +148,7 @@ export const FILTER = gql`
         defaultItem {
           code
           value
+          flagUpperCase
         }
         documentName {
           name
@@ -153,6 +160,7 @@ export const FILTER = gql`
         arrValue {
           code
           value
+          flagUpperCase
         }
         environment
         dateOfEntry

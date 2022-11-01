@@ -53,7 +53,7 @@ export const PatientManager = PatientManagerHoc(
     setValue('species', patientManagerStore.patientManger.species);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideInputView, setHideInputView] = useState<boolean>(false);
+    const [hideInputView, setHideInputView] = useState<boolean>(true);
 
     const onSubmitPatientManager = () => {
       if (!patientManagerStore.checkExistsPatient) {

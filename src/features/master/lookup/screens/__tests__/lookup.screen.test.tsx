@@ -1,6 +1,7 @@
+// eslint-disable-next-line folders/match-regex
 import React from 'react';
 import {render} from '@testing-library/react';
-import {Lookup} from '.';
+import {Lookup} from '..';
 
 describe('Lookup Screen', () => {
   it('render lookup correctly', () => {

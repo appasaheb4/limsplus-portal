@@ -2,9 +2,9 @@ export class GlobalSettings {
   router: Array<any>;
   documentList: Array<any>;
   fieldName: string;
-  arrValue: {value: string; code: string}[];
+  arrValue: {value: string; code: string; flagUpperCase: boolean}[];
   description: string;
-  defaultItem: Array<{value: string; code: string}>;
+  defaultItem: Array<{value: string; code: string; flagUpperCase: boolean}>;
   environment: string;
 
   constructor(rawData: {[key in string]: any}) {

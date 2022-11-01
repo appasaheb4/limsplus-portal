@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import _ from 'lodash';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
-  TableBootstrap,
   AutocompleteGroupBy,
   Buttons,
   textFilter,
@@ -13,6 +12,7 @@ import {
   Tooltip,
   Svg,
 } from '@/library/components';
+import {TableBootstrap} from '../organsims/table-bootstrap.component';
 import {Confirm} from '@/library/models';
 import {dashboardRouter as dashboardRoutes} from '@/routes';
 let router = dashboardRoutes;
@@ -27,6 +27,7 @@ let environment;
 interface LookupListProps {
   data: any;
   totalSize: number;
+  uiVariable?: any;
   extraData: any;
   isDelete?: boolean;
   isEditModify?: boolean;
@@ -34,6 +35,7 @@ interface LookupListProps {
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
+  onUpdateValues?(items: any, id: string);
   onFilter?: (
     type: string,
     filter: any,
@@ -57,10 +59,12 @@ export const LookupList = (props: LookupListProps) => {
       }
     });
   }, []);
+
   return (
     <div style={{position: 'relative'}}>
       <TableBootstrap
         id='_id'
+        editorId={props.uiVariable?.editorId}
         data={props.data}
         totalSize={props.totalSize}
         columns={[
@@ -131,7 +135,7 @@ export const LookupList = (props: LookupListProps) => {
           {
             dataField: 'arrValue',
             text: 'Value & code',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader2',
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
               `Value:${row.arrValue.map(
@@ -152,7 +156,11 @@ export const LookupList = (props: LookupListProps) => {
                         type='solid'
                         onClick={() => {}}
                       >
-                        {lookupValue(item)}
+                        {`${lookupValue(item)}  `}
+                        <Form.Toggle
+                          value={item?.flagUpperCase}
+                          disabled={true}
+                        />
                       </Buttons.Button>
                     </div>
                   ))}
@@ -168,7 +176,7 @@ export const LookupList = (props: LookupListProps) => {
               columnIndex,
             ) => (
               <>
-                <Grid cols={3}>
+                <div className='flex flex-row gap-4'>
                   <Form.Input
                     placeholder='Code'
                     value={row.code}
@@ -179,7 +187,6 @@ export const LookupList = (props: LookupListProps) => {
                       });
                     }}
                   />
-
                   <Form.Input
                     placeholder='Value'
                     value={row.value}
@@ -190,7 +197,16 @@ export const LookupList = (props: LookupListProps) => {
                       });
                     }}
                   />
-
+                  <Form.Toggle
+                    label='Enable Upper Case'
+                    value={row.flagUpperCase}
+                    onChange={flagUpperCase => {
+                      props.extraData.updateLocalInput({
+                        ...props.extraData.localInput,
+                        flagUpperCase,
+                      });
+                    }}
+                  />
                   <div className='mt-2'>
                     <Buttons.Button
                       size='medium'
@@ -198,6 +214,8 @@ export const LookupList = (props: LookupListProps) => {
                       onClick={() => {
                         const value = props.extraData.localInput?.value;
                         const code = props.extraData.localInput?.code;
+                        const flagUpperCase =
+                          props.extraData.localInput?.flagUpperCase;
                         let arrValue = row?.arrValue || [];
                         if (value === undefined || code === undefined)
                           return alert('Please enter value and code.');
@@ -206,23 +224,26 @@ export const LookupList = (props: LookupListProps) => {
                             ? arrValue.push({
                                 value,
                                 code,
+                                flagUpperCase,
                               })
                             : (arrValue = [
                                 {
                                   value,
                                   code,
+                                  flagUpperCase,
                                 },
                               ]);
                           arrValue = _.map(arrValue, o =>
-                            _.pick(o, ['code', 'value']),
+                            _.pick(o, ['code', 'value', 'flagUpperCase']),
                           );
-                          props.onUpdateItem &&
-                            props.onUpdateItem(arrValue, 'arrValue', row._id);
                           props.extraData.updateLocalInput({
                             ...props.extraData.localInput,
                             value: '',
                             code: '',
+                            flagUpperCase: false,
                           });
+                          props.onUpdateValues &&
+                            props.onUpdateValues(arrValue, row._id);
                         }
                       }}
                     >
@@ -231,7 +252,7 @@ export const LookupList = (props: LookupListProps) => {
                     </Buttons.Button>
                   </div>
                   <div className='clearfix'></div>
-                </Grid>
+                </div>
                 <List space={2} direction='row' justify='center'>
                   <div>
                     {row.arrValue?.map((item, index) => (
@@ -253,20 +274,31 @@ export const LookupList = (props: LookupListProps) => {
                             finalArray = _.map(finalArray, o =>
                               _.pick(o, ['code', 'value']),
                             );
-                            props.onUpdateItem &&
-                              props.onUpdateItem(
-                                finalArray,
-                                'arrValue',
-                                row._id,
-                              );
+                            props.onUpdateValues &&
+                              props.onUpdateValues(finalArray, row._id);
                           }}
                         >
-                          {`${item.value} - ${item.code}`}
+                          {`${item.value} - ${item.code}  `}
+                          <Form.Toggle
+                            value={item.flagUpperCase}
+                            disabled={true}
+                          />
                         </Buttons.Button>
                       </div>
                     ))}
                   </div>
                 </List>
+                <Buttons.Button
+                  size='large'
+                  type='solid'
+                  style={{marginLeft: '29%'}}
+                  onClick={() => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(row.arrValue, 'arrValue', row._id);
+                  }}
+                >
+                  {'Update'}
+                </Buttons.Button>
               </>
             ),
           },

@@ -2,9 +2,9 @@ export class Lookup {
   _id: string;
   documentName: object;
   fieldName: string;
-  arrValue: {value: string; code: string}[];
+  arrValue: {value: string; code: string; flagUpperCase: boolean}[];
   description: string;
-  defaultItem: Array<{value: string; code: string}>;
+  defaultItem: Array<{value: string; code: string; flagUpperCase: boolean}>;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -24,8 +24,10 @@ export class Lookup {
 export class LocalInput {
   code: string;
   value: string;
+  flagUpperCase: boolean;
   constructor(rawData: {[key in string]: any}) {
     this.code = rawData.code;
     this.value = rawData.value;
+    this.flagUpperCase = rawData.flagUpperCase;
   }
 }
