@@ -13,6 +13,8 @@ export const LIST_PATIENT_MANAGER = gql`
         pId
         mobileNo
         birthDate
+        age
+        actualDOB
         title
         firstName
         middleName
@@ -98,6 +100,8 @@ export const FILTER_PATIENT_MANAGER = gql`
         pId
         mobileNo
         birthDate
+        age
+        actualDOB
         title
         firstName
         middleName
@@ -175,6 +179,8 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
         pId
         mobileNo
         birthDate
+        age
+        actualDOB
         title
         firstName
         middleName
