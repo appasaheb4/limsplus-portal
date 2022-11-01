@@ -262,7 +262,7 @@ export const PendingPanelApprovalList = observer(
                 formatter: (cellContent, row) => (
                   <>
                     <div className='flex flex-row'>
-                      <Tooltip tooltipText='Generate PDF' position='bottom'>
+                      <Tooltip tooltipText='Generate PDF'>
                         <Icons.IconContext
                           color='#fff'
                           size='20'
@@ -274,9 +274,14 @@ export const PendingPanelApprovalList = observer(
                     </div>
                   </>
                 ),
-                headerClasses: 'sticky right-0  bg-gray-500 text-white',
+                headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
                 classes: (cell, row, rowIndex, colIndex) => {
                   return 'sticky right-0 bg-gray-500';
+                },
+                style: (cell, row, rowIndex, colIndex) => {
+                  return {
+                    zIndex: props.data?.length - rowIndex,
+                  };
                 },
               },
             ]}

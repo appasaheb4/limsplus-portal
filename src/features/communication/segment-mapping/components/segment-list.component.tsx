@@ -1193,7 +1193,7 @@ const SegmentList = observer((props: SegmentListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete' position='top'>
+                    <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'

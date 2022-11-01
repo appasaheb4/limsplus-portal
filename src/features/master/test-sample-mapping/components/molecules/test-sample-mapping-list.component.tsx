@@ -1004,7 +1004,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete' position='top'>
+                    <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
@@ -1025,9 +1025,14 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                   </div>
                 </>
               ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white',
+              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
               classes: (cell, row, rowIndex, colIndex) => {
                 return 'sticky right-0 bg-gray-500';
+              },
+              style: (cell, row, rowIndex, colIndex) => {
+                return {
+                  zIndex: props.data?.length - rowIndex,
+                };
               },
             },
           ]}
