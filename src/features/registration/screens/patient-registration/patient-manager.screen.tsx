@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -10,6 +10,7 @@ import {
   ModalConfirm,
   Form,
   AutoCompleteFilterSingleSelect,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
@@ -39,6 +40,7 @@ export const PatientManager = PatientManagerHoc(
       routerStore,
       administrativeDivisions,
       doctorsStore,
+      labStore,
     } = useStores();
 
     const {
@@ -81,6 +83,70 @@ export const PatientManager = PatientManagerHoc(
         });
       }
     };
+
+    const extraTable = useMemo(
+      () => (
+        <ExtraDataPatientManagerList
+          data={patientManagerStore.listPatientManger}
+          totalSize={patientManagerStore.listPatientMangerCount}
+          extraData={{
+            lookupItems: routerStore.lookupItems,
+            listAdministrativeDiv:
+              administrativeDivisions.listAdministrativeDiv,
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Edit/Modify',
+          )}
+          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onSelectedRow={rows => {
+            setModalConfirm({
+              show: true,
+              type: 'delete',
+              id: rows,
+              title: 'Are you sure?',
+              body: 'Delete selected records!',
+            });
+          }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'update',
+              data: {value, dataField, id},
+              title: 'Are you sure?',
+              body: 'Update this record!',
+            });
+          }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFileds',
+              data: {fileds, id},
+              title: 'Are you sure?',
+              body: 'Update records!',
+            });
+          }}
+          onPageSizeChange={(page, limit) => {
+            patientManagerStore.patientManagerService.listPatientManager(
+              {documentType: 'patientManager'},
+              page,
+              limit,
+            );
+          }}
+          onFilter={(type, filter, page, limit) => {
+            patientManagerStore.patientManagerService.filter({
+              input: {type, filter, page, limit},
+            });
+          }}
+        />
+      ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [patientManagerStore.listPatientManger],
+    );
 
     return (
       <>
@@ -555,204 +621,6 @@ export const PatientManager = PatientManagerHoc(
                   <>
                     <Grid cols={2}>
                       <List direction='col' space={4} justify='stretch' fill>
-                        {administrativeDivisions.listAdministrativeDiv && (
-                          <Controller
-                            control={control}
-                            render={({field: {onChange}}) => (
-                              <Form.InputWrapper
-                                label='Country'
-                                id='country'
-                                hasError={!!errors.country}
-                              >
-                                <AutoCompleteFilterSingleSelect
-                                  loader={loading}
-                                  data={{
-                                    list: _.uniqBy(
-                                      administrativeDivisions.listAdministrativeDiv,
-                                      'country',
-                                    ),
-                                    displayKey: 'country',
-                                    findKey: 'country',
-                                  }}
-                                  displayValue={
-                                    patientManagerStore.patientManger.extraData
-                                      ?.country
-                                  }
-                                  hasError={!!errors.country}
-                                  onFilter={(value: string) => {
-                                    administrativeDivisions.administrativeDivisionsService.filter(
-                                      {
-                                        input: {
-                                          filter: {
-                                            type: 'search',
-                                            ['country']: value,
-                                          },
-                                          page: 0,
-                                          limit: 10,
-                                        },
-                                      },
-                                    );
-                                  }}
-                                  onSelect={item => {
-                                    onChange(item.country);
-                                    onChange(item.country);
-                                    patientManagerStore.updatePatientManager({
-                                      ...patientManagerStore.patientManger,
-                                      extraData: {
-                                        ...patientManagerStore.patientManger
-                                          ?.extraData,
-                                        country: item.country,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </Form.InputWrapper>
-                            )}
-                            name='country'
-                            rules={{required: false}}
-                            defaultValue=''
-                          />
-                        )}
-                        {(patientManagerStore.patientManger.extraData
-                          ?.country ||
-                          administrativeDivisions.listAdministrativeDiv) && (
-                          <Controller
-                            control={control}
-                            render={({field: {onChange}}) => (
-                              <Form.InputWrapper
-                                label='State'
-                                id='state'
-                                hasError={!!errors.state}
-                              >
-                                <AutoCompleteFilterSingleSelect
-                                  loader={loading}
-                                  disable={
-                                    !patientManagerStore.patientManger.extraData
-                                      ?.country
-                                  }
-                                  data={{
-                                    list: _.uniqBy(
-                                      administrativeDivisions.listAdministrativeDiv.filter(
-                                        item =>
-                                          item.country ===
-                                          patientManagerStore.patientManger
-                                            .extraData?.country,
-                                      ),
-                                      'state',
-                                    ),
-                                    displayKey: 'state',
-                                    findKey: 'state',
-                                  }}
-                                  hasError={!!errors.state}
-                                  onFilter={(value: string) => {
-                                    administrativeDivisions.administrativeDivisionsService.filter(
-                                      {
-                                        input: {
-                                          filter: {
-                                            type: 'search',
-                                            country:
-                                              patientManagerStore.patientManger
-                                                .extraData?.country,
-                                            state: value,
-                                          },
-                                          page: 0,
-                                          limit: 10,
-                                        },
-                                      },
-                                    );
-                                  }}
-                                  onSelect={item => {
-                                    onChange(item.state);
-                                    patientManagerStore.updatePatientManager({
-                                      ...patientManagerStore.patientManger,
-                                      extraData: {
-                                        ...patientManagerStore.patientManger
-                                          ?.extraData,
-                                        state: item.state,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </Form.InputWrapper>
-                            )}
-                            name='state'
-                            rules={{required: false}}
-                            defaultValue=''
-                          />
-                        )}
-
-                        {(patientManagerStore.patientManger.extraData?.state ||
-                          administrativeDivisions.listAdministrativeDiv) && (
-                          <Controller
-                            control={control}
-                            render={({field: {onChange}}) => (
-                              <Form.InputWrapper
-                                label='City'
-                                id='city'
-                                hasError={!!errors.city}
-                              >
-                                <AutoCompleteFilterSingleSelect
-                                  loader={loading}
-                                  disable={
-                                    !patientManagerStore.patientManger.extraData
-                                      ?.state
-                                  }
-                                  data={{
-                                    list: _.uniqBy(
-                                      administrativeDivisions.listAdministrativeDiv.filter(
-                                        item =>
-                                          item.country ===
-                                            patientManagerStore.patientManger
-                                              .extraData?.country &&
-                                          item.state ===
-                                            patientManagerStore.patientManger
-                                              .extraData?.state,
-                                      ),
-                                      'city',
-                                    ),
-                                    displayKey: 'city',
-                                    findKey: 'city',
-                                  }}
-                                  hasError={!!errors.city}
-                                  onFilter={(value: string) => {
-                                    administrativeDivisions.administrativeDivisionsService.filter(
-                                      {
-                                        input: {
-                                          filter: {
-                                            type: 'search',
-                                            country:
-                                              patientManagerStore.patientManger
-                                                .extraData?.country,
-                                            state:
-                                              patientManagerStore.patientManger
-                                                .extraData?.state,
-                                            city: value,
-                                          },
-                                          page: 0,
-                                          limit: 10,
-                                        },
-                                      },
-                                    );
-                                  }}
-                                  onSelect={item => {
-                                    onChange(item.city);
-                                    patientManagerStore.updatePatientManager({
-                                      ...patientManagerStore.patientManger,
-                                      extraData: {
-                                        ...patientManagerStore.patientManger
-                                          ?.extraData,
-                                        city: item.city,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </Form.InputWrapper>
-                            )}
-                            name='city'
-                            rules={{required: false}}
-                            defaultValue=''
-                          />
-                        )}
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
@@ -761,72 +629,196 @@ export const PatientManager = PatientManagerHoc(
                               id='postalCode'
                               hasError={!!errors.postalCode}
                             >
-                              <AutoCompleteFilterSingleSelect
-                                loader={loading}
-                                disable={
-                                  !patientManagerStore.patientManger.extraData
-                                    ?.city
-                                }
+                              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                                 data={{
-                                  list: _.uniqBy(
-                                    administrativeDivisions.listAdministrativeDiv.filter(
-                                      item =>
-                                        item.country ===
-                                          patientManagerStore.patientManger
-                                            .extraData?.country &&
-                                        item.state ===
-                                          patientManagerStore.patientManger
-                                            .extraData?.state &&
-                                        item.city ===
-                                          patientManagerStore.patientManger
-                                            .extraData?.city,
-                                    ),
-                                    'postalCode',
-                                  ),
-                                  displayKey: 'postalCode',
-                                  findKey: 'postalCode',
+                                  list: labStore.addressDetails,
+                                  displayKey: [
+                                    'Name',
+                                    'Block',
+                                    'District',
+                                    'State',
+                                    'Country',
+                                    'Pincode',
+                                  ],
                                 }}
                                 hasError={!!errors.postalCode}
                                 onFilter={(value: string) => {
-                                  administrativeDivisions.administrativeDivisionsService.filter(
-                                    {
-                                      input: {
-                                        filter: {
-                                          type: 'search',
-                                          country:
-                                            patientManagerStore.patientManger
-                                              .extraData?.country,
-                                          state:
-                                            patientManagerStore.patientManger
-                                              .extraData?.state,
-                                          city: patientManagerStore
-                                            .patientManger.extraData?.city,
-                                          postalCode: value,
-                                        },
-                                        page: 0,
-                                        limit: 10,
-                                      },
-                                    },
-                                  );
+                                  if (value?.length == 6) {
+                                    labStore.LabService?.getAddressDetailsByPincode(
+                                      value,
+                                    );
+                                  }
                                 }}
                                 onSelect={item => {
-                                  onChange(item.postalCode);
+                                  onChange(item.Pincode);
                                   patientManagerStore.updatePatientManager({
                                     ...patientManagerStore.patientManger,
                                     extraData: {
                                       ...patientManagerStore.patientManger
                                         ?.extraData,
-                                      postcode: item.postalCode[0],
+                                      country: item?.Country?.toUpperCase(),
+                                      state: item?.State?.toUpperCase(),
+                                      district: item?.District?.toUpperCase(),
+                                      city: item?.Block?.toUpperCase(),
+                                      area: item?.Name?.toUpperCase(),
+                                      postcode: item.Pincode,
                                     },
                                   });
-                                  administrativeDivisions.updateAdministrativeDivList(
-                                    administrativeDivisions.listAdministrativeDivCopy,
-                                  );
                                 }}
                               />
                             </Form.InputWrapper>
                           )}
                           name='postalCode'
+                          rules={{required: false}}
+                          defaultValue={patientManagerStore.patientManger}
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
+                              label='Country'
+                              hasError={!!errors.country}
+                              placeholder='Country'
+                              value={
+                                patientManagerStore.patientManger?.extraData
+                                  ?.country
+                              }
+                              disabled={true}
+                              onChange={country => {
+                                onChange(country);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    country,
+                                  },
+                                });
+                              }}
+                            />
+                          )}
+                          name='country'
+                          rules={{required: false}}
+                          defaultValue=''
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
+                              label='State'
+                              hasError={!!errors.state}
+                              placeholder='State'
+                              value={
+                                patientManagerStore.patientManger?.extraData
+                                  ?.state
+                              }
+                              disabled={true}
+                              onChange={state => {
+                                onChange(state);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    state,
+                                  },
+                                });
+                              }}
+                            />
+                          )}
+                          name='state'
+                          rules={{required: false}}
+                          defaultValue=''
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
+                              label='District'
+                              hasError={!!errors.district}
+                              placeholder='District'
+                              value={
+                                patientManagerStore.patientManger?.extraData
+                                  ?.district
+                              }
+                              disabled={true}
+                              onChange={district => {
+                                onChange(district);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    district,
+                                  },
+                                });
+                              }}
+                            />
+                          )}
+                          name='district'
+                          rules={{required: false}}
+                          defaultValue=''
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
+                              label='City'
+                              hasError={!!errors.city}
+                              placeholder='City'
+                              value={
+                                patientManagerStore.patientManger?.extraData
+                                  ?.city
+                              }
+                              disabled={true}
+                              onChange={city => {
+                                onChange(city);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    city,
+                                  },
+                                });
+                              }}
+                            />
+                          )}
+                          name='city'
+                          rules={{required: false}}
+                          defaultValue=''
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
+                              label='Area'
+                              hasError={!!errors.area}
+                              placeholder='Area'
+                              value={
+                                patientManagerStore.patientManger?.extraData
+                                  ?.area
+                              }
+                              disabled={true}
+                              onChange={area => {
+                                onChange(area);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    area,
+                                  },
+                                });
+                              }}
+                            />
+                          )}
+                          name='area'
                           rules={{required: false}}
                           defaultValue=''
                         />
@@ -1458,58 +1450,7 @@ export const PatientManager = PatientManagerHoc(
               <AccordionItemPanel>
                 <>
                   <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
-                    <ExtraDataPatientManagerList
-                      data={patientManagerStore.listPatientManger}
-                      totalSize={patientManagerStore.listPatientMangerCount}
-                      extraData={{
-                        lookupItems: routerStore.lookupItems,
-                        listAdministrativeDiv:
-                          administrativeDivisions.listAdministrativeDiv,
-                      }}
-                      isDelete={RouterFlow.checkPermission(
-                        toJS(routerStore.userPermission),
-                        'Delete',
-                      )}
-                      isEditModify={RouterFlow.checkPermission(
-                        toJS(routerStore.userPermission),
-                        'Edit/Modify',
-                      )}
-                      onDelete={selectedItem => setModalConfirm(selectedItem)}
-                      onSelectedRow={rows => {
-                        setModalConfirm({
-                          show: true,
-                          type: 'delete',
-                          id: rows,
-                          title: 'Are you sure?',
-                          body: 'Delete selected records!',
-                        });
-                      }}
-                      onUpdateItem={(
-                        value: any,
-                        dataField: string,
-                        id: string,
-                      ) => {
-                        setModalConfirm({
-                          show: true,
-                          type: 'update',
-                          data: {value, dataField, id},
-                          title: 'Are you sure?',
-                          body: 'Update this record!',
-                        });
-                      }}
-                      onPageSizeChange={(page, limit) => {
-                        patientManagerStore.patientManagerService.listPatientManager(
-                          {documentType: 'patientManager'},
-                          page,
-                          limit,
-                        );
-                      }}
-                      onFilter={(type, filter, page, limit) => {
-                        patientManagerStore.patientManagerService.filter({
-                          input: {type, filter, page, limit},
-                        });
-                      }}
-                    />
+                    {extraTable}
                   </div>
                 </>
               </AccordionItemPanel>
@@ -1520,44 +1461,69 @@ export const PatientManager = PatientManagerHoc(
           {...modalConfirm}
           click={(type?: string) => {
             setModalConfirm({show: false});
-            if (type === 'delete') {
-              patientManagerStore.patientManagerService
-                .deletePatientManager({input: {id: modalConfirm.id}})
-                .then((res: any) => {
-                  if (res.removePatientManager.success) {
-                    Toast.success({
-                      message: `😊 ${res.removePatientManager.message}`,
-                    });
-                    // patientManagerStore.patientManagerService.listPatientManager(
-                    //   {
-                    //     documentType: 'patientManager',
-                    //   },
-                    // );
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 1000);
-                  }
-                });
-            } else if (type === 'update') {
-              patientManagerStore.patientManagerService
-                .updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                })
-                .then((res: any) => {
-                  if (res.updatePatientManager.success) {
-                    Toast.success({
-                      message: `😊 ${res.updatePatientManager.message}`,
-                    });
-                    patientManagerStore.patientManagerService.listPatientManager(
-                      {
-                        documentType: 'patientManager',
-                      },
-                    );
-                  }
-                });
+            switch (type) {
+              case 'delete': {
+                patientManagerStore.patientManagerService
+                  .deletePatientManager({input: {id: modalConfirm.id}})
+                  .then((res: any) => {
+                    if (res.removePatientManager.success) {
+                      Toast.success({
+                        message: `😊 ${res.removePatientManager.message}`,
+                      });
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 1000);
+                    }
+                  });
+
+                break;
+              }
+              case 'updateFileds': {
+                patientManagerStore.patientManagerService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fileds,
+                      _id: modalConfirm.data.id,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updatePatientManager.success) {
+                      Toast.success({
+                        message: `😊 ${res.updatePatientManager.message}`,
+                      });
+                      patientManagerStore.patientManagerService.listPatientManager(
+                        {
+                          documentType: 'patientManager',
+                        },
+                      );
+                    }
+                  });
+                break;
+              }
+              case 'update': {
+                patientManagerStore.patientManagerService
+                  .updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updatePatientManager.success) {
+                      Toast.success({
+                        message: `😊 ${res.updatePatientManager.message}`,
+                      });
+                      patientManagerStore.patientManagerService.listPatientManager(
+                        {
+                          documentType: 'patientManager',
+                        },
+                      );
+                    }
+                  });
+
+                break;
+              }
+              // No default
             }
           }}
           onClose={() => setModalConfirm({show: false})}

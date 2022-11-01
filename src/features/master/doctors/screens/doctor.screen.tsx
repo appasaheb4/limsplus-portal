@@ -552,6 +552,7 @@ const Doctors = DoctorsHoc(
                             zone: '',
                             sbu: '',
                           });
+                          labStore.updateAddressDetails([]);
                         }}
                       />
                     </Form.InputWrapper>

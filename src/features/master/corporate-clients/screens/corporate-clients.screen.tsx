@@ -617,9 +617,7 @@ const CorporateClients = CorporateClientsHoc(
                             zone: '', // adding later zone and sbu using administrative divisions
                             sbu: '',
                           });
-                          administrativeDivisions.updateAdministrativeDivList(
-                            administrativeDivisions.listAdministrativeDivCopy,
-                          );
+                          labStore.updateAddressDetails([]);
                         }}
                       />
                     </Form.InputWrapper>

@@ -25,7 +25,9 @@ export const LIST_PATIENT_MANAGER = gql`
         extraData {
           address
           postcode
+          area
           city
+          district
           state
           country
           email
@@ -108,7 +110,9 @@ export const FILTER_PATIENT_MANAGER = gql`
         extraData {
           address
           postcode
+          area
           city
+          district
           state
           country
           email
@@ -183,7 +187,9 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
         extraData {
           address
           postcode
+          area
           city
+          district
           state
           country
           email

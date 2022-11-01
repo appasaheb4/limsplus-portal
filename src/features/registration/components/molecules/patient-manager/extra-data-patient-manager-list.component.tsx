@@ -6,6 +6,7 @@ import {
   Form,
   Icons,
   Tooltip,
+  Type,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -13,6 +14,7 @@ import {
   AutoCompleteFilterSingleSelectCountry,
   AutoCompleteFilterSingleSelectCity,
   AutoCompleteFilterSingleSelectState,
+  AutoCompleteFilterSingleSelectPostalCode,
 } from '../../index';
 interface ExtraDataPatientManagerProps {
   data: any;
@@ -23,6 +25,7 @@ interface ExtraDataPatientManagerProps {
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateFileds?: (fileds: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -64,6 +67,44 @@ export const ExtraDataPatientManagerList = observer(
                 csvExport: false,
               },
               {
+                dataField: 'postcode',
+                text: 'PostCode',
+                headerClasses: 'textHeader3',
+                sort: true,
+                csvFormatter: (col, row) =>
+                  row.extraData?.postcode ? row.extraData?.postcode : '',
+                filter: textFilter({
+                  getFilter: filter => {
+                    state = filter;
+                  },
+                }),
+                formatter: (cell, row) => {
+                  return <span>{row.extraData?.postcode}</span>;
+                },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex,
+                ) => (
+                  <>
+                    <AutoCompleteFilterSingleSelectPostalCode
+                      onSelect={item => {
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              ...item,
+                            },
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                ),
+              },
+              {
                 dataField: 'country',
                 text: 'Country',
                 headerClasses: 'textHeader3',
@@ -78,27 +119,7 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.country}</span>;
                 },
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex,
-                ) => (
-                  <>
-                    <AutoCompleteFilterSingleSelectCountry
-                      onSelect={item => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            item.country,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
-                  </>
-                ),
+                editable: false,
               },
               {
                 dataField: 'state',
@@ -115,28 +136,19 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.state}</span>;
                 },
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex,
-                ) => (
-                  <>
-                    <AutoCompleteFilterSingleSelectState
-                      country={row.extraData.country}
-                      onSelect={item => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            item.state,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
-                  </>
-                ),
+                editable: false,
+              },
+              {
+                dataField: 'district',
+                text: 'District',
+                headerClasses: 'textHeader3',
+                sort: true,
+                csvFormatter: (col, row) =>
+                  row.extraData?.district ? row.extraData.district : '',
+                formatter: (cell, row) => {
+                  return <span>{row.extraData.district}</span>;
+                },
+                editable: false,
               },
               {
                 dataField: 'city',
@@ -153,47 +165,19 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.city}</span>;
                 },
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex,
-                ) => (
-                  <>
-                    {props.extraData.listAdministrativeDiv && (
-                      <AutoCompleteFilterSingleSelectCity
-                        country={row.extraData.country}
-                        state={row.extraData.state}
-                        onSelect={item => {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(
-                              item.city,
-                              column.dataField,
-                              row._id,
-                            );
-                        }}
-                      />
-                    )}
-                  </>
-                ),
+                editable: false,
               },
               {
-                dataField: 'postCode',
-                text: 'PostCode',
+                dataField: 'area',
+                text: 'Area',
                 headerClasses: 'textHeader3',
                 sort: true,
                 csvFormatter: (col, row) =>
-                  row.extraData.postCode ? row.extraData.postCode : '',
-                filter: textFilter({
-                  getFilter: filter => {
-                    state = filter;
-                  },
-                }),
+                  row.extraData?.area ? row.extraData?.area : '',
                 formatter: (cell, row) => {
-                  return <span>{row.extraData.postCode}</span>;
+                  return <span>{row.extraData?.area}</span>;
                 },
+                editable: false,
               },
               {
                 dataField: 'address',
@@ -209,6 +193,9 @@ export const ExtraDataPatientManagerList = observer(
                 }),
                 formatter: (cell, row) => {
                   return <span>{row.extraData.address}</span>;
+                },
+                editor: {
+                  type: Type.TEXTAREA,
                 },
               },
 
