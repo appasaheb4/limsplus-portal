@@ -46,9 +46,9 @@ export const DocumentSettings = DocumentSettingHoc(
             Toast.success({
               message: `😊 ${res.createLookup.message}`,
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 2000);
           }
         });
       } else {
@@ -160,9 +160,13 @@ export const DocumentSettings = DocumentSettingHoc(
                   <Form.Toggle
                     label='Enable Upper Case'
                     hasError={!!errors.method}
-                    value={lookupStore.flagUpperCase}
-                    onChange={flag => {
-                      lookupStore.updateFlagUppperCase(flag);
+                    value={lookupStore.localInput.flagUpperCase}
+                    onChange={flagUpperCase => {
+                      lookupStore.updateLocalInput({
+                        ...lookupStore.localInput,
+                        flagUpperCase,
+                      });
+                      lookupStore.updateFlagUppperCase(flagUpperCase);
                     }}
                   />
                   <Buttons.Button
@@ -171,6 +175,8 @@ export const DocumentSettings = DocumentSettingHoc(
                     onClick={() => {
                       const value = lookupStore.localInput.value;
                       const code = lookupStore.localInput.code;
+                      const flagUpperCase =
+                        lookupStore.localInput.flagUpperCase;
                       let arrValue = lookupStore.lookup?.arrValue || [];
                       if (value === undefined || code === undefined)
                         return alert('Please enter value and code.');
@@ -179,11 +185,13 @@ export const DocumentSettings = DocumentSettingHoc(
                           ? arrValue.push({
                               value,
                               code,
+                              flagUpperCase,
                             })
                           : (arrValue = [
                               {
                                 value,
                                 code,
+                                flagUpperCase,
                               },
                             ]);
                         lookupStore.updateLookup({

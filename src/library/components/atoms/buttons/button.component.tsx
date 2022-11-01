@@ -38,7 +38,7 @@ export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
   const Icon = props.icon;
 
   return (
-    <div className={`${props.className}`}>
+    <div className={`${props.className}`} style={props.style}>
       <button
         onClick={props.onClick}
         type='button'
