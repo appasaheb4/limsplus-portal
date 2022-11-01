@@ -9,9 +9,9 @@ import {
   Toast,
   ModalConfirm,
   Form,
-  AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
+import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {PatientMangerList, ExtraDataPatientManagerList} from '../../components';
@@ -30,6 +30,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
+import {getAgeByDate} from '../../utils';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
@@ -52,7 +53,7 @@ export const PatientManager = PatientManagerHoc(
     setValue('species', patientManagerStore.patientManger.species);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideInputView, setHideInputView] = useState<boolean>(true);
+    const [hideInputView, setHideInputView] = useState<boolean>(false);
 
     const onSubmitPatientManager = () => {
       if (!patientManagerStore.checkExistsPatient) {
@@ -255,9 +256,12 @@ export const PatientManager = PatientManagerHoc(
                       value={patientManagerStore.patientManger?.birthDate}
                       onChange={birthDate => {
                         onChange(birthDate);
+                        setValue('age', getAgeByDate(birthDate));
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
                           birthDate,
+                          actualDOB: true,
+                          age: getAgeByDate(birthDate) || 0,
                         });
                         patientManagerStore.patientManagerService
                           .checkExistsPatient({
@@ -284,6 +288,36 @@ export const PatientManager = PatientManagerHoc(
                     />
                   )}
                   name='birthDate'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Age'
+                      placeholder={'Age'}
+                      hasError={!!errors.age}
+                      type='number'
+                      value={patientManagerStore.patientManger?.age}
+                      onChange={age => {
+                        onChange(age);
+                        setValue(
+                          'birthDate',
+                          new Date(dayjs().add(-age, 'years').format()),
+                        );
+                        patientManagerStore.updatePatientManager({
+                          ...patientManagerStore.patientManger,
+                          age: Number.parseInt(age),
+                          actualDOB: false,
+                          birthDate: new Date(
+                            dayjs().add(-age, 'years').format(),
+                          ),
+                        });
+                      }}
+                    />
+                  )}
+                  name='age'
                   rules={{required: true}}
                   defaultValue=''
                 />
@@ -1423,6 +1457,15 @@ export const PatientManager = PatientManagerHoc(
                 data: {value, dataField, id},
                 title: 'Are you sure?',
                 body: 'Update this record!',
+              });
+            }}
+            onUpdateFileds={(fileds: any, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: 'updateFileds',
+                data: {fileds, id},
+                title: 'Are you sure?',
+                body: 'Update records!',
               });
             }}
             onPageSizeChange={(page, limit) => {

@@ -15,6 +15,7 @@ import {
 import {Confirm} from '@/library/models';
 import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
+import {getAgeByDate} from '../../../utils';
 
 interface PatientMangerProps {
   data: any;
@@ -25,6 +26,7 @@ interface PatientMangerProps {
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateFileds?: (fileds: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -191,13 +193,55 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   <Form.InputDateTime
                     value={new Date(row.birthDate)}
                     onFocusRemove={birthDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          birthDate,
-                          column.dataField,
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            birthDate,
+                            actualDOB: true,
+                            age: getAgeByDate(birthDate) || 0,
+                          },
                           row._id,
                         );
                     }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'age',
+              text: 'Age',
+              headerClasses: 'textHeader',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    label=''
+                    placeholder={'Age'}
+                    type='number'
+                    onBlur={age => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            age: Number.parseInt(age),
+                            actualDOB: false,
+                            birthDate: new Date(
+                              dayjs().add(-age, 'years').format(),
+                            ),
+                          },
+                          row._id,
+                        );
+                    }}
+                    defaultValue={row.age}
                   />
                 </>
               ),

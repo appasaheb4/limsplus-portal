@@ -2,6 +2,8 @@ export class PatientManger {
   pId: number;
   mobileNo: string;
   birthDate: Date;
+  age: number;
+  actualDOB: boolean;
   title: string;
   firstName: string;
   middleName: string;
@@ -48,6 +50,8 @@ export class PatientManger {
     this.pId = rawData.pId;
     this.mobileNo = rawData.mobileNo;
     this.birthDate = rawData.birthDate;
+    this.age = rawData.age;
+    this.actualDOB = rawData.actualDOB;
     this.title = rawData.title;
     this.firstName = rawData.firstName;
     this.middleName = rawData.middleName;
