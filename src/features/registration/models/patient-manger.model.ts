@@ -15,7 +15,9 @@ export class PatientManger {
   extraData: {
     address: string;
     postcode: string;
+    area: string;
     city: string;
+    district: string;
     state: string;
     country: string;
     email: string;
