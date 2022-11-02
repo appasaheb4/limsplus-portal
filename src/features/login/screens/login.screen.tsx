@@ -24,6 +24,8 @@ import {useStores} from '@/stores';
 import {t} from '@/localization';
 import * as Assets from '@/library/assets';
 
+import packageJson from '../../../../package.json';
+
 export const Login = observer(() => {
   const {
     loading,
@@ -105,8 +107,6 @@ export const Login = observer(() => {
         },
       })
         .then(res => {
-          console.log({res});
-
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0);
             if (!res.login.data.user.passChanged) {
@@ -186,26 +186,28 @@ export const Login = observer(() => {
           style={{minWidth: '70%'}}
         >
           <Col md='6' sm='12' xs='12'>
-            <div className='flex justify-center items-center'>
-              <Carousel
-                style={{width: carouselSize, height: carouselSize}}
-                indicators={false}
-              >
-                {bannerStore.listAllBanner.map((item, key) => (
-                  <Carousel.Item interval={3000} key={key}>
-                    <img
-                      key={key}
-                      src={item.image}
-                      alt={key.toString()}
-                      style={{
-                        width: carouselSize,
-                        height: carouselSize,
-                        borderRadius: carouselSize / 2,
-                      }}
-                    />
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+            <div>
+              <div className='flex justify-center items-center'>
+                <Carousel
+                  style={{width: carouselSize, height: carouselSize}}
+                  indicators={false}
+                >
+                  {bannerStore.listAllBanner.map((item, key) => (
+                    <Carousel.Item interval={3000} key={key}>
+                      <img
+                        key={key}
+                        src={item.image}
+                        alt={key.toString()}
+                        style={{
+                          width: carouselSize,
+                          height: carouselSize,
+                          borderRadius: carouselSize / 2,
+                        }}
+                      />
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
+              </div>
             </div>
           </Col>
           <Col md='6' sm='12' xs='12'>
@@ -486,6 +488,9 @@ export const Login = observer(() => {
             setModalForgotPassword({show: false});
           }}
         />
+        <div className='bottom-0 left-0 m-2 absolute'>
+          <span className='text-white'>{`${process.env.REACT_APP_ENV} - ${packageJson.version}`}</span>
+        </div>
         <ModalChangePassword
           {...modalChangePassword}
           onClick={() => {

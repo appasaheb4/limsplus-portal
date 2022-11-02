@@ -13,6 +13,7 @@ import {
   Svg,
 } from '@/library/components';
 import {TableBootstrap} from '../organsims/table-bootstrap.component';
+import {ModalLookupValuesModify} from './modal-lookup-values-modify';
 import {Confirm} from '@/library/models';
 import {dashboardRouter as dashboardRoutes} from '@/routes';
 let router = dashboardRoutes;

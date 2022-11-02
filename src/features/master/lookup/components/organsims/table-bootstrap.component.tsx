@@ -292,8 +292,6 @@ export const TableBootstrap = ({
     </div>
   );
 
-  console.log({editorId});
-
   const cellEdit = cellEditFactory({
     mode: 'click',
     onStartEdit: (row, column, rowIndex, columnIndex) => {
