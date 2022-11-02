@@ -31,8 +31,6 @@ export class LookupService {
           variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          console.log({response});
-
           stores.lookupStore.updateLookupList(response.data);
           resolve(response.data);
         })
@@ -43,8 +41,6 @@ export class LookupService {
 
   addLookup = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
       client
         .mutate({
           mutation: CREATE_DOCUMENT_RECORD,

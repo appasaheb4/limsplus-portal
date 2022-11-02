@@ -30,6 +30,17 @@ const customFetch = async (uri, options): Promise<any> => {
   }
 };
 
+const getBaseUrl = env => {
+  switch (env) {
+    case 'Production':
+      return process.env.REACT_APP_API_HOST_LOCAL;
+    case 'Development':
+      return process.env.REACT_APP_API_HOST_DEV;
+    default:
+      return process.env.REACT_APP_API_HOST_LOCAL;
+  }
+};
+
 const authLink = setContext(async (_, {headers}) => {
   return {
     headers: {
@@ -40,9 +51,7 @@ const authLink = setContext(async (_, {headers}) => {
 });
 
 const UploadLink = createUploadLink({
-  uri: process.env.REACT_APP_API_HOST_LOCAL,
-  // uri: process.env.REACT_APP_API_HOST_DEV,
-  // uri: process.env.REACT_APP_API_HOST_PORD,
+  uri: getBaseUrl(process.env.REACT_APP_ENV),
   fetch: customFetch,
 });
 
