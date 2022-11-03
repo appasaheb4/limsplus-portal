@@ -12,7 +12,6 @@ import Routes from './routes/root-route';
 
 // toast
 import 'react-toastify/dist/ReactToastify.css';
-
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import {stores} from '@/stores';
@@ -32,7 +31,7 @@ import {ApolloProvider, client} from '@/core-services/graphql/apollo-client';
 //   measurementId: "G-46WKN1KLQM"
 // };
 
-// setup again new mmethod
+// setup again new method
 configure({
   reactionScheduler: f => {
     setTimeout(f, 1);

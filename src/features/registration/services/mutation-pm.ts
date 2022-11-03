@@ -14,6 +14,7 @@ export const LIST_PATIENT_MANAGER = gql`
         mobileNo
         birthDate
         age
+        ageUnit
         actualDOB
         title
         firstName
@@ -101,6 +102,7 @@ export const FILTER_PATIENT_MANAGER = gql`
         mobileNo
         birthDate
         age
+        ageUnit
         actualDOB
         title
         firstName
@@ -180,6 +182,7 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
         mobileNo
         birthDate
         age
+        ageUnit
         actualDOB
         title
         firstName

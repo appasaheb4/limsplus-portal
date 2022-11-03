@@ -3,6 +3,7 @@ export class PatientManger {
   mobileNo: string;
   birthDate: Date;
   age: number;
+  ageUnit: string;
   actualDOB: boolean;
   title: string;
   firstName: string;
@@ -51,6 +52,7 @@ export class PatientManger {
     this.mobileNo = rawData.mobileNo;
     this.birthDate = rawData.birthDate;
     this.age = rawData.age;
+    this.ageUnit = rawData.ageUnit;
     this.actualDOB = rawData.actualDOB;
     this.title = rawData.title;
     this.firstName = rawData.firstName;
