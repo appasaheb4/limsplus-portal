@@ -12,7 +12,7 @@ import {
   Toast,
 } from '@/library/components';
 import {LookupList} from '../components';
-import {Container} from 'reactstrap';
+import {ModalLookupValuesModify} from '../components';
 
 import {dashboardRouter as dashboardRoutes} from '@/routes';
 import {useStores} from '@/stores';
@@ -22,6 +22,7 @@ let router = dashboardRoutes;
 
 import {DocumentSettings} from './document-setting.screen';
 import {GeneralField} from './general-field.screen';
+import {toJS} from 'mobx';
 
 const Lookup = observer(() => {
   const {loginStore, lookupStore, routerStore} = useStores();
@@ -32,6 +33,7 @@ const Lookup = observer(() => {
     formState: {errors},
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [modalLookupValuesModify, setModalLookupValuesModify] = useState<any>();
 
   useEffect(() => {
     router = router.filter((item: any) => {
@@ -47,6 +49,25 @@ const Lookup = observer(() => {
       }
     });
   }, []);
+
+  const updateMultipleFields = variable => {
+    console.log(variable);
+
+    lookupStore.LookupService.updateSingleFiled({
+      input: {
+        ...variable.fields,
+        _id: variable.id,
+      },
+    }).then((res: any) => {
+      if (res.updateLookup.success) {
+        Toast.success({
+          message: `😊 ${res.updateLookup.message}`,
+        });
+        setModalConfirm({show: false});
+        lookupStore.fetchListLookup();
+      }
+    });
+  };
 
   return (
     <>
@@ -108,17 +129,10 @@ const Lookup = observer(() => {
                 'Delete',
               )}
               onUpdateValues={(arrValues, id) => {
-                lookupStore.updateLookupList(
-                  lookupStore.listLookup?.filter(item => {
-                    if (item._id === id) {
-                      item.arrValue = arrValues;
-                    }
-                    return item;
-                  }),
-                );
-                lookupStore.updateUiVariable({
-                  ...lookupStore.uiVariable,
-                  editorId: id,
+                setModalLookupValuesModify({
+                  show: true,
+                  arrValues: toJS(arrValues),
+                  id,
                 });
               }}
               isEditModify={RouterFlow.checkPermission(
@@ -172,7 +186,6 @@ const Lookup = observer(() => {
                   });
                   break;
                 }
-
                 case 'Update': {
                   lookupStore.LookupService.updateSingleFiled({
                     input: {
@@ -180,10 +193,6 @@ const Lookup = observer(() => {
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
-                    lookupStore.updateUiVariable({
-                      ...lookupStore.uiVariable,
-                      editorId: '',
-                    });
                     if (res.updateLookup.success) {
                       Toast.success({
                         message: `😊 ${res.updateLookup.message}`,
@@ -197,6 +206,17 @@ const Lookup = observer(() => {
               }
             }}
             onClose={() => setModalConfirm({show: false})}
+          />
+
+          <ModalLookupValuesModify
+            {...modalLookupValuesModify}
+            onClick={(arrValue, id) => {
+              updateMultipleFields({fields: {arrValue}, id});
+              setModalLookupValuesModify({show: false});
+            }}
+            onClose={() => {
+              setModalLookupValuesModify({show: false});
+            }}
           />
         </div>
       </div>

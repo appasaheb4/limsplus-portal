@@ -13,7 +13,6 @@ import {
   Svg,
 } from '@/library/components';
 import {TableBootstrap} from '../organsims/table-bootstrap.component';
-import {ModalLookupValuesModify} from './modal-lookup-values-modify';
 import {Confirm} from '@/library/models';
 import {dashboardRouter as dashboardRoutes} from '@/routes';
 let router = dashboardRoutes;
@@ -147,6 +146,7 @@ export const LookupList = (props: LookupListProps) => {
                 arrValue = filter;
               },
             }),
+            editable: false,
             formatter: (cellContent, row) => (
               <>
                 <List space={2} direction='row' justify='center'>
@@ -155,6 +155,9 @@ export const LookupList = (props: LookupListProps) => {
                       <Buttons.Button
                         size='medium'
                         type='solid'
+                        buttonStyle={{
+                          backgroundColor: 'gray',
+                        }}
                         onClick={() => {}}
                       >
                         {`${lookupValue(item)}  `}
@@ -166,140 +169,6 @@ export const LookupList = (props: LookupListProps) => {
                     </div>
                   ))}
                 </List>
-              </>
-            ),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <div className='flex flex-row gap-4'>
-                  <Form.Input
-                    placeholder='Code'
-                    value={row.code}
-                    onChange={code => {
-                      props.extraData.updateLocalInput({
-                        ...props.extraData.localInput,
-                        code: code.toUpperCase(),
-                      });
-                    }}
-                  />
-                  <Form.Input
-                    placeholder='Value'
-                    value={row.value}
-                    onChange={value => {
-                      props.extraData.updateLocalInput({
-                        ...props.extraData.localInput,
-                        value,
-                      });
-                    }}
-                  />
-                  <Form.Toggle
-                    label='Enable Upper Case'
-                    value={row.flagUpperCase}
-                    onChange={flagUpperCase => {
-                      props.extraData.updateLocalInput({
-                        ...props.extraData.localInput,
-                        flagUpperCase,
-                      });
-                    }}
-                  />
-                  <div className='mt-2'>
-                    <Buttons.Button
-                      size='medium'
-                      type='solid'
-                      onClick={() => {
-                        const value = props.extraData.localInput?.value;
-                        const code = props.extraData.localInput?.code;
-                        const flagUpperCase =
-                          props.extraData.localInput?.flagUpperCase;
-                        let arrValue = row?.arrValue || [];
-                        if (value === undefined || code === undefined)
-                          return alert('Please enter value and code.');
-                        if (value !== undefined) {
-                          arrValue !== undefined
-                            ? arrValue.push({
-                                value,
-                                code,
-                                flagUpperCase,
-                              })
-                            : (arrValue = [
-                                {
-                                  value,
-                                  code,
-                                  flagUpperCase,
-                                },
-                              ]);
-                          arrValue = _.map(arrValue, o =>
-                            _.pick(o, ['code', 'value', 'flagUpperCase']),
-                          );
-                          props.extraData.updateLocalInput({
-                            ...props.extraData.localInput,
-                            value: '',
-                            code: '',
-                            flagUpperCase: false,
-                          });
-                          props.onUpdateValues &&
-                            props.onUpdateValues(arrValue, row._id);
-                        }
-                      }}
-                    >
-                      <Icons.EvaIcon icon='plus-circle-outline' />
-                      {'Add'}
-                    </Buttons.Button>
-                  </div>
-                  <div className='clearfix'></div>
-                </div>
-                <List space={2} direction='row' justify='center'>
-                  <div>
-                    {row.arrValue?.map((item, index) => (
-                      <div className='mb-2' key={index}>
-                        <Buttons.Button
-                          size='medium'
-                          type='solid'
-                          icon={Svg.Remove}
-                          onClick={() => {
-                            const firstArr =
-                              row?.arrValue?.slice(0, index) || [];
-                            const secondArr =
-                              row.arrValue?.slice(index + 1) || [];
-                            let finalArray = [...firstArr, ...secondArr];
-                            props.extraData.updateLookup({
-                              ...props.extraData.lookup,
-                              arrValue: finalArray,
-                            });
-                            finalArray = _.map(finalArray, o =>
-                              _.pick(o, ['code', 'value']),
-                            );
-                            props.onUpdateValues &&
-                              props.onUpdateValues(finalArray, row._id);
-                          }}
-                        >
-                          {`${item.value} - ${item.code}  `}
-                          <Form.Toggle
-                            value={item.flagUpperCase}
-                            disabled={true}
-                          />
-                        </Buttons.Button>
-                      </div>
-                    ))}
-                  </div>
-                </List>
-                <Buttons.Button
-                  size='large'
-                  type='solid'
-                  style={{marginLeft: '29%'}}
-                  onClick={() => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(row.arrValue, 'arrValue', row._id);
-                  }}
-                >
-                  {'Update'}
-                </Buttons.Button>
               </>
             ),
           },
@@ -338,6 +207,9 @@ export const LookupList = (props: LookupListProps) => {
                         <Buttons.Button
                           size='medium'
                           type='solid'
+                          buttonStyle={{
+                            backgroundColor: 'gray',
+                          }}
                           onClick={() => {}}
                         >
                           {lookupValue(item)}
@@ -442,7 +314,7 @@ export const LookupList = (props: LookupListProps) => {
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-                <div className='flex flex-row'>
+                <div className='flex flex-row gap-2'>
                   <Tooltip tooltipText='Delete'>
                     <Icons.IconContext
                       color='#fff'
@@ -459,6 +331,18 @@ export const LookupList = (props: LookupListProps) => {
                       }
                     >
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                    </Icons.IconContext>
+                  </Tooltip>
+                  <Tooltip tooltipText='Edit'>
+                    <Icons.IconContext
+                      color='#fff'
+                      size='20'
+                      onClick={() =>
+                        props.onUpdateValues &&
+                        props.onUpdateValues(row.arrValue, row._id)
+                      }
+                    >
+                      {Icons.getIconTag(Icons.IconBi.BiEdit)}
                     </Icons.IconContext>
                   </Tooltip>
                 </div>

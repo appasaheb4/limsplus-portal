@@ -176,53 +176,98 @@ interface InputDateProps extends InputWrapperProps {
   placeholder?: string;
   disabled?: boolean;
   hasError?: boolean;
+  format?: string;
+  use12Hours?: boolean;
   onChange?: (e: any) => void;
   onFocusRemove?: (date: any) => void;
 }
 
-export const InputDate = (props: InputDateProps) => (
-  <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
+export const InputDate = ({
+  name,
+  value,
+  placeholder,
+  use12Hours = true,
+  label,
+  id,
+  hasError,
+  disabled,
+  format,
+  onChange,
+  onFocusRemove,
+}: InputDateProps) => (
+  <InputWrapper label={label} id={id} hasError={hasError}>
     <input
       type='date'
-      id={props.id}
-      name={props.name}
-      disabled={props.disabled || false}
-      value={props.value}
-      onChange={e => props.onChange && props.onChange(e)}
+      id={id}
+      name={name}
+      disabled={disabled || false}
+      value={value}
+      onChange={e => onChange && onChange(e)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-        props.hasError ? 'border-red-500 ' : 'border-gray-300'
+        hasError ? 'border-red-500 ' : 'border-gray-300'
       } rounded-md`}
     />
   </InputWrapper>
 );
 
-export const InputDateTime = (props: InputDateProps) => {
-  const [date, setDate] = useState(props.value);
+export const InputDateTime = ({
+  name,
+  value,
+  placeholder,
+  use12Hours = true,
+  label,
+  id,
+  hasError,
+  disabled,
+  format,
+  style,
+  onChange,
+  onFocusRemove,
+}: InputDateProps) => {
+  const [date, setDate] = useState(value);
 
   return (
-    <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
-      <div style={props.style}>
-        <DateTimePicker
-          disabled={props.disabled}
-          onChange={value => {
-            setDate(value);
-            props.onChange && props.onChange(value);
-          }}
-          onCalendarClose={() => {
-            if (props.value !== date)
-              props.onFocusRemove && props.onFocusRemove(date);
-          }}
-          onClockClose={() => {
-            if (props.value !== date)
-              props.onFocusRemove && props.onFocusRemove(date);
-          }}
-          value={props.value}
-          amPmAriaLabel='AM/PM'
-          format='dd-MM-yyyy hh:mm:ss a'
-          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-            props.hasError ? 'border-red-500 ' : 'border-gray-300'
-          } rounded-md relative z-2`}
-        />
+    <InputWrapper label={label} id={id} hasError={hasError}>
+      <div style={style}>
+        {use12Hours ? (
+          <DateTimePicker
+            disabled={disabled}
+            onChange={value => {
+              setDate(value);
+              onChange && onChange(value);
+            }}
+            onCalendarClose={() => {
+              if (value !== date) onFocusRemove && onFocusRemove(date);
+            }}
+            onClockClose={() => {
+              if (value !== date) onFocusRemove && onFocusRemove(date);
+            }}
+            value={value}
+            amPmAriaLabel='AM/PM'
+            format={format || 'dd-MM-yyyy hh:mm:ss a'}
+            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+              hasError ? 'border-red-500 ' : 'border-gray-300'
+            } rounded-md relative z-2`}
+          />
+        ) : (
+          <DateTimePicker
+            value={value}
+            onChange={value => {
+              setDate(value);
+              onChange && onChange(value);
+            }}
+            onCalendarClose={() => {
+              if (value !== date) onFocusRemove && onFocusRemove(date);
+            }}
+            onClockClose={() => {
+              if (value !== date) onFocusRemove && onFocusRemove(date);
+            }}
+            locale='it-IT'
+            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+              hasError ? 'border-red-500 ' : 'border-gray-300'
+            } rounded-md relative z-2`}
+          />
+        )}
       </div>
     </InputWrapper>
   );
