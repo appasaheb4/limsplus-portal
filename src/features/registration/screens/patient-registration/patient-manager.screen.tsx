@@ -30,7 +30,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
-import {getAgeByDate} from '../../utils';
+import {getAgeByDate, getDiffByDate, getAgeByAgeObject} from '../../utils';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
@@ -257,12 +257,16 @@ export const PatientManager = PatientManagerHoc(
                       value={patientManagerStore.patientManger?.birthDate}
                       onChange={birthDate => {
                         onChange(birthDate);
-                        setValue('age', getAgeByDate(birthDate));
+                        setValue('age', getDiffByDate(birthDate));
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
                           birthDate,
                           actualDOB: true,
-                          age: getAgeByDate(birthDate) || 0,
+                          age:
+                            getAgeByAgeObject(getDiffByDate(birthDate)).age ||
+                            0,
+                          ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
+                            .ageUnit,
                         });
                         patientManagerStore.patientManagerService
                           .checkExistsPatient({
@@ -295,28 +299,48 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Age'
-                      placeholder={'Age'}
-                      hasError={!!errors.age}
-                      type='number'
-                      value={patientManagerStore.patientManger?.age}
-                      onChange={age => {
-                        onChange(age);
-                        setValue(
-                          'birthDate',
-                          new Date(dayjs().add(-age, 'years').format()),
-                        );
-                        patientManagerStore.updatePatientManager({
-                          ...patientManagerStore.patientManger,
-                          age: Number.parseInt(age),
-                          actualDOB: false,
-                          birthDate: new Date(
-                            dayjs().add(-age, 'years').format(),
+                    <div className='flex flex-row items-center  gap-4'>
+                      <Form.Input
+                        label='Age'
+                        placeholder={'Age'}
+                        hasError={!!errors.age}
+                        type='number'
+                        value={patientManagerStore.patientManger?.age}
+                        onChange={age => {
+                          onChange(age);
+                          setValue(
+                            'birthDate',
+                            new Date(dayjs().add(-age, 'years').format()),
+                          );
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            age: Number.parseInt(age),
+                            actualDOB: false,
+                            birthDate: new Date(
+                              dayjs().add(-age, 'years').format(),
+                            ),
+                          });
+                        }}
+                      />
+                      <select
+                        className={
+                          'leading-4 p-2 mt-4 h-11 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                        }
+                        value={patientManagerStore.patientManger?.ageUnit}
+                        onChange={e => {
+                          const ageUnit = e.target.value;
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {['Y', 'M', 'W', 'D', 'H'].map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {item}
+                            </option>
                           ),
-                        });
-                      }}
-                    />
+                        )}
+                      </select>
+                    </div>
                   )}
                   name='age'
                   rules={{required: true}}
