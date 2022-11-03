@@ -292,21 +292,6 @@ export const TableBootstrap = ({
     </div>
   );
 
-  const cellEdit = cellEditFactory({
-    mode: 'click',
-    onStartEdit: (row, column, rowIndex, columnIndex) => {
-      if (rowIndex === 1) {
-        return true;
-      }
-    },
-  });
-
-  const rowStyle = (row, rowIndex) => {
-    if (row._id == editorId) {
-      return {backgroundColor: '#90EE8F'};
-    }
-  };
-
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -409,10 +394,16 @@ export const TableBootstrap = ({
                         }
                       : undefined
                   }
-                  cellEdit={cellEdit}
+                  cellEdit={
+                    isEditModify
+                      ? cellEditFactory({
+                          mode: 'dbclick',
+                          blurToSave: true,
+                        })
+                      : undefined
+                  }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
-                  rowStyle={rowStyle}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>

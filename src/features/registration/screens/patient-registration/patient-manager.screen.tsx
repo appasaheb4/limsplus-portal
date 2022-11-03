@@ -252,6 +252,7 @@ export const PatientManager = PatientManagerHoc(
                           ? 'Please Enter BirthDate'
                           : 'BirthDate'
                       }
+                      use12Hours={false}
                       hasError={!!errors.birthDate}
                       value={patientManagerStore.patientManger?.birthDate}
                       onChange={birthDate => {

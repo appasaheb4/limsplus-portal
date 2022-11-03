@@ -1,42 +1,28 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import _ from 'lodash';
 import {Container} from 'reactstrap';
 import {observer} from 'mobx-react';
-import * as Assets from '@/library/assets';
 import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
-
-import {Form, List} from '@/library/components';
-import {useStores} from '@/stores';
+import {Form, List, Buttons, Icons, Svg} from '@/library/components';
 
 interface ModalLookupValuesModifyProps {
   show?: boolean;
-  data?: any;
-  onClick: (data: any) => void;
+  arrValues?: any;
+  id?: string;
+  onClick: (arrValues: any, id: string) => void;
   onClose: () => void;
 }
 
 export const ModalLookupValuesModify = observer(
   (props: ModalLookupValuesModifyProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
-    const {loginStore} = useStores();
+    const [values, setValues] = useState<any>();
+    const [localInput, setLocalInput] = useState<any>();
+
     useEffect(() => {
       setShowModal(props.show);
+      setValues(props.arrValues);
     }, [props]);
-
-    const {
-      control,
-      handleSubmit,
-      formState: {errors},
-    } = useForm();
-
-    const onForgotPassword = () => {
-      if (
-        loginStore.forgotPassword?.email !== undefined ||
-        loginStore.forgotPassword?.mobileNo !== undefined
-      ) {
-        props.onClick(loginStore.forgotPassword);
-      }
-    };
 
     return (
       <Container>
@@ -47,120 +33,142 @@ export const ModalLookupValuesModify = observer(
                 {/*content*/}
                 <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   {/*header*/}
-                  <div>
-                    <button
-                      className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
-                      onClick={() => props.onClose()}
-                    >
-                      <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
-                        ×
-                      </span>
-                    </button>
-                  </div>
-                  <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                    <div className='items-center justify-center flex mb-2'>
-                      <img
-                        src={Assets.logo}
-                        className=' img-thumbnail img-fluid'
-                        style={{width: 70, height: 55, marginRight: 10}}
-                        alt='lims plus'
-                      />
-                      <h4 className='font-semibold'>{'Lims Plus'}</h4>
-                    </div>
-                    <div>
-                      <div className='items-center justify-center flex'>
-                        <h1 className='text-4xl'>Forgot Password</h1>
-                      </div>
+                  <div></div>
+                  <div className='flex  flex-col  justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
+                    <div className='flex'>
+                      <h4 className='font-semibold text-lg'>
+                        Update Lookup Values
+                      </h4>
                     </div>
                   </div>
 
                   {/*body*/}
                   <div className='relative ml-24 mr-24 p-2 flex-auto'>
-                    <List direction='col' space={4} justify='stretch' fill>
-                      <Controller
-                        control={control}
-                        render={({field: {onChange}}) => (
-                          <Form.Input
-                            label='User Id'
-                            placeholder='User Id'
-                            hasError={!!errors.userId}
-                            value={loginStore.forgotPassword?.userId}
-                            onChange={userId => {
-                              onChange(userId);
-                              loginStore.updateForgotPassword({
-                                ...loginStore.forgotPassword,
-                                userId: userId.toUpperCase(),
-                              });
-                            }}
-                          />
-                        )}
-                        name='userId'
-                        rules={{required: true}}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({field: {onChange}}) => (
-                          <Form.Input
-                            type='mail'
-                            label='Email'
-                            placeholder='Email'
-                            hasError={!!errors.email}
-                            value={loginStore.forgotPassword?.email}
-                            onChange={email => {
-                              onChange(email);
-                              loginStore.updateForgotPassword({
-                                ...loginStore.forgotPassword,
-                                email,
-                              });
-                            }}
-                          />
-                        )}
-                        name='email'
-                        rules={{
-                          required: false,
-                          pattern: FormHelper.patterns.email,
+                    <div className='flex flex-row gap-4'>
+                      <Form.Input
+                        placeholder='Code'
+                        value={localInput?.code}
+                        onChange={code => {
+                          setLocalInput({
+                            ...localInput,
+                            code: code?.toUpperCase(),
+                          });
                         }}
-                        defaultValue=''
                       />
-                      <span className='text-center'>OR</span>
-                      <Controller
-                        control={control}
-                        render={({field: {onChange}}) => (
-                          <Form.Input
-                            pattern={FormHelper.patterns.mobileNo}
-                            label='Mobile Number'
-                            placeholder='Mobile Number'
-                            hasError={!!errors.mobileNo}
-                            value={loginStore.forgotPassword?.mobileNo}
-                            onChange={mobileNo => {
-                              onChange(mobileNo);
-                              loginStore.updateForgotPassword({
-                                ...loginStore.forgotPassword,
-                                mobileNo,
+                      <Form.Input
+                        placeholder='Value'
+                        value={localInput?.value}
+                        onChange={value => {
+                          setLocalInput({
+                            ...localInput,
+                            value,
+                          });
+                        }}
+                      />
+                      <Form.Toggle
+                        label='Enable Upper Case'
+                        value={localInput?.flagUpperCase}
+                        onChange={flagUpperCase => {
+                          setLocalInput({
+                            ...localInput,
+                            flagUpperCase,
+                          });
+                        }}
+                      />
+                      <div className='mt-2'>
+                        <Buttons.Button
+                          size='medium'
+                          type='solid'
+                          onClick={() => {
+                            const value = localInput?.value;
+                            const code = localInput?.code;
+                            const flagUpperCase = localInput?.flagUpperCase;
+                            let arrValue = values || [];
+                            if (value === undefined || code === undefined)
+                              return alert('Please enter value and code.');
+                            if (value !== undefined) {
+                              arrValue !== undefined
+                                ? arrValue.push({
+                                    value,
+                                    code,
+                                    flagUpperCase,
+                                  })
+                                : (arrValue = [
+                                    {
+                                      value,
+                                      code,
+                                      flagUpperCase,
+                                    },
+                                  ]);
+                              arrValue = _.map(arrValue, o =>
+                                _.pick(o, ['code', 'value', 'flagUpperCase']),
+                              );
+                              setValues(arrValue);
+                              setLocalInput({
+                                value: '',
+                                code: '',
+                                flagUpperCase: false,
                               });
+                            }
+                          }}
+                        >
+                          <Icons.EvaIcon icon='plus-circle-outline' />
+                          {'Add'}
+                        </Buttons.Button>
+                      </div>
+                      <div className='clearfix'></div>
+                    </div>
+                    <div className='flex flex-row gap-2 flex-wrap'>
+                      {values?.map((item, index) => (
+                        <div className='mb-2' key={index}>
+                          <Buttons.Button
+                            size='medium'
+                            type='solid'
+                            icon={Svg.Remove}
+                            onClick={() => {
+                              const firstArr = values?.slice(0, index) || [];
+                              const secondArr = values?.slice(index + 1) || [];
+                              let finalArray = [...firstArr, ...secondArr];
+                              finalArray = _.map(finalArray, o =>
+                                _.pick(o, ['code', 'value', 'flagUpperCase']),
+                              );
+                              setValues(finalArray);
                             }}
-                          />
-                        )}
-                        name='mobileNo'
-                        rules={{required: false}}
-                        defaultValue=''
-                      />
-                    </List>
+                          >
+                            {`${item.value} - ${item.code}  `}
+                            <Form.Toggle
+                              value={item.flagUpperCase}
+                              disabled={true}
+                            />
+                          </Buttons.Button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   {/*footer*/}
-                  <div className='flex items-center justify-center p-2 border-t border-solid border-gray-300 rounded-b'>
+                  <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
                     <button
-                      className='bg-black text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
+                      className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                       type='button'
                       style={{transition: 'all .15s ease'}}
-                      onClick={handleSubmit(onForgotPassword)}
+                      onClick={() => {
+                        props.onClose();
+                        setShowModal(false);
+                      }}
                     >
-                      Send
+                      Close
                     </button>
-                  </div>
-                  <div className='justify-center items-center flex'>
-                    <p>Powered by Lims Plus Solutions Pvt Ltd.</p>
+                    <button
+                      className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
+                      type='button'
+                      style={{transition: 'all .15s ease'}}
+                      onClick={() => {
+                        setShowModal(false);
+                        props.onClick && props.onClick(values, props.id || '');
+                      }}
+                    >
+                      Update
+                    </button>
                   </div>
                 </div>
               </div>
