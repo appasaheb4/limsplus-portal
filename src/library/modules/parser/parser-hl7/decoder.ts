@@ -5,6 +5,7 @@ export default class Decoder {
   _interfaceManager: any;
   _config: any;
   _decoder: any;
+
   constructor(message, interfaceManager, config) {
     this._message = message;
     this._interfaceManager = interfaceManager;

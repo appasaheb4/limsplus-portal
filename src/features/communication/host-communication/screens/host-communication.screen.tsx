@@ -502,10 +502,6 @@ const HostCommunication = HostCommunicationHoc(
                                     ?.txtDataReceivefromInstrument
                                 }
                                 onChange={txtDataReceivefromInstrument => {
-                                  // hostCommunicationStore.updateHostCommuication({
-                                  //   ...hostCommunicationStore.hostCommuication,
-                                  //   txtDataReceivefromInstrument,
-                                  // })
                                   HostCommunicationFlows.newMessage(
                                     txtDataReceivefromInstrument,
                                   );

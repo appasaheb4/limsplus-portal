@@ -1,7 +1,6 @@
 import {stores} from '@/stores';
 import {InterfaceManager} from '../interface-manager/models';
 import {MappingValues} from '../models';
-import {SegmentMapping} from '../segment-mapping/models';
 import {decode} from '@/library/modules/parser/parser-hl7';
 
 class HostCommunicationFlows {
@@ -49,12 +48,6 @@ class HostCommunicationFlows {
         [item[0].toLowerCase() || '']: {values: item[1]},
       });
     }
-    // entries.forEach((item: any) => {
-    //   mapping.push({
-    //     [item[0].toLowerCase() || '']: {values: item[1]},
-    //   });
-    // });
-
     return mapping;
   };
 
@@ -62,7 +55,6 @@ class HostCommunicationFlows {
     new Promise(async (resolve, reject) => {
       try {
         const mappingList = await this.mapping(interfaceManager);
-
         // decode
         if (type === 'HL7') {
           const tempData = {};
@@ -79,14 +71,15 @@ class HostCommunicationFlows {
             stores.hostCommunicationStore.selectedInterfaceManager,
             mapping,
           );
+
           if (!hl7) return alert('Please enter correct message');
           stores.hostCommunicationStore.updateConvertTo({
             ...stores.hostCommunicationStore.convertTo,
             hl7,
           });
+
           stores.hostCommunicationStore.updateHostCommuication({
             ...stores.hostCommunicationStore.hostCommuication,
-            // txtDataReceivefromInstrument: "",
           });
         }
       } catch (error) {

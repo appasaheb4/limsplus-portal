@@ -30,7 +30,11 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
-import {getAgeByDate, getDiffByDate, getAgeByAgeObject} from '../../utils';
+import {
+  dateAvailableUnits,
+  getDiffByDate,
+  getAgeByAgeObject,
+} from '../../utils';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
@@ -258,37 +262,43 @@ export const PatientManager = PatientManagerHoc(
                       onChange={birthDate => {
                         onChange(birthDate);
                         setValue('age', getDiffByDate(birthDate));
-                        patientManagerStore.updatePatientManager({
-                          ...patientManagerStore.patientManger,
-                          birthDate,
-                          actualDOB: true,
-                          age:
-                            getAgeByAgeObject(getDiffByDate(birthDate)).age ||
-                            0,
-                          ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
-                            .ageUnit,
-                        });
-                        patientManagerStore.patientManagerService
-                          .checkExistsPatient({
-                            input: {
-                              firstName:
-                                patientManagerStore.patientManger?.firstName,
-                              lastName:
-                                patientManagerStore.patientManger?.lastName,
-                              mobileNo:
-                                patientManagerStore.patientManger?.mobileNo,
-                              birthDate,
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkExistsPatientManager.success) {
-                              patientManagerStore.updateExistsPatient(true);
-                              Toast.error({
-                                message: `😔 ${res.checkExistsPatientManager.message}`,
-                              });
-                            } else
-                              patientManagerStore.updateExistsPatient(false);
+                        if (
+                          dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
+                        ) {
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            birthDate,
+                            actualDOB: true,
+                            age:
+                              getAgeByAgeObject(getDiffByDate(birthDate)).age ||
+                              0,
+                            ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
+                              .ageUnit,
                           });
+                          patientManagerStore.patientManagerService
+                            .checkExistsPatient({
+                              input: {
+                                firstName:
+                                  patientManagerStore.patientManger?.firstName,
+                                lastName:
+                                  patientManagerStore.patientManger?.lastName,
+                                mobileNo:
+                                  patientManagerStore.patientManger?.mobileNo,
+                                birthDate,
+                              },
+                            })
+                            .then(res => {
+                              if (res.checkExistsPatientManager.success) {
+                                patientManagerStore.updateExistsPatient(true);
+                                Toast.error({
+                                  message: `😔 ${res.checkExistsPatientManager.message}`,
+                                });
+                              } else
+                                patientManagerStore.updateExistsPatient(false);
+                            });
+                        } else {
+                          alert('Please select correct birth date!!');
+                        }
                       }}
                     />
                   )}
@@ -317,7 +327,11 @@ export const PatientManager = PatientManagerHoc(
                             age: Number.parseInt(age),
                             actualDOB: false,
                             birthDate: new Date(
-                              dayjs().add(-age, 'years').format(),
+                              dayjs().add(
+                                -age,
+                                patientManagerStore.patientManger
+                                  ?.ageUnit as any,
+                              ) as any,
                             ),
                           });
                         }}
@@ -328,11 +342,22 @@ export const PatientManager = PatientManagerHoc(
                         }
                         value={patientManagerStore.patientManger?.ageUnit}
                         onChange={e => {
-                          const ageUnit = e.target.value;
+                          const ageUnit = e.target.value as any;
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            ageUnit,
+                            actualDOB: false,
+                            birthDate: new Date(
+                              dayjs().add(
+                                -patientManagerStore.patientManger?.age,
+                                ageUnit,
+                              ) as any,
+                            ),
+                          });
                         }}
                       >
                         <option selected>Select</option>
-                        {['Y', 'M', 'W', 'D', 'H'].map(
+                        {['year', 'month', 'week', 'day', 'hour'].map(
                           (item: any, index: number) => (
                             <option key={index} value={item}>
                               {item}

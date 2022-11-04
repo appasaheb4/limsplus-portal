@@ -37,7 +37,7 @@ import {PatientVisitHoc} from '../../hoc';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
 import {RouterFlow} from '@/flows';
-import {getAgeAndAgeUnit} from '../../utils';
+import {getAgeByAgeObject, getDiffByDate} from '../../utils';
 import {FormHelper} from '@/helper';
 
 interface PatientVisitProps {
@@ -234,19 +234,23 @@ export const PatientVisit = PatientVisitHoc(
                         hasError={!!errors.pid}
                         onSelect={item => {
                           onChange(item.pId);
-                          const resultAge = calculateTimimg(
-                            Math.abs(
-                              dayjs(item.birthDate).diff(new Date(), 'days'),
+                          console.log({
+                            output: getAgeByAgeObject(
+                              getDiffByDate(item.birthDate),
                             ),
-                          );
+                          });
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
                             patientName: `${item.firstName} ${
                               item.middleName ? item.middleName : ''
                             } ${item.lastName}`,
-                            age: getAgeAndAgeUnit(resultAge).age,
-                            ageUnits: getAgeAndAgeUnit(resultAge).ageUnit,
+                            age:
+                              getAgeByAgeObject(getDiffByDate(item.birthDate))
+                                .age || 0,
+                            ageUnits: getAgeByAgeObject(
+                              getDiffByDate(item.birthDate),
+                            ).ageUnit,
                           });
                         }}
                       />
@@ -425,42 +429,24 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='Age Units'
-                      hasError={!!errors.ageUnits}
-                    >
-                      <select
+                    <>
+                      <Form.Input
+                        label='Age Units'
                         disabled={true}
+                        placeholder={
+                          patientVisitStore.patientVisit?.ageUnits ||
+                          'Age Units'
+                        }
+                        hasError={!!errors.ageUnits}
+                        type='number'
                         value={patientVisitStore.patientVisit?.ageUnits}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.ageUnits
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const ageUnits = e.target.value;
-                          onChange(ageUnits);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            ageUnits,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'PATIENT VISIT - AGE_UNITS',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
+                        onChange={() => {}}
+                      />
+                    </>
                   )}
                   name='ageUnits'
                   rules={{required: false}}
-                  defaultValue=''
+                  defaultValue={patientVisitStore.patientVisit?.ageUnits}
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>

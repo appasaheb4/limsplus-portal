@@ -23,7 +23,6 @@ class HexToAsciiFlow {
             : undefined,
       });
     }
-
     return values;
   };
 
