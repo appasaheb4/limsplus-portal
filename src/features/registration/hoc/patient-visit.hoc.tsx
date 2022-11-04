@@ -33,10 +33,6 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'PATIENT VISIT - DELIVERY_TYPE',
         ),
-        ageUnits: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'PATIENT VISIT - AGE_UNITS',
-        ),
         status: getDefaultLookupItem(
           routerStore.lookupItems,
           'PATIENT VISIT - STATUS',

@@ -111,32 +111,27 @@ export default class Parser {
   };
 
   parse = (data: any) => {
+    console.log({type: this._instrumentType});
+
     switch (this._instrumentType) {
       case 'ERP':
       case 'ERP_REG': {
         if (data.slice(0, 3) !== 'MSH') return null;
-
         break;
       }
       case 'URISED': {
         if (data.slice(0, 4) !== this._blockStart) return null;
         if (data.slice(data.length - 12) !== this._blockEnd) return null;
         data = data.slice(4, -12);
-
         break;
       }
       case 'HORIBA_H550': {
-        console.log({start: data.slice(0, 5), ss: this._blockStart});
-        console.log({end: data.slice(data.length - 9), ss: this._blockEnd});
         if (data.slice(0, 5) !== this._blockStart) return null;
         if (data.slice(data.length - 9) !== this._blockEnd) return null;
         data = data.slice(5, -9);
-
         break;
       }
-      // No default
     }
-
     console.log({data});
     const result: any = [];
     // const NEW_LINE =
@@ -160,6 +155,8 @@ export default class Parser {
   };
 
   parseString = data => {
+    console.log({data});
+
     if (!data || typeof data !== 'string') {
       return null;
     }

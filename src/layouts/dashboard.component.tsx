@@ -55,6 +55,7 @@ import * as SegmentMapping from '@/features/communication/segment-mapping';
 // communication
 import * as InterfaceManager from '@/features/communication/interface-manager';
 import * as DataConveration from '@/features/communication/data-conversation';
+import * as HostCommunication from '@/features/communication/host-communication';
 
 // result entry
 import * as GeneralResultEntry from '@/features/result-entry/general-result-entry';
@@ -216,6 +217,11 @@ const Dashboard = observer(({children}) => {
         await DataConveration.startup();
       if (pathname === '/communication/mapping/segment-mapping') {
         await InterfaceManager.startup();
+        await SegmentMapping.startup();
+      }
+      if (pathname === '/communication/host-communication') {
+        await InterfaceManager.startup();
+        await DataConveration.startup();
         await SegmentMapping.startup();
       }
       // registration

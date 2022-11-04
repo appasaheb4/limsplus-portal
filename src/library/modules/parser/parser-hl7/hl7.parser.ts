@@ -4,9 +4,15 @@ import {Parser} from '../lib';
 export default class Hl7 {
   _message: any;
   _config: any;
+
   constructor(message, interfaceManager, config) {
+    console.log({message, interfaceManager});
+
     const parse = new Parser(interfaceManager);
+    console.log({parse});
+
     message = parse.parseString(message);
+    console.log({message});
     this._message = message;
     this._config = config;
   }

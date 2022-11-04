@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 export const getAgeAndAgeUnit = ageObject => {
   if (ageObject.years > 0) {
-    return {age: ageObject.years, ageUnit: 'Y'};
+    return {age: ageObject.years, ageUnit: 'year'};
   } else if (ageObject.months > 0) {
-    return {age: ageObject.months, ageUnit: 'M'};
+    return {age: ageObject.months, ageUnit: 'month'};
   } else if (ageObject.weeks > 0) {
-    return {age: ageObject.weeks, ageUnit: 'W'};
+    return {age: ageObject.weeks, ageUnit: 'week'};
   } else {
-    return {age: ageObject.days, ageUnit: 'D'};
+    return {age: ageObject.days, ageUnit: 'day'};
   }
 };
 
@@ -23,13 +23,11 @@ export const getDiffByDate = date => {
 };
 
 export const getAgeByAgeObject = ageObject => {
-  console.log({ageObject});
-
-  if (ageObject.years >= 1) return {age: ageObject.years, ageUnit: 'Y'};
-  if (ageObject.months >= 1) return {age: ageObject.months, ageUnit: 'M'};
-  if (ageObject.weeks >= 1) return {age: ageObject.weeks, ageUnit: 'W'};
-  if (ageObject.days >= 1) return {age: ageObject.days, ageUnit: 'D'};
-  else return {age: ageObject.hours, ageUnit: 'H'};
+  if (ageObject.years >= 1) return {age: ageObject.years, ageUnit: 'year'};
+  if (ageObject.months >= 1) return {age: ageObject.months, ageUnit: 'month'};
+  if (ageObject.weeks >= 1) return {age: ageObject.weeks, ageUnit: 'week'};
+  if (ageObject.days >= 1) return {age: ageObject.days, ageUnit: 'day'};
+  else return {age: ageObject.hours, ageUnit: 'hour'};
 };
 
 export const getAgeByDate = date => {
@@ -44,5 +42,20 @@ export const getAgeByDate = date => {
     return age;
   } catch (error: any) {
     alert(error.message);
+  }
+};
+
+export const dateAvailableUnits = (unit: string) => {
+  switch (unit) {
+    case 'Y':
+      return 'year';
+    case 'M':
+      return 'month';
+    case 'W':
+      return 'week';
+    case 'D':
+      return 'day';
+    default:
+      return 'hour';
   }
 };
