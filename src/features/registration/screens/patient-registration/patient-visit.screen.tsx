@@ -444,6 +444,28 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: false}}
                   defaultValue={patientVisitStore.patientVisit?.ageUnits}
                 />
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='New Doctor'
+                        hasError={!!errors.isNewDoctor}
+                        value={patientVisitStore.patientVisit?.isNewDoctor}
+                        onChange={isNewDoctor => {
+                          onChange(isNewDoctor);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            isNewDoctor,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isNewDoctor'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 {registrationLocationsStore.listRegistrationLocations && (
@@ -621,6 +643,109 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: true}}
                   defaultValue={patientVisitStore.patientVisit?.acClass}
                 />
+                {patientVisitStore.patientVisit.isNewDoctor ? (
+                  <>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Input
+                          label='Doctor Name'
+                          placeholder='Doctor Name'
+                          value={patientVisitStore.patientVisit.doctorName}
+                          hasError={!!errors.newDoctorName}
+                          onChange={doctorName => {
+                            onChange(doctorName);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              doctorName,
+                            });
+                          }}
+                        />
+                      )}
+                      name='newDoctorName'
+                      rules={{
+                        required: false,
+                      }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Input
+                          label='Doctor Mobile No'
+                          type='number'
+                          placeholder='Doctor Mobile No'
+                          value={patientVisitStore.patientVisit.doctorMobileNo}
+                          hasError={!!errors.doctorMobileNo}
+                          onChange={doctorMobileNo => {
+                            onChange(doctorMobileNo);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              doctorMobileNo,
+                            });
+                          }}
+                        />
+                      )}
+                      name='doctorMobileNo'
+                      rules={{
+                        required: false,
+                        pattern: FormHelper.patterns.mobileNo,
+                      }}
+                      defaultValue=''
+                    />
+                  </>
+                ) : (
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.InputWrapper
+                        label='Doctor Id'
+                        hasError={!!errors.doctorId}
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          displayValue={
+                            patientVisitStore.patientVisit.doctorId
+                              ? `${patientVisitStore.patientVisit.doctorId} - ${patientVisitStore.patientVisit.doctorName}`
+                              : ''
+                          }
+                          data={{
+                            list: doctorsStore.listDoctors,
+                            displayKey: ['doctorCode', 'doctorName'],
+                          }}
+                          hasError={!!errors.doctorId}
+                          onFilter={(value: string) => {
+                            doctorsStore.doctorsService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['doctorCode', 'doctorName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(item.doctorCode);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              doctorId: item.doctorCode,
+                              doctorName: item.doctorName,
+                            });
+                            doctorsStore.updateDoctorsList(
+                              doctorsStore.listDoctorsCopy,
+                            );
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='doctorId'
+                    rules={{required: true}}
+                    defaultValue={doctorsStore.listDoctors}
+                  />
+                )}
 
                 <Controller
                   control={control}
@@ -822,61 +947,6 @@ export const PatientVisit = PatientVisitHoc(
                     defaultValue={''}
                   />
                 ) : null}
-
-                {doctorsStore.listDoctors && (
-                  <>
-                    <Controller
-                      control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.InputWrapper
-                          label='Doctor Id'
-                          hasError={!!errors.doctorId}
-                        >
-                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                            loader={loading}
-                            placeholder='Search by code or name'
-                            displayValue={
-                              patientVisitStore.patientVisit.doctorId
-                                ? `${patientVisitStore.patientVisit.doctorId} - ${patientVisitStore.patientVisit.doctorName}`
-                                : ''
-                            }
-                            data={{
-                              list: doctorsStore.listDoctors,
-                              displayKey: ['doctorCode', 'doctorName'],
-                            }}
-                            hasError={!!errors.doctorId}
-                            onFilter={(value: string) => {
-                              doctorsStore.doctorsService.filterByFields({
-                                input: {
-                                  filter: {
-                                    fields: ['doctorCode', 'doctorName'],
-                                    srText: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              });
-                            }}
-                            onSelect={item => {
-                              onChange(item.doctorCode);
-                              patientVisitStore.updatePatientVisit({
-                                ...patientVisitStore.patientVisit,
-                                doctorId: item.doctorCode,
-                                doctorName: item.doctorName,
-                              });
-                              doctorsStore.updateDoctorsList(
-                                doctorsStore.listDoctorsCopy,
-                              );
-                            }}
-                          />
-                        </Form.InputWrapper>
-                      )}
-                      name='doctorId'
-                      rules={{required: true}}
-                      defaultValue=''
-                    />
-                  </>
-                )}
 
                 <Controller
                   control={control}

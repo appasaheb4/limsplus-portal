@@ -31,11 +31,13 @@ export const LIST_PATIENT_VISIT = gql`
         netAmount
         discountAmount
         discountPer
+        isNewDoctor
+        doctorId
+        doctorName
+        doctorMobileNo
         miscellaneousCharges
         miscCharges
         discountCharges
-        doctorId
-        doctorName
         reportType
         history
         holdReport
@@ -142,11 +144,13 @@ export const FILTER_PATIENT_VISIT = gql`
         netAmount
         discountAmount
         discountPer
+        isNewDoctor
+        doctorId
+        doctorName
+        doctorMobileNo
         miscellaneousCharges
         miscCharges
         discountCharges
-        doctorId
-        doctorName
         reportType
         history
         holdReport
@@ -256,11 +260,13 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         netAmount
         discountAmount
         discountPer
+        isNewDoctor
+        doctorId
+        doctorName
+        doctorMobileNo
         miscellaneousCharges
         miscCharges
         discountCharges
-        doctorId
-        doctorName
         reportType
         history
         holdReport
