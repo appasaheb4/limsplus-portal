@@ -1,3 +1,4 @@
+import _ from 'lodash';
 interface Fildes {
   COMPONENT_DELIMITER: string;
   ESCAPE_DELIMITER: string;
@@ -7,7 +8,7 @@ interface Fildes {
   SUB_COMPONENT_DELIMITER: string;
 }
 
-export default class Parser {
+export class Parser {
   _blockStart: any;
   _blockEnd: any;
   _fileds: Fildes;
@@ -21,18 +22,17 @@ export default class Parser {
   // SUBCOMPONENT = "&"
 
   constructor(interfaceManager) {
-    this._blockStart =
-      interfaceManager.blockStart !== undefined
-        ? interfaceManager.blockStart
-            .replaceAll(/&amp;/g, '&')
-            .replaceAll(/&gt;/g, '>')
-            .replaceAll(/&lt;/g, '<')
-            .replaceAll(/&quot;/g, '"')
-            .replaceAll(/â/g, '’')
-            .replaceAll(/â¦/g, '…')
-            .toString()
-        : undefined;
-    this._blockEnd = interfaceManager.blockEnd
+    this._blockStart = !_.isEmpty(interfaceManager.blockStart)
+      ? interfaceManager.blockStart
+          .replaceAll(/&amp;/g, '&')
+          .replaceAll(/&gt;/g, '>')
+          .replaceAll(/&lt;/g, '<')
+          .replaceAll(/&quot;/g, '"')
+          .replaceAll(/â/g, '’')
+          .replaceAll(/â¦/g, '…')
+          .toString()
+      : undefined;
+    this._blockEnd = !_.isEmpty(interfaceManager.blockEnd)
       ? interfaceManager.blockEnd
           .replaceAll(/&amp;/g, '&')
           .replaceAll(/&gt;/g, '>')
@@ -111,8 +111,6 @@ export default class Parser {
   };
 
   parse = (data: any) => {
-    console.log({type: this._instrumentType});
-
     switch (this._instrumentType) {
       case 'ERP':
       case 'ERP_REG': {
@@ -132,7 +130,6 @@ export default class Parser {
         break;
       }
     }
-    console.log({data});
     const result: any = [];
     // const NEW_LINE =
     //   this._instrumentType === "ERP"
@@ -150,13 +147,10 @@ export default class Parser {
       const seg = this.parseSegment(segmentItem);
       result.push(seg);
     }
-    console.log({result});
     return result;
   };
 
   parseString = data => {
-    console.log({data});
-
     if (!data || typeof data !== 'string') {
       return null;
     }

@@ -24,6 +24,7 @@ export const LIST = gql`
         reportOrder
         bill
         printTestName
+        printAnalyteName
         printPanelName
         panelMethod
         testMethod
@@ -127,6 +128,7 @@ export const FILTER = gql`
         reportOrder
         bill
         printTestName
+        printAnalyteName
         printPanelName
         panelMethod
         testMethod
@@ -167,6 +169,7 @@ export const FIND_BY_FIELDS = gql`
         reportOrder
         bill
         printTestName
+        printAnalyteName
         printPanelName
         panelMethod
         testMethod

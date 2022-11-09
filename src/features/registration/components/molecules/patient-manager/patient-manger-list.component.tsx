@@ -15,7 +15,11 @@ import {
 import {Confirm} from '@/library/models';
 import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
-import {getAgeByDate} from '../../../utils';
+import {
+  dateAvailableUnits,
+  getDiffByDate,
+  getAgeByAgeObject,
+} from '../../../utils';
 
 interface PatientMangerProps {
   data: any;
@@ -191,17 +195,31 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               ) => (
                 <>
                   <Form.InputDateTime
-                    value={new Date(row.birthDate)}
-                    onFocusRemove={birthDate => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds(
-                          {
-                            birthDate,
-                            actualDOB: true,
-                            age: getAgeByDate(birthDate) || 0,
-                          },
-                          row._id,
-                        );
+                    label=''
+                    placeholder='BirthDate'
+                    use12Hours={false}
+                    // value={row?.birthDate}
+                    onChange={birthDate => {
+                      if (
+                        dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
+                      ) {
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              birthDate,
+                              actualDOB: true,
+                              age:
+                                getAgeByAgeObject(getDiffByDate(birthDate))
+                                  .age || 0,
+                              ageUnit: getAgeByAgeObject(
+                                getDiffByDate(birthDate),
+                              ).ageUnit,
+                            },
+                            row._id,
+                          );
+                      } else {
+                        alert('Please select correct birth date!!');
+                      }
                     }}
                   />
                 </>
@@ -235,7 +253,10 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                             age: Number.parseInt(age),
                             actualDOB: false,
                             birthDate: new Date(
-                              dayjs().add(-age, 'years').format(),
+                              dayjs().add(
+                                -age,
+                                dateAvailableUnits(row?.ageUnit),
+                              ) as any,
                             ),
                           },
                           row._id,
@@ -245,6 +266,90 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   />
                 </>
               ),
+            },
+            {
+              dataField: 'ageUnit',
+              text: 'Age Unit',
+              headerClasses: 'textHeader',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className={
+                      'leading-4 p-2 mt-4 h-11 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                    }
+                    value={row?.ageUnit}
+                    onChange={e => {
+                      const ageUnit = e.target.value as any;
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            ageUnit,
+                            actualDOB: false,
+                            birthDate: new Date(
+                              dayjs().add(
+                                -row?.age,
+                                dateAvailableUnits(ageUnit),
+                              ) as any,
+                            ),
+                          },
+                          row._id,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[
+                      {title: 'year', value: 'Y'},
+                      {title: 'month', value: 'M'},
+                      {title: 'week', value: 'W'},
+                      {title: 'day', value: 'D'},
+                      {title: 'hour', value: 'H'},
+                    ].map((item: any, index: number) => (
+                      <option key={index} value={item.value}>
+                        {item.value}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'isBirthdateAvailabe',
+              text: 'Birthdate Availabe',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.history ? (row.isBirthdateAvailabe ? 'Yes' : 'No') : 'No'
+                }`,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.isBirthdateAvailabe}
+                      onChange={isBirthdateAvailabe => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            isBirthdateAvailabe,
+                            'isBirthdateAvailabe',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'title',

@@ -23,11 +23,11 @@ export const getDiffByDate = date => {
 };
 
 export const getAgeByAgeObject = ageObject => {
-  if (ageObject.years >= 1) return {age: ageObject.years, ageUnit: 'year'};
-  if (ageObject.months >= 1) return {age: ageObject.months, ageUnit: 'month'};
-  if (ageObject.weeks >= 1) return {age: ageObject.weeks, ageUnit: 'week'};
-  if (ageObject.days >= 1) return {age: ageObject.days, ageUnit: 'day'};
-  else return {age: ageObject.hours, ageUnit: 'hour'};
+  if (ageObject.years >= 1) return {age: ageObject.years, ageUnit: 'Y'};
+  if (ageObject.months >= 1) return {age: ageObject.months, ageUnit: 'M'};
+  if (ageObject.weeks >= 1) return {age: ageObject.weeks, ageUnit: 'W'};
+  if (ageObject.days >= 1) return {age: ageObject.days, ageUnit: 'D'};
+  else return {age: ageObject.hours, ageUnit: 'H'};
 };
 
 export const getAgeByDate = date => {

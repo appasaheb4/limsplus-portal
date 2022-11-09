@@ -632,7 +632,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   defaultValue=''
                 />
 
-                <Grid cols={3}>
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
@@ -673,6 +673,29 @@ const TestPanelMapping = TestPanelMappingHoc(
                       />
                     )}
                     name='printTestName'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Print Analyte Name'
+                        hasError={!!errors.printAnalyteName}
+                        value={
+                          testPanelMappingStore.testPanelMapping
+                            ?.printAnalyteName
+                        }
+                        onChange={printAnalyteName => {
+                          onChange(printAnalyteName);
+                          testPanelMappingStore.updateTestPanelMapping({
+                            ...testPanelMappingStore.testPanelMapping,
+                            printAnalyteName,
+                          });
+                        }}
+                      />
+                    )}
+                    name='printAnalyteName'
                     rules={{required: false}}
                     defaultValue=''
                   />

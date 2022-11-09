@@ -16,7 +16,8 @@ export class PatientManagerStore {
     this.checkExistsPatient = false;
     this.patientManger = {
       ...this.patientManger,
-      ageUnit: 'year',
+      ageUnit: 'Y',
+      isBirthdateAvailabe: true,
     };
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,

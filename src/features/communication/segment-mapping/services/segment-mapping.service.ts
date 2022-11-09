@@ -15,6 +15,7 @@ import {
   UPDATE_RECORD,
   IMPORT_RECORDS,
   FILTER,
+  FIND_BY_FIELDS,
 } from './mutation';
 import {MappingValues} from '../../models';
 
@@ -185,6 +186,21 @@ export class SegmentMappingService {
             return this.listSegmentMapping();
           stores.segmentMappingStore.filterSegmentMappingList(response.data);
           stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

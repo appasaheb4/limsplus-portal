@@ -1309,6 +1309,48 @@ const MasterAnalyte = MasterAnalyteHoc(
                   }}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Eq Channel'
+                      placeholder='Eq Channel'
+                      hasError={!!errors.eqChannel}
+                      value={masterAnalyteStore.masterAnalyte?.eqChannel}
+                      onChange={eqChannel => {
+                        onChange(eqChannel);
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          eqChannel,
+                        });
+                      }}
+                    />
+                  )}
+                  name='eqChannel'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='Reagent Code'
+                      placeholder='Reagent Code'
+                      hasError={!!errors.reagentCode}
+                      value={masterAnalyteStore.masterAnalyte?.reagentCode}
+                      onChange={reagentCode => {
+                        onChange(reagentCode);
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
+                          reagentCode,
+                        });
+                      }}
+                    />
+                  )}
+                  name='eqChannel'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
 
                 <Grid cols={3}>
                   <Controller

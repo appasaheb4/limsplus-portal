@@ -448,7 +448,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           const analyteName: string[] = [];
                           const resultOrder: any[] = [];
                           const reportOrder: any[] = [];
+                          const variables: any[] = [];
                           items?.filter((item: any) => {
+                            console.log({item});
+
                             analyteCode.push(item.analyteCode);
                             analyteName.push(item.analyteName);
                             resultOrder.push({
@@ -461,6 +464,15 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               analyteName: item.analyteName,
                               order: 1,
                             });
+                            variables.push({
+                              analyteCode: item?.analyteCode,
+                              analyteName: item?.analyteName,
+                              calculationFlag: item?.calculationFlag,
+                              calculationFormula: item?.calcyName,
+                              reportable: item?.reportable,
+                              defaultResult: item?.defaultResult,
+                              instantResult: item?.instantResult,
+                            });
                           });
                           testAnalyteMappingStore.updateTestAnalyteMapping({
                             ...testAnalyteMappingStore.testAnalyteMapping,
@@ -468,6 +480,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             analyteCode,
                             resultOrder,
                             reportOrder,
+                            variables,
                           });
                           masterAnalyteStore.updateMasterAnalyteList(
                             masterAnalyteStore.listMasterAnalyteCopy,
@@ -575,6 +588,85 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <>
+                      <Form.InputWrapper label='Variable'>
+                        <Table striped bordered className='max-h-5' size='sm'>
+                          <thead>
+                            <tr className='text-xs'>
+                              <th
+                                className='text-white'
+                                style={{minWidth: 150}}
+                              >
+                                Analyte
+                              </th>
+                              <th
+                                className='text-white flex flex-row gap-2 items-center'
+                                style={{minWidth: 150}}
+                              >
+                                Variable
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className='text-xs'>
+                            {testAnalyteMappingStore.testAnalyteMapping?.variables?.map(
+                              (item, index) => (
+                                <tr
+                                  onMouseEnter={() => {
+                                    setTxtDisable(false);
+                                  }}
+                                  onMouseLeave={() => {
+                                    setTxtDisable(true);
+                                  }}
+                                  key={index}
+                                >
+                                  <td>{`${index + 1}. ${
+                                    item.analyteName + ' - ' + item.analyteCode
+                                  }`}</td>
+                                  <td style={{width: 150, height: 40}}>
+                                    {txtDisable ? (
+                                      <span
+                                        className={
+                                          'leading-4 p-2 h-auto  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2 rounded-md'
+                                        }
+                                      >
+                                        {item.variable}
+                                      </span>
+                                    ) : (
+                                      <Form.Input
+                                        type='number'
+                                        placeholder={item.variable}
+                                        onChange={variable => {
+                                          const variables =
+                                            testAnalyteMappingStore
+                                              .testAnalyteMapping?.variables;
+                                          variables[index].variable =
+                                            Number.parseInt(variable);
+                                          testAnalyteMappingStore.updateTestAnalyteMapping(
+                                            {
+                                              ...testAnalyteMappingStore.testAnalyteMapping,
+                                              variables,
+                                            },
+                                          );
+                                        }}
+                                      />
+                                    )}
+                                  </td>
+                                </tr>
+                              ),
+                            )}
+                          </tbody>
+                        </Table>
+                      </Form.InputWrapper>
+                    </>
+                  )}
+                  name='variable'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (

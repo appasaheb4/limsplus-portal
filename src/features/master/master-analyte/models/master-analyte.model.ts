@@ -44,6 +44,8 @@ export class MasterAnalyte {
   externalComments: string;
   analyteBottomMarker: object;
   analyteRightMarker: string;
+  eqChannel: string;
+  reagentCode: string;
   status: string;
   minReportable: string;
   maxReportable: string;
@@ -98,6 +100,8 @@ export class MasterAnalyte {
     this.externalComments = rawData.externalComments;
     this.analyteBottomMarker = rawData.analyteBottomMarker;
     this.analyteRightMarker = rawData.analyteRightMarker;
+    this.eqChannel = rawData.eqChannel;
+    this.reagentCode = rawData.reagentCode;
     this.status = rawData.status;
     this.minReportable = rawData.minReportable;
     this.maxReportable = rawData.maxReportable;

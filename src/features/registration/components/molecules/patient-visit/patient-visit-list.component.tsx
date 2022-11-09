@@ -337,8 +337,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                   </>
                 );
               },
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -389,8 +388,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                   ageUnits = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,

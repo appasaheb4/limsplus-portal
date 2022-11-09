@@ -249,128 +249,157 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputDateTime
-                      label='Bithdate'
-                      placeholder={
-                        errors.birthDate
-                          ? 'Please Enter BirthDate'
-                          : 'BirthDate'
-                      }
-                      use12Hours={false}
-                      hasError={!!errors.birthDate}
-                      value={patientManagerStore.patientManger?.birthDate}
-                      onChange={birthDate => {
-                        onChange(birthDate);
-                        setValue('age', getDiffByDate(birthDate));
-                        if (
-                          dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
-                        ) {
+                    <div className='flex flex-row gap-2 items-center'>
+                      <Form.InputDateTime
+                        label='Bithdate'
+                        placeholder={
+                          errors.birthDate
+                            ? 'Please Enter BirthDate'
+                            : 'BirthDate'
+                        }
+                        use12Hours={false}
+                        hasError={!!errors.birthDate}
+                        value={patientManagerStore.patientManger?.birthDate}
+                        onChange={birthDate => {
+                          onChange(birthDate);
+                          setValue('age', getDiffByDate(birthDate));
+                          if (
+                            dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
+                          ) {
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              birthDate,
+                              isBirthdateAvailabe: true,
+                              age:
+                                getAgeByAgeObject(getDiffByDate(birthDate))
+                                  .age || 0,
+                              ageUnit: getAgeByAgeObject(
+                                getDiffByDate(birthDate),
+                              ).ageUnit,
+                            });
+                            patientManagerStore.patientManagerService
+                              .checkExistsPatient({
+                                input: {
+                                  firstName:
+                                    patientManagerStore.patientManger
+                                      ?.firstName,
+                                  lastName:
+                                    patientManagerStore.patientManger?.lastName,
+                                  mobileNo:
+                                    patientManagerStore.patientManger?.mobileNo,
+                                  birthDate,
+                                },
+                              })
+                              .then(res => {
+                                if (res.checkExistsPatientManager.success) {
+                                  patientManagerStore.updateExistsPatient(true);
+                                  Toast.error({
+                                    message: `😔 ${res.checkExistsPatientManager.message}`,
+                                  });
+                                } else
+                                  patientManagerStore.updateExistsPatient(
+                                    false,
+                                  );
+                              });
+                          } else {
+                            alert('Please select correct birth date!!');
+                          }
+                        }}
+                      />
+                      <Form.Toggle
+                        label='Birthdate Availabe'
+                        value={
+                          patientManagerStore.patientManger?.isBirthdateAvailabe
+                        }
+                        onChange={isBirthdateAvailabe => {
+                          onChange(isBirthdateAvailabe);
                           patientManagerStore.updatePatientManager({
                             ...patientManagerStore.patientManger,
-                            birthDate,
-                            actualDOB: true,
-                            age:
-                              getAgeByAgeObject(getDiffByDate(birthDate)).age ||
-                              0,
-                            ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
-                              .ageUnit,
+                            isBirthdateAvailabe,
                           });
-                          patientManagerStore.patientManagerService
-                            .checkExistsPatient({
-                              input: {
-                                firstName:
-                                  patientManagerStore.patientManger?.firstName,
-                                lastName:
-                                  patientManagerStore.patientManger?.lastName,
-                                mobileNo:
-                                  patientManagerStore.patientManger?.mobileNo,
-                                birthDate,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkExistsPatientManager.success) {
-                                patientManagerStore.updateExistsPatient(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkExistsPatientManager.message}`,
-                                });
-                              } else
-                                patientManagerStore.updateExistsPatient(false);
-                            });
-                        } else {
-                          alert('Please select correct birth date!!');
-                        }
-                      }}
-                    />
+                        }}
+                      />
+                    </div>
                   )}
                   name='birthDate'
                   rules={{required: true}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <div className='flex flex-row items-center  gap-4'>
-                      <Form.Input
-                        label='Age'
-                        placeholder={'Age'}
-                        hasError={!!errors.age}
-                        type='number'
-                        value={patientManagerStore.patientManger?.age}
-                        onChange={age => {
-                          onChange(age);
-                          setValue(
-                            'birthDate',
-                            new Date(dayjs().add(-age, 'years').format()),
-                          );
-                          patientManagerStore.updatePatientManager({
-                            ...patientManagerStore.patientManger,
-                            age: Number.parseInt(age),
-                            actualDOB: false,
-                            birthDate: new Date(
-                              dayjs().add(
-                                -age,
-                                patientManagerStore.patientManger
-                                  ?.ageUnit as any,
-                              ) as any,
-                            ),
-                          });
-                        }}
-                      />
-                      <select
-                        className={
-                          'leading-4 p-2 mt-4 h-11 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
-                        }
-                        value={patientManagerStore.patientManger?.ageUnit}
-                        onChange={e => {
-                          const ageUnit = e.target.value as any;
-                          patientManagerStore.updatePatientManager({
-                            ...patientManagerStore.patientManger,
-                            ageUnit,
-                            actualDOB: false,
-                            birthDate: new Date(
-                              dayjs().add(
-                                -patientManagerStore.patientManger?.age,
+                {!patientManagerStore.patientManger.isBirthdateAvailabe && (
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <div className='flex flex-row items-center  gap-4'>
+                        <Form.Input
+                          label='Age'
+                          placeholder={'Age'}
+                          hasError={!!errors.age}
+                          type='number'
+                          value={patientManagerStore.patientManger?.age}
+                          onChange={age => {
+                            onChange(age);
+                            setValue(
+                              'birthDate',
+                              new Date(dayjs().add(-age, 'years').format()),
+                            );
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              age: Number.parseInt(age),
+                              isBirthdateAvailabe: false,
+                              birthDate: new Date(
+                                dayjs().add(
+                                  -age,
+                                  dateAvailableUnits(
+                                    patientManagerStore.patientManger?.ageUnit,
+                                  ),
+                                ) as any,
+                              ),
+                            });
+                          }}
+                        />
+                        <Form.InputWrapper label='Age Units'>
+                          <select
+                            className={
+                              'leading-4 p-2 h-11 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                            }
+                            value={patientManagerStore.patientManger?.ageUnit}
+                            onChange={e => {
+                              const ageUnit = e.target.value as any;
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
                                 ageUnit,
-                              ) as any,
-                            ),
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {['year', 'month', 'week', 'day', 'hour'].map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </div>
-                  )}
-                  name='age'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
+                                isBirthdateAvailabe: false,
+                                birthDate: new Date(
+                                  dayjs().add(
+                                    -patientManagerStore.patientManger?.age,
+                                    dateAvailableUnits(ageUnit),
+                                  ) as any,
+                                ),
+                              });
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {[
+                              {title: 'year', value: 'Y'},
+                              {title: 'month', value: 'M'},
+                              {title: 'week', value: 'W'},
+                              {title: 'day', value: 'D'},
+                              {title: 'hour', value: 'H'},
+                            ].map((item: any, index: number) => (
+                              <option key={index} value={item.value}>
+                                {item.value}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      </div>
+                    )}
+                    name='age'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                )}
+
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -665,7 +694,7 @@ export const PatientManager = PatientManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='usualDoctor'
-                    rules={{required: true}}
+                    rules={{required: false}}
                     defaultValue=''
                   />
                 )}

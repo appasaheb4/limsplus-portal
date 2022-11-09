@@ -5,7 +5,20 @@ import {decode} from '@/library/modules/parser/parser-hl7';
 
 class HostCommunicationFlows {
   mapping = async (interfaceManager: InterfaceManager) => {
-    const data = stores.segmentMappingStore.listSegmentMapping;
+    let data: Array<any> = [];
+    await stores.segmentMappingStore.segmentMappingService
+      .findByFields({
+        input: {
+          filter: {
+            equipmentType: interfaceManager.instrumentType,
+          },
+        },
+      })
+      .then(res => {
+        if (!res.findByFieldsSegmentMapping.success)
+          return alert('Not found equipment type');
+        data = res.findByFieldsSegmentMapping.data;
+      });
     const mapping: any[] = [];
     const values: MappingValues[] = [];
     const dataFlowFrom =
@@ -35,13 +48,11 @@ class HostCommunicationFlows {
         });
       }
     }
-
     // eslint-disable-next-line unicorn/no-array-reduce
     const group = values.reduce((r: any, a: any) => {
       r[a.segments] = [...(r[a.segments] || []), a];
       return r;
     }, {});
-
     const entries = Object.entries(group);
     for (const item of entries) {
       mapping.push({
@@ -66,18 +77,17 @@ class HostCommunicationFlows {
           const mapping = {
             mapping: tempData,
           };
+
           const hl7 = decode(
             message,
             stores.hostCommunicationStore.selectedInterfaceManager,
             mapping,
           );
-
           if (!hl7) return alert('Please enter correct message');
           stores.hostCommunicationStore.updateConvertTo({
             ...stores.hostCommunicationStore.convertTo,
             hl7,
           });
-
           stores.hostCommunicationStore.updateHostCommuication({
             ...stores.hostCommunicationStore.hostCommuication,
           });
