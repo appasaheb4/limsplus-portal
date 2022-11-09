@@ -20,6 +20,12 @@ export const LIST = gql`
         lab
         analyteCode
         analyteName
+        variable
+        calculationFlag
+        calculationFormula
+        reportable
+        defaultResult
+        instantResult
         testCode
         testName
         bill
@@ -119,6 +125,12 @@ export const FILTER = gql`
         lab
         analyteCode
         analyteName
+        variable
+        calculationFlag
+        calculationFormula
+        reportable
+        defaultResult
+        instantResult
         testCode
         testName
         bill
@@ -152,6 +164,12 @@ export const FIND_BY_FILEDS = gql`
         lab
         analyteCode
         analyteName
+        variable
+        calculationFlag
+        calculationFormula
+        reportable
+        defaultResult
+        instantResult
         testCode
         testName
         bill

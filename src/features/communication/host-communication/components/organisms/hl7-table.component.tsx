@@ -44,19 +44,19 @@ export const HL7Table = (props: HL7TableProps) => {
       <div className='rounded-lg overflow-auto'>
         <Table bordered>
           <thead>
-            <th style={{color: 'green'}}>{field}</th>
-            <th style={{color: 'green'}}>Value</th>
+            <th style={{color: 'white'}}>{field}</th>
+            <th style={{color: 'white'}}>Value</th>
           </thead>
           <tbody>
             {selectSegment.map((item: any, index: number) => (
               <tr key={index}>
-                <th>
+                <th className='text-white'>
                   {`${item.field_no}. ${
                     item.filed.charAt(0).toUpperCase() +
                     item.filed.slice(1).replaceAll('_', ' ')
                   }`}
                 </th>
-                <th>{item.value}</th>
+                <th className='text-white'>{item.value}</th>
               </tr>
             ))}
           </tbody>

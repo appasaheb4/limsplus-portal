@@ -234,17 +234,13 @@ export const PatientVisit = PatientVisitHoc(
                         hasError={!!errors.pid}
                         onSelect={item => {
                           onChange(item.pId);
-                          console.log({
-                            output: getAgeByAgeObject(
-                              getDiffByDate(item.birthDate),
-                            ),
-                          });
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
                             patientName: `${item.firstName} ${
                               item.middleName ? item.middleName : ''
                             } ${item.lastName}`,
+                            birthDate: item?.birthDate,
                             age:
                               getAgeByAgeObject(getDiffByDate(item.birthDate))
                                 .age || 0,

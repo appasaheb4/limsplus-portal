@@ -322,6 +322,38 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
             {
+              dataField: 'printAnalyteName',
+              text: 'Print Analyte Name',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.printAnalyteName
+                    ? row.printAnalyteName
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.printAnalyteName}
+                      onChange={printAnalyteName => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            printAnalyteName,
+                            'printAnalyteName',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'masterFlags',
               text: 'Method Flags',
               sort: true,

@@ -54,6 +54,8 @@ export const LIST = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
+        eqChannel
+        reagentCode
         status
         minReportable
         maxReportable
@@ -174,6 +176,8 @@ export const FILTER = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
+        eqChannel
+        reagentCode
         status
         minReportable
         maxReportable
@@ -240,6 +244,8 @@ export const FILTER_BY_FIELDS = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
+        eqChannel
+        reagentCode
         status
         minReportable
         maxReportable
@@ -303,6 +309,8 @@ export const FIND_BY_FIELDS = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
+        eqChannel
+        reagentCode
         status
         minReportable
         maxReportable

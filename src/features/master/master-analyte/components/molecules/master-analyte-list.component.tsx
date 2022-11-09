@@ -1011,6 +1011,24 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 editorCell(row),
             },
             {
+              dataField: 'eqChannel',
+              text: 'Eq Channel',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'reagentCode',
+              text: 'Reagent Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
               dataField: 'abnormalHighlighterCSS',
               text: 'Abnormal Highlighter CSS',
               headerClasses: 'textHeader4',

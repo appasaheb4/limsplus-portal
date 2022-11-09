@@ -10,6 +10,9 @@ export class TestAnalyteMapping {
   lab: string;
   analyteCode: Array<any>;
   analyteName: Array<any>;
+  variables: Array<any>;
+  variable: string;
+  calculationFlag: boolean;
   testCode: string;
   testName: string;
   bill: boolean;
@@ -34,6 +37,9 @@ export class TestAnalyteMapping {
     this.lab = rawData.lab;
     this.analyteCode = rawData.analyteCode;
     this.analyteName = rawData.analyteName;
+    this.variables = rawData.variables;
+    this.variable = rawData.variable;
+    this.calculationFlag = rawData.calculationFlag;
     this.testCode = rawData.testCode;
     this.testName = rawData.testName;
     this.bill = rawData.bill;

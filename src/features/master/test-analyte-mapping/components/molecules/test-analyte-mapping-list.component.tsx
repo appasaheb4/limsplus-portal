@@ -215,6 +215,118 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               ),
             },
             {
+              dataField: 'variable',
+              text: 'Variable',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'calculationFlag',
+              text: 'Calculation Flag',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.calculationFlag
+                    ? row.calculationFlag
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.calculationFlag}
+                      onChange={calculationFlag => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            calculationFlag,
+                            'calculationFlag',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'calculationFormula',
+              text: 'Calculation Formula',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row) && row.calculationFlag,
+            },
+            {
+              dataField: 'reportable',
+              text: 'Reportable',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row.reportable ? (row.reportable ? 'Yes' : 'No') : 'No'}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.reportable}
+                      onChange={reportable => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(reportable, 'reportable', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'defaultResult',
+              text: 'Default Result',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'instantResult',
+              text: 'Instant Result',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.instantResult ? (row.instantResult ? 'Yes' : 'No') : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.instantResult}
+                      onChange={instantResult => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            instantResult,
+                            'instantResult',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'bill',
               text: 'Bill',
               sort: true,

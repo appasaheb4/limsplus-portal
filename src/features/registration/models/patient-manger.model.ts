@@ -4,7 +4,7 @@ export class PatientManger {
   birthDate: Date;
   age: number;
   ageUnit: string;
-  actualDOB: boolean;
+  isBirthdateAvailabe: boolean;
   title: string;
   firstName: string;
   middleName: string;
@@ -53,7 +53,7 @@ export class PatientManger {
     this.birthDate = rawData.birthDate;
     this.age = rawData.age;
     this.ageUnit = rawData.ageUnit;
-    this.actualDOB = rawData.actualDOB;
+    this.isBirthdateAvailabe = rawData.isBirthdateAvailabe;
     this.title = rawData.title;
     this.firstName = rawData.firstName;
     this.middleName = rawData.middleName;

@@ -6,21 +6,14 @@ export default class Hl7 {
   _config: any;
 
   constructor(message, interfaceManager, config) {
-    console.log({message, interfaceManager});
-
     const parse = new Parser(interfaceManager);
-    console.log({parse});
-
     message = parse.parseString(message);
-    console.log({message});
     this._message = message;
     this._config = config;
   }
 
   getSegmentsByType(type) {
-    //console.log({message:this._message});
     return this._message.segments.filter(item => {
-      // console.log({ item })
       return item.name === type;
     });
   }
@@ -31,10 +24,7 @@ export default class Hl7 {
    */
   process() {
     const obj: any[] = [];
-    //const map = new Map()
     for (const message of this._message) {
-      console.log({message});
-      // ///console.log({ tmpObj })
       const values: any = [];
       if (this._config.mapping[message.fields.toLowerCase()]) {
         for (const value of this._config.mapping[message.fields.toLowerCase()]
@@ -46,23 +36,17 @@ export default class Hl7 {
               message.values[index1 - 1],
               value.field_no,
             );
-            // if (message.values[index1 - 1] !== "") {
-            //   values.push(object)
-            // } else {
             if (value.mandatory) {
               values.push(object);
             }
-            // }
           }
         }
         values.sort((a, b) => {
           return a.field_no - b.field_no;
         });
-        //console.log({ values })
         obj.push([[message.fields], values]);
       }
     }
-    console.log({obj});
     return obj;
   }
 

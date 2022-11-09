@@ -14,6 +14,7 @@ export class TestPanelMapping {
   reportOrder: any;
   bill: boolean;
   printTestName: boolean;
+  printAnalyteName: boolean;
   printPanelName: boolean;
   panelMethod: boolean;
   testMethod: boolean;
@@ -42,6 +43,7 @@ export class TestPanelMapping {
     this.reportOrder = rawData.reportOrder;
     this.bill = rawData.bill;
     this.printTestName = rawData.printTestName;
+    this.printAnalyteName = rawData.printAnalyteName;
     this.printPanelName = rawData.printPanelName;
     this.panelMethod = rawData.panelMethod;
     this.testMethod = rawData.testMethod;

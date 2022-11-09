@@ -15,7 +15,7 @@ export const LIST_PATIENT_MANAGER = gql`
         birthDate
         age
         ageUnit
-        actualDOB
+        isBirthdateAvailabe
         title
         firstName
         middleName
@@ -103,7 +103,7 @@ export const FILTER_PATIENT_MANAGER = gql`
         birthDate
         age
         ageUnit
-        actualDOB
+        isBirthdateAvailabe
         title
         firstName
         middleName
@@ -183,7 +183,7 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
         birthDate
         age
         ageUnit
-        actualDOB
+        isBirthdateAvailabe
         title
         firstName
         middleName
