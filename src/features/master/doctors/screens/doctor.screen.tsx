@@ -138,7 +138,6 @@ const Doctors = DoctorsHoc(
             routerStore.userPermission,
             'Edit/Modify',
           )}
-          // isEditModify={false}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
             setModalConfirm({

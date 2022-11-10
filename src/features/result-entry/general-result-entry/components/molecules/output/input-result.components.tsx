@@ -94,7 +94,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             <Form.Input
               label=''
               type='text'
-              placeholder='Result'
+              placeholder={row?.result}
               maxLength={50}
               pattern={FormHelper.patterns.decimalPatterm}
               className={
@@ -105,6 +105,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
                 onChange(Number.parseFloat(result).toFixed(row?.picture || 0));
                 onSelect({
                   result: Number.parseFloat(result).toFixed(row?.picture || 0),
+                  numeric: result,
                 });
               }}
             />
@@ -121,8 +122,8 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
           onChange={e => {
             const defaultItem = JSON.parse(e.target.value);
             onSelect({
-              result: defaultItem.result,
-              alpha: defaultItem.possibleValue,
+              result: defaultItem.possibleValue,
+              alpha: defaultItem.result,
               abnFlag: defaultItem.abNormal,
               critical: defaultItem.critical,
             });
@@ -151,7 +152,8 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
           onChange={e => {
             const item = JSON.parse(e.target.value);
             onSelect({
-              result: item.code,
+              result: item.description,
+              alpha: item?.code,
               abnFlag: item?.abNormal || false,
               critical: item?.critical || false,
             });
@@ -172,11 +174,14 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             <Form.MultilineInput
               rows={2}
               label=''
-              placeholder='Result'
+              placeholder={row?.result}
               hasError={!!errors.result}
               onBlur={result => {
                 onChange(result);
-                onSelect({result});
+                onSelect({
+                  result,
+                  alpha: `F - ${row._id}`,
+                });
               }}
             />
           )}
@@ -203,6 +208,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
                   result: JSON.stringify(
                     _.map(items, o => _.pick(o, ['code'])),
                   ),
+                  alpha: `M - ${row._id}`,
                 });
               }}
               onFilter={(value: string) => {

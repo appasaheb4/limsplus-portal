@@ -250,6 +250,7 @@ export const PatientOrder = PatientOrderHoc(
                                   'confidential',
                                   'reportTemplate',
                                   'bill',
+                                  'externalPanelCode',
                                 ]),
                               ),
                             });
@@ -274,6 +275,7 @@ export const PatientOrder = PatientOrderHoc(
                                           'panelName',
                                           'serviceType',
                                           'confidential',
+                                          'externalPanelCode',
                                         ]),
                                       ),
                                       visitId:

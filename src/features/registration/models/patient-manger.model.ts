@@ -1,5 +1,6 @@
 export class PatientManger {
   pId: number;
+  isPatientMobileNo: boolean;
   mobileNo: string;
   birthDate: Date;
   age: number;
@@ -14,7 +15,6 @@ export class PatientManger {
   breed: string | undefined | null;
   usualDoctor: string;
   history: boolean;
-
   extraData: {
     address: string;
     postcode: string;
@@ -39,6 +39,10 @@ export class PatientManger {
     fyiLine: string;
     balance: string;
     accountType: string;
+    externalPid: string;
+    diagnosis: string;
+    disease: string;
+    isVIP: boolean;
     enteredBy: string;
     status: string;
     environment: string;
@@ -49,6 +53,7 @@ export class PatientManger {
 
   constructor(rawData: {[key in string]: any}) {
     this.pId = rawData.pId;
+    this.isPatientMobileNo = rawData.isPatientMobileNo;
     this.mobileNo = rawData.mobileNo;
     this.birthDate = rawData.birthDate;
     this.age = rawData.age;

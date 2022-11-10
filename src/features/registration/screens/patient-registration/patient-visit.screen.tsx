@@ -987,6 +987,63 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <>
+                      <Form.Input
+                        label='External Lab Id'
+                        placeholder='External Lab Id'
+                        hasError={!!errors.externalLabId}
+                        value={
+                          patientVisitStore.patientVisit.extraData
+                            ?.externalLabId
+                        }
+                        onChange={externalLabId => {
+                          onChange(externalLabId);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            extraData: {
+                              ...patientVisitStore.patientVisit.extraData,
+                              externalLabId,
+                            },
+                          });
+                        }}
+                      />
+                    </>
+                  )}
+                  name='externalLabId'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <>
+                      <Form.Input
+                        label='Employee Code'
+                        placeholder='Employee Code'
+                        hasError={!!errors.employeeCode}
+                        value={
+                          patientVisitStore.patientVisit.extraData?.employeeCode
+                        }
+                        onChange={employeeCode => {
+                          onChange(employeeCode);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            extraData: {
+                              ...patientVisitStore.patientVisit.extraData,
+                              employeeCode,
+                            },
+                          });
+                        }}
+                      />
+                    </>
+                  )}
+                  name='employeeCode'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
                 <Grid cols={4}>
                   <Controller
                     control={control}
@@ -2081,6 +2138,15 @@ export const PatientVisit = PatientVisitHoc(
                 body: 'Update recoard!',
               });
             }}
+            onUpdateFields={(fields: any, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: 'updateFields',
+                data: {fields, id},
+                title: 'Are you sure?',
+                body: 'Update records!',
+              });
+            }}
             onPageSizeChange={(page, limit) => {
               patientVisitStore.patientVisitService.listPatientVisit(
                 {documentType: 'patientVisit'},
@@ -2168,46 +2234,70 @@ export const PatientVisit = PatientVisitHoc(
           {...modalConfirm}
           click={(type?: string) => {
             setModalConfirm({show: false});
-            if (type === 'delete') {
-              patientVisitStore.patientVisitService
-                .deletePatientVisit({
-                  input: {
-                    id: modalConfirm.id,
-                    labId: modalConfirm.labId,
-                    __typename: undefined,
-                  },
-                })
-                .then((res: any) => {
-                  if (res.removePatientVisit.success) {
-                    Toast.success({
-                      message: `😊 ${res.removePatientVisit.message}`,
-                    });
-                    // patientVisitStore.patientVisitService.listPatientVisit({
-                    //   documentType: 'patientVisit',
-                    // });
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 1000);
-                  }
-                });
-            } else if (type === 'update') {
-              patientVisitStore.patientVisitService
-                .updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                })
-                .then((res: any) => {
-                  if (res.updatePatientVisit.success) {
-                    Toast.success({
-                      message: `😊 ${res.updatePatientVisit.message}`,
-                    });
-                    patientVisitStore.patientVisitService.listPatientVisit({
-                      documentType: 'patientVisit',
-                    });
-                  }
-                });
+            switch (type) {
+              case 'delete': {
+                patientVisitStore.patientVisitService
+                  .deletePatientVisit({
+                    input: {
+                      id: modalConfirm.id,
+                      labId: modalConfirm.labId,
+                      __typename: undefined,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.removePatientVisit.success) {
+                      Toast.success({
+                        message: `😊 ${res.removePatientVisit.message}`,
+                      });
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 1000);
+                    }
+                  });
+
+                break;
+              }
+              case 'update': {
+                patientVisitStore.patientVisitService
+                  .updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updatePatientVisit.success) {
+                      Toast.success({
+                        message: `😊 ${res.updatePatientVisit.message}`,
+                      });
+                      patientVisitStore.patientVisitService.listPatientVisit({
+                        documentType: 'patientVisit',
+                      });
+                    }
+                  });
+
+                break;
+              }
+              case 'updateFields': {
+                patientVisitStore.patientVisitService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fields,
+                      _id: modalConfirm.data.id,
+                    },
+                  })
+                  .then((res: any) => {
+                    if (res.updatePatientVisit.success) {
+                      Toast.success({
+                        message: `😊 ${res.updatePatientVisit.message}`,
+                      });
+                      patientVisitStore.patientVisitService.listPatientVisit({
+                        documentType: 'patientVisit',
+                      });
+                    }
+                  });
+                break;
+              }
             }
           }}
           onClose={() => setModalConfirm({show: false})}

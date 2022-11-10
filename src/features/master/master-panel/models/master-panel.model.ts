@@ -56,6 +56,7 @@ export class MasterPanel {
   externalComments: string;
   panelBottomMarker: object;
   panelRightMarker: string;
+  externalPanelCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -118,6 +119,7 @@ export class MasterPanel {
     this.externalComments = rawData.externalComments;
     this.panelBottomMarker = rawData.panelBottomMarker;
     this.panelRightMarker = rawData.panelRightMarker;
+    this.externalPanelCode = rawData.externalPanelCode;
     this.status = rawData.status;
     this.serviceType = rawData.serviceType;
     this.interpretation = rawData.interpretation;

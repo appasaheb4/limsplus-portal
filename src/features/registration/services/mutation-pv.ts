@@ -75,6 +75,8 @@ export const LIST_PATIENT_VISIT = gql`
           submittedSystem
           submittedOn
           balance
+          externalLabId
+          employeeCode
           environment
         }
         documentType
@@ -188,6 +190,8 @@ export const FILTER_PATIENT_VISIT = gql`
           submittedSystem
           submittedOn
           balance
+          externalLabId
+          employeeCode
           environment
         }
         documentType
@@ -304,6 +308,8 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
           submittedSystem
           submittedOn
           balance
+          externalLabId
+          employeeCode
           environment
         }
         documentType

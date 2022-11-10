@@ -38,6 +38,7 @@ export class PatientOrder {
       approvalDate: Date;
       approvalStatus: string;
       autoRelease: string;
+      externalPanelCode: string;
       extraData: {
         priority: string;
         outsourceLab: string;

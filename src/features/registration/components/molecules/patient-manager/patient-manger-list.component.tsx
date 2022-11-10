@@ -94,6 +94,38 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               editable: false,
             },
             {
+              dataField: 'isPatientMobileNo',
+              text: 'Patient Mobile No',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.isPatientMobileNo
+                    ? row.isPatientMobileNo
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.isPatientMobileNo}
+                      onChange={isPatientMobileNo => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            isPatientMobileNo,
+                            'isPatientMobileNo',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'mobileNo',
               text: 'Mobile No',
               headerClasses: 'textHeader3',
@@ -329,7 +361,11 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sort: true,
               csvFormatter: (col, row) =>
                 `${
-                  row.history ? (row.isBirthdateAvailabe ? 'Yes' : 'No') : 'No'
+                  row.isBirthdateAvailabe
+                    ? row.isBirthdateAvailabe
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
                 }`,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
