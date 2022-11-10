@@ -49,6 +49,7 @@ export const AutoCompleteFilterSingleSelectDoctorId = observer(
           type: 'filter',
           filter: {
             doctorCode: value,
+            doctorName: value,
           },
           page: 0,
           limit: 10,
@@ -79,7 +80,7 @@ export const AutoCompleteFilterSingleSelectDoctorId = observer(
             }
           >
             <input
-              placeholder='Search By Corporate Code ....'
+              placeholder='Search By doctorId or doctor name ....'
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
@@ -115,7 +116,7 @@ export const AutoCompleteFilterSingleSelectDoctorId = observer(
                           {' '}
                           <label className='ml-2 mt-1 text-black'>
                             {' '}
-                            {item.doctorCode}
+                            {`${item.doctorCode} - ${item.doctorName}`}
                           </label>
                         </li>
                       </>

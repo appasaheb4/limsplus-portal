@@ -1599,6 +1599,27 @@ const MasterPanel = MasterPanelHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
+                    <Form.Input
+                      label='External Panel Code'
+                      placeholder='External Panel Code'
+                      hasError={!!errors.externalPanelCode}
+                      value={masterPanelStore.masterPanel?.externalPanelCode}
+                      onChange={externalPanelCode => {
+                        onChange(externalPanelCode);
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          externalPanelCode,
+                        });
+                      }}
+                    />
+                  )}
+                  name='externalPanelCode'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}

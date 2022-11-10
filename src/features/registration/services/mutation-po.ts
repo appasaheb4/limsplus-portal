@@ -47,6 +47,7 @@ export const LIST_PATIENT_ORDER = gql`
           approvalDate
           approvalStatus
           autoRelease
+          externalPanelCode
           extraData {
             priority
             outsourceLab
@@ -159,6 +160,7 @@ export const FILTER_PATIENT_ORDER = gql`
           approvalDate
           approvalStatus
           autoRelease
+          externalPanelCode
           extraData {
             priority
             outsourceLab
@@ -263,6 +265,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
           approvalDate
           approvalStatus
           autoRelease
+          externalPanelCode
           extraData {
             priority
             outsourceLab

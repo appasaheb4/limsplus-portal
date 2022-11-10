@@ -193,59 +193,85 @@ export const PatientManager = PatientManagerHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Mobile No'
-                      placeholder={
-                        errors.txtMobileNo
-                          ? 'Please Enter MobileNo'
-                          : 'Mobile No'
-                      }
-                      hasError={!!errors.txtMobileNo}
-                      type='number'
-                      pattern={FormHelper.patterns.mobileNo}
-                      value={patientManagerStore.patientManger?.mobileNo}
-                      onChange={mobileNo => {
-                        onChange(mobileNo);
-                        patientManagerStore.updatePatientManager({
-                          ...patientManagerStore.patientManger,
-                          mobileNo,
-                        });
-                      }}
-                      onBlur={mobileNo => {
-                        patientManagerStore.patientManagerService
-                          .checkExistsPatient({
-                            input: {
-                              firstName:
-                                patientManagerStore.patientManger?.firstName,
-                              lastName:
-                                patientManagerStore.patientManger?.lastName,
-                              mobileNo,
-                              birthDate:
-                                patientManagerStore.patientManger?.birthDate,
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkExistsPatientManager.success) {
-                              patientManagerStore.updateExistsPatient(true);
-                              Toast.error({
-                                message: `😔 ${res.checkExistsPatientManager.message}`,
-                              });
-                            } else
-                              patientManagerStore.updateExistsPatient(false);
+                <div className='flex flex-row gap-4'>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Patient Mobile Number'
+                        hasError={!!errors.isPatientMobileNo}
+                        value={
+                          patientManagerStore.patientManger?.isPatientMobileNo
+                        }
+                        onChange={isPatientMobileNo => {
+                          onChange(isPatientMobileNo);
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            isPatientMobileNo,
                           });
-                      }}
-                    />
-                  )}
-                  name='txtMobileNo'
-                  rules={{
-                    required: true,
-                    pattern: FormHelper.patterns.mobileNo,
-                  }}
-                  defaultValue=''
-                />
+                        }}
+                      />
+                    )}
+                    name='isPatientMobileNo'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Input
+                        label='Mobile No'
+                        placeholder={
+                          errors.txtMobileNo
+                            ? 'Please Enter MobileNo'
+                            : 'Mobile No'
+                        }
+                        hasError={!!errors.txtMobileNo}
+                        type='number'
+                        className='w-full'
+                        pattern={FormHelper.patterns.mobileNo}
+                        value={patientManagerStore.patientManger?.mobileNo}
+                        onChange={mobileNo => {
+                          onChange(mobileNo);
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            mobileNo,
+                          });
+                        }}
+                        onBlur={mobileNo => {
+                          patientManagerStore.patientManagerService
+                            .checkExistsPatient({
+                              input: {
+                                firstName:
+                                  patientManagerStore.patientManger?.firstName,
+                                lastName:
+                                  patientManagerStore.patientManger?.lastName,
+                                mobileNo,
+                                birthDate:
+                                  patientManagerStore.patientManger?.birthDate,
+                              },
+                            })
+                            .then(res => {
+                              if (res.checkExistsPatientManager.success) {
+                                patientManagerStore.updateExistsPatient(true);
+                                Toast.error({
+                                  message: `😔 ${res.checkExistsPatientManager.message}`,
+                                });
+                              } else
+                                patientManagerStore.updateExistsPatient(false);
+                            });
+                        }}
+                      />
+                    )}
+                    name='txtMobileNo'
+                    rules={{
+                      required: true,
+                      pattern: FormHelper.patterns.mobileNo,
+                    }}
+                    defaultValue=''
+                  />
+                </div>
+
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -1264,6 +1290,108 @@ export const PatientManager = PatientManagerHoc(
                           control={control}
                           render={({field: {onChange}}) => (
                             <Form.Input
+                              label='External Pid'
+                              placeholder='External Pid'
+                              hasError={!!errors.externalPid}
+                              value={
+                                patientManagerStore.patientManger?.extraData
+                                  ?.externalPid
+                              }
+                              onChange={externalPid => {
+                                onChange(externalPid);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    externalPid,
+                                  },
+                                });
+                              }}
+                            />
+                          )}
+                          name='externalPid'
+                          rules={{required: false}}
+                          defaultValue=''
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.MultilineInput
+                              rows={2}
+                              label='Diagnosis'
+                              placeholder='Diagnosis'
+                              hasError={!!errors.diagnosis}
+                              value={
+                                patientManagerStore.patientManger?.extraData
+                                  ?.diagnosis
+                              }
+                              onChange={diagnosis => {
+                                onChange(diagnosis);
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  extraData: {
+                                    ...patientManagerStore.patientManger
+                                      ?.extraData,
+                                    diagnosis,
+                                  },
+                                });
+                              }}
+                            />
+                          )}
+                          name='diagnosis'
+                          rules={{required: false}}
+                          defaultValue=''
+                        />
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.InputWrapper label='Disease'>
+                              <select
+                                value={
+                                  patientManagerStore.patientManger.extraData
+                                    ?.disease
+                                }
+                                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                                  errors.disease
+                                    ? 'border-red-500  '
+                                    : 'border-gray-300'
+                                } rounded-md`}
+                                onChange={e => {
+                                  const disease = e.target.value;
+                                  onChange(disease);
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    extraData: {
+                                      ...patientManagerStore.patientManger
+                                        ?.extraData,
+                                      disease,
+                                    },
+                                  });
+                                }}
+                              >
+                                <option selected>Select</option>
+                                {lookupItems(
+                                  routerStore.lookupItems,
+                                  'PATIENT MANAGER - DISEASE',
+                                ).map((item: any, index: number) => (
+                                  <option key={index} value={item.code}>
+                                    {lookupValue(item)}
+                                  </option>
+                                ))}
+                              </select>
+                            </Form.InputWrapper>
+                          )}
+                          name='disease'
+                          rules={{required: false}}
+                          defaultValue=''
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
                               label='Entered By'
                               placeholder={
                                 errors.enteredBy
@@ -1462,6 +1590,33 @@ export const PatientManager = PatientManagerHoc(
                               />
                             )}
                             name='permanent'
+                            rules={{required: false}}
+                            defaultValue=''
+                          />
+                          <Controller
+                            control={control}
+                            render={({field: {onChange}}) => (
+                              <Form.Toggle
+                                label='VIP'
+                                hasError={!!errors.isVIP}
+                                value={
+                                  patientManagerStore.patientManger?.extraData
+                                    ?.isVIP
+                                }
+                                onChange={isVIP => {
+                                  onChange(isVIP);
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    extraData: {
+                                      ...patientManagerStore.patientManger
+                                        ?.extraData,
+                                      isVIP,
+                                    },
+                                  });
+                                }}
+                              />
+                            )}
+                            name='isVIP'
                             rules={{required: false}}
                             defaultValue=''
                           />

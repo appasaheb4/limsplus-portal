@@ -692,6 +692,17 @@ export const PatientOrderExpand = ({
                 );
               },
             },
+            {
+              dataField: 'externalPanelCode',
+              text: 'External Panel Code',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <span>{row.externalPanelCode}</span>
+                  </>
+                );
+              },
+            },
           ]}
           onSelectedRow={rows => {}}
           onUpdateItem={(value: any, dataField: string, id: string) => {}}

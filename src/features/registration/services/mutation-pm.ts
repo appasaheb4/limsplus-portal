@@ -11,6 +11,7 @@ export const LIST_PATIENT_MANAGER = gql`
       data {
         _id
         pId
+        isPatientMobileNo
         mobileNo
         birthDate
         age
@@ -99,6 +100,7 @@ export const FILTER_PATIENT_MANAGER = gql`
       data {
         _id
         pId
+        isPatientMobileNo
         mobileNo
         birthDate
         age
@@ -179,6 +181,7 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
       data {
         _id
         pId
+        isPatientMobileNo
         mobileNo
         birthDate
         age

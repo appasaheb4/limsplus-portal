@@ -18,6 +18,11 @@ export class PatientManagerStore {
       ...this.patientManger,
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
+      isPatientMobileNo: true,
+      extraData: {
+        ...this.patientManger?.extraData,
+        isVIP: false,
+      },
     };
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,

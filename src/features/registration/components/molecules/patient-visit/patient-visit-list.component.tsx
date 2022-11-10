@@ -33,6 +33,7 @@ interface PatientVisitProps {
   onDelete?: (selectedItem: DeleteExtraParams) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateFields?: (fileds: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -569,6 +570,91 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               editable: false,
             },
             {
+              dataField: 'isNewDoctor',
+              text: 'New Doctor',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row.isNewDoctor ? (row.isNewDoctor ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.isNewDoctor}
+                      onChange={isNewDoctor => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            isNewDoctor,
+                            'isNewDoctor',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'doctorId',
+              text: 'Doctor Id',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  doctorId = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.isNewDoctor ? false : true,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterSingleSelectDoctorId
+                    onSelect={item => {
+                      props.onUpdateFields &&
+                        props.onUpdateFields(
+                          {
+                            doctorId: item.doctorCode,
+                            doctorName: item.doctorName,
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'doctorName',
+              text: 'Doctor Name',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  doctorName = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.isNewDoctor ? true : false,
+            },
+            {
+              dataField: 'doctorMobileNo',
+              text: 'Doctor Mobile Number',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.isNewDoctor ? true : false,
+            },
+            {
               dataField: 'miscellaneousCharges',
               text: 'Miscellaneous Charges',
               sort: true,
@@ -617,76 +703,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 );
               },
             },
-            {
-              dataField: 'doctorId',
-              text: 'Doctor Id',
-              headerClasses: 'textHeader3',
-              sort: true,
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  doctorId = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectDoctorId
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.doctorCode,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: 'doctorName',
-              text: 'Doctor Name',
-              headerClasses: 'textHeader3',
-              sort: true,
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  doctorName = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterSingleSelectDoctorName
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.doctorName,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
-            },
+
             {
               dataField: 'reportType',
               text: 'Report Type',

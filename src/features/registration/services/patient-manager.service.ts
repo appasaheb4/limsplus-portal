@@ -135,7 +135,7 @@ export class PatientManagerService {
         .then((response: any) => {
           stores.patientManagerStore.updatePatientManager({
             ...stores.patientManagerStore.patientManger,
-            pId: response.data.counter.data[0]?.seq + 1 || 1,
+            pId: response.data.counter.data[0]?.seq + 1 || 1_000_000_000,
           });
           resolve(response.data);
         })

@@ -1451,6 +1451,15 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 editorCell(row),
             },
             {
+              dataField: 'externalPanelCode',
+              text: 'External Panel Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader1',
