@@ -25,6 +25,7 @@ export class CorporateClientsStore {
       confidential: false,
       urgent: false,
       priceList: [{id: 0, maxDis: 0}],
+      isEmployeeCode: false,
     };
 
     makeObservable<CorporateClientsStore, any>(this, {

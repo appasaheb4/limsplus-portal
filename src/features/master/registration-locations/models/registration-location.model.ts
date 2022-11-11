@@ -41,6 +41,8 @@ export class RegistrationLocations {
   neverBill: boolean;
   reportFormat: boolean;
   gstNo: string;
+  isPrintPrimaryBarcod: boolean;
+  isPrintSecondaryBarcode: boolean;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -98,6 +100,8 @@ export class RegistrationLocations {
     this.acClass = rawData.acClass;
     this.accountType = rawData.accountType;
     this.gstNo = rawData.gstNo;
+    this.isPrintPrimaryBarcod = rawData.isPrintPrimaryBarcod;
+    this.isPrintSecondaryBarcode = rawData.isPrintSecondaryBarcode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

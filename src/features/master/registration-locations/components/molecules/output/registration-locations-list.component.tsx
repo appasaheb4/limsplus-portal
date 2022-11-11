@@ -1080,6 +1080,72 @@ export const RegistrationLocationsList = (
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
+            dataField: 'isPrintPrimaryBarcod',
+            text: 'Print Primary Barcod',
+            sort: true,
+            csvFormatter: (col, row) =>
+              `${
+                row.isPrintPrimaryBarcod
+                  ? row.isPrintPrimaryBarcod
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
+              }`,
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {' '}
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.isPrintPrimaryBarcod}
+                    onChange={isPrintPrimaryBarcod => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          isPrintPrimaryBarcod,
+                          'isPrintPrimaryBarcod',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
+          {
+            dataField: 'isPrintSecondaryBarcode',
+            text: 'Print Secondary Barcode',
+            sort: true,
+            csvFormatter: (col, row) =>
+              `${
+                row.isPrintSecondaryBarcode
+                  ? row.isPrintSecondaryBarcode
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
+              }`,
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {' '}
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.isPrintSecondaryBarcode}
+                    onChange={isPrintSecondaryBarcode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          isPrintSecondaryBarcode,
+                          'isPrintSecondaryBarcode',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
+          {
             dataField: 'dateCreation',
             text: 'Date Creation',
             headerClasses: 'textHeader7',

@@ -19,10 +19,8 @@ export class PatientManagerStore {
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
       isPatientMobileNo: true,
-      extraData: {
-        ...this.patientManger?.extraData,
-        isVIP: false,
-      },
+      isVIP: false,
+      isAddress: false,
     };
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,

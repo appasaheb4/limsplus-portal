@@ -15,6 +15,7 @@ export class PatientVisit {
   collectionCenterName: string;
   corporateCode: string;
   corporateName: string;
+  isEmployeeCode?: boolean;
   acClass: string;
   grossAmount: number;
   netAmount: number;
@@ -85,6 +86,7 @@ export class PatientVisit {
     this.collectionCenterName = rawData.collectionCenterName;
     this.corporateCode = rawData.corporateCode;
     this.corporateName = rawData.corporateName;
+    this.isEmployeeCode = rawData.isEmployeeCode;
     this.acClass = rawData.acClass;
     this.grossAmount = rawData.grossAmount;
     this.netAmount = rawData.netAmount;

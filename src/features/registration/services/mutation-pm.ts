@@ -26,6 +26,9 @@ export const LIST_PATIENT_MANAGER = gql`
         breed
         usualDoctor
         history
+        diagnosis
+        disease
+        isVIP
         extraData {
           address
           postcode
@@ -38,7 +41,6 @@ export const LIST_PATIENT_MANAGER = gql`
           isMobileAndWhatsApp
           whatsappNumber
           permanent
-          vip
           confidental
           photograph
           signature
@@ -115,6 +117,9 @@ export const FILTER_PATIENT_MANAGER = gql`
         breed
         usualDoctor
         history
+        diagnosis
+        disease
+        isVIP
         extraData {
           address
           postcode
@@ -127,7 +132,6 @@ export const FILTER_PATIENT_MANAGER = gql`
           isMobileAndWhatsApp
           whatsappNumber
           permanent
-          vip
           confidental
           photograph
           signature
@@ -196,6 +200,9 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
         breed
         usualDoctor
         history
+        diagnosis
+        disease
+        isVIP
         extraData {
           address
           postcode
@@ -208,7 +215,6 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
           isMobileAndWhatsApp
           whatsappNumber
           permanent
-          vip
           confidental
           photograph
           signature

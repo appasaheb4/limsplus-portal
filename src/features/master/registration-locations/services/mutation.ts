@@ -53,6 +53,8 @@ export const LIST = gql`
         acClass
         accountType
         gstNo
+        isPrintPrimaryBarcod
+        isPrintSecondaryBarcode
         openingTime
         closingTime
         status
@@ -171,6 +173,8 @@ export const FILTER = gql`
         acClass
         accountType
         gstNo
+        isPrintPrimaryBarcod
+        isPrintSecondaryBarcode
         openingTime
         closingTime
         status
@@ -235,6 +239,8 @@ export const FILTER_BY_FIELDS = gql`
         acClass
         accountType
         gstNo
+        isPrintPrimaryBarcod
+        isPrintSecondaryBarcode
         openingTime
         closingTime
         status

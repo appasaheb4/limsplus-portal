@@ -26,6 +26,7 @@ export const LIST_PATIENT_VISIT = gql`
         collectionCenterName
         corporateCode
         corporateName
+        isEmployeeCode
         acClass
         grossAmount
         netAmount
@@ -141,6 +142,7 @@ export const FILTER_PATIENT_VISIT = gql`
         collectionCenterName
         corporateCode
         corporateName
+        isEmployeeCode
         acClass
         grossAmount
         netAmount
@@ -259,6 +261,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         collectionCenterName
         corporateCode
         corporateName
+        isEmployeeCode
         acClass
         grossAmount
         netAmount

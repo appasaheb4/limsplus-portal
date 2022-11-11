@@ -1100,7 +1100,7 @@ const CorporateClients = CorporateClientsHoc(
                   defaultValue=''
                 />
 
-                <Grid cols={5}>
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
@@ -1162,6 +1162,28 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='reportFormat'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Employee Code'
+                        hasError={!!errors.isEmployeeCode}
+                        value={
+                          corporateClientsStore.corporateClients?.isEmployeeCode
+                        }
+                        onChange={isEmployeeCode => {
+                          onChange(isEmployeeCode);
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            isEmployeeCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isEmployeeCode'
                     rules={{required: false}}
                     defaultValue=''
                   />

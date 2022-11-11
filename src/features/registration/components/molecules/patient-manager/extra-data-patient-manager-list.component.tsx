@@ -427,57 +427,7 @@ export const ExtraDataPatientManagerList = observer(
                 },
                 editable: false,
               },
-              {
-                dataField: 'diagnosis',
-                text: 'Diagnosis',
-                headerClasses: 'textHeader3',
-                sort: true,
-                csvFormatter: (col, row) =>
-                  row.extraData?.diagnosis ? row.extraData?.diagnosis : '',
-                formatter: (cell, row) => {
-                  return <span>{row.extraData?.diagnosis}</span>;
-                },
-                editable: false,
-              },
-              {
-                dataField: 'disease',
-                text: 'Disease',
-                headerClasses: 'textHeader3',
-                sort: true,
-                csvFormatter: (col, row) =>
-                  row.extraData?.disease ? row.extraData?.disease : '',
-                formatter: (cell, row) => {
-                  return <span>{row.extraData?.disease}</span>;
-                },
-                editable: false,
-              },
-              {
-                dataField: 'vip',
-                text: 'VIP',
-                sort: true,
-                csvFormatter: (col, row) =>
-                  `${
-                    row.extraData?.vip
-                      ? row.extraData?.vip
-                        ? 'Yes'
-                        : 'No'
-                      : 'No'
-                  }`,
-                formatter: (cell, row) => {
-                  return (
-                    <>
-                      <Form.Toggle
-                        value={row.extraData.vip}
-                        disabled={true}
-                        onChange={vip => {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(vip, 'vip', row._id);
-                        }}
-                      />
-                    </>
-                  );
-                },
-              },
+
               {
                 dataField: 'enteredBy',
                 text: 'Entered By',

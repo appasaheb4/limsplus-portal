@@ -671,6 +671,32 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 editorCell(row),
             },
             {
+              dataField: 'diagnosis',
+              text: 'Diagnosis',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) =>
+                row.extraData?.diagnosis ? row.extraData?.diagnosis : '',
+              formatter: (cell, row) => {
+                return <span>{row.extraData?.diagnosis}</span>;
+              },
+              editable: (content, row, rowIndex, columnIndex) =>
+                row?.history ? true : false,
+            },
+            {
+              dataField: 'disease',
+              text: 'Disease',
+              headerClasses: 'textHeader3',
+              sort: true,
+              csvFormatter: (col, row) =>
+                row.extraData?.disease ? row.extraData?.disease : '',
+              formatter: (cell, row) => {
+                return <span>{row.extraData?.disease}</span>;
+              },
+              editable: (content, row, rowIndex, columnIndex) =>
+                row?.history ? true : false,
+            },
+            {
               dataField: 'history',
               text: 'Histroy',
               sort: true,
@@ -686,6 +712,26 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                       onChange={history => {
                         props.onUpdateItem &&
                           props.onUpdateItem(history, 'history', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'isVIP',
+              text: 'VIP',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row?.isVIP ? (row?.isVIP ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row?.isVIP}
+                      onChange={isVIP => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(isVIP, 'isVIP', row._id);
                       }}
                     />
                   </>

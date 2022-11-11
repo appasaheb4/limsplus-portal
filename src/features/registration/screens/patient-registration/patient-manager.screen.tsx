@@ -734,26 +734,358 @@ export const PatientManager = PatientManagerHoc(
                   />
                 )}
 
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Toggle
-                      label='History'
-                      hasError={!!errors.history}
-                      value={patientManagerStore.patientManger?.history}
-                      onChange={history => {
-                        onChange(history);
-                        patientManagerStore.updatePatientManager({
-                          ...patientManagerStore.patientManger,
-                          history,
-                        });
-                      }}
+                {patientManagerStore.patientManger?.history && (
+                  <>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.MultilineInput
+                          rows={2}
+                          label='Diagnosis'
+                          placeholder='Diagnosis'
+                          hasError={!!errors.diagnosis}
+                          value={patientManagerStore.patientManger?.diagnosis}
+                          onChange={diagnosis => {
+                            onChange(diagnosis);
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              diagnosis,
+                            });
+                          }}
+                        />
+                      )}
+                      name='diagnosis'
+                      rules={{required: false}}
+                      defaultValue=''
                     />
-                  )}
-                  name='history'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.InputWrapper label='Disease'>
+                          <select
+                            value={patientManagerStore.patientManger?.disease}
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.disease
+                                ? 'border-red-500  '
+                                : 'border-gray-300'
+                            } rounded-md`}
+                            onChange={e => {
+                              const disease = e.target.value;
+                              onChange(disease);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                disease,
+                              });
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'PATIENT MANAGER - DISEASE',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name='disease'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                  </>
+                )}
+                {patientManagerStore.patientManger?.isAddress && (
+                  <>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.InputWrapper
+                          label='Postal Code'
+                          id='postalCode'
+                          hasError={!!errors.postalCode}
+                        >
+                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                            data={{
+                              list: labStore.addressDetails,
+                              displayKey: [
+                                'Name',
+                                'Block',
+                                'District',
+                                'State',
+                                'Country',
+                                'Pincode',
+                              ],
+                            }}
+                            hasError={!!errors.postalCode}
+                            onFilter={(value: string) => {
+                              if (value?.length == 6) {
+                                labStore.LabService?.getAddressDetailsByPincode(
+                                  value,
+                                );
+                              }
+                            }}
+                            onSelect={item => {
+                              onChange(item.Pincode);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                extraData: {
+                                  ...patientManagerStore.patientManger
+                                    ?.extraData,
+                                  country: item?.Country?.toUpperCase(),
+                                  state: item?.State?.toUpperCase(),
+                                  district: item?.District?.toUpperCase(),
+                                  city: item?.Block?.toUpperCase(),
+                                  area: item?.Name?.toUpperCase(),
+                                  postcode: item.Pincode,
+                                },
+                              });
+                            }}
+                          />
+                        </Form.InputWrapper>
+                      )}
+                      name='postalCode'
+                      rules={{required: false}}
+                      defaultValue={patientManagerStore.patientManger}
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Input
+                          label='Country'
+                          hasError={!!errors.country}
+                          placeholder='Country'
+                          value={
+                            patientManagerStore.patientManger?.extraData
+                              ?.country
+                          }
+                          disabled={true}
+                          onChange={country => {
+                            onChange(country);
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                country,
+                              },
+                            });
+                          }}
+                        />
+                      )}
+                      name='country'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Input
+                          label='State'
+                          hasError={!!errors.state}
+                          placeholder='State'
+                          value={
+                            patientManagerStore.patientManger?.extraData?.state
+                          }
+                          disabled={true}
+                          onChange={state => {
+                            onChange(state);
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                state,
+                              },
+                            });
+                          }}
+                        />
+                      )}
+                      name='state'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Input
+                          label='District'
+                          hasError={!!errors.district}
+                          placeholder='District'
+                          value={
+                            patientManagerStore.patientManger?.extraData
+                              ?.district
+                          }
+                          disabled={true}
+                          onChange={district => {
+                            onChange(district);
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                district,
+                              },
+                            });
+                          }}
+                        />
+                      )}
+                      name='district'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Input
+                          label='City'
+                          hasError={!!errors.city}
+                          placeholder='City'
+                          value={
+                            patientManagerStore.patientManger?.extraData?.city
+                          }
+                          disabled={true}
+                          onChange={city => {
+                            onChange(city);
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                city,
+                              },
+                            });
+                          }}
+                        />
+                      )}
+                      name='city'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.Input
+                          label='Area'
+                          hasError={!!errors.area}
+                          placeholder='Area'
+                          value={
+                            patientManagerStore.patientManger?.extraData?.area
+                          }
+                          disabled={true}
+                          onChange={area => {
+                            onChange(area);
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                area,
+                              },
+                            });
+                          }}
+                        />
+                      )}
+                      name='area'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({field: {onChange}}) => (
+                        <Form.MultilineInput
+                          rows={2}
+                          label='Address'
+                          placeholder={
+                            errors.address ? 'Please Enter Address' : 'Address'
+                          }
+                          hasError={!!errors.address}
+                          value={
+                            patientManagerStore.patientManger?.extraData
+                              ?.address
+                          }
+                          onChange={address => {
+                            onChange(address);
+                            patientManagerStore.updatePatientManager({
+                              ...patientManagerStore.patientManger,
+                              extraData: {
+                                ...patientManagerStore.patientManger?.extraData,
+                                address,
+                              },
+                            });
+                          }}
+                        />
+                      )}
+                      name='address'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                  </>
+                )}
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='History'
+                        hasError={!!errors.history}
+                        value={patientManagerStore.patientManger?.history}
+                        onChange={history => {
+                          onChange(history);
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            history,
+                          });
+                        }}
+                      />
+                    )}
+                    name='history'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='VIP'
+                        hasError={!!errors.isVIP}
+                        value={patientManagerStore.patientManger?.isVIP}
+                        onChange={isVIP => {
+                          onChange(isVIP);
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            isVIP,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isVIP'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Address'
+                        hasError={!!errors.isAddress}
+                        value={patientManagerStore.patientManger?.isAddress}
+                        onChange={isAddress => {
+                          onChange(isAddress);
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            isAddress,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isAddress'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
               </List>
             </Grid>
           </div>
@@ -769,241 +1101,6 @@ export const PatientManager = PatientManagerHoc(
                   <>
                     <Grid cols={2}>
                       <List direction='col' space={4} justify='stretch' fill>
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.InputWrapper
-                              label='Postal Code'
-                              id='postalCode'
-                              hasError={!!errors.postalCode}
-                            >
-                              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                                data={{
-                                  list: labStore.addressDetails,
-                                  displayKey: [
-                                    'Name',
-                                    'Block',
-                                    'District',
-                                    'State',
-                                    'Country',
-                                    'Pincode',
-                                  ],
-                                }}
-                                hasError={!!errors.postalCode}
-                                onFilter={(value: string) => {
-                                  if (value?.length == 6) {
-                                    labStore.LabService?.getAddressDetailsByPincode(
-                                      value,
-                                    );
-                                  }
-                                }}
-                                onSelect={item => {
-                                  onChange(item.Pincode);
-                                  patientManagerStore.updatePatientManager({
-                                    ...patientManagerStore.patientManger,
-                                    extraData: {
-                                      ...patientManagerStore.patientManger
-                                        ?.extraData,
-                                      country: item?.Country?.toUpperCase(),
-                                      state: item?.State?.toUpperCase(),
-                                      district: item?.District?.toUpperCase(),
-                                      city: item?.Block?.toUpperCase(),
-                                      area: item?.Name?.toUpperCase(),
-                                      postcode: item.Pincode,
-                                    },
-                                  });
-                                }}
-                              />
-                            </Form.InputWrapper>
-                          )}
-                          name='postalCode'
-                          rules={{required: false}}
-                          defaultValue={patientManagerStore.patientManger}
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.Input
-                              label='Country'
-                              hasError={!!errors.country}
-                              placeholder='Country'
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.country
-                              }
-                              disabled={true}
-                              onChange={country => {
-                                onChange(country);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    country,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='country'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.Input
-                              label='State'
-                              hasError={!!errors.state}
-                              placeholder='State'
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.state
-                              }
-                              disabled={true}
-                              onChange={state => {
-                                onChange(state);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    state,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='state'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.Input
-                              label='District'
-                              hasError={!!errors.district}
-                              placeholder='District'
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.district
-                              }
-                              disabled={true}
-                              onChange={district => {
-                                onChange(district);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    district,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='district'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.Input
-                              label='City'
-                              hasError={!!errors.city}
-                              placeholder='City'
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.city
-                              }
-                              disabled={true}
-                              onChange={city => {
-                                onChange(city);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    city,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='city'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.Input
-                              label='Area'
-                              hasError={!!errors.area}
-                              placeholder='Area'
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.area
-                              }
-                              disabled={true}
-                              onChange={area => {
-                                onChange(area);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    area,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='area'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.MultilineInput
-                              rows={2}
-                              label='Address'
-                              placeholder={
-                                errors.address
-                                  ? 'Please Enter Address'
-                                  : 'Address'
-                              }
-                              hasError={!!errors.address}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.address
-                              }
-                              onChange={address => {
-                                onChange(address);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    address,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='address'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
@@ -1327,79 +1424,6 @@ export const PatientManager = PatientManagerHoc(
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
-                            <Form.MultilineInput
-                              rows={2}
-                              label='Diagnosis'
-                              placeholder='Diagnosis'
-                              hasError={!!errors.diagnosis}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.diagnosis
-                              }
-                              onChange={diagnosis => {
-                                onChange(diagnosis);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    diagnosis,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='diagnosis'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.InputWrapper label='Disease'>
-                              <select
-                                value={
-                                  patientManagerStore.patientManger.extraData
-                                    ?.disease
-                                }
-                                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                  errors.disease
-                                    ? 'border-red-500  '
-                                    : 'border-gray-300'
-                                } rounded-md`}
-                                onChange={e => {
-                                  const disease = e.target.value;
-                                  onChange(disease);
-                                  patientManagerStore.updatePatientManager({
-                                    ...patientManagerStore.patientManger,
-                                    extraData: {
-                                      ...patientManagerStore.patientManger
-                                        ?.extraData,
-                                      disease,
-                                    },
-                                  });
-                                }}
-                              >
-                                <option selected>Select</option>
-                                {lookupItems(
-                                  routerStore.lookupItems,
-                                  'PATIENT MANAGER - DISEASE',
-                                ).map((item: any, index: number) => (
-                                  <option key={index} value={item.code}>
-                                    {lookupValue(item)}
-                                  </option>
-                                ))}
-                              </select>
-                            </Form.InputWrapper>
-                          )}
-                          name='disease'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
                             <Form.Input
                               label='Entered By'
                               placeholder={
@@ -1599,33 +1623,6 @@ export const PatientManager = PatientManagerHoc(
                               />
                             )}
                             name='permanent'
-                            rules={{required: false}}
-                            defaultValue=''
-                          />
-                          <Controller
-                            control={control}
-                            render={({field: {onChange}}) => (
-                              <Form.Toggle
-                                label='VIP'
-                                hasError={!!errors.isVIP}
-                                value={
-                                  patientManagerStore.patientManger?.extraData
-                                    ?.isVIP
-                                }
-                                onChange={isVIP => {
-                                  onChange(isVIP);
-                                  patientManagerStore.updatePatientManager({
-                                    ...patientManagerStore.patientManger,
-                                    extraData: {
-                                      ...patientManagerStore.patientManger
-                                        ?.extraData,
-                                      isVIP,
-                                    },
-                                  });
-                                }}
-                              />
-                            )}
-                            name='isVIP'
                             rules={{required: false}}
                             defaultValue=''
                           />
