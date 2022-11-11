@@ -52,6 +52,7 @@ export const LIST = gql`
         info
         fyiLine
         workLine
+        isEmployeeCode
         status
         environment
         dateOfEntry
@@ -167,6 +168,7 @@ export const FILTER = gql`
         info
         fyiLine
         workLine
+        isEmployeeCode
         status
         environment
         dateOfEntry
@@ -227,6 +229,7 @@ export const FILTER_BY_FIELDS = gql`
         info
         fyiLine
         workLine
+        isEmployeeCode
         status
         environment
         dateOfEntry

@@ -444,28 +444,6 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: false}}
                   defaultValue={patientVisitStore.patientVisit?.ageUnits}
                 />
-                <Grid cols={4}>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='New Doctor'
-                        hasError={!!errors.isNewDoctor}
-                        value={patientVisitStore.patientVisit?.isNewDoctor}
-                        onChange={isNewDoctor => {
-                          onChange(isNewDoctor);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            isNewDoctor,
-                          });
-                        }}
-                      />
-                    )}
-                    name='isNewDoctor'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 {registrationLocationsStore.listRegistrationLocations && (
@@ -583,6 +561,7 @@ export const PatientVisit = PatientVisitHoc(
                             ...patientVisitStore.patientVisit,
                             corporateCode: item.corporateCode,
                             corporateName: item.corporateName,
+                            isEmployeeCode: item?.isEmployeeCode,
                             acClass: item?.acClass,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
@@ -600,6 +579,37 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: true}}
                   defaultValue={patientVisitStore.patientVisit?.corporateCode}
                 />
+                {patientVisitStore.patientVisit?.isEmployeeCode && (
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <>
+                        <Form.Input
+                          label='Employee Code'
+                          placeholder='Employee Code'
+                          hasError={!!errors.employeeCode}
+                          value={
+                            patientVisitStore.patientVisit.extraData
+                              ?.employeeCode
+                          }
+                          onChange={employeeCode => {
+                            onChange(employeeCode);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              extraData: {
+                                ...patientVisitStore.patientVisit.extraData,
+                                employeeCode,
+                              },
+                            });
+                          }}
+                        />
+                      </>
+                    )}
+                    name='employeeCode'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                )}
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -642,6 +652,26 @@ export const PatientVisit = PatientVisitHoc(
                   name='acClass'
                   rules={{required: true}}
                   defaultValue={patientVisitStore.patientVisit?.acClass}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.Toggle
+                      label='New Doctor'
+                      hasError={!!errors.isNewDoctor}
+                      value={patientVisitStore.patientVisit?.isNewDoctor}
+                      onChange={isNewDoctor => {
+                        onChange(isNewDoctor);
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          isNewDoctor,
+                        });
+                      }}
+                    />
+                  )}
+                  name='isNewDoctor'
+                  rules={{required: false}}
+                  defaultValue=''
                 />
                 {patientVisitStore.patientVisit.isNewDoctor ? (
                   <>
@@ -987,63 +1017,7 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <>
-                      <Form.Input
-                        label='External Lab Id'
-                        placeholder='External Lab Id'
-                        hasError={!!errors.externalLabId}
-                        value={
-                          patientVisitStore.patientVisit.extraData
-                            ?.externalLabId
-                        }
-                        onChange={externalLabId => {
-                          onChange(externalLabId);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            extraData: {
-                              ...patientVisitStore.patientVisit.extraData,
-                              externalLabId,
-                            },
-                          });
-                        }}
-                      />
-                    </>
-                  )}
-                  name='externalLabId'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <>
-                      <Form.Input
-                        label='Employee Code'
-                        placeholder='Employee Code'
-                        hasError={!!errors.employeeCode}
-                        value={
-                          patientVisitStore.patientVisit.extraData?.employeeCode
-                        }
-                        onChange={employeeCode => {
-                          onChange(employeeCode);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            extraData: {
-                              ...patientVisitStore.patientVisit.extraData,
-                              employeeCode,
-                            },
-                          });
-                        }}
-                      />
-                    </>
-                  )}
-                  name='employeeCode'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+
                 <Grid cols={4}>
                   <Controller
                     control={control}
@@ -1088,6 +1062,36 @@ export const PatientVisit = PatientVisitHoc(
                 </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <>
+                      <Form.Input
+                        label='External Lab Id'
+                        placeholder='External Lab Id'
+                        hasError={!!errors.externalLabId}
+                        value={
+                          patientVisitStore.patientVisit.extraData
+                            ?.externalLabId
+                        }
+                        onChange={externalLabId => {
+                          onChange(externalLabId);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            extraData: {
+                              ...patientVisitStore.patientVisit.extraData,
+                              externalLabId,
+                            },
+                          });
+                        }}
+                      />
+                    </>
+                  )}
+                  name='externalLabId'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+
                 {patientVisitStore.patientVisit && (
                   <Controller
                     control={control}

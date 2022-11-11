@@ -898,7 +898,35 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               );
             },
           },
-
+          {
+            dataField: 'isEmployeeCode',
+            text: 'Employee Code',
+            sort: true,
+            editable: false,
+            csvFormatter: (col, row) =>
+              `${
+                row.isEmployeeCode ? (row.isEmployeeCode ? 'Yes' : 'No') : 'No'
+              }`,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {' '}
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.isEmployeeCode}
+                    onChange={isEmployeeCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          isEmployeeCode,
+                          'isEmployeeCode',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
           {
             dataField: 'fyiLine',
             text: 'FYI Line',

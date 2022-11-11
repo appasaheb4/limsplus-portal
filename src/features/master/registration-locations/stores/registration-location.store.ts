@@ -28,6 +28,8 @@ export class RegistrationLocationsStore {
       neverBill: false,
       urgent: false,
       priceList: [{id: 0, maxDis: 0}],
+      isPrintPrimaryBarcod: false,
+      isPrintSecondaryBarcode: false,
     };
 
     makeObservable<RegistrationLocationsStore, any>(this, {

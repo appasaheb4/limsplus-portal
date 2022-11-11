@@ -1292,6 +1292,84 @@ const RegistrationLocation = RegistrationLocationHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Confidential'
+                        hasError={!!errors.confidential}
+                        value={
+                          registrationLocationsStore.registrationLocations
+                            ?.confidential
+                        }
+                        onChange={confidential => {
+                          onChange(confidential);
+                          registrationLocationsStore.updateRegistrationLocations(
+                            {
+                              ...registrationLocationsStore.registrationLocations,
+                              confidential,
+                            },
+                          );
+                        }}
+                      />
+                    )}
+                    name='confidential'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Print Primary Barcod'
+                        hasError={!!errors.isPrintPrimaryBarcod}
+                        value={
+                          registrationLocationsStore.registrationLocations
+                            ?.isPrintPrimaryBarcod
+                        }
+                        onChange={isPrintPrimaryBarcod => {
+                          onChange(isPrintPrimaryBarcod);
+                          registrationLocationsStore.updateRegistrationLocations(
+                            {
+                              ...registrationLocationsStore.registrationLocations,
+                              isPrintPrimaryBarcod,
+                            },
+                          );
+                        }}
+                      />
+                    )}
+                    name='isPrintPrimaryBarcod'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Print Secondary Barcode'
+                        hasError={!!errors.isPrintSecondaryBarcode}
+                        value={
+                          registrationLocationsStore.registrationLocations
+                            ?.isPrintSecondaryBarcode
+                        }
+                        onChange={isPrintSecondaryBarcode => {
+                          onChange(isPrintSecondaryBarcode);
+                          registrationLocationsStore.updateRegistrationLocations(
+                            {
+                              ...registrationLocationsStore.registrationLocations,
+                              isPrintSecondaryBarcode,
+                            },
+                          );
+                        }}
+                      />
+                    )}
+                    name='isPrintSecondaryBarcode'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
@@ -1622,32 +1700,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   defaultValue=''
                 />
 
-                <Grid cols={5}>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.Toggle
-                        label='Confidential'
-                        hasError={!!errors.confidential}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.confidential
-                        }
-                        onChange={confidential => {
-                          onChange(confidential);
-                          registrationLocationsStore.updateRegistrationLocations(
-                            {
-                              ...registrationLocationsStore.registrationLocations,
-                              confidential,
-                            },
-                          );
-                        }}
-                      />
-                    )}
-                    name='confidential'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (

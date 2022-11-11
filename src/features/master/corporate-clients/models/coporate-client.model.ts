@@ -38,6 +38,7 @@ export class CorporateClients {
   confidential: boolean;
   urgent: boolean;
   reportFormat: boolean;
+  isEmployeeCode: boolean;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -87,6 +88,7 @@ export class CorporateClients {
     this.confidential = rawData.confidential;
     this.urgent = rawData.urgent;
     this.reportFormat = rawData.reportFormat;
+    this.isEmployeeCode = rawData.isEmployeeCode;
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;
     this.dateExpire = rawData.dateExpire;

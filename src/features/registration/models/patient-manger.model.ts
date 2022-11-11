@@ -15,6 +15,10 @@ export class PatientManger {
   breed: string | undefined | null;
   usualDoctor: string;
   history: boolean;
+  diagnosis: string;
+  disease: string;
+  isVIP: boolean;
+  isAddress: boolean;
   extraData: {
     address: string;
     postcode: string;
@@ -40,9 +44,6 @@ export class PatientManger {
     balance: string;
     accountType: string;
     externalPid: string;
-    diagnosis: string;
-    disease: string;
-    isVIP: boolean;
     enteredBy: string;
     status: string;
     environment: string;
@@ -68,6 +69,10 @@ export class PatientManger {
     this.breed = rawData.breed;
     this.usualDoctor = rawData.usualDoctor;
     this.history = rawData.history;
+    this.diagnosis = rawData.diagnosis;
+    this.disease = rawData.disease;
+    this.isVIP = rawData.isVIP;
+    this.isAddress = rawData.isAddress;
     this.extraData = rawData.extraData;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
