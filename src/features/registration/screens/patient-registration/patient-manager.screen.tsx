@@ -436,10 +436,18 @@ export const PatientManager = PatientManagerHoc(
                         } rounded-md`}
                         onChange={e => {
                           const title = e.target.value;
+                          const sex = lookupItems(
+                            routerStore.lookupItems,
+                            'PATIENT MANAGER - SEX_BY_TITLE',
+                          )
+                            .find(item => item.code === title)
+                            ?.value?.split('-')[0];
                           onChange(title);
+                          if (sex) setValue('sex', sex);
                           patientManagerStore.updatePatientManager({
                             ...patientManagerStore.patientManger,
                             title,
+                            sex,
                           });
                         }}
                       >
@@ -592,6 +600,7 @@ export const PatientManager = PatientManagerHoc(
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sex ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
+                        value={patientManagerStore.patientManger?.sex}
                         onChange={e => {
                           const sex = e.target.value;
                           onChange(sex);
