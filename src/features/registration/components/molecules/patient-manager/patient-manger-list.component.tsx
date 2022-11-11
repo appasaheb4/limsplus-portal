@@ -415,8 +415,14 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     }
                     onChange={e => {
                       const title = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem(title, column.dataField, row._id);
+                      const sex = lookupItems(
+                        props.extraData?.lookupItems,
+                        'PATIENT MANAGER - SEX_BY_TITLE',
+                      )
+                        .find(item => item.code === title)
+                        ?.value?.split('-')[0];
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds({title, sex}, row._id);
                     }}
                   >
                     <option selected>Select</option>
