@@ -32,6 +32,7 @@ export class PatientVisit {
   history: boolean;
   holdReport: boolean;
   holdReason: string;
+  isPrintPrimaryBarcod: boolean;
   status: string;
   extraData: {
     accountType: string;
@@ -103,6 +104,7 @@ export class PatientVisit {
     this.history = rawData.history;
     this.holdReport = rawData.holdReport;
     this.holdReason = rawData.holdReason;
+    this.isPrintPrimaryBarcod = rawData.isPrintPrimaryBarcod;
     this.status = rawData.status;
     this.extraData = rawData.extraData;
     this.documentType = rawData.documentType;

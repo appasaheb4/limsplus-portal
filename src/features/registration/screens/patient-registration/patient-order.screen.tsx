@@ -60,6 +60,8 @@ export const PatientOrder = PatientOrderHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
     const [modalBarcodeLab, setModalBarcodeLab] = useState<any>();
+    const [isPrintPrimaryBarcod, setIsPrintPrimaryBarcod] =
+      useState<boolean>(false);
 
     useEffect(() => {
       const barCodeLabId = localStorage.getItem('barCodeLabId');
@@ -94,10 +96,11 @@ export const PatientOrder = PatientOrderHoc(
               Toast.success({
                 message: `😊 ${res.createPatientOrder.message}`,
               });
-              localStorage.setItem(
-                'barCodeLabId',
-                patientOrderStore.patientOrder?.labId?.toString(),
-              );
+              if (isPrintPrimaryBarcod)
+                localStorage.setItem(
+                  'barCodeLabId',
+                  patientOrderStore.patientOrder?.labId?.toString(),
+                );
             }
             setTimeout(() => {
               window.location.reload();
@@ -161,6 +164,9 @@ export const PatientOrder = PatientOrderHoc(
                           });
                         }}
                         onSelect={item => {
+                          setIsPrintPrimaryBarcod(
+                            item?.isPrintPrimaryBarcod || false,
+                          );
                           onChange(item.visitId);
                           patientOrderStore.updatePatientOrder({
                             ...patientOrderStore.patientOrder,

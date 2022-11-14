@@ -53,7 +53,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     setValue('status', masterAnalyteStore.masterAnalyte?.status);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
 
     const onSubmitMasterAnalyte = () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {

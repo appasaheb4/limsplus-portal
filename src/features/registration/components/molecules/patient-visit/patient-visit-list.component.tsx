@@ -869,6 +869,37 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               },
             },
             {
+              dataField: 'isPrintPrimaryBarcod',
+              text: 'Print Primary Barcod',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.isPrintPrimaryBarcod
+                    ? row.isPrintPrimaryBarcod
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.isPrintPrimaryBarcod}
+                      onChange={isPrintPrimaryBarcod => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            isPrintPrimaryBarcod,
+                            'isPrintPrimaryBarcod',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader3',
