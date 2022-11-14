@@ -22,6 +22,7 @@ import {
   AutoCompleteAnalyteBottomMarker,
 } from '../index';
 import {FormHelper} from '@/helper';
+import {InputResult} from '@/core-components';
 
 let lab;
 let analyteCode;
@@ -569,6 +570,45 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   defaultResult = filter;
                 },
               }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <InputResult
+                    label='Default Result'
+                    row={{
+                      resultType: row?.resultType,
+                      picture: row?.picture,
+                      analyteCode: row?.analyteCode,
+                      pLab: row?.lab,
+                      departement: row?.departments,
+                    }}
+                    onSelect={item => {
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            defaultResult: item?.result,
+                            numeric: item?.numeric,
+                            alpha: item?.alpha,
+                            abnFlag: item?.abnFlag,
+                            critical: item?.critical,
+                          },
+                          row?._id,
+                        );
+                    }}
+                    onError={error => {
+                      Toast.error({
+                        message: `😊 ${error}`,
+                      });
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'calculationFlag',
