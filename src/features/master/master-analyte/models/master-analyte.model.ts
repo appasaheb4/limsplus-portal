@@ -37,6 +37,10 @@ export class MasterAnalyte {
   cptCode: string;
   resultType: string;
   defaultResult: string;
+  numeric: string;
+  alpha: string;
+  abnFlag: boolean;
+  critical: boolean;
   analyteType: string;
   abnormalHighlighterCSS: string;
   criticalHighlighterCSS: string;
@@ -93,6 +97,10 @@ export class MasterAnalyte {
     this.cptCode = rawData.cptCode;
     this.resultType = rawData.resultType;
     this.defaultResult = rawData.defaultResult;
+    this.numeric = rawData.numeric;
+    this.alpha = rawData.abnFlag;
+    this.abnFlag = rawData.abnFlag;
+    this.critical = rawData.critical;
     this.analyteType = rawData.analyteType;
     this.abnormalHighlighterCSS = rawData.abnormalHighlighterCSS;
     this.criticalHighlighterCSS = rawData.criticalHighlighterCSS;

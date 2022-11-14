@@ -47,6 +47,10 @@ export const LIST = gql`
         departments
         resultType
         defaultResult
+        numeric
+        alpha
+        abnFlag
+        critical
         analyteType
         abnormalHighlighterCSS
         criticalHighlighterCSS
@@ -169,6 +173,10 @@ export const FILTER = gql`
         departments
         resultType
         defaultResult
+        numeric
+        alpha
+        abnFlag
+        critical
         analyteType
         abnormalHighlighterCSS
         criticalHighlighterCSS
@@ -237,6 +245,10 @@ export const FILTER_BY_FIELDS = gql`
         departments
         resultType
         defaultResult
+        numeric
+        alpha
+        abnFlag
+        critical
         analyteType
         abnormalHighlighterCSS
         criticalHighlighterCSS
@@ -302,6 +314,10 @@ export const FIND_BY_FIELDS = gql`
         departments
         resultType
         defaultResult
+        numeric
+        alpha
+        abnFlag
+        critical
         analyteType
         abnormalHighlighterCSS
         criticalHighlighterCSS

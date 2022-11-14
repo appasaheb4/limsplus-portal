@@ -450,8 +450,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           const reportOrder: any[] = [];
                           const variables: any[] = [];
                           items?.filter((item: any) => {
-                            console.log({item});
-
                             analyteCode.push(item.analyteCode);
                             analyteName.push(item.analyteName);
                             resultOrder.push({
@@ -471,6 +469,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               calculationFormula: item?.calcyName,
                               reportable: item?.reportable,
                               defaultResult: item?.defaultResult,
+                              numeric: item?.numeric,
+                              alpha: item?.alpha,
+                              abnFlag: item?.abnFlag,
+                              critical: item?.critical,
                               instantResult: item?.instantResult,
                             });
                           });

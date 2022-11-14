@@ -207,6 +207,7 @@ const MasterAnalyte = MasterAnalyteHoc(
           label='Default Result'
           row={{
             resultType: masterAnalyteStore.masterAnalyte?.resultType,
+            picture: masterAnalyteStore.masterAnalyte?.picture,
             analyteCode: masterAnalyteStore.masterAnalyte?.analyteCode,
             pLab: masterAnalyteStore.masterAnalyte?.lab,
             departement: masterAnalyteStore.masterAnalyte?.departments,
@@ -215,6 +216,15 @@ const MasterAnalyte = MasterAnalyteHoc(
             masterAnalyteStore.updateMasterAnalyte({
               ...masterAnalyteStore.masterAnalyte,
               defaultResult: item?.result,
+              numeric: item?.numeric,
+              alpha: item?.alpha,
+              abnFlag: item?.abnFlag,
+              critical: item?.critical,
+            });
+          }}
+          onError={error => {
+            Toast.error({
+              message: `😊 ${error}`,
             });
           }}
         />
@@ -711,7 +721,56 @@ const MasterAnalyte = MasterAnalyteHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Picture'
+                      id='optionPicture'
+                      hasError={!!errors.picture}
+                    >
+                      <select
+                        value={masterAnalyteStore.masterAnalyte?.picture}
+                        disabled={
+                          masterAnalyteStore.masterAnalyte?.resultType === 'V'
+                            ? false
+                            : true
+                        }
+                        name='optionPicture'
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.picture
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const picture = e.target.value;
+                          onChange(picture);
+                          masterAnalyteStore.updateMasterAnalyte({
+                            ...masterAnalyteStore.masterAnalyte,
+                            picture: Number.parseInt(picture),
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {['0', '1', '2', '3', '4'].map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {item}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='picture'
+                  rules={{
+                    required:
+                      masterAnalyteStore.masterAnalyte?.resultType === 'V'
+                        ? true
+                        : false,
+                  }}
+                  defaultValue=''
+                />
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -967,56 +1026,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper
-                      label='Picture'
-                      id='optionPicture'
-                      hasError={!!errors.picture}
-                    >
-                      <select
-                        value={masterAnalyteStore.masterAnalyte?.picture}
-                        disabled={
-                          masterAnalyteStore.masterAnalyte?.resultType === 'V'
-                            ? false
-                            : true
-                        }
-                        name='optionPicture'
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.picture
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const picture = e.target.value;
-                          onChange(picture);
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            picture: Number.parseInt(picture),
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {['0', '1', '2', '3', '4'].map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='picture'
-                  rules={{
-                    required:
-                      masterAnalyteStore.masterAnalyte?.resultType === 'V'
-                        ? true
-                        : false,
-                  }}
-                  defaultValue=''
-                />
+
                 {/* <Form.InputDate
                 label="Schedule"
                 name="txtSchedule"

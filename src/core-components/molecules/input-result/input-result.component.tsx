@@ -14,10 +14,11 @@ interface InputResultProps {
   label?: string;
   row: any;
   onSelect: (item) => void;
+  onError: (error: string) => void;
 }
 
 export const InputResult = observer(
-  ({label = '', row, onSelect}: InputResultProps) => {
+  ({label = '', row, onSelect, onError}: InputResultProps) => {
     const {
       possibleResultsStore,
       labStore,
@@ -40,6 +41,7 @@ export const InputResult = observer(
     useEffect(() => {
       switch (row?.resultType) {
         case 'D': {
+          if (!row?.analyteCode) return onError('Please enter analyte code');
           possibleResultsStore.possibleResultsService
             .findByFields({
               input: {
@@ -63,6 +65,8 @@ export const InputResult = observer(
         }
         case 'L':
         case 'M': {
+          if (!row?.pLab && !row.departement)
+            return onError('Please enter lab and department');
           libraryStore.libraryService
             .findByFields({
               input: {
@@ -114,6 +118,8 @@ export const InputResult = observer(
                     ),
                     numeric: result,
                   });
+                  if (!row?.picture)
+                    return onError('Please enter picture value');
                 }}
               />
             )}
