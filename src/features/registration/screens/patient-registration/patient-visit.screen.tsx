@@ -482,6 +482,7 @@ export const PatientVisit = PatientVisitHoc(
                             );
                           }}
                           onSelect={item => {
+                            console.log({item});
                             onChange(item.locationCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
@@ -489,6 +490,8 @@ export const PatientVisit = PatientVisitHoc(
                               collectionCenterName: item?.locationName,
                               acClass: item?.acClass,
                               corporateCode: item?.corporateCode,
+                              isPrintPrimaryBarcod:
+                                item?.isPrintPrimaryBarcod || false,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
                                 methodCollection: item?.methodColn,
@@ -555,8 +558,6 @@ export const PatientVisit = PatientVisitHoc(
                         }}
                         onSelect={item => {
                           onChange(item.corporateCode);
-                          console.log({item});
-
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             corporateCode: item.corporateCode,

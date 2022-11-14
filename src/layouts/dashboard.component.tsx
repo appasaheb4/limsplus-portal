@@ -102,6 +102,10 @@ const Dashboard = observer(({children}) => {
       // footer view update
       stores.appStore.updateFooterView({visible: true});
       // specific api load
+      if (pathname === '/settings/users') {
+        await CorporateClients.startup();
+        await RegistrationLocations.startup();
+      }
       if (pathname === '/collection/lab') {
         await PriceList.startup();
         await CorporateClients.startup();

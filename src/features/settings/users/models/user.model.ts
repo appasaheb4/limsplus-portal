@@ -18,6 +18,8 @@ export class Users {
   password: string;
   lab: ModelsLab.Labs[];
   department: ModelsDepartment.Department[];
+  corporateClient: Array<any>;
+  registrationLocation: Array<any>;
   mobileNo: string;
   contactNo: string;
   email: string;
@@ -65,6 +67,8 @@ export class Users {
     this.password = rawData.password;
     this.lab = rawData.lab;
     this.department = rawData.department;
+    this.corporateClient = rawData.corporateClient;
+    this.registrationLocation = rawData.registrationLocation;
     this.mobileNo = rawData.mobileNo;
     this.contactNo = rawData.contactNo;
     this.email = rawData.email;
@@ -94,9 +98,13 @@ export class SelectedItems {
   roles: any[];
   labs: any[];
   department: any[];
+  corporateClient: any[];
+  registrationLocation: any[];
   constructor(rawData: {[key in string]: any}) {
     this.roles = rawData.roles;
     this.labs = rawData.labs;
     this.department = rawData.department;
+    this.corporateClient = rawData.corporateClient;
+    this.registrationLocation = rawData.registrationLocation;
   }
 }

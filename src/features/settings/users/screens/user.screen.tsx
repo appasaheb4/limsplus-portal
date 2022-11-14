@@ -37,12 +37,14 @@ export const Users = UsersHoc(
       labStore,
       deginisationStore,
       departmentStore,
+      corporateClientsStore,
+      registrationLocationsStore,
       roleStore,
       loading,
     } = useStores();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddUser, setHideAddUser] = useState<boolean>(true);
+    const [hideAddUser, setHideAddUser] = useState<boolean>(false);
     const [modalChangePasswordByadmin, setModalChangePasswordByAdmin] =
       useState<any>();
 
@@ -878,6 +880,211 @@ export const Users = UsersHoc(
                   name='department'
                   rules={{required: true}}
                   defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Assigned Corporate Client'
+                      hasError={!!errors.department}
+                    >
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code or name'
+                        data={{
+                          list: [
+                            {
+                              _id: 'selectAll',
+                              corporateCode: '*',
+                              corporateName: '*',
+                            },
+                          ].concat(
+                            corporateClientsStore.listCorporateClients as any,
+                          ),
+                          selected: userStore.selectedItems?.corporateClient,
+                          displayKey: ['corporateCode', 'corporateName'],
+                        }}
+                        hasError={!!errors.corporateCode}
+                        onUpdate={item => {
+                          const corporateClient =
+                            userStore.selectedItems?.corporateClient;
+                          userStore.updateUser({
+                            ...userStore.user,
+                            corporateClient,
+                          });
+                          corporateClientsStore.updateCorporateClientsList(
+                            corporateClientsStore.listCorporateClientsCopy,
+                          );
+                        }}
+                        onFilter={(value: string) => {
+                          corporateClientsStore.corporateClientsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ['corporateCode', 'corporateName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            },
+                          );
+                        }}
+                        onSelect={item => {
+                          onChange(new Date());
+                          let corporateClient =
+                            userStore.selectedItems?.corporateClient;
+                          if (
+                            item.corporateCode === '*' ||
+                            corporateClient?.some(e => e.corporateCode === '*')
+                          ) {
+                            if (
+                              !item.selected ||
+                              corporateClient?.some(
+                                e => e.corporateCode === '*',
+                              )
+                            ) {
+                              corporateClient = [];
+                              corporateClient.push(item);
+                            } else {
+                              corporateClient = corporateClient.filter(
+                                items => {
+                                  return items._id !== item._id;
+                                },
+                              );
+                            }
+                          } else {
+                            if (!item.selected) {
+                              if (
+                                corporateClient &&
+                                corporateClient.length > 0
+                              ) {
+                                corporateClient.push(item);
+                              } else corporateClient = [item];
+                            } else {
+                              corporateClient = corporateClient.filter(
+                                items => {
+                                  return items._id !== item._id;
+                                },
+                              );
+                            }
+                          }
+                          userStore.updateSelectedItems({
+                            ...userStore.selectedItems,
+                            corporateClient,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='corporateCode'
+                  rules={{required: false}}
+                  defaultValue={corporateClientsStore.listCorporateClients}
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Assigned Registration Location'
+                      hasError={!!errors.department}
+                    >
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code or name'
+                        data={{
+                          list: [
+                            {
+                              _id: 'selectAll',
+                              locationCode: '*',
+                              locationName: '*',
+                            },
+                          ].concat(
+                            registrationLocationsStore.listRegistrationLocations as any,
+                          ),
+                          selected:
+                            userStore.selectedItems?.registrationLocation,
+                          displayKey: ['locationCode', 'locationName'],
+                        }}
+                        hasError={!!errors.locationCode}
+                        onUpdate={item => {
+                          const registrationLocation =
+                            userStore.selectedItems?.registrationLocation;
+                          userStore.updateUser({
+                            ...userStore.user,
+                            registrationLocation,
+                          });
+                          registrationLocationsStore.updateRegistrationLocationsList(
+                            registrationLocationsStore.listRegistrationLocationsCopy,
+                          );
+                        }}
+                        onFilter={(value: string) => {
+                          registrationLocationsStore.registrationLocationsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ['locationCode', 'locationName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            },
+                          );
+                        }}
+                        onSelect={item => {
+                          onChange(new Date());
+                          let registrationLocation =
+                            userStore.selectedItems?.registrationLocation;
+                          if (
+                            item.locationCode === '*' ||
+                            registrationLocation?.some(
+                              e => e.locationCode === '*',
+                            )
+                          ) {
+                            if (
+                              !item.selected ||
+                              registrationLocation?.some(
+                                e => e.locationCode === '*',
+                              )
+                            ) {
+                              registrationLocation = [];
+                              registrationLocation.push(item);
+                            } else {
+                              registrationLocation =
+                                registrationLocation.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                            }
+                          } else {
+                            if (!item.selected) {
+                              if (
+                                registrationLocation &&
+                                registrationLocation.length > 0
+                              ) {
+                                registrationLocation.push(item);
+                              } else registrationLocation = [item];
+                            } else {
+                              registrationLocation =
+                                registrationLocation.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                            }
+                          }
+                          userStore.updateSelectedItems({
+                            ...userStore.selectedItems,
+                            registrationLocation,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='locationCode'
+                  rules={{required: false}}
+                  defaultValue={
+                    registrationLocationsStore.listRegistrationLocations
+                  }
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
