@@ -21,6 +21,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {MasterAnalyteHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {FormHelper} from '@/helper';
+import {InputResult} from '@/core-components';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
@@ -38,6 +39,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       interfaceManagerStore,
       libraryStore,
     } = useStores();
+
     const {
       control,
       handleSubmit,
@@ -51,7 +53,8 @@ const MasterAnalyte = MasterAnalyteHoc(
     setValue('status', masterAnalyteStore.masterAnalyte?.status);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
+
     const onSubmitMasterAnalyte = () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {
         if (
@@ -196,6 +199,28 @@ const MasterAnalyte = MasterAnalyteHoc(
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [masterAnalyteStore.listMasterAnalyte],
+    );
+
+    const defaultResult = useMemo(
+      () => (
+        <InputResult
+          label='Default Result'
+          row={{
+            resultType: masterAnalyteStore.masterAnalyte?.resultType,
+            analyteCode: masterAnalyteStore.masterAnalyte?.analyteCode,
+            pLab: masterAnalyteStore.masterAnalyte?.lab,
+            departement: masterAnalyteStore.masterAnalyte?.departments,
+          }}
+          onSelect={item => {
+            masterAnalyteStore.updateMasterAnalyte({
+              ...masterAnalyteStore.masterAnalyte,
+              defaultResult: item?.result,
+            });
+          }}
+        />
+      ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [masterAnalyteStore.masterAnalyte?.resultType],
     );
 
     return (
@@ -732,26 +757,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Default Result'
-                      name='txtDefaultResult'
-                      placeholder={
-                        errors.defaultResult
-                          ? 'Please Enter Default Result'
-                          : 'Default Result'
-                      }
-                      hasError={!!errors.defaultResult}
-                      value={masterAnalyteStore.masterAnalyte?.defaultResult}
-                      onChange={defaultResult => {
-                        onChange(defaultResult);
-                        masterAnalyteStore.updateMasterAnalyte({
-                          ...masterAnalyteStore.masterAnalyte,
-                          defaultResult,
-                        });
-                      }}
-                    />
-                  )}
+                  render={({field: {onChange}}) => <>{defaultResult}</>}
                   name='defaultResult'
                   rules={{required: false}}
                   defaultValue=''
