@@ -20,6 +20,8 @@ import {Confirm} from '@/library/models';
 import {
   AutoCompleteFilterMutiSelectRoles,
   AutoCompleteFilterSingleSelectDegnisation,
+  AutoCompleteFilterMutiSelectCorporateClient,
+  AutoCompleteFilterMutiSelectRegistrationLocation,
   AutoCompleteReportingTo,
   ModalDefaultLabDeptUpdate,
   ModalDefaultLabDeptUpdateProps,
@@ -271,6 +273,88 @@ export const UserList = (props: UserListProps) => {
                       </option>
                     ))}
                   </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'corporateClient',
+              text: 'Corporate Client',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.corporateClient.map(item => item.name)}`,
+              headerClasses: 'textHeader6',
+              formatter: (cellContent, row) => (
+                <>
+                  <ul style={{listStyle: 'inside'}}>
+                    {row?.corporateClient?.map((item, index) => (
+                      <li key={index}>{item.corporateCode}</li>
+                    ))}
+                  </ul>
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterMutiSelectCorporateClient
+                    selected={row.corporateClient}
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.corporateClient,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'registrationLocation',
+              text: 'Registration Location',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.registrationLocation?.map(item => item.name)}`,
+              headerClasses: 'textHeader6',
+              formatter: (cellContent, row) => (
+                <>
+                  <ul style={{listStyle: 'inside'}}>
+                    {row?.registrationLocation?.map((item, index) => (
+                      <li key={index}>{item.locationCode}</li>
+                    ))}
+                  </ul>
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterMutiSelectRegistrationLocation
+                    selected={row.registrationLocation}
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.registrationLocation,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
                 </>
               ),
             },
