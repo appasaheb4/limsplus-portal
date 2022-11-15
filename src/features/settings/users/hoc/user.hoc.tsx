@@ -13,6 +13,10 @@ export const UsersHoc = (Component: React.FC<any>) => {
         ...userStore.user,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         userGroup: getDefaultLookupItem(routerStore.lookupItems, 'USER_GROUP'),
+        userModule: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'USER_MODULE',
+        ),
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',

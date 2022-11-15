@@ -8,6 +8,7 @@ export class Users {
   defaultLab: string;
   defaultDepartment: string;
   userGroup: string;
+  userModule: string;
   userId: string;
   fullName: string;
   empCode: string;
@@ -57,6 +58,7 @@ export class Users {
     this.defaultLab = rawData.defaultLab;
     this.defaultDepartment = rawData.defaultDepartment;
     this.userGroup = rawData.userGroup;
+    this.userModule = rawData.userModule;
     this.userId = rawData.userId;
     this.fullName = rawData.fullName;
     this.empCode = rawData.empCode;

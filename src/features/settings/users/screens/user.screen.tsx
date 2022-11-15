@@ -59,6 +59,7 @@ export const Users = UsersHoc(
     setValue('status', userStore.user?.status);
     setValue('environment', userStore.user?.environment);
     setValue('userGroup', userStore.user?.userGroup);
+    setValue('userModule', userStore.user?.userModule);
 
     const onSubmitUser = (data: any) => {
       if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
@@ -377,6 +378,46 @@ export const Users = UsersHoc(
                     </Form.InputWrapper>
                   )}
                   name='userGroup'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='User Module'
+                      hasError={!!errors.userModule}
+                    >
+                      <select
+                        value={userStore.user?.userModule}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.userModule
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const userModule = e.target.value;
+                          onChange(userModule);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            userModule,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'USER_MODULE',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='userModule'
                   rules={{required: true}}
                   defaultValue=''
                 />
@@ -887,7 +928,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Assigned Corporate Client'
-                      hasError={!!errors.department}
+                      hasError={!!errors.corporateCode}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -988,7 +1029,7 @@ export const Users = UsersHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Assigned Registration Location'
-                      hasError={!!errors.department}
+                      hasError={!!errors.locationCode}
                     >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
