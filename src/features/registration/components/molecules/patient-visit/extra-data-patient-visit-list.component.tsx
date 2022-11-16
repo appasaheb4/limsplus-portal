@@ -997,17 +997,7 @@ export const ExtraDataPatientVisitList = observer(
                   </>
                 ),
               },
-              {
-                dataField: 'externalLabId',
-                text: 'External Lab Id',
-                headerClasses: 'textHeader3',
-                sort: true,
-                csvFormatter: (col, row) => (col ? col : false),
-                editable: false,
-                formatter: (cell, row) => {
-                  return <>{row.extraData.externalLabId}</>;
-                },
-              },
+
               {
                 dataField: 'employeeCode',
                 text: 'Employee Code',

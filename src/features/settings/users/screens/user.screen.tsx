@@ -44,7 +44,7 @@ export const Users = UsersHoc(
     } = useStores();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddUser, setHideAddUser] = useState<boolean>(false);
+    const [hideAddUser, setHideAddUser] = useState<boolean>(true);
     const [modalChangePasswordByadmin, setModalChangePasswordByAdmin] =
       useState<any>();
 
@@ -244,7 +244,7 @@ export const Users = UsersHoc(
                           });
                         }}
                         onSelect={item => {
-                          onChange(item.name);
+                          onChange(item?.name);
                           userStore.updateUser({
                             ...userStore.user,
                             defaultLab: item.code,
@@ -315,7 +315,7 @@ export const Users = UsersHoc(
                           });
                         }}
                         onSelect={item => {
-                          onChange(item.name);
+                          onChange(item?.name);
                           userStore.updateUser({
                             ...userStore.user,
                             defaultDepartment: item.code,

@@ -239,3 +239,65 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: DoctorInput!) {
+    findByFieldsDocter(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        doctorCode
+        doctorName
+        sex
+        title
+        firstName
+        middleName
+        lastName
+        reportName
+        address
+        city
+        state
+        district
+        country
+        postalCode
+        doctorType
+        speciality
+        category
+        confidential
+        salesTerritoRy
+        area
+        sbu
+        zone
+        telephone
+        mobileNo
+        email
+        deliveryType
+        deliveryMethod
+        urgent
+        registrationLocation
+        lab
+        reportFormat
+        info
+        fyiLine
+        workLine
+        openingTime
+        closingTime
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

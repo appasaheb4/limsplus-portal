@@ -33,7 +33,7 @@ const customFetch = async (uri, options): Promise<any> => {
 const getBaseUrl = env => {
   switch (env) {
     case 'Production':
-      return process.env.REACT_APP_API_HOST_LOCAL;
+      return process.env.REACT_APP_API_HOST_PORD;
     case 'Development':
       return process.env.REACT_APP_API_HOST_DEV;
     default:

@@ -229,6 +229,35 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
+                    <>
+                      <Form.Input
+                        label='External Lab Id'
+                        placeholder='External Lab Id'
+                        hasError={!!errors.externalLabId}
+                        value={
+                          patientVisitStore.patientVisit.extraData
+                            ?.externalLabId
+                        }
+                        onChange={externalLabId => {
+                          onChange(externalLabId);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            extraData: {
+                              ...patientVisitStore.patientVisit.extraData,
+                              externalLabId,
+                            },
+                          });
+                        }}
+                      />
+                    </>
+                  )}
+                  name='externalLabId'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
                     <Form.InputWrapper label='PId' hasError={!!errors.pid}>
                       <AutoCompleteFilterSingleSelectPid
                         hasError={!!errors.pid}
@@ -1063,36 +1092,6 @@ export const PatientVisit = PatientVisitHoc(
                 </Grid>
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <>
-                      <Form.Input
-                        label='External Lab Id'
-                        placeholder='External Lab Id'
-                        hasError={!!errors.externalLabId}
-                        value={
-                          patientVisitStore.patientVisit.extraData
-                            ?.externalLabId
-                        }
-                        onChange={externalLabId => {
-                          onChange(externalLabId);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            extraData: {
-                              ...patientVisitStore.patientVisit.extraData,
-                              externalLabId,
-                            },
-                          });
-                        }}
-                      />
-                    </>
-                  )}
-                  name='externalLabId'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-
                 {patientVisitStore.patientVisit && (
                   <Controller
                     control={control}
