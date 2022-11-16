@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Header,
@@ -27,7 +27,9 @@ import {HostCommunicationHoc} from '../hoc';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
-let socket;
+import {io} from 'socket.io-client';
+const socket = io('http://localhost:8081');
+
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
     const {
@@ -42,6 +44,14 @@ const HostCommunication = HostCommunicationHoc(
     const [modalImportFile, setModalImportFile] = useState({});
     const [hideAddHostCommunication, setHideAddHostCommunication] =
       useState<boolean>(true);
+
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+      socket.on('message', data => {
+        setMessage(data);
+      });
+    }, []);
 
     return (
       <>
@@ -60,6 +70,27 @@ const HostCommunication = HostCommunicationHoc(
             }
           />
         )}
+
+        <div className='flex flex-col mt-10 mb-10 gap-2 items-center justify-center'>
+          <Form.MultilineInput
+            label='Receive data from machine'
+            placeholder='message'
+            className='w-50'
+            value={message}
+            onChange={message => {
+              setMessage(message);
+            }}
+          />
+          <Buttons.Button
+            size='medium'
+            type='solid'
+            onClick={() => {
+              socket.emit('message', message);
+            }}
+          >
+            Send To Machine
+          </Buttons.Button>
+        </div>
 
         <div className='mx-auto'>
           <div className='p-2 rounded-lg shadow-xl'>
