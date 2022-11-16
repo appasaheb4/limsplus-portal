@@ -35,6 +35,10 @@ export const Login = observer(() => {
     labStore,
     roleStore,
     bannerStore,
+    lookupStore,
+    doctorsStore,
+    corporateClientsStore,
+    registrationLocationsStore,
   } = useStores();
   const history = useHistory();
   const [noticeBoard, setNoticeBoard] = useState<any>({});
@@ -61,6 +65,8 @@ export const Login = observer(() => {
 
   useEffect(() => {
     bannerStore.fetchListAllBanner();
+    // corporateClientsStore.corporateClientsService.listCorporateClients();
+    // registrationLocationsStore.registrationLocationsService.listRegistrationLocations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -150,6 +156,63 @@ export const Login = observer(() => {
     }
   };
   const carouselSize = width <= 768 ? 300 : 500;
+
+  const getLabList = async (userModule, userModuleCategory, user) => {
+    console.log({user});
+
+    const corClientKeys = {
+      corporateCode: 'code',
+      corporateName: 'name',
+    };
+    const regLocationKeys = {
+      locationCode: 'code',
+      locationName: 'name',
+    };
+    const dockerKeys = {
+      doctorCode: 'code',
+      doctorName: 'name',
+    };
+    return userModuleCategory === 'Lab'
+      ? user?.lab
+      : userModuleCategory === 'Corporate Clients'
+      ? user?.corporateClient[0]?.corporateCode !== '*'
+        ? user?.corporateClient?.map(function (obj) {
+            return _.mapKeys(obj, function (value, key) {
+              return corClientKeys[key];
+            });
+          })
+        : corporateClientsStore.listCorporateClients?.map(function (obj) {
+            return _.mapKeys(obj, function (value, key) {
+              return corClientKeys[key];
+            });
+          })
+      : userModuleCategory === 'Doctor'
+      ? doctorsStore.doctorsService
+          .findByFields({
+            input: {
+              filter: {
+                lab: user.defaultLab,
+              },
+            },
+          })
+          .then(res => {
+            if (!res.findByFieldsDocter.success)
+              return Toast.error({
+                message: '😔 Doctor list not found!',
+              });
+            return res.findByFieldsDocter?.data?.map(function (obj) {
+              return _.mapKeys(obj, function (value, key) {
+                return dockerKeys[key];
+              });
+            });
+          })
+      : user?.registrationLocation?.map(function (obj) {
+          return _.mapKeys(obj, function (value, key) {
+            return regLocationKeys[key];
+          });
+        });
+  };
+
   return (
     <>
       <div className='flex h-screen bg-[#394D7F]  w-full  justify-center items-center'>
@@ -242,12 +305,12 @@ export const Login = observer(() => {
                               userId: userId.toUpperCase(),
                             });
                           }}
-                          onBlur={userId => {
+                          onBlur={async userId => {
                             if (userId) {
                               userStore.UsersService.serviceUser
                                 .checkExitsUserId(userId.trim())
-                                .then(res => {
-                                  if (res.checkUserExitsUserId.success) {
+                                .then(async res => {
+                                  if (res.checkUserExitsUserId?.success) {
                                     const {
                                       data: {user},
                                     } = res.checkUserExitsUserId;
@@ -256,6 +319,31 @@ export const Login = observer(() => {
                                     if (user.role.length == 1)
                                       setValue('role', user.role[0].code);
                                     clearErrors('role');
+                                    let userModuleCategory;
+                                    await lookupStore.LookupService.lookupItemsByPathNField(
+                                      {
+                                        input: {
+                                          path: '/settings/users',
+                                          field: 'USER_MODULE',
+                                        },
+                                      },
+                                    ).then(res => {
+                                      if (
+                                        res.lookupItemsByPathNField.success &&
+                                        res.lookupItemsByPathNField?.data
+                                          ?.length > 0
+                                      ) {
+                                        userModuleCategory =
+                                          res.lookupItemsByPathNField.data[0]?.arrValue.find(
+                                            item =>
+                                              item.code == user?.userModule,
+                                          ).value;
+                                      } else {
+                                        alert(
+                                          'User module not found in lookup',
+                                        );
+                                      }
+                                    });
                                     loginStore.updateInputUser({
                                       ...loginStore.inputLogin,
                                       lab: user.defaultLab,
@@ -263,16 +351,23 @@ export const Login = observer(() => {
                                         user.role.length == 1
                                           ? user.role[0].code
                                           : '',
+                                      userModule: user?.userModule,
+                                      userModuleCategory,
                                     });
-                                    labStore.fetchListLab();
-                                    roleStore.fetchListRole();
+                                    // labStore.fetchListLab();
+                                    // roleStore.fetchListRole();
+
                                     setlabRoleList({
-                                      labList: user.lab,
+                                      labList: await getLabList(
+                                        user?.userModule,
+                                        userModuleCategory,
+                                        user,
+                                      ),
                                       roleList: user.role,
                                     });
                                   } else {
                                     Toast.error({
-                                      message: `😔 ${res.checkUserExitsUserId.message}`,
+                                      message: `😔 ${res?.checkUserExitsUserId?.message}`,
                                     });
                                   }
                                 });
@@ -320,7 +415,7 @@ export const Login = observer(() => {
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
-                          label='Lab'
+                          label={loginStore.inputLogin.userModule || 'Lab'}
                           hasError={!!errors.lab}
                           style={{color: 'black'}}
                         >

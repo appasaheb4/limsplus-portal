@@ -51,8 +51,8 @@ export const PageHeadingLabDetails = (props: PageHeadingLabDetailsProps) => {
           loginStore.login.labList &&
           loginStore.login.labList.find(
             item => item.code === loginStore.login.lab,
-          ).name) ||
-          ''}
+          )?.name) ||
+          loginStore.login?.lab}
       </h2>
     </div>
   );
