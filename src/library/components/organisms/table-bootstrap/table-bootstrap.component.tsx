@@ -85,7 +85,7 @@ export const TableBootstrap = ({
     <div className='btn-group items-center' role='group'>
       {isSelectRow && (
         <Buttons.Button
-          style={{height: 10, width: 200}}
+          style={{height: 10, width: 200, marginTop: -20}}
           size='small'
           type='solid'
           onClick={() => {
