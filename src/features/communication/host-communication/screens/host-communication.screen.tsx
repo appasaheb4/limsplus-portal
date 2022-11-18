@@ -28,7 +28,7 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-const socket = io('http://20.219.172.184');
+let socket;
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -44,6 +44,10 @@ const HostCommunication = HostCommunicationHoc(
     const [modalImportFile, setModalImportFile] = useState({});
     const [hideAddHostCommunication, setHideAddHostCommunication] =
       useState<boolean>(true);
+
+    const [ipAddress, setIpAddress] = useState();
+    const [port, setPort] = useState();
+    const [ipConnectMsg, setIpConnectMsg] = useState('');
 
     const [message, setMessage] = useState('');
 
@@ -72,6 +76,40 @@ const HostCommunication = HostCommunicationHoc(
         )}
 
         <div className='flex flex-col mt-10 mb-10 gap-2 items-center justify-center'>
+          <Form.Input
+            label='Ip Address'
+            placeholder='Ip Address'
+            value={ipAddress}
+            onChange={address => {
+              setIpAddress(address);
+            }}
+          />
+
+          <Form.Input
+            label='Port'
+            placeholder='Port'
+            value={port}
+            onChange={newPort => {
+              setPort(newPort);
+            }}
+          />
+
+          <Buttons.Button
+            size='medium'
+            type='solid'
+            onClick={() => {
+              socket = io(`${ipAddress}:${port}`);
+              setIpConnectMsg('LAN Connected');
+              socket.on('RCV', data => {
+                setMessage(data);
+              });
+            }}
+          >
+            Connect
+          </Buttons.Button>
+
+          <span className='text-green-900'>{ipConnectMsg}</span>
+
           <Form.MultilineInput
             label='Receive data from machine'
             placeholder='message'
@@ -81,7 +119,7 @@ const HostCommunication = HostCommunicationHoc(
               setMessage(message);
             }}
           />
-          <Buttons.Button
+          {/* <Buttons.Button
             size='medium'
             type='solid'
             onClick={() => {
@@ -89,7 +127,7 @@ const HostCommunication = HostCommunicationHoc(
             }}
           >
             Send To Machine
-          </Buttons.Button>
+          </Buttons.Button> */}
         </div>
 
         <div className='mx-auto'>
