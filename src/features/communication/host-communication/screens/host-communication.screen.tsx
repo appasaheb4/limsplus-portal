@@ -28,7 +28,7 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-const socket = io('http://localhost:8081');
+const socket = io('http://20.219.172.184');
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -48,7 +48,7 @@ const HostCommunication = HostCommunicationHoc(
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-      socket.on('message', data => {
+      socket.on('RCV', data => {
         setMessage(data);
       });
     }, []);
@@ -85,7 +85,7 @@ const HostCommunication = HostCommunicationHoc(
             size='medium'
             type='solid'
             onClick={() => {
-              socket.emit('message', message);
+              socket.emit('RCV', message);
             }}
           >
             Send To Machine
