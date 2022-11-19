@@ -28,7 +28,7 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-let socket;
+let socket = io('192.168.1.3:8082');
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -52,7 +52,7 @@ const HostCommunication = HostCommunicationHoc(
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-      socket.on('RCV', data => {
+      socket?.on('RCV', data => {
         setMessage(data);
       });
     }, []);
@@ -100,7 +100,7 @@ const HostCommunication = HostCommunicationHoc(
             onClick={() => {
               socket = io(`${ipAddress}:${port}`);
               setIpConnectMsg('LAN Connected');
-              socket.on('RCV', data => {
+              socket?.on('RCV', data => {
                 setMessage(data);
               });
             }}
@@ -119,7 +119,7 @@ const HostCommunication = HostCommunicationHoc(
               setMessage(message);
             }}
           />
-          {/* <Buttons.Button
+          <Buttons.Button
             size='medium'
             type='solid'
             onClick={() => {
@@ -127,7 +127,7 @@ const HostCommunication = HostCommunicationHoc(
             }}
           >
             Send To Machine
-          </Buttons.Button> */}
+          </Buttons.Button>
         </div>
 
         <div className='mx-auto'>

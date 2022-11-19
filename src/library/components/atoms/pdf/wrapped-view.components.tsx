@@ -95,6 +95,7 @@ export const PdfHeader = ({
         backgroundColor: bg,
         alignItems: alignItems,
         padding: p,
+
         ...style,
       }}
       fixed={fixed}
