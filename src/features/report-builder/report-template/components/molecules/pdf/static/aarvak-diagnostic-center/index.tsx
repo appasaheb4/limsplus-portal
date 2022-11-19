@@ -11,6 +11,7 @@ import {
 } from '@react-pdf/renderer';
 import {Header} from './pdf-header.component';
 import {Fotter} from './pdf-fotter.component';
+import {PdfPatientDetails} from './pdf-patient-details.component';
 
 Font.register({
   family: 'arimaRegular',
@@ -59,12 +60,15 @@ export const AarvakDiagnosticCenterPdf = ({
 
   return (
     <>
-      <Document title={documentTitle}>
-        <Page size={pageSize} style={boxCSS.current}>
-          <Header />
-          <Fotter />
-        </Page>
-      </Document>
+      <PDFViewer style={{width, height}} showToolbar={isToolbar}>
+        <Document title={documentTitle}>
+          <Page size={pageSize} style={boxCSS.current}>
+            <Header />
+            <PdfPatientDetails />
+            <Fotter />
+          </Page>
+        </Document>
+      </PDFViewer>
     </>
   );
 };

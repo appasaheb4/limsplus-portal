@@ -54,7 +54,7 @@ const ReportTemplate = observer(() => {
         <PageHeadingLabDetails store={loginStore} />
       </Header>
 
-      <div className='flex'>
+      {/* <div className='flex'>
         <div className={'p-2 rounded-lg'}>
           {templates?.map(item => (
             <div className='flex flex-wrap h-60 w-60 shadow-2xl p-2 rounded-md items-center justify-center'>
@@ -78,7 +78,8 @@ const ReportTemplate = observer(() => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
+      <AarvakDiagnosticCenterPdf height={600} />
     </>
   );
 });
