@@ -2,31 +2,22 @@ import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
-  Buttons,
-  List,
-  Grid,
-  Svg,
-  Toast,
-  Form,
-  AutoCompleteFilterSingleSelect,
+  Tooltip,
+  Icons,
   Header,
   PageHeading,
   PageHeadingLabDetails,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import {useForm} from 'react-hook-form';
+import {pdf} from '@react-pdf/renderer';
+import printjs from 'print-js';
 
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
+import {logos} from '@/library/assets';
+
+import {AarvakDiagnosticCenterPdf} from '../components';
+
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const ReportTemplate = observer(() => {
@@ -47,9 +38,14 @@ const ReportTemplate = observer(() => {
   } = useForm();
   setValue('species', patientManagerStore.patientManger.species);
 
-  const [hideInputView, setHideInputView] = useState<boolean>(true);
-
-  const onSubmitPatientManager = () => {};
+  const templates = [
+    {
+      title: 'Aarvak Disgnostic Center',
+      component: AarvakDiagnosticCenterPdf,
+      tooltipText: 'Print',
+      icon: Icons.IconBs.BsPrinter,
+    },
+  ];
 
   return (
     <>
@@ -57,6 +53,32 @@ const ReportTemplate = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
+
+      <div className='flex'>
+        <div className={'p-2 rounded-lg'}>
+          {templates?.map(item => (
+            <div className='flex flex-wrap h-60 w-60 shadow-2xl p-2 rounded-md items-center justify-center'>
+              <img src={logos.aarvakDiagnosticCenter} />
+              <Tooltip tooltipText='Print'>
+                <Icons.IconContext
+                  color='#000'
+                  size='20'
+                  onClick={async () => {
+                    const Comp = item.component;
+                    const blob = await pdf(
+                      <AarvakDiagnosticCenterPdf />,
+                    ).toBlob();
+                    const blobURL = URL.createObjectURL(blob);
+                    printjs(blobURL);
+                  }}
+                >
+                  {Icons.getIconTag(item.icon)}
+                </Icons.IconContext>
+              </Tooltip>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 });
