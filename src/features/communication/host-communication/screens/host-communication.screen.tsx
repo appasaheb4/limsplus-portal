@@ -28,7 +28,8 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-let socket = io('192.168.1.3:8082');
+let socket = io('http://192.168.1.100:1008');
+// let socket: any;
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -53,7 +54,11 @@ const HostCommunication = HostCommunicationHoc(
 
     useEffect(() => {
       socket?.on('RCV', data => {
-        setMessage(data);
+        setMessage('RCV' + data);
+      });
+
+      socket?.on('SND', data => {
+        setMessage('SND' + data);
       });
     }, []);
 
