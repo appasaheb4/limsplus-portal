@@ -28,8 +28,11 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-let socket = io('http://192.168.1.100:1008');
+const socket = io('http://192.168.1.100:1008');
+import {w3cwebsocket as W3CWebSocket} from 'websocket';
+const client = new W3CWebSocket('wss://192.168.1.100:1008');
 // let socket: any;
+// let client: any;
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -50,16 +53,29 @@ const HostCommunication = HostCommunicationHoc(
     const [port, setPort] = useState();
     const [ipConnectMsg, setIpConnectMsg] = useState('');
 
-    const [message, setMessage] = useState('');
+    const [messageRCV, setMessageRCV] = useState('');
+    const [messageSND, setMessageSND] = useState('');
+    const [messageWebSocket, setMessageWebSocket] = useState('');
 
     useEffect(() => {
       socket?.on('RCV', data => {
-        setMessage('RCV' + data);
+        setMessageRCV('RCV' + data);
+      });
+      socket?.on('SND', data => {
+        setMessageSND('SND' + data);
       });
 
-      socket?.on('SND', data => {
-        setMessage('SND' + data);
+      client.addEventListener('open', () => {
+        console.log('WebSocket Client Connected');
       });
+      client.addEventListener('error', event => {
+        console.log({event});
+      });
+      // eslint-disable-next-line unicorn/prefer-add-event-listener
+      client.onmessage = message => {
+        console.log(message);
+        setMessageWebSocket(message);
+      };
     }, []);
 
     return (
@@ -81,50 +97,68 @@ const HostCommunication = HostCommunicationHoc(
         )}
 
         <div className='flex flex-col mt-10 mb-10 gap-2 items-center justify-center'>
-          <Form.Input
-            label='Ip Address'
-            placeholder='Ip Address'
-            value={ipAddress}
-            onChange={address => {
-              setIpAddress(address);
-            }}
-          />
+          <div className='hidden'>
+            <Form.Input
+              label='Ip Address'
+              placeholder='Ip Address'
+              value={ipAddress}
+              onChange={address => {
+                setIpAddress(address);
+              }}
+            />
 
-          <Form.Input
-            label='Port'
-            placeholder='Port'
-            value={port}
-            onChange={newPort => {
-              setPort(newPort);
-            }}
-          />
+            <Form.Input
+              label='Port'
+              placeholder='Port'
+              value={port}
+              onChange={newPort => {
+                setPort(newPort);
+              }}
+            />
 
-          <Buttons.Button
-            size='medium'
-            type='solid'
-            onClick={() => {
-              socket = io(`${ipAddress}:${port}`);
-              setIpConnectMsg('LAN Connected');
-              socket?.on('RCV', data => {
-                setMessage(data);
-              });
-            }}
-          >
-            Connect
-          </Buttons.Button>
+            <Buttons.Button
+              size='medium'
+              type='solid'
+              onClick={() => {
+                // socket = io(`${ipAddress}:${port}`);
+                // setIpConnectMsg('LAN Connected');
+              }}
+            >
+              Connect
+            </Buttons.Button>
 
-          <span className='text-green-900'>{ipConnectMsg}</span>
+            <span className='text-green-900'>{ipConnectMsg}</span>
+          </div>
 
           <Form.MultilineInput
-            label='Receive data from machine'
+            label='Receive data from RCV'
             placeholder='message'
             className='w-50'
-            value={message}
-            onChange={message => {
-              setMessage(message);
-            }}
+            value={messageRCV}
+            // onChange={message => {
+            //   setMessageRCV(message);
+            // }}
           />
-          <Buttons.Button
+
+          <Form.MultilineInput
+            label='Receive data from SND'
+            placeholder='message'
+            className='w-50'
+            value={messageSND}
+            // onChange={message => {
+            //   setMessageRCV(message);
+            // }}
+          />
+          <Form.MultilineInput
+            label='Receive data from message web socket'
+            placeholder='message'
+            className='w-50'
+            value={messageWebSocket}
+            // onChange={message => {
+            //   setMessageRCV(message);
+            // }}
+          />
+          {/* <Buttons.Button
             size='medium'
             type='solid'
             onClick={() => {
@@ -132,7 +166,7 @@ const HostCommunication = HostCommunicationHoc(
             }}
           >
             Send To Machine
-          </Buttons.Button>
+          </Buttons.Button> */}
         </div>
 
         <div className='mx-auto'>
