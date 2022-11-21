@@ -20,7 +20,7 @@ interface FotterProps {
 
 export const Fotter = ({data}: FotterProps) => {
   return (
-    <PdfFooterView fixed bg='white'>
+    <PdfFooterView fixed bg='white' p={5}>
       <PdfSmall>
         <PdfRegular style={{color: '#A52728'}}>Red. Address:</PdfRegular> 1310,
         Behind SBI Bank, Badshahpur, Sohna Road, Sector 66, Gurugram, Haryana -
