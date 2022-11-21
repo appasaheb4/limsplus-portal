@@ -28,7 +28,6 @@ const Default = observer(() => {
       const date1 = dayjs(loginStore.login.exipreDate);
       const date2 = dayjs(new Date());
       let days = date1.diff(date2, 'day');
-
       if (
         days >= 0 &&
         days <= 5 &&

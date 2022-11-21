@@ -16,7 +16,10 @@ import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import {logos} from '@/library/assets';
 
-import {AarvakDiagnosticCenterPdf} from '../components';
+import {
+  AarvakDiagnosticCenterPdf,
+  AarvakDiagnosticCenterWithoutHeaderFooterPdf,
+} from '../components';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 
@@ -40,8 +43,14 @@ const ReportTemplate = observer(() => {
 
   const templates = [
     {
-      title: 'Aarvak Disgnostic Center',
+      title: '',
       component: AarvakDiagnosticCenterPdf,
+      tooltipText: 'Print',
+      icon: Icons.IconBs.BsPrinter,
+    },
+    {
+      title: 'Without Header Footer',
+      component: AarvakDiagnosticCenterWithoutHeaderFooterPdf,
       tooltipText: 'Print',
       icon: Icons.IconBs.BsPrinter,
     },
@@ -54,20 +63,19 @@ const ReportTemplate = observer(() => {
         <PageHeadingLabDetails store={loginStore} />
       </Header>
 
-      {/* <div className='flex'>
-        <div className={'p-2 rounded-lg'}>
+      <div className='flex'>
+        <div className={'flex flex-row p-2 rounded-lg gap-4'}>
           {templates?.map(item => (
-            <div className='flex flex-wrap h-60 w-60 shadow-2xl p-2 rounded-md items-center justify-center'>
+            <div className='flex flex-wrap h-60 w-60 shadow-2xl p-2 rounded-md items-center justify-center gap-2'>
               <img src={logos.aarvakDiagnosticCenter} />
+              <h4>{item.title}</h4>
               <Tooltip tooltipText='Print'>
                 <Icons.IconContext
                   color='#000'
                   size='20'
                   onClick={async () => {
                     const Comp = item.component;
-                    const blob = await pdf(
-                      <AarvakDiagnosticCenterPdf />,
-                    ).toBlob();
+                    const blob = await pdf(<Comp />).toBlob();
                     const blobURL = URL.createObjectURL(blob);
                     printjs(blobURL);
                   }}
@@ -78,8 +86,8 @@ const ReportTemplate = observer(() => {
             </div>
           ))}
         </div>
-      </div> */}
-      <AarvakDiagnosticCenterPdf height={600} />
+      </div>
+      {/* <AarvakDiagnosticCenterPdf height={600} /> */}
     </>
   );
 });
