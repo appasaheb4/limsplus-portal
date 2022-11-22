@@ -17,8 +17,9 @@ import {useStores} from '@/stores';
 import {logos} from '@/library/assets';
 
 import {
-  AarvakDiagnosticCenterPdf,
-  AarvakDiagnosticCenterWithoutHeaderFooterPdf,
+  ADCPdf,
+  ADCWithoutHeaderFooterPdf,
+  ADCMedicalReportPdf,
 } from '../components';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -45,21 +46,21 @@ const ReportTemplate = observer(() => {
     {
       tempCode: 'TEMP0004',
       title: 'AARVAK DIAGNOSTIC CENTER',
-      component: AarvakDiagnosticCenterPdf,
+      component: ADCPdf,
       tooltipText: 'Print',
       icon: Icons.IconBs.BsPrinter,
     },
     {
       tempCode: 'TEMP0005',
       title: 'AARVAK DIAGNOSTIC CENTER WITHOUT HEADER & FOOTER',
-      component: AarvakDiagnosticCenterWithoutHeaderFooterPdf,
+      component: ADCWithoutHeaderFooterPdf,
       tooltipText: 'Print',
       icon: Icons.IconBs.BsPrinter,
     },
     {
       tempCode: 'TEMP0006',
       title: 'AARVAK DIAGNOSTIC CENTER MEDICAL REPORT',
-      component: AarvakDiagnosticCenterWithoutHeaderFooterPdf,
+      component: ADCMedicalReportPdf,
       tooltipText: 'Print',
       icon: Icons.IconBs.BsPrinter,
     },
@@ -71,7 +72,7 @@ const ReportTemplate = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-
+      {/* 
       <div className='flex'>
         <div className={'flex flex-row p-2 rounded-lg gap-4'}>
           {templates?.map(item => (
@@ -97,8 +98,8 @@ const ReportTemplate = observer(() => {
             </div>
           ))}
         </div>
-      </div>
-      {/* <AarvakDiagnosticCenterPdf height={600} /> */}
+      </div> */}
+      <ADCMedicalReportPdf height={600} />
     </>
   );
 });

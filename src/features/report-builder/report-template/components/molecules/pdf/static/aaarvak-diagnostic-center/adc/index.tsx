@@ -1,15 +1,8 @@
-import React, {useState, useRef} from 'react';
-import {
-  Page,
-  Text,
-  Document,
-  StyleSheet,
-  Font,
-  PDFViewer,
-  Image,
-  View,
-} from '@react-pdf/renderer';
+import React, {useRef} from 'react';
+import {Page, Document, StyleSheet, Font} from '@react-pdf/renderer';
 import {PdfPageNumber} from '@components';
+import {Header} from '../../../common/aarvak-diagnostic-center/pdf-header.component';
+import {Fotter} from '../../../common/aarvak-diagnostic-center/pdf-fotter.component';
 import {PdfPatientDetails} from './pdf-patient-details.component';
 import {PdfResultList} from './pdf-result-list.component';
 
@@ -25,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface AarvakDiagnosticCenterWithoutHeaderFooterPdfProps {
+interface ADCPdfProps {
   width?: string | number;
   height?: number;
   documentTitle?: string;
@@ -37,7 +30,7 @@ interface AarvakDiagnosticCenterWithoutHeaderFooterPdfProps {
   children?: React.ReactNode;
 }
 
-export const AarvakDiagnosticCenterWithoutHeaderFooterPdf = ({
+export const ADCPdf = ({
   width = '100%',
   height = 300,
   documentTitle = 'Template Settings',
@@ -47,7 +40,7 @@ export const AarvakDiagnosticCenterWithoutHeaderFooterPdf = ({
   mainBoxCSS,
   pageSize,
   children,
-}: AarvakDiagnosticCenterWithoutHeaderFooterPdfProps) => {
+}: ADCPdfProps) => {
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -62,12 +55,14 @@ export const AarvakDiagnosticCenterWithoutHeaderFooterPdf = ({
       {/* <PDFViewer style={{width, height}} showToolbar={isToolbar}> */}
       <Document title={documentTitle}>
         <Page size={pageSize} style={boxCSS.current}>
+          <Header />
           <PdfPatientDetails />
           <PdfResultList />
           <PdfPageNumber
             style={{textAlign: 'center', right: '45%'}}
-            bottom={10}
+            bottom={77}
           />
+          <Fotter />
         </Page>
       </Document>
       {/* </PDFViewer> */}
