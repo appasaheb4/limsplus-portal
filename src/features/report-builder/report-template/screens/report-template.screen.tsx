@@ -43,13 +43,22 @@ const ReportTemplate = observer(() => {
 
   const templates = [
     {
-      title: '',
+      tempCode: 'TEMP0004',
+      title: 'AARVAK DIAGNOSTIC CENTER',
       component: AarvakDiagnosticCenterPdf,
       tooltipText: 'Print',
       icon: Icons.IconBs.BsPrinter,
     },
     {
-      title: 'Without Header Footer',
+      tempCode: 'TEMP0005',
+      title: 'AARVAK DIAGNOSTIC CENTER WITHOUT HEADER & FOOTER',
+      component: AarvakDiagnosticCenterWithoutHeaderFooterPdf,
+      tooltipText: 'Print',
+      icon: Icons.IconBs.BsPrinter,
+    },
+    {
+      tempCode: 'TEMP0006',
+      title: 'AARVAK DIAGNOSTIC CENTER MEDICAL REPORT',
       component: AarvakDiagnosticCenterWithoutHeaderFooterPdf,
       tooltipText: 'Print',
       icon: Icons.IconBs.BsPrinter,
@@ -66,23 +75,25 @@ const ReportTemplate = observer(() => {
       <div className='flex'>
         <div className={'flex flex-row p-2 rounded-lg gap-4'}>
           {templates?.map(item => (
-            <div className='flex flex-wrap h-60 w-60 shadow-2xl p-2 rounded-md items-center justify-center gap-2'>
+            <div className='flex flex-col w-60 shadow-2xl p-2 rounded-md items-center justify-center gap-2'>
               <img src={logos.aarvakDiagnosticCenter} />
-              <h4>{item.title}</h4>
-              <Tooltip tooltipText='Print'>
-                <Icons.IconContext
-                  color='#000'
-                  size='20'
-                  onClick={async () => {
-                    const Comp = item.component;
-                    const blob = await pdf(<Comp />).toBlob();
-                    const blobURL = URL.createObjectURL(blob);
-                    printjs(blobURL);
-                  }}
-                >
-                  {Icons.getIconTag(item.icon)}
-                </Icons.IconContext>
-              </Tooltip>
+              <h4 className='text-center'>{`${item.tempCode}-${item.title}`}</h4>
+              <div>
+                <Tooltip tooltipText='Print'>
+                  <Icons.IconContext
+                    color='#000'
+                    size='20'
+                    onClick={async () => {
+                      const Comp = item.component;
+                      const blob = await pdf(<Comp />).toBlob();
+                      const blobURL = URL.createObjectURL(blob);
+                      printjs(blobURL);
+                    }}
+                  >
+                    {Icons.getIconTag(item.icon)}
+                  </Icons.IconContext>
+                </Tooltip>
+              </div>
             </div>
           ))}
         </div>
