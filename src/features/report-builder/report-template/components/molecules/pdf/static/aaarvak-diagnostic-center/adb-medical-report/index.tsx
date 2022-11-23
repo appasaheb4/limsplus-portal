@@ -1,8 +1,17 @@
 import React, {useRef} from 'react';
-import {Page, Document, StyleSheet, Font, PDFViewer} from '@react-pdf/renderer';
+import {
+  Page,
+  Document,
+  StyleSheet,
+  Font,
+  Text,
+  PDFViewer,
+} from '@react-pdf/renderer';
+import {PdfSmall} from '@components';
 import {Header} from '../../../common/aarvak-diagnostic-center/pdf-header.component';
 import {Fotter} from '../../../common/aarvak-diagnostic-center/pdf-fotter.component';
 import {PdfMedicialFitnessCertificate} from './pdf-medicial-fitness-certificate';
+import {PdfMedicalCheckup} from './pdf-medical-checkup';
 
 Font.register({
   family: 'arimaRegular',
@@ -50,15 +59,19 @@ export const ADCMedicalReportPdf = ({
 
   return (
     <>
-      <PDFViewer style={{width, height}} showToolbar={isToolbar}>
-        <Document title={documentTitle}>
-          <Page size={pageSize} style={boxCSS.current}>
-            <Header />
-            <PdfMedicialFitnessCertificate />
-            <Fotter />
-          </Page>
-        </Document>
-      </PDFViewer>
+      {/* <PDFViewer style={{width, height}} showToolbar={isToolbar}> */}
+      <Document title={documentTitle}>
+        <Page size={pageSize} style={boxCSS.current}>
+          <Header />
+          <PdfMedicialFitnessCertificate />
+          <PdfMedicalCheckup />
+          <PdfSmall style={{left: 20, marginTop: 10}} fixed>
+            Registration No.: 0887687987678
+          </PdfSmall>
+          <Fotter />
+        </Page>
+      </Document>
+      {/* </PDFViewer> */}
     </>
   );
 };

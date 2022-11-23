@@ -27,7 +27,6 @@ import {
 } from '../index';
 import {useStores} from '@/stores';
 import {stores} from '@/stores';
-import {patientOrder} from '../../utils';
 
 export const patientRegistrationOptions = [
   {title: 'PATIENT MANAGER'},

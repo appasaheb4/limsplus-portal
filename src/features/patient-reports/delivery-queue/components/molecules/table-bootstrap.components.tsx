@@ -17,7 +17,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons} from '@/library/components';
+import {Buttons, Icons, Tooltip} from '@/library/components';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
@@ -39,6 +39,7 @@ interface TableBootstrapProps {
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
+  onUpdateDeliveryStatus?: () => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -63,6 +64,7 @@ export const TableBootstrap = ({
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
+  onUpdateDeliveryStatus,
   onFilter,
   clearAllFilter,
   onClickRow,
@@ -313,26 +315,27 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center'>
+              <div className='flex items-center gap-2'>
                 <SearchBar
                   {...searchProps}
                   {...props.searchProps}
                   onChange={value => {
                     console.log({value});
                   }}
+                  style={{marginTop: 10}}
                 />
                 <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={`inline-flex bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                   {...props.searchProps}
                 />
                 <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  className={`px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
                   onClick={clearAllFilter}
                 >
                   Clear all filters
                 </button>
                 <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={`inline-flex bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                   {...props.csvProps}
                 >
                   Export CSV!!
@@ -358,6 +361,20 @@ export const TableBootstrap = ({
                     <Icons.IconFa.FaChevronDown />
                   </Buttons.Button>
                 )}
+                <Tooltip
+                  tooltipText='All records delivery status update'
+                  position='top'
+                >
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      onUpdateDeliveryStatus && onUpdateDeliveryStatus();
+                    }}
+                  >
+                    <Icons.IconTb.TbExchange />
+                  </Buttons.Button>
+                </Tooltip>
               </div>
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>

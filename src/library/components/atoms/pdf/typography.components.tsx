@@ -34,6 +34,7 @@ interface PdfTextProps {
     | string;
   textAlign?: 'center' | 'left' | 'right';
   style?: Style | Style[];
+  lineHeight?: number;
   bottom?: number;
   fixed?: boolean;
   children?: React.ReactNode;
@@ -132,6 +133,8 @@ export const PdfSmall = ({
   fontSize = 10,
   fontFamily = 'arimaRegular',
   textAlign = 'left',
+  lineHeight = 0,
+  fixed = false,
   style,
   children,
 }: PdfTextProps) => {
@@ -141,10 +144,11 @@ export const PdfSmall = ({
         fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
-        lineHeight: 1.2,
+        lineHeight: lineHeight,
         textAlign: textAlign,
         ...style,
       }}
+      fixed={fixed}
     >
       {children}
     </Text>

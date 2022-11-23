@@ -53,26 +53,11 @@ const DeliveryQueue = observer(() => {
             'Edit/Modify',
           )}
           onUpdate={selectedItem => setModalConfirm(selectedItem)}
-          onSelectedRow={rows => {
-            setModalConfirm({
-              show: true,
-              type: 'delete',
-              id: rows,
-              title: 'Are you sure?',
-              body: 'Delete selected items!',
-            });
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: 'update',
-              data: {value, dataField, id},
-              title: 'Are you sure?',
-              body: 'Update items!',
-            });
-          }}
           onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
+            deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
+              page,
+              limit,
+            );
           }}
           onFilter={(type, filter, page, limit) => {
             // bannerStore.BannerService.filter({
@@ -82,6 +67,7 @@ const DeliveryQueue = observer(() => {
           onClickRow={(item, index) => {
             deliveryQueueStore.updateOrderDeliveredList([item]);
           }}
+          onUpdateDeliveryStatus={() => {}}
         />
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
@@ -128,28 +114,30 @@ const DeliveryQueue = observer(() => {
         <ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            deliveryQueueStore.deliveryQueueService
-              .updateDeliveryQueue({
-                input: {
-                  _id: modalConfirm.id,
-                  visitId: modalConfirm?.visitId,
-                  deliveryStatus:
-                    type == 'cancel'
-                      ? 'Cancel'
-                      : type == 'hold'
-                      ? 'Hold'
-                      : 'Done',
-                },
-              })
-              .then(res => {
-                setModalConfirm({show: false});
-                if (res.updateDeliveryQueue.success) {
-                  Toast.success({
-                    message: `😊 ${res.updateDeliveryQueue.message}`,
-                  });
-                  deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
-                }
-              });
+            if (type == 'cancel' || type == 'hold' || type == 'generatePdf') {
+              deliveryQueueStore.deliveryQueueService
+                .updateDeliveryQueue({
+                  input: {
+                    _id: modalConfirm.id,
+                    visitId: modalConfirm?.visitId,
+                    deliveryStatus:
+                      type == 'cancel'
+                        ? 'Cancel'
+                        : type == 'hold'
+                        ? 'Hold'
+                        : 'Done',
+                  },
+                })
+                .then(res => {
+                  setModalConfirm({show: false});
+                  if (res.updateDeliveryQueue.success) {
+                    Toast.success({
+                      message: `😊 ${res.updateDeliveryQueue.message}`,
+                    });
+                    deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+                  }
+                });
+            }
           }}
           onClose={() => {
             setModalConfirm({show: false});
