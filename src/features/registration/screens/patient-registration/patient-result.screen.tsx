@@ -56,6 +56,7 @@ export const PatientResult = observer((props: PatientResultProps) => {
           }}
           onPageSizeChange={(page, limit) => {
             patientResultStore.patientResultService.listPatientResultWithLabId(
+              {labId: patientRegistrationStore.defaultValues?.labId},
               page,
               limit,
             );

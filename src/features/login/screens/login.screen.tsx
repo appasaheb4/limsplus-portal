@@ -277,11 +277,15 @@ export const Login = observer(() => {
             <div className='flex justify-center items-center'>
               {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
               <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'>
-                <div className='flex mt-2 p-2'>
-                  <label className='font-bold text-lg text-black underline ml-4'>
+                {loginStore.inputLogin?.userModule ? (
+                  <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
+                    {loginStore.inputLogin?.userModule}
+                  </span>
+                ) : (
+                  <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
                     Sign In
-                  </label>
-                </div>
+                  </span>
+                )}
                 <div className='rounded-2xl bg-white p-4 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'>
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
@@ -415,7 +419,9 @@ export const Login = observer(() => {
                       control={control}
                       render={({field: {onChange}}) => (
                         <Form.InputWrapper
-                          label={loginStore.inputLogin.userModule || 'Lab'}
+                          label={
+                            loginStore.inputLogin.userModuleCategory || 'Lab'
+                          }
                           hasError={!!errors.lab}
                           style={{color: 'black'}}
                         >

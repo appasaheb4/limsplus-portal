@@ -1,16 +1,7 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
-import {
-  NumberFilter,
-  textFilter,
-  customFilter,
-  Form,
-  Tooltip,
-  Icons,
-} from '@/library/components';
-import {Confirm} from '@/library/models';
+import {Tooltip, Icons} from '@/library/components';
 import dayjs from 'dayjs';
-
 import {TableBootstrap} from './table-bootstrap.components';
 
 interface ReportDeliveryProps {
@@ -22,6 +13,7 @@ interface ReportDeliveryProps {
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
+  onUpdateDeliveryStatus?: () => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -245,9 +237,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         {Icons.getIconTag(Icons.Iconmd.MdBackHand)}
                       </Icons.IconContext>
                     </Tooltip>
-                    <Tooltip tooltipText='Generate PDF'>
+                    <Tooltip tooltipText='Delivery Status'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onUpdate &&
@@ -257,11 +249,11 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                             show: true,
                             id: row._id,
                             title: 'Are you sure?',
-                            body: 'Generate pdf',
+                            body: 'Generate pdf status update',
                           })
                         }
                       >
-                        {Icons.getIconTag(Icons.Iconai.AiOutlineFilePdf)}
+                        {Icons.getIconTag(Icons.IconTb.TbExchange)}
                       </Icons.IconContext>
                     </Tooltip>
                   </div>
@@ -298,6 +290,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           onClickRow={(item, index) => {
             setSelectedItem(item);
             props.onClickRow && props.onClickRow(item, index);
+          }}
+          onUpdateDeliveryStatus={() => {
+            props.onUpdateDeliveryStatus && props.onUpdateDeliveryStatus();
           }}
         />
       </div>

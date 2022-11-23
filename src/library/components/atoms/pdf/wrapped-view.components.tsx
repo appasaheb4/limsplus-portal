@@ -20,6 +20,7 @@ interface PdfViewProps {
   alignItems?: 'flex-end' | 'flex-start' | 'center';
   flexDirection?: 'row' | 'column';
   fixed?: boolean;
+  isBreak?: boolean;
   style?: Style | Style[] | any;
   children?: React.ReactNode;
 }
@@ -30,12 +31,14 @@ export const PdfView = ({
   flexDirection = 'column',
   style,
   fixed = false,
+  isBreak = false,
   alignItems,
   mt,
   children,
 }: PdfViewProps) => {
   return (
     <View
+      break={isBreak}
       style={{
         marginHorizontal: mh,
         marginTop: mt,
@@ -60,10 +63,12 @@ export const PdfBorderView = ({
   style,
   flexDirection = 'column',
   fixed = false,
+  isBreak = false,
   children,
 }: PdfViewProps) => {
   return (
     <View
+      break={isBreak}
       style={{
         flexDirection: flexDirection,
         marginHorizontal: mh,
@@ -71,7 +76,6 @@ export const PdfBorderView = ({
         padding: p,
         borderColor: borderColor,
         borderWidth: bw,
-
         ...style,
       }}
       fixed={fixed}

@@ -72,7 +72,7 @@ const ReportTemplate = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-      {/* 
+
       <div className='flex'>
         <div className={'flex flex-row p-2 rounded-lg gap-4'}>
           {templates?.map(item => (
@@ -98,8 +98,8 @@ const ReportTemplate = observer(() => {
             </div>
           ))}
         </div>
-      </div> */}
-      <ADCMedicalReportPdf height={600} />
+      </div>
+      {/* <ADCMedicalReportPdf height={600} /> */}
     </>
   );
 });
