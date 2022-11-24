@@ -11,6 +11,8 @@ export const DELIVERY_QUEUE_LIST = gql`
       data {
         _id
         labId
+        externalLabId
+        employeeCode
         visitId
         deliveryId
         deliveryDate
@@ -25,6 +27,10 @@ export const DELIVERY_QUEUE_LIST = gql`
         errorMsg
         clientCode
         clientName
+        registrationLocation
+        registrationLocationCode
+        doctorCode
+        doctorName
         qrCode
         pdf
         enteredBy
@@ -73,9 +79,18 @@ export const UPDATE_DELIVERY_QUEUE = gql`
   }
 `;
 
+export const UPDATE_DELIVERY_QUEUE_BY_VISIT_IDS = gql`
+  mutation ($input: DeliveryQueueInput!) {
+    updateByVisitIdsDeliveryQueue(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
 export const FILTER = gql`
-  mutation ($input: BannerInput!) {
-    filterBanners(input: $input) {
+  mutation ($input: DeliveryQueueInput!) {
+    filterDeliveryQueue(input: $input) {
       paginatorInfo {
         count
       }
@@ -84,6 +99,9 @@ export const FILTER = gql`
       data {
         _id
         labId
+        externalLabId
+        employeeCode
+        visitId
         deliveryId
         deliveryDate
         reportDate
@@ -97,6 +115,10 @@ export const FILTER = gql`
         errorMsg
         clientCode
         clientName
+        registrationLocation
+        registrationLocationCode
+        doctorCode
+        doctorName
         qrCode
         pdf
         enteredBy
@@ -126,6 +148,8 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         labId
+        externalLabId
+        employeeCode
         deliveryId
         deliveryDate
         reportDate
@@ -139,6 +163,10 @@ export const FIND_BY_FIELDS = gql`
         errorMsg
         clientCode
         clientName
+        registrationLocation
+        registrationLocationCode
+        doctorCode
+        doctorName
         qrCode
         pdf
         enteredBy

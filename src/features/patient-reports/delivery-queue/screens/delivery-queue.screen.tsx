@@ -60,14 +60,25 @@ const DeliveryQueue = observer(() => {
             );
           }}
           onFilter={(type, filter, page, limit) => {
-            // bannerStore.BannerService.filter({
-            //   input: {type, filter, page, limit},
-            // });
+            deliveryQueueStore.deliveryQueueService.filter({
+              input: {type, filter, page, limit},
+            });
           }}
           onClickRow={(item, index) => {
             deliveryQueueStore.updateOrderDeliveredList([item]);
           }}
-          onUpdateDeliveryStatus={() => {}}
+          onUpdateDeliveryStatus={() => {
+            setModalConfirm({
+              type: 'updateAllDeliveryStatus',
+              ids: deliveryQueueStore.reportDeliveryList?.map(item => item._id),
+              visitId: deliveryQueueStore.reportDeliveryList?.map(
+                item => item.visitId,
+              ),
+              show: true,
+              title: 'Are you sure?',
+              body: 'All generate pdf status update',
+            });
+          }}
         />
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
@@ -133,6 +144,26 @@ const DeliveryQueue = observer(() => {
                   if (res.updateDeliveryQueue.success) {
                     Toast.success({
                       message: `😊 ${res.updateDeliveryQueue.message}`,
+                    });
+                    deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+                  }
+                });
+            } else {
+              deliveryQueueStore.deliveryQueueService
+                .updateDeliveryQueueByVisitIds({
+                  input: {
+                    filter: {
+                      ids: modalConfirm?.ids,
+                      visitId: modalConfirm?.visitId,
+                      deliveryStatus: 'Done',
+                    },
+                  },
+                })
+                .then(res => {
+                  setModalConfirm({show: false});
+                  if (res.updateByVisitIdsDeliveryQueue.success) {
+                    Toast.success({
+                      message: `😊 ${res.updateByVisitIdsDeliveryQueue.message}`,
                     });
                     deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
                   }
