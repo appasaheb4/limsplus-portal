@@ -10,6 +10,8 @@ import {stores} from '@/stores';
 import {
   DELIVERY_QUEUE_LIST,
   UPDATE_DELIVERY_QUEUE,
+  UPDATE_DELIVERY_QUEUE_BY_VISIT_IDS,
+  FILTER,
 } from './mutation-delivery-queue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -45,6 +47,42 @@ export class DeliveryQueueService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+  updateDeliveryQueueByVisitIds = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_DELIVERY_QUEUE_BY_VISIT_IDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          console.log({response});
+
+          if (!response.data.filterDeliveryQueue.success)
+            return this.listDeliveryQueue();
+          stores.deliveryQueueStore.filterReportDeliveryList(response.data);
+          stores.uploadLoadingFlag(false);
           resolve(response.data);
         })
         .catch(error =>

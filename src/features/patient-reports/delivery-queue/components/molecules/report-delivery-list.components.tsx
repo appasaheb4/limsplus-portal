@@ -47,6 +47,18 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
             },
             {
+              dataField: 'externalLabId',
+              text: 'External Lab Id',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'employeeCode',
+              text: 'Employee Code',
+              sort: true,
+              editable: false,
+            },
+            {
               dataField: 'deliveryId',
               text: 'Delivery Id',
               sort: true,
@@ -158,6 +170,34 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'clientName',
               text: 'Client Name',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'registrationLocation',
+              text: 'Registration Location',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'registrationLocationCode',
+              text: 'Registration Location Code',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'doctorCode',
+              text: 'Doctor Code',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
+            {
+              dataField: 'doctorName',
+              text: 'Doctor Name',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,

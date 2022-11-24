@@ -40,4 +40,9 @@ export class DeliveryQueueStore {
       this.orderDeliveredListCount = res?.length || 0;
     }
   }
+
+  filterReportDeliveryList(res: any) {
+    this.reportDeliveryList = res.filterDeliveryQueue.data;
+    this.reportDeliveryListCount = res.filterDeliveryQueue.paginatorInfo.count;
+  }
 }
