@@ -324,7 +324,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader8',
               filter: textFilter({
                 getFilter: filter => {
                   registrationLocation = filter;
@@ -337,7 +337,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader8',
               filter: textFilter({
                 getFilter: filter => {
                   registrationLocationCode = filter;
