@@ -1,8 +1,40 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
-import {Tooltip, Icons} from '@/library/components';
+import {
+  Tooltip,
+  Icons,
+  textFilter,
+  customFilter,
+  DateFilter,
+} from '@/library/components';
 import dayjs from 'dayjs';
 import {TableBootstrap} from './table-bootstrap.components';
+
+let labId;
+let externalLabId;
+let employeeCode;
+let visitId;
+let deliveryId;
+let deliveryDate;
+let reportDate;
+let deliveryStatus;
+let reportType;
+let deliveryMode;
+let destination;
+let comments;
+let startDate;
+let endDate;
+let errorMsg;
+let clientCode;
+let clientName;
+let registrationLocation;
+let registrationLocationCode;
+let doctorCode;
+let doctorName;
+let qrCode;
+let pdf;
+let enteredBy;
+let userComments;
 
 interface ReportDeliveryProps {
   data: any;
@@ -45,30 +77,63 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               text: 'Lab Id',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  labId = filter;
+                },
+              }),
             },
             {
               dataField: 'externalLabId',
               text: 'External Lab Id',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  externalLabId = filter;
+                },
+              }),
             },
             {
               dataField: 'employeeCode',
               text: 'Employee Code',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  employeeCode = filter;
+                },
+              }),
             },
             {
               dataField: 'deliveryId',
               text: 'Delivery Id',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  deliveryId = filter;
+                },
+              }),
             },
             {
               dataField: 'deliveryDate',
               text: 'Delivery Date',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: customFilter({
+                getFilter: filter => {
+                  deliveryDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -84,6 +149,15 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               text: 'Report Date',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: customFilter({
+                getFilter: filter => {
+                  reportDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -99,24 +173,48 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               text: 'Delivery Status',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  deliveryStatus = filter;
+                },
+              }),
             },
             {
               dataField: 'reportType',
               text: 'Report Type',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  reportType = filter;
+                },
+              }),
             },
             {
               dataField: 'deliveryMode',
               text: 'Delivery Mode',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  deliveryMode = filter;
+                },
+              }),
             },
             {
               dataField: 'destination',
               text: 'Destination',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  destination = filter;
+                },
+              }),
             },
             {
               dataField: 'comments',
@@ -124,12 +222,27 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  comments = filter;
+                },
+              }),
             },
             {
               dataField: 'startDate',
               text: 'Start Date',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: customFilter({
+                getFilter: filter => {
+                  startDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -145,6 +258,15 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               text: 'End Date',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: customFilter({
+                getFilter: filter => {
+                  endDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -159,6 +281,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  errorMsg = filter;
+                },
+              }),
             },
             {
               dataField: 'clientCode',
@@ -166,6 +294,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  clientCode = filter;
+                },
+              }),
             },
             {
               dataField: 'clientName',
@@ -173,6 +307,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  clientName = filter;
+                },
+              }),
             },
             {
               dataField: 'registrationLocation',
@@ -180,6 +320,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  registrationLocation = filter;
+                },
+              }),
             },
             {
               dataField: 'registrationLocationCode',
@@ -187,6 +333,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  registrationLocationCode = filter;
+                },
+              }),
             },
             {
               dataField: 'doctorCode',
@@ -194,6 +346,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  doctorCode = filter;
+                },
+              }),
             },
             {
               dataField: 'doctorName',
@@ -201,6 +359,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  doctorName = filter;
+                },
+              }),
             },
             {
               dataField: 'qrCode',
@@ -208,6 +372,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  qrCode = filter;
+                },
+              }),
             },
             {
               dataField: 'pdf',
@@ -215,6 +385,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  pdf = filter;
+                },
+              }),
             },
             {
               dataField: 'enteredBy',
@@ -222,6 +398,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  enteredBy = filter;
+                },
+              }),
             },
             {
               dataField: 'userComments',
@@ -229,6 +411,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader1',
+              filter: textFilter({
+                getFilter: filter => {
+                  userComments = filter;
+                },
+              }),
             },
             {
               dataField: 'operation',
@@ -326,7 +514,32 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
-          clearAllFilter={() => {}}
+          clearAllFilter={() => {
+            labId('');
+            externalLabId('');
+            employeeCode('');
+            deliveryId('');
+            deliveryDate();
+            reportDate();
+            deliveryStatus('');
+            reportType('');
+            deliveryMode('');
+            destination('');
+            comments('');
+            startDate();
+            endDate();
+            errorMsg('');
+            clientCode('');
+            clientName('');
+            registrationLocation('');
+            registrationLocationCode('');
+            doctorCode('');
+            doctorName('');
+            qrCode('');
+            pdf('');
+            enteredBy('');
+            userComments('');
+          }}
           onClickRow={(item, index) => {
             setSelectedItem(item);
             props.onClickRow && props.onClickRow(item, index);
