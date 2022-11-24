@@ -30,7 +30,7 @@ export const PdfPatientDetails = observer(({data}: PdfPatientDetailsProps) => {
           <PdfSmall>{'Ref Lab: '}</PdfSmall>
         </PdfGrid>
         <PdfGrid cols={3} bg='transparent'>
-          <PdfSmall>{'Srl No: 5'}</PdfSmall>
+          <PdfSmall>{'Sr No: 5'}</PdfSmall>
           <PdfSmall>{'Age: 27 Yrs'}</PdfSmall>
           <PdfSmall>{'Sex: Female'}</PdfSmall>
         </PdfGrid>

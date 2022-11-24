@@ -49,7 +49,6 @@ export const PdfTPRTemp0002List = ({
   style,
   headerStyle,
 }: PdfTPRTemp0002ListProps) => {
-  const [patientResultList, setPatientResultList] = useState<Array<any>>();
   const fields = [
     {
       title: 'Test Name',
@@ -68,7 +67,7 @@ export const PdfTPRTemp0002List = ({
       width: '20',
     },
   ];
-
+  const [patientResultList, setPatientResultList] = useState<Array<any>>();
   useEffect(() => {
     if (data?.length > 0) {
       const patientResultList: Array<any> = [];
