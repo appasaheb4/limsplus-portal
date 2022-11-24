@@ -277,13 +277,12 @@ export const Login = observer(() => {
             <div className='flex justify-center items-center'>
               {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
               <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'>
-                {loginStore.inputLogin?.userModule ? (
-                  <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
+                <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
+                  Sign In
+                </span>
+                {loginStore.inputLogin?.userModule && (
+                  <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
                     {loginStore.inputLogin?.userModule}
-                  </span>
-                ) : (
-                  <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
-                    Sign In
                   </span>
                 )}
                 <div className='rounded-2xl bg-white p-4 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'>

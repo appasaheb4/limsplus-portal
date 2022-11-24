@@ -23,6 +23,8 @@ import {
   PdfTPRTemp0001,
   PdfTPRTemp0002,
   PdfTPRTemp0003,
+  PdfTemp0004,
+  PdfTemp0005,
 } from '@features/report-builder/report-template/components';
 import {PDFViewer, PDFDownloadLink} from '@react-pdf/renderer';
 
@@ -48,8 +50,6 @@ const GenerateReport = observer(() => {
   setValue('species', patientManagerStore.patientManger.species);
 
   const getTemplate = (tempCode: string, data: any) => {
-    console.log({data});
-
     if (data?.patientReports?.templatePatientResult?.templateCode) {
       switch (tempCode) {
         case 'TEMP0001':
@@ -58,6 +58,10 @@ const GenerateReport = observer(() => {
           return <PdfTPRTemp0002 data={data} />;
         case 'TEMP0003':
           return <PdfTPRTemp0003 data={data} />;
+        case 'TEMP0004':
+          return <PdfTemp0004 data={data} />;
+        case 'TEMP0005':
+          return <PdfTemp0005 data={data} />;
         default:
           return (
             <div className='justify-center items-center'>
@@ -108,8 +112,6 @@ const GenerateReport = observer(() => {
               generateReportsStore.generateReportsService
                 .getPatientReportAndPageBrandingFromLabId(item.labId)
                 .then(res => {
-                  console.log({res});
-
                   generateReportsStore.updatePatientReports(res?.data);
                   generateReportsStore.updatePageBranding(
                     res?.data?.templatePatientResult?.pageBranding,
