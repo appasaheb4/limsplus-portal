@@ -68,6 +68,7 @@ export class DeliveryQueueService {
 
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
       stores.uploadLoadingFlag(false);
       client
         .mutate({
@@ -75,8 +76,6 @@ export class DeliveryQueueService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
-
           if (!response.data.filterDeliveryQueue.success)
             return this.listDeliveryQueue();
           stores.deliveryQueueStore.filterReportDeliveryList(response.data);

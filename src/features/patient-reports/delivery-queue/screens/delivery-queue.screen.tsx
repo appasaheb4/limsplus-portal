@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -33,6 +33,33 @@ const DeliveryQueue = observer(() => {
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
 
+  // const debounce = (fn: () => void, delay = 3000) => {
+  //   let timer;
+  //   return (() => {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => fn(), delay);
+  //   })();
+  // };
+
+  const throttle = function (func, limit) {
+    let flag = true;
+    return function () {
+      if (flag) {
+        func();
+        flag = false;
+        setTimeout(() => {
+          flag = true;
+        }, limit);
+      }
+    };
+  };
+
+  const debounce = _.debounce((type, filter, page, limit) => {
+    deliveryQueueStore.deliveryQueueService.filter({
+      input: {type, filter, page, limit},
+    });
+  }, 1000);
+
   return (
     <>
       <Header>
@@ -60,9 +87,7 @@ const DeliveryQueue = observer(() => {
             );
           }}
           onFilter={(type, filter, page, limit) => {
-            deliveryQueueStore.deliveryQueueService.filter({
-              input: {type, filter, page, limit},
-            });
+            debounce(type, filter, page, limit);
           }}
           onClickRow={(item, index) => {
             deliveryQueueStore.updateOrderDeliveredList([item]);
