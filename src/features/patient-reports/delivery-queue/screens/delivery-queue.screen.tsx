@@ -8,6 +8,7 @@ import {
   PageHeadingLabDetails,
   Toast,
 } from '@/library/components';
+import {debounce} from '@/core-utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {ReportDeliveryList, OrderDeliveredList} from '../components';
@@ -33,32 +34,11 @@ const DeliveryQueue = observer(() => {
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
 
-  // const debounce = (fn: () => void, delay = 3000) => {
-  //   let timer;
-  //   return (() => {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => fn(), delay);
-  //   })();
-  // };
-
-  const throttle = function (func, limit) {
-    let flag = true;
-    return function () {
-      if (flag) {
-        func();
-        flag = false;
-        setTimeout(() => {
-          flag = true;
-        }, limit);
-      }
-    };
-  };
-
-  const debounce = _.debounce((type, filter, page, limit) => {
-    deliveryQueueStore.deliveryQueueService.filter({
-      input: {type, filter, page, limit},
-    });
-  }, 1000);
+  // const debounce = _.debounce((type, filter, page, limit) => {
+  //   deliveryQueueStore.deliveryQueueService.filter({
+  //     input: {type, filter, page, limit},
+  //   });
+  // }, 1000);
 
   return (
     <>
@@ -87,7 +67,9 @@ const DeliveryQueue = observer(() => {
             );
           }}
           onFilter={(type, filter, page, limit) => {
-            debounce(type, filter, page, limit);
+            deliveryQueueStore.deliveryQueueService.filter({
+              input: {type, filter, page, limit},
+            });
           }}
           onClickRow={(item, index) => {
             deliveryQueueStore.updateOrderDeliveredList([item]);
