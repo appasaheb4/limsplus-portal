@@ -8,7 +8,6 @@ import paginationFactory, {
 } from 'react-bootstrap-table2-paginator';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
-
 import {Icons, Buttons} from '@/library/components';
 import {Confirm} from '@/library/models';
 import './style.css';
