@@ -12,6 +12,7 @@ import {
   UPDATE_DELIVERY_QUEUE,
   UPDATE_DELIVERY_QUEUE_BY_VISIT_IDS,
   FILTER,
+  MEDICAL_REPORT,
 } from './mutation-delivery-queue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -80,6 +81,21 @@ export class DeliveryQueueService {
             return this.listDeliveryQueue();
           stores.deliveryQueueStore.filterReportDeliveryList(response.data);
           stores.uploadLoadingFlag(false);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getMedicalReportDetails = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: MEDICAL_REPORT,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

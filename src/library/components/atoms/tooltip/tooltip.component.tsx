@@ -1,77 +1,54 @@
 import React, {useRef} from 'react';
-
-const getPosition = (position: 'bottom' | 'left' | 'top') => {
-  if (position === 'left')
-    return {
-      left: -75,
-      bottom: -25,
-      opacity: 0,
-      writingMode: 'vertical-rl',
-      textOrientation: 'mixed',
-      padding: 2,
-      margin: 2,
-    };
-  if (position === 'top')
-    return {
-      left: -20,
-      top: -50,
-      opacity: 0,
-    };
-  else
-    return {
-      left: -20,
-      bottom: -40,
-      opacity: 0,
-    };
-};
+import * as Material from '@mui/material';
 
 interface TooltipProps {
   tooltipText?: any;
   position?: 'bottom' | 'left' | 'top';
   className?: string;
-  children?: React.ReactNode;
+  children?: any;
 }
 
 export const Tooltip: React.FunctionComponent<TooltipProps> = ({
   tooltipText,
-  position = 'bottom',
-  className,
+  position = 'bottom-start',
   children,
 }) => {
-  const tipRef = useRef(null);
-  const handleMouseEnter = tipRef => {
-    tipRef.current.style.opacity = 1;
-    // tipRef.current.style.marginLeft = "20px"
+  const positionRef = React.useRef<{x: number; y: number}>({
+    x: 0,
+    y: 0,
+  });
+  const popperRef = React.useRef<any>(null);
+  const areaRef = React.useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (event: React.MouseEvent) => {
+    positionRef.current = {x: event.clientX, y: event.clientY};
+
+    if (popperRef.current != null) {
+      popperRef.current.update();
+    }
   };
-  function handleMouseLeave(tipRef) {
-    tipRef.current.style.opacity = 0;
-    // tipRef.current.style.marginLeft = "10px"
-  }
   return (
-    <div
-      className={`${className} relative flex items-center`}
-      onMouseEnter={() => handleMouseEnter(tipRef)}
-      onMouseLeave={() => handleMouseLeave(tipRef)}
-      style={{position: 'relative'}}
+    <Material.Tooltip
+      title={tooltipText}
+      placement='bottom-start'
+      arrow
+      PopperProps={{
+        popperRef,
+        anchorEl: {
+          getBoundingClientRect: () => {
+            return new DOMRect(
+              positionRef.current.x,
+              areaRef.current!.getBoundingClientRect().y + 22,
+              0,
+              0,
+            );
+          },
+        },
+      }}
     >
-      <div
-        className='absolute  whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150'
-        style={getPosition(position) as any}
-        ref={tipRef}
-      >
-        <div
-          className='bg-black h-3 w-3 absolute'
-          style={
-            position == 'left'
-              ? {right: '-6px', transform: 'rotate(45deg)'}
-              : position !== 'bottom'
-              ? {bottom: '-6px', transform: 'rotate(45deg)'}
-              : {top: '-6px', transform: 'rotate(45deg)'}
-          }
-        />
-        <div dangerouslySetInnerHTML={{__html: tooltipText}} />
-      </div>
-      {children}
-    </div>
+      <Material.Box ref={areaRef} onMouseMove={handleMouseMove}>
+        {children}
+      </Material.Box>
+    </Material.Tooltip>
   );
 };

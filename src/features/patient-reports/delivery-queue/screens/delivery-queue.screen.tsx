@@ -86,6 +86,25 @@ const DeliveryQueue = observer(() => {
               body: 'All generate pdf status update',
             });
           }}
+          onMedicalReport={labId => {
+            deliveryQueueStore.deliveryQueueService
+              .getMedicalReportDetails({
+                input: {
+                  filter: {
+                    labId,
+                  },
+                },
+              })
+              .then(res => {
+                if (res.getMedicalReportDetailsForDeliveryQueue.success) {
+                  console.log({res});
+                } else {
+                  Toast.error({
+                    message: `😞 ${res.getMedicalReportDetailsForDeliveryQueue.message}`,
+                  });
+                }
+              });
+          }}
         />
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
