@@ -17,6 +17,7 @@ import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
 import {Buttons, Icons} from '@/library/components';
+import {debounce} from '@/core-utils';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
@@ -200,18 +201,21 @@ const TableBootstrap = ({
         const object = {[key]: values.filterVal};
         filter = Object.assign(filter, object);
       }
-      onFilter &&
-        onFilter(
-          type,
-          filter,
-          type === 'filter' && page === 1 ? 0 : page,
-          sizePerPage,
-        );
+      if (onFilter) {
+        debounce(() => {
+          onFilter(
+            type,
+            filter,
+            type === 'filter' && page === 1 ? 0 : page,
+            sizePerPage,
+          );
+        });
+      }
     }
     if (type === 'search') {
-      setTimeout(() => {
+      debounce(() => {
         onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
-      }, 2000);
+      });
     }
     if (type === 'sort') {
       let result;
