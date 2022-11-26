@@ -187,3 +187,13 @@ export const FIND_BY_FIELDS = gql`
     }
   }
 `;
+
+export const MEDICAL_REPORT = gql`
+  mutation ($input: DeliveryQueueInput!) {
+    getMedicalReportDetailsForDeliveryQueue(input: $input) {
+      success
+      message
+      resultMedicalReport
+    }
+  }
+`;

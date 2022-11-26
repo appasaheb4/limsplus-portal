@@ -10,6 +10,7 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import {TableBootstrap} from './table-bootstrap.components';
+import * as Material from '@mui/material';
 
 let labId;
 let externalLabId;
@@ -47,6 +48,7 @@ interface ReportDeliveryProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onUpdateDeliveryStatus?: () => void;
+  onMedicalReport: (labId: string) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -469,6 +471,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         {Icons.getIconTag(Icons.Iconmd.MdBackHand)}
                       </Icons.IconContext>
                     </Tooltip>
+
                     <Tooltip tooltipText='Delivery Status'>
                       <Icons.IconContext
                         color='#ffffff'
@@ -486,6 +489,18 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         }
                       >
                         {Icons.getIconTag(Icons.IconTb.TbExchange)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    <Tooltip tooltipText='Medical Report'>
+                      <Icons.IconContext
+                        color='#ffffff'
+                        size='20'
+                        onClick={() =>
+                          props.onMedicalReport &&
+                          props.onMedicalReport(row?.labId)
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBs.BsFilePdf)}
                       </Icons.IconContext>
                     </Tooltip>
                   </div>

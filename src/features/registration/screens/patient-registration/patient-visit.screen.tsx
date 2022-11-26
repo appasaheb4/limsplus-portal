@@ -83,7 +83,6 @@ export const PatientVisit = PatientVisitHoc(
             },
           })
           .then(async res => {
-            console.log({res});
             if (res.createPatientVisit.success) {
               patientRegistrationStore.updateDefaultValue({
                 ...patientRegistrationStore.defaultValues,
