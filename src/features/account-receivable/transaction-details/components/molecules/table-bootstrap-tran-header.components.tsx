@@ -16,7 +16,7 @@ import paginationFactory, {
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
-
+import {debounce} from '@/core-utils';
 import {Buttons, Icons} from '@/library/components';
 
 const {SearchBar, ClearSearchButton} = Search;
@@ -207,18 +207,21 @@ export const TableBootstrapTranHeader = ({
         const object = {[key]: values.filterVal};
         filter = Object.assign(filter, object);
       }
-      onFilter &&
-        onFilter(
-          type,
-          filter,
-          type === 'filter' && page === 1 ? 0 : page,
-          sizePerPage,
-        );
+      if (onFilter) {
+        debounce(() => {
+          onFilter(
+            type,
+            filter,
+            type === 'filter' && page === 1 ? 0 : page,
+            sizePerPage,
+          );
+        });
+      }
     }
     if (type === 'search') {
-      setTimeout(() => {
+      debounce(() => {
         onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
-      }, 2000);
+      });
     }
     if (type === 'sort') {
       let result;
