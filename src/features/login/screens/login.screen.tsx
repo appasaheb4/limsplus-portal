@@ -588,9 +588,6 @@ export const Login = observer(() => {
             setModalForgotPassword({show: false});
           }}
         />
-        <div className='bottom-0 left-0 m-2 absolute'>
-          <span className='text-white'>{`${process.env.REACT_APP_ENV} - ${packageJson.version}`}</span>
-        </div>
         <ModalChangePassword
           {...modalChangePassword}
           onClick={() => {

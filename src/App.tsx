@@ -5,8 +5,9 @@ import {Provider} from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
 import {configure} from 'mobx';
 import {I18nextProvider} from 'react-i18next';
-import i18next, {setLanguage} from './localization';
+import {Alert, Snackbar} from '@mui/material';
 
+import i18next, {setLanguage} from './localization';
 import store from './redux/store/index';
 import Routes from './routes/root-route';
 
@@ -55,6 +56,14 @@ const App = observer(() => {
     loader();
   }, []);
 
+  const environments = {
+    Local: 'error',
+    Development: 'error',
+    Qa: 'warning',
+    Uat: 'info',
+    Production: 'success',
+  };
+
   return (
     <>
       <ApolloProvider client={client}>
@@ -73,6 +82,15 @@ const App = observer(() => {
           </Provider>
         </I18nextProvider>
         <ToastContainer />
+        <Snackbar
+          open={true}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <Alert severity='error'>{process.env.REACT_APP_ENV}</Alert>
+        </Snackbar>
         {stores.flagLoading && stores.loading && <ModalLoader />}
       </ApolloProvider>
     </>
