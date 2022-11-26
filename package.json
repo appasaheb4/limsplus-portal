@@ -22,10 +22,12 @@
   },
   "dependencies": {
     "@apollo/client": "3.4.11",
+    "@emotion/styled": "^11.10.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@headlessui/react": "^0.2.0",
+    "@mui/material": "^5.10.15",
     "@reach/router": "^1.3.4",
     "@react-pdf/renderer": "^3.0.0",
     "@rimiti/hl7-object-parser": "^2.9.0",
