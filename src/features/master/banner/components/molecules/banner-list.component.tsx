@@ -64,7 +64,7 @@ export const BannerList = (props: BannerListProps) => {
               <>
                 <img
                   src={row.image}
-                  alt='banner'
+                  alt={row.title || row._id}
                   className='object-fill h-35 w-40 rounded-md'
                 />
               </>

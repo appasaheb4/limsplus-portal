@@ -275,7 +275,6 @@ export const Login = observer(() => {
           </Col>
           <Col md='6' sm='12' xs='12'>
             <div className='flex justify-center items-center'>
-              {/* <img src={logo} className='w-20 h-15  self-center' alt='logo' /> */}
               <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'>
                 <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
                   Sign In
