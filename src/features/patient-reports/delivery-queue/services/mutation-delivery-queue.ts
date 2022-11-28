@@ -141,8 +141,8 @@ export const FILTER = gql`
 `;
 
 export const FIND_BY_FIELDS = gql`
-  mutation ($input: GeneralSettingInput!) {
-    findByFieldsGeneralSetting(input: $input) {
+  mutation ($input: DeliveryQueueInput!) {
+    findByFieldsDeliveryQueue(input: $input) {
       success
       message
       data {
@@ -150,6 +150,7 @@ export const FIND_BY_FIELDS = gql`
         labId
         externalLabId
         employeeCode
+        visitId
         deliveryId
         deliveryDate
         reportDate

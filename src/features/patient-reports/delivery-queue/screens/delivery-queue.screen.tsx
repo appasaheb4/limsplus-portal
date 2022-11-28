@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -11,20 +11,19 @@ import {
 import {debounce} from '@/core-utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import {ReportDeliveryList, OrderDeliveredList} from '../components';
+import {
+  ReportDeliveryList,
+  OrderDeliveredList,
+  ModalMedicalReportShare,
+} from '../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import {toJS} from 'mobx';
 
 const DeliveryQueue = observer(() => {
-  const {
-    loading,
-    deliveryQueueStore,
-    routerStore,
-    administrativeDivisions,
-    doctorsStore,
-    loginStore,
-  } = useStores();
+  const {loading, deliveryQueueStore, routerStore, loginStore, receiptStore} =
+    useStores();
 
   const {
     control,
@@ -33,12 +32,168 @@ const DeliveryQueue = observer(() => {
     setValue,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [modalMedicalReportShare, setModalMedicalReportShare] = useState<any>();
+  const [receiptPath, setReceiptPath] = useState<string>();
 
-  // const debounce = _.debounce((type, filter, page, limit) => {
-  //   deliveryQueueStore.deliveryQueueService.filter({
-  //     input: {type, filter, page, limit},
-  //   });
-  // }, 1000);
+  const getDeliveryList = () => {
+    const loginDetails = loginStore.login;
+    if (loginDetails?.role == 'SYSADMIN') {
+      deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+      return;
+    }
+    if (loginDetails?.role == 'CORPORATE_PORTAL') {
+      deliveryQueueStore.deliveryQueueService
+        .findByFields({
+          input: {
+            filter: {
+              clientCode: loginDetails.lab,
+            },
+          },
+        })
+        .then(res => {
+          if (res.findByFieldsDeliveryQueue.success) {
+            deliveryQueueStore.updateReportDeliveryList({
+              deliveryQueues: {
+                data: res.findByFieldsDeliveryQueue?.data,
+                paginatorInfo: {
+                  count: res.findByFieldsDeliveryQueue?.data?.length,
+                },
+              },
+            });
+          }
+        });
+      return;
+    } else {
+      Toast.warning({
+        message:
+          "😞 You don't have access permission for delivery queue. Please contact to admin",
+      });
+    }
+  };
+
+  useEffect(() => {
+    getDeliveryList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getValue = value =>
+    typeof value === 'string' ? value.toUpperCase() : value;
+
+  const filterPlainArray = (array, filters) => {
+    const filterKeys = Object.keys(filters);
+    console.log({filterKeys});
+    return array.filter(item => {
+      console.log({item});
+      return filterKeys.every(key => {
+        console.log({key});
+        if (!filters[key].length) return true;
+        return filters[key].find(
+          filter => getValue(filter) === getValue(item[key]),
+        );
+      });
+    });
+  };
+
+  // userModule ="Corporate Portal"
+  const reportDeliveryList = useMemo(
+    () => (
+      <ReportDeliveryList
+        data={deliveryQueueStore.reportDeliveryList || []}
+        totalSize={deliveryQueueStore.reportDeliveryListCount}
+        isPagination={loginStore.login?.role == 'SYSADMIN' ? true : false}
+        isDelete={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Delete',
+        )}
+        isEditModify={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Edit/Modify',
+        )}
+        onUpdate={selectedItem => setModalConfirm(selectedItem)}
+        onPageSizeChange={(page, limit) => {
+          deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
+            page,
+            limit,
+          );
+        }}
+        onFilter={(type, filter, page, limit) => {
+          if (loginStore.login?.role == 'SYSADMIN') {
+            deliveryQueueStore.deliveryQueueService.filter({
+              input: {type, filter, page, limit},
+            });
+          } else {
+            if (type == 'filter') {
+              console.log({type, filter});
+
+              console.log({
+                list: filterPlainArray(
+                  deliveryQueueStore.reportDeliveryListCopy,
+                  filter,
+                ),
+              });
+            } else {
+              if (filter.srText == '') {
+                return deliveryQueueStore.updateReportDeliveryList(
+                  deliveryQueueStore.reportDeliveryListCopy,
+                );
+              }
+              const list = deliveryQueueStore.reportDeliveryListCopy;
+              const data = list?.filter(res => {
+                return JSON.stringify(res)
+                  .toLocaleLowerCase()
+                  .match(filter.srText?.toLocaleLowerCase());
+              });
+              deliveryQueueStore.updateReportDeliveryList(data);
+            }
+          }
+        }}
+        onClickRow={(item, index) => {
+          deliveryQueueStore.updateOrderDeliveredList([item]);
+        }}
+        onUpdateDeliveryStatus={() => {
+          setModalConfirm({
+            type: 'updateAllDeliveryStatus',
+            ids: deliveryQueueStore.reportDeliveryList?.map(item => item._id),
+            visitId: deliveryQueueStore.reportDeliveryList?.map(
+              item => item.visitId,
+            ),
+            show: true,
+            title: 'Are you sure?',
+            body: 'All generate pdf status update',
+          });
+        }}
+        onMedicalReport={labId => {
+          deliveryQueueStore.deliveryQueueService
+            .getMedicalReportDetails({
+              input: {
+                filter: {
+                  labId,
+                },
+              },
+            })
+            .then(res => {
+              if (res.getMedicalReportDetailsForDeliveryQueue.success) {
+                console.log({
+                  data: res.getMedicalReportDetailsForDeliveryQueue,
+                });
+
+                setModalMedicalReportShare({
+                  show: true,
+                  data: res.getMedicalReportDetailsForDeliveryQueue
+                    ?.resultMedicalReport,
+                });
+              } else {
+                Toast.error({
+                  message: `😞 ${res.getMedicalReportDetailsForDeliveryQueue.message}`,
+                });
+              }
+            });
+        }}
+      />
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [deliveryQueueStore.reportDeliveryList],
+  );
 
   return (
     <>
@@ -48,64 +203,7 @@ const DeliveryQueue = observer(() => {
       </Header>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Report Delivery</span>
-        <ReportDeliveryList
-          data={deliveryQueueStore.reportDeliveryList || []}
-          totalSize={deliveryQueueStore.reportDeliveryListCount}
-          isDelete={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Delete',
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Edit/Modify',
-          )}
-          onUpdate={selectedItem => setModalConfirm(selectedItem)}
-          onPageSizeChange={(page, limit) => {
-            deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
-              page,
-              limit,
-            );
-          }}
-          onFilter={(type, filter, page, limit) => {
-            deliveryQueueStore.deliveryQueueService.filter({
-              input: {type, filter, page, limit},
-            });
-          }}
-          onClickRow={(item, index) => {
-            deliveryQueueStore.updateOrderDeliveredList([item]);
-          }}
-          onUpdateDeliveryStatus={() => {
-            setModalConfirm({
-              type: 'updateAllDeliveryStatus',
-              ids: deliveryQueueStore.reportDeliveryList?.map(item => item._id),
-              visitId: deliveryQueueStore.reportDeliveryList?.map(
-                item => item.visitId,
-              ),
-              show: true,
-              title: 'Are you sure?',
-              body: 'All generate pdf status update',
-            });
-          }}
-          onMedicalReport={labId => {
-            deliveryQueueStore.deliveryQueueService
-              .getMedicalReportDetails({
-                input: {
-                  filter: {
-                    labId,
-                  },
-                },
-              })
-              .then(res => {
-                if (res.getMedicalReportDetailsForDeliveryQueue.success) {
-                  console.log({res});
-                } else {
-                  Toast.error({
-                    message: `😞 ${res.getMedicalReportDetailsForDeliveryQueue.message}`,
-                  });
-                }
-              });
-          }}
-        />
+        {reportDeliveryList}
       </div>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Order Delivered</span>
@@ -198,6 +296,30 @@ const DeliveryQueue = observer(() => {
           }}
           onClose={() => {
             setModalConfirm({show: false});
+          }}
+        />
+
+        <ModalMedicalReportShare
+          {...modalMedicalReportShare}
+          onClose={() => {
+            setModalMedicalReportShare({show: false});
+          }}
+          onReceiptUpload={(file, type) => {
+            if (!receiptPath) {
+              receiptStore.receiptService
+                .paymentReceiptUpload({input: {file}})
+                .then(res => {
+                  if (res.paymentReceiptUpload.success) {
+                    setReceiptPath(res.paymentReceiptUpload?.receiptPath);
+                    window.open(
+                      `${type} ${res.paymentReceiptUpload?.receiptPath}`,
+                      '_blank',
+                    );
+                  }
+                });
+            } else {
+              window.open(type + receiptPath, '_blank');
+            }
           }}
         />
       </div>

@@ -129,7 +129,9 @@ const GenerateReport = observer(() => {
             placeholder='Template code'
             className='h-4'
             data={{
-              list: reportSettingStore.templatePatientResultList,
+              list: _.reject(reportSettingStore.templatePatientResultList, {
+                templateCode: 'TEMP0006',
+              }),
               displayKey: ['templateCode', 'templateTitle'],
             }}
             onFilter={(labId: string) => {

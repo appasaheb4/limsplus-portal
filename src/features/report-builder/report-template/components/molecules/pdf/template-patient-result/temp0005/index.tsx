@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import {Page, Document, StyleSheet, Font, PDFViewer} from '@react-pdf/renderer';
-import {PdfPageNumber} from '@components';
+import {PdfPageNumber, PdfView} from '@components';
 import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
 import {Fotter} from '../../common/aarvak-diagnostic-center/pdf-fotter.component';
 import {PdfPatientDetails} from './pdf-patient-details.component';
@@ -44,25 +44,21 @@ export const PdfTemp0005 = ({
   children,
 }: PdfTemp0005Props) => {
   const {patientReports} = data;
-  const boxCSS = useRef<any>(styles.page);
-  if (mainBoxCSS) {
-    try {
-      boxCSS.current = eval('({' + mainBoxCSS + '})');
-    } catch (e) {
-      boxCSS.current = styles.page;
-    }
-  }
 
   return (
     <>
       <PDFViewer style={{width, height}} showToolbar={isToolbar}>
         <Document title={documentTitle}>
-          <Page size={pageSize} style={boxCSS.current}>
+          <Page size={pageSize} style={{marginVertical: 100}}>
             <PdfPatientDetails data={patientReports} />
             <PdfResultList data={patientReports?.patientResultList} />
             <PdfPageNumber
-              style={{textAlign: 'center', right: '45%'}}
-              bottom={10}
+              style={{
+                position: 'absolute',
+                textAlign: 'center',
+                right: '45%',
+              }}
+              bottom={0}
             />
           </Page>
         </Document>

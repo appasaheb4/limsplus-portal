@@ -246,9 +246,9 @@ const Dashboard = observer(({children}) => {
         await Library.startup();
       }
       // patient reports
-      if (pathname === '/patient-reports/delivery-queue') {
-        await DeliveryQueue.startup();
-      }
+      // if (pathname === '/patient-reports/delivery-queue') {
+      //   await DeliveryQueue.startup();
+      // }
       if (pathname === '/patient-reports/generate-report') {
         stores.appStore.updateFooterView({visible: false});
         stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();

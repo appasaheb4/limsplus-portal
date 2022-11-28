@@ -13,6 +13,7 @@ import {
   UPDATE_DELIVERY_QUEUE_BY_VISIT_IDS,
   FILTER,
   MEDICAL_REPORT,
+  FIND_BY_FIELDS,
 } from './mutation-delivery-queue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -96,6 +97,23 @@ export class DeliveryQueueService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
         .catch(error =>

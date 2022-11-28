@@ -111,6 +111,8 @@ export class RegistrationLocationsService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
+
       client
         .mutate({
           mutation: UPDATE_RECORD,

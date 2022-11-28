@@ -43,6 +43,7 @@ interface ReportDeliveryProps {
   totalSize: number;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isPagination?: boolean;
   onUpdate?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -68,6 +69,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           data={props.data}
           totalSize={props.totalSize}
           selectedItem={selectedItem}
+          isPagination={props.isPagination}
           columns={[
             {
               dataField: '_id',
