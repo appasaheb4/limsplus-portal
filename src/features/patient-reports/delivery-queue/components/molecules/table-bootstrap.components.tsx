@@ -36,6 +36,7 @@ interface TableBootstrapProps {
   isEditModify?: boolean;
   isSelectRow?: boolean;
   selectedItem?: any;
+  isPagination?: boolean;
   onDelete?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -62,6 +63,7 @@ export const TableBootstrap = ({
   isEditModify,
   isSelectRow,
   selectedItem,
+  isPagination = true,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
@@ -386,18 +388,22 @@ export const TableBootstrap = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <SizePerPageDropdownStandalone
-                  {...Object.assign(
-                    {},
-                    {...paginationProps, hideSizePerPage: false},
-                  )}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <PaginationTotalStandalone {...paginationProps} />
-              </div>
+              {isPagination && (
+                <>
+                  <div className='flex items-center gap-2 mt-2'>
+                    <SizePerPageDropdownStandalone
+                      {...Object.assign(
+                        {},
+                        {...paginationProps, hideSizePerPage: false},
+                      )}
+                    />
+                    <PaginationListStandalone {...paginationProps} />
+                  </div>
+                  <div className='flex items-center gap-2 mt-2'>
+                    <PaginationTotalStandalone {...paginationProps} />
+                  </div>
+                </>
+              )}
             </div>
           )}
         </ToolkitProvider>

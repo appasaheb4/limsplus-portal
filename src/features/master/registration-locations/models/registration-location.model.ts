@@ -6,7 +6,7 @@ export class RegistrationLocations {
   locationCode: string;
   locationName: string;
   corporateCode: string;
-  invoiceAc: string;
+  invoiceAc: number;
   priceList: Array<PriceList>;
   acClass: string;
   accountType: string;

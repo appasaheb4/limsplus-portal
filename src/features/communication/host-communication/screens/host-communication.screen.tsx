@@ -28,9 +28,9 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-const socket = io('http://103.163.151.209:1008');
+const socket = io('http://20.219.172.184:1008');
 import {w3cwebsocket as W3CWebSocket} from 'websocket';
-const client = new W3CWebSocket('wss://103.163.151.209:1008');
+const client = new W3CWebSocket('ws://localhost:1008');
 // let socket: any;
 // let client: any;
 
@@ -58,6 +58,10 @@ const HostCommunication = HostCommunicationHoc(
     const [messageWebSocket, setMessageWebSocket] = useState('');
 
     useEffect(() => {
+      socket.on('connect', () => {
+        console.log('Socket Connected.');
+      });
+
       socket?.on('RCV', data => {
         setMessageRCV('RCV' + data);
       });
@@ -75,6 +79,12 @@ const HostCommunication = HostCommunicationHoc(
       client.onmessage = message => {
         console.log(message);
         setMessageWebSocket(message);
+      };
+      return () => {
+        console.log('Unregistered Events...');
+        socket.off('connect');
+        socket.off('RCV');
+        socket.off('SND');
       };
     }, []);
 

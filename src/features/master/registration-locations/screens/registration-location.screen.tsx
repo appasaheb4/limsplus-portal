@@ -431,11 +431,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <AutoCompleteFilterSingleSelectCorparateCode
                         onSelect={item => {
                           onChange(item.corporateCode);
+                          console.log({item});
+
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
                               corporateCode: item.corporateCode,
-                              invoiceAc: item.invoiceAc,
+                              invoiceAc: Number.parseInt(item?.invoiceAc),
                               acClass: item.acClass,
                               accountType: item.acType,
                               customerGroup: item.customerGroup,
@@ -450,7 +452,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   defaultValue=''
                 />
                 <label className='hidden'>
-                  {registrationLocationsStore.registrationLocations?.invoiceAc}
+                  {registrationLocationsStore.registrationLocations?.invoiceAc?.toString()}
                 </label>
                 <Controller
                   control={control}
@@ -466,10 +468,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           list: corporateClientsStore.listCorporateClients,
                           displayKey: ['invoiceAc'],
                         }}
-                        displayValue={
-                          registrationLocationsStore.registrationLocations
-                            ?.invoiceAc
-                        }
+                        displayValue={registrationLocationsStore.registrationLocations?.invoiceAc?.toString()}
                         hasError={!!errors.invoiceAc}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(
@@ -490,7 +489,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
-                              invoiceAc: item.invoiceAc,
+                              invoiceAc: Number.parseInt(item.invoiceAc),
                             },
                           );
                           corporateClientsStore.updateCorporateClientsList(
@@ -1937,10 +1936,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                   setValue('lab', modalConfirm.data.lab);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
                   break;
                 }
-                // No default
               }
             }}
             onClose={() => setModalConfirm({show: false})}

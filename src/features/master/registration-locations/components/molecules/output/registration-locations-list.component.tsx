@@ -169,7 +169,7 @@ export const RegistrationLocationsList = (
                       props.onUpdateFileds(
                         {
                           corporateCode: item.corporateCode,
-                          invoiceAc: item.invoiceAc,
+                          invoiceAc: Number.parseInt(item?.invoiceAc),
                         },
                         row._id,
                       );
