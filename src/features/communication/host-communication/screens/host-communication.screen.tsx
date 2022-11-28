@@ -28,9 +28,9 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-const socket = io('http://20.219.172.184:1008');
+const socket = io('http://192.168.1.50:1008');
 import {w3cwebsocket as W3CWebSocket} from 'websocket';
-const client = new W3CWebSocket('ws://localhost:1008');
+// const client = new W3CWebSocket('ws://192.168.1.50:1008');
 // let socket: any;
 // let client: any;
 
@@ -69,17 +69,17 @@ const HostCommunication = HostCommunicationHoc(
         setMessageSND('SND' + data);
       });
 
-      client.addEventListener('open', () => {
-        console.log('WebSocket Client Connected');
-      });
-      client.addEventListener('error', event => {
-        console.log({event});
-      });
-      // eslint-disable-next-line unicorn/prefer-add-event-listener
-      client.onmessage = message => {
-        console.log(message);
-        setMessageWebSocket(message);
-      };
+      // client.addEventListener('open', () => {
+      //   console.log('WebSocket Client Connected');
+      // });
+      // client.addEventListener('error', event => {
+      //   console.log({event});
+      // });
+      // // eslint-disable-next-line unicorn/prefer-add-event-listener
+      // client.onmessage = message => {
+      //   console.log(message);
+      //   setMessageWebSocket(message);
+      // };
       return () => {
         console.log('Unregistered Events...');
         socket.off('connect');
