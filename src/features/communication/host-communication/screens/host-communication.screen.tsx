@@ -28,7 +28,7 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 import {io} from 'socket.io-client';
-const socket = io('http://192.168.1.50:1008');
+const socket = io('http://192.168.1.11:1008');
 import {w3cwebsocket as W3CWebSocket} from 'websocket';
 // const client = new W3CWebSocket('ws://192.168.1.50:1008');
 // let socket: any;
@@ -63,10 +63,11 @@ const HostCommunication = HostCommunicationHoc(
       });
 
       socket?.on('RCV', data => {
-        setMessageRCV('RCV' + data);
+        setMessageRCV('RCV - ' + JSON.stringify(data.content));
       });
+
       socket?.on('SND', data => {
-        setMessageSND('SND' + data);
+        setMessageSND('SND - ' + JSON.stringify(data.content));
       });
 
       // client.addEventListener('open', () => {
