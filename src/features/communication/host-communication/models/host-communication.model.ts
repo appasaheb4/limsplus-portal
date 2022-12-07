@@ -34,6 +34,9 @@ export class HostCommunication {
   outPutIn?: string;
   txtOutputin?: string;
 
+  connectMessage: string;
+  connectStatus: boolean;
+
   outputforThirdpartySoftware?: string;
   logFileThiredPartySoftare?: string;
   SourceRepositoryThiredPartySoftare?: string;
@@ -66,5 +69,7 @@ export class HostCommunication {
     this.logFileThiredPartySoftare = rawData.logFileThiredPartySoftare;
     this.SourceRepositoryThiredPartySoftare =
       rawData.SourceRepositoryThiredPartySoftare;
+    this.connectMessage = rawData.connectMessage;
+    this.connectStatus = rawData.connectStatus;
   }
 }

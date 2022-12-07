@@ -53,8 +53,8 @@ export const SettingForRS232Table = observer(() => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{color: 'green'}}>Communication Settings</th>
-            <th style={{color: 'green'}}>Value</th>
+            <th style={{color: 'white'}}>Communication Settings</th>
+            <th style={{color: 'white'}}>Value</th>
           </tr>
         </thead>
         <tbody>
