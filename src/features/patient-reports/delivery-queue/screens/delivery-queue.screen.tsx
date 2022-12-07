@@ -81,7 +81,7 @@ const DeliveryQueue = observer(() => {
 
   const filterPlainArray = (array, filters) => {
     const filterKeys = Object.keys(filters);
-    console.log({filterKeys});
+    // console.log({filterKeys});
     return array.filter(item => {
       console.log({item});
       return filterKeys.every(key => {
@@ -123,8 +123,6 @@ const DeliveryQueue = observer(() => {
             });
           } else {
             if (type == 'filter') {
-              console.log({type, filter});
-
               console.log({
                 list: filterPlainArray(
                   deliveryQueueStore.reportDeliveryListCopy,
