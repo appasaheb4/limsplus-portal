@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-add-event-listener */
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
@@ -27,13 +28,13 @@ import {HostCommunicationHoc} from '../hoc';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
-import {io} from 'socket.io-client';
-const socket = io('http://localhost:1008');
+// import {io} from 'socket.io-client';
+// const socket = io('http://192.168.1.3:1009');
 
-import {w3cwebsocket as W3CWebSocket} from 'websocket';
-const client = new W3CWebSocket('ws://localhost:1008');
-// let socket: any;
-// let client: any;
+// import {w3cwebsocket as W3CWebSocket} from 'websocket';
+// const client = new W3CWebSocket('ws://192.168.1.3:1008');
+
+const ws = new WebSocket('ws://192.168.1.3:1008');
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -59,34 +60,48 @@ const HostCommunication = HostCommunicationHoc(
     const [messageWebSocket, setMessageWebSocket] = useState('');
 
     useEffect(() => {
-      socket.on('connect', () => {
-        console.log('Socket Connected.');
-      });
+      // socket.on('connect', () => {
+      //   console.log('Socket Connected.');
+      // });
 
-      socket?.on('RCV', data => {
-        setMessageRCV('RCV - ' + JSON.stringify(data.content));
-      });
+      // socket?.on('RCV', data => {
+      //   console.log({RCV: data});
+      //   setMessageRCV('RCV - ' + JSON.stringify(data.content));
+      // });
 
-      socket?.on('SND', data => {
-        setMessageSND('SND - ' + JSON.stringify(data.content));
-      });
+      // socket?.on('SND', data => {
+      //   console.log({SND: data});
+      //   setMessageSND('SND - ' + JSON.stringify(data.content));
+      // });
 
-      client.addEventListener('open', () => {
-        console.log('WebSocket Client Connected');
+      // client.addEventListener('open', () => {
+      //   console.log('WebSocket Client Connected');
+      // });
+      // client.addEventListener('error', event => {
+      //   console.log({event});
+      // });
+      // client.addEventListener('message', message => {
+      //   console.log({message});
+      // });
+
+      ws.addEventListener('open', function (event) {
+        console.log('Connection is open ...');
+        ws.send('Websocket connected.');
       });
-      client.addEventListener('error', event => {
-        console.log({event});
+      ws.addEventListener('error', function (err) {
+        console.log('err:', err);
       });
-      // eslint-disable-next-line unicorn/prefer-add-event-listener
-      client.onmessage = message => {
-        console.log(message);
-        setMessageWebSocket(message);
+      ws.onmessage = function (event) {
+        console.log(event.data);
       };
+      ws.addEventListener('close', function () {
+        console.log('Connection is closed...');
+      });
       return () => {
         console.log('Unregistered Events...');
-        socket.off('connect');
-        socket.off('RCV');
-        socket.off('SND');
+        // socket.off('connect');
+        // socket.off('RCV');
+        // socket.off('SND');
       };
     }, []);
 
@@ -321,6 +336,9 @@ const HostCommunication = HostCommunicationHoc(
                 {hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   'TCP/IP Communication' && (
                   <SettingForTCP_IPTable
+                    isConnect={
+                      hostCommunicationStore.hostCommuication.connectStatus
+                    }
                     onConnect={details => {
                       hostCommunicationStore.hostCommunicationService
                         .connectHostCommunication({
@@ -583,11 +601,11 @@ const HostCommunication = HostCommunicationHoc(
                                   size='medium'
                                   type='solid'
                                   onClick={() => {
-                                    socket.emit(
-                                      'hostCommunicationSourceFile',
-                                      hostCommunicationStore.hostCommuication
-                                        ?.txtDataReceivefromInstrument,
-                                    );
+                                    // socket.emit(
+                                    //   'hostCommunicationSourceFile',
+                                    //   hostCommunicationStore.hostCommuication
+                                    //     ?.txtDataReceivefromInstrument,
+                                    // );
                                   }}
                                 >
                                   Send
@@ -626,11 +644,11 @@ const HostCommunication = HostCommunicationHoc(
                                 size='medium'
                                 type='solid'
                                 onClick={() => {
-                                  socket.emit(
-                                    'hostCommunicationSendDataToInstrument',
-                                    hostCommunicationStore.hostCommuication
-                                      ?.txtSendDatafromInstrument,
-                                  );
+                                  // socket.emit(
+                                  //   'hostCommunicationSendDataToInstrument',
+                                  //   hostCommunicationStore.hostCommuication
+                                  //     ?.txtSendDatafromInstrument,
+                                  // );
                                 }}
                               >
                                 Send

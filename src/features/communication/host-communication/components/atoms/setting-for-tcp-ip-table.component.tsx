@@ -3,10 +3,12 @@ import {Table} from 'reactstrap';
 import {Form, Buttons} from '@/library/components';
 
 interface SettingForTCP_IPTableProps {
+  isConnect?: boolean;
   onConnect: (details: any) => void;
 }
 
 export const SettingForTCP_IPTable = ({
+  isConnect = false,
   onConnect,
 }: SettingForTCP_IPTableProps) => {
   const [details, setDetails] = useState<any>({
@@ -110,11 +112,14 @@ export const SettingForTCP_IPTable = ({
               <Buttons.Button
                 size='medium'
                 type='solid'
+                buttonStyle={{
+                  backgroundColor: isConnect ? 'green' : null,
+                }}
                 onClick={() => {
                   onConnect && onConnect(details);
                 }}
               >
-                Connect
+                {isConnect ? 'Connected' : 'Connect'}
               </Buttons.Button>
             </td>
           </tr>
