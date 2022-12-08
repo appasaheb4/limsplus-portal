@@ -34,8 +34,6 @@ import {toJS} from 'mobx';
 // import {w3cwebsocket as W3CWebSocket} from 'websocket';
 // const client = new W3CWebSocket('ws://192.168.1.3:1008');
 
-const ws = new WebSocket('ws://192.168.1.3:1008');
-
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
     const {
@@ -50,40 +48,16 @@ const HostCommunication = HostCommunicationHoc(
     const [modalImportFile, setModalImportFile] = useState({});
     const [hideAddHostCommunication, setHideAddHostCommunication] =
       useState<boolean>(true);
-
-    const [ipAddress, setIpAddress] = useState();
-    const [port, setPort] = useState();
-    const [ipConnectMsg, setIpConnectMsg] = useState('');
-
-    const [messageRCV, setMessageRCV] = useState('');
-    const [messageSND, setMessageSND] = useState('');
     const [messageWebSocket, setMessageWebSocket] = useState('');
 
-    useEffect(() => {
-      // socket.on('connect', () => {
-      //   console.log('Socket Connected.');
-      // });
+    const connectWS = (host, port) => {
+      console.log({win: location.protocol});
 
-      // socket?.on('RCV', data => {
-      //   console.log({RCV: data});
-      //   setMessageRCV('RCV - ' + JSON.stringify(data.content));
-      // });
-
-      // socket?.on('SND', data => {
-      //   console.log({SND: data});
-      //   setMessageSND('SND - ' + JSON.stringify(data.content));
-      // });
-
-      // client.addEventListener('open', () => {
-      //   console.log('WebSocket Client Connected');
-      // });
-      // client.addEventListener('error', event => {
-      //   console.log({event});
-      // });
-      // client.addEventListener('message', message => {
-      //   console.log({message});
-      // });
-
+      const ws = new WebSocket(
+        location.protocol != 'https:'
+          ? `ws://${host}:${port}`
+          : `wss://${host}:${port}`,
+      );
       ws.addEventListener('open', function (event) {
         console.log('Connection is open ...');
         ws.send('Websocket connected.');
@@ -93,17 +67,16 @@ const HostCommunication = HostCommunicationHoc(
       });
       ws.onmessage = function (event) {
         console.log(event.data);
+        setMessageWebSocket(event.data);
       };
       ws.addEventListener('close', function () {
         console.log('Connection is closed...');
       });
-      return () => {
-        console.log('Unregistered Events...');
-        // socket.off('connect');
-        // socket.off('RCV');
-        // socket.off('SND');
-      };
-    }, []);
+      // Listen for messages
+      // ws.addEventListener('message', function (event) {
+      //   console.log('Message from server', event.data);
+      // });
+    };
 
     return (
       <>
@@ -345,8 +318,6 @@ const HostCommunication = HostCommunicationHoc(
                           input: {...details, type: 'tcpIP'},
                         })
                         .then(res => {
-                          console.log({res});
-
                           hostCommunicationStore.updateHostCommuication({
                             ...hostCommunicationStore.hostCommuication,
                             connectMessage:
@@ -354,6 +325,9 @@ const HostCommunication = HostCommunicationHoc(
                             connectStatus:
                               res.connectHostCommunication?.success,
                           });
+                          setTimeout(() => {
+                            connectWS(details.host, details.port - 1);
+                          }, 1000);
                         });
                       console.log({details});
                     }}
@@ -450,9 +424,7 @@ const HostCommunication = HostCommunicationHoc(
                                     : true
                                 }
                                 placeholder='Hex'
-                                value={
-                                  hostCommunicationStore.hostCommuication?.hex
-                                }
+                                value={messageWebSocket}
                                 onChange={hex => {
                                   HexToAsciiFlow.hextoascii(hex);
                                   hostCommunicationStore.updateHostCommuication(
