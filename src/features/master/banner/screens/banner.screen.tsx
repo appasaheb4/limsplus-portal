@@ -247,11 +247,11 @@ const Banner = BannerHoc(
                   bannerStore.BannerService.deleteBanner({
                     input: {id: modalConfirm.id},
                   }).then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.removeBanner.success) {
                       Toast.success({
                         message: `😊 ${res.removeBanner.message}`,
                       });
-                      setModalConfirm({show: false});
                       bannerStore.fetchListBanner();
                     }
                   });
@@ -265,11 +265,11 @@ const Banner = BannerHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.updateBanner.success) {
                       Toast.success({
                         message: `😊 ${res.updateBanner.message}`,
                       });
-                      setModalConfirm({show: false});
                       bannerStore.fetchListBanner();
                     }
                   });
@@ -284,6 +284,7 @@ const Banner = BannerHoc(
                       containerName: 'banner',
                     },
                   }).then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.updateBannerImage.success) {
                       Toast.success({
                         message: `😊 ${res.updateBannerImage.message}`,
