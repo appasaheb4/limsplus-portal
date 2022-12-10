@@ -5,13 +5,17 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
+import {
+  client,
+  clientLocal,
+  ServiceResponse,
+} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
 import {CONNECT} from './mutation';
 export class HostCommunicationService {
   connectHostCommunication = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      client
+      clientLocal
         .mutate({
           mutation: CONNECT,
           variables,
