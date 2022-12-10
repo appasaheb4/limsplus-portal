@@ -55,6 +55,11 @@ const UploadLink = createUploadLink({
   fetch: customFetch,
 });
 
+const UploadLinkLocal = createUploadLink({
+  uri: process.env.REACT_APP_API_HOST_LOCAL,
+  fetch: customFetch,
+});
+
 const errorLink = onError(({graphQLErrors, networkError}) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({message, locations, path, extensions}) => {
@@ -79,6 +84,10 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 
 export const client = new ApolloClient({
   link: authLink.concat(from([errorLink, UploadLink])),
+  cache: new InMemoryCache(),
+});
+export const clientLocal = new ApolloClient({
+  link: authLink.concat(from([errorLink, UploadLinkLocal])),
   cache: new InMemoryCache(),
 });
 

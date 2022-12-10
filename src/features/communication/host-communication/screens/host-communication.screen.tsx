@@ -27,12 +27,8 @@ import {HostCommunicationFlows, HexToAsciiFlow} from '../../flows';
 import {HostCommunicationHoc} from '../hoc';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-
-// import {io} from 'socket.io-client';
-// const socket = io('http://192.168.1.3:1009');
-
-// import {w3cwebsocket as W3CWebSocket} from 'websocket';
-// const client = new W3CWebSocket('ws://192.168.1.3:1008');
+import {database} from '@/firebase';
+import {onValue, ref} from 'firebase/database';
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -50,33 +46,17 @@ const HostCommunication = HostCommunicationHoc(
       useState<boolean>(true);
     const [messageWebSocket, setMessageWebSocket] = useState('');
 
-    const connectWS = (host, port) => {
-      console.log({win: location.protocol});
-
-      const ws = new WebSocket(
-        location.protocol != 'https:'
-          ? `ws://${host}:${port}`
-          : `wss://${host}:${port}`,
-      );
-      ws.addEventListener('open', function (event) {
-        console.log('Connection is open ...');
-        ws.send('Websocket connected.');
+    useEffect(() => {
+      const query = ref(database, 'communication/tcpIP');
+      return onValue(query, snapshot => {
+        const data = snapshot.val();
+        if (snapshot.exists()) {
+          Object.values(data).map(project => {
+            setMessageWebSocket(project as string);
+          });
+        }
       });
-      ws.addEventListener('error', function (err) {
-        console.log('err:', err);
-      });
-      ws.onmessage = function (event) {
-        console.log(event.data);
-        setMessageWebSocket(event.data);
-      };
-      ws.addEventListener('close', function () {
-        console.log('Connection is closed...');
-      });
-      // Listen for messages
-      // ws.addEventListener('message', function (event) {
-      //   console.log('Message from server', event.data);
-      // });
-    };
+    }, []);
 
     return (
       <>
@@ -325,9 +305,6 @@ const HostCommunication = HostCommunicationHoc(
                             connectStatus:
                               res.connectHostCommunication?.success,
                           });
-                          setTimeout(() => {
-                            connectWS(details.host, details.port - 1);
-                          }, 1000);
                         });
                       console.log({details});
                     }}
