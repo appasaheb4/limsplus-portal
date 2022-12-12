@@ -143,8 +143,12 @@ export const PageBranding = observer(() => {
                     onChange(item.tempCode);
                     reportSettingStore.updatePageBranding({
                       ...reportSettingStore.pageBranding,
+                      templateSettings: {
+                        _id: item._id,
+                        tempCode: item.tempCode,
+                        tempName: item.tempName,
+                      },
                       tempCode: item.tempCode,
-                      templateSettings: item,
                     });
                     reportSettingStore.pageBrandingService
                       .findByFields({

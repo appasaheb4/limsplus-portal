@@ -28,20 +28,4 @@ export class GenerateReportsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
-
-  getPatientReportAndPageBrandingFromLabId = (labId: number) =>
-    new Promise<any>((resolve, reject) => {
-      this.listPatientReports(labId).then(async res => {
-        const {data, success} = res?.getPatientReports;
-        if (success) {
-          try {
-            resolve({
-              data,
-            });
-          } catch (error) {
-            reject({message: 'Not found page branding'});
-          }
-        } else reject({message: 'Not found patient report'});
-      });
-    });
 }

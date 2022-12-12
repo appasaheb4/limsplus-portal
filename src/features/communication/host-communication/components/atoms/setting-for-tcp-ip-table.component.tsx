@@ -121,6 +121,17 @@ export const SettingForTCP_IPTable = ({
               >
                 {isConnect ? 'Connected' : 'Connect'}
               </Buttons.Button>
+              <span className='text-red mt-4'>
+                Note: Please run limsplus.exe file then communication machine to
+                web start.
+              </span>
+              <br />
+              <a
+                className='mt-2 text-blue-800'
+                href='https://limsplussolutions.blob.core.windows.net/assets/limsplus.exe'
+              >
+                Download limsplus.exe
+              </a>
             </td>
           </tr>
         </tbody>
