@@ -20,6 +20,7 @@ import {RouterFlow} from '@/flows';
 
 import {BannerHoc} from '../hoc';
 import {useStores} from '@/stores';
+import {constants} from '@/core-services';
 
 const Banner = BannerHoc(
   observer(() => {
@@ -281,7 +282,6 @@ const Banner = BannerHoc(
                     input: {
                       _id: modalConfirm.data.id,
                       file: modalConfirm.data.value,
-                      containerName: 'banner',
                     },
                   }).then((res: any) => {
                     setModalConfirm({show: false});

@@ -306,7 +306,6 @@ const HostCommunication = HostCommunicationHoc(
                               res.connectHostCommunication?.success,
                           });
                         });
-                      console.log({details});
                     }}
                   />
                 )}

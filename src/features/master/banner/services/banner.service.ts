@@ -1,7 +1,6 @@
 /**
  * @fileoverview Use this file invoke LimsPlus API
  * implementation related to LimsPlus standards
- 
  * @author limsplus
  */
 
@@ -17,6 +16,7 @@ import {
   UPDATE_BANNER_IMAGE,
   FILTER,
 } from './mutation';
+import {constants} from '@/core-services';
 
 export class BannerService {
   listAllBanner = () =>
@@ -62,7 +62,6 @@ export class BannerService {
               title: banner.title,
               environment: banner.environment,
               file: banner.image,
-              containerName: 'banner',
             },
           },
         })

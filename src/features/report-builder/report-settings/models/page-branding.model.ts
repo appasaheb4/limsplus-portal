@@ -3,7 +3,7 @@ export class PageBranding {
   _id: string;
   tempCode: string;
   brandingTitle: string;
-  templateSettings: TemplateSettings;
+  templateSettings: any;
   header: {
     title: string;
     titleCSS: any;

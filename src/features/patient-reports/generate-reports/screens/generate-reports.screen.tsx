@@ -45,37 +45,36 @@ const GenerateReport = observer(() => {
   setValue('species', patientManagerStore.patientManger.species);
 
   const getTemplate = (tempCode: string, data: any) => {
-    if (data?.patientReports?.templatePatientResult?.templateCode) {
-      switch (tempCode) {
-        case 'TEMP0001':
-          return <PdfTPRTemp0001 data={data} />;
-        case 'TEMP0002':
-          return <PdfTPRTemp0002 data={data} />;
-        case 'TEMP0003':
-          return <PdfTPRTemp0003 data={data} />;
-        case 'TEMP0004':
-          return <PdfTemp0004 data={data} />;
-        case 'TEMP0005':
-          return <PdfTemp0005 data={data} />;
-        default:
-          return (
-            <div className='justify-center items-center'>
-              <h4 className='text-center mt-10 text-red'>
-                Template not found. Please select correct template code and
-                labId. 🚨
-              </h4>
-            </div>
-          );
-          break;
-      }
+    switch (tempCode) {
+      case 'TEMP0001':
+        return <PdfTPRTemp0001 data={data} />;
+      case 'TEMP0002':
+        return <PdfTPRTemp0002 data={data} />;
+      case 'TEMP0003':
+        return <PdfTPRTemp0003 data={data} />;
+      case 'TEMP0004':
+        return <PdfTemp0004 data={data} />;
+      case 'TEMP0005':
+        return <PdfTemp0005 data={data} />;
+      default:
+        return (
+          <div className='justify-center items-center'>
+            <h4 className='text-center mt-10 text-red'>
+              Template not found. Please select correct template code and labId.
+              🚨
+            </h4>
+          </div>
+        );
+        break;
     }
-    return (
-      <div className='justify-center items-center'>
-        <h4 className='text-center mt-10 text-red'>
-          Template not found. Please select correct template code and labId. 🚨
-        </h4>
-      </div>
-    );
+
+    // return (
+    //   <div className='justify-center items-center'>
+    //     <h4 className='text-center mt-10 text-red'>
+    //       Template not found. Please select correct template code and labId. 🚨
+    //     </h4>
+    //   </div>
+    // );
   };
 
   return (
@@ -105,39 +104,30 @@ const GenerateReport = observer(() => {
             }}
             onSelect={item => {
               generateReportsStore.generateReportsService
-                .getPatientReportAndPageBrandingFromLabId(item.labId)
+                .listPatientReports(item.labId)
                 .then(res => {
-                  generateReportsStore.updatePatientReports(res?.data);
-                  generateReportsStore.updatePageBranding(
-                    res?.data?.templatePatientResult?.pageBranding,
-                  );
+                  if (res.getPatientReports.success) {
+                    console.log({res});
+                    const uniqByPatientResult = _.uniqBy(
+                      res.getPatientReports.data?.patientResultList,
+                      (item: any) => {
+                        return item.reportTemplate;
+                      },
+                    );
+                    console.log({uniqByPatientResult});
+                  } else {
+                    alert(res.getPatientReports.message);
+                  }
+                  // generateReportsStore.updatePatientReports(res?.data);
+                  // generateReportsStore.updatePageBranding(
+                  //   res?.data?.templatePatientResult?.pageBranding,
+                  // );
                 })
                 .catch(errors => {
                   return Toast.error({
                     message: `😔 ${errors.message}`,
                   });
                 });
-            }}
-          />
-          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-            loader={loading}
-            placeholder='Template code'
-            className='h-4'
-            data={{
-              list: _.reject(reportSettingStore.templatePatientResultList, {
-                templateCode: 'TEMP0006',
-              }),
-              displayKey: ['templateCode', 'templateTitle'],
-            }}
-            onFilter={(labId: string) => {
-              // patientVisitStore.patientVisitService.filterByLabId({
-              //   input: {
-              //     filter: {labId},
-              //   },
-              // });
-            }}
-            onSelect={item => {
-              setTempCode(item.templateCode);
             }}
           />
         </div>
@@ -174,10 +164,18 @@ const GenerateReport = observer(() => {
         </PDFDownloadLink>
       ) : (
         <>
-          {getTemplate(tempCode || 'TEMP0003', {
-            patientReports: generateReportsStore.patientReports,
-            pageBranding: generateReportsStore.pageBranding,
-          })}
+          <PdfTPRTemp0001
+            data={{
+              patientReports: generateReportsStore.patientReports,
+              pageBranding: generateReportsStore.pageBranding,
+            }}
+          />
+          {/* <PdfTPRTemp0002
+            data={{
+              patientReports: generateReportsStore.patientReports,
+              pageBranding: generateReportsStore.pageBranding,
+            }}
+          /> */}
         </>
       )}
     </>
