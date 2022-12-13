@@ -9,12 +9,6 @@ import {useStores} from '@/stores';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
-import {ReportSection} from './report-section.screen';
-import {SectionSettings} from './section-settings.screen';
-import {PageSetting} from './page-setting.screen';
-import {GeneralSettings} from './general-setting.screen';
-import {FontSetting} from './font-setting.screen';
-import {ReportFieldMapping} from './report-field-mapping.screen';
 import {PageBranding} from './page-branding.screen';
 import {TemplateSettings} from './template-setting.screen';
 import {TemplatePatientResult} from './template-patient-result.screen';

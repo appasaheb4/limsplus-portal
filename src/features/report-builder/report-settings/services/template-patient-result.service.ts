@@ -15,6 +15,7 @@ import {
   UPDATE_TEMPLATE_PATIENT_RESULT,
   FIND_BY_FIELDS,
   FILTER_BY_FIELDS,
+  TEMP_PATIENT_RESULT_BY_TEMP_CODES,
 } from './mutation-template-patient-result.service';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -128,6 +129,21 @@ export class TemplatePatientResultService {
             },
           });
           stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getTempPatientResultListByTempCodes = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: TEMP_PATIENT_RESULT_BY_TEMP_CODES,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

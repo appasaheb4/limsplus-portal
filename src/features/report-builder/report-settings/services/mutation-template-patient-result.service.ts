@@ -116,3 +116,13 @@ export const FIND_BY_FIELDS = gql`
     }
   }
 `;
+
+export const TEMP_PATIENT_RESULT_BY_TEMP_CODES = gql`
+  mutation ($input: TemplatePatientResultInput!) {
+    getTempPatientResultListByTempCodes(input: $input) {
+      success
+      message
+      list
+    }
+  }
+`;

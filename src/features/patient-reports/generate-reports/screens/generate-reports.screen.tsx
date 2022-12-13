@@ -107,14 +107,31 @@ const GenerateReport = observer(() => {
                 .listPatientReports(item.labId)
                 .then(res => {
                   if (res.getPatientReports.success) {
-                    console.log({res});
                     const uniqByPatientResult = _.uniqBy(
                       res.getPatientReports.data?.patientResultList,
                       (item: any) => {
                         return item.reportTemplate;
                       },
                     );
-                    console.log({uniqByPatientResult});
+                    const reportTemplateList: any[] = [];
+                    uniqByPatientResult.filter(item => {
+                      reportTemplateList.push(
+                        item?.reportTemplate.split(' -')[0],
+                      );
+                    });
+                    console.log({reportTemplateList});
+
+                    reportSettingStore.templatePatientResultService
+                      .getTempPatientResultListByTempCodes({
+                        input: {
+                          filter: {
+                            reportTemplateList,
+                          },
+                        },
+                      })
+                      .then(res => {
+                        console.log({res});
+                      });
                   } else {
                     alert(res.getPatientReports.message);
                   }
