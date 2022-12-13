@@ -3,12 +3,6 @@ import {makeObservable, action, observable, computed} from 'mobx';
 import {
   TemplateSettingService,
   PageBrandingService,
-  ReportSectionService,
-  SectionSettingService,
-  PageSettingService,
-  GeneralSettingService,
-  FontSettingService,
-  ReportFieldMappingService,
   TemplatePatientResultService,
 } from '../services';
 
@@ -147,12 +141,6 @@ export class ReportSettingStore {
 
       templateSettingsService: computed,
       pageBrandingService: computed,
-      reportSectionService: computed,
-      sectionSettingService: computed,
-      pageSettingService: computed,
-      generalSettingService: computed,
-      fontSettingService: computed,
-      reportFieldMappingService: computed,
       templatePatientResultService: computed,
 
       updateTemplateSettings: action,
@@ -182,30 +170,6 @@ export class ReportSettingStore {
 
   get pageBrandingService() {
     return new PageBrandingService();
-  }
-
-  get reportSectionService() {
-    return new ReportSectionService();
-  }
-
-  get sectionSettingService() {
-    return new SectionSettingService();
-  }
-
-  get pageSettingService() {
-    return new PageSettingService();
-  }
-
-  get generalSettingService() {
-    return new GeneralSettingService();
-  }
-
-  get fontSettingService() {
-    return new FontSettingService();
-  }
-
-  get reportFieldMappingService() {
-    return new ReportFieldMappingService();
   }
 
   get templatePatientResultService() {
