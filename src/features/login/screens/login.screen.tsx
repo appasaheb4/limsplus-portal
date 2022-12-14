@@ -245,7 +245,7 @@ export const Login = observer(() => {
           />
         </div>
         <div
-          className='flex  sm:flex-col md:flex-col xl:flex-row w-fit  rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r '
+          className='flex  sm:flex-col md:flex-col xl:flex-row w-fit mt-14 rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r '
           style={{minWidth: '70%'}}
         >
           <Row className='w-100 mt-10'>
