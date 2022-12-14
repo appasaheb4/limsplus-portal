@@ -1,33 +1,38 @@
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
+import dayjs from 'dayjs';
 import {
   TableBootstrap,
   textFilter,
+  DateFilter,
+  customFilter,
   Form,
   Tooltip,
   Icons,
-  ModalConfirm,
-  Toast,
+  NumberFilter,
+  ModalImportFile,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {useStores} from '@/stores';
+import {lookupItems, lookupValue} from '@/library/utils';
+import printjs from 'print-js';
+import {pdf} from '@react-pdf/renderer';
+import {SocialIcon} from 'react-social-icons';
 
-let dataFlowFrom;
-let data_type;
-let equipmentType;
-let segments;
-let field_no;
-let item_no;
-let element_name;
-let transmitted_data;
-let field_array;
-let field_length;
-let field_type;
-let lims_descriptions;
-let lims_tables;
-let lims_fields;
-let notes;
-let environment;
+let countryName;
+let labId;
+let registrationDate;
+let clientCode;
+let clientName;
+let patientName;
+let age;
+let ageUnits;
+let sex;
+let testName;
+let testCode;
+let sample;
+let dueDate;
+let reportDate;
 
 interface ClientRegistrationListProps {
   data: any;
@@ -38,7 +43,8 @@ interface ClientRegistrationListProps {
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
-  duplicate: (item: any) => void;
+  onUpdateFields?: (fields: any, id: string) => void;
+  onPdfFileUpload?: (file: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -51,12 +57,12 @@ interface ClientRegistrationListProps {
 export const ClientRegistrationList = observer(
   (props: ClientRegistrationListProps) => {
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const {segmentMappingStore} = useStores();
+    const [modalImportFile, setModalImportFile] = useState({});
 
-    useEffect(() => {
-      segmentMappingStore.fetchListSegmentMapping();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const sharePdfLink = async (type: string, link: string) => {
+      window.open(type + link, '_blank');
+    };
+
     return (
       <>
         <TableBootstrap
@@ -78,7 +84,7 @@ export const ClientRegistrationList = observer(
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  field_no = filter;
+                  countryName = filter;
                 },
               }),
             },
@@ -90,14 +96,69 @@ export const ClientRegistrationList = observer(
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  item_no = filter;
+                  labId = filter;
                 },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row.labId}
+                    type='number'
+                    onBlur={labId => {
+                      if (row.labId != labId)
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {labId: Number.parseFloat(labId)},
+                            row._id,
+                          );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'registrationDate',
               text: 'Registration Date',
               headerClasses: 'textHeader2',
+              filter: customFilter({
+                getFilter: filter => {
+                  registrationDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.registrationDate).format('YYYY-MM-DD')}</>;
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.InputDateTime
+                    value={new Date(row.registrationDate)}
+                    onFocusRemove={registrationDate => {
+                      props.onUpdateFields &&
+                        props.onUpdateFields({registrationDate}, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'clientCode',
@@ -106,7 +167,7 @@ export const ClientRegistrationList = observer(
               sort: true,
               filter: textFilter({
                 getFilter: filter => {
-                  element_name = filter;
+                  clientCode = filter;
                 },
               }),
             },
@@ -115,12 +176,22 @@ export const ClientRegistrationList = observer(
               text: 'Client Name',
               headerClasses: 'textHeader2',
               sort: true,
+              filter: textFilter({
+                getFilter: filter => {
+                  clientName = filter;
+                },
+              }),
             },
             {
               dataField: 'patientName',
               text: 'Patient Name',
               headerClasses: 'textHeader2',
               sort: true,
+              filter: textFilter({
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
             },
             {
               dataField: 'age',
@@ -129,64 +200,297 @@ export const ClientRegistrationList = observer(
               sort: true,
               filter: textFilter({
                 getFilter: filter => {
-                  field_length = filter;
+                  age = filter;
                 },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row.age}
+                    type='number'
+                    onBlur={age => {
+                      if (row.age != age)
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {age: Number.parseFloat(age)},
+                            row._id,
+                          );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'ageUnits',
               text: 'Age Units',
               headerClasses: 'textHeader2',
               sort: true,
+              filter: textFilter({
+                getFilter: filter => {
+                  ageUnits = filter;
+                },
+              }),
             },
             {
               dataField: 'sex',
               text: 'Sex',
               headerClasses: 'textHeader2',
               editable: false,
+              filter: textFilter({
+                getFilter: filter => {
+                  sex = filter;
+                },
+              }),
             },
             {
               dataField: 'testName',
               text: 'Test Name',
               headerClasses: 'textHeader2',
               editable: false,
+              filter: textFilter({
+                getFilter: filter => {
+                  testName = filter;
+                },
+              }),
             },
             {
               dataField: 'testCode',
               text: 'Test Code',
               headerClasses: 'textHeader2',
               sort: true,
+              filter: textFilter({
+                getFilter: filter => {
+                  testCode = filter;
+                },
+              }),
             },
             {
               dataField: 'sample',
               text: 'Sample',
               headerClasses: 'textHeader2',
               sort: true,
+              filter: textFilter({
+                getFilter: filter => {
+                  sample = filter;
+                },
+              }),
             },
             {
               dataField: 'dueDate',
               text: 'Due Date',
               headerClasses: 'textHeader2',
               sort: true,
+              filter: customFilter({
+                getFilter: filter => {
+                  dueDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dueDate).format('YYYY-MM-DD')}</>;
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.InputDateTime
+                    value={new Date(row.dueDate)}
+                    onFocusRemove={dueDate => {
+                      props.onUpdateFields &&
+                        props.onUpdateFields({dueDate}, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'reportDate',
               text: 'Report Date',
               headerClasses: 'textHeader2',
+              filter: customFilter({
+                getFilter: filter => {
+                  reportDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.reportDate).format('YYYY-MM-DD')}</>;
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.InputDateTime
+                    value={new Date(row.reportDate)}
+                    onFocusRemove={reportDate => {
+                      props.onUpdateFields &&
+                        props.onUpdateFields({reportDate}, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader2',
               sort: true,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row?.status}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const status = e.target.value;
+                      props.onUpdateFields &&
+                        props.onUpdateFields({status}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: 'pdfReport',
               text: 'Pdf Report',
               headerClasses: 'textHeader3',
               csvExport: false,
-              csvFormatter: (cell, row, rowIndex) =>
-                `${row.attachments !== undefined ? row.attachments : ''}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.pdfReport && (
+                      <div className='flex flex-row gap-2'>
+                        <Tooltip tooltipText='View'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='25'
+                            style={{
+                              backgroundColor: '#00FF00',
+                              width: 32,
+                              height: 32,
+                              borderRadius: 16,
+                              align: 'center',
+                              padding: 4,
+                            }}
+                            onClick={async () => {
+                              window.open(row?.pdfReport, '_blank');
+                            }}
+                          >
+                            {Icons.getIconTag(Icons.IconGr.GrView)}
+                          </Icons.IconContext>
+                        </Tooltip>
+
+                        <SocialIcon
+                          network='email'
+                          style={{height: 32, width: 32}}
+                          onClick={async () => {
+                            sharePdfLink(
+                              'mailto:?subject=Pdf%20Report&body= ',
+                              row.pdfReport,
+                            );
+                          }}
+                        />
+                        <SocialIcon
+                          network='whatsapp'
+                          style={{height: 32, width: 32}}
+                          onClick={() => {
+                            sharePdfLink(
+                              'https://api.whatsapp.com/send?text=Pdf%20report%20link:',
+                              row.pdfReport,
+                            );
+                          }}
+                        />
+                        <SocialIcon
+                          network='twitter'
+                          style={{height: 32, width: 32}}
+                          onClick={() => {
+                            sharePdfLink(
+                              'https://twitter.com/intent/tweet?url=Pdf%20report%20link:',
+                              row.pdfReport,
+                            );
+                          }}
+                        />
+                        <SocialIcon
+                          network='telegram'
+                          style={{height: 32, width: 32}}
+                          onClick={() => {
+                            sharePdfLink(
+                              'https://t.me/share/url?url=Pdf%20report%20link:',
+                              row.pdfReport,
+                            );
+                          }}
+                        />
+                      </div>
+                    )}
+                  </>
+                );
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <ModalImportFile
+                    accept='.pdf'
+                    {...{
+                      show: true,
+                      title: 'Upload pdf file!',
+                      btnLabel: 'Upload',
+                    }}
+                    click={(pdfReport: any) => {
+                      setModalImportFile({show: false});
+                      props.onPdfFileUpload &&
+                        props.onPdfFileUpload({pdfReport}, row._id);
+                    }}
+                    close={() => {
+                      setModalImportFile({show: false});
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'operation',
@@ -201,20 +505,14 @@ export const ClientRegistrationList = observer(
                         color='#fff'
                         size='20'
                         onClick={() => {
-                          segmentMappingStore.updateSelectedItem([]);
-                          segmentMappingStore.updateSelectedItem([row]);
-                          if (segmentMappingStore.selectedItems) {
-                            if (segmentMappingStore.selectedItems.length > 0) {
-                              setModalConfirm({
-                                type: 'delete',
-                                show: true,
-                                title: 'Are you sure delete recoard? ',
-                                body: 'Delete selected items!',
-                              });
-                            }
-                          } else {
-                            alert('Please select any item.');
-                          }
+                          props.onDelete &&
+                            props.onDelete({
+                              type: 'delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure delete record? ',
+                              body: 'Delete selected items!',
+                            });
                         }}
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
@@ -236,7 +534,7 @@ export const ClientRegistrationList = observer(
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='Data Mapping'
+          fileName='Client Registration'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
@@ -251,22 +549,31 @@ export const ClientRegistrationList = observer(
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
-            equipmentType('');
-            dataFlowFrom('');
-            data_type('');
-            segments('');
-            field_no('');
-            item_no('');
-            element_name('');
-            transmitted_data('');
-            field_array('');
-            field_length('');
-            field_type('');
-            lims_descriptions('');
-            lims_tables('');
-            lims_fields('');
-            notes('');
-            environment('');
+            countryName('');
+            labId('');
+            registrationDate('');
+            clientCode('');
+            clientName('');
+            patientName('');
+            age('');
+            ageUnits('');
+            sex('');
+            testName('');
+            testCode('');
+            sample('');
+            dueDate('');
+            reportDate('');
+          }}
+        />
+        <ModalImportFile
+          accept='.pdf'
+          {...modalImportFile}
+          click={(file: any) => {
+            setModalImportFile({show: false});
+            console.log({file});
+          }}
+          close={() => {
+            setModalImportFile({show: false});
           }}
         />
       </>

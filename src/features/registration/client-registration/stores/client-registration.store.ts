@@ -19,6 +19,7 @@ export class ClientRegistrationStore {
 
       clientRegistrationService: computed,
       updateClientRegistrationList: action,
+      filterClientRegistrationList: action,
     });
   }
 
@@ -30,5 +31,11 @@ export class ClientRegistrationStore {
     this.clientRegistrationList = res.clientRegistrationList.data;
     this.clientRegistrationCount =
       res.clientRegistrationList.paginatorInfo.count;
+  }
+
+  filterClientRegistrationList(res: any) {
+    this.clientRegistrationList = res.filterClientRegistration.data;
+    this.clientRegistrationCount =
+      res.filterClientRegistration.paginatorInfo.count;
   }
 }

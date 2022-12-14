@@ -53,7 +53,7 @@ export class ClientRegistrationService {
         );
     });
 
-  deleteSegmentMapping = (variables: any) =>
+  delete = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -68,7 +68,7 @@ export class ClientRegistrationService {
         );
     });
 
-  updateSingleFiled = (variables: any) =>
+  update = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -92,8 +92,11 @@ export class ClientRegistrationService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterSegmentMappings.success) return this.list();
-          stores.segmentMappingStore.filterSegmentMappingList(response.data);
+          if (!response.data.filterClientRegistration.success)
+            return this.list();
+          stores.clientRegistrationStore.filterClientRegistrationList(
+            response.data,
+          );
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

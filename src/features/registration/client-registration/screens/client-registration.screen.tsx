@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {
@@ -7,20 +7,16 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   Buttons,
-  Grid,
   List,
-  Form,
-  Svg,
   ModalImportFile,
   Icons,
+  ModalConfirm,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
 import * as XLSX from 'xlsx';
 import {Styles} from '@/config';
 import {ClientRegistrationList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
-
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
@@ -40,7 +36,7 @@ const ClientRegistration = observer(() => {
   const [modalImportFile, setModalImportFile] = useState({});
   const [hideAddSegmentMapping, setHideAddSegmentMapping] =
     useState<boolean>(true);
-  const [saveTitle, setSaveTitle] = useState('Save');
+  const [modalConfirm, setModalConfirm] = useState<any>();
 
   const handleFileUpload = (file: any) => {
     const reader = new FileReader();
@@ -98,8 +94,8 @@ const ClientRegistration = observer(() => {
                 sample: item[11],
                 dueDate: new Date(dayjs(item[12]).format('YYYY-MM-DD')),
                 reportDate: new Date(dayjs(item[13]).format('YYYY-MM-DD')),
-                status: item[14],
-                pdfReport: item[15],
+                status: item[14] || 'Reported',
+                // pdfReport: item[15],
               });
             }
             fileImaport = true;
@@ -115,35 +111,14 @@ const ClientRegistration = observer(() => {
               Toast.success({
                 message: `😊 ${res.importClientRegistration.message}`,
               });
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
             }
           });
       }
     });
     reader.readAsBinaryString(file);
-  };
-
-  const onSubmitSegmentMapiing = () => {
-    if (segmentMappingStore.segmentMappingService) {
-      segmentMappingStore.segmentMappingService
-        .addSegmentMapping({input: {...segmentMappingStore.segmentMapping}})
-        .then(res => {
-          if (res.createSegmentMapping.success) {
-            Toast.success({
-              message: `😊 ${res.createSegmentMapping.message}`,
-            });
-            if (saveTitle === 'Save') {
-              setTimeout(() => {
-                window.location.reload();
-              }, 2000);
-            }
-            segmentMappingStore.fetchListSegmentMapping();
-          }
-        });
-    } else {
-      Toast.warning({
-        message: '😔 Please enter all information!',
-      });
-    }
   };
 
   return (
@@ -192,7 +167,9 @@ const ClientRegistration = observer(() => {
         <ClientRegistrationList
           data={clientRegistrationStore.clientRegistrationList || []}
           totalSize={clientRegistrationStore.clientRegistrationCount}
-          extraData={{}}
+          extraData={{
+            lookupItems: routerStore.lookupItems,
+          }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
             'Delete',
@@ -201,23 +178,56 @@ const ClientRegistration = observer(() => {
             toJS(routerStore.userPermission),
             'Edit/Modify',
           )}
-          duplicate={(item: any) => {
-            setSaveTitle('Duplicate');
-            setHideAddSegmentMapping(false);
-            segmentMappingStore.updateSegmentMapping({
-              ...item,
-              dataFlowFrom:
-                item.dataFlowFrom !== undefined
-                  ? item.dataFlowFrom.split('&gt;').join('>')
-                  : '',
-              attachments: '',
+          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onSelectedRow={rows => {
+            setModalConfirm({
+              show: true,
+              type: 'delete',
+              id: rows,
+              title: 'Are you sure?',
+              body: 'Delete selected items!',
             });
           }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'update',
+              data: {value, dataField, id},
+              title: 'Are you sure?',
+              body: 'Update item!',
+            });
+          }}
+          onUpdateFields={(fields: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              data: {fields, id},
+              title: 'Are you sure?',
+              body: 'Update records',
+            });
+          }}
+          onPdfFileUpload={(fields, id) => {
+            clientRegistrationStore.clientRegistrationService
+              .update({
+                input: {
+                  ...fields,
+                  _id: id,
+                },
+              })
+              .then((res: any) => {
+                if (res.updateClientRegistration.success) {
+                  clientRegistrationStore.clientRegistrationService.list();
+                  Toast.success({
+                    message: `😊 ${res.updateClientRegistration.message}`,
+                  });
+                }
+              });
+          }}
           onPageSizeChange={(page, limit) => {
-            segmentMappingStore.fetchListSegmentMapping(page, limit);
+            clientRegistrationStore.clientRegistrationService.list(page, limit);
           }}
           onFilter={(type, filter, page, limit) => {
-            segmentMappingStore.segmentMappingService.filter({
+            clientRegistrationStore.clientRegistrationService.filter({
               input: {type, filter, page, limit},
             });
           }}
@@ -232,6 +242,70 @@ const ClientRegistration = observer(() => {
         }}
         close={() => {
           setModalImportFile({show: false});
+        }}
+      />
+
+      <ModalConfirm
+        {...modalConfirm}
+        click={(type?: string) => {
+          setModalConfirm({show: false});
+          switch (type) {
+            case 'delete': {
+              clientRegistrationStore.clientRegistrationService
+                .delete({input: {id: modalConfirm.id}})
+                .then(res => {
+                  if (res.removeClientRegistration.success) {
+                    clientRegistrationStore.clientRegistrationService.list();
+                    Toast.success({
+                      message: `😊 ${res.removeClientRegistration.message}`,
+                    });
+                  }
+                });
+
+              break;
+            }
+            case 'update': {
+              clientRegistrationStore.clientRegistrationService
+                .update({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
+                .then((res: any) => {
+                  if (res.updateClientRegistration.success) {
+                    clientRegistrationStore.clientRegistrationService.list();
+                    Toast.success({
+                      message: `😊 ${res.updateClientRegistration.message}`,
+                    });
+                  }
+                });
+
+              break;
+            }
+            case 'updateFields': {
+              clientRegistrationStore.clientRegistrationService
+                .update({
+                  input: {
+                    ...modalConfirm.data.fields,
+                    _id: modalConfirm.data.id,
+                  },
+                })
+                .then((res: any) => {
+                  if (res.updateClientRegistration.success) {
+                    clientRegistrationStore.clientRegistrationService.list();
+                    Toast.success({
+                      message: `😊 ${res.updateClientRegistration.message}`,
+                    });
+                  }
+                });
+
+              break;
+            }
+          }
+        }}
+        onClose={() => {
+          setModalConfirm({show: false});
         }}
       />
     </>

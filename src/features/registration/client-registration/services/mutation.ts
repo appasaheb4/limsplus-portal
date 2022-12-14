@@ -34,8 +34,8 @@ export const LIST = gql`
 `;
 
 export const REMOVE_RECORD = gql`
-  mutation ($input: SegmentMappingRemoveInput!) {
-    removeSegmentMapping(input: $input) {
+  mutation ($input: RemoveClientRegistrationInput!) {
+    removeClientRegistration(input: $input) {
       success
       message
     }
@@ -61,8 +61,8 @@ export const IMPORT_RECORDS = gql`
 `;
 
 export const UPDATE_RECORD = gql`
-  mutation ($input: UpdateSegmentMappingInput!) {
-    updateSegmentMapping(input: $input) {
+  mutation ($input: UpdateClientRegistrationInput!) {
+    updateClientRegistration(input: $input) {
       success
       message
     }
@@ -79,8 +79,8 @@ export const CHECK_EXISTS_RECORD = gql`
 `;
 
 export const FILTER = gql`
-  mutation ($input: SegmentMappingInput!) {
-    filterSegmentMappings(input: $input) {
+  mutation ($input: ClientRegistrationInput!) {
+    filterClientRegistration(input: $input) {
       paginatorInfo {
         count
       }
@@ -88,28 +88,22 @@ export const FILTER = gql`
       message
       data {
         _id
-        dataFlowFrom
-        data_type
-        equipmentType
-        segments
-        segment_usage
-        field_no
-        item_no
-        field_required
-        element_name
-        transmitted_data
-        field_array
-        field_length
-        field_type
-        repeat_delimiter
-        mandatory
-        lims_descriptions
-        lims_tables
-        lims_fields
-        required_for_lims
-        notes
-        attachments
-        environment
+        countryName
+        labId
+        registrationDate
+        clientCode
+        clientName
+        patientName
+        age
+        ageUnits
+        sex
+        testName
+        testCode
+        sample
+        dueDate
+        reportDate
+        status
+        pdfReport
         dateOfEntry
         lastUpdated
       }
@@ -127,28 +121,22 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
-        dataFlowFrom
-        data_type
-        equipmentType
-        segments
-        segment_usage
-        field_no
-        item_no
-        field_required
-        element_name
-        transmitted_data
-        field_array
-        field_length
-        field_type
-        repeat_delimiter
-        mandatory
-        lims_descriptions
-        lims_tables
-        lims_fields
-        required_for_lims
-        notes
-        attachments
-        environment
+        countryName
+        labId
+        registrationDate
+        clientCode
+        clientName
+        patientName
+        age
+        ageUnits
+        sex
+        testName
+        testCode
+        sample
+        dueDate
+        reportDate
+        status
+        pdfReport
         dateOfEntry
         lastUpdated
       }

@@ -15,7 +15,7 @@ export class ClientRegistration {
   dueDate: Date;
   reportDate: Date;
   status: string;
-  pdfReport: string;
+  pdfReport: any;
   dateOfEntry: Date;
   lastUpdated: Date;
 
