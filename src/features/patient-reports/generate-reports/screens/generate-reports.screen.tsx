@@ -103,48 +103,48 @@ const GenerateReport = observer(() => {
               });
             }}
             onSelect={item => {
-              generateReportsStore.generateReportsService
-                .listPatientReports(item.labId)
-                .then(res => {
-                  if (res.getPatientReports.success) {
-                    const uniqByPatientResult = _.uniqBy(
-                      res.getPatientReports.data?.patientResultList,
-                      (item: any) => {
-                        return item.reportTemplate;
-                      },
-                    );
-                    const reportTemplateList: any[] = [];
-                    uniqByPatientResult.filter(item => {
-                      reportTemplateList.push(
-                        item?.reportTemplate.split(' -')[0],
-                      );
-                    });
-                    console.log({reportTemplateList});
-
-                    reportSettingStore.templatePatientResultService
-                      .getTempPatientResultListByTempCodes({
-                        input: {
-                          filter: {
-                            reportTemplateList,
-                          },
-                        },
-                      })
-                      .then(res => {
-                        console.log({res});
-                      });
-                  } else {
-                    alert(res.getPatientReports.message);
-                  }
-                  // generateReportsStore.updatePatientReports(res?.data);
-                  // generateReportsStore.updatePageBranding(
-                  //   res?.data?.templatePatientResult?.pageBranding,
-                  // );
-                })
-                .catch(errors => {
-                  return Toast.error({
-                    message: `😔 ${errors.message}`,
-                  });
-                });
+              // generateReportsStore.generateReportsService
+              //   .listPatientReports(item.labId)
+              //   .then(res => {
+              //     if (res.getPatientReports.success) {
+              //       const uniqByPatientResult = _.uniqBy(
+              //         res.getPatientReports.data?.patientResultList,
+              //         (item: any) => {
+              //           return item.reportTemplate;
+              //         },
+              //       );
+              //       const reportTemplateList: any[] = [];
+              //       uniqByPatientResult.filter(item => {
+              //         reportTemplateList.push(
+              //           item?.reportTemplate.split(' -')[0],
+              //         );
+              //       });
+              //       if (reportTemplateList?.length > 0) {
+              //         reportSettingStore.templatePatientResultService
+              //           .getTempPatientResultListByTempCodes({
+              //             input: {
+              //               filter: {
+              //                 reportTemplateList,
+              //               },
+              //             },
+              //           })
+              //           .then(res => {
+              //             console.log({res});
+              //           });
+              //       }
+              //     } else {
+              //       alert(res.getPatientReports.message);
+              //     }
+              //     // generateReportsStore.updatePatientReports(res?.data);
+              //     // generateReportsStore.updatePageBranding(
+              //     //   res?.data?.templatePatientResult?.pageBranding,
+              //     // );
+              //   })
+              //   .catch(errors => {
+              //     return Toast.error({
+              //       message: `😔 ${errors.message}`,
+              //     });
+              //   });
             }}
           />
         </div>

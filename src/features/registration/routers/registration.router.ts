@@ -1,7 +1,11 @@
 import async from '@/layouts/components/async.component';
 
 const PatientRegistrations = async(
-  () => import('../screens/patient-registration/patient-registration.screen'),
+  () => import('../patient-registration/screens/patient-registration.screen'),
+);
+
+const ClientRegistrations = async(
+  () => import('../client-registration/screens/client-registration.screen'),
 );
 
 export const registrationRoutes = {
@@ -14,6 +18,12 @@ export const registrationRoutes = {
       name: 'Patient Registration',
       icon: 'Icons.IconFa.FaAddressCard',
       component: PatientRegistrations,
+    },
+    {
+      path: '/registration/client',
+      name: 'Client Registration',
+      icon: 'Icons.IconFa.FaRegUser',
+      component: ClientRegistrations,
     },
   ],
 };

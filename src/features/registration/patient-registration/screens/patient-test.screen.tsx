@@ -14,8 +14,8 @@ import {
 // import * as LibraryUtils from "@/library/utils"
 import '@/library/assets/css/accordion.css';
 import {useForm, Controller} from 'react-hook-form';
-import {PatientTestList} from '../../components';
-import {PatientOrderHoc} from '../../hoc';
+import {PatientTestList} from '../components';
+import {PatientOrderHoc} from '../hoc';
 
 import {useStores} from '@/stores';
 
@@ -29,7 +29,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {PanelListTable, ExtraDataPanelListTable} from '../../components';
+import {PanelListTable, ExtraDataPanelListTable} from '../components';
 
 interface PatientTestProps {
   onModalConfirm?: (item: any) => void;

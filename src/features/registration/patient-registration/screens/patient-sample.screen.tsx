@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {PatientSampleList} from '../../components';
+import {PatientSampleList} from '../components';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
 import {RouterFlow} from '@/flows';

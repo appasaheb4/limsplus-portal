@@ -140,31 +140,38 @@ export const MultilineInput = (props: InputProps) => (
 );
 
 interface InputRadioProps extends InputWrapperProps {
-  values?: string[];
+  values?: any[];
   value?: string;
   name?: string;
   required?: boolean;
   disabled?: boolean;
+  labelStyle?: any;
   onChange?: (e: any) => void;
 }
 
 export const InputRadio = (props: InputRadioProps) => (
-  <InputWrapper label={props.label} id={props.id}>
+  <InputWrapper label={props.label} id={props.id} style={props.labelStyle}>
     {props.values?.map((item, key) => (
-      <div className='ml-4' key={key}>
-        <List space={3} direction='row'>
-          <input
-            key={key}
-            type='radio'
-            id={props.id}
-            name={props.name}
-            value={props.value}
-            checked={item === props.value ? true : false}
-            onChange={() => props.onChange && props.onChange(item)}
-            className='leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
-          />
-          <Label htmlFor={props.id || ''}>{item}</Label>
-        </List>
+      <div
+        className='flex items-center gap-2'
+        key={key}
+        onClick={() => {
+          props.onChange && props.onChange(item.value);
+        }}
+      >
+        <input
+          key={key}
+          type='radio'
+          id={props.id}
+          name={props.name}
+          value={item.value}
+          checked={item.value == props.value ? true : false}
+          onChange={() => props.onChange && props.onChange(item.value)}
+          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+        />
+        <Label htmlFor={props.id || ''} style={{marginTop: 6}}>
+          {item.label}
+        </Label>
       </div>
     ))}
   </InputWrapper>

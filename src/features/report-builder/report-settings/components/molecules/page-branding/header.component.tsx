@@ -81,7 +81,7 @@ export const PageBrandingHeader = observer(() => {
                 header: {
                   ...reportSettingStore.pageBranding?.header,
                   logo,
-                  logoUrl: compressString(await resizeFile(logo)),
+                  //logoUrl: compressString(await resizeFile(logo)),
                 },
               });
             }}
