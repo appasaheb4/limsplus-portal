@@ -23,6 +23,7 @@ import * as Iconvsc from 'react-icons/vsc';
 import * as Iconhi from 'react-icons/hi';
 import * as IconBi from 'react-icons/bi';
 import * as IconTb from 'react-icons/tb';
+import * as IconsFa from 'react-icons/fa';
 
 export interface IconsProps {
   size?: string;
@@ -64,6 +65,7 @@ export {
   Iconhi,
   IconBi,
   IconTb,
+  IconsFa,
 };
 
 export const getIcons = (icon: string): any => {
@@ -143,6 +145,8 @@ export const getIcons = (icon: string): any => {
   // registration
   if (icon === 'Icons.IconRi.RiUserAddLine') return Icons.IconRi.RiUserAddLine;
   if (icon === 'Icons.IconFa.FaAddressCard') return Icons.IconFa.FaAddressCard;
+  if (icon === 'Icons.IconFa.FaRegUser') return Icons.IconFa.FaRegUser;
+
   // report builder
   if (icon === 'Icons.Iconhi.HiDocumentReport')
     return Icons.Iconhi.HiDocumentReport;

@@ -15,7 +15,7 @@ import {
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
-import {patientRegistrationHoc} from '../../hoc';
+import {patientRegistrationHoc} from '../hoc';
 
 import {
   PatientManager,
@@ -24,7 +24,7 @@ import {
   PatientSample,
   PatientResult,
   PatientTest,
-} from '../index';
+} from './index';
 import {useStores} from '@/stores';
 import {stores} from '@/stores';
 

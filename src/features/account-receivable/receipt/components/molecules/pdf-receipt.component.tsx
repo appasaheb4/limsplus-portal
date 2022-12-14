@@ -17,7 +17,7 @@ import {
 } from '@components';
 import {PdfReceiptViewer} from './pdf-receipt-viewer.component';
 import {PdfTransactionLineTable} from './pdf-table-transaction-line.component';
-import {getAgeAndAgeUnit} from '@features/registration/utils';
+import {getAgeAndAgeUnit} from '@features/registration/patient-registration/utils';
 import {calculateTimimg, numToWords} from '@/library/utils';
 interface PdfReceiptProps {
   data: any;

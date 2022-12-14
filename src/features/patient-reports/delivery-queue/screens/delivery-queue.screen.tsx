@@ -14,7 +14,7 @@ import {RouterFlow} from '@/flows';
 import {
   ReportDeliveryList,
   OrderDeliveredList,
-  ModalMedicalReportShare,
+  ModalGenerateReports,
 } from '../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
@@ -22,8 +22,14 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import {toJS} from 'mobx';
 
 const DeliveryQueue = observer(() => {
-  const {loading, deliveryQueueStore, routerStore, loginStore, receiptStore} =
-    useStores();
+  const {
+    loading,
+    deliveryQueueStore,
+    routerStore,
+    loginStore,
+    receiptStore,
+    reportSettingStore,
+  } = useStores();
 
   const {
     control,
@@ -32,7 +38,7 @@ const DeliveryQueue = observer(() => {
     setValue,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
-  const [modalMedicalReportShare, setModalMedicalReportShare] = useState<any>();
+  const [modalGenerateReports, setModalGenerateReports] = useState<any>();
   const [receiptPath, setReceiptPath] = useState<string>();
 
   const getDeliveryList = () => {
@@ -162,28 +168,59 @@ const DeliveryQueue = observer(() => {
         }}
         onMedicalReport={labId => {
           deliveryQueueStore.deliveryQueueService
-            .getMedicalReportDetails({
-              input: {
-                filter: {
-                  labId,
-                },
-              },
-            })
+            .listPatientReports(labId)
             .then(res => {
-              if (res.getMedicalReportDetailsForDeliveryQueue.success) {
-                console.log({
-                  data: res.getMedicalReportDetailsForDeliveryQueue,
+              if (res.getPatientReports.success) {
+                let patientResultList: any[] = [];
+                res.getPatientReports.data?.patientResultList?.filter(item => {
+                  if (item.reportTemplate) {
+                    patientResultList.push({
+                      ...res.getPatientReports.data,
+                      patientResult: item,
+                    });
+                  }
                 });
-
-                setModalMedicalReportShare({
-                  show: true,
-                  data: res.getMedicalReportDetailsForDeliveryQueue
-                    ?.resultMedicalReport,
+                const uniqByPatientResult = _.uniqBy(
+                  res.getPatientReports.data?.patientResultList,
+                  (item: any) => {
+                    return item.reportTemplate;
+                  },
+                );
+                const reportTemplateList: any[] = [];
+                uniqByPatientResult.filter(item => {
+                  reportTemplateList.push(item?.reportTemplate.split(' -')[0]);
                 });
+                if (reportTemplateList?.length > 0) {
+                  reportSettingStore.templatePatientResultService
+                    .getTempPatientResultListByTempCodes({
+                      input: {
+                        filter: {
+                          reportTemplateList,
+                        },
+                      },
+                    })
+                    .then(res => {
+                      patientResultList = patientResultList.filter(item => {
+                        const reportSettings =
+                          res.getTempPatientResultListByTempCodes.list.find(
+                            e =>
+                              e.templateCode ==
+                              item.patientResult.reportTemplate.split(' -')[0],
+                          );
+                        return Object.assign(item, {reportSettings});
+                      });
+                      const grouped = _.groupBy(
+                        patientResultList,
+                        item => item.patientResult.reportTemplate,
+                      );
+                      setModalGenerateReports({
+                        show: true,
+                        data: grouped,
+                      });
+                    });
+                }
               } else {
-                Toast.error({
-                  message: `😞 ${res.getMedicalReportDetailsForDeliveryQueue.message}`,
-                });
+                alert(res.getPatientReports.message);
               }
             });
         }}
@@ -297,27 +334,27 @@ const DeliveryQueue = observer(() => {
           }}
         />
 
-        <ModalMedicalReportShare
-          {...modalMedicalReportShare}
+        <ModalGenerateReports
+          {...modalGenerateReports}
           onClose={() => {
-            setModalMedicalReportShare({show: false});
+            setModalGenerateReports({show: false});
           }}
           onReceiptUpload={(file, type) => {
-            if (!receiptPath) {
-              receiptStore.receiptService
-                .paymentReceiptUpload({input: {file}})
-                .then(res => {
-                  if (res.paymentReceiptUpload.success) {
-                    setReceiptPath(res.paymentReceiptUpload?.receiptPath);
-                    window.open(
-                      `${type} ${res.paymentReceiptUpload?.receiptPath}`,
-                      '_blank',
-                    );
-                  }
-                });
-            } else {
-              window.open(type + receiptPath, '_blank');
-            }
+            // if (!receiptPath) {
+            //   receiptStore.receiptService
+            //     .paymentReceiptUpload({input: {file}})
+            //     .then(res => {
+            //       if (res.paymentReceiptUpload.success) {
+            //         setReceiptPath(res.paymentReceiptUpload?.receiptPath);
+            //         window.open(
+            //           `${type} ${res.paymentReceiptUpload?.receiptPath}`,
+            //           '_blank',
+            //         );
+            //       }
+            //     });
+            // } else {
+            //   window.open(type + receiptPath, '_blank');
+            // }
           }}
         />
       </div>

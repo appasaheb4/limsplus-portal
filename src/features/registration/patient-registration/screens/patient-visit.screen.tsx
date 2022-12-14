@@ -22,7 +22,7 @@ import {
   AutoCompleteFilterSingleSelectPid,
   ExtraDataPatientVisitList,
   PatientVisitList,
-} from '../../components';
+} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {
   Accordion,
@@ -33,11 +33,11 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import {PatientVisitHoc} from '../../hoc';
+import {PatientVisitHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
 import {RouterFlow} from '@/flows';
-import {getAgeByAgeObject, getDiffByDate} from '../../utils';
+import {getAgeByAgeObject, getDiffByDate} from '../utils';
 import {FormHelper} from '@/helper';
 
 interface PatientVisitProps {

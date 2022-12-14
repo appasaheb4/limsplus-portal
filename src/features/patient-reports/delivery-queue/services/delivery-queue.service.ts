@@ -14,12 +14,27 @@ import {
   FILTER,
   MEDICAL_REPORT,
   FIND_BY_FIELDS,
+  PATIENT_REPORT_LIST,
 } from './mutation-delivery-queue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export class DeliveryQueueService {
+  listPatientReports = labId =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: PATIENT_REPORT_LIST,
+          variables: {input: {labId}},
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
   listDeliveryQueue = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const environment =

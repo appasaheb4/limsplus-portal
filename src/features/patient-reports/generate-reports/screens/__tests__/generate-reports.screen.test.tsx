@@ -1,6 +1,7 @@
+// eslint-disable-next-line folders/match-regex
 import React from 'react';
 import {render} from '@testing-library/react';
-import GenerateReport from './generate-reports.screen';
+import GenerateReport from '../generate-reports.screen';
 
 describe('GenerateReport Screen', () => {
   it('render generateReport correctly', () => {

@@ -16,8 +16,13 @@ import {
 import {lookupItems, lookupValue} from '@/library/utils';
 import '@/library/assets/css/accordion.css';
 import {useForm, Controller} from 'react-hook-form';
-import {PatientOrderList, ModalBarcodeLab} from '../../components';
-import {PatientOrderHoc} from '../../hoc';
+import {
+  PatientOrderList,
+  ModalBarcodeLab,
+  TablePackagesList,
+  TableExtraDataPackages,
+} from '../components';
+import {PatientOrderHoc} from '../hoc';
 
 import {useStores} from '@/stores';
 
@@ -31,7 +36,6 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {TablePackagesList, TableExtraDataPackages} from '../../components';
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void;

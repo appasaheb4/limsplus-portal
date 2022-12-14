@@ -61,7 +61,7 @@ import * as HostCommunication from '@/features/communication/host-communication'
 import * as GeneralResultEntry from '@/features/result-entry/general-result-entry';
 
 // registration
-import * as PatientRegistration from '@/features/registration';
+import * as PatientRegistration from '@/features/registration/patient-registration';
 
 // report builder
 import * as ReportSettings from '@/features/report-builder/report-settings';

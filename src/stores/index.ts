@@ -60,7 +60,7 @@ import {
   PatientResultStore,
   PatientSampleStore,
   PatientRegistrationStore,
-} from '@/features/registration/stores';
+} from '@/features/registration/patient-registration/stores';
 
 // Result Entry
 import {GeneralResultEntryStore} from '@/features/result-entry/general-result-entry/stores';

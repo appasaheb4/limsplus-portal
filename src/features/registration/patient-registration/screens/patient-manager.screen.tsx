@@ -14,9 +14,9 @@ import {
 import dayjs from 'dayjs';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
-import {PatientMangerList, ExtraDataPatientManagerList} from '../../components';
+import {PatientMangerList, ExtraDataPatientManagerList} from '../components';
 import {FormHelper} from '@/helper';
-import {PatientManagerHoc} from '../../hoc';
+import {PatientManagerHoc} from '../hoc';
 
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
@@ -30,11 +30,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
-import {
-  dateAvailableUnits,
-  getDiffByDate,
-  getAgeByAgeObject,
-} from '../../utils';
+import {dateAvailableUnits, getDiffByDate, getAgeByAgeObject} from '../utils';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
