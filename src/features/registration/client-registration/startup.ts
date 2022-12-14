@@ -1,6 +1,6 @@
 import {stores} from '@/stores';
 const startup = async () => {
-  //stores.segmentMappingStore.fetchListSegmentMapping();
+  stores.clientRegistrationStore.clientRegistrationService.list();
 };
 
 export default startup;

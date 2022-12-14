@@ -62,6 +62,7 @@ import * as GeneralResultEntry from '@/features/result-entry/general-result-entr
 
 // registration
 import * as PatientRegistration from '@/features/registration/patient-registration';
+import * as ClientRegistration from '@/features/registration/client-registration';
 
 // report builder
 import * as ReportSettings from '@/features/report-builder/report-settings';
@@ -236,6 +237,9 @@ const Dashboard = observer(({children}) => {
         await RegistrationLocations.startup();
         await CorporateClients.startup();
         await PanelMaster.startup();
+      }
+      if (pathname === '/registration/client') {
+        await ClientRegistration.startup();
       }
       // result entry
       if (pathname === '/result-entry/general') {

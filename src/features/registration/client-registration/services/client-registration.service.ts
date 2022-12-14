@@ -19,7 +19,7 @@ import {
 } from './mutation';
 
 export class ClientRegistrationService {
-  listSegmentMapping = (page = 0, limit = 10) =>
+  list = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
@@ -29,109 +29,20 @@ export class ClientRegistrationService {
           mutation: LIST,
           variables: {input: {page, limit, env, role}},
         })
-        .then((response: any) => {
-          const data = response.data.segmentMappings.data;
-          const group = data.reduce((r: any, a: any) => {
-            r[a.segments] = [...(r[a.segments] || []), a];
-            return r;
-          }, {});
-          const entries = Object.entries(group);
-
-          const values: any = [];
-          for (const groupSegment of entries) {
-            const segmentList: any = groupSegment[1];
-            segmentList.sort((a, b) => {
-              return a.field_no - b.field_no;
-            });
-            for (const item of segmentList) {
-              values.push(item);
-            }
-          }
-          stores.segmentMappingStore.updateListSegmentMapping({
-            segmentMappings: {
-              ...response.data.segmentMappings,
-              data: values,
-            },
-          });
-          resolve(response.data);
+        .then((res: any) => {
+          stores.clientRegistrationStore.updateClientRegistrationList(res.data);
+          resolve(res.data);
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
 
-  mappingList = (page = 0, limit = 10) =>
-    new Promise<any>((resolve, reject) => {
-      const env =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
-      client
-        .mutate({
-          mutation: LIST,
-          variables: {input: {page, limit, env, role}},
-        })
-        .then((response: any) => {
-          const data = response.data.segmentMappings.data;
-          const mapping: any[] = [];
-          const values: any[] = [];
-          data.forEach((item: any) => {
-            if (
-              item.equipmentType === 'ERP' &&
-              (item.dataFlowFrom === 'Host &gt; LIS' ||
-                item.dataFlowFrom === 'Host > LIS')
-            ) {
-              values.push({
-                segments: item.segments,
-                field: `${item.segments?.toLowerCase()}.${item.element_name
-                  ?.toLowerCase()
-                  .replaceAll(' ', '_')}`,
-                component: [Number(item.field_no), 1],
-                field_no: Number(item.field_no),
-                default: '',
-              });
-            }
-          });
-          const group = values.reduce((r: any, a: any) => {
-            r[a.segments] = [...(r[a.segments] || []), a];
-            return r;
-          }, {});
-
-          const entries = Object.entries(group);
-          entries.forEach((item: any) => {
-            mapping.push({
-              [item[0].toLowerCase() || '']: {values: item[1]},
-            });
-          });
-          stores.segmentMappingStore.updateMappingList({
-            segmentMappings: {...response.data.segmentMappings, data: mapping},
-          });
-          resolve(response.data);
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
-
-  importSegmentMapping = (variables: any) =>
+  import = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: IMPORT_RECORDS,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data);
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
-
-  addSegmentMapping = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: CREATE_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -181,8 +92,7 @@ export class ClientRegistrationService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterSegmentMappings.success)
-            return this.listSegmentMapping();
+          if (!response.data.filterSegmentMappings.success) return this.list();
           stores.segmentMappingStore.filterSegmentMappingList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
