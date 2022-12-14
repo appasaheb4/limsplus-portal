@@ -59,216 +59,231 @@ const NavbarComponent = observer(({dispatch}) => {
         expand
         className='flex flex-row w-full pr-5 '
       >
-        <div className='flex w-8'>
-          <span
-            className='sidebar-toggle d-flex mr-2'
-            onClick={() => {
-              dispatch(toggleSidebar());
-            }}
-          >
-            <i className='hamburger align-self-center' />
-          </span>
-        </div>
-        <div className='flex flex-2  scrollbar-hide'>
-          {/* overflow-auto */}
-          <Form inline>
-            <div className='flex flex-row'>
-              <div className='ml-1 m-0.5'>
+        <div className='container-fluid'>
+          <div className='flex w-8'>
+            <span
+              className='sidebar-toggle d-flex mr-2'
+              onClick={() => {
+                dispatch(toggleSidebar());
+              }}
+            >
+              <i className='hamburger align-self-center' />
+            </span>
+          </div>
+          <div className='flex flex-2  scrollbar-hide'>
+            {/* overflow-auto */}
+            <Form inline>
+              <div className='flex flex-row'>
+                <div className='ml-1 m-0.5'>
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      window.location.href = '/dashboard/default';
+                    }}
+                  >
+                    <Tooltip tooltipText='Dashboard'>
+                      <Icons.IconContext color='#000' size='22'>
+                        {Icons.getIconTag(Icons.IconRi.RiDashboardFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  </Buttons.Button>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  {loginStore.login?.shortcutMenu &&
+                    loginStore.login?.shortcutMenu[
+                      loginStore.login.role || ''
+                    ] &&
+                    loginStore.login?.shortcutMenu[
+                      loginStore.login.role || ''
+                    ].map(item => (
+                      <>
+                        <div className='ml-2'>
+                          <Buttons.Button
+                            size='medium'
+                            type='outline'
+                            onClick={async () => {
+                              const {permission, selectedComp} =
+                                await RouterFlow.updateSelectedCategory(
+                                  item.category,
+                                  item.name,
+                                );
+                              routerStore.updateSelectedComponents(
+                                selectedComp,
+                              );
+                              routerStore.updateUserPermission(permission);
+                              history.push(item.path);
+                            }}
+                          >
+                            <div style={{position: 'relative', zIndex: 999}}>
+                              <Tooltip tooltipText={item.title}>
+                                <Icons.IconContext color='#000' size='22'>
+                                  {Icons.getIconTag(
+                                    Icons.getIcons(item.icon) ||
+                                      Icons.IconBs.BsList,
+                                  )}
+                                </Icons.IconContext>
+                              </Tooltip>
+                            </div>
+                          </Buttons.Button>
+                        </div>
+                      </>
+                    ))}
+                </div>
+              </div>
+            </Form>
+          </div>
+          <div className='flex-1 ml-2'>
+            <div className='flex right-0'>
+              <Nav className='ml-auto items-center' navbar>
                 <Buttons.Button
                   size='medium'
                   type='outline'
                   onClick={() => {
-                    window.location.href = '/dashboard/default';
+                    const elem: any = document.body;
+                    function openFullscreen() {
+                      appStore.updateApplicationSetting({
+                        ...appStore.applicationSetting,
+                        isExpandScreen: true,
+                      });
+                      if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                      } else if (elem.webkitRequestFullscreen) {
+                        /* Safari */
+                        elem.webkitRequestFullscreen();
+                      } else if (elem.msRequestFullscreen) {
+                        /* IE11 */
+                        elem.msRequestFullscreen();
+                      }
+                    }
+                    function closeFullscreen() {
+                      if (document.fullscreenElement) {
+                        if (document.exitFullscreen) {
+                          appStore.updateApplicationSetting({
+                            ...appStore.applicationSetting,
+                            isExpandScreen: false,
+                          });
+                          document.exitFullscreen();
+                        }
+                      }
+                    }
+                    openFullscreen();
+                    closeFullscreen();
                   }}
                 >
-                  <Tooltip tooltipText='Dashboard'>
+                  <Tooltip
+                    tooltipText={
+                      appStore.applicationSetting?.isExpandScreen
+                        ? 'Collapse'
+                        : 'Expand'
+                    }
+                  >
                     <Icons.IconContext color='#000' size='22'>
-                      {Icons.getIconTag(Icons.IconRi.RiDashboardFill)}
+                      {Icons.getIconTag(
+                        appStore.applicationSetting?.isExpandScreen
+                          ? Icons.IconCg.CgMinimize
+                          : Icons.Iconai.AiOutlineExpand,
+                      )}
                     </Icons.IconContext>
                   </Tooltip>
                 </Buttons.Button>
-              </div>
-              {loginStore.login?.shortcutMenu &&
-                loginStore.login?.shortcutMenu[loginStore.login.role || ''] &&
-                loginStore.login?.shortcutMenu[loginStore.login.role || ''].map(
-                  item => (
-                    <>
-                      <div className='ml-1 m-0.5'>
-                        <Buttons.Button
-                          size='medium'
-                          type='outline'
-                          onClick={async () => {
-                            const {permission, selectedComp} =
-                              await RouterFlow.updateSelectedCategory(
-                                item.category,
-                                item.name,
-                              );
-                            routerStore.updateSelectedComponents(selectedComp);
-                            routerStore.updateUserPermission(permission);
-                            history.push(item.path);
-                          }}
-                        >
-                          <div style={{position: 'relative', zIndex: 999}}>
-                            <Tooltip tooltipText={item.title}>
-                              <Icons.IconContext color='#000' size='22'>
-                                {Icons.getIconTag(
-                                  Icons.getIcons(item.icon) ||
-                                    Icons.IconBs.BsList,
-                                )}
-                              </Icons.IconContext>
-                            </Tooltip>
-                          </div>
-                        </Buttons.Button>
-                      </div>
-                    </>
-                  ),
-                )}
-            </div>
-          </Form>
-        </div>
-        <div className='flex-1 ml-2'>
-          <div className='flex right-0'>
-            <Nav className='ml-auto items-center' navbar>
-              <Buttons.Button
-                size='medium'
-                type='outline'
-                onClick={() => {
-                  const elem: any = document.body;
-                  function openFullscreen() {
-                    appStore.updateApplicationSetting({
-                      ...appStore.applicationSetting,
-                      isExpandScreen: true,
-                    });
-                    if (elem.requestFullscreen) {
-                      elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) {
-                      /* Safari */
-                      elem.webkitRequestFullscreen();
-                    } else if (elem.msRequestFullscreen) {
-                      /* IE11 */
-                      elem.msRequestFullscreen();
-                    }
-                  }
-                  function closeFullscreen() {
-                    if (document.fullscreenElement) {
-                      if (document.exitFullscreen) {
-                        appStore.updateApplicationSetting({
-                          ...appStore.applicationSetting,
-                          isExpandScreen: false,
-                        });
-                        document.exitFullscreen();
-                      }
-                    }
-                  }
-                  openFullscreen();
-                  closeFullscreen();
-                }}
-              >
-                <Tooltip
-                  tooltipText={
-                    appStore.applicationSetting?.isExpandScreen
-                      ? 'Collapse'
-                      : 'Expand'
-                  }
-                >
-                  <Icons.IconContext color='#000' size='22'>
-                    {Icons.getIconTag(
-                      appStore.applicationSetting?.isExpandScreen
-                        ? Icons.IconCg.CgMinimize
-                        : Icons.Iconai.AiOutlineExpand,
-                    )}
-                  </Icons.IconContext>
-                </Tooltip>
-              </Buttons.Button>
-              <div className='ml-2' />
-              <Buttons.Button
-                size='medium'
-                type='outline'
-                onClick={() => {
-                  // userStore.UsersService.loginActivityList({
-                  //   input: {
-                  //     userId: loginStore.login.userId,
-                  //     loginActivityId: loginStore.login.loginActivityId,
-                  //   },
-                  // }).then((res) => {
-                  //   if (!res.success) alert(res.message)
-                  //   else {
-                  //     loginStore.updateLogin({
-                  //       ...loginStore.login,
-                  //       loginActivityList: res.data.loginActivityList,
-                  //       sessionAllowed: res.data.sessionAllowed,
-                  //     })
+                <div className='ml-2' />
+                <Buttons.Button
+                  size='medium'
+                  type='outline'
+                  onClick={() => {
+                    // userStore.UsersService.loginActivityList({
+                    //   input: {
+                    //     userId: loginStore.login.userId,
+                    //     loginActivityId: loginStore.login.loginActivityId,
+                    //   },
+                    // }).then((res) => {
+                    //   if (!res.success) alert(res.message)
+                    //   else {
+                    //     loginStore.updateLogin({
+                    //       ...loginStore.login,
+                    //       loginActivityList: res.data.loginActivityList,
+                    //       sessionAllowed: res.data.sessionAllowed,
+                    //     })
 
-                  //   }
-                  // })
-                  if (loginStore.login.loginActivityList.length > 0) {
-                    setModalSessionAllowed({
-                      show: true,
-                      data: loginStore.login.loginActivityList,
-                    });
-                  } else {
-                    Toast.warning({
-                      message: `😊 Single system login.`,
-                    });
-                  }
-                }}
-              >
-                <label
-                  className='inline w-8 text-center'
-                  style={{width: '40px'}}
+                    //   }
+                    // })
+                    if (loginStore.login.loginActivityList.length > 0) {
+                      setModalSessionAllowed({
+                        show: true,
+                        data: loginStore.login.loginActivityList,
+                      });
+                    } else {
+                      Toast.warning({
+                        message: `😊 Single system login.`,
+                      });
+                    }
+                  }}
                 >
-                  {loginStore.login?.sessionAllowed}
-                </label>
-              </Buttons.Button>
-              <UncontrolledDropdown nav inNavbar>
-                <span className='d-none d-sm-inline-block'>
-                  <DropdownToggle nav>
-                    <div className='flex items-center'>
-                      <img
-                        className='rounded-circle mr-3'
-                        src={loginStore.login?.picture || Assets.defaultAvatar}
-                        alt={loginStore.login?.fullName}
-                        width='40'
-                        height='40'
-                      />
-                      <span className='text-dark'>
-                        {loginStore.login?.fullName}
-                      </span>
-                    </div>
-                  </DropdownToggle>
-                </span>
-                <DropdownMenu right>
-                  <DropdownItem onClick={() => setModalAccount({show: true})}>
-                    Account
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setModalChangePassword({show: true})}
+                  <label
+                    className='inline w-8 text-center'
+                    style={{width: '40px'}}
                   >
-                    Change Password
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem
-                    onClick={() => {
-                      loginStore
-                        .removeUser()
-                        .then(res => {
-                          if (res.logout.success) {
-                            Toast.success({
-                              message: `😊 ${res.logout.message}`,
-                            });
-                            history.push('/');
+                    {loginStore.login?.sessionAllowed}
+                  </label>
+                </Buttons.Button>
+                <UncontrolledDropdown nav inNavbar>
+                  <span className='d-none d-sm-inline-block'>
+                    <DropdownToggle nav>
+                      <div className='flex items-center'>
+                        <img
+                          className='rounded-circle mr-3'
+                          src={
+                            loginStore.login?.picture || Assets.defaultAvatar
                           }
-                        })
-                        .catch(() => {
-                          alert('Please try again');
-                        });
-                    }}
-                  >
-                    Sign out
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
+                          alt={loginStore.login?.fullName}
+                          width='40'
+                          height='40'
+                        />
+                        <span className='text-dark'>
+                          {loginStore.login?.fullName}
+                        </span>
+                      </div>
+                    </DropdownToggle>
+                  </span>
+                  <DropdownMenu right>
+                    <DropdownItem onClick={() => setModalAccount({show: true})}>
+                      Account
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => setModalChangePassword({show: true})}
+                    >
+                      Change Password
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem
+                      onClick={() => {
+                        loginStore
+                          .removeUser()
+                          .then(res => {
+                            if (res.logout.success) {
+                              Toast.success({
+                                message: `😊 ${res.logout.message}`,
+                              });
+                              history.push('/');
+                            }
+                          })
+                          .catch(() => {
+                            alert('Please try again');
+                          });
+                      }}
+                    >
+                      Sign out
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </Nav>
+            </div>
           </div>
         </div>
       </Navbar>
