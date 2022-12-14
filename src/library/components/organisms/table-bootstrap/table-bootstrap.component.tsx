@@ -38,6 +38,7 @@ interface TableBootstrapProps {
   onDelete?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateFields?: (fields: any, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
   onFilter?: (
     type: string,
@@ -47,6 +48,7 @@ interface TableBootstrapProps {
   ) => void;
   clearAllFilter?: () => void;
 }
+
 export const TableBootstrap = ({
   id,
   data,
@@ -204,7 +206,7 @@ export const TableBootstrap = ({
       searchText,
     },
   ) => {
-    //console.log({ type, filters })
+    //console.log({type, cellEdit, isEditModify, data});
     if (type === 'cellEdit' && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId);
