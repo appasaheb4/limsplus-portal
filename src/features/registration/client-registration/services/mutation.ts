@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation ($input: SegmentMappingInput!) {
-    segmentMappings(input: $input) {
+  mutation ($input: ClientRegistrationInput!) {
+    clientRegistrationList(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,28 +10,22 @@ export const LIST = gql`
       message
       data {
         _id
-        dataFlowFrom
-        data_type
-        equipmentType
-        segments
-        segment_usage
-        field_no
-        item_no
-        field_required
-        element_name
-        transmitted_data
-        field_array
-        field_length
-        field_type
-        repeat_delimiter
-        mandatory
-        lims_descriptions
-        lims_tables
-        lims_fields
-        required_for_lims
-        notes
-        attachments
-        environment
+        countryName
+        labId
+        registrationDate
+        clientCode
+        clientName
+        patientName
+        age
+        ageUnits
+        sex
+        testName
+        testCode
+        sample
+        dueDate
+        reportDate
+        status
+        pdfReport
         dateOfEntry
         lastUpdated
       }
@@ -58,8 +52,8 @@ export const CREATE_RECORD = gql`
 `;
 
 export const IMPORT_RECORDS = gql`
-  mutation ($input: CreateSegmentMappingInput!) {
-    importSegmentMapping(input: $input) {
+  mutation ($input: ClientRegistrationInput!) {
+    importClientRegistration(input: $input) {
       success
       message
     }

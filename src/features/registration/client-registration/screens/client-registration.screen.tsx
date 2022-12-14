@@ -25,15 +25,18 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 
 const ClientRegistration = observer(() => {
-  const {loginStore, interfaceManagerStore, segmentMappingStore, routerStore} =
-    useStores();
+  const {
+    loginStore,
+    clientRegistrationStore,
+    segmentMappingStore,
+    routerStore,
+  } = useStores();
   const {
     control,
     handleSubmit,
     formState: {errors},
     setValue,
   } = useForm();
-  setValue('environment', segmentMappingStore.segmentMapping?.environment);
   const [modalImportFile, setModalImportFile] = useState({});
   const [hideAddSegmentMapping, setHideAddSegmentMapping] =
     useState<boolean>(true);
@@ -103,34 +106,18 @@ const ClientRegistration = observer(() => {
           }
         }
       });
-      console.log({object});
 
-      // object = JSON.parse(JSON.stringify(object));
-
-      // eslint-disable-next-line unicorn/no-array-reduce
-      // const uniqueData = object.reduce((filtered, item) => {
-      //   if (
-      //     !filtered.some(
-      //       filteredItem =>
-      //         JSON.stringify(filteredItem) == JSON.stringify(item),
-      //     )
-      //   )
-      //     filtered.push(item);
-      //   return filtered;
-      // }, []);
-
-      // if (fileImaport) {
-      //   segmentMappingStore.segmentMappingService
-      //     .importSegmentMapping({input: {data: {...uniqueData}}})
-      //     .then(res => {
-      //       if (res.importSegmentMapping.success) {
-      //         Toast.success({
-      //           message: `😊 ${res.importSegmentMapping.success}`,
-      //         });
-      //         segmentMappingStore.fetchListSegmentMapping();
-      //       }
-      //     });
-      // }
+      if (fileImaport && object.length > 0) {
+        clientRegistrationStore.clientRegistrationService
+          .import({input: {filter: {object}}})
+          .then(res => {
+            if (res.importClientRegistration.success) {
+              Toast.success({
+                message: `😊 ${res.importClientRegistration.message}`,
+              });
+            }
+          });
+      }
     });
     reader.readAsBinaryString(file);
   };
@@ -195,7 +182,7 @@ const ClientRegistration = observer(() => {
                 size='medium'
                 color={Styles.COLORS.BLACK}
               />
-              Import
+              Import File
             </Buttons.Button>
           </List>
         </div>
@@ -203,8 +190,8 @@ const ClientRegistration = observer(() => {
 
       <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
         <ClientRegistrationList
-          data={segmentMappingStore.listSegmentMapping || []}
-          totalSize={segmentMappingStore.listSegmentMappingCount}
+          data={clientRegistrationStore.clientRegistrationList || []}
+          totalSize={clientRegistrationStore.clientRegistrationCount}
           extraData={{}}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),

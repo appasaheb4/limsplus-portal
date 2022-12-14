@@ -61,6 +61,7 @@ import {
   PatientSampleStore,
   PatientRegistrationStore,
 } from '@/features/registration/patient-registration/stores';
+import {ClientRegistrationStore} from '@/features/registration/client-registration/stores';
 
 // Result Entry
 import {GeneralResultEntryStore} from '@/features/result-entry/general-result-entry/stores';
@@ -134,6 +135,7 @@ export class Stores extends Store {
   patientResultStore!: PatientResultStore;
   patientSampleStore!: PatientSampleStore;
   patientRegistrationStore!: PatientRegistrationStore;
+  clientRegistrationStore!: ClientRegistrationStore;
 
   // result entry
   generalResultEntryStore!: GeneralResultEntryStore;
@@ -210,6 +212,7 @@ export class Stores extends Store {
     this.patientResultStore = new PatientResultStore();
     this.patientSampleStore = new PatientSampleStore();
     this.patientRegistrationStore = new PatientRegistrationStore();
+    this.clientRegistrationStore = new ClientRegistrationStore();
 
     // result entry
     this.generalResultEntryStore = new GeneralResultEntryStore();
