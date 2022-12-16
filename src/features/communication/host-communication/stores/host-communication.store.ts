@@ -11,6 +11,10 @@ export class HostCommunicationStore {
   constructor() {
     this.hostCommuication = new HostCommunication({
       modeOfConnection: 'TCP/IP Communication',
+      tcpipCommunication: {
+        host: '192.168.1.3',
+        port: 1009,
+      },
     });
     this.convertTo = new ConvertTo({});
     this.selectedInterfaceManager = new InterfaceManager({});

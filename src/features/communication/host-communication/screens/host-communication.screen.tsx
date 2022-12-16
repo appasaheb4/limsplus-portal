@@ -15,7 +15,7 @@ import {
 } from '@/library/components';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
-
+import {Table} from 'reactstrap';
 import {useStores} from '@/stores';
 
 import {
@@ -47,6 +47,7 @@ const HostCommunication = HostCommunicationHoc(
     const [hideAddHostCommunication, setHideAddHostCommunication] =
       useState<boolean>(true);
     const [messageWebSocket, setMessageWebSocket] = useState('');
+    const [arrTcpIpMessage, setArrTcpIpMessage] = useState<any[]>([]);
 
     // const getData = async () => {
     //   const app = new Realm.App({ id: “ your-realm-app-id” });
@@ -65,28 +66,43 @@ const HostCommunication = HostCommunicationHoc(
     //   getData()
     //   }, [])
 
-    const getData = async () => {
+    const getTcpIpData = async () => {
       const app: any = new Realm.App({id: 'limsplus-portal-prod-fezny'});
       const credentials = Realm.Credentials.anonymous();
       try {
         const mongodb = app.currentUser.mongoClient('mongodb-atlas');
         const collection = mongodb.db('limsplus-prod').collection('tcpips');
+        const user = await app.logIn(credentials);
         for await (const change of collection.watch()) {
-          console.log({change});
+          if (
+            change?.operationType == 'insert' &&
+            change?.fullDocument?.documentType == 'duplicate'
+          ) {
+            console.log({change});
+            const hostDetails =
+              hostCommunicationStore.hostCommuication.tcpipCommunication;
+            console.log({hostDetails});
+            const allData = await user.functions.tcpipCommunicaiton({
+              ipAddress: hostDetails?.host,
+              port: hostDetails?.port,
+              documentType: 'duplicate',
+            });
+            if (allData.length > 0) setArrTcpIpMessage(allData);
+            await user.functions.tcpIpDeleteRecords({
+              ipAddress: hostDetails?.host,
+              port: hostDetails?.port,
+              documentType: 'duplicate',
+            });
+          }
         }
-        // const user = await app.logIn(credentials);
-        // const allData = await user.functions.tcpipCommunicaiton({
-        //   ipAddress: '192.168.1.58',
-        //   port: 1009,
-        // });
-        // console.log({allData});
       } catch (err) {
         console.error({err});
       }
     };
 
     useEffect(() => {
-      getData();
+      getTcpIpData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -320,9 +336,18 @@ const HostCommunication = HostCommunicationHoc(
                 {hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   'TCP/IP Communication' && (
                   <SettingForTCP_IPTable
+                    hostDetails={
+                      hostCommunicationStore.hostCommuication.tcpipCommunication
+                    }
                     isConnect={
                       hostCommunicationStore.hostCommuication.connectStatus
                     }
+                    onChange={details => {
+                      hostCommunicationStore.updateHostCommuication({
+                        ...hostCommunicationStore.hostCommuication,
+                        tcpipCommunication: details,
+                      });
+                    }}
                     onConnect={details => {
                       hostCommunicationStore.hostCommunicationService
                         .connectHostCommunication({
@@ -400,6 +425,17 @@ const HostCommunication = HostCommunicationHoc(
               />
               <div className='clerfix' />
             </Grid>
+
+            <Table striped bordered hover>
+              <tbody>
+                {arrTcpIpMessage.length > 0 &&
+                  JSON.parse(arrTcpIpMessage[0]?.message)?.map((item: any) => (
+                    <tr>
+                      <td>{item}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
 
             <Accordion allowMultiple>
               {[
