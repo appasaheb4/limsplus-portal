@@ -215,7 +215,7 @@ export const Login = observer(() => {
 
   return (
     <>
-      <div className='flex flex-col h-screen w-full  justify-center items-center'>
+      <div className='flex flex-col h-screen bg-[#394D7F] w-full  justify-center items-center'>
         <svg
           width='80%'
           height='100%'
