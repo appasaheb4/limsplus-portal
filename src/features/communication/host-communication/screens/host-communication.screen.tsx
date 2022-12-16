@@ -69,12 +69,12 @@ const HostCommunication = HostCommunicationHoc(
       const app: any = new Realm.App({id: 'limsplus-portal-prod-fezny'});
       const credentials = Realm.Credentials.anonymous();
       try {
-        const user = await app.logIn(credentials);
         const mongodb = app.currentUser.mongoClient('mongodb-atlas');
-        const collection = mongodb.db('limsplus-prod').collection('tcpips'); // Everytime a change happens in the stream, add it to the list of events
+        const collection = mongodb.db('limsplus-prod').collection('tcpips');
         for await (const change of collection.watch()) {
           console.log({change});
         }
+        // const user = await app.logIn(credentials);
         // const allData = await user.functions.tcpipCommunicaiton({
         //   ipAddress: '192.168.1.58',
         //   port: 1009,
