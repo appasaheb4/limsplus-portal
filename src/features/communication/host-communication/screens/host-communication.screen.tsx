@@ -27,8 +27,10 @@ import {HostCommunicationFlows, HexToAsciiFlow} from '../../flows';
 import {HostCommunicationHoc} from '../hoc';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-import {database} from '@/firebase';
-import {onValue, ref} from 'firebase/database';
+
+// import {database} from '@/firebase';
+// import {onValue, ref} from 'firebase/database';
+import * as Realm from 'realm-web';
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -46,16 +48,45 @@ const HostCommunication = HostCommunicationHoc(
       useState<boolean>(true);
     const [messageWebSocket, setMessageWebSocket] = useState('');
 
-    useEffect(() => {
-      const query = ref(database, 'communication/tcpIP');
-      return onValue(query, snapshot => {
-        const data = snapshot.val();
-        if (snapshot.exists()) {
-          Object.values(data).map(project => {
-            setMessageWebSocket(project as string);
-          });
+    // const getData = async () => {
+    //   const app = new Realm.App({ id: “ your-realm-app-id” });
+    //   const credentials = Realm.Credentials.anonymous();
+    //   try {
+    //   const user = await app.logIn(credentials);
+    //   const allData = await user.functions.getAllData()
+    //   setDataSet(allData)
+    //   console.log(allData)
+    //   } catch (err) {
+    //   console.error(“Failed to log in”, err);
+    //   }
+    //   }
+
+    //   useEffect(() => {
+    //   getData()
+    //   }, [])
+
+    const getData = async () => {
+      const app: any = new Realm.App({id: 'limsplus-portal-prod-fezny'});
+      const credentials = Realm.Credentials.anonymous();
+      try {
+        const user = await app.logIn(credentials);
+        const mongodb = app.currentUser.mongoClient('mongodb-atlas');
+        const collection = mongodb.db('limsplus-prod').collection('tcpips'); // Everytime a change happens in the stream, add it to the list of events
+        for await (const change of collection.watch()) {
+          console.log({change});
         }
-      });
+        // const allData = await user.functions.tcpipCommunicaiton({
+        //   ipAddress: '192.168.1.58',
+        //   port: 1009,
+        // });
+        // console.log({allData});
+      } catch (err) {
+        console.error({err});
+      }
+    };
+
+    useEffect(() => {
+      getData();
     }, []);
 
     return (
