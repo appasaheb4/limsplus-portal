@@ -3,18 +3,18 @@ import {Table} from 'reactstrap';
 import {Form, Buttons} from '@/library/components';
 
 interface SettingForTCP_IPTableProps {
+  hostDetails: any;
   isConnect?: boolean;
   onConnect: (details: any) => void;
+  onChange: (details: any) => void;
 }
 
 export const SettingForTCP_IPTable = ({
+  hostDetails,
   isConnect = false,
   onConnect,
+  onChange,
 }: SettingForTCP_IPTableProps) => {
-  const [details, setDetails] = useState<any>({
-    host: '192.168.1.3',
-    port: 1009,
-  });
   return (
     <>
       <Table striped bordered hover>
@@ -31,10 +31,10 @@ export const SettingForTCP_IPTable = ({
               <Form.Input
                 id='hostIpAddress'
                 placeholder='Host Ip Address'
-                value={details?.host}
+                value={hostDetails?.host}
                 onChange={host => {
-                  setDetails({
-                    ...details,
+                  onChange({
+                    ...hostDetails,
                     host,
                   });
                 }}
@@ -49,10 +49,10 @@ export const SettingForTCP_IPTable = ({
               <Form.Input
                 id='portNumber'
                 placeholder='Port Number'
-                value={details?.port.toString()}
+                value={hostDetails?.port.toString()}
                 onChange={port => {
-                  setDetails({
-                    ...details,
+                  onChange({
+                    ...hostDetails,
                     port: Number.parseInt(port),
                   });
                 }}
@@ -116,7 +116,7 @@ export const SettingForTCP_IPTable = ({
                   backgroundColor: isConnect ? 'green' : null,
                 }}
                 onClick={() => {
-                  onConnect && onConnect(details);
+                  onConnect && onConnect(hostDetails);
                 }}
               >
                 {isConnect ? 'Connected' : 'Connect'}

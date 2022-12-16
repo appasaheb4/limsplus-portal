@@ -17,10 +17,8 @@ export class HostCommunication {
     protocol?: string;
   };
   tcpipCommunication?: {
-    hostIpAddress?: string;
-    portNumber?: string;
-    timeout?: string;
-    responseTime?: string;
+    host?: string;
+    port?: string;
   };
   hex?: string;
   sourceFileDataReceivefromInstrument?: string;
