@@ -51,12 +51,12 @@ const authLink = setContext(async (_, {headers}) => {
 });
 
 const UploadLink = createUploadLink({
-  uri: getBaseUrl('Production'),
+  uri: getBaseUrl(process.env.REACT_APP_ENV),
   fetch: customFetch,
 });
 
 const UploadLinkLocal = createUploadLink({
-  uri: process.env.REACT_APP_API_HOST_DEV,
+  uri: process.env.REACT_APP_API_HOST_LOCAL,
   fetch: customFetch,
 });
 
