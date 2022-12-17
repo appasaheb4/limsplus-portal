@@ -74,6 +74,7 @@ const HostCommunication = HostCommunicationHoc(
         const collection = mongodb.db('limsplus-prod').collection('tcpips');
         const user = await app.logIn(credentials);
         for await (const change of collection.watch()) {
+          console.log({change});
           if (
             change?.operationType == 'insert' &&
             change?.fullDocument?.documentType == 'duplicate'
