@@ -27,9 +27,6 @@ import {HostCommunicationFlows, HexToAsciiFlow} from '../../flows';
 import {HostCommunicationHoc} from '../hoc';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-
-// import {database} from '@/firebase';
-// import {onValue, ref} from 'firebase/database';
 import * as Realm from 'realm-web';
 
 const HostCommunication = HostCommunicationHoc(
@@ -48,25 +45,7 @@ const HostCommunication = HostCommunicationHoc(
       useState<boolean>(true);
     const [messageWebSocket, setMessageWebSocket] = useState('');
 
-    // const getData = async () => {
-    //   const app = new Realm.App({ id: “ your-realm-app-id” });
-    //   const credentials = Realm.Credentials.anonymous();
-    //   try {
-    //   const user = await app.logIn(credentials);
-    //   const allData = await user.functions.getAllData()
-    //   setDataSet(allData)
-    //   console.log(allData)
-    //   } catch (err) {
-    //   console.error(“Failed to log in”, err);
-    //   }
-    //   }
-
-    //   useEffect(() => {
-    //   getData()
-    //   }, [])
-
     const getTcpIpData = async () => {
-      console.log('func calling');
       const appId = 'limsplus-portal-prod-fezny';
       const appConfig = {
         id: appId,
@@ -81,12 +60,10 @@ const HostCommunication = HostCommunicationHoc(
         const user = await app.logIn(credentials);
         const tcpTempMessage: any[] = [];
         for await (const change of collection.watch()) {
-          // console.log({change});
           if (
             change?.operationType == 'insert' &&
             change?.fullDocument?.documentType == 'duplicate'
           ) {
-            //console.log({change});
             const hostDetails =
               hostCommunicationStore.hostCommuication.tcpipCommunication;
             const allData = await user.functions.tcpipCommunicaiton({
@@ -94,22 +71,11 @@ const HostCommunication = HostCommunicationHoc(
               port: hostDetails?.port,
               documentType: 'duplicate',
             });
-            // const data = arrTcpIpMessage;
-            // console.log({data, allData});
-            // const updateUsers = [...arrTcpIpMessage, allData];
-            // setArrTcpIpMessage(updateUsers);
-            if (allData.length > 0) {
-              console.log({allData});
-              tcpTempMessage.push(allData);
-              const finalMessage = tcpTempMessage.flat(1);
+            if (allData?.length > 0) {
               hostCommunicationStore.updateArrTcpIpMessage(
-                finalMessage.map(item => {
-                  return item?.message;
-                }),
+                JSON.parse(allData[0].message),
               );
             }
-
-            //setArrTcpIpMessage(allData => [...allData, allData]);
             await user.functions.tcpIpDeleteRecords({
               ipAddress: hostDetails?.host,
               port: hostDetails?.port,
@@ -453,7 +419,7 @@ const HostCommunication = HostCommunicationHoc(
                 {hostCommunicationStore.arrTcpIpMessage?.length > 0 &&
                   hostCommunicationStore.arrTcpIpMessage.map(item => (
                     <tr>
-                      <td>{JSON.parse(item)}</td>
+                      <td>{item}</td>
                     </tr>
                   ))}
               </tbody>
