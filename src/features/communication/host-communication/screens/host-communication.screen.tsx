@@ -47,7 +47,6 @@ const HostCommunication = HostCommunicationHoc(
     const [hideAddHostCommunication, setHideAddHostCommunication] =
       useState<boolean>(true);
     const [messageWebSocket, setMessageWebSocket] = useState('');
-    const [arrTcpIpMessage, setArrTcpIpMessage] = useState<any[]>([]);
 
     // const getData = async () => {
     //   const app = new Realm.App({ id: “ your-realm-app-id” });
@@ -67,28 +66,50 @@ const HostCommunication = HostCommunicationHoc(
     //   }, [])
 
     const getTcpIpData = async () => {
-      const app: any = new Realm.App({id: 'limsplus-portal-prod-fezny'});
+      console.log('func calling');
+      const appId = 'limsplus-portal-prod-fezny';
+      const appConfig = {
+        id: appId,
+        timeout: 100_000,
+      };
+      const app: any = new Realm.App(appConfig);
       const credentials = Realm.Credentials.anonymous();
+      await app.logIn(credentials);
       try {
         const mongodb = app.currentUser.mongoClient('mongodb-atlas');
         const collection = mongodb.db('limsplus-prod').collection('tcpips');
         const user = await app.logIn(credentials);
+        const tcpTempMessage: any[] = [];
         for await (const change of collection.watch()) {
-          console.log({change});
+          // console.log({change});
           if (
             change?.operationType == 'insert' &&
             change?.fullDocument?.documentType == 'duplicate'
           ) {
-            console.log({change});
+            //console.log({change});
             const hostDetails =
               hostCommunicationStore.hostCommuication.tcpipCommunication;
-            console.log({hostDetails});
             const allData = await user.functions.tcpipCommunicaiton({
               ipAddress: hostDetails?.host,
               port: hostDetails?.port,
               documentType: 'duplicate',
             });
-            if (allData.length > 0) setArrTcpIpMessage(allData);
+            // const data = arrTcpIpMessage;
+            // console.log({data, allData});
+            // const updateUsers = [...arrTcpIpMessage, allData];
+            // setArrTcpIpMessage(updateUsers);
+            if (allData.length > 0) {
+              console.log({allData});
+              tcpTempMessage.push(allData);
+              const finalMessage = tcpTempMessage.flat(1);
+              hostCommunicationStore.updateArrTcpIpMessage(
+                finalMessage.map(item => {
+                  return item?.message;
+                }),
+              );
+            }
+
+            //setArrTcpIpMessage(allData => [...allData, allData]);
             await user.functions.tcpIpDeleteRecords({
               ipAddress: hostDetails?.host,
               port: hostDetails?.port,
@@ -429,10 +450,10 @@ const HostCommunication = HostCommunicationHoc(
 
             <Table striped bordered hover>
               <tbody>
-                {arrTcpIpMessage.length > 0 &&
-                  JSON.parse(arrTcpIpMessage[0]?.message)?.map((item: any) => (
+                {hostCommunicationStore.arrTcpIpMessage?.length > 0 &&
+                  hostCommunicationStore.arrTcpIpMessage.map(item => (
                     <tr>
-                      <td>{item}</td>
+                      <td>{JSON.parse(item)}</td>
                     </tr>
                   ))}
               </tbody>
