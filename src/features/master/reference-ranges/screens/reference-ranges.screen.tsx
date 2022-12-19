@@ -207,8 +207,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                   refernceRangesStore.referenceRanges?.refRangesInputList,
                   {rangeId},
                 );
-                console.log({index});
-
                 const refRangesInputList =
                   refernceRangesStore.referenceRanges?.refRangesInputList;
                 refRangesInputList[index] = {

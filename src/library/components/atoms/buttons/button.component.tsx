@@ -47,7 +47,7 @@ export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
         id={props.id}
         ref={props.innerRef}
         style={props.buttonStyle}
-        className={`${props.buttonClass} inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+        className={`${props.buttonClass} inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center `}
       >
         {Icon && (
           <Icon
