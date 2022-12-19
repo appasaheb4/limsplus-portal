@@ -1,5 +1,6 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   Toast,
   Header,
@@ -18,7 +19,11 @@ import * as Models from '../../models';
 import {SegmentMapping as ModelSegmentMapping} from '../models';
 import * as XLSX from 'xlsx';
 import {Styles} from '@/config';
-import {SegmentMappingList} from '../components';
+import {
+  CommonInputTable,
+  SegmentMappingInputTable,
+  SegmentMappingList,
+} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {SegmentMappingHoc} from '../hoc';
 import {useStores} from '@/stores';
@@ -40,10 +45,10 @@ const SegmentMapping = SegmentMappingHoc(
       formState: {errors},
       setValue,
     } = useForm();
-    setValue('environment', segmentMappingStore.segmentMapping?.environment);
+    //setValue('environment', segmentMappingStore.segmentMapping?.environment);
     const [modalImportFile, setModalImportFile] = useState({});
     const [hideAddSegmentMapping, setHideAddSegmentMapping] =
-      useState<boolean>(true);
+      useState<boolean>(false);
     const [saveTitle, setSaveTitle] = useState('Save');
 
     const handleFileUpload = (file: any) => {
@@ -144,20 +149,6 @@ const SegmentMapping = SegmentMappingHoc(
           }
         });
         object = JSON.parse(JSON.stringify(object));
-
-        // let listSegmentMapping = toJS(segmentMappingStore.listSegmentMapping)
-        // listSegmentMapping?.forEach(function (v) {
-        //   delete v._id, delete v.dateOfEntry, delete v.lastUpdated, delete v.__v
-        // })
-        // listSegmentMapping = listSegmentMapping?.map((item) => {
-        //   item.dataFlowFrom =
-        //     item.dataFlowFrom !== undefined
-        //       ? item.dataFlowFrom.split("&gt;").join(">")
-        //       : ""
-        //   return item
-        // })
-
-        //object = object.concat(listSegmentMapping)
         // eslint-disable-next-line unicorn/no-array-reduce
         const uniqueData = object.reduce((filtered, item) => {
           if (
@@ -169,7 +160,6 @@ const SegmentMapping = SegmentMappingHoc(
             filtered.push(item);
           return filtered;
         }, []);
-
         if (fileImaport) {
           segmentMappingStore.segmentMappingService
             .importSegmentMapping({input: {data: {...uniqueData}}})
@@ -210,6 +200,49 @@ const SegmentMapping = SegmentMappingHoc(
       }
     };
 
+    const inputTable = useMemo(
+      () =>
+        segmentMappingStore.segmentMapping?.length > 0 && (
+          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+            <SegmentMappingInputTable
+              data={toJS(segmentMappingStore.segmentMapping)}
+              extraData={routerStore}
+              onDelete={_id => {
+                const index = _.findIndex(segmentMappingStore.segmentMapping, {
+                  _id,
+                });
+                const firstArr =
+                  segmentMappingStore.segmentMapping?.slice(0, index) || [];
+                const secondArr =
+                  segmentMappingStore.segmentMapping?.slice(index + 1) || [];
+                const finalArray = [...firstArr, ...secondArr];
+                segmentMappingStore.updateSegmentMapping(finalArray);
+              }}
+              onUpdateItems={(items, rangeId) => {
+                // const index = _.findIndex(
+                //   refernceRangesStore.referenceRanges?.refRangesInputList,
+                //   {rangeId},
+                // );
+                // const refRangesInputList =
+                //   refernceRangesStore.referenceRanges?.refRangesInputList;
+                // refRangesInputList[index] = {
+                //   ...refRangesInputList[index],
+                //   ...items,
+                // };
+                // refernceRangesStore.updateReferenceRanges({
+                //   ...refernceRangesStore.referenceRanges,
+                //   refRangesInputList,
+                //   refreshList:
+                //     !refernceRangesStore.referenceRanges?.refreshList,
+                // });
+              }}
+            />
+          </div>
+        ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [segmentMappingStore.segmentMapping?.length],
+    );
+
     return (
       <>
         <Header>
@@ -233,7 +266,7 @@ const SegmentMapping = SegmentMappingHoc(
               (hideAddSegmentMapping ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={3}>
+            {/* <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
@@ -906,7 +939,9 @@ const SegmentMapping = SegmentMappingHoc(
                   defaultValue=''
                 />
               </List>
-            </Grid>
+            </Grid> */}
+            <CommonInputTable />
+            {inputTable}
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button
@@ -927,12 +962,14 @@ const SegmentMapping = SegmentMappingHoc(
                   });
                 }}
               >
-                <Icons.EvaIcon
-                  icon='arrowhead-down-outline'
-                  size='medium'
-                  color={Styles.COLORS.BLACK}
-                />
-                Import
+                <span className='flex flex-row'>
+                  <Icons.EvaIcon
+                    icon='arrowhead-down-outline'
+                    size='medium'
+                    color={Styles.COLORS.BLACK}
+                  />
+                  Import
+                </span>
               </Buttons.Button>
               <Buttons.Button
                 size='medium'
@@ -961,38 +998,21 @@ const SegmentMapping = SegmentMappingHoc(
               toJS(routerStore.userPermission),
               'Edit/Modify',
             )}
-            // onDelete={(selectedUser) => setModalConfirm(selectedUser)}
-            // onSelectedRow={(rows) => {
-            //   setModalConfirm({
-            //     show: true,
-            //     type: "Delete",
-            //     id: rows,
-            //     title: "Are you sure?",
-            //     body: `Delete selected items!`,
-            //   })
+            // duplicate={(item: ModelSegmentMapping) => {
+            //   setSaveTitle('Duplicate');
+            //   setHideAddSegmentMapping(false);
+            //   segmentMappingStore.updateSegmentMapping({
+            //     ...item,
+            //     dataFlowFrom:
+            //       item.dataFlowFrom !== undefined
+            //         ? item.dataFlowFrom.split('&gt;').join('>')
+            //         : '',
+            //     attachments: '',
+            //   });
             // }}
-            // onUpdateItem={(value: any, dataField: string, id: string) => {
-            //   setModalConfirm({
-            //     show: true,
-            //     type: "Update",
-            //     data: { value, dataField, id },
-            //     title: "Are you sure?",
-            //     body: `Update user!`,
-            //   })
-            // }}
-            duplicate={(item: ModelSegmentMapping) => {
-              setSaveTitle('Duplicate');
-              setHideAddSegmentMapping(false);
-              segmentMappingStore.updateSegmentMapping({
-                ...item,
-                dataFlowFrom:
-                  item.dataFlowFrom !== undefined
-                    ? item.dataFlowFrom.split('&gt;').join('>')
-                    : '',
-                attachments: '',
-              });
-            }}
             onPageSizeChange={(page, limit) => {
+              console.log({page, limit});
+
               segmentMappingStore.fetchListSegmentMapping(page, limit);
             }}
             onFilter={(type, filter, page, limit) => {

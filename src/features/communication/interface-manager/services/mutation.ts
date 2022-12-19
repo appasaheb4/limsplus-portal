@@ -119,3 +119,28 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: InterfaceManagerInput!) {
+    findByFieldsInterfaceManager(input: $input) {
+      success
+      message
+      data {
+        _id
+        interfaceType
+        instrumentType
+        instrumentName
+        dataFlowFrom
+        communicationProtocol
+        blockStart
+        blockEnd
+        filed
+        value
+        fileds
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

@@ -213,7 +213,9 @@ export const TableBootstrap = ({
     if (type === 'pagination' && _.isEmpty(filters)) {
       // if (sizePerPage > totalSize) return alert("You have not more records.")
       // if (page * sizePerPage > totalSize) return alert("You have not more records.")
-      onPageSizeChange && onPageSizeChange(page, sizePerPage);
+      debounce(() => {
+        onPageSizeChange && onPageSizeChange(page, sizePerPage);
+      });
     }
     if (type === 'filter' || (type === 'pagination' && !_.isEmpty(filters))) {
       if (type === 'pagination') {

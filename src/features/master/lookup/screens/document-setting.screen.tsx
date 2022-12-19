@@ -46,9 +46,9 @@ export const DocumentSettings = DocumentSettingHoc(
             Toast.success({
               message: `😊 ${res.createLookup.message}`,
             });
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 2000);
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
           }
         });
       } else {

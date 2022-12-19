@@ -10,8 +10,8 @@ import {
   Toast,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import * as Models from '../../models';
-import {SegmentMapping} from '../models';
+import * as Models from '../../../models';
+import {SegmentMapping} from '../../models';
 import {useStores} from '@/stores';
 
 let dataFlowFrom;
@@ -40,7 +40,7 @@ interface SegmentMappingListProps {
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
-  duplicate: (item: SegmentMapping) => void;
+  // duplicate: (item: SegmentMapping) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -1131,7 +1131,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     </Icons.IconContext>
                   </Tooltip>
 
-                  <Tooltip className='ml-2' tooltipText='Duplicate'>
+                  {/* <Tooltip className='ml-2' tooltipText='Duplicate'>
                     <Icons.IconContext
                       color='#fff'
                       size='20'
@@ -1153,7 +1153,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     >
                       {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                     </Icons.IconContext>
-                  </Tooltip>
+                  </Tooltip> */}
                 </div>
               </>
             ),
@@ -1244,9 +1244,10 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     });
                   }
                 });
-            } else if (type == 'Duplicate') {
-              props.duplicate(segmentMappingStore.selectedItems[0]);
             }
+            // else if (type == 'Duplicate') {
+            //   props.duplicate(segmentMappingStore.selectedItems[0]);
+            // }
           }
         }}
         onClose={() => setModalConfirm({show: false})}

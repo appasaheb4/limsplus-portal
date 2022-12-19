@@ -14,6 +14,7 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
+  FIND_BY_FIELDS,
 } from './mutation';
 
 export class InterfaceManagerService {
@@ -140,6 +141,21 @@ export class InterfaceManagerService {
             },
           });
           stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

@@ -50,7 +50,7 @@ export const LookupList = (props: LookupListProps) => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;
         item.title = item.name;
-        item = item.children.filter(childernItem => {
+        item = item?.children.filter(childernItem => {
           childernItem.title = childernItem.name;
           childernItem.toggle = false;
           return childernItem;
@@ -80,14 +80,14 @@ export const LookupList = (props: LookupListProps) => {
             headerClasses: 'textHeader4',
             sort: true,
             csvFormatter: (cell, row, rowIndex) =>
-              `${row.documentName.children.title}`,
+              `${row.documentName?.children.title}`,
             filter: textFilter({
               getFilter: filter => {
                 documentName = filter;
               },
             }),
             formatter: (cell, row) => {
-              return <>{`${row.documentName.children.title}`}</>;
+              return <>{`${row.documentName?.children.title}`}</>;
             },
             editorRenderer: (
               editorProps,
