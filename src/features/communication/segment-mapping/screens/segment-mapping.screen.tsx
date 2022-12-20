@@ -218,29 +218,25 @@ const SegmentMapping = SegmentMappingHoc(
                 const finalArray = [...firstArr, ...secondArr];
                 segmentMappingStore.updateSegmentMapping(finalArray);
               }}
-              onUpdateItems={(items, rangeId) => {
-                // const index = _.findIndex(
-                //   refernceRangesStore.referenceRanges?.refRangesInputList,
-                //   {rangeId},
-                // );
-                // const refRangesInputList =
-                //   refernceRangesStore.referenceRanges?.refRangesInputList;
-                // refRangesInputList[index] = {
-                //   ...refRangesInputList[index],
-                //   ...items,
-                // };
-                // refernceRangesStore.updateReferenceRanges({
-                //   ...refernceRangesStore.referenceRanges,
-                //   refRangesInputList,
-                //   refreshList:
-                //     !refernceRangesStore.referenceRanges?.refreshList,
-                // });
+              onUpdateItems={(items, index) => {
+                const position = _.findIndex(
+                  segmentMappingStore.segmentMapping,
+                  {
+                    index,
+                  },
+                );
+                const segmentMapping = segmentMappingStore.segmentMapping;
+                segmentMapping[position] = {
+                  ...segmentMapping[position],
+                  ...items,
+                };
+                segmentMappingStore.updateSegmentMapping(segmentMapping);
               }}
             />
           </div>
         ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [segmentMappingStore.segmentMapping?.length],
+      [JSON.parse(JSON.stringify(segmentMappingStore.segmentMapping))],
     );
 
     return (
