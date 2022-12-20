@@ -57,6 +57,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       dataFlow: input.dataFlow,
       protocol: input.protocol,
       index: segmentMapping?.length + 1,
+      segmentRequired: false,
     });
     segmentMappingStore.updateSegmentMapping(segmentMapping);
   };
