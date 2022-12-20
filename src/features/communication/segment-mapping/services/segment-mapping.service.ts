@@ -17,6 +17,7 @@ import {
   FILTER,
   FIND_BY_FIELDS,
 } from './mutation';
+import {GET_COLLECTION_LIST} from '@/core-services/graphql/query';
 import {MappingValues} from '../../models';
 
 export class SegmentMappingService {
@@ -199,6 +200,20 @@ export class SegmentMappingService {
         .mutate({
           mutation: FIND_BY_FIELDS,
           variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getCollectionList = () =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .query({
+          query: GET_COLLECTION_LIST,
         })
         .then((response: any) => {
           resolve(response.data);

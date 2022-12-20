@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
@@ -27,39 +27,23 @@ export const SegmentMappingInputTable = observer(
     onDelete,
     onUpdateItems,
   }: SegmentMappingInputTableProps) => {
-    const {
-      masterAnalyteStore,
-      loading,
-      departmentStore,
-      interfaceManagerStore,
-      labStore,
-      refernceRangesStore,
-    } = useStores();
+    const {segmentMappingStore} = useStores();
+    const [collection, setCollection] = useState([]);
 
-    const duplicateCombination = () => {
-      const {refRangesInputList} = refernceRangesStore.referenceRanges;
-      const arr: any = _.map(refRangesInputList, o =>
-        _.pick(o, [
-          'analyteCode',
-          'species',
-          'sex',
-          'rangeSetOn',
-          'rangeType',
-          'ageFrom',
-          'ageTo',
-          'ageUnit',
-          'environment',
-        ]),
-      );
-      const set = new Set(arr.map(JSON.stringify));
-      const hasDuplicates = set.size < arr.length;
-      if (hasDuplicates) {
-        Toast.warning({
-          message: '😔 Duplicate record found!',
+    useEffect(() => {
+      segmentMappingStore.segmentMappingService
+        .getCollectionList()
+        .then(res => {
+          console.log({res});
+
+          if (res.getCollectionList.success) {
+            console.log({list: res.getCollectionList.list});
+
+            setCollection(res.getCollectionList.list);
+          }
         });
-      }
-      refernceRangesStore.updateExistsRecord(hasDuplicates);
-    };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
       <div style={{position: 'relative'}}>
@@ -158,6 +142,344 @@ export const SegmentMappingInputTable = observer(
                 );
               },
             },
+            {
+              dataField: 'elementNo',
+              text: 'Element No',
+              headerClasses: 'textHeader',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.elementNo}
+                    type='text'
+                    onBlur={elementNo => {
+                      onUpdateItems && onUpdateItems({elementNo}, row.index);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'elementName',
+              text: 'Element Name',
+              headerClasses: 'textHeader',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.elementName}
+                    type='text'
+                    onBlur={elementName => {
+                      onUpdateItems && onUpdateItems({elementName}, row.index);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'elementRequired',
+              text: 'Element Required',
+              headerClasses: 'textHeader2',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.elementRequired
+                    ? row.elementRequired
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.elementRequired}
+                      onChange={elementRequired => {
+                        onUpdateItems &&
+                          onUpdateItems({elementRequired}, row.index);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'elementSequence',
+              text: 'Element Sequence',
+              headerClasses: 'textHeader',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.elementSequence?.toString()}
+                    type='number'
+                    onBlur={elementSequence => {
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {elementSequence: Number.parseInt(elementSequence)},
+                          row.index,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'transmittedData',
+              text: 'Transmitted Data',
+              headerClasses: 'textHeader',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.transmittedData}
+                    type='text'
+                    onBlur={transmittedData => {
+                      onUpdateItems &&
+                        onUpdateItems({transmittedData}, row.index);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'defaultValue',
+              text: 'Default Value',
+              headerClasses: 'textHeader',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.defaultValue}
+                    type='text'
+                    onBlur={defaultValue => {
+                      onUpdateItems && onUpdateItems({defaultValue}, row.index);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'fieldArray',
+              text: 'Field Array',
+              headerClasses: 'textHeader',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.fieldArray}
+                    type='text'
+                    onBlur={fieldArray => {
+                      onUpdateItems && onUpdateItems({fieldArray}, row.index);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'repeatDelimiter',
+              text: 'Repeat Delimiter',
+              headerClasses: 'textHeader2',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.repeatDelimiter
+                    ? row.repeatDelimiter
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.repeatDelimiter}
+                      onChange={repeatDelimiter => {
+                        onUpdateItems &&
+                          onUpdateItems({repeatDelimiter}, row.index);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'fieldType',
+              text: 'Field Type',
+              headerClasses: 'textHeaderM',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.fieldType}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const fieldType = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            fieldType,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, 'FIELD_TYPE').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'fieldLength',
+              text: 'Field Length',
+              headerClasses: 'textHeader',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.fieldLength}
+                    type='number'
+                    onBlur={fieldLength => {
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {fieldLength: Number.parseInt(fieldLength)},
+                          row.index,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'requiredForLims',
+              text: 'Required For Lims',
+              headerClasses: 'textHeader2',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${
+                  row.requiredForLims
+                    ? row.requiredForLims
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.requiredForLims}
+                      onChange={requiredForLims => {
+                        onUpdateItems &&
+                          onUpdateItems({requiredForLims}, row.index);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'limsTables',
+              text: 'Lims Tables',
+              headerClasses: 'textHeaderM',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.limsTables}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const limsTables = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            limsTables,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {collection.map((item: any, index: number) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+
             {
               dataField: 'opration',
               text: 'Action',
