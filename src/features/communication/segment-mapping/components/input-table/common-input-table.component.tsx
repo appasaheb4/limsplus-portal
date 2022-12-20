@@ -53,11 +53,14 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
   const addItem = () => {
     const segmentMapping = segmentMappingStore.segmentMapping;
     segmentMapping?.push({
+      index: segmentMapping?.length + 1,
       instType: input.instType,
       dataFlow: input.dataFlow,
       protocol: input.protocol,
-      index: segmentMapping?.length + 1,
-      segmentRequired: false,
+      segmentRequired: true,
+      elementRequired: false,
+      repeatDelimiter: false,
+      requiredForLims: false,
     });
     segmentMappingStore.updateSegmentMapping(segmentMapping);
   };
