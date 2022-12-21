@@ -158,8 +158,6 @@ export const Login = observer(() => {
   const carouselSize = width <= 768 ? 300 : 500;
 
   const getLabList = async (userModule, userModuleCategory, user) => {
-    console.log({user});
-
     const corClientKeys = {
       corporateCode: 'code',
       corporateName: 'name',
