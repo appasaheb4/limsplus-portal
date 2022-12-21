@@ -7,7 +7,7 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   Buttons,
-  Grid,
+  ModalConfirm,
   List,
   Form,
   Svg,
@@ -50,6 +50,25 @@ const SegmentMapping = SegmentMappingHoc(
     const [hideAddSegmentMapping, setHideAddSegmentMapping] =
       useState<boolean>(false);
     const [saveTitle, setSaveTitle] = useState('Save');
+    const [arrInstType, setArrInstType] = useState([]);
+    const [modalConfirm, setModalConfirm] = useState<any>();
+
+    useEffect(() => {
+      interfaceManagerStore.interfaceManagerService
+        .findByFields({
+          input: {
+            filter: {
+              interfaceType: 'INSTRUMENT',
+            },
+          },
+        })
+        .then(res => {
+          if (res.findByFieldsInterfaceManager.success) {
+            setArrInstType(res.findByFieldsInterfaceManager.data);
+          }
+        });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
@@ -176,19 +195,23 @@ const SegmentMapping = SegmentMappingHoc(
       reader.readAsBinaryString(file);
     };
 
-    const onSubmitSegmentMapiing = () => {
-      if (segmentMappingStore.segmentMappingService) {
+    const onSubmitSegmentMapping = () => {
+      if (segmentMappingStore.segmentMapping?.length > 0) {
         segmentMappingStore.segmentMappingService
-          .addSegmentMapping({input: {...segmentMappingStore.segmentMapping}})
+          .addSegmentMapping({
+            input: {
+              filter: {segmentMapping: segmentMappingStore.segmentMapping},
+            },
+          })
           .then(res => {
             if (res.createSegmentMapping.success) {
               Toast.success({
                 message: `😊 ${res.createSegmentMapping.message}`,
               });
               if (saveTitle === 'Save') {
-                setTimeout(() => {
-                  window.location.reload();
-                }, 2000);
+                // setTimeout(() => {
+                //   window.location.reload();
+                // }, 2000);
               }
               segmentMappingStore.fetchListSegmentMapping();
             }
@@ -207,14 +230,17 @@ const SegmentMapping = SegmentMappingHoc(
             <SegmentMappingInputTable
               data={toJS(segmentMappingStore.segmentMapping)}
               extraData={routerStore}
-              onDelete={_id => {
-                const index = _.findIndex(segmentMappingStore.segmentMapping, {
-                  _id,
-                });
+              onDelete={index => {
+                const position = _.findIndex(
+                  segmentMappingStore.segmentMapping,
+                  {
+                    index,
+                  },
+                );
                 const firstArr =
-                  segmentMappingStore.segmentMapping?.slice(0, index) || [];
+                  segmentMappingStore.segmentMapping?.slice(0, position) || [];
                 const secondArr =
-                  segmentMappingStore.segmentMapping?.slice(index + 1) || [];
+                  segmentMappingStore.segmentMapping?.slice(position + 1) || [];
                 const finalArray = [...firstArr, ...secondArr];
                 segmentMappingStore.updateSegmentMapping(finalArray);
               }}
@@ -230,6 +256,14 @@ const SegmentMapping = SegmentMappingHoc(
                   ...segmentMapping[position],
                   ...items,
                 };
+                segmentMappingStore.updateSegmentMapping(segmentMapping);
+              }}
+              onDuplicate={item => {
+                const segmentMapping = segmentMappingStore.segmentMapping;
+                segmentMapping?.push({
+                  ...item,
+                  index: segmentMapping?.length + 1,
+                });
                 segmentMappingStore.updateSegmentMapping(segmentMapping);
               }}
             />
@@ -936,7 +970,7 @@ const SegmentMapping = SegmentMappingHoc(
                 />
               </List>
             </Grid> */}
-            <CommonInputTable />
+            <CommonInputTable extraData={{arrInstType}} />
             {inputTable}
             <br />
             <List direction='row' space={3} align='center'>
@@ -944,7 +978,7 @@ const SegmentMapping = SegmentMappingHoc(
                 size='medium'
                 type='solid'
                 icon={Svg.Save}
-                onClick={handleSubmit(onSubmitSegmentMapiing)}
+                onClick={handleSubmit(onSubmitSegmentMapping)}
               >
                 {saveTitle}
               </Buttons.Button>
@@ -985,7 +1019,10 @@ const SegmentMapping = SegmentMappingHoc(
           <SegmentMappingList
             data={segmentMappingStore.listSegmentMapping || []}
             totalSize={segmentMappingStore.listSegmentMappingCount}
-            extraData={{}}
+            extraData={{
+              lookupItems: routerStore.lookupItems,
+              arrInstType,
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
               'Delete',
@@ -994,21 +1031,19 @@ const SegmentMapping = SegmentMappingHoc(
               toJS(routerStore.userPermission),
               'Edit/Modify',
             )}
-            // duplicate={(item: ModelSegmentMapping) => {
-            //   setSaveTitle('Duplicate');
-            //   setHideAddSegmentMapping(false);
-            //   segmentMappingStore.updateSegmentMapping({
-            //     ...item,
-            //     dataFlowFrom:
-            //       item.dataFlowFrom !== undefined
-            //         ? item.dataFlowFrom.split('&gt;').join('>')
-            //         : '',
-            //     attachments: '',
-            //   });
-            // }}
-            onPageSizeChange={(page, limit) => {
-              console.log({page, limit});
+            onDelete={selectedItem => setModalConfirm(selectedItem)}
+            onUpdateFields={(fields: any, id: string) => {
+              console.log({fields, id});
 
+              setModalConfirm({
+                show: true,
+                type: 'updateFields',
+                data: {fields, id},
+                title: 'Are you sure?',
+                body: 'Update records',
+              });
+            }}
+            onPageSizeChange={(page, limit) => {
               segmentMappingStore.fetchListSegmentMapping(page, limit);
             }}
             onFilter={(type, filter, page, limit) => {
@@ -1028,6 +1063,50 @@ const SegmentMapping = SegmentMappingHoc(
           close={() => {
             setModalImportFile({show: false});
           }}
+        />
+        <ModalConfirm
+          {...modalConfirm}
+          click={type => {
+            setModalConfirm({show: false});
+            if (segmentMappingStore.selectedItems) {
+              if (type === 'delete') {
+                segmentMappingStore.segmentMappingService
+                  .deleteSegmentMapping({
+                    input: {
+                      id: segmentMappingStore.selectedItems.map(
+                        (item: any) => item._id,
+                      ),
+                    },
+                  })
+                  .then(res => {
+                    if (res.removeSegmentMapping.success) {
+                      segmentMappingStore.fetchListSegmentMapping();
+                      segmentMappingStore.updateSelectedItem([]);
+                      Toast.success({
+                        message: `😊 ${res.removeSegmentMapping.message}`,
+                      });
+                    }
+                  });
+              } else if (type == 'updateFields') {
+                segmentMappingStore.segmentMappingService
+                  .updateSingleFiled({
+                    input: {
+                      ...modalConfirm.data.fields,
+                      _id: modalConfirm.data.id,
+                    },
+                  })
+                  .then(res => {
+                    if (res.updateSegmentMapping.success) {
+                      segmentMappingStore.fetchListSegmentMapping();
+                      Toast.success({
+                        message: ` ${res.updateSegmentMapping.message}`,
+                      });
+                    }
+                  });
+              }
+            }
+          }}
+          onClose={() => setModalConfirm({show: false})}
         />
       </>
     );

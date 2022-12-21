@@ -5,6 +5,7 @@ import {
   Form,
   Icons,
   Toast,
+  Tooltip,
 } from '@/library/components';
 import {lookupItems, getDefaultLookupItem, lookupValue} from '@/library/utils';
 import {observer} from 'mobx-react';
@@ -16,8 +17,9 @@ import {FormHelper} from '@/helper';
 interface SegmentMappingInputTableProps {
   data: any;
   extraData?: any;
-  onDelete?: (id: string) => void;
+  onDelete?: (index: number) => void;
   onUpdateItems?: (item: any, id) => void;
+  onDuplicate?: (item: any) => void;
 }
 
 export const SegmentMappingInputTable = observer(
@@ -26,20 +28,24 @@ export const SegmentMappingInputTable = observer(
     extraData,
     onDelete,
     onUpdateItems,
+    onDuplicate,
   }: SegmentMappingInputTableProps) => {
     const {segmentMappingStore} = useStores();
     const [collection, setCollection] = useState([]);
+    const [collectionDetails, setCollectionDetails] = useState<{
+      limsTables: string;
+      schema: Array<string>;
+    }>({limsTables: '', schema: []});
 
     useEffect(() => {
       segmentMappingStore.segmentMappingService
         .getCollectionList()
         .then(res => {
           console.log({res});
-
           if (res.getCollectionList.success) {
-            console.log({list: res.getCollectionList.list});
-
             setCollection(res.getCollectionList.list);
+          } else {
+            alert('Please try again.Technical issue fetching tables');
           }
         });
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -467,19 +473,113 @@ export const SegmentMappingInputTable = observer(
                           },
                           row.index,
                         );
+                      if (collectionDetails.limsTables != limsTables)
+                        segmentMappingStore.segmentMappingService
+                          .getCollectionFields({
+                            input: {collection: limsTables},
+                          })
+                          .then(res => {
+                            if (res.getCollectionFields.success) {
+                              setCollectionDetails({
+                                limsTables,
+                                schema: res.getCollectionFields.list,
+                              });
+                            } else {
+                              alert(
+                                'Please try again.Technical issue fetching table fields',
+                              );
+                            }
+                          });
                     }}
                   >
                     <option selected>Select</option>
                     {collection.map((item: any, index: number) => (
-                      <option key={index} value={item.name}>
-                        {item.name}
+                      <option key={index} value={item}>
+                        {item}
                       </option>
                     ))}
                   </select>
                 </>
               ),
             },
-
+            {
+              dataField: 'limsFields',
+              text: 'Lims Fields',
+              headerClasses: 'textHeaderM',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.limsFields}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const limsFields = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            limsFields,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {collectionDetails.schema.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeaderM',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.environment}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const environment = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            environment,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
             {
               dataField: 'opration',
               text: 'Action',
@@ -489,13 +589,24 @@ export const SegmentMappingInputTable = observer(
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() => onDelete && onDelete(row._id)}
-                    >
-                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                    </Icons.IconContext>
+                    <Tooltip tooltipText='Delete'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => onDelete && onDelete(row.index)}
+                      >
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    <Tooltip tooltipText='Duplicate'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => onDuplicate && onDuplicate(row)}
+                      >
+                        {Icons.getIconTag(Icons.IconFa.FaCopy)}
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),
