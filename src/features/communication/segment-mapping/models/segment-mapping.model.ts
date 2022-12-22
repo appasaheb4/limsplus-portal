@@ -19,6 +19,7 @@ export class SegmentMapping {
   fieldLength?: number;
   requiredForLims?: boolean;
   limsTables?: string;
+  limsDocumentType?: string;
   limsFields?: string;
   environment?: string;
   dateOfEntry?: Date;
@@ -45,6 +46,7 @@ export class SegmentMapping {
     this.fieldLength = rawData.fieldLength;
     this.requiredForLims = rawData.requiredForLims;
     this.limsTables = rawData.limsTables;
+    this.limsDocumentType = rawData.limsDocumentType;
     this.limsFields = rawData.limsFields;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

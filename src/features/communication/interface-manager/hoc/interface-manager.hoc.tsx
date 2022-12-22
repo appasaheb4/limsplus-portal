@@ -11,6 +11,10 @@ export const InterfaceManagerHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       interfaceManagerStore.updateInterfaceManager({
         ...interfaceManagerStore.interfaceManager,
+        interfaceType: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'INTERFACE_TYPE',
+        ),
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',

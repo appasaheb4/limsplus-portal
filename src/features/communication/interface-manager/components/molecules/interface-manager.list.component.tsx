@@ -75,26 +75,35 @@ export const InterfaceManagerList = observer(
               columnIndex,
             ) => (
               <>
-                <Form.Input
-                  name='interfaceType'
-                  placeholder='Interface Type'
-                  onBlur={interfaceType => {
-                    if (row.interfaceType !== interfaceType && interfaceType) {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          interfaceType,
-                          column.dataField,
-                          row._id,
-                        );
-                    }
+                <select
+                  value={row.interfaceType}
+                  className='leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  onChange={e => {
+                    const interfaceType = e.target.value;
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        interfaceType,
+                        column.dataField,
+                        row._id,
+                      );
                   }}
-                />
+                >
+                  <option selected>Select</option>
+                  {lookupItems(
+                    props.extraData.lookupItems,
+                    'INTERFACE_TYPE',
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {lookupValue(item)}
+                    </option>
+                  ))}
+                </select>
               </>
             ),
           },
           {
             dataField: 'instrumentType',
-            text: 'Instrument Type',
+            text: 'Inst Type',
             headerClasses: 'textHeader4',
             sort: true,
             csvFormatter: col => (col ? col : ''),
@@ -134,7 +143,7 @@ export const InterfaceManagerList = observer(
           },
           {
             dataField: 'instrumentName',
-            text: 'Instrument Name',
+            text: 'Inst Name',
             headerClasses: 'textHeader5',
             sort: true,
             csvFormatter: col => (col ? col : ''),

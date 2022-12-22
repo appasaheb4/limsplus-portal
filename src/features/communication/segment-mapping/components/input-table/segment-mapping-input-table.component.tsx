@@ -35,21 +35,33 @@ export const SegmentMappingInputTable = observer(
     const [collectionDetails, setCollectionDetails] = useState<{
       limsTables: string;
       schema: Array<string>;
-    }>({limsTables: '', schema: []});
+      documentType: Array<string>;
+    }>({limsTables: '', schema: [], documentType: []});
 
-    useEffect(() => {
+    // useEffect(() => {
+    //   segmentMappingStore.segmentMappingService
+    //     .getCollectionList()
+    //     .then(res => {
+    //       if (res.getCollectionList.success) {
+    //         setCollection(res.getCollectionList.list);
+    //       } else {
+    //         alert('Please try again.Technical issue fetching tables');
+    //       }
+    //     });
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
+
+    const getCollection = () => {
       segmentMappingStore.segmentMappingService
         .getCollectionList()
         .then(res => {
-          console.log({res});
           if (res.getCollectionList.success) {
             setCollection(res.getCollectionList.list);
           } else {
             alert('Please try again.Technical issue fetching tables');
           }
         });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    };
 
     return (
       <div style={{position: 'relative'}}>
@@ -452,6 +464,11 @@ export const SegmentMappingInputTable = observer(
               dataField: 'limsTables',
               text: 'Lims Tables',
               headerClasses: 'textHeaderM',
+              events: {
+                onClick: (e, column, columnIndex, row, rowIndex) => {
+                  collection?.length == 0 && getCollection();
+                },
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -473,23 +490,6 @@ export const SegmentMappingInputTable = observer(
                           },
                           row.index,
                         );
-                      if (collectionDetails.limsTables != limsTables)
-                        segmentMappingStore.segmentMappingService
-                          .getCollectionFields({
-                            input: {collection: limsTables},
-                          })
-                          .then(res => {
-                            if (res.getCollectionFields.success) {
-                              setCollectionDetails({
-                                limsTables,
-                                schema: res.getCollectionFields.list,
-                              });
-                            } else {
-                              alert(
-                                'Please try again.Technical issue fetching table fields',
-                              );
-                            }
-                          });
                     }}
                   >
                     <option selected>Select</option>
@@ -503,9 +503,94 @@ export const SegmentMappingInputTable = observer(
               ),
             },
             {
+              dataField: 'limsDocumentType',
+              text: 'Lims Document Type',
+              headerClasses: 'textHeaderM',
+              events: {
+                onClick: (e, column, columnIndex, row, rowIndex) => {
+                  if (collectionDetails.limsTables != row?.limsTables)
+                    segmentMappingStore.segmentMappingService
+                      .getCollectionFields({
+                        input: {collection: row?.limsTables},
+                      })
+                      .then(res => {
+                        if (res.getCollectionFields.success) {
+                          setCollectionDetails({
+                            limsTables: row?.limsTables,
+                            schema: res.getCollectionFields.list.keys,
+                            documentType:
+                              res.getCollectionFields.list.documentTypes,
+                          });
+                        } else {
+                          alert(
+                            'Please try again.Technical issue fetching table fields',
+                          );
+                        }
+                      });
+                },
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.limsDocumentType}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const limsDocumentType = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            limsDocumentType,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {collectionDetails.documentType.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
               dataField: 'limsFields',
               text: 'Lims Fields',
               headerClasses: 'textHeaderM',
+              events: {
+                onClick: (e, column, columnIndex, row, rowIndex) => {
+                  if (collectionDetails.limsTables != row?.limsTables)
+                    segmentMappingStore.segmentMappingService
+                      .getCollectionFields({
+                        input: {collection: row?.limsTables},
+                      })
+                      .then(res => {
+                        if (res.getCollectionFields.success) {
+                          setCollectionDetails({
+                            limsTables: row?.limsTables,
+                            schema: res.getCollectionFields.list.keys,
+                            documentType:
+                              res.getCollectionFields.list.documentTypes,
+                          });
+                        } else {
+                          alert(
+                            'Please try again.Technical issue fetching table fields',
+                          );
+                        }
+                      });
+                },
+              },
               editorRenderer: (
                 editorProps,
                 value,

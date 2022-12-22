@@ -29,6 +29,7 @@ export const LIST = gql`
         fieldLength
         requiredForLims
         limsTables
+        limsDocumentType
         limsFields
         environment
         dateOfEntry
@@ -112,6 +113,7 @@ export const FILTER = gql`
         fieldLength
         requiredForLims
         limsTables
+        limsDocumentType
         limsFields
         environment
         dateOfEntry
@@ -150,6 +152,7 @@ export const FIND_BY_FIELDS = gql`
         fieldLength
         requiredForLims
         limsTables
+        limsDocumentType
         limsFields
         environment
         dateOfEntry
