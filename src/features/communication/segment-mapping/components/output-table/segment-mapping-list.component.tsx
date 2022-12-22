@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   TableBootstrap,
   textFilter,
@@ -59,7 +60,18 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
   const [collectionDetails, setCollectionDetails] = useState<{
     limsTables: string;
     schema: Array<string>;
-  }>({limsTables: '', schema: []});
+    documentType: Array<string>;
+  }>({limsTables: '', schema: [], documentType: []});
+
+  const getCollection = () => {
+    segmentMappingStore.segmentMappingService.getCollectionList().then(res => {
+      if (res.getCollectionList.success) {
+        setCollection(res.getCollectionList.list);
+      } else {
+        alert('Please try again.Technical issue fetching tables');
+      }
+    });
+  };
 
   useEffect(() => {
     segmentMappingStore.fetchListSegmentMapping();
@@ -99,6 +111,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ) => (
               <>
                 <select
+                  value={row?.instType}
                   name='equipmentType'
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
@@ -107,7 +120,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                       props.onUpdateFields({instType}, row._id);
                   }}
                 >
-                  <option selected>{row.equipmentType}</option>
+                  <option selected>Select</option>
                   {props?.extraData?.arrInstType.map(
                     (item: any, index: number) => (
                       <option
@@ -126,6 +139,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'dataFlow',
             text: 'Data Flow',
             headerClasses: 'textHeader5',
+            csvFormatter: col => (col ? col : ''),
             sort: true,
             filter: textFilter({
               getFilter: filter => {
@@ -143,6 +157,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               <>
                 <select
                   name='dataFlowFrom'
+                  value={row?.dataFlow}
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
                     const dataFlow = e.target.value;
@@ -184,6 +199,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               <>
                 <select
                   name='data_type'
+                  value={row?.protocol}
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
                     const protocol = e.target.value;
@@ -210,6 +226,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'segments',
             text: 'Segments',
             headerClasses: 'textHeaderM',
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -249,7 +266,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'segmentOrder',
             text: 'Segment Order',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -302,7 +319,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'elementNo',
             text: 'Element No',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -327,7 +344,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'elementName',
             text: 'Element Name',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -380,7 +397,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'elementSequence',
             text: 'Element Sequence',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -408,7 +425,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'transmittedData',
             text: 'Transmitted Data',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -433,7 +450,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'defaultValue',
             text: 'Default Value',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -458,7 +475,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'fieldArray',
             text: 'Field Array',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -483,7 +500,6 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'repeatDelimiter',
             text: 'Repeat Delimiter',
             headerClasses: 'textHeader2',
-            sort: true,
             csvFormatter: (col, row) =>
               `${
                 row.repeatDelimiter
@@ -511,6 +527,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'fieldType',
             text: 'Field Type',
             headerClasses: 'textHeaderM',
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -550,7 +567,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'fieldLength',
             text: 'Field Length',
             headerClasses: 'textHeader',
-            csvExport: false,
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -606,6 +623,12 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'limsTables',
             text: 'Lims Tables',
             headerClasses: 'textHeaderM',
+            csvFormatter: col => (col ? col : ''),
+            events: {
+              onClick: (e, column, columnIndex, row, rowIndex) => {
+                collection?.length == 0 && getCollection();
+              },
+            },
             editorRenderer: (
               editorProps,
               value,
@@ -627,23 +650,6 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                         },
                         row._id,
                       );
-                    if (collectionDetails.limsTables != limsTables)
-                      segmentMappingStore.segmentMappingService
-                        .getCollectionFields({
-                          input: {collection: limsTables},
-                        })
-                        .then(res => {
-                          if (res.getCollectionFields.success) {
-                            setCollectionDetails({
-                              limsTables,
-                              schema: res.getCollectionFields.list,
-                            });
-                          } else {
-                            alert(
-                              'Please try again.Technical issue fetching table fields',
-                            );
-                          }
-                        });
                   }}
                 >
                   <option selected>Select</option>
@@ -657,9 +663,96 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
+            dataField: 'limsDocumentType',
+            text: 'Lims Document Type',
+            headerClasses: 'textHeaderM',
+            events: {
+              onClick: (e, column, columnIndex, row, rowIndex) => {
+                if (collectionDetails.limsTables != row?.limsTables)
+                  segmentMappingStore.segmentMappingService
+                    .getCollectionFields({
+                      input: {collection: row?.limsTables},
+                    })
+                    .then(res => {
+                      if (res.getCollectionFields.success) {
+                        setCollectionDetails({
+                          limsTables: row?.limsTables,
+                          schema: res.getCollectionFields.list.keys,
+                          documentType:
+                            res.getCollectionFields.list.documentTypes,
+                        });
+                      } else {
+                        alert(
+                          'Please try again.Technical issue fetching table fields',
+                        );
+                      }
+                    });
+              },
+            },
+            csvFormatter: col => (col ? col : ''),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  value={row.limsDocumentType}
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const limsDocumentType = e.target.value;
+                    props.onUpdateFields &&
+                      props.onUpdateFields(
+                        {
+                          limsDocumentType,
+                        },
+                        row._id,
+                      );
+                  }}
+                >
+                  <option selected>Select</option>
+                  {collectionDetails.documentType?.map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </>
+            ),
+          },
+          {
             dataField: 'limsFields',
             text: 'Lims Fields',
             headerClasses: 'textHeaderM',
+            events: {
+              onClick: (e, column, columnIndex, row, rowIndex) => {
+                if (collectionDetails.limsTables != row?.limsTables)
+                  segmentMappingStore.segmentMappingService
+                    .getCollectionFields({
+                      input: {collection: row?.limsTables},
+                    })
+                    .then(res => {
+                      if (res.getCollectionFields.success) {
+                        setCollectionDetails({
+                          limsTables: row?.limsTables,
+                          schema: res.getCollectionFields.list.keys,
+                          documentType:
+                            res.getCollectionFields.list.documentTypes,
+                        });
+                      } else {
+                        alert(
+                          'Please try again.Technical issue fetching table fields',
+                        );
+                      }
+                    });
+              },
+            },
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -697,6 +790,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'environment',
             text: 'Environment',
             headerClasses: 'textHeaderM',
+            csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
               value,
@@ -745,21 +839,14 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                       color='#fff'
                       size='20'
                       onClick={() => {
-                        segmentMappingStore.updateSelectedItem([]);
-                        segmentMappingStore.updateSelectedItem([row]);
-                        if (segmentMappingStore.selectedItems) {
-                          if (segmentMappingStore.selectedItems.length > 0) {
-                            props.onDelete &&
-                              props.onDelete({
-                                type: 'delete',
-                                show: true,
-                                title: 'Are you sure delete recoard? ',
-                                body: 'Delete selected items!',
-                              });
-                          }
-                        } else {
-                          alert('Please select any item.');
-                        }
+                        props.onDelete &&
+                          props.onDelete({
+                            type: 'delete',
+                            show: true,
+                            id: [row._id],
+                            title: 'Are you sure delete record? ',
+                            body: 'Delete selected items!',
+                          });
                       }}
                     >
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}

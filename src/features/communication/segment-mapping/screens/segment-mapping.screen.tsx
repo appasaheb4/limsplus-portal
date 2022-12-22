@@ -45,10 +45,9 @@ const SegmentMapping = SegmentMappingHoc(
       formState: {errors},
       setValue,
     } = useForm();
-    //setValue('environment', segmentMappingStore.segmentMapping?.environment);
     const [modalImportFile, setModalImportFile] = useState({});
     const [hideAddSegmentMapping, setHideAddSegmentMapping] =
-      useState<boolean>(false);
+      useState<boolean>(true);
     const [saveTitle, setSaveTitle] = useState('Save');
     const [arrInstType, setArrInstType] = useState([]);
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -82,27 +81,26 @@ const SegmentMapping = SegmentMappingHoc(
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_json(ws, {header: 1});
         const defaultHeader: string[] = [
-          'EQUIPMENT TYPE',
-          'DATA FLOW FROM',
-          'DATA TYPE',
-          'SEGMENTS',
-          'SEGMENT USAGE',
-          'FIELD NO',
-          'ITEM NO',
-          'FIELD REQUIRED',
-          'ELEMENT NAME',
-          'TRANSMITTED DATA',
-          'FIELD ARRAY',
-          'FIELD LENGTH',
-          'FIELD TYPE',
-          'REPEAT DELIMITER',
-          'MANDATORY',
-          'LIMS DESCRIPTIONS',
-          'LIMS TABLES',
-          'LIMS FIELDS',
-          'REQUIRED FOR LIMS',
-          'NOTES',
-          'ATTACHMENTS',
+          'Inst Type',
+          'Data Flow',
+          'Protocol',
+          'Segments',
+          'Segment Order',
+          'Segment Required',
+          'Element No',
+          'Element Name',
+          'Element Required',
+          'Element Sequence',
+          'Transmitted Data',
+          'Default Value',
+          'Field Array',
+          'Repeat Delimiter',
+          'Field Type',
+          'Field Length',
+          'Required For Lims',
+          'Lims Tables',
+          'Lims Fields',
+          'Environment',
         ];
         const headers: any = [];
         let object: any = [];
@@ -116,78 +114,48 @@ const SegmentMapping = SegmentMappingHoc(
           } else {
             if (JSON.stringify(headers[0]) === JSON.stringify(defaultHeader)) {
               object.push({
-                equipmentType: item[0],
-                dataFlowFrom: item[1],
-                data_type: item[2],
+                index,
+                instType: item[0],
+                dataFlow: item[1],
+                protocol: item[2],
                 segments: item[3],
-                segment_usage: item[4],
-                field_no: Number.parseFloat(item[5]).toFixed(2).toString(),
-                item_no: Number.parseFloat(item[6]).toFixed(2).toString(),
-                field_required: item[7] === 'Yes' ? true : false,
-                element_name:
-                  item[8] !== undefined
-                    ? item[8]
-                        .toString()
-                        .replace(/&amp;/g, '&')
-                        .replace(/&gt;/g, '>')
-                        .replace(/&lt;/g, '<')
-                        .replace(/&quot;/g, '"')
-                        .replace(/â/g, '’')
-                        .replace(/â¦/g, '…')
-                        .toString()
-                    : undefined,
-                transmitted_data:
-                  item[9] !== undefined
-                    ? item[9]
-                        .toString()
-                        .replace(/&amp;/g, '&')
-                        .replace(/&gt;/g, '>')
-                        .replace(/&lt;/g, '<')
-                        .replace(/&quot;/g, '"')
-                        .replace(/â/g, '’')
-                        .replace(/â¦/g, '…')
-                        .toString()
-                    : undefined,
-                field_array: item[10],
-                field_length:
-                  item[11] !== undefined
-                    ? Number.parseFloat(item[11]).toFixed(2).toString()
-                    : undefined,
-                field_type: item[12],
-                repeat_delimiter: item[13] === 'Yes' ? true : false,
-                mandatory: item[14] === 'Yes' ? true : false,
-                lims_descriptions: item[15],
-                lims_tables: item[16],
-                lims_fields: item[17],
-                required_for_lims: item[18] === 'Yes' ? true : false,
-                notes: item[19],
-                attachments: item[20],
+                segmentOrder: item[4],
+                segmentRequired: item[5] === 'Yes' ? true : false,
+                elementNo: item[6],
+                elementName: item[7],
+                elementRequired: item[8] === 'Yes' ? true : false,
+                elementSequence: item[9],
+                transmittedData: item[10],
+                defaultValue: item[11],
+                fieldArray: item[12],
+                repeatDelimiter: item[13] === 'Yes' ? true : false,
+                fieldType: item[14],
+                fieldLength: item[15],
+                requiredForLims: item[16] === 'Yes' ? true : false,
+                limsTables: item[17],
+                limsFields: item[18],
+                environment: item[19],
               });
               fileImaport = true;
             }
           }
         });
         object = JSON.parse(JSON.stringify(object));
-        // eslint-disable-next-line unicorn/no-array-reduce
-        const uniqueData = object.reduce((filtered, item) => {
-          if (
-            !filtered.some(
-              filteredItem =>
-                JSON.stringify(filteredItem) == JSON.stringify(item),
-            )
-          )
-            filtered.push(item);
-          return filtered;
-        }, []);
         if (fileImaport) {
           segmentMappingStore.segmentMappingService
-            .importSegmentMapping({input: {data: {...uniqueData}}})
+            .addSegmentMapping({
+              input: {
+                filter: {segmentMapping: object},
+              },
+            })
             .then(res => {
-              if (res.importSegmentMapping.success) {
+              if (res.createSegmentMapping.success) {
                 Toast.success({
-                  message: `😊 ${res.importSegmentMapping.success}`,
+                  message: `😊 ${res.createSegmentMapping.message}`,
                 });
-                segmentMappingStore.fetchListSegmentMapping();
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
               }
             });
         }
@@ -209,11 +177,10 @@ const SegmentMapping = SegmentMappingHoc(
                 message: `😊 ${res.createSegmentMapping.message}`,
               });
               if (saveTitle === 'Save') {
-                // setTimeout(() => {
-                //   window.location.reload();
-                // }, 2000);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
               }
-              segmentMappingStore.fetchListSegmentMapping();
             }
           });
       } else {
@@ -1032,9 +999,16 @@ const SegmentMapping = SegmentMappingHoc(
               'Edit/Modify',
             )}
             onDelete={selectedItem => setModalConfirm(selectedItem)}
+            onSelectedRow={rows => {
+              setModalConfirm({
+                show: true,
+                type: 'delete',
+                id: rows,
+                title: 'Are you sure?',
+                body: 'Delete selected items!',
+              });
+            }}
             onUpdateFields={(fields: any, id: string) => {
-              console.log({fields, id});
-
               setModalConfirm({
                 show: true,
                 type: 'updateFields',
@@ -1073,9 +1047,7 @@ const SegmentMapping = SegmentMappingHoc(
                 segmentMappingStore.segmentMappingService
                   .deleteSegmentMapping({
                     input: {
-                      id: segmentMappingStore.selectedItems.map(
-                        (item: any) => item._id,
-                      ),
+                      id: modalConfirm.id,
                     },
                   })
                   .then(res => {
