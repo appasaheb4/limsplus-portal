@@ -159,22 +159,19 @@ const HostCommunication = HostCommunicationHoc(
                   </div>
                 </Grid>
 
-                <Form.InputWrapper label='Instrument Type' id='instrumentType'>
+                <Form.InputWrapper label='Inst Type'>
                   <select
-                    name='instrumentType'
-                    value={
-                      hostCommunicationStore.hostCommuication?.instrumentType
-                    }
+                    value={hostCommunicationStore.hostCommuication?.instType}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const instrumentType = e.target.value;
+                      const instType = e.target.value;
                       hostCommunicationStore.updateHostCommuication({
                         ...hostCommunicationStore.hostCommuication,
-                        instrumentType,
+                        instType,
                       });
                       const selectedInterfaceManager =
                         interfaceManagerStore.listInterfaceManager?.find(
-                          item => item.instrumentType === instrumentType,
+                          item => item.instrumentType === instType,
                         );
                       hostCommunicationStore.updateSelectedInterfaceManager(
                         selectedInterfaceManager as any,
@@ -447,7 +444,7 @@ const HostCommunication = HostCommunicationHoc(
                                   dataConversationStore.listdataConversation !=
                                     undefined &&
                                   hostCommunicationStore.hostCommuication
-                                    ?.instrumentType !== undefined
+                                    ?.instType !== undefined
                                     ? dataConversationStore.listdataConversation
                                         ?.length > 0
                                       ? false
@@ -518,7 +515,7 @@ const HostCommunication = HostCommunicationHoc(
                                 segmentMappingStore.listSegmentMapping !=
                                   undefined &&
                                 hostCommunicationStore.hostCommuication
-                                  ?.instrumentType !== undefined
+                                  ?.instType !== undefined
                                   ? segmentMappingStore.listSegmentMapping
                                       ?.length > 0
                                     ? false
@@ -544,7 +541,7 @@ const HostCommunication = HostCommunicationHoc(
                                   hostCommunicationStore.hostCommuication;
                                   if (
                                     !hostCommunicationStore.hostCommuication
-                                      ?.instrumentType
+                                      ?.instType
                                   )
                                     return alert(
                                       'Please entery instrument type',
@@ -580,7 +577,7 @@ const HostCommunication = HostCommunicationHoc(
                                   segmentMappingStore.listSegmentMapping !=
                                     undefined &&
                                   hostCommunicationStore.hostCommuication
-                                    ?.instrumentType !== undefined
+                                    ?.instType !== undefined
                                     ? segmentMappingStore.listSegmentMapping
                                         ?.length > 0
                                       ? false

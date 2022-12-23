@@ -52,8 +52,6 @@ export class PatientOrder {
         abNormal: string;
         critical: string;
         rep: string;
-        eqid: string;
-        eqtype: string;
         methodOn: string;
         methodName: string;
         reportOrder: string;

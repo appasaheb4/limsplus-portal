@@ -609,73 +609,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Equipment Type'>
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by Equipment Type'
-                        hasError={!!errors.equipmentType}
-                        data={{
-                          list: interfaceManagerStore.listInterfaceManager,
-                          displayKey: ['instrumentType'],
-                        }}
-                        displayValue={
-                          masterAnalyteStore.masterAnalyte?.equipmentType
-                        }
-                        onFilter={(value: string) => {
-                          interfaceManagerStore.interfaceManagerService.filterByFields(
-                            {
-                              input: {
-                                filter: {
-                                  fields: ['instrumentType'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(item.instrumentType);
-                          masterAnalyteStore.updateMasterAnalyte({
-                            ...masterAnalyteStore.masterAnalyte,
-                            equipmentType: item.instrumentType,
-                          });
-                          interfaceManagerStore.updateInterfaceManagerList(
-                            interfaceManagerStore.listInterfaceManagerCopy,
-                          );
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='equipmentType'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Equipment Id'
-                      placeholder='Equipment Id'
-                      hasError={!!errors.high}
-                      value={masterAnalyteStore.masterAnalyte?.equipmentId}
-                      onChange={equipmentId => {
-                        onChange(equipmentId);
-                        masterAnalyteStore.updateMasterAnalyte({
-                          ...masterAnalyteStore.masterAnalyte,
-                          equipmentId,
-                        });
-                      }}
-                    />
-                  )}
-                  name='equipmentId'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
@@ -1325,27 +1259,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   }}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Eq Channel'
-                      placeholder='Eq Channel'
-                      hasError={!!errors.eqChannel}
-                      value={masterAnalyteStore.masterAnalyte?.eqChannel}
-                      onChange={eqChannel => {
-                        onChange(eqChannel);
-                        masterAnalyteStore.updateMasterAnalyte({
-                          ...masterAnalyteStore.masterAnalyte,
-                          eqChannel,
-                        });
-                      }}
-                    />
-                  )}
-                  name='eqChannel'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
