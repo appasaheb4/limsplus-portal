@@ -27,7 +27,7 @@ let department;
 let species;
 let sex;
 let rangeSetOn;
-let equipmentType;
+let instType;
 let lab;
 let rangType;
 let age;
@@ -344,14 +344,14 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ),
             },
             {
-              dataField: 'equipmentType',
-              text: 'Equipment Type',
+              dataField: 'instType',
+              text: 'Inst Type',
               headerClasses: 'textHeader4',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  equipmentType = filter;
+                  instType = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -1107,7 +1107,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             species('');
             sex('');
             rangeSetOn('');
-            equipmentType('');
+            instType('');
             lab('');
             rangType('');
             age('');
