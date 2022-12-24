@@ -18,7 +18,7 @@ export const LIST = gql`
         department
         species
         rangeSetOn
-        equipmentType
+        instType
         lab
         rangeType
         sex
@@ -102,7 +102,7 @@ export const FILTER = gql`
         department
         species
         rangeSetOn
-        equipmentType
+        instType
         lab
         rangeType
         sex
@@ -150,7 +150,7 @@ export const FILTER_BY_FIELDS = gql`
         department
         species
         rangeSetOn
-        equipmentType
+        instType
         lab
         rangeType
         sex

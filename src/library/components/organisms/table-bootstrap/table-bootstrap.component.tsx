@@ -49,6 +49,43 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
 }
 
+export const sortCaret = (order, column) => {
+  if (!order)
+    return (
+      <div className='flex flex-row absolute right-2 bottom-1/3'>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
+        </Icons.IconContext>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
+        </Icons.IconContext>
+      </div>
+    );
+  else if (order === 'asc')
+    return (
+      <div className='flex flex-row absolute right-2 bottom-1/3'>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
+        </Icons.IconContext>
+        <Icons.IconContext color='#fff' size='10'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
+        </Icons.IconContext>
+      </div>
+    );
+  else if (order === 'desc')
+    return (
+      <div className='flex flex-row absolute right-2 bottom-1/3'>
+        <Icons.IconContext color='#fff' size='10'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
+        </Icons.IconContext>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
+        </Icons.IconContext>
+      </div>
+    );
+  return null;
+};
+
 export const TableBootstrap = ({
   id,
   data,

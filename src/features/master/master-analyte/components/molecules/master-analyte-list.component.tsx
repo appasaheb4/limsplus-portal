@@ -415,51 +415,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'equipmentType',
-              text: 'Equipment Type',
-              headerClasses: 'textHeader5',
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  low = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteEquipmentType
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(item, 'equipmentType', row._id);
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: 'equipmentId',
-              text: 'Equipment Id',
-              headerClasses: 'textHeader5',
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  low = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
+
             {
               dataField: 'reportable',
               text: 'Reportable',
@@ -1047,15 +1003,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   analyteRightMarker = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'eqChannel',
-              text: 'Eq Channel',
-              headerClasses: 'textHeader4',
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
