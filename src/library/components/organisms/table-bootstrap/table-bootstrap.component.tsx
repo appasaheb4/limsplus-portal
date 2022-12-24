@@ -123,7 +123,7 @@ export const TableBootstrap = ({
     onSizePerPageChange,
   }) => (
     <div className='btn-group items-center flex flex-wrap ' role='group'>
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap gap-4'>
         {isSelectRow && (
           <Buttons.Button
             style={{height: 10, width: 200}}
@@ -158,7 +158,7 @@ export const TableBootstrap = ({
           }}
           className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
         />
-        <div>
+        <div className='flex '>
           {options.map(option => (
             <button
               key={option.text}
