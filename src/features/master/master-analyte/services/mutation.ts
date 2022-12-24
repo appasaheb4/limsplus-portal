@@ -37,8 +37,7 @@ export const LIST = gql`
         calculationFlag
         calcyName
         rangeSetOn
-        equipmentType
-        equipmentId
+
         repetition
         picture
         units
@@ -58,7 +57,7 @@ export const LIST = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
-        eqChannel
+
         reagentCode
         status
         minReportable
@@ -163,8 +162,7 @@ export const FILTER = gql`
         calculationFlag
         calcyName
         rangeSetOn
-        equipmentType
-        equipmentId
+
         repetition
         picture
         units
@@ -184,7 +182,7 @@ export const FILTER = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
-        eqChannel
+
         reagentCode
         status
         minReportable
@@ -235,8 +233,7 @@ export const FILTER_BY_FIELDS = gql`
         calculationFlag
         calcyName
         rangeSetOn
-        equipmentType
-        equipmentId
+
         repetition
         picture
         units
@@ -256,7 +253,7 @@ export const FILTER_BY_FIELDS = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
-        eqChannel
+
         reagentCode
         status
         minReportable
@@ -304,8 +301,7 @@ export const FIND_BY_FIELDS = gql`
         calculationFlag
         calcyName
         rangeSetOn
-        equipmentType
-        equipmentId
+
         repetition
         picture
         units
@@ -325,7 +321,7 @@ export const FIND_BY_FIELDS = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
-        eqChannel
+
         reagentCode
         status
         minReportable

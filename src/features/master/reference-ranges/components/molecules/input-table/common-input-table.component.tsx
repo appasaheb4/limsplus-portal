@@ -59,7 +59,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
         setError('lab', {type: 'onBlur'});
         refernceRangesStore.updateReferenceRanges({
           ...refernceRangesStore.referenceRanges,
-          equipmentType: undefined,
+          instType: undefined,
         });
         break;
       case 'B':
@@ -75,7 +75,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
         clearErrors('lab');
         refernceRangesStore.updateReferenceRanges({
           ...refernceRangesStore.referenceRanges,
-          equipmentType: undefined,
+          instType: undefined,
           lab: undefined,
         });
         break;
@@ -99,7 +99,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       species: refernceRangesStore.referenceRanges?.species,
       sex: refernceRangesStore.referenceRanges?.sex,
       rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
-      equipmentType: refernceRangesStore.referenceRanges?.equipmentType,
+      instType: refernceRangesStore.referenceRanges?.instType,
       lab: refernceRangesStore.referenceRanges?.lab,
       picture: refernceRangesStore.referenceRanges?.picture,
       version: 1,
@@ -125,7 +125,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white sticky left-0 z-10'>Analyte</th>
+            <th className='text-white sticky left-0 z-10 flex w-40'>Analyte</th>
             <th className='text-white'>Department</th>
             <th className='text-white'>Species</th>
             <th className='text-white'>Sex</th>
@@ -323,11 +323,10 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
                         rangeSetOn,
-                        equipmentType:
+                        instType:
                           rangeSetOn === 'L'
                             ? undefined
-                            : refernceRangesStore.referenceRanges
-                                ?.equipmentType,
+                            : refernceRangesStore.referenceRanges?.instType,
                         lab:
                           rangeSetOn === 'I'
                             ? undefined
@@ -404,9 +403,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       list: interfaceManagerStore.listInterfaceManager,
                       displayKey: ['instrumentType'],
                     }}
-                    displayValue={
-                      refernceRangesStore.referenceRanges?.equipmentType
-                    }
+                    displayValue={refernceRangesStore.referenceRanges?.instType}
                     onFilter={(value: string) => {
                       interfaceManagerStore.interfaceManagerService.filterByFields(
                         {
@@ -425,7 +422,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       onChange(item.instrumentType);
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
-                        equipmentType: item.instrumentType,
+                        instType: item.instType,
                       });
                       interfaceManagerStore.updateInterfaceManagerList(
                         interfaceManagerStore.listInterfaceManagerCopy,

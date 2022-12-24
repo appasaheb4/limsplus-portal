@@ -33,6 +33,9 @@ export const LIST = gql`
         analyteMethod
         resultOrder
         reportOrder
+        instType
+        instId
+        assayCode
         status
         environment
         dateOfEntry
@@ -138,6 +141,9 @@ export const FILTER = gql`
         analyteMethod
         resultOrder
         reportOrder
+        instType
+        instId
+        assayCode
         status
         environment
         dateOfEntry
@@ -177,6 +183,9 @@ export const FIND_BY_FILEDS = gql`
         analyteMethod
         resultOrder
         reportOrder
+        instType
+        instId
+        assayCode
         status
         environment
         dateOfEntry

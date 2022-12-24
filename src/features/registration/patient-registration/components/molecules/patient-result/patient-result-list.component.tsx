@@ -281,24 +281,24 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 editorCell(row),
             },
             {
-              dataField: 'instrumentResult',
-              text: 'Instrument Result',
+              dataField: 'instResult',
+              text: 'Inst Result',
               headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
             {
-              dataField: 'instrumentUnit',
-              text: 'Instrument Unit',
+              dataField: 'instUnit',
+              text: 'Inst Unit',
               headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
             {
-              dataField: 'instrumentResultDate',
-              text: 'Instrument Result Date',
+              dataField: 'instResultDate',
+              text: 'Inst Result Date',
               headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
@@ -306,8 +306,8 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row.instrumentResultDate
-                      ? dayjs(row.instrumentResultDate).format('YYYY-MM-DD')
+                    {row.instResultDate
+                      ? dayjs(row.instResultDate).format('YYYY-MM-DD')
                       : ''}
                   </>
                 );
@@ -461,16 +461,16 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             },
 
             {
-              dataField: 'equid',
-              text: 'Equid',
+              dataField: 'instId',
+              text: 'Inst Id',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
             {
-              dataField: 'equType',
-              text: 'EquType',
+              dataField: 'instType',
+              text: 'Inst Type',
               headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
