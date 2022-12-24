@@ -1,18 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import dayjs from 'dayjs';
-import {
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  Form,
-  Icons,
-  Toast,
-  Tooltip,
-} from '@/library/components';
-import {lookupItems, getDefaultLookupItem, lookupValue} from '@/library/utils';
+import React, {useState} from 'react';
+import {Form, Icons, Tooltip} from '@/library/components';
+import {lookupItems, lookupValue} from '@/library/utils';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import _ from 'lodash';
 import {TableBootstrap} from './TableBootstrap';
-import {FormHelper} from '@/helper';
 
 interface SegmentMappingInputTableProps {
   data: any;
@@ -37,19 +29,7 @@ export const SegmentMappingInputTable = observer(
       schema: Array<string>;
       documentType: Array<string>;
     }>({limsTables: '', schema: [], documentType: []});
-
-    // useEffect(() => {
-    //   segmentMappingStore.segmentMappingService
-    //     .getCollectionList()
-    //     .then(res => {
-    //       if (res.getCollectionList.success) {
-    //         setCollection(res.getCollectionList.list);
-    //       } else {
-    //         alert('Please try again.Technical issue fetching tables');
-    //       }
-    //     });
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
+    const [segment, setSegment] = useState('');
 
     const getCollection = () => {
       segmentMappingStore.segmentMappingService
@@ -83,23 +63,24 @@ export const SegmentMappingInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.segments}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const segments = e.target.value;
+                      const segments = JSON.parse(e.target.value);
+                      setSegment(segments.value);
                       onUpdateItems &&
                         onUpdateItems(
                           {
-                            segments,
+                            segments: segments.value,
+                            segmentOrder: segments.code,
                           },
                           row.index,
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option selected>{segment || 'Select'}</option>
                     {lookupItems(extraData.lookupItems, 'SEGMENT').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={JSON.stringify(item)}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -128,6 +109,7 @@ export const SegmentMappingInputTable = observer(
                     onBlur={segmentOrder => {
                       onUpdateItems && onUpdateItems({segmentOrder}, row.index);
                     }}
+                    disabled={true}
                   />
                 </>
               ),

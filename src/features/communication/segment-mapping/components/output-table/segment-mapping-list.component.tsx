@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
   TableBootstrap,
+  sortCaret,
   textFilter,
   Form,
   Tooltip,
@@ -31,6 +32,7 @@ let fieldType;
 let fieldLength;
 let requiredForLims;
 let limsTables;
+let limsDocumentType;
 let limsFields;
 let environment;
 
@@ -77,6 +79,8 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
     segmentMappingStore.fetchListSegmentMapping();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const headerSortingStyle = {backgroundColor: '#c8e6c9', fontSize: 20};
   return (
     <>
       <TableBootstrap
@@ -93,7 +97,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'instType',
             text: 'Inst Type',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader',
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             sort: true,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -138,7 +146,11 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'dataFlow',
             text: 'Data Flow',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader',
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             sort: true,
             filter: textFilter({
@@ -180,8 +192,12 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'protocol',
             text: 'Protocol',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeader',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -225,7 +241,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'segments',
             text: 'Segments',
-            headerClasses: 'textHeaderM',
+            headerClasses: 'textHeader',
+            sort: true,
+            filter: textFilter({
+              getFilter: filter => {
+                segments = filter;
+              },
+            }),
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -240,11 +266,12 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   value={row.segments}
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
-                    const segments = e.target.value;
+                    const segments = JSON.parse(e.target.value);
                     props.onUpdateFields &&
                       props.onUpdateFields(
                         {
-                          segments,
+                          segments: segments.value,
+                          segmentOrder: segments.code,
                         },
                         row._id,
                       );
@@ -253,7 +280,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   <option selected>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'SEGMENT').map(
                     (item: any, index: number) => (
-                      <option key={index} value={item.code}>
+                      <option key={index} value={JSON.stringify(item)}>
                         {lookupValue(item)}
                       </option>
                     ),
@@ -266,6 +293,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'segmentOrder',
             text: 'Segment Order',
             headerClasses: 'textHeader',
+
+            filter: textFilter({
+              getFilter: filter => {
+                segmentOrder = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -283,6 +321,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     props.onUpdateFields &&
                       props.onUpdateFields({segmentOrder}, row._id);
                   }}
+                  disabled={true}
                 />
               </>
             ),
@@ -290,7 +329,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'segmentRequired',
             text: 'Segment Required',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeaderM',
             sort: true,
             csvFormatter: (col, row) =>
               `${
@@ -319,6 +358,16 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'elementNo',
             text: 'Element No',
             headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                elementNo = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -344,6 +393,16 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'elementName',
             text: 'Element Name',
             headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                elementName = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -368,7 +427,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'elementRequired',
             text: 'Element Required',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeaderM',
             sort: true,
             csvFormatter: (col, row) =>
               `${
@@ -397,6 +456,16 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'elementSequence',
             text: 'Element Sequence',
             headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                elementSequence = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -425,6 +494,16 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'transmittedData',
             text: 'Transmitted Data',
             headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                transmittedData = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -450,6 +529,16 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'defaultValue',
             text: 'Default Value',
             headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                defaultValue = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -475,6 +564,16 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'fieldArray',
             text: 'Field Array',
             headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                fieldArray = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -499,7 +598,9 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'repeatDelimiter',
             text: 'Repeat Delimiter',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeaderM',
+            sort: true,
+
             csvFormatter: (col, row) =>
               `${
                 row.repeatDelimiter
@@ -526,7 +627,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'fieldType',
             text: 'Field Type',
-            headerClasses: 'textHeaderM',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                fieldType = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -567,6 +678,16 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             dataField: 'fieldLength',
             text: 'Field Length',
             headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                fieldLength = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -594,7 +715,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'requiredForLims',
             text: 'Required For Lims',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeaderM',
             sort: true,
             csvFormatter: (col, row) =>
               `${
@@ -622,7 +743,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'limsTables',
             text: 'Lims Tables',
-            headerClasses: 'textHeaderM',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsTables = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             events: {
               onClick: (e, column, columnIndex, row, rowIndex) => {
@@ -665,7 +796,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'limsDocumentType',
             text: 'Lims Document Type',
-            headerClasses: 'textHeaderM',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsDocumentType = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             events: {
               onClick: (e, column, columnIndex, row, rowIndex) => {
                 if (collectionDetails.limsTables != row?.limsTables)
@@ -728,7 +869,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'limsFields',
             text: 'Lims Fields',
-            headerClasses: 'textHeaderM',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsFields = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             events: {
               onClick: (e, column, columnIndex, row, rowIndex) => {
                 if (collectionDetails.limsTables != row?.limsTables)
@@ -789,7 +940,17 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'environment',
             text: 'Environment',
-            headerClasses: 'textHeaderM',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                environment = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -901,6 +1062,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           fieldLength('');
           requiredForLims('');
           limsTables('');
+          limsDocumentType('');
           limsFields('');
           environment('');
         }}
