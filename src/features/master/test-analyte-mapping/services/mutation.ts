@@ -194,3 +194,13 @@ export const FIND_BY_FILEDS = gql`
     }
   }
 `;
+
+export const FETCH_KEYS_VALUE = gql`
+  mutation ($input: TestAnalyteMappingInput!) {
+    fetchKeysValueTestAnalyteMapping(input: $input) {
+      success
+      message
+      result
+    }
+  }
+`;

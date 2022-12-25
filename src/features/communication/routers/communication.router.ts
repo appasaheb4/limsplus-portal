@@ -11,6 +11,10 @@ const DataConversation = async(
 const InterfaceManager = async(
   () => import('../interface-manager/screens/interface-manager.screen'),
 );
+const InstrumentResultMapping = async(
+  () =>
+    import('../instrument-result-mapping/screens/inst-result-mapping.screen'),
+);
 
 export const communicationRoutes = {
   path: '/communication',
@@ -40,6 +44,12 @@ export const communicationRoutes = {
       name: 'Data Segment Mapping',
       icon: 'Icons.IconGi.GiDatabase',
       component: SegmentMapping,
+    },
+    {
+      path: '/communication/instrument-result-mapping',
+      name: 'Instrument Result Mapping',
+      icon: 'Icons.Iconvsc.VscOutput',
+      component: InstrumentResultMapping,
     },
   ],
 };

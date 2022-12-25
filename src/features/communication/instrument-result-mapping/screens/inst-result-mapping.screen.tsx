@@ -1,0 +1,384 @@
+import React, {useState, useMemo, useEffect} from 'react';
+import {observer} from 'mobx-react';
+import _ from 'lodash';
+import {
+  Toast,
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+  Buttons,
+  ModalConfirm,
+  List,
+  Svg,
+  ModalImportFile,
+  Icons,
+} from '@/library/components';
+import * as XLSX from 'xlsx';
+import {Styles} from '@/config';
+import {
+  InstResultMappingInputTable,
+  InstResultMappingList,
+} from '../components';
+import {useForm} from 'react-hook-form';
+import {InstResultMappingHoc} from '../hoc';
+import {useStores} from '@/stores';
+
+import {RouterFlow} from '@/flows';
+import {toJS} from 'mobx';
+
+const InstResultMapping = observer(() => {
+  const {
+    loginStore,
+    instResultMappingStore,
+    routerStore,
+    testAnalyteMappingStore,
+  } = useStores();
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+    setValue,
+  } = useForm();
+  const [modalImportFile, setModalImportFile] = useState({});
+  const [isInputView, setInputView] = useState<boolean>(true);
+
+  const [arrInstType, setArrInstType] = useState([]);
+  const [modalConfirm, setModalConfirm] = useState<any>();
+
+  useEffect(() => {
+    testAnalyteMappingStore.testAnalyteMappingService
+      .fetchKeysValue({
+        input: {filter: {keys: ['lab']}},
+      })
+      .then(res => {
+        console.log({res});
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleFileUpload = (file: any) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', (evt: any) => {
+      /* Parse data */
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, {type: 'binary'});
+      /* Get first worksheet */
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      /* Convert array of arrays */
+      const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+      const defaultHeader: string[] = [
+        'Inst Type',
+        'Data Flow',
+        'Protocol',
+        'Segments',
+        'Segment Order',
+        'Segment Required',
+        'Element No',
+        'Element Name',
+        'Element Required',
+        'Element Sequence',
+        'Transmitted Data',
+        'Default Value',
+        'Field Array',
+        'Repeat Delimiter',
+        'Field Type',
+        'Field Length',
+        'Required For Lims',
+        'Lims Tables',
+        'Lims Fields',
+        'Environment',
+      ];
+      const headers: any = [];
+      let object: any = [];
+      let fileImaport: boolean = false;
+      // eslint-disable-next-line unicorn/no-array-for-each
+      data.forEach((item: any, index: number) => {
+        if (index === 0) {
+          headers.push(item);
+          if (JSON.stringify(headers[0]) !== JSON.stringify(defaultHeader))
+            return alert('Please select correct file!');
+        } else {
+          if (JSON.stringify(headers[0]) === JSON.stringify(defaultHeader)) {
+            object.push({
+              index,
+              instType: item[0],
+              dataFlow: item[1],
+              protocol: item[2],
+              segments: item[3],
+              segmentOrder: item[4],
+              segmentRequired: item[5] === 'Yes' ? true : false,
+              elementNo: item[6],
+              elementName: item[7],
+              elementRequired: item[8] === 'Yes' ? true : false,
+              elementSequence: item[9],
+              transmittedData: item[10],
+              defaultValue: item[11],
+              fieldArray: item[12],
+              repeatDelimiter: item[13] === 'Yes' ? true : false,
+              fieldType: item[14],
+              fieldLength: item[15],
+              requiredForLims: item[16] === 'Yes' ? true : false,
+              limsTables: item[17],
+              limsFields: item[18],
+              environment: item[19],
+            });
+            fileImaport = true;
+          }
+        }
+      });
+      object = JSON.parse(JSON.stringify(object));
+      if (fileImaport) {
+        // instResultMappingStore.InstResultMappingService.addInstResultMapping({
+        //   input: {
+        //     filter: {InstResultMapping: object},
+        //   },
+        // }).then(res => {
+        //   if (res.createInstResultMapping.success) {
+        //     Toast.success({
+        //       message: `😊 ${res.createInstResultMapping.message}`,
+        //     });
+        //     setTimeout(() => {
+        //       window.location.reload();
+        //     }, 2000);
+        //   }
+        // });
+      }
+    });
+    reader.readAsBinaryString(file);
+  };
+
+  const onSubmitInstResultMapping = () => {
+    if (instResultMappingStore.instResultMapping?.length > 0) {
+      instResultMappingStore.instResultMappingService
+        .addInstResultMapping({
+          input: {
+            filter: {
+              instResultMapping: instResultMappingStore.instResultMapping,
+            },
+          },
+        })
+        .then(res => {
+          if (res.createInstResultMapping.success) {
+            Toast.success({
+              message: `😊 ${res.createInstResultMapping.message}`,
+            });
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          }
+        });
+    } else {
+      Toast.warning({
+        message: '😔 Please enter all information!',
+      });
+    }
+  };
+
+  const addItem = () => {
+    const instResultMapping = instResultMappingStore.instResultMapping;
+    instResultMapping?.push({
+      index: instResultMapping?.length + 1,
+    });
+    instResultMappingStore.updateInstResultMapping(instResultMapping);
+  };
+
+  const inputTableInstResultMapping = useMemo(
+    () =>
+      instResultMappingStore.instResultMapping?.length > 0 && (
+        <>
+          <div className='p-2 rounded-lg shadow-xl'>
+            <InstResultMappingInputTable
+              addItem={() => addItem()}
+              data={instResultMappingStore.instResultMapping}
+              onUpdateItems={(items, index) => {
+                const position = _.findIndex(
+                  instResultMappingStore.instResultMapping,
+                  {
+                    index,
+                  },
+                );
+                const instResultMapping =
+                  instResultMappingStore.instResultMapping;
+                instResultMapping[position] = {
+                  ...instResultMapping[position],
+                  ...items,
+                };
+                instResultMappingStore.updateInstResultMapping(
+                  instResultMapping,
+                );
+              }}
+            />
+          </div>
+        </>
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.parse(JSON.stringify(instResultMappingStore.instResultMapping))],
+  );
+
+  return (
+    <>
+      <Header>
+        <PageHeading title={routerStore.selectedComponents?.title || ''} />
+        <PageHeadingLabDetails store={loginStore} />
+      </Header>
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
+        <Buttons.ButtonCircleAddRemove
+          show={!isInputView}
+          onClick={status => setInputView(!isInputView)}
+        />
+      )}
+
+      <div className=' mx-auto flex-wrap'>
+        <div
+          className={
+            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'show' : 'hidden')
+          }
+        >
+          {inputTableInstResultMapping}
+          <br />
+          <List direction='row' space={3} align='center'>
+            <Buttons.Button
+              size='medium'
+              type='solid'
+              icon={Svg.Save}
+              onClick={handleSubmit(onSubmitInstResultMapping)}
+            >
+              Save
+            </Buttons.Button>
+            <Buttons.Button
+              size='medium'
+              type='outline'
+              onClick={() => {
+                setModalImportFile({
+                  show: true,
+                  title: 'Import excel file!',
+                });
+              }}
+            >
+              <span className='flex flex-row'>
+                <Icons.EvaIcon
+                  icon='arrowhead-down-outline'
+                  size='medium'
+                  color={Styles.COLORS.BLACK}
+                />
+                Import
+              </span>
+            </Buttons.Button>
+            <Buttons.Button
+              size='medium'
+              type='outline'
+              icon={Svg.Remove}
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Clear
+            </Buttons.Button>
+          </List>
+        </div>
+      </div>
+
+      <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
+        <InstResultMappingList
+          data={instResultMappingStore.instResultMappingList || []}
+          totalSize={instResultMappingStore.instResultMappingListCount}
+          extraData={{
+            lookupItems: routerStore.lookupItems,
+            arrInstType,
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Edit/Modify',
+          )}
+          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onSelectedRow={rows => {
+            setModalConfirm({
+              show: true,
+              type: 'delete',
+              id: rows,
+              title: 'Are you sure?',
+              body: 'Delete selected items!',
+            });
+          }}
+          onUpdateFields={(fields: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              data: {fields, id},
+              title: 'Are you sure?',
+              body: 'Update records',
+            });
+          }}
+          onPageSizeChange={(page, limit) => {
+            // InstResultMappingStore.fetchListInstResultMapping(page, limit);
+          }}
+          onFilter={(type, filter, page, limit) => {
+            // InstResultMappingStore.InstResultMappingService.filter({
+            //   input: {type, filter, page, limit},
+            // });
+          }}
+        />
+      </div>
+      <ModalImportFile
+        accept='.csv,.xlsx,.xls'
+        {...modalImportFile}
+        click={(file: any) => {
+          setModalImportFile({show: false});
+          handleFileUpload(file);
+        }}
+        close={() => {
+          setModalImportFile({show: false});
+        }}
+      />
+      <ModalConfirm
+        {...modalConfirm}
+        click={type => {
+          setModalConfirm({show: false});
+          // if (type === 'delete') {
+          //   InstResultMappingStore.InstResultMappingService.deleteInstResultMapping(
+          //     {
+          //       input: {
+          //         id: modalConfirm.id,
+          //       },
+          //     },
+          //   ).then(res => {
+          //     if (res.removeInstResultMapping.success) {
+          //       InstResultMappingStore.fetchListInstResultMapping();
+          //       InstResultMappingStore.updateSelectedItem([]);
+          //       Toast.success({
+          //         message: `😊 ${res.removeInstResultMapping.message}`,
+          //       });
+          //     }
+          //   });
+          // } else if (type == 'updateFields') {
+          //   InstResultMappingStore.InstResultMappingService.updateSingleFiled(
+          //     {
+          //       input: {
+          //         ...modalConfirm.data.fields,
+          //         _id: modalConfirm.data.id,
+          //       },
+          //     },
+          //   ).then(res => {
+          //     if (res.updateInstResultMapping.success) {
+          //       InstResultMappingStore.fetchListInstResultMapping();
+          //       Toast.success({
+          //         message: ` ${res.updateInstResultMapping.message}`,
+          //       });
+          //     }
+          //   });
+          // }
+        }}
+        onClose={() => setModalConfirm({show: false})}
+      />
+    </>
+  );
+});
+
+export default InstResultMapping;
