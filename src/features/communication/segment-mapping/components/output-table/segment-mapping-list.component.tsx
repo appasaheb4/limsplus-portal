@@ -68,7 +68,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
   const getCollection = () => {
     segmentMappingStore.segmentMappingService.getCollectionList().then(res => {
       if (res.getCollectionList.success) {
-        setCollection(res.getCollectionList.list);
+        setCollection(res.getCollectionList.result);
       } else {
         alert('Please try again.Technical issue fetching tables');
       }

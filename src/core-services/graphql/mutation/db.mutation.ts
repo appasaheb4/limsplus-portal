@@ -5,7 +5,7 @@ export const GET_COLLECTION_FIELDS = gql`
     getCollectionFields(input: $input) {
       success
       message
-      list
+      result
     }
   }
 `;

@@ -32,6 +32,7 @@ const InstResultMapping = observer(() => {
     instResultMappingStore,
     routerStore,
     testAnalyteMappingStore,
+    segmentMappingStore,
   } = useStores();
 
   const {
@@ -46,8 +47,20 @@ const InstResultMapping = observer(() => {
   const [arrInstType, setArrInstType] = useState([]);
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [pLabs, setPLabs] = useState<Array<string>>();
+  const [instTypes, setInstTypes] = useState<Array<string>>();
 
-  useEffect(() => {
+  const getInstTypes = () => {
+    segmentMappingStore.segmentMappingService
+      .fetchKeyValue({input: {key: 'instType'}})
+      .then(res => {
+        if (res.fetchKeyValueSegmentMapping.success) {
+          setInstTypes(res.fetchKeyValueSegmentMapping.result);
+        }
+        console.log({res});
+      });
+  };
+
+  const getLabFromAnalyteMapping = () => {
     testAnalyteMappingStore.testAnalyteMappingService
       .fetchKeyValue({
         input: {key: 'lab'},
@@ -57,6 +70,11 @@ const InstResultMapping = observer(() => {
           setPLabs(res.fetchKeyValueTestAnalyteMapping.result);
         }
       });
+  };
+
+  useEffect(() => {
+    getLabFromAnalyteMapping();
+    getInstTypes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -202,6 +220,20 @@ const InstResultMapping = observer(() => {
       });
   };
 
+  const getAnalyteDetails = testCode => {
+    return testAnalyteMappingStore.testAnalyteMappingService
+      .findByFileds({
+        input: {
+          filter: {testCode},
+        },
+      })
+      .then(res => {
+        if (res.findByFiledsTestAnalyteMappings.success) {
+          return res.findByFiledsTestAnalyteMappings.data;
+        }
+      });
+  };
+
   const inputTableInstResultMapping = useMemo(
     () =>
       instResultMappingStore.instResultMapping?.length > 0 && (
@@ -210,8 +242,9 @@ const InstResultMapping = observer(() => {
             <InstResultMappingInputTable
               addItem={() => addItem()}
               getTestDetails={lab => getTestDetails(lab)}
+              getAnalyteDetails={testCode => getAnalyteDetails(testCode)}
               data={instResultMappingStore.instResultMapping}
-              extraData={{pLabs}}
+              extraData={{pLabs, instTypes}}
               onUpdateItems={(items, index) => {
                 const position = _.findIndex(
                   instResultMappingStore.instResultMapping,

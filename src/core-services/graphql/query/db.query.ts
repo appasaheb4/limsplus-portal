@@ -5,7 +5,7 @@ export const GET_COLLECTION_LIST = gql`
     getCollectionList {
       success
       message
-      list
+      result
     }
   }
 `;
