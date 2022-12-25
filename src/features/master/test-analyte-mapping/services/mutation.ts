@@ -195,9 +195,9 @@ export const FIND_BY_FILEDS = gql`
   }
 `;
 
-export const FETCH_KEYS_VALUE = gql`
+export const FETCH_KEY_VALUE = gql`
   mutation ($input: TestAnalyteMappingInput!) {
-    fetchKeysValueTestAnalyteMapping(input: $input) {
+    fetchKeyValueTestAnalyteMapping(input: $input) {
       success
       message
       result

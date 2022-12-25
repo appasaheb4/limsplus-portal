@@ -45,14 +45,17 @@ const InstResultMapping = observer(() => {
 
   const [arrInstType, setArrInstType] = useState([]);
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [pLabs, setPLabs] = useState<Array<string>>();
 
   useEffect(() => {
     testAnalyteMappingStore.testAnalyteMappingService
-      .fetchKeysValue({
-        input: {filter: {keys: ['lab']}},
+      .fetchKeyValue({
+        input: {key: 'lab'},
       })
       .then(res => {
-        console.log({res});
+        if (res.fetchKeyValueTestAnalyteMapping.success) {
+          setPLabs(res.fetchKeyValueTestAnalyteMapping.result);
+        }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -185,6 +188,20 @@ const InstResultMapping = observer(() => {
     instResultMappingStore.updateInstResultMapping(instResultMapping);
   };
 
+  const getTestDetails = lab => {
+    return testAnalyteMappingStore.testAnalyteMappingService
+      .findByFileds({
+        input: {
+          filter: {lab},
+        },
+      })
+      .then(res => {
+        if (res.findByFiledsTestAnalyteMappings.success) {
+          return res.findByFiledsTestAnalyteMappings.data;
+        }
+      });
+  };
+
   const inputTableInstResultMapping = useMemo(
     () =>
       instResultMappingStore.instResultMapping?.length > 0 && (
@@ -192,7 +209,9 @@ const InstResultMapping = observer(() => {
           <div className='p-2 rounded-lg shadow-xl'>
             <InstResultMappingInputTable
               addItem={() => addItem()}
+              getTestDetails={lab => getTestDetails(lab)}
               data={instResultMappingStore.instResultMapping}
+              extraData={{pLabs}}
               onUpdateItems={(items, index) => {
                 const position = _.findIndex(
                   instResultMappingStore.instResultMapping,

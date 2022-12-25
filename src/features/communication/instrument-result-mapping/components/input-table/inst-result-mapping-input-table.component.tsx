@@ -4,6 +4,7 @@ import {lookupItems, lookupValue} from '@/library/utils';
 import _ from 'lodash';
 import {TableBootstrap} from './TableBootstrap';
 import {toJS} from 'mobx';
+import {async} from 'validate.js';
 
 interface InstResultMappingInputTableProps {
   data: any;
@@ -12,6 +13,7 @@ interface InstResultMappingInputTableProps {
   onUpdateItems?: (item: any, id) => void;
   onDuplicate?: (item: any) => void;
   addItem?: () => void;
+  getTestDetails?: (lab) => void;
 }
 
 export const InstResultMappingInputTable = ({
@@ -21,7 +23,9 @@ export const InstResultMappingInputTable = ({
   onUpdateItems,
   onDuplicate,
   addItem,
+  getTestDetails,
 }: InstResultMappingInputTableProps) => {
+  const [pLabDetails, setPLabDetails] = useState<any>();
   return (
     <div className='flex flex-row gap-2 items-center'>
       <div className='overflow-scroll'>
@@ -72,27 +76,25 @@ export const InstResultMappingInputTable = ({
               ) => (
                 <>
                   <select
-                    value={row.fieldType}
+                    value={row.pLab}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const fieldType = e.target.value;
+                      const pLab = e.target.value;
                       onUpdateItems &&
                         onUpdateItems(
                           {
-                            fieldType,
+                            pLab,
                           },
                           row.index,
                         );
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'FIELD_TYPE').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
+                    {extraData?.pLabs?.map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
@@ -102,6 +104,59 @@ export const InstResultMappingInputTable = ({
               text: 'Test Code/Test Name',
               headerClasses: 'textHeader',
               sort: true,
+              events: {
+                onClick: async (e, column, columnIndex, row, rowIndex) => {
+                  if (pLabDetails?.pLab != row.pLab && getTestDetails) {
+                    const pLabRecords = await getTestDetails(row.pLab);
+                    setPLabDetails({
+                      ...pLabDetails,
+                      pLab: row.pLab,
+                      testCodeName: 'Select',
+                      pLabRecords,
+                    });
+                  }
+                },
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.testCodeName}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const item = JSON.parse(e.target.value);
+                      setPLabDetails({
+                        ...pLabDetails,
+                        testCodeName: `${item.testCode} - ${item.testName}`,
+                      });
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            testCodeName: `${item.testCode} - ${item.testName}`,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>
+                      {pLabDetails?.testCodeName || 'Select'}
+                    </option>
+                    {_.uniqBy(pLabDetails?.pLabRecords, 'testCode')?.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={JSON.stringify(item)}>
+                          {`${item.testCode} - ${item.testName}`}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: 'department',
