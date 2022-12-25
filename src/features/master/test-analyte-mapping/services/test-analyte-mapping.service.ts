@@ -17,7 +17,7 @@ import {
   FILTER,
   FIND_BY_FILEDS,
   UPDATE_ORDER_SEQ_RECORD,
-  FETCH_KEYS_VALUE,
+  FETCH_KEY_VALUE,
 } from './mutation';
 import * as Model from '../models';
 
@@ -199,11 +199,11 @@ export class TestAnalyteMappingService {
         );
     });
 
-  fetchKeysValue = (variables: any) =>
+  fetchKeyValue = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: FETCH_KEYS_VALUE,
+          mutation: FETCH_KEY_VALUE,
           variables,
         })
         .then((response: any) => {
