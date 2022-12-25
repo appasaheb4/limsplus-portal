@@ -161,3 +161,13 @@ export const FIND_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FETCH_KEY_VALUE = gql`
+  mutation ($input: SegmentMappingInput!) {
+    fetchKeyValueSegmentMapping(input: $input) {
+      success
+      message
+      result
+    }
+  }
+`;

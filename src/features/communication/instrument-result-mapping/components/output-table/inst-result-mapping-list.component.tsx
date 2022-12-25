@@ -70,7 +70,7 @@ export const InstResultMappingList = observer(
         .getCollectionList()
         .then(res => {
           if (res.getCollectionList.success) {
-            setCollection(res.getCollectionList.list);
+            setCollection(res.getCollectionList.result);
           } else {
             alert('Please try again.Technical issue fetching tables');
           }

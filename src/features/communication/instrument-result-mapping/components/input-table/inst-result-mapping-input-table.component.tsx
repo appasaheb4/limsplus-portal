@@ -14,6 +14,7 @@ interface InstResultMappingInputTableProps {
   onDuplicate?: (item: any) => void;
   addItem?: () => void;
   getTestDetails?: (lab) => void;
+  getAnalyteDetails?: (testCode) => void;
 }
 
 export const InstResultMappingInputTable = ({
@@ -24,6 +25,7 @@ export const InstResultMappingInputTable = ({
   onDuplicate,
   addItem,
   getTestDetails,
+  getAnalyteDetails,
 }: InstResultMappingInputTableProps) => {
   const [pLabDetails, setPLabDetails] = useState<any>();
   return (
@@ -134,6 +136,7 @@ export const InstResultMappingInputTable = ({
                       setPLabDetails({
                         ...pLabDetails,
                         testCodeName: `${item.testCode} - ${item.testName}`,
+                        testCode: item.testCode,
                       });
                       onUpdateItems &&
                         onUpdateItems(
@@ -151,45 +154,6 @@ export const InstResultMappingInputTable = ({
                       (item: any, index: number) => (
                         <option key={index} value={JSON.stringify(item)}>
                           {`${item.testCode} - ${item.testName}`}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
-            },
-            {
-              dataField: 'department',
-              text: 'Department',
-              headerClasses: 'textHeader',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.fieldType}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const department = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems(
-                          {
-                            department,
-                          },
-                          row.index,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'FIELD_TYPE').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
                         </option>
                       ),
                     )}
@@ -225,13 +189,11 @@ export const InstResultMappingInputTable = ({
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'FIELD_TYPE').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
+                    {extraData.instTypes?.map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
@@ -263,6 +225,22 @@ export const InstResultMappingInputTable = ({
               dataField: 'analyteCodeName',
               text: 'Analyte Code/Analyte Name',
               headerClasses: 'textHeader',
+              events: {
+                onClick: async (e, column, columnIndex, row, rowIndex) => {
+                  if (
+                    pLabDetails?.testCode != row.testCodeName.split(' - ')[0] &&
+                    getAnalyteDetails
+                  ) {
+                    const testCodeRecords = await getAnalyteDetails(row.pLab);
+                    console.log({testCodeRecords});
+
+                    setPLabDetails({
+                      ...pLabDetails,
+                      testCodeRecords,
+                    });
+                  }
+                },
+              },
               editorRenderer: (
                 editorProps,
                 value,
