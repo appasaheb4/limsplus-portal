@@ -125,14 +125,16 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white sticky left-0 z-10 flex w-40'>Analyte</th>
+            <th className='text-white sticky left-0 z-10 flex xl:w-40 sm:w-40 '>
+              Analyte
+            </th>
             <th className='text-white'>Department</th>
             <th className='text-white'>Species</th>
             <th className='text-white'>Sex</th>
             <th className='text-white'>Range_Set_On</th>
             <th className='text-white'>Lab</th>
             <th className='text-white'>Equipment_Type</th>
-          </tr>
+          </tr>{' '}
         </thead>
         <tbody className='text-xs'>
           <tr>
