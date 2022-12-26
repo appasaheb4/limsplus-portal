@@ -20,8 +20,8 @@ import {
   InstResultMappingList,
 } from '../components';
 import {useForm} from 'react-hook-form';
-import {InstResultMappingHoc} from '../hoc';
 import {useStores} from '@/stores';
+import {getDefaultLookupItem} from '@/library/utils';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
@@ -41,10 +41,10 @@ const InstResultMapping = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  const [modalImportFile, setModalImportFile] = useState({});
-  const [isInputView, setInputView] = useState<boolean>(true);
 
-  const [arrInstType, setArrInstType] = useState([]);
+  const [modalImportFile, setModalImportFile] = useState({});
+  const [isInputView, setInputView] = useState<boolean>(false);
+
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [pLabs, setPLabs] = useState<Array<string>>();
   const [instTypes, setInstTypes] = useState<Array<string>>();
@@ -56,7 +56,6 @@ const InstResultMapping = observer(() => {
         if (res.fetchKeyValueSegmentMapping.success) {
           setInstTypes(res.fetchKeyValueSegmentMapping.result);
         }
-        console.log({res});
       });
   };
 
@@ -181,11 +180,10 @@ const InstResultMapping = observer(() => {
           },
         })
         .then(res => {
-          if (res.createInstResultMapping.success) {
+          if (res.createInstrumentResultMapping.success) {
             Toast.success({
-              message: `😊 ${res.createInstResultMapping.message}`,
+              message: `😊 ${res.createInstrumentResultMapping.message}`,
             });
-
             setTimeout(() => {
               window.location.reload();
             }, 2000);
@@ -202,6 +200,7 @@ const InstResultMapping = observer(() => {
     const instResultMapping = instResultMappingStore.instResultMapping;
     instResultMapping?.push({
       index: instResultMapping?.length + 1,
+      environment: getDefaultLookupItem(routerStore.lookupItems, 'ENVIRONMENT'),
     });
     instResultMappingStore.updateInstResultMapping(instResultMapping);
   };
@@ -244,7 +243,11 @@ const InstResultMapping = observer(() => {
               getTestDetails={lab => getTestDetails(lab)}
               getAnalyteDetails={testCode => getAnalyteDetails(testCode)}
               data={instResultMappingStore.instResultMapping}
-              extraData={{pLabs, instTypes}}
+              extraData={{
+                pLabs,
+                instTypes,
+                lookupItems: routerStore.lookupItems,
+              }}
               onUpdateItems={(items, index) => {
                 const position = _.findIndex(
                   instResultMappingStore.instResultMapping,
@@ -258,6 +261,36 @@ const InstResultMapping = observer(() => {
                   ...instResultMapping[position],
                   ...items,
                 };
+                instResultMappingStore.updateInstResultMapping(
+                  instResultMapping,
+                );
+              }}
+              onDelete={index => {
+                const position = _.findIndex(
+                  instResultMappingStore.instResultMapping,
+                  {
+                    index,
+                  },
+                );
+                const firstArr =
+                  instResultMappingStore.instResultMapping?.slice(
+                    0,
+                    position,
+                  ) || [];
+                const secondArr =
+                  instResultMappingStore.instResultMapping?.slice(
+                    position + 1,
+                  ) || [];
+                const finalArray = [...firstArr, ...secondArr];
+                instResultMappingStore.updateInstResultMapping(finalArray);
+              }}
+              onDuplicate={item => {
+                const instResultMapping =
+                  instResultMappingStore.instResultMapping;
+                instResultMapping?.push({
+                  ...item,
+                  index: instResultMapping?.length + 1,
+                });
                 instResultMappingStore.updateInstResultMapping(
                   instResultMapping,
                 );
@@ -337,9 +370,12 @@ const InstResultMapping = observer(() => {
         <InstResultMappingList
           data={instResultMappingStore.instResultMappingList || []}
           totalSize={instResultMappingStore.instResultMappingListCount}
+          getTestDetails={lab => getTestDetails(lab)}
+          getAnalyteDetails={testCode => getAnalyteDetails(testCode)}
           extraData={{
             lookupItems: routerStore.lookupItems,
-            arrInstType,
+            pLabs,
+            instTypes,
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -359,7 +395,7 @@ const InstResultMapping = observer(() => {
               body: 'Delete selected items!',
             });
           }}
-          onUpdateFields={(fields: any, id: string) => {
+          onUpdateItems={(fields: any, id: string) => {
             setModalConfirm({
               show: true,
               type: 'updateFields',
@@ -369,12 +405,15 @@ const InstResultMapping = observer(() => {
             });
           }}
           onPageSizeChange={(page, limit) => {
-            // InstResultMappingStore.fetchListInstResultMapping(page, limit);
+            instResultMappingStore.instResultMappingService.listInstResultMapping(
+              page,
+              limit,
+            );
           }}
           onFilter={(type, filter, page, limit) => {
-            // InstResultMappingStore.InstResultMappingService.filter({
-            //   input: {type, filter, page, limit},
-            // });
+            instResultMappingStore.instResultMappingService.filter({
+              input: {type, filter, page, limit},
+            });
           }}
         />
       </div>
@@ -393,39 +432,38 @@ const InstResultMapping = observer(() => {
         {...modalConfirm}
         click={type => {
           setModalConfirm({show: false});
-          // if (type === 'delete') {
-          //   InstResultMappingStore.InstResultMappingService.deleteInstResultMapping(
-          //     {
-          //       input: {
-          //         id: modalConfirm.id,
-          //       },
-          //     },
-          //   ).then(res => {
-          //     if (res.removeInstResultMapping.success) {
-          //       InstResultMappingStore.fetchListInstResultMapping();
-          //       InstResultMappingStore.updateSelectedItem([]);
-          //       Toast.success({
-          //         message: `😊 ${res.removeInstResultMapping.message}`,
-          //       });
-          //     }
-          //   });
-          // } else if (type == 'updateFields') {
-          //   InstResultMappingStore.InstResultMappingService.updateSingleFiled(
-          //     {
-          //       input: {
-          //         ...modalConfirm.data.fields,
-          //         _id: modalConfirm.data.id,
-          //       },
-          //     },
-          //   ).then(res => {
-          //     if (res.updateInstResultMapping.success) {
-          //       InstResultMappingStore.fetchListInstResultMapping();
-          //       Toast.success({
-          //         message: ` ${res.updateInstResultMapping.message}`,
-          //       });
-          //     }
-          //   });
-          // }
+          if (type === 'delete') {
+            instResultMappingStore.instResultMappingService
+              .deleteInstResultMapping({
+                input: {
+                  id: modalConfirm.id,
+                },
+              })
+              .then(res => {
+                if (res.removeInstrumentResultMapping.success) {
+                  instResultMappingStore.instResultMappingService.listInstResultMapping();
+                  Toast.success({
+                    message: `😊 ${res.removeInstrumentResultMapping.message}`,
+                  });
+                }
+              });
+          } else if (type == 'updateFields') {
+            instResultMappingStore.instResultMappingService
+              .update({
+                input: {
+                  ...modalConfirm.data.fields,
+                  _id: modalConfirm.data.id,
+                },
+              })
+              .then(res => {
+                if (res.updateInstrumentResultMapping.success) {
+                  instResultMappingStore.instResultMappingService.listInstResultMapping();
+                  Toast.success({
+                    message: ` ${res.updateInstrumentResultMapping.message}`,
+                  });
+                }
+              });
+          }
         }}
         onClose={() => setModalConfirm({show: false})}
       />

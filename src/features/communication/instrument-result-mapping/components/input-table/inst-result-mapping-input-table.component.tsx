@@ -55,7 +55,7 @@ export const InstResultMappingInputTable = ({
               ) => (
                 <>
                   <Form.Input
-                    placeholder={row?.key}
+                    placeholder={row?.key || 'Key'}
                     type='text'
                     onBlur={key => {
                       onUpdateItems && onUpdateItems({key}, row.index);
@@ -119,6 +119,9 @@ export const InstResultMappingInputTable = ({
                   }
                 },
               },
+              formatter: (cell, row) => {
+                return <>{`${row?.testCode || ''} - ${row?.testName || ''}`}</>;
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -136,12 +139,12 @@ export const InstResultMappingInputTable = ({
                       setPLabDetails({
                         ...pLabDetails,
                         testCodeName: `${item.testCode} - ${item.testName}`,
-                        testCode: item.testCode,
                       });
                       onUpdateItems &&
                         onUpdateItems(
                           {
-                            testCodeName: `${item.testCode} - ${item.testName}`,
+                            testCode: item.testCode,
+                            testName: item.testName,
                           },
                           row.index,
                         );
@@ -212,7 +215,7 @@ export const InstResultMappingInputTable = ({
               ) => (
                 <>
                   <Form.Input
-                    placeholder={row?.instId}
+                    placeholder={row?.instId || 'Inst Id'}
                     type='text'
                     onBlur={instId => {
                       onUpdateItems && onUpdateItems({instId}, row.index);
@@ -231,15 +234,21 @@ export const InstResultMappingInputTable = ({
                     pLabDetails?.testCode != row.testCodeName.split(' - ')[0] &&
                     getAnalyteDetails
                   ) {
-                    const testCodeRecords = await getAnalyteDetails(row.pLab);
-                    console.log({testCodeRecords});
-
+                    const testCodeRecords = await getAnalyteDetails(
+                      row.testCodeName.split(' - ')[0],
+                    );
                     setPLabDetails({
                       ...pLabDetails,
+                      testCode: row.testCodeName.split(' - ')[0],
                       testCodeRecords,
                     });
                   }
                 },
+              },
+              formatter: (cell, row) => {
+                return (
+                  <>{`${row?.analyteCode || ''} - ${row?.analyteName || ''}`}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -254,21 +263,28 @@ export const InstResultMappingInputTable = ({
                     value={row.fieldType}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const analyteCodeName = e.target.value;
+                      const analyteCodeName = JSON.parse(e.target.value);
+                      setPLabDetails({
+                        ...pLabDetails,
+                        analyteCodeName: `${analyteCodeName.analyteCode} - ${analyteCodeName.analyteName}`,
+                      });
                       onUpdateItems &&
                         onUpdateItems(
                           {
-                            analyteCodeName,
+                            analyteCode: analyteCodeName.analyteCode,
+                            analyteName: analyteCodeName.analyteName,
                           },
                           row.index,
                         );
                     }}
                   >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'FIELD_TYPE').map(
+                    <option selected>
+                      {pLabDetails?.analyteCodeName || 'Select'}
+                    </option>
+                    {_.uniqBy(pLabDetails?.testCodeRecords, 'analyteCode').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
+                        <option key={index} value={JSON.stringify(item)}>
+                          {`${item.analyteCode} - ${item.analyteName}`}
                         </option>
                       ),
                     )}
@@ -280,11 +296,47 @@ export const InstResultMappingInputTable = ({
               dataField: 'assayCode',
               text: 'Assay Code',
               headerClasses: 'textHeader',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.assayCode || 'Assay Code'}
+                    type='text'
+                    onBlur={assayCode => {
+                      onUpdateItems && onUpdateItems({assayCode}, row.index);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'instTest',
               text: 'Inst Test',
               headerClasses: 'textHeader',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.instTest || 'Inst Test'}
+                    type='text'
+                    onBlur={instTest => {
+                      onUpdateItems && onUpdateItems({instTest}, row.index);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'environment',

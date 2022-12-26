@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation ($input: SegmentMappingInput!) {
-    segmentMappings(input: $input) {
+  mutation ($input: InstrumentResultMappingInput!) {
+    instrumentResultMappings(input: $input) {
       paginatorInfo {
         count
       }
@@ -11,26 +11,17 @@ export const LIST = gql`
       data {
         _id
         index
+        key
+        pLab
+        testCode
+        testName
+        department
         instType
-        dataFlow
-        protocol
-        segments
-        segmentOrder
-        segmentRequired
-        elementNo
-        elementName
-        elementRequired
-        elementSequence
-        transmittedData
-        defaultValue
-        fieldArray
-        repeatDelimiter
-        fieldType
-        fieldLength
-        requiredForLims
-        limsTables
-        limsDocumentType
-        limsFields
+        instId
+        analyteCode
+        analyteName
+        assayCode
+        instTest
         environment
         dateOfEntry
         lastUpdated
@@ -40,8 +31,8 @@ export const LIST = gql`
 `;
 
 export const REMOVE_RECORD = gql`
-  mutation ($input: SegmentMappingRemoveInput!) {
-    removeSegmentMapping(input: $input) {
+  mutation ($input: InstrumentResultMappingRemoveInput!) {
+    removeInstrumentResultMapping(input: $input) {
       success
       message
     }
@@ -49,8 +40,8 @@ export const REMOVE_RECORD = gql`
 `;
 
 export const CREATE_RECORD = gql`
-  mutation ($input: SegmentMappingInput!) {
-    createSegmentMapping(input: $input) {
+  mutation ($input: InstrumentResultMappingInput!) {
+    createInstrumentResultMapping(input: $input) {
       success
       message
     }
@@ -67,8 +58,8 @@ export const IMPORT_RECORDS = gql`
 `;
 
 export const UPDATE_RECORD = gql`
-  mutation ($input: UpdateSegmentMappingInput!) {
-    updateSegmentMapping(input: $input) {
+  mutation ($input: UpdateInstrumentResultMappingInput!) {
+    updateInstrumentResultMapping(input: $input) {
       success
       message
     }
@@ -85,8 +76,8 @@ export const CHECK_EXISTS_RECORD = gql`
 `;
 
 export const FILTER = gql`
-  mutation ($input: SegmentMappingInput!) {
-    filterSegmentMappings(input: $input) {
+  mutation ($input: InstrumentResultMappingInput!) {
+    filterInstrumentResultMappings(input: $input) {
       paginatorInfo {
         count
       }
@@ -95,26 +86,17 @@ export const FILTER = gql`
       data {
         _id
         index
+        key
+        pLab
+        testCode
+        testName
+        department
         instType
-        dataFlow
-        protocol
-        segments
-        segmentOrder
-        segmentRequired
-        elementNo
-        elementName
-        elementRequired
-        elementSequence
-        transmittedData
-        defaultValue
-        fieldArray
-        repeatDelimiter
-        fieldType
-        fieldLength
-        requiredForLims
-        limsTables
-        limsDocumentType
-        limsFields
+        instId
+        analyteCode
+        analyteName
+        assayCode
+        instTest
         environment
         dateOfEntry
         lastUpdated
@@ -134,26 +116,17 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         index
+        key
+        pLab
+        testCode
+        testName
+        department
         instType
-        dataFlow
-        protocol
-        segments
-        segmentOrder
-        segmentRequired
-        elementNo
-        elementName
-        elementRequired
-        elementSequence
-        transmittedData
-        defaultValue
-        fieldArray
-        repeatDelimiter
-        fieldType
-        fieldLength
-        requiredForLims
-        limsTables
-        limsDocumentType
-        limsFields
+        instId
+        analyteCode
+        analyteName
+        assayCode
+        instTest
         environment
         dateOfEntry
         lastUpdated

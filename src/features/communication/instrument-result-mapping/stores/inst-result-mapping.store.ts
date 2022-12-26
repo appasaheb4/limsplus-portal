@@ -8,7 +8,7 @@ export class InstResultMappingStore {
   instResultMappingListCount: number;
 
   constructor() {
-    this.instResultMapping = [{index: 1}];
+    this.instResultMapping = [{index: 1, environment: 'P'}];
     this.instResultMappingList = [];
     this.instResultMappingListCount = 0;
 
@@ -19,6 +19,7 @@ export class InstResultMappingStore {
 
       instResultMappingService: computed,
       updateInstResultMapping: action,
+      updateInstResultMappingList: action,
     });
   }
 
@@ -28,5 +29,11 @@ export class InstResultMappingStore {
 
   updateInstResultMapping(res) {
     this.instResultMapping = res;
+  }
+
+  updateInstResultMappingList(res) {
+    this.instResultMappingList = res.instrumentResultMappings.data;
+    this.instResultMappingListCount =
+      res.instrumentResultMappings.paginatorInfo.count;
   }
 }
