@@ -17,6 +17,7 @@ import * as Assets from '@/library/assets';
 import {stores, useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {toggleSidebar} from '@/redux/actions/sidebar-action';
 
 const initOpenRoutes = location => {
   /* Open collapse element that matches current url */
@@ -133,7 +134,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
   );
 });
 
-const Sidebar = observer(({location, sidebar, layout}) => {
+const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
   const {routerStore} = useStores();
   const history = useHistory();
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location));
@@ -234,6 +235,9 @@ const Sidebar = observer(({location, sidebar, layout}) => {
                                     selectedComp,
                                   );
                                   routerStore.updateUserPermission(permission);
+                                  if (!sidebar.isOpen) {
+                                    dispatch(toggleSidebar());
+                                  }
                                 }}
                               />
                             </>
@@ -306,5 +310,6 @@ export default withRouter(
   connect((store: any) => ({
     sidebar: store.sidebar,
     layout: store.layout,
+    app: store.app,
   }))(Sidebar),
 );

@@ -176,7 +176,7 @@ const ShortcutMenu = observer(() => {
           {shortcutMenuStore.shortcutMenuList &&
             shortcutMenuStore.shortcutMenuList?.map((item, index) => (
               <>
-                <div className='flex items-center bg-gray-500  p-2 m-2 rounded-md'>
+                <div className='flex items-center bg-gray-500  p-2 m-2 rounded-md '>
                   <input
                     type='checkbox'
                     className='mr-2'

@@ -160,7 +160,7 @@ export const PatientManager = PatientManagerHoc(
         )}
         <div
           className={
-            'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
+            'p-1 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
           }
         >
           <div className='p-2 rounded-lg shadow-xl'>
@@ -1655,7 +1655,7 @@ export const PatientManager = PatientManagerHoc(
         </div>
 
         <div
-          className='p-2 rounded-lg shadow-xl overflow-scroll'
+          className='p-1 rounded-lg shadow-xl overflow-scroll'
           style={{overflowX: 'scroll'}}
         >
           <PatientMangerList
