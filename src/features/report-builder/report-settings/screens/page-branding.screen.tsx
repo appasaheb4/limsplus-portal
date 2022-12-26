@@ -113,7 +113,7 @@ export const PageBranding = observer(() => {
       )}
       <div
         className={
-          'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
+          ' rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
         }
       >
         <Grid cols={2}>
@@ -360,7 +360,7 @@ export const PageBranding = observer(() => {
           </Buttons.Button>
         </List>
       </div>
-      <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+      <div className=' rounded-lg shadow-xl overflow-auto'>
         <PageBrandingList
           data={reportSettingStore.pageBrandingList}
           totalSize={reportSettingStore.pageBrandingListCount}

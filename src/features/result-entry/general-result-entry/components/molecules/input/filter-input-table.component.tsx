@@ -31,17 +31,31 @@ export const FilterInputTable = observer(() => {
   };
 
   return (
-    <div className='flex flex-row gap-2 items-center'>
+    <div className='flex flex-row gap-2 items-center overflow-auto'>
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white sticky left-0 z-10'>PLab</th>
-            <th className='text-white'>Department</th>
-            <th className='text-white'>Test Status</th>
-            <th className='text-white'>Result Status</th>
-            <th className='text-white'>Test Code / Name</th>
-            <th className='text-white'>Analyte Code / Name</th>
-            <th className='text-white'>LabId</th>
+            <th className='text-white ' style={{minWidth: 190}}>
+              PLab
+            </th>
+            <th className='text-white' style={{minWidth: 190}}>
+              Department
+            </th>
+            <th className='text-white' style={{minWidth: 190}}>
+              Test Status
+            </th>
+            <th className='text-white' style={{minWidth: 190}}>
+              Result Status
+            </th>
+            <th className='text-white' style={{minWidth: 190}}>
+              Test Code / Name
+            </th>
+            <th className='text-white' style={{minWidth: 190}}>
+              Analyte Code / Name
+            </th>
+            <th className='text-white' style={{minWidth: 190}}>
+              LabId
+            </th>
           </tr>
         </thead>
         <tbody className='text-xs'>
