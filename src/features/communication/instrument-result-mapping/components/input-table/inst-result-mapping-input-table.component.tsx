@@ -231,15 +231,15 @@ export const InstResultMappingInputTable = ({
               events: {
                 onClick: async (e, column, columnIndex, row, rowIndex) => {
                   if (
-                    pLabDetails?.testCode != row.testCodeName.split(' - ')[0] &&
+                    pLabDetails?.testCode != row.testCode &&
                     getAnalyteDetails
                   ) {
                     const testCodeRecords = await getAnalyteDetails(
-                      row.testCodeName.split(' - ')[0],
+                      row.testCode,
                     );
                     setPLabDetails({
                       ...pLabDetails,
-                      testCode: row.testCodeName.split(' - ')[0],
+                      testCode: row.testCode,
                       testCodeRecords,
                     });
                   }
