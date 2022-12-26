@@ -2104,7 +2104,7 @@ export const PatientVisit = PatientVisitHoc(
         </div>
 
         <div
-          className='p-2 rounded-lg shadow-xl overflow-scroll'
+          className='p-1 rounded-lg shadow-xl overflow-scroll'
           style={{overflowX: 'scroll'}}
         >
           <PatientVisitList
