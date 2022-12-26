@@ -39,7 +39,7 @@ const PanelApproval = observer(() => {
         <PageHeading title={routerStore.selectedComponents?.title || ''} />
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-      <div className='p-3 rounded-lg shadow-xl overflow-auto'>
+      <div className='p-1 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>
           Pending Panel Approval
         </span>

@@ -57,13 +57,22 @@ export const CommonInputTable = observer(
     };
 
     return (
-      <div className='flex flex-row gap-2 items-center'>
+      <div className='flex flex-row gap-2 items-center overflow-auto'>
         <Table striped bordered>
           <thead>
             <tr className='p-0 text-xs'>
-              <th className='text-white sticky left-0 z-10'>Inst Type</th>
-              <th className='text-white'>Data Flow</th>
-              <th className='text-white'>Protocol</th>
+              <th
+                className='text-white sticky left-0 z-10'
+                style={{minWidth: 200}}
+              >
+                Inst Type
+              </th>
+              <th className='text-white' style={{minWidth: 200}}>
+                Data Flow
+              </th>
+              <th className='text-white' style={{minWidth: 200}}>
+                Protocol
+              </th>
             </tr>
           </thead>
           <tbody className='text-xs'>
