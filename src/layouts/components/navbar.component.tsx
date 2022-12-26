@@ -57,7 +57,7 @@ const NavbarComponent = observer(({dispatch}) => {
         }}
         light
         expand
-        className='flex flex-row w-full pr-5 overflow-x-scroll'
+        className='flex flex-row w-full pr-5 '
       >
         <div className='flex w-8 '>
           <span
@@ -69,7 +69,7 @@ const NavbarComponent = observer(({dispatch}) => {
             <i className='hamburger align-self-center' />
           </span>
         </div>
-        <div className='flex flex-2  scrollbar-hide'>
+        <div className='flex flex-3  scrollbar-hide overflow-x-scroll '>
           {/* overflow-auto */}
           <Form inline>
             <div className='flex flex-row'>
