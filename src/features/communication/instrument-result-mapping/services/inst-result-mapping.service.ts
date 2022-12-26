@@ -13,13 +13,9 @@ import {
   CREATE_RECORD,
   REMOVE_RECORD,
   UPDATE_RECORD,
-  IMPORT_RECORDS,
   FILTER,
   FIND_BY_FIELDS,
 } from './mutation';
-import {GET_COLLECTION_LIST} from '@/core-services/graphql/query';
-import {GET_COLLECTION_FIELDS} from '@/core-services/graphql/mutation';
-import {MappingValues} from '../../models';
 
 export class InstResultMappingService {
   listInstResultMapping = (page = 0, limit = 10) =>
@@ -33,12 +29,9 @@ export class InstResultMappingService {
           variables: {input: {page, limit, env, role}},
         })
         .then((response: any) => {
-          // stores.instResultMappingStore.updateListInstResultMapping({
-          //   InstResultMappings: {
-          //     ...response.data.InstResultMappings,
-          //     data: values,
-          //   },
-          // });
+          stores.instResultMappingStore.updateInstResultMappingList(
+            response.data,
+          );
           resolve(response.data);
         })
         .catch(error =>
@@ -100,11 +93,18 @@ export class InstResultMappingService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterInstResultMappings.success)
+          if (!response.data.filterInstrumentResultMappings.success)
             return this.listInstResultMapping();
-          // stores.instResultMappingStore.filterInstResultMappingList(
-          //   response.data,
-          // );
+          stores.instResultMappingStore.updateInstResultMappingList({
+            instrumentResultMappings: {
+              data: response.data.filterInstrumentResultMappings.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterInstrumentResultMappings.paginatorInfo
+                    .count,
+              },
+            },
+          });
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

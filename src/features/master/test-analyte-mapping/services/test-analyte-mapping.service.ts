@@ -34,7 +34,6 @@ export class TestAnalyteMappingService {
           variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
-          console.log({response});
           stores.testAnalyteMappingStore.updateTestAnalyteMappingList(
             response.data,
           );
