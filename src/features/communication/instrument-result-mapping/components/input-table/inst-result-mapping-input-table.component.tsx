@@ -422,6 +422,9 @@ export const InstResultMappingInputTable = ({
         size='medium'
         type='solid'
         onClick={() => addItem && addItem()}
+        disabled={
+          data[0].pLab && data[0].instType && data[0].instId ? false : true
+        }
       >
         <Icons.EvaIcon icon='plus-circle-outline' />
         {'Add'}

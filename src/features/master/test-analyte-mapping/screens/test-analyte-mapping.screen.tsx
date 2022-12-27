@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -14,7 +14,6 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-  Icons,
 } from '@/library/components';
 import {Table} from 'reactstrap';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -40,6 +39,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       labStore,
       masterAnalyteStore,
       routerStore,
+      instResultMappingStore,
       loading,
     } = useStores();
     const {
@@ -59,6 +59,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
+    const [instResultMappingRecords, setInstResultMappingRecords] =
+      useState<any>();
 
     const onSubmitTestAnalyteMapping = () => {
       if (!testAnalyteMappingStore.checkExitsLabEnvCode) {
@@ -215,6 +217,26 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [testAnalyteMappingStore.listTestAnalyteMapping],
     );
+
+    const fetchSegmentMappingKeysValue = () => {
+      instResultMappingStore.instResultMappingService
+        .fetchKeysValue({
+          input: {keys: ['instType', 'instId', 'assayCode']},
+        })
+        .then(res => {
+          if (res.fetchKeysValueInstResultMapping.success) {
+            const values = res.fetchKeysValueInstResultMapping.result.map(
+              ({_id}) => _id,
+            );
+            setInstResultMappingRecords(values);
+          }
+        });
+    };
+
+    useEffect(() => {
+      fetchSegmentMappingKeysValue();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
       <>
@@ -874,12 +896,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   <Table striped bordered className='max-h-5' size='sm'>
                     <thead>
                       <tr className='text-xs'>
-                        <th className='text-white' style={{minWidth: 150}}>
+                        <th className='text-white' style={{minWidth: 25}}>
                           Analyte
                         </th>
                         <th
                           className='text-white flex flex-row gap-2 items-center'
-                          style={{minWidth: 150}}
+                          style={{minWidth: 10}}
                         >
                           Order
                           <Buttons.ButtonIcon
@@ -927,6 +949,15 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             }}
                           />
                         </th>
+                        <th className='text-white' style={{minWidth: 25}}>
+                          Inst Type
+                        </th>
+                        <th className='text-white' style={{minWidth: 25}}>
+                          Inst Id
+                        </th>
+                        <th className='text-white' style={{minWidth: 25}}>
+                          Assay Code
+                        </th>
                       </tr>
                     </thead>
                     <tbody className='text-xs'>
@@ -945,7 +976,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               <td>{`${index + 1}. ${
                                 item.analyteName + ' - ' + item.analyteCode
                               }`}</td>
-                              <td style={{width: 150}}>
+                              <td style={{width: 10}}>
                                 {txtDisable ? (
                                   <span
                                     className={
@@ -973,6 +1004,90 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                     }}
                                   />
                                 )}
+                              </td>
+                              <td>
+                                <select
+                                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                                  onChange={e => {
+                                    const instType = e.target.value;
+                                    const resultOrder =
+                                      testAnalyteMappingStore.testAnalyteMapping
+                                        ?.resultOrder;
+                                    resultOrder[index].instType = instType;
+                                    testAnalyteMappingStore.updateTestAnalyteMapping(
+                                      {
+                                        ...testAnalyteMappingStore.testAnalyteMapping,
+                                        resultOrder,
+                                      },
+                                    );
+                                  }}
+                                >
+                                  <option selected>{'Select'}</option>
+                                  {_.uniqBy(
+                                    instResultMappingRecords,
+                                    'instType',
+                                  )?.map((item: any, index: number) => (
+                                    <option key={index} value={item.instType}>
+                                      {`${item.instType}`}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td>
+                                <select
+                                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                                  onChange={e => {
+                                    const instId = e.target.value;
+                                    const resultOrder =
+                                      testAnalyteMappingStore.testAnalyteMapping
+                                        ?.resultOrder;
+                                    resultOrder[index].instId = instId;
+                                    testAnalyteMappingStore.updateTestAnalyteMapping(
+                                      {
+                                        ...testAnalyteMappingStore.testAnalyteMapping,
+                                        resultOrder,
+                                      },
+                                    );
+                                  }}
+                                >
+                                  <option selected>{'Select'}</option>
+                                  {_.uniqBy(
+                                    instResultMappingRecords,
+                                    'instId',
+                                  )?.map((item: any, index: number) => (
+                                    <option key={index} value={item.instId}>
+                                      {`${item.instId}`}
+                                    </option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td>
+                                <select
+                                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                                  onChange={e => {
+                                    const assayCode = e.target.value;
+                                    const resultOrder =
+                                      testAnalyteMappingStore.testAnalyteMapping
+                                        ?.resultOrder;
+                                    resultOrder[index].assayCode = assayCode;
+                                    testAnalyteMappingStore.updateTestAnalyteMapping(
+                                      {
+                                        ...testAnalyteMappingStore.testAnalyteMapping,
+                                        resultOrder,
+                                      },
+                                    );
+                                  }}
+                                >
+                                  <option selected>{'Select'}</option>
+                                  {_.uniqBy(
+                                    instResultMappingRecords,
+                                    'assayCode',
+                                  )?.map((item: any, index: number) => (
+                                    <option key={index} value={item.assayCode}>
+                                      {`${item.assayCode}`}
+                                    </option>
+                                  ))}
+                                </select>
                               </td>
                             </tr>
                           ),

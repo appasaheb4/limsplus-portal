@@ -15,6 +15,7 @@ import {
   UPDATE_RECORD,
   FILTER,
   FIND_BY_FIELDS,
+  FETCH_KEYS_VALUE,
 } from './mutation';
 
 export class InstResultMappingService {
@@ -118,6 +119,21 @@ export class InstResultMappingService {
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  fetchKeysValue = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FETCH_KEYS_VALUE,
           variables,
         })
         .then((response: any) => {

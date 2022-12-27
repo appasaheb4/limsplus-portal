@@ -171,3 +171,13 @@ export const FETCH_KEY_VALUE = gql`
     }
   }
 `;
+
+export const FETCH_KEYS_VALUE = gql`
+  mutation ($input: SegmentMappingInput!) {
+    fetchKeysValueSegmentMapping(input: $input) {
+      success
+      message
+      result
+    }
+  }
+`;
