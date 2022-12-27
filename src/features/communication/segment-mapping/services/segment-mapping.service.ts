@@ -17,6 +17,7 @@ import {
   FILTER,
   FIND_BY_FIELDS,
   FETCH_KEY_VALUE,
+  FETCH_KEYS_VALUE,
 } from './mutation';
 import {GET_COLLECTION_LIST} from '@/core-services/graphql/query';
 import {GET_COLLECTION_FIELDS} from '@/core-services/graphql/mutation';
@@ -245,6 +246,21 @@ export class SegmentMappingService {
       client
         .mutate({
           mutation: FETCH_KEY_VALUE,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  fetchKeysValue = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FETCH_KEYS_VALUE,
           variables,
         })
         .then((response: any) => {

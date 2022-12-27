@@ -134,3 +134,13 @@ export const FIND_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FETCH_KEYS_VALUE = gql`
+  mutation ($input: InstrumentResultMappingInput!) {
+    fetchKeysValueInstResultMapping(input: $input) {
+      success
+      message
+      result
+    }
+  }
+`;

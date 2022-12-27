@@ -200,6 +200,18 @@ const InstResultMapping = observer(() => {
     const instResultMapping = instResultMappingStore.instResultMapping;
     instResultMapping?.push({
       index: instResultMapping?.length + 1,
+      pLab:
+        instResultMapping?.length == 1
+          ? instResultMapping[instResultMapping.length - 1].pLab
+          : undefined,
+      instType:
+        instResultMapping?.length == 1
+          ? instResultMapping[instResultMapping.length - 1].instType
+          : undefined,
+      instId:
+        instResultMapping?.length == 1
+          ? instResultMapping[instResultMapping.length - 1].instId
+          : undefined,
       environment: getDefaultLookupItem(routerStore.lookupItems, 'ENVIRONMENT'),
     });
     instResultMappingStore.updateInstResultMapping(instResultMapping);
