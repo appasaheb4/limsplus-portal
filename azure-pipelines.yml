@@ -17,5 +17,5 @@ steps:
     inputs:
       app_location: '/'
       output_location: 'build'
-      azure_static_web_apps_api_token: '22bd21475053ea828933061f63b3d8d94fe96e44220f473ce53165e95d32cb352-0ea17e2f-d042-4a85-a936-4b3511f3fc82010154374'
+      azure_static_web_apps_api_token: 'ff6a1bd061629ba25fac95bc0365154ebd80e6f9a0a1bc65728a26be3e7ceb4d2-1644bda6-d948-4095-9e48-7df160c00117010158803'
 
