@@ -139,6 +139,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
             listsLabs: labStore.listLabs,
+            instResultMappingRecords,
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
