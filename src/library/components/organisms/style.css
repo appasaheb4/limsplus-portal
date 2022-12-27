@@ -24,6 +24,15 @@ th {
 /* .date-filter-comparator.form-control {
   display: none;
 } */
+.react-bootstrap-table .textHeaderA {
+  min-width: 40px;
+}
+.react-bootstrap-table .textHeaderAS {
+  min-width: 50px;
+}
+.react-bootstrap-table .textHeaderAL {
+  min-width: 60px;
+}
 .react-bootstrap-table .textHeaders {
   min-width: 70px;
 }

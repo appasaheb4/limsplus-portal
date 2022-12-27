@@ -213,6 +213,8 @@ const DeliveryQueue = observer(() => {
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
+                      console.log({grouped});
+
                       setModalGenerateReports({
                         show: true,
                         data: grouped,
