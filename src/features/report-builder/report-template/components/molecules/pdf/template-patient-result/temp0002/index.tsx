@@ -18,11 +18,11 @@ import {observer} from 'mobx-react';
 import {PdfPBTemp0001} from '../../page-branding/temp0001/temp0001.component';
 import {PdfTPRTemp0002List} from './temp0002-list.component';
 
-interface PdfTPRTemp0002Props {
+interface PdfTemp0002Props {
   data: any;
 }
 
-export const PdfTPRTemp0002 = observer(({data}: PdfTPRTemp0002Props) => {
+export const PdfTemp0002 = observer(({data}: PdfTemp0002Props) => {
   const {pageBranding, patientReports} = data;
   const [testBottomMarker, setTestBottomMarker] = useState<Array<any>>();
   useEffect(() => {
