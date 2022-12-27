@@ -2,27 +2,21 @@ import React, {useState, useEffect} from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {
-  PdfHeading,
   PdfRegular,
-  PdfMedium,
-  PdfPageNumber,
-  PdfHeader,
-  PdfSubHeader,
   PdfView,
   PdfBorderView,
-  PdfFooterView,
   PdfGrid,
   PdfSmall,
 } from '@components';
 import {observer} from 'mobx-react';
 import {PdfPBTemp0001} from '../../page-branding/temp0001/temp0001.component';
-import {PdfTPRTemp0001List} from './temp0001-list.component';
+import {PdfTPRTemp0003List} from './temp0003-list.component';
 
-interface PdfTPRTemp0001Props {
+interface PdfTemp0003Props {
   data: any;
 }
 
-export const PdfTPRTemp0001 = observer(({data}: PdfTPRTemp0001Props) => {
+export const PdfTemp0003 = observer(({data}: PdfTemp0003Props) => {
   const {pageBranding, patientReports} = data;
   const [testBottomMarker, setTestBottomMarker] = useState<Array<any>>();
   useEffect(() => {
@@ -87,7 +81,7 @@ export const PdfTPRTemp0001 = observer(({data}: PdfTPRTemp0001Props) => {
           </PdfBorderView>
 
           {/* Table */}
-          <PdfTPRTemp0001List
+          <PdfTPRTemp0003List
             headerStyle={{backgroundColor: 'transparent'}}
             headerFixed
             data={patientReports?.patientResultList}

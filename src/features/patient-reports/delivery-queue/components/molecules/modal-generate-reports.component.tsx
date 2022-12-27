@@ -3,14 +3,13 @@ import React, {useEffect, useState} from 'react';
 import {Container} from 'reactstrap';
 import _ from 'lodash';
 import {Icons, Tooltip, Form} from '@components';
-import {pdf} from '@react-pdf/renderer';
+import {pdf, PDFViewer, Document} from '@react-pdf/renderer';
 import {
-  PdfTPRTemp0001,
-  PdfTPRTemp0002,
-  PdfTPRTemp0003,
+  PdfTemp0001,
+  PdfTemp0002,
+  PdfTemp0003,
   PdfTemp0004,
   PdfTemp0005,
-  PdfTemp0006,
 } from '@/features/report-builder/report-template/components';
 import {saveAs} from 'file-saver';
 import {SocialIcon} from 'react-social-icons';
@@ -48,11 +47,17 @@ export const ModalGenerateReports = ({
   }, [data]);
 
   const getReports = reports => {
+    const width = '100%';
+    const height = '90%';
+    const isToolbar = true;
+    const documentTitle = 'Delivery Queue';
     return (
-      <>
-        {reports['TEMP0004'] && <PdfTemp0004 data={{}} />}
-        {reports['TEMP0004'] && <PdfTemp0005 data={{}} />}
-      </>
+      <PDFViewer style={{width, height}} showToolbar={isToolbar}>
+        <Document title={documentTitle}>
+          {reports['TEMP0004'] && <PdfTemp0004 data={{}} />}
+          {reports['TEMP0005'] && <PdfTemp0005 data={{}} />}
+        </Document>
+      </PDFViewer>
     );
   };
 
