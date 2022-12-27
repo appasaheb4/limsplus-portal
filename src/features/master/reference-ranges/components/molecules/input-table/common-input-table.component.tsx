@@ -144,7 +144,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
               Lab
             </th>
             <th className='text-white' style={{minWidth: '190px'}}>
-              Equipment_Type
+              Inst Type
             </th>
           </tr>{' '}
         </thead>
@@ -410,7 +410,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 render={({field: {onChange}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
-                    placeholder='Search by instrumentType'
+                    placeholder='Search by inst type'
                     hasError={!!errors.equipmentType}
                     disable={isDisableEquipmentType}
                     data={{
@@ -436,7 +436,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       onChange(item.instrumentType);
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
-                        instType: item.instType,
+                        instType: item.instrumentType,
                       });
                       interfaceManagerStore.updateInterfaceManagerList(
                         interfaceManagerStore.listInterfaceManagerCopy,

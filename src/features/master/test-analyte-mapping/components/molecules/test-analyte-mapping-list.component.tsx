@@ -41,6 +41,7 @@ interface TestAnalyteMappingListProps {
   extraData: any;
   isDelete?: boolean;
   isEditModify?: boolean;
+  instResultMappingRecords?: any;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -419,6 +420,8 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                             title: 'Order',
                             testCode: row.testCode,
                             field: 'resultOrder',
+                            instResultMappingRecords:
+                              props.extraData.instResultMappingRecords,
                           });
                         }}
                       >
@@ -446,6 +449,8 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                           title: 'Order',
                           testCode: row.testCode,
                           field: 'reportOrder',
+                          instResultMappingRecords:
+                            props.extraData.instResultMappingRecords,
                         });
                       }}
                     >

@@ -13,18 +13,13 @@ import {
 } from 'react-icons/bs';
 
 const grid = 8;
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'none',
-  display: 'flex',
-  padding: grid,
-  overflow: 'auto',
-});
 
 export interface ModalResultReportOrderProps {
   field?: string;
   isVisible?: boolean;
   title?: string;
   testCode?: any;
+  instResultMappingRecords?: any;
   onClick?: (item: any) => void;
   onClose?: () => void;
 }
@@ -35,6 +30,7 @@ export const ModalResultReportOrder = observer(
     isVisible = false,
     title,
     testCode,
+    instResultMappingRecords,
     onClick,
     onClose,
   }: ModalResultReportOrderProps) => {
@@ -59,6 +55,9 @@ export const ModalResultReportOrder = observer(
                 'analyteCode',
                 'resultOrder',
                 'reportOrder',
+                'instType',
+                'instId',
+                'assayCode',
               ]),
             ),
           );
@@ -172,6 +171,9 @@ export const ModalResultReportOrder = observer(
                               />
                             </div>
                           </th>
+                          <th>Inst Type</th>
+                          <th>Inst Id</th>
+                          <th>Assay Code</th>
                         </tr>
                       </thead>
                       <tbody className='text-xs'>
@@ -187,7 +189,7 @@ export const ModalResultReportOrder = observer(
                             <td>{`${index + 1}. ${
                               item.analyteName + ' - ' + item.analyteCode
                             }`}</td>
-                            <td style={{width: 150}}>
+                            <td style={{width: 25}}>
                               {txtDisable ? (
                                 <span
                                   className={
@@ -208,7 +210,7 @@ export const ModalResultReportOrder = observer(
                                 />
                               )}
                             </td>
-                            <td style={{width: 150}}>
+                            <td style={{width: 25}}>
                               {txtDisable ? (
                                 <span
                                   className={
@@ -228,6 +230,66 @@ export const ModalResultReportOrder = observer(
                                   }}
                                 />
                               )}
+                            </td>
+                            <td>
+                              <select
+                                value={item.instType}
+                                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                                onChange={e => {
+                                  const instType = e.target.value;
+                                  order[index].instType = instType;
+                                }}
+                              >
+                                <option selected>{'Select'}</option>
+                                {_.uniqBy(
+                                  instResultMappingRecords,
+                                  'instType',
+                                )?.map((item: any, index: number) => (
+                                  <option key={index} value={item.instType}>
+                                    {`${item.instType}`}
+                                  </option>
+                                ))}
+                              </select>
+                            </td>
+                            <td>
+                              <select
+                                value={item.instId}
+                                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                                onChange={e => {
+                                  const instId = e.target.value;
+                                  order[index].instId = instId;
+                                }}
+                              >
+                                <option selected>{'Select'}</option>
+                                {_.uniqBy(
+                                  instResultMappingRecords,
+                                  'instId',
+                                )?.map((item: any, index: number) => (
+                                  <option key={index} value={item.instId}>
+                                    {`${item.instId}`}
+                                  </option>
+                                ))}
+                              </select>
+                            </td>
+                            <td>
+                              <select
+                                value={item.assayCode}
+                                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                                onChange={e => {
+                                  const assayCode = e.target.value;
+                                  order[index].assayCode = assayCode;
+                                }}
+                              >
+                                <option selected>{'Select'}</option>
+                                {_.uniqBy(
+                                  instResultMappingRecords,
+                                  'assayCode',
+                                )?.map((item: any, index: number) => (
+                                  <option key={index} value={item.assayCode}>
+                                    {`${item.assayCode}`}
+                                  </option>
+                                ))}
+                              </select>
                             </td>
                           </tr>
                         ))}

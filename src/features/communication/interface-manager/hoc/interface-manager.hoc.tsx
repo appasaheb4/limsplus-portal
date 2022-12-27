@@ -15,6 +15,7 @@ export const InterfaceManagerHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'INTERFACE_TYPE',
         ),
+        protocol: getDefaultLookupItem(routerStore.lookupItems, 'PROTOCOL'),
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',

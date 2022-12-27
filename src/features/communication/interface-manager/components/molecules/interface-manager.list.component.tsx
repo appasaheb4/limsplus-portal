@@ -18,7 +18,7 @@ let interfaceType;
 let instrumentType;
 let instrumentName;
 let dataFlowFrom;
-let communicationProtocol;
+let protocol;
 let block;
 let fileds;
 let environment;
@@ -182,78 +182,14 @@ export const InterfaceManagerList = observer(
             ),
           },
           {
-            dataField: 'dataFlowFrom',
-            text: 'Data Flow From',
-            headerClasses: 'textHeader5',
-            sort: true,
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                dataFlowFrom = filter;
-              },
-            }),
-            formatter: (cellContent, row) => (
-              <>
-                {row.dataFlowFrom && row.dataFlowFrom !== undefined
-                  ? row.dataFlowFrom
-                      .toString()
-                      .replaceAll(/&amp;/g, '&')
-                      .replaceAll(/&gt;/g, '>')
-                      .replaceAll(/&lt;/g, '<')
-                      .replaceAll(/&quot;/g, '"')
-                      .replaceAll(/â/g, '’')
-                      .replaceAll(/â¦/g, '…')
-                      .toString()
-                  : undefined}
-              </>
-            ),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <Form.Input
-                  name='dataFlowFrom'
-                  placeholder='Data Flow From'
-                  onBlur={dataFlowFrom => {
-                    if (row.dataFlowFrom !== dataFlowFrom && dataFlowFrom) {
-                      dataFlowFrom =
-                        dataFlowFrom !== undefined
-                          ? dataFlowFrom
-                              .replaceAll('&', '&amp;')
-                              .replaceAll('>', '&gt;')
-                              .replaceAll('<', '&lt;')
-                              .replaceAll('"', '&quot;')
-                              .replaceAll('’', 'â')
-                              .replaceAll('…', 'â¦')
-                              .toString()
-                          : undefined;
-
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          dataFlowFrom,
-                          column.dataField,
-                          row._id,
-                        );
-                    }
-                  }}
-                />
-              </>
-            ),
-          },
-          {
-            dataField: 'communicationProtocol',
-            text: 'Communication Protocol',
+            dataField: 'protocol',
+            text: 'Protocol',
             headerClasses: 'textHeader6',
             sort: true,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                communicationProtocol = filter;
+                protocol = filter;
               },
             }),
             editorRenderer: (
@@ -265,23 +201,24 @@ export const InterfaceManagerList = observer(
               columnIndex,
             ) => (
               <>
-                <Form.Input
-                  name='communicationProtocol'
-                  placeholder='Communication Protocol'
-                  onBlur={communicationProtocol => {
-                    if (
-                      row.communicationProtocol !== communicationProtocol &&
-                      communicationProtocol
-                    ) {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          communicationProtocol,
-                          column.dataField,
-                          row._id,
-                        );
-                    }
+                <select
+                  value={row.environment}
+                  className='leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  onChange={e => {
+                    const protocol = e.target.value;
+                    props.onUpdateItem &&
+                      props.onUpdateItem(protocol, column.dataField, row._id);
                   }}
-                />
+                >
+                  <option selected>Select</option>
+                  {lookupItems(props.extraData.lookupItems, 'PROTOCOL').map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ),
+                  )}
+                </select>
               </>
             ),
           },
@@ -680,7 +617,7 @@ export const InterfaceManagerList = observer(
           instrumentName('');
           instrumentType('');
           dataFlowFrom('');
-          communicationProtocol('');
+          protocol('');
           block('');
           fileds('');
           environment('');

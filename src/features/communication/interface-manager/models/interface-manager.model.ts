@@ -4,7 +4,7 @@ export class InterfaceManager {
   instrumentType: string;
   instrumentName: string;
   dataFlowFrom: string;
-  communicationProtocol: string;
+  protocol: string;
   blockStart: string;
   blockEnd: string;
   filed: string;
@@ -20,7 +20,7 @@ export class InterfaceManager {
     this.instrumentType = rawData.instrumentType;
     this.instrumentName = rawData.instrumentName;
     this.dataFlowFrom = rawData.dataFlowFrom;
-    this.communicationProtocol = rawData.communicationProtocol;
+    this.protocol = rawData.protocol;
     this.blockStart = rawData.blockStart;
     this.blockEnd = rawData.blockEnd;
     this.filed = rawData.filed;
