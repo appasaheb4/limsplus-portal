@@ -49,7 +49,7 @@ interface ReportDeliveryProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onUpdateDeliveryStatus?: () => void;
-  onMedicalReport: (labId: string) => void;
+  onReport: (labId: string) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -498,8 +498,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         color='#ffffff'
                         size='20'
                         onClick={() =>
-                          props.onMedicalReport &&
-                          props.onMedicalReport(row?.labId)
+                          props.onReport && props.onReport(row?.labId)
                         }
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFilePdf)}

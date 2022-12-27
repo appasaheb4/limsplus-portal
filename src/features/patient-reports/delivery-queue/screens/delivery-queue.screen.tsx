@@ -166,7 +166,7 @@ const DeliveryQueue = observer(() => {
             body: 'All generate pdf status update',
           });
         }}
-        onMedicalReport={labId => {
+        onReport={labId => {
           deliveryQueueStore.deliveryQueueService
             .listPatientReports(labId)
             .then(res => {
@@ -213,8 +213,6 @@ const DeliveryQueue = observer(() => {
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-                      console.log({grouped});
-
                       setModalGenerateReports({
                         show: true,
                         data: grouped,
