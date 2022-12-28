@@ -172,11 +172,11 @@ const ShortcutMenu = observer(() => {
       <hr />
       <div className='flex-wrap'>
         <label className='mt-2'>List:</label>
-        <ul className='grid grid-cols-6 p-2'>
+        <ul className='grid sm:grid-cols-1 md:grid-cols-6 xl:grid-cols-6 p-2'>
           {shortcutMenuStore.shortcutMenuList &&
             shortcutMenuStore.shortcutMenuList?.map((item, index) => (
               <>
-                <div className='flex items-center bg-gray-500  p-2 m-2 rounded-md'>
+                <div className='flex items-center bg-gray-500  p-2 m-2 rounded-md '>
                   <input
                     type='checkbox'
                     className='mr-2'

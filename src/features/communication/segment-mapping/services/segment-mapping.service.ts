@@ -16,7 +16,11 @@ import {
   IMPORT_RECORDS,
   FILTER,
   FIND_BY_FIELDS,
+  FETCH_KEY_VALUE,
+  FETCH_KEYS_VALUE,
 } from './mutation';
+import {GET_COLLECTION_LIST} from '@/core-services/graphql/query';
+import {GET_COLLECTION_FIELDS} from '@/core-services/graphql/mutation';
 import {MappingValues} from '../../models';
 
 export class SegmentMappingService {
@@ -198,6 +202,65 @@ export class SegmentMappingService {
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getCollectionList = () =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .query({
+          query: GET_COLLECTION_LIST,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getCollectionFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: GET_COLLECTION_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  fetchKeyValue = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FETCH_KEY_VALUE,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  fetchKeysValue = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FETCH_KEYS_VALUE,
           variables,
         })
         .then((response: any) => {

@@ -1,7 +1,7 @@
 export class HostCommunication {
   id?: string;
   manualAutomaticMode?: boolean;
-  instrumentType?: string;
+  instType?: string;
   instrumentName?: string;
   modeOfCommunication?: string;
   typeOfQuery?: string;
@@ -17,10 +17,8 @@ export class HostCommunication {
     protocol?: string;
   };
   tcpipCommunication?: {
-    hostIpAddress?: string;
-    portNumber?: string;
-    timeout?: string;
-    responseTime?: string;
+    host?: string;
+    port?: string;
   };
   hex?: string;
   sourceFileDataReceivefromInstrument?: string;
@@ -43,7 +41,7 @@ export class HostCommunication {
   constructor(rawData: {[key in string]: any}) {
     this.id = rawData.id;
     this.manualAutomaticMode = rawData.manualAutomaticMode;
-    this.instrumentType = rawData.instrumentType;
+    this.instType = rawData.instType;
     this.instrumentName = rawData.instrumentName;
     this.modeOfCommunication = rawData.modeOfCommunication;
     this.typeOfQuery = rawData.typeOfQuery;

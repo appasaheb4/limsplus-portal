@@ -13,14 +13,6 @@ import {useForm} from 'react-hook-form';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-
-import {
-  PdfTPRTemp0001,
-  PdfTPRTemp0002,
-  PdfTPRTemp0003,
-  PdfTemp0004,
-  PdfTemp0005,
-} from '@features/report-builder/report-template/components';
 import {PDFViewer, PDFDownloadLink} from '@react-pdf/renderer';
 
 const GenerateReport = observer(() => {
@@ -46,16 +38,16 @@ const GenerateReport = observer(() => {
 
   const getTemplate = (tempCode: string, data: any) => {
     switch (tempCode) {
-      case 'TEMP0001':
-        return <PdfTPRTemp0001 data={data} />;
-      case 'TEMP0002':
-        return <PdfTPRTemp0002 data={data} />;
-      case 'TEMP0003':
-        return <PdfTPRTemp0003 data={data} />;
-      case 'TEMP0004':
-        return <PdfTemp0004 data={data} />;
-      case 'TEMP0005':
-        return <PdfTemp0005 data={data} />;
+      // case 'TEMP0001':
+      //   return <PdfTPRTemp0001 data={data} />;
+      // case 'TEMP0002':
+      //   return <PdfTPRTemp0002 data={data} />;
+      // case 'TEMP0003':
+      //   return <PdfTPRTemp0003 data={data} />;
+      // case 'TEMP0004':
+      //   return <PdfTemp0004 data={data} />;
+      // case 'TEMP0005':
+      //   return <PdfTemp0005 data={data} />;
       default:
         return (
           <div className='justify-center items-center'>
@@ -181,13 +173,7 @@ const GenerateReport = observer(() => {
         </PDFDownloadLink>
       ) : (
         <>
-          <PdfTPRTemp0001
-            data={{
-              patientReports: generateReportsStore.patientReports,
-              pageBranding: generateReportsStore.pageBranding,
-            }}
-          />
-          {/* <PdfTPRTemp0002
+          {/* <PdfTPRTemp0001
             data={{
               patientReports: generateReportsStore.patientReports,
               pageBranding: generateReportsStore.pageBranding,

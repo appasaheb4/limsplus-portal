@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   TableBootstrap,
+  sortCaret,
   textFilter,
   Tooltip,
   Icons,
@@ -46,19 +47,23 @@ export const BannerList = (props: BannerListProps) => {
         {
           dataField: 'title',
           text: 'Title',
+          headerClasses: 'textHeaderA',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               title = filter;
             },
           }),
-          headerClasses: 'headerText',
-          //classes: 'bg-black',
         },
         {
           dataField: 'image',
           text: 'Image',
           csvExport: false,
+          headerClasses: 'textHeaderA',
           formatter: (cell, row) => {
             return (
               <>
@@ -94,7 +99,12 @@ export const BannerList = (props: BannerListProps) => {
         {
           dataField: 'environment',
           text: 'Environment',
+          headerClasses: 'textHeaderA',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               environment = filter;

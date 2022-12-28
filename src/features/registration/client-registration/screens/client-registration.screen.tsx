@@ -75,14 +75,24 @@ const ClientRegistration = observer(() => {
         if (index === 0) {
           headers.push(item);
           if (JSON.stringify(headers[0]) !== JSON.stringify(defaultHeader))
-            return alert('Please select correct file!');
+            return alert('Please select correct file. Match all fields!');
         } else {
           if (JSON.stringify(headers[0]) === JSON.stringify(defaultHeader)) {
             if (item?.length > 0) {
+              console.log({item});
+
               object.push({
                 countryName: item[0],
                 labId: Number.parseInt(item[1]),
-                registrationDate: new Date(dayjs(item[2]).format('YYYY-MM-DD')),
+                registrationDate: item[2]
+                  ? new Date(
+                      dayjs(
+                        item[2].match(' - ')
+                          ? item[2].split(' - ')[0]
+                          : item[2],
+                      ).format('YYYY-MM-DD'),
+                    )
+                  : new Date(),
                 clientCode: item[3],
                 clientName: item[4],
                 patientName: item[5],
@@ -92,17 +102,32 @@ const ClientRegistration = observer(() => {
                 testName: item[9],
                 testCode: item[10],
                 sample: item[11],
-                dueDate: new Date(dayjs(item[12]).format('YYYY-MM-DD')),
-                reportDate: new Date(dayjs(item[13]).format('YYYY-MM-DD')),
+                dueDate: item[12]
+                  ? new Date(
+                      dayjs(
+                        item[12].match(' - ')
+                          ? item[12].split(' - ')[0]
+                          : item[12],
+                      ).format('YYYY-MM-DD'),
+                    )
+                  : new Date(),
+                reportDate: item[13]
+                  ? new Date(
+                      dayjs(
+                        item[13].match(' - ')
+                          ? item[13].split(' - ')[0]
+                          : item[13],
+                      ).format('YYYY-MM-DD'),
+                    )
+                  : new Date(),
                 status: item[14] || 'Reported',
-                // pdfReport: item[15],
+                pdfReport: item[15],
               });
             }
             fileImaport = true;
           }
         }
       });
-
       if (fileImaport && object.length > 0) {
         clientRegistrationStore.clientRegistrationService
           .import({input: {filter: {object}}})

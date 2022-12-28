@@ -61,8 +61,6 @@ export const LIST_PATIENT_ORDER = gql`
             abNormal
             critical
             rep
-            eqid
-            eqtype
             methodOn
             methodName
             reportOrder
@@ -174,8 +172,6 @@ export const FILTER_PATIENT_ORDER = gql`
             abNormal
             critical
             rep
-            eqid
-            eqtype
             methodOn
             methodName
             reportOrder
@@ -279,8 +275,6 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
             abNormal
             critical
             rep
-            eqid
-            eqtype
             methodOn
             methodName
             reportOrder

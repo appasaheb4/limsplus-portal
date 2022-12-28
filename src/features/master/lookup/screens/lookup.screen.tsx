@@ -51,8 +51,6 @@ const Lookup = observer(() => {
   }, []);
 
   const updateMultipleFields = variable => {
-    console.log(variable);
-
     lookupStore.LookupService.updateSingleFiled({
       input: {
         ...variable.fields,

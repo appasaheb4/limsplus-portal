@@ -24,9 +24,11 @@ module.exports = {
         mono: '#754c00',
       },
       fontFamily: {
-        arimaRegular: ["'Arima Regular'"],
-        nunitoSansRegular: ["'NunitoSans Regular'"],
-        nunitoSansBold: ["'NunitoSans Bold'"],
+        arimaRegular: ['Arima Regular'],
+        nunitoSansRegular: ['NunitoSans Regular'],
+        nunitoSansBold: ['NunitoSans Bold'],
+        dancingScriptBold: ['DancingScript-Bold'],
+        dancingScriptRegular: ['DancingScript-Regular'],
       },
       spacing: {
         '8xl': '96rem',

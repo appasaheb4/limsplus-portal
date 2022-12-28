@@ -10,27 +10,27 @@ export const LIST = gql`
       message
       data {
         _id
-        dataFlowFrom
-        data_type
-        equipmentType
+        index
+        instType
+        dataFlow
+        protocol
         segments
-        segment_usage
-        field_no
-        item_no
-        field_required
-        element_name
-        transmitted_data
-        field_array
-        field_length
-        field_type
-        repeat_delimiter
-        mandatory
-        lims_descriptions
-        lims_tables
-        lims_fields
-        required_for_lims
-        notes
-        attachments
+        segmentOrder
+        segmentRequired
+        elementNo
+        elementName
+        elementRequired
+        elementSequence
+        transmittedData
+        defaultValue
+        fieldArray
+        repeatDelimiter
+        fieldType
+        fieldLength
+        requiredForLims
+        limsTables
+        limsDocumentType
+        limsFields
         environment
         dateOfEntry
         lastUpdated
@@ -49,7 +49,7 @@ export const REMOVE_RECORD = gql`
 `;
 
 export const CREATE_RECORD = gql`
-  mutation ($input: CreateSegmentMappingInput!) {
+  mutation ($input: SegmentMappingInput!) {
     createSegmentMapping(input: $input) {
       success
       message
@@ -94,27 +94,27 @@ export const FILTER = gql`
       message
       data {
         _id
-        dataFlowFrom
-        data_type
-        equipmentType
+        index
+        instType
+        dataFlow
+        protocol
         segments
-        segment_usage
-        field_no
-        item_no
-        field_required
-        element_name
-        transmitted_data
-        field_array
-        field_length
-        field_type
-        repeat_delimiter
-        mandatory
-        lims_descriptions
-        lims_tables
-        lims_fields
-        required_for_lims
-        notes
-        attachments
+        segmentOrder
+        segmentRequired
+        elementNo
+        elementName
+        elementRequired
+        elementSequence
+        transmittedData
+        defaultValue
+        fieldArray
+        repeatDelimiter
+        fieldType
+        fieldLength
+        requiredForLims
+        limsTables
+        limsDocumentType
+        limsFields
         environment
         dateOfEntry
         lastUpdated
@@ -133,31 +133,51 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
-        dataFlowFrom
-        data_type
-        equipmentType
+        index
+        instType
+        dataFlow
+        protocol
         segments
-        segment_usage
-        field_no
-        item_no
-        field_required
-        element_name
-        transmitted_data
-        field_array
-        field_length
-        field_type
-        repeat_delimiter
-        mandatory
-        lims_descriptions
-        lims_tables
-        lims_fields
-        required_for_lims
-        notes
-        attachments
+        segmentOrder
+        segmentRequired
+        elementNo
+        elementName
+        elementRequired
+        elementSequence
+        transmittedData
+        defaultValue
+        fieldArray
+        repeatDelimiter
+        fieldType
+        fieldLength
+        requiredForLims
+        limsTables
+        limsDocumentType
+        limsFields
         environment
         dateOfEntry
         lastUpdated
       }
+    }
+  }
+`;
+
+export const FETCH_KEY_VALUE = gql`
+  mutation ($input: SegmentMappingInput!) {
+    fetchKeyValueSegmentMapping(input: $input) {
+      success
+      message
+      result
+    }
+  }
+`;
+
+export const FETCH_KEYS_VALUE = gql`
+  mutation ($input: SegmentMappingInput!) {
+    fetchKeysValueSegmentMapping(input: $input) {
+      success
+      message
+      result
     }
   }
 `;

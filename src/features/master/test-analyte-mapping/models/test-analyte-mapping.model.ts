@@ -21,6 +21,9 @@ export class TestAnalyteMapping {
   status: string;
   resultOrder: any;
   reportOrder: any;
+  instType: string;
+  instId: string;
+  assayCode: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -48,11 +51,15 @@ export class TestAnalyteMapping {
     this.status = rawData.status;
     this.resultOrder = rawData.resultOrder;
     this.reportOrder = rawData.reportOrder;
+    this.instType = rawData.instType;
+    this.instId = rawData.instId;
+    this.assayCode = rawData.assayCode;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }
 }
+
 export class SelectedItems {
   lab: any[];
   analyteCode: any[];

@@ -28,8 +28,6 @@ export class MasterAnalyte {
   calculationFlag: boolean;
   calcyName: string;
   rangeSetOn: string;
-  equipmentType: string;
-  equipmentId: string;
   repetition: boolean;
   picture: number | undefined;
   units: string;
@@ -48,7 +46,6 @@ export class MasterAnalyte {
   externalComments: string;
   analyteBottomMarker: object;
   analyteRightMarker: string;
-  eqChannel: string;
   reagentCode: string;
   status: string;
   minReportable: string;
@@ -88,8 +85,6 @@ export class MasterAnalyte {
     this.calculationFlag = rawData.calculationFlag;
     this.calcyName = rawData.calcyName;
     this.rangeSetOn = rawData.rangeSetOn;
-    this.equipmentType = rawData.equipmentType;
-    this.equipmentId = rawData.equipmentId;
     this.repetition = rawData.repetition;
     this.picture = rawData.picture;
     this.units = rawData.units;
@@ -108,7 +103,6 @@ export class MasterAnalyte {
     this.externalComments = rawData.externalComments;
     this.analyteBottomMarker = rawData.analyteBottomMarker;
     this.analyteRightMarker = rawData.analyteRightMarker;
-    this.eqChannel = rawData.eqChannel;
     this.reagentCode = rawData.reagentCode;
     this.status = rawData.status;
     this.minReportable = rawData.minReportable;

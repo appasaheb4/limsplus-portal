@@ -158,8 +158,6 @@ export const Login = observer(() => {
   const carouselSize = width <= 768 ? 300 : 500;
 
   const getLabList = async (userModule, userModuleCategory, user) => {
-    console.log({user});
-
     const corClientKeys = {
       corporateCode: 'code',
       corporateName: 'name',
@@ -215,7 +213,7 @@ export const Login = observer(() => {
 
   return (
     <>
-      <div className='flex h-screen bg-[#394D7F]  w-full  justify-center items-center'>
+      <div className='flex flex-col h-screen bg-[#394D7F] w-full  justify-center items-center'>
         <svg
           width='80%'
           height='100%'
@@ -230,307 +228,320 @@ export const Login = observer(() => {
             fill='#FF6C99'
           />
         </svg>
+
         <div
-          style={{
-            zIndex: 0,
-            marginTop: -window.innerHeight / 1.14,
-            marginLeft: window.innerWidth / 16,
-            position: 'absolute',
-          }}
+          className='flex flex-col w-fit mt-14 rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r '
+          style={{minWidth: '80%'}}
         >
-          <img
-            src={Assets.images.limsplusTran}
-            alt='appIcon'
-            style={{width: 200}}
-          />
-        </div>
-        <div
-          className='flex flex-row  w-fit m-auto rounded-3xl shadow-lg bg-white items-center absolute  p-2 gap-4 from-blue-600 bg-gradient-to-r'
-          style={{minWidth: '70%'}}
-        >
-          <Col md='6' sm='12' xs='12'>
-            <div>
-              <div className='flex justify-center items-center'>
-                <Carousel
-                  style={{width: carouselSize, height: carouselSize}}
-                  indicators={false}
-                >
-                  {bannerStore.listAllBanner.map((item, key) => (
-                    <Carousel.Item interval={3000} key={key}>
-                      <img
-                        key={key}
-                        src={item.image}
-                        alt={key.toString()}
-                        style={{
-                          width: carouselSize,
-                          height: carouselSize,
-                          borderRadius: carouselSize / 2,
-                        }}
-                      />
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
-              </div>
-            </div>
-          </Col>
-          <Col md='6' sm='12' xs='12'>
-            <div className='flex justify-center items-center'>
-              <div className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'>
-                <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
-                  Sign In
-                </span>
-                {loginStore.inputLogin?.userModule && (
-                  <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
-                    {loginStore.inputLogin?.userModule}
-                  </span>
-                )}
-                <div className='rounded-2xl bg-white p-4 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'>
-                  <List direction='col' space={4} justify='stretch' fill>
-                    <Controller
-                      control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.Input
-                          label='User Id'
-                          id='userId'
-                          name='userId'
-                          inputRef={refUserId}
-                          wrapperStyle={{color: 'black'}}
-                          placeholder={
-                            errors.userId ? 'Please enter userId' : 'UserId'
-                          }
-                          hasError={!!errors.userId}
-                          value={loginStore.inputLogin?.userId}
-                          onChange={userId => {
-                            onChange(userId);
-                            loginStore.updateInputUser({
-                              ...loginStore.inputLogin,
-                              userId: userId.toUpperCase(),
-                            });
-                          }}
-                          onBlur={async userId => {
-                            if (userId) {
-                              userStore.UsersService.serviceUser
-                                .checkExitsUserId(userId.trim())
-                                .then(async res => {
-                                  if (res.checkUserExitsUserId?.success) {
-                                    const {
-                                      data: {user},
-                                    } = res.checkUserExitsUserId;
-                                    setValue('lab', user.defaultLab);
-                                    clearErrors('lab');
-                                    if (user.role.length == 1)
-                                      setValue('role', user.role[0].code);
-                                    clearErrors('role');
-                                    let userModuleCategory;
-                                    await lookupStore.LookupService.lookupItemsByPathNField(
-                                      {
-                                        input: {
-                                          path: '/settings/users',
-                                          field: 'USER_MODULE',
-                                        },
-                                      },
-                                    ).then(res => {
-                                      if (
-                                        res.lookupItemsByPathNField.success &&
-                                        res.lookupItemsByPathNField?.data
-                                          ?.length > 0
-                                      ) {
-                                        userModuleCategory =
-                                          res.lookupItemsByPathNField.data[0]?.arrValue.find(
-                                            item =>
-                                              item.code == user?.userModule,
-                                          ).value;
-                                      } else {
-                                        alert(
-                                          'User module not found in lookup',
-                                        );
-                                      }
-                                    });
-                                    loginStore.updateInputUser({
-                                      ...loginStore.inputLogin,
-                                      lab: user.defaultLab,
-                                      role:
-                                        user.role.length == 1
-                                          ? user.role[0].code
-                                          : '',
-                                      userModule: user?.userModule,
-                                      userModuleCategory,
-                                    });
-                                    // labStore.fetchListLab();
-                                    // roleStore.fetchListRole();
-
-                                    setlabRoleList({
-                                      labList: await getLabList(
-                                        user?.userModule,
-                                        userModuleCategory,
-                                        user,
-                                      ),
-                                      roleList: user.role,
-                                    });
-                                  } else {
-                                    Toast.error({
-                                      message: `😔 ${res?.checkUserExitsUserId?.message}`,
-                                    });
-                                  }
-                                });
-                            }
-                          }}
-                        />
-                      )}
-                      name='userId'
-                      rules={{required: true}}
-                      defaultValue={loginStore.inputLogin?.userId}
-                    />
-
-                    <Controller
-                      control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.Input
-                          type='password'
-                          label='Password'
-                          wrapperStyle={{color: 'black'}}
-                          placeholder={
-                            errors.password
-                              ? 'Please enter password'
-                              : 'Password'
-                          }
-                          hasError={!!errors.password}
-                          value={loginStore.inputLogin?.password}
-                          onChange={password => {
-                            onChange(password);
-                            loginStore.updateInputUser({
-                              ...loginStore.inputLogin,
-                              password,
-                            });
-                          }}
-                        />
-                      )}
-                      name='password'
-                      rules={{
-                        required: true,
-                        pattern: FormHelper.patterns.password,
-                      }}
-                      defaultValue={loginStore.inputLogin?.password}
-                    />
-
-                    <Controller
-                      control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.InputWrapper
-                          label={
-                            loginStore.inputLogin.userModuleCategory || 'Lab'
-                          }
-                          hasError={!!errors.lab}
-                          style={{color: 'black'}}
-                        >
-                          <select
-                            value={loginStore.inputLogin?.lab}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.lab ? 'border-red-500' : 'border-gray-300'
-                            } rounded-md cursor-pointer `}
-                            onChange={e => {
-                              const lab = e.target.value;
-                              onChange(lab);
-                              loginStore.updateInputUser({
-                                ...loginStore.inputLogin,
-                                lab,
-                              });
+          <div
+            style={{
+              zIndex: 0,
+              height: 50,
+              marginTop: -10,
+            }}
+          >
+            <img
+              src={Assets.images.limsplusTran}
+              alt='appIcon'
+              style={{width: 200}}
+            />
+          </div>
+          <div className='sm:flex-col md:flex-col xl:flex-row w-full '>
+            <Row className='mt-10'>
+              <Col md='6' sm='12' xs='12'>
+                <div>
+                  <div className='flex justify-center items-center '>
+                    <Carousel
+                      style={{width: carouselSize, height: carouselSize}}
+                      indicators={false}
+                    >
+                      {bannerStore.listAllBanner.map((item, key) => (
+                        <Carousel.Item interval={3000} key={key}>
+                          <img
+                            key={key}
+                            src={item.image}
+                            alt={key.toString()}
+                            style={{
+                              width: carouselSize,
+                              height: carouselSize,
+                              borderRadius: carouselSize / 2,
                             }}
-                          >
-                            <option>Select</option>
-                            {labRoleList?.labList?.map((item: any) => (
-                              <option key={item.code} value={item.code}>
-                                {item.name}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='lab'
-                      rules={{required: true}}
-                      defaultValue={loginStore.inputLogin?.lab}
-                    />
-
-                    <Controller
-                      control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.InputWrapper
-                          label='Role'
-                          hasError={!!errors.role}
-                          style={{color: 'black'}}
-                        >
-                          <select
-                            value={loginStore.inputLogin?.role}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.role ? 'border-red-500' : 'border-gray-300'
-                            } rounded-md cursor-pointer`}
-                            onChange={e => {
-                              const role = e.target.value;
-                              onChange(role);
-                              loginStore.updateInputUser({
-                                ...loginStore.inputLogin,
-                                role,
-                              });
-                            }}
-                          >
-                            <option selected>Select</option>
-                            {labRoleList.roleList.map((item: any) => (
-                              <option key={item.code} value={item.code}>
-                                {item.description}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='role'
-                      rules={{required: true}}
-                      defaultValue={loginStore.inputLogin?.role}
-                    />
-                  </List>
-                  <br />
-                  <List direction='row' space={3} align='center'>
-                    <Buttons.Button
-                      size='medium'
-                      type='solid'
-                      icon={Svg.Check}
-                      onClick={handleSubmit(onLogin)}
-                      className='cursor-pointer'
-                      disabled={loading}
-                    >
-                      {t('common:login').toString()}
-                    </Buttons.Button>
-                  </List>
-                  <div className='flex p-4 flex-row  w-full justify-between gap-4'>
-                    <a
-                      href='#'
-                      onClick={() => setModalForgotPassword({show: true})}
-                      className='text-black text-sm cursor-pointer'
-                    >
-                      {'Forgot Password'}
-                    </a>
-                    <a
-                      href='privacy-policy'
-                      className='text-black text-sm cursor-pointer'
-                    >
-                      Privacy and Policy
-                    </a>
+                          />
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className='mt-4'>
-              <span className='underline font-bold'>Quick Access :</span>
-              <a
-                href='#'
-                className='flex flex-row items-center gap-2 cursor-pointer'
-              >
-                {' '}
-                1.
-                <Icons.Iconmd.MdPayments size={20} />
-                Online Payment
-              </a>
-            </div>
-          </Col>
+              </Col>
+              <Col md='6' sm='12' xs='12'>
+                <div className='flex justify-center items-end'>
+                  <div
+                    className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'
+                    style={{width: '350px'}}
+                  >
+                    <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
+                      Sign In
+                    </span>
+                    {loginStore.inputLogin?.userModule && (
+                      <span className='text-center font-bold text-xl text-black mt-2 ml-4 underline font-dancingScriptBold'>
+                        {loginStore.inputLogin?.userModule}
+                      </span>
+                    )}
+                    <div className='rounded-2xl bg-white p-4 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'>
+                      <List direction='col' space={4} justify='stretch' fill>
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
+                              label='User Id'
+                              id='userId'
+                              name='userId'
+                              inputRef={refUserId}
+                              wrapperStyle={{color: 'black'}}
+                              placeholder={
+                                errors.userId ? 'Please enter userId' : 'UserId'
+                              }
+                              hasError={!!errors.userId}
+                              value={loginStore.inputLogin?.userId}
+                              onChange={userId => {
+                                onChange(userId);
+                                loginStore.updateInputUser({
+                                  ...loginStore.inputLogin,
+                                  userId: userId.toUpperCase(),
+                                });
+                              }}
+                              onBlur={async userId => {
+                                if (userId) {
+                                  userStore.UsersService.serviceUser
+                                    .checkExitsUserId(userId.trim())
+                                    .then(async res => {
+                                      if (res.checkUserExitsUserId?.success) {
+                                        const {
+                                          data: {user},
+                                        } = res.checkUserExitsUserId;
+                                        setValue('lab', user.defaultLab);
+                                        clearErrors('lab');
+                                        if (user.role.length == 1)
+                                          setValue('role', user.role[0].code);
+                                        clearErrors('role');
+                                        let userModuleCategory;
+                                        await lookupStore.LookupService.lookupItemsByPathNField(
+                                          {
+                                            input: {
+                                              path: '/settings/users',
+                                              field: 'USER_MODULE',
+                                            },
+                                          },
+                                        ).then(res => {
+                                          if (
+                                            res.lookupItemsByPathNField
+                                              .success &&
+                                            res.lookupItemsByPathNField?.data
+                                              ?.length > 0
+                                          ) {
+                                            userModuleCategory =
+                                              res.lookupItemsByPathNField.data[0]?.arrValue.find(
+                                                item =>
+                                                  item.code == user?.userModule,
+                                              ).value;
+                                          } else {
+                                            alert(
+                                              'User module not found in lookup',
+                                            );
+                                          }
+                                        });
+                                        loginStore.updateInputUser({
+                                          ...loginStore.inputLogin,
+                                          lab: user.defaultLab,
+                                          role:
+                                            user.role.length == 1
+                                              ? user.role[0].code
+                                              : '',
+                                          userModule: user?.userModule,
+                                          userModuleCategory,
+                                        });
+                                        // labStore.fetchListLab();
+                                        // roleStore.fetchListRole();
+
+                                        setlabRoleList({
+                                          labList: await getLabList(
+                                            user?.userModule,
+                                            userModuleCategory,
+                                            user,
+                                          ),
+                                          roleList: user.role,
+                                        });
+                                      } else {
+                                        Toast.error({
+                                          message: `😔 ${res?.checkUserExitsUserId?.message}`,
+                                        });
+                                      }
+                                    });
+                                }
+                              }}
+                            />
+                          )}
+                          name='userId'
+                          rules={{required: true}}
+                          defaultValue={loginStore.inputLogin?.userId}
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.Input
+                              type='password'
+                              label='Password'
+                              wrapperStyle={{color: 'black'}}
+                              placeholder={
+                                errors.password
+                                  ? 'Please enter password'
+                                  : 'Password'
+                              }
+                              hasError={!!errors.password}
+                              value={loginStore.inputLogin?.password}
+                              onChange={password => {
+                                onChange(password);
+                                loginStore.updateInputUser({
+                                  ...loginStore.inputLogin,
+                                  password,
+                                });
+                              }}
+                            />
+                          )}
+                          name='password'
+                          rules={{
+                            required: true,
+                            pattern: FormHelper.patterns.password,
+                          }}
+                          defaultValue={loginStore.inputLogin?.password}
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.InputWrapper
+                              label={
+                                loginStore.inputLogin.userModuleCategory ||
+                                'Lab'
+                              }
+                              hasError={!!errors.lab}
+                              style={{color: 'black'}}
+                            >
+                              <select
+                                value={loginStore.inputLogin?.lab}
+                                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                                  errors.lab
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                                } rounded-md cursor-pointer `}
+                                onChange={e => {
+                                  const lab = e.target.value;
+                                  onChange(lab);
+                                  loginStore.updateInputUser({
+                                    ...loginStore.inputLogin,
+                                    lab,
+                                  });
+                                }}
+                              >
+                                <option>Select</option>
+                                {labRoleList?.labList?.map((item: any) => (
+                                  <option key={item.code} value={item.code}>
+                                    {item.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </Form.InputWrapper>
+                          )}
+                          name='lab'
+                          rules={{required: true}}
+                          defaultValue={loginStore.inputLogin?.lab}
+                        />
+
+                        <Controller
+                          control={control}
+                          render={({field: {onChange}}) => (
+                            <Form.InputWrapper
+                              label='Role'
+                              hasError={!!errors.role}
+                              style={{color: 'black'}}
+                            >
+                              <select
+                                value={loginStore.inputLogin?.role}
+                                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                                  errors.role
+                                    ? 'border-red-500'
+                                    : 'border-gray-300'
+                                } rounded-md cursor-pointer`}
+                                onChange={e => {
+                                  const role = e.target.value;
+                                  onChange(role);
+                                  loginStore.updateInputUser({
+                                    ...loginStore.inputLogin,
+                                    role,
+                                  });
+                                }}
+                              >
+                                <option selected>Select</option>
+                                {labRoleList.roleList.map((item: any) => (
+                                  <option key={item.code} value={item.code}>
+                                    {item.description}
+                                  </option>
+                                ))}
+                              </select>
+                            </Form.InputWrapper>
+                          )}
+                          name='role'
+                          rules={{required: true}}
+                          defaultValue={loginStore.inputLogin?.role}
+                        />
+                      </List>
+                      <br />
+                      <List direction='row' space={3} align='center'>
+                        <Buttons.Button
+                          size='medium'
+                          type='solid'
+                          icon={Svg.Check}
+                          onClick={handleSubmit(onLogin)}
+                          className='cursor-pointer'
+                          disabled={loading}
+                        >
+                          {t('common:login').toString()}
+                        </Buttons.Button>
+                      </List>
+                      <div className='flex p-4 flex-row  w-full justify-between gap-4'>
+                        <a
+                          href='#'
+                          onClick={() => setModalForgotPassword({show: true})}
+                          className='text-black text-sm cursor-pointer'
+                        >
+                          {'Forgot Password'}
+                        </a>
+                        <a
+                          href='privacy-policy'
+                          className='text-black text-sm cursor-pointer'
+                        >
+                          Privacy and Policy
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='mt-4'>
+                  <span className='underline font-bold'>Quick Access :</span>
+                  <a
+                    href='#'
+                    className='flex flex-row items-center gap-2 cursor-pointer'
+                  >
+                    {' '}
+                    1.
+                    <Icons.Iconmd.MdPayments size={20} />
+                    Online Payment
+                  </a>
+                </div>
+              </Col>
+            </Row>
+          </div>
         </div>
         <ModalNoticeBoard
           {...noticeBoard}

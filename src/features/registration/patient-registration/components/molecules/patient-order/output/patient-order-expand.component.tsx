@@ -521,28 +521,6 @@ export const PatientOrderExpand = ({
               },
             },
             {
-              dataField: 'eqid',
-              text: 'Eqid',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.eqid}</span>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'eqtype',
-              text: 'Eqtype',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <span>{row.extraData?.eqtype}</span>
-                  </>
-                );
-              },
-            },
-            {
               dataField: 'methodOn',
               text: 'MethodOn',
               formatter: (cell, row) => {
@@ -745,7 +723,7 @@ export const PatientOrderExpand = ({
         >
           {props => (
             <div>
-              <div className='flex items-center'>
+              <div className='flex items-center flex-wrap'>
                 <SearchBar
                   {...searchProps}
                   {...props.searchProps}

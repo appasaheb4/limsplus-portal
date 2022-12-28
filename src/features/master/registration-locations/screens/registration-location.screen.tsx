@@ -1805,20 +1805,22 @@ const RegistrationLocation = RegistrationLocationHoc(
             </Grid>
             <div className='mt-2' />
             <List direction='row' space={3} align='center'>
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Form.InputWrapper
-                    label='Price List'
-                    hasError={!!errors.priceList}
-                  >
-                    <PriceListTable />
-                  </Form.InputWrapper>
-                )}
-                name='priceList'
-                rules={{required: false}}
-                defaultValue=''
-              />
+              <div className='overflow-auto'>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Price List'
+                      hasError={!!errors.priceList}
+                    >
+                      <PriceListTable />
+                    </Form.InputWrapper>
+                  )}
+                  name='priceList'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </div>
             </List>
             <br />
             <List direction='row' space={3} align='center'>
