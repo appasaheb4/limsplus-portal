@@ -129,6 +129,7 @@ export const getIcons = (icon: string): any => {
     return Icons.IconRi.RiGhostSmileLine;
   if (icon === 'Icons.IconGi.GiDatabase') return Icons.IconGi.GiDatabase;
   if (icon === 'Icons.IconGi.GiKeyring') return Icons.IconGi.GiKeyring;
+  if (icon === 'Icons.Iconvsc.VscOutput') return Icons.Iconvsc.VscOutput;
 
   //settings
   if (icon === 'Icons.IconRi.RiSettings5Fill')

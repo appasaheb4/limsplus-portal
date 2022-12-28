@@ -17,6 +17,7 @@ import {
   FILTER,
   FIND_BY_FILEDS,
   UPDATE_ORDER_SEQ_RECORD,
+  FETCH_KEY_VALUE,
 } from './mutation';
 import * as Model from '../models';
 
@@ -179,9 +180,9 @@ export class TestAnalyteMappingService {
         );
     });
 
-  findByFileds = (variables: any) =>
+  findByFileds = (variables: any, loading = false) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false);
+      stores.uploadLoadingFlag(loading);
       client
         .mutate({
           mutation: FIND_BY_FILEDS,
@@ -190,6 +191,21 @@ export class TestAnalyteMappingService {
         .then((response: any) => {
           if (!response.data.findByFiledsTestAnalyteMappings.success) return [];
           stores.uploadLoadingFlag(false);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  fetchKeyValue = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FETCH_KEY_VALUE,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

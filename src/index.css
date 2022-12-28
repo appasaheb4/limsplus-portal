@@ -15,18 +15,17 @@
     font-family: 'NunitoSans Bold';
     src: url('./library/assets/fonts/nunito-sans/NunitoSans-Bold.ttf');
   }
+  @font-face {
+    font-family: 'DancingScript-Bold';
+    src: url('./library/assets/fonts/dancing-script/DancingScript-Bold.ttf');
+  }
+  @font-face {
+    font-family: 'DancingScript-Regular';
+    src: url('./library/assets/fonts/dancing-script/DancingScript-Regular.ttf');
+  }
 }
 
 body {
   font-size: 14px;
   font-family: 'Arima Regular';
 }
-
-/* .circle {
-  width: 10px;
-  height: 10px;
-  border: 0.5px solid #000;
-  position: absolute;
-  border-radius: 6px;
-  pointer-events: none;
-} */

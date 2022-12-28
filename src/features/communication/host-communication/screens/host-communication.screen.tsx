@@ -15,7 +15,7 @@ import {
 } from '@/library/components';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
-
+import {Table} from 'reactstrap';
 import {useStores} from '@/stores';
 
 import {
@@ -27,8 +27,7 @@ import {HostCommunicationFlows, HexToAsciiFlow} from '../../flows';
 import {HostCommunicationHoc} from '../hoc';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-import {database} from '@/firebase';
-import {onValue, ref} from 'firebase/database';
+import * as Realm from 'realm-web';
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -46,16 +45,52 @@ const HostCommunication = HostCommunicationHoc(
       useState<boolean>(true);
     const [messageWebSocket, setMessageWebSocket] = useState('');
 
-    useEffect(() => {
-      const query = ref(database, 'communication/tcpIP');
-      return onValue(query, snapshot => {
-        const data = snapshot.val();
-        if (snapshot.exists()) {
-          Object.values(data).map(project => {
-            setMessageWebSocket(project as string);
-          });
+    const getTcpIpData = async () => {
+      const appId = 'limsplus-portal-prod-fezny';
+      const appConfig = {
+        id: appId,
+        timeout: 100_000,
+      };
+      const app: any = new Realm.App(appConfig);
+      const credentials = Realm.Credentials.anonymous();
+      await app.logIn(credentials);
+      try {
+        const mongodb = app.currentUser.mongoClient('mongodb-atlas');
+        const collection = mongodb.db('limsplus-prod').collection('tcpips');
+        const user = await app.logIn(credentials);
+        const tcpTempMessage: any[] = [];
+        for await (const change of collection.watch()) {
+          if (
+            change?.operationType == 'insert' &&
+            change?.fullDocument?.documentType == 'duplicate'
+          ) {
+            const hostDetails =
+              hostCommunicationStore.hostCommuication.tcpipCommunication;
+            const allData = await user.functions.tcpipCommunicaiton({
+              ipAddress: hostDetails?.host,
+              port: hostDetails?.port,
+              documentType: 'duplicate',
+            });
+            if (allData?.length > 0) {
+              hostCommunicationStore.updateArrTcpIpMessage(
+                JSON.parse(allData[0].message),
+              );
+            }
+            await user.functions.tcpIpDeleteRecords({
+              ipAddress: hostDetails?.host,
+              port: hostDetails?.port,
+              documentType: 'duplicate',
+            });
+          }
         }
-      });
+      } catch (err) {
+        console.error({err});
+      }
+    };
+
+    useEffect(() => {
+      getTcpIpData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -124,22 +159,19 @@ const HostCommunication = HostCommunicationHoc(
                   </div>
                 </Grid>
 
-                <Form.InputWrapper label='Instrument Type' id='instrumentType'>
+                <Form.InputWrapper label='Inst Type'>
                   <select
-                    name='instrumentType'
-                    value={
-                      hostCommunicationStore.hostCommuication?.instrumentType
-                    }
+                    value={hostCommunicationStore.hostCommuication?.instType}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const instrumentType = e.target.value;
+                      const instType = e.target.value;
                       hostCommunicationStore.updateHostCommuication({
                         ...hostCommunicationStore.hostCommuication,
-                        instrumentType,
+                        instType,
                       });
                       const selectedInterfaceManager =
                         interfaceManagerStore.listInterfaceManager?.find(
-                          item => item.instrumentType === instrumentType,
+                          item => item.instrumentType === instType,
                         );
                       hostCommunicationStore.updateSelectedInterfaceManager(
                         selectedInterfaceManager as any,
@@ -289,9 +321,18 @@ const HostCommunication = HostCommunicationHoc(
                 {hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   'TCP/IP Communication' && (
                   <SettingForTCP_IPTable
+                    hostDetails={
+                      hostCommunicationStore.hostCommuication.tcpipCommunication
+                    }
                     isConnect={
                       hostCommunicationStore.hostCommuication.connectStatus
                     }
+                    onChange={details => {
+                      hostCommunicationStore.updateHostCommuication({
+                        ...hostCommunicationStore.hostCommuication,
+                        tcpipCommunication: details,
+                      });
+                    }}
                     onConnect={details => {
                       hostCommunicationStore.hostCommunicationService
                         .connectHostCommunication({
@@ -370,6 +411,17 @@ const HostCommunication = HostCommunicationHoc(
               <div className='clerfix' />
             </Grid>
 
+            <Table striped bordered hover>
+              <tbody>
+                {hostCommunicationStore.arrTcpIpMessage?.length > 0 &&
+                  hostCommunicationStore.arrTcpIpMessage.map(item => (
+                    <tr>
+                      <td>{item}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+
             <Accordion allowMultiple>
               {[
                 {title: 'Hex to ASCII'},
@@ -392,7 +444,7 @@ const HostCommunication = HostCommunicationHoc(
                                   dataConversationStore.listdataConversation !=
                                     undefined &&
                                   hostCommunicationStore.hostCommuication
-                                    ?.instrumentType !== undefined
+                                    ?.instType !== undefined
                                     ? dataConversationStore.listdataConversation
                                         ?.length > 0
                                       ? false
@@ -463,7 +515,7 @@ const HostCommunication = HostCommunicationHoc(
                                 segmentMappingStore.listSegmentMapping !=
                                   undefined &&
                                 hostCommunicationStore.hostCommuication
-                                  ?.instrumentType !== undefined
+                                  ?.instType !== undefined
                                   ? segmentMappingStore.listSegmentMapping
                                       ?.length > 0
                                     ? false
@@ -489,7 +541,7 @@ const HostCommunication = HostCommunicationHoc(
                                   hostCommunicationStore.hostCommuication;
                                   if (
                                     !hostCommunicationStore.hostCommuication
-                                      ?.instrumentType
+                                      ?.instType
                                   )
                                     return alert(
                                       'Please entery instrument type',
@@ -525,7 +577,7 @@ const HostCommunication = HostCommunicationHoc(
                                   segmentMappingStore.listSegmentMapping !=
                                     undefined &&
                                   hostCommunicationStore.hostCommuication
-                                    ?.instrumentType !== undefined
+                                    ?.instType !== undefined
                                     ? segmentMappingStore.listSegmentMapping
                                         ?.length > 0
                                       ? false

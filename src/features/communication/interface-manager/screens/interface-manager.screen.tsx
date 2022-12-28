@@ -30,11 +30,15 @@ const InterfaceManager = InterfaceManagerHoc(
       formState: {errors},
       setValue,
     } = useForm();
-
+    setValue(
+      'interfaceType',
+      interfaceManagerStore.interfaceManager?.interfaceType,
+    );
     setValue(
       'environment',
       interfaceManagerStore.interfaceManager?.environment,
     );
+    setValue('protocol', interfaceManagerStore.interfaceManager?.protocol);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddInterfaceManager, setHideAddInterfaceManager] =
@@ -95,26 +99,36 @@ const InterfaceManager = InterfaceManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Interface Type'
-                      name='interfaceType'
-                      placeholder={
-                        errors.interfaceType
-                          ? 'Please Enter InterFace Type'
-                          : 'Interface Type'
-                      }
-                      hasError={!!errors.interfaceType}
-                      value={
-                        interfaceManagerStore.interfaceManager?.interfaceType
-                      }
-                      onChange={interfaceType => {
-                        onChange(interfaceType);
-                        interfaceManagerStore.updateInterfaceManager({
-                          ...interfaceManagerStore.interfaceManager,
-                          interfaceType,
-                        });
-                      }}
-                    />
+                    <Form.InputWrapper label='Interface Type'>
+                      <select
+                        value={
+                          interfaceManagerStore.interfaceManager?.interfaceType
+                        }
+                        className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                          errors.interfaceType
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const interfaceType = e.target.value;
+                          onChange(interfaceType);
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
+                            interfaceType,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'INTERFACE_TYPE',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
                   )}
                   name='interfaceType'
                   rules={{required: true}}
@@ -125,8 +139,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label='Instrument Type'
-                      name='instrumentType'
+                      label='Inst Type'
                       placeholder={
                         errors.instrumentType
                           ? 'Please Enter instrumentType'
@@ -153,8 +166,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label='Instrument Name'
-                      name='instrumentName'
+                      label='Inst Name'
                       placeholder={
                         errors.instrumentName
                           ? 'Please Enter InstrumentName'
@@ -180,57 +192,35 @@ const InterfaceManager = InterfaceManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Data Flow From'
-                      name='dataFlowFrom'
-                      placeholder={
-                        errors.dataFlowFrom
-                          ? 'Please Enter DataFlowFrom'
-                          : 'Data Flow From'
-                      }
-                      hasError={!!errors.dataFlowFrom}
-                      value={
-                        interfaceManagerStore.interfaceManager?.dataFlowFrom
-                      }
-                      onChange={dataFlowFrom => {
-                        onChange(dataFlowFrom);
-                        interfaceManagerStore.updateInterfaceManager({
-                          ...interfaceManagerStore.interfaceManager,
-                          dataFlowFrom,
-                        });
-                      }}
-                    />
+                    <Form.InputWrapper label='Protocol'>
+                      <select
+                        value={interfaceManagerStore.interfaceManager?.protocol}
+                        className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                          errors.protocol
+                            ? 'border-red-500  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const protocol = e.target.value;
+                          onChange(protocol);
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
+                            protocol,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'PROTOCOL').map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
                   )}
-                  name='dataFlowFrom'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.Input
-                      label='Communication Protocol'
-                      name='communicationProtocal'
-                      placeholder={
-                        errors.communicationProtocal
-                          ? 'Please Enter communicationProtocal'
-                          : 'Communication Protocal'
-                      }
-                      hasError={!!errors.communicationProtocal}
-                      value={
-                        interfaceManagerStore.interfaceManager
-                          ?.communicationProtocol
-                      }
-                      onChange={communicationProtocol => {
-                        onChange(communicationProtocol);
-                        interfaceManagerStore.updateInterfaceManager({
-                          ...interfaceManagerStore.interfaceManager,
-                          communicationProtocol,
-                        });
-                      }}
-                    />
-                  )}
-                  name='communicationProtocal'
+                  name='protocol'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -559,11 +549,11 @@ const InterfaceManager = InterfaceManagerHoc(
                 interfaceManagerStore.interfaceManagerService
                   .deleteInterfaceManager({input: {id: modalConfirm.id}})
                   .then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.removeInterfaceManager.success) {
                       Toast.success({
                         message: `😊 ${res.removeInterfaceManager.message}`,
                       });
-                      setModalConfirm({show: false});
                       interfaceManagerStore.fetchEncodeCharacter();
                     }
                   });
@@ -576,6 +566,7 @@ const InterfaceManager = InterfaceManagerHoc(
                     },
                   })
                   .then(res => {
+                    setModalConfirm({show: false});
                     if (res.updateInterfaceManager.success) {
                       Toast.success({
                         message: `😊 ${res.updateInterfaceManager.message}`,

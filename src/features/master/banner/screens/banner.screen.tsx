@@ -20,7 +20,6 @@ import {RouterFlow} from '@/flows';
 
 import {BannerHoc} from '../hoc';
 import {useStores} from '@/stores';
-import {constants} from '@/core-services';
 
 const Banner = BannerHoc(
   observer(() => {

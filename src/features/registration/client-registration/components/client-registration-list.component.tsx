@@ -90,7 +90,7 @@ export const ClientRegistrationList = observer(
             },
             {
               dataField: 'labId',
-              text: 'Lab Id',
+              text: 'Lab ID',
               headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: col => (col ? col : ''),
@@ -130,6 +130,14 @@ export const ClientRegistrationList = observer(
               dataField: 'registrationDate',
               text: 'Registration Date',
               headerClasses: 'textHeader2',
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row?.registrationDate !== undefined
+                    ? dayjs(row?.registrationDate)
+                        .format('YYYY-MM-DD')
+                        .toString()
+                    : ''
+                } - `,
               filter: customFilter({
                 getFilter: filter => {
                   registrationDate = filter;
@@ -290,6 +298,12 @@ export const ClientRegistrationList = observer(
               text: 'Due Date',
               headerClasses: 'textHeader2',
               sort: true,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.dueDate !== undefined
+                    ? dayjs(row.dueDate).format('YYYY-MM-DD').toString()
+                    : ''
+                } - `,
               filter: customFilter({
                 getFilter: filter => {
                   dueDate = filter;
@@ -324,6 +338,12 @@ export const ClientRegistrationList = observer(
               dataField: 'reportDate',
               text: 'Report Date',
               headerClasses: 'textHeader2',
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.reportDate !== undefined
+                    ? dayjs(row.reportDate).format('YYYY-MM-DD').toString()
+                    : ''
+                } - `,
               filter: customFilter({
                 getFilter: filter => {
                   reportDate = filter;
@@ -391,9 +411,10 @@ export const ClientRegistrationList = observer(
             },
             {
               dataField: 'pdfReport',
-              text: 'Pdf Report',
+              text: 'PDF Report',
               headerClasses: 'textHeader3',
-              csvExport: false,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.pdfReport !== undefined ? row.pdfReport : ''}`,
               formatter: (cell, row) => {
                 return (
                   <>

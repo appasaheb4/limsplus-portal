@@ -7,7 +7,7 @@ class CommonInput {
   department: string;
   species: string;
   rangeSetOn: string;
-  equipmentType: string | undefined;
+  instType: string | undefined;
   lab: string | undefined;
   rangeType?: string;
   sex?: string;
@@ -41,7 +41,7 @@ class CommonInput {
     this.department = rawData.department;
     this.species = rawData.species;
     this.rangeSetOn = rawData.rangeSetOn;
-    this.equipmentType = rawData.equipmentType;
+    this.instType = rawData.instType;
     this.lab = rawData.lab;
     this.rangeType = rawData.rangeType;
     this.sex = rawData.sex;

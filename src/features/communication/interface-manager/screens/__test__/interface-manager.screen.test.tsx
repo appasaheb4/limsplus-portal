@@ -1,6 +1,7 @@
+// eslint-disable-next-line folders/match-regex
 import React from 'react';
 import {render} from '@testing-library/react';
-import InterfaceManager from './interface-manager.screen';
+import InterfaceManager from '../interface-manager.screen';
 
 describe('InterfaceManager Screen', () => {
   it('render interfaceManager correctly', () => {

@@ -63,10 +63,10 @@ export const EnvironmentVariable = observer(
 
         <div
           className={
-            'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
+            'p-1 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
           }
         >
-          <div className='p-2 rounded-lg shadow-xl'>
+          <div className='p-1 rounded-lg shadow-xl'>
             <Grid cols={2}>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
@@ -303,7 +303,7 @@ export const EnvironmentVariable = observer(
         </div>
 
         <div
-          className='p-2 rounded-lg shadow-xl overflow-scroll'
+          className='p-1 rounded-lg shadow-xl overflow-scroll'
           style={{overflowX: 'scroll'}}
         >
           <EnvironmentVariableList

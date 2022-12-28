@@ -59,7 +59,7 @@ const NavbarComponent = observer(({dispatch}) => {
         expand
         className='flex flex-row w-full pr-5 '
       >
-        <div className='flex w-8'>
+        <div className='flex w-8 '>
           <span
             className='sidebar-toggle d-flex mr-2'
             onClick={() => {
@@ -69,7 +69,7 @@ const NavbarComponent = observer(({dispatch}) => {
             <i className='hamburger align-self-center' />
           </span>
         </div>
-        <div className='flex flex-2  scrollbar-hide'>
+        <div className='flex flex-3  scrollbar-hide overflow-x-scroll '>
           {/* overflow-auto */}
           <Form inline>
             <div className='flex flex-row'>
@@ -88,12 +88,13 @@ const NavbarComponent = observer(({dispatch}) => {
                   </Tooltip>
                 </Buttons.Button>
               </div>
+
               {loginStore.login?.shortcutMenu &&
                 loginStore.login?.shortcutMenu[loginStore.login.role || ''] &&
                 loginStore.login?.shortcutMenu[loginStore.login.role || ''].map(
                   item => (
                     <>
-                      <div className='ml-1 m-0.5'>
+                      <div className='ml-2'>
                         <Buttons.Button
                           size='medium'
                           type='outline'
@@ -126,7 +127,7 @@ const NavbarComponent = observer(({dispatch}) => {
             </div>
           </Form>
         </div>
-        <div className='flex-1 ml-2'>
+        <div className='flex-1 ml-2 d-none d-sm-inline-block'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
               <Buttons.Button

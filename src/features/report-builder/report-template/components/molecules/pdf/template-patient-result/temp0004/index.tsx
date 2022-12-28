@@ -55,20 +55,16 @@ export const PdfTemp0004 = ({
 
   return (
     <>
-      <PDFViewer style={{width, height}} showToolbar={isToolbar}>
-        <Document title={documentTitle}>
-          <Page size={pageSize} style={boxCSS.current}>
-            <Header />
-            <PdfPatientDetails data={patientReports} />
-            <PdfResultList data={patientReports?.patientResultList} />
-            <PdfPageNumber
-              style={{textAlign: 'center', right: '45%'}}
-              bottom={77}
-            />
-            <Fotter />
-          </Page>
-        </Document>
-      </PDFViewer>
+      <Page size={pageSize} style={boxCSS.current}>
+        <Header />
+        <PdfPatientDetails data={patientReports} />
+        <PdfResultList data={patientReports?.patientResultList} />
+        <PdfPageNumber
+          style={{textAlign: 'center', right: '45%'}}
+          bottom={77}
+        />
+        <Fotter />
+      </Page>
     </>
   );
 };

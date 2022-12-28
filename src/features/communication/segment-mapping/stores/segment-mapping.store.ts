@@ -10,7 +10,7 @@ interface UpdateItem {
 }
 
 export class SegmentMappingStore {
-  segmentMapping!: SegmentMapping;
+  segmentMapping!: SegmentMapping[];
   listSegmentMapping: SegmentMapping[];
   listSegmentMappingCount: number;
   selectedItems: SegmentMapping[];
@@ -23,7 +23,8 @@ export class SegmentMappingStore {
     this.selectedItems = [];
     this.mapping = [];
     this.updateItem = undefined;
-    this.segmentMapping = new SegmentMapping({});
+    this.segmentMapping = [];
+
     makeObservable<SegmentMappingStore, any>(this, {
       segmentMapping: observable,
       listSegmentMapping: observable,
@@ -73,7 +74,7 @@ export class SegmentMappingStore {
     this.mapping = res.segmentMappings.data;
   }
 
-  updateSegmentMapping = (segmentMapping: SegmentMapping) => {
+  updateSegmentMapping = (segmentMapping: SegmentMapping[]) => {
     this.segmentMapping = segmentMapping;
   };
 

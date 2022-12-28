@@ -14,7 +14,7 @@ export const LIST = gql`
         instrumentType
         instrumentName
         dataFlowFrom
-        communicationProtocol
+        protocol
         blockStart
         blockEnd
         filed
@@ -78,7 +78,7 @@ export const FILTER = gql`
         instrumentType
         instrumentName
         dataFlowFrom
-        communicationProtocol
+        protocol
         blockStart
         blockEnd
         filed
@@ -106,7 +106,32 @@ export const FILTER_BY_FIELDS = gql`
         instrumentType
         instrumentName
         dataFlowFrom
-        communicationProtocol
+        protocol
+        blockStart
+        blockEnd
+        filed
+        value
+        fileds
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: InterfaceManagerInput!) {
+    findByFieldsInterfaceManager(input: $input) {
+      success
+      message
+      data {
+        _id
+        interfaceType
+        instrumentType
+        instrumentName
+        dataFlowFrom
+        protocol
         blockStart
         blockEnd
         filed

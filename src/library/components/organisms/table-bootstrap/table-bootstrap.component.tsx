@@ -49,6 +49,43 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
 }
 
+export const sortCaret = (order, column) => {
+  if (!order)
+    return (
+      <div className='flex flex-row absolute right-2 bottom-1/3'>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
+        </Icons.IconContext>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
+        </Icons.IconContext>
+      </div>
+    );
+  else if (order === 'asc')
+    return (
+      <div className='flex flex-row absolute right-2 bottom-1/3'>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
+        </Icons.IconContext>
+        <Icons.IconContext color='#fff' size='10'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
+        </Icons.IconContext>
+      </div>
+    );
+  else if (order === 'desc')
+    return (
+      <div className='flex flex-row absolute right-2 bottom-1/3'>
+        <Icons.IconContext color='#fff' size='10'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
+        </Icons.IconContext>
+        <Icons.IconContext color='#fff' size='20'>
+          {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
+        </Icons.IconContext>
+      </div>
+    );
+  return null;
+};
+
 export const TableBootstrap = ({
   id,
   data,
@@ -85,52 +122,57 @@ export const TableBootstrap = ({
     currSizePerPage,
     onSizePerPageChange,
   }) => (
-    <div className='btn-group items-center' role='group'>
-      {isSelectRow && (
-        <Buttons.Button
-          style={{height: 10, width: 200, marginTop: -20}}
-          size='small'
-          type='solid'
-          onClick={() => {
-            if (selectedRow) {
-              onSelectedRow && onSelectedRow(selectedRow);
-            } else {
-              alert('Please select any item.');
+    <div className='btn-group items-center flex flex-wrap ' role='group'>
+      <div className='flex flex-wrap gap-4'>
+        {isSelectRow && (
+          <Buttons.Button
+            style={{height: 10, width: 200}}
+            size='small'
+            type='solid'
+            onClick={() => {
+              if (selectedRow) {
+                onSelectedRow && onSelectedRow(selectedRow);
+              } else {
+                alert('Please select any item.');
+              }
+            }}
+          >
+            <Icons.EvaIcon
+              icon='trash-outline'
+              size='large'
+              color='#ffffff'
+              className='mr-1'
+            />
+            {`Remove Selected`}
+          </Buttons.Button>
+        )}
+
+        <input
+          type='number'
+          min='0'
+          placeholder='No'
+          onChange={(e: any) => {
+            if (e.target.value) {
+              onSizePerPageChange(e.target.value);
             }
           }}
-        >
-          <Icons.EvaIcon
-            icon='trash-outline'
-            size='large'
-            color='#ffffff'
-            className='mr-1'
-          />
-          {` Remove Selected`}
-        </Buttons.Button>
-      )}
-      <input
-        type='number'
-        min='0'
-        placeholder='No'
-        onChange={(e: any) => {
-          if (e.target.value) {
-            onSizePerPageChange(e.target.value);
-          }
-        }}
-        className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
-      />
-      {options.map(option => (
-        <button
-          key={option.text}
-          type='button'
-          onClick={() => onSizePerPageChange(option.page)}
-          className={`btn  ${
-            currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
-          }`}
-        >
-          {option.text}
-        </button>
-      ))}
+          className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
+        />
+        <div className='flex '>
+          {options.map(option => (
+            <button
+              key={option.text}
+              type='button'
+              onClick={() => onSizePerPageChange(option.page)}
+              className={`btn  ${
+                currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
+              }`}
+            >
+              {option.text}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
   const options = {
@@ -214,7 +256,9 @@ export const TableBootstrap = ({
     if (type === 'pagination' && _.isEmpty(filters)) {
       // if (sizePerPage > totalSize) return alert("You have not more records.")
       // if (page * sizePerPage > totalSize) return alert("You have not more records.")
-      onPageSizeChange && onPageSizeChange(page, sizePerPage);
+      debounce(() => {
+        onPageSizeChange && onPageSizeChange(page, sizePerPage);
+      });
     }
     if (type === 'filter' || (type === 'pagination' && !_.isEmpty(filters))) {
       if (type === 'pagination') {
@@ -325,7 +369,7 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center'>
+              <div className='flex items-center flex-wrap'>
                 <SearchBar
                   {...searchProps}
                   {...props.searchProps}
@@ -381,7 +425,7 @@ export const TableBootstrap = ({
                   />
                 </div>
               )}
-              <div className='scrollTable'>
+              <div className='scrollTable '>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -410,7 +454,7 @@ export const TableBootstrap = ({
                   onTableChange={handleTableChange}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
+              <div className='flex items-center gap-2 mt-2 flex-wrap'>
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
