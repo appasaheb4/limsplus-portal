@@ -32,5 +32,3 @@ __snapshots__/
 reports
 .scannerwork/
 
-# Local Netlify folder
-.netlify
