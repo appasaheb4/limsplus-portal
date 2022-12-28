@@ -279,11 +279,11 @@ export const Login = observer(() => {
                     className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'
                     style={{width: '350px'}}
                   >
-                    <span className='font-bold text-lg text-black mt-2 ml-4 underline'>
+                    <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
                       Sign In
                     </span>
                     {loginStore.inputLogin?.userModule && (
-                      <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
+                      <span className='text-center font-bold text-xl text-black mt-2 ml-4 underline font-dancingScriptBold'>
                         {loginStore.inputLogin?.userModule}
                       </span>
                     )}

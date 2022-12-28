@@ -180,9 +180,9 @@ export class TestAnalyteMappingService {
         );
     });
 
-  findByFileds = (variables: any) =>
+  findByFileds = (variables: any, loading = false) =>
     new Promise<any>((resolve, reject) => {
-      stores.uploadLoadingFlag(false);
+      stores.uploadLoadingFlag(loading);
       client
         .mutate({
           mutation: FIND_BY_FILEDS,

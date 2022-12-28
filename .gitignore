@@ -15,7 +15,6 @@ tsconfig.json
 
 # production
 /build.zip
-/build
 
 # misc
 .DS_Store
