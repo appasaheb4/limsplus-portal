@@ -230,6 +230,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               ({_id}) => _id,
             );
             setInstResultMappingRecords(values);
+          } else {
+            alert(res.fetchKeysValueInstResultMapping.message);
           }
         });
     };

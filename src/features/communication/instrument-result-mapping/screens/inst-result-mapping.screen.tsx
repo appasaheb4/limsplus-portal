@@ -219,11 +219,14 @@ const InstResultMapping = observer(() => {
 
   const getTestDetails = lab => {
     return testAnalyteMappingStore.testAnalyteMappingService
-      .findByFileds({
-        input: {
-          filter: {lab},
+      .findByFileds(
+        {
+          input: {
+            filter: {lab},
+          },
         },
-      })
+        true,
+      )
       .then(res => {
         if (res.findByFiledsTestAnalyteMappings.success) {
           return res.findByFiledsTestAnalyteMappings.data;
@@ -233,11 +236,14 @@ const InstResultMapping = observer(() => {
 
   const getAnalyteDetails = testCode => {
     return testAnalyteMappingStore.testAnalyteMappingService
-      .findByFileds({
-        input: {
-          filter: {testCode},
+      .findByFileds(
+        {
+          input: {
+            filter: {testCode},
+          },
         },
-      })
+        true,
+      )
       .then(res => {
         if (res.findByFiledsTestAnalyteMappings.success) {
           return res.findByFiledsTestAnalyteMappings.data;
