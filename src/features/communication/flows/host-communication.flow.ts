@@ -10,7 +10,7 @@ class HostCommunicationFlows {
       .findByFields({
         input: {
           filter: {
-            equipmentType: interfaceManager.instrumentType,
+            instType: interfaceManager.instrumentType,
           },
         },
       })
@@ -21,29 +21,17 @@ class HostCommunicationFlows {
       });
     const mapping: any[] = [];
     const values: MappingValues[] = [];
-    const dataFlowFrom =
-      interfaceManager.dataFlowFrom !== undefined
-        ? interfaceManager.dataFlowFrom
-            .replaceAll(/&amp;/g, '&')
-            .replaceAll(/&gt;/g, '>')
-            .replaceAll(/&lt;/g, '<')
-            .replaceAll(/&quot;/g, '"')
-            .replaceAll(/â/g, '’')
-            .replaceAll(/â¦/g, '…')
-        : undefined;
+
     for (const item of data) {
-      if (
-        item.equipmentType === interfaceManager.instrumentType &&
-        item.dataFlowFrom === dataFlowFrom
-      ) {
+      if (item.instType === interfaceManager.instrumentType) {
         values.push({
           segments: item.segments,
-          field: `${item.segments?.toLowerCase()}.${item.element_name
+          field: `${item.segments?.toLowerCase()}.${item.elementName
             ?.toLowerCase()
             .replaceAll(' ', '_')}`,
-          component: [Number(item.field_no), 1],
-          field_no: Number(item.field_no),
-          mandatory: item.mandatory,
+          component: [Number(item.elementSequence), 1],
+          field_no: Number(item.elementSequence),
+          mandatory: item.requiredForLims,
           default: '',
         });
       }
@@ -83,6 +71,8 @@ class HostCommunicationFlows {
             stores.hostCommunicationStore.selectedInterfaceManager,
             mapping,
           );
+          console.log({hl7});
+
           if (!hl7) return alert('Please enter correct message');
           stores.hostCommunicationStore.updateConvertTo({
             ...stores.hostCommunicationStore.convertTo,
