@@ -36,30 +36,31 @@ Font.register({
 
 interface PdfPBTemp0001Props {
   data: PageBranding;
-  children?: React.ReactNode;
+  templateSettings?: any;
+  children?: any;
 }
 
 export const PdfPBTemp0001 = observer(
-  ({data, children}: PdfPBTemp0001Props) => {
-    const pageNumberCSS = useRef<any>({});
-    if (data?.pageNumber?.pageNumberCSS) {
-      try {
-        pageNumberCSS.current = eval(
-          '({' + data?.pageNumber?.pageNumberCSS + '})',
-        );
-      } catch (e) {
-        pageNumberCSS.current = {};
-      }
-    }
+  ({data, templateSettings, children}: PdfPBTemp0001Props) => {
+    // const pageNumberCSS = useRef<any>({});
+    // if (data?.pageNumber?.pageNumberCSS) {
+    //   try {
+    //     pageNumberCSS.current = eval(
+    //       '({' + data?.pageNumber?.pageNumberCSS + '})',
+    //     );
+    //   } catch (e) {
+    //     pageNumberCSS.current = {};
+    //   }
+    // }
     return (
       <PdfTSTemp0001
         height={window.innerHeight / 1.3}
         documentTitle='Page Branding'
-        isToolbar={data.templateSettings?.isToolbar}
-        isBackgroundImage={data.templateSettings?.isBackgroundImage}
-        backgroundImage={data.templateSettings?.backgroundImageBase64}
-        mainBoxCSS={data.templateSettings?.mainBoxCSS}
-        pageSize={data.templateSettings?.pageSize}
+        isToolbar={templateSettings?.isToolbar}
+        isBackgroundImage={templateSettings?.isBackgroundImage}
+        backgroundImage={templateSettings?.backgroundImageBase64}
+        mainBoxCSS={templateSettings?.mainBoxCSS}
+        pageSize={templateSettings?.pageSize}
         children={
           <>
             {/* Header */}
@@ -72,9 +73,9 @@ export const PdfPBTemp0001 = observer(
             {children}
 
             {/* Page Number */}
-            {data?.isPdfPageNumber && (
+            {/* {data?.isPdfPageNumber && (
               <PdfPageNumber style={{...pageNumberCSS.current}} />
-            )}
+            )} */}
 
             {/* Footer */}
             {data?.isFooter && <PdfTemp0001Footer data={data} />}

@@ -8,6 +8,7 @@ import {
   PdfGrid,
   PdfSmall,
 } from '@components';
+import {Page, StyleSheet, Font} from '@react-pdf/renderer';
 import {observer} from 'mobx-react';
 import {PdfPBTemp0001} from '../../page-branding/temp0001/temp0001.component';
 import {PdfTPRTemp0003List} from './temp0003-list.component';
@@ -30,7 +31,8 @@ export const PdfTemp0003 = observer(({data}: PdfTemp0003Props) => {
 
   return (
     <PdfPBTemp0001
-      data={pageBranding}
+      data={pageBranding.pageBrandingRes}
+      templateSettings={pageBranding.templateSettingsRes}
       children={
         <>
           {/* Address */}

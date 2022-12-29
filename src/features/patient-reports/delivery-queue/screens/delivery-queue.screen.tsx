@@ -199,7 +199,7 @@ const DeliveryQueue = observer(() => {
                         },
                       },
                     })
-                    .then(res => {
+                    .then(async res => {
                       patientResultList = patientResultList.filter(item => {
                         const reportSettings =
                           res.getTempPatientResultListByTempCodes.list.find(
@@ -213,10 +213,29 @@ const DeliveryQueue = observer(() => {
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-                      setModalGenerateReports({
-                        show: true,
-                        data: grouped,
-                      });
+                      const keys = _.mapKeys(
+                        grouped,
+                        (value, key) => key.split(' -')[0],
+                      );
+                      const templates = Object.keys(keys);
+                      await reportSettingStore.templatePatientResultService
+                        .getTempPatientResultListByTempCodes({
+                          input: {
+                            filter: {
+                              reportTemplateList: templates,
+                            },
+                          },
+                        })
+                        .then(res => {
+                          if (res.getTempPatientResultListByTempCodes.success) {
+                            setModalGenerateReports({
+                              show: true,
+                              data: grouped,
+                              templateDetails:
+                                res.getTempPatientResultListByTempCodes.list,
+                            });
+                          }
+                        });
                     });
                 }
               } else {
