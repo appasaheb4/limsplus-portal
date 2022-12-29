@@ -19,6 +19,7 @@ interface ModalGenerateReportsProps {
   show?: boolean;
   title?: string;
   data?: any;
+  templateDetails?: any;
   onClick: (data: any, item: any, index: number) => void;
   onClose: () => void;
   onReceiptUpload: (file: any, type: string) => void;
@@ -27,6 +28,7 @@ interface ModalGenerateReportsProps {
 export const ModalGenerateReports = ({
   show = false,
   data,
+  templateDetails,
   onClose,
   onReceiptUpload,
 }: ModalGenerateReportsProps) => {
@@ -42,7 +44,6 @@ export const ModalGenerateReports = ({
     if (data) {
       let newObj = _.mapKeys(data, (value, key) => key.split(' -')[0]);
       setReportList(newObj);
-      console.log({newObj});
     }
   }, [data]);
 
@@ -56,23 +57,58 @@ export const ModalGenerateReports = ({
         <Document title={documentTitle}>
           {reports['TEMP0001'] &&
             _.uniqBy(reportList['TEMP0001'], 'labId').map(patientReports => (
-              <PdfTemp0001 data={{patientReports}} />
+              <PdfTemp0001
+                data={{
+                  patientReports,
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0001',
+                  ),
+                }}
+              />
             ))}
           {reports['TEMP0002'] &&
             _.uniqBy(reportList['TEMP0002'], 'labId').map(patientReports => (
-              <PdfTemp0002 data={{patientReports}} />
+              <PdfTemp0002
+                data={{
+                  patientReports,
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0002',
+                  ),
+                }}
+              />
             ))}
           {reports['TEMP0003'] &&
             _.uniqBy(reportList['TEMP0003'], 'labId').map(patientReports => (
-              <PdfTemp0003 data={{patientReports}} />
+              <PdfTemp0003
+                data={{
+                  patientReports,
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0003',
+                  ),
+                }}
+              />
             ))}
           {reports['TEMP0004'] &&
             _.uniqBy(reportList['TEMP0004'], 'labId').map(patientReports => (
-              <PdfTemp0004 data={{patientReports}} />
+              <PdfTemp0004
+                data={{
+                  patientReports,
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0004',
+                  ),
+                }}
+              />
             ))}
           {reports['TEMP0005'] &&
             _.uniqBy(reportList['TEMP0005'], 'labId').map(patientReports => (
-              <PdfTemp0005 data={{patientReports}} />
+              <PdfTemp0005
+                data={{
+                  patientReports,
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0005',
+                  ),
+                }}
+              />
             ))}
         </Document>
       </PDFViewer>
@@ -155,29 +191,6 @@ export const ModalGenerateReports = ({
                             </Icons.IconContext>
                           </Tooltip>
                           {reportList && getReports(reportList)}
-                          {/* <Tooltip tooltipText='Print'>
-                            <Icons.IconContext
-                              color='#fff'
-                              size='25'
-                              style={{
-                                backgroundColor: '#808080',
-                                width: 32,
-                                height: 32,
-                                borderRadius: 16,
-                                align: 'center',
-                                padding: 4,
-                              }}
-                              onClick={async () => {
-                                const blob = await pdf(
-                                  <PdfTemp0006 data={data} />,
-                                ).toBlob();
-                                const blobURL = URL.createObjectURL(blob);
-                                printjs(blobURL);
-                              }}
-                            >
-                              {Icons.getIconTag(Icons.IconBi.BiPrinter)}
-                            </Icons.IconContext>
-                          </Tooltip> */}
                         </div>
                       </div>
                     )}

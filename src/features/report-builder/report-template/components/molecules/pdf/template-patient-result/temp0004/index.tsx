@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {Page, Document, StyleSheet, Font, PDFViewer} from '@react-pdf/renderer';
+import {Page, StyleSheet, Font} from '@react-pdf/renderer';
 import {PdfPageNumber} from '@components';
 import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
 import {Fotter} from '../../common/aarvak-diagnostic-center/pdf-fotter.component';

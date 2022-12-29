@@ -59,8 +59,6 @@ export const PdfTSTemp0001 = ({
   return (
     <>
       {isToolbar ? (
-        // <PDFViewer style={{width, height}} showToolbar={isToolbar}>
-        //   <Document title={documentTitle}>
         <Page size={pageSize} style={boxCSS.current}>
           {isBackgroundImage && (
             <View
@@ -91,42 +89,34 @@ export const PdfTSTemp0001 = ({
           {children}
         </Page>
       ) : (
-        //   </Document>
-        // </PDFViewer>
-        <div>
-          {/* <PDFViewer style={{width, height}} showToolbar={isToolbar}>
-            <Document title={documentTitle}> */}
-          <Page size={pageSize} style={boxCSS.current}>
-            {isBackgroundImage && (
-              <View
+        <Page size={pageSize} style={boxCSS.current}>
+          {isBackgroundImage && (
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                top: 0,
+              }}
+              fixed={true}
+            >
+              <Image
+                object-fit='fill'
                 style={{
                   position: 'absolute',
                   bottom: 0,
                   left: 0,
                   right: 0,
                   top: 0,
+                  objectFit: 'fill',
                 }}
-                fixed={true}
-              >
-                <Image
-                  object-fit='fill'
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    objectFit: 'fill',
-                  }}
-                  src={decompressString(backgroundImage || '')}
-                />
-              </View>
-            )}
-            {children}
-          </Page>
-          {/* </Document>
-          </PDFViewer> */}
-        </div>
+                src={decompressString(backgroundImage || '')}
+              />
+            </View>
+          )}
+          {children}
+        </Page>
       )}
     </>
   );
