@@ -13,22 +13,10 @@ export default class Decoder {
     this._decoder = this._setDynamicDecoder();
   }
 
-  /**
-   * @description Call process method from dynamic class
-   * @return {*}
-   */
-
   decode() {
     if (!this._message) return null;
     return this._decoder.process();
   }
-
-  /**
-   * @description Instantiate dynamically right class
-   * @param format
-   * @return {*}
-   * @private
-   */
 
   _setDynamicDecoder() {
     const obj = new Hl7(this._message, this._interfaceManager, this._config);
