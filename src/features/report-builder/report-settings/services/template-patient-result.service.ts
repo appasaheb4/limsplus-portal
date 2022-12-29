@@ -45,8 +45,6 @@ export class TemplatePatientResultService {
 
   addTemplatePatientResult = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
       client
         .mutate({
           mutation: CREATE_TEMPLATE_PATIENT_RESULT,

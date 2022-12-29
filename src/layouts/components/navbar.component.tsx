@@ -295,7 +295,6 @@ const NavbarComponent = observer(({dispatch}) => {
           };
           userStore.UsersService.changePassword({input: {...body}}).then(
             res => {
-              console.log({res});
               if (res.userChnagePassword.success) {
                 loginStore.updateLogin({
                   ...loginStore.login,

@@ -135,8 +135,6 @@ export const TemplatePatientResult = observer(() => {
                             },
                           })
                           .then(res => {
-                            console.log({res});
-
                             if (res.findByFieldsTemplatePatientResult.success) {
                               setError('reportTemplateType', {type: 'onBlur'});
                               setError('templateCode', {type: 'onBlur'});

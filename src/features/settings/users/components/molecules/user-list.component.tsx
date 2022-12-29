@@ -557,8 +557,6 @@ export const UserList = (props: UserListProps) => {
                   column: any,
                   columnIndex: any,
                 ) => {
-                  console.log({e, row});
-
                   if (row.dataField === 'lab') {
                     setModalDefaultLabDeptUpdate({
                       show: true,

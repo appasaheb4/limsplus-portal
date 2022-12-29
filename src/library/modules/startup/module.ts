@@ -12,7 +12,6 @@ const hydrateStore = async (key: string, storeInstance: any) => {
     await trunk.init();
     return true;
   } catch (err) {
-    console.log(err);
     return false;
   }
 };

@@ -29,8 +29,8 @@ class HostCommunicationFlows {
           field: `${item.segments?.toLowerCase()}.${item.elementName
             ?.toLowerCase()
             .replaceAll(' ', '_')}`,
-          component: [Number(item.elementSequence), 1],
-          field_no: Number(item.elementSequence),
+          component: [Number(item.elementNo), 1],
+          field_no: Number(item.elementNo),
           mandatory: item.requiredForLims,
           default: '',
         });
