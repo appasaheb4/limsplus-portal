@@ -162,7 +162,6 @@ export const PageBranding = observer(() => {
                         },
                       })
                       .then(res => {
-                        console.log({res});
                         if (res.findByFieldsPageBranding.success) {
                           setError('tempCode', {type: 'onBlur'});
                           setError('brandingTitle', {type: 'onBlur'});
