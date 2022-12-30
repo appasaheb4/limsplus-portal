@@ -14,6 +14,7 @@ import {
   DateFilter,
   textFilter,
   customFilter,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {AutoCompleteFilterSingleSelectAnalyteCode} from '../index';
@@ -76,6 +77,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             }),
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
               editorProps,
@@ -104,6 +109,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Analyte Name',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -117,6 +126,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Conclusion Result',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `Result:${row.conclusionResult.map(
                 item => item.result,
@@ -316,6 +329,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Defualt Conclusion',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `Result:${
                 row.defaultConclusion && row.defaultConclusion.result
@@ -405,6 +422,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Environment',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -453,6 +474,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Entered By',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -466,6 +491,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Date Creation',
             headerClasses: 'textHeader11',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -510,6 +539,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Date Active',
             headerClasses: 'textHeader11',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
             filter: customFilter({
@@ -548,6 +581,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Date Expire',
             headerClasses: 'textHeader11',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
             // filter: dateFilter({
@@ -598,6 +635,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Version',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: customFilter({
               getFilter: filter => {
@@ -613,6 +654,10 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: 'Status',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {

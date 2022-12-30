@@ -7,6 +7,7 @@ import {
   Icons,
   Tooltip,
   textFilter,
+  sortCaret,
 } from '@/library/components';
 
 import {Confirm} from '@/library/models';
@@ -55,6 +56,10 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: 'Labs',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -88,6 +93,10 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: 'Header',
               headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -99,6 +108,10 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               dataField: 'message',
               text: 'Message',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -138,6 +151,10 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: 'Action',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {

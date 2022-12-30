@@ -10,6 +10,7 @@ import {
   Form,
   Icons,
   Tooltip,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -113,6 +114,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'RLab',
               headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -156,6 +161,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'PLab',
               headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -191,6 +200,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Department',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -227,6 +240,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Section',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 `${row?.section?.code} - ${row?.section?.name}`,
               filter: textFilter({
@@ -278,6 +295,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Test  Code',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -291,6 +312,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Test  Name',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -304,6 +329,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Description',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -339,8 +368,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'shortName',
               text: 'Short Name',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -355,8 +388,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'price',
               text: 'Price',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -395,8 +432,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'schedule',
               text: 'Schedule',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -431,8 +472,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'validationLevel',
               text: 'Validation Level',
-              headerClasses: 'textHeader7',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -480,8 +525,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'processing',
               text: 'Processing',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -529,8 +578,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'sampleRunOn',
               text: 'Sample Run On',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -575,8 +628,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'workflow',
               text: 'Workflow',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -618,8 +675,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'disease',
               text: 'disease',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -660,8 +721,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'category',
               text: 'Category',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -702,8 +767,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testType',
               text: 'Test Type',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -744,8 +813,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'workflowCode',
               text: 'Workflow Code',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -788,8 +861,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'cptCode',
               text: 'CPT Code',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -899,8 +976,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testMethodCode',
               text: 'Test Method Code',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -936,8 +1017,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testMethodName',
               text: 'Test Method Name',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -1110,6 +1195,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Label Instruction',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1191,6 +1280,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Prefix',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1234,6 +1327,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Sufix',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1276,6 +1373,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Speical Instructions',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1316,8 +1417,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'internalComments',
               text: 'Internal Comments',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1330,8 +1435,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'externalComments',
               text: 'External Comments',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1372,8 +1481,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testRightMarker',
               text: 'Test Right Marker',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1387,8 +1500,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1429,8 +1546,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'enteredBy',
               text: 'Entered By',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1442,8 +1563,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'dateCreation',
               text: 'Date Creation',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -1486,8 +1611,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive).format('YYYY-MM-DD')
@@ -1531,8 +1660,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: 'dateExpire',
               editable: false,
               text: 'Date Expire',
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.dateExpire).format('YYYY-MM-DD')
@@ -1574,8 +1707,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'version',
               text: 'Version',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
               filter: customFilter({
@@ -1590,8 +1727,12 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'interpretation',
               text: 'Interpretation',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1622,8 +1763,12 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: 'testResultDate',
               editable: false,
               text: 'Test Result Date',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.testResultDate
                   ? dayjs(row.testResultDate).format('YYYY-MM-DD')
@@ -1651,6 +1796,10 @@ export const TestMasterList = (props: TestMasterProps) => {
               text: 'Environment',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),

@@ -6,6 +6,7 @@ import {
   Form,
   Tooltip,
   textFilter,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -53,6 +54,10 @@ export const EnvironmentVariableList = observer(
                 text: 'Environment Variable',
                 headerClasses: 'textHeader5',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 editable: (content, row, rowIndex, columnIndex) => row.isModify,
                 csvFormatter: col => (col ? col : ''),
                 filter: textFilter({
@@ -66,6 +71,10 @@ export const EnvironmentVariableList = observer(
                 text: 'Category',
                 headerClasses: 'textHeader3',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 editable: (content, row, rowIndex, columnIndex) => row.isModify,
                 csvFormatter: col => (col ? col : ''),
                 filter: textFilter({
@@ -120,6 +129,10 @@ export const EnvironmentVariableList = observer(
                   },
                 }),
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: col => (col ? col : ''),
               },
               {
@@ -133,6 +146,10 @@ export const EnvironmentVariableList = observer(
                   },
                 }),
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: col => (col ? col : ''),
               },
               {

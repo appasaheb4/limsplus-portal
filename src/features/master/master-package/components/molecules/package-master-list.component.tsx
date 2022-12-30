@@ -10,6 +10,7 @@ import {
   Form,
   Icons,
   Tooltip,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -80,6 +81,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Lab',
             headerClasses: 'textHeader',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -110,6 +115,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Service Type',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -123,6 +132,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Package Code',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -135,6 +148,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Package Name',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -148,6 +165,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Panel Code',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -185,6 +206,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Panel Name',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -393,6 +418,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Status',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -434,6 +463,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Entered By',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -448,6 +481,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Date Creation',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -491,6 +528,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Date Active',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
             editable: false,
@@ -530,6 +571,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Date Expire',
             headerClasses: 'textHeader11',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
             filter: customFilter({
@@ -567,6 +612,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Version',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: customFilter({
@@ -583,6 +632,10 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: textFilter({

@@ -6,6 +6,7 @@ import {
   Tooltip,
   customFilter,
   textFilter,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {PatientOrderExpand} from './patient-order-expand.component';
@@ -57,6 +58,10 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: 'Lab Id',
               headerClasses: 'textHeader4 z-10',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: customFilter({
                 getFilter: filter => {
                   labid = filter;
@@ -80,6 +85,10 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: 'Visit Id',
               headerClasses: 'textHeader4 z-10',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: customFilter({
                 getFilter: filter => {
                   visitId = filter;
@@ -94,6 +103,10 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: 'Order Id',
               headerClasses: 'textHeader4 z-10',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: customFilter({
                 getFilter: filter => {
                   orderId = filter;
@@ -108,6 +121,10 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: 'Panel Code',
               headerClasses: 'textHeader4 z-10',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.panelCode.map(item => item.panelCode)}`,
               filter: textFilter({

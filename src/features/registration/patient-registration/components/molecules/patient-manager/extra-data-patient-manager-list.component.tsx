@@ -7,15 +7,11 @@ import {
   Icons,
   Tooltip,
   Type,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {
-  AutoCompleteFilterSingleSelectCountry,
-  AutoCompleteFilterSingleSelectCity,
-  AutoCompleteFilterSingleSelectState,
-  AutoCompleteFilterSingleSelectPostalCode,
-} from '../../index';
+import {AutoCompleteFilterSingleSelectPostalCode} from '../../index';
 interface ExtraDataPatientManagerProps {
   data: any;
   totalSize: number;
@@ -69,8 +65,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'postcode',
                 text: 'PostCode',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.postcode ? row.extraData?.postcode : '',
                 filter: textFilter({
@@ -107,8 +107,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'country',
                 text: 'Country',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.country ? row.extraData?.country : '',
                 filter: textFilter({
@@ -124,8 +128,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'state',
                 text: 'State',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.state ? row.extraData.state : '',
                 filter: textFilter({
@@ -141,7 +149,7 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'district',
                 text: 'District',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
                 csvFormatter: (col, row) =>
                   row.extraData?.district ? row.extraData.district : '',
@@ -153,8 +161,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'city',
                 text: 'City',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.city ? row.extraData?.city : '',
                 filter: textFilter({
@@ -170,7 +182,7 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'area',
                 text: 'Area',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
                 csvFormatter: (col, row) =>
                   row.extraData?.area ? row.extraData?.area : '',
@@ -182,8 +194,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'address',
                 text: 'Address',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.address ? row.extraData.address : '',
                 filter: textFilter({
@@ -202,8 +218,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'email',
                 text: 'Email',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.email ? row.extraData.email : '',
                 filter: textFilter({
@@ -295,7 +315,7 @@ export const ExtraDataPatientManagerList = observer(
                 dataField: 'photograph',
                 text: 'PhotoGraph',
                 csvExport: false,
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 formatter: (cell, row) => {
                   return (
                     row.extraData.photograph && (
@@ -317,7 +337,7 @@ export const ExtraDataPatientManagerList = observer(
                 dataField: 'signature',
                 text: 'Signature',
                 csvExport: false,
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 formatter: (cell, row) => {
                   return (
                     row.extraData.signature && (
@@ -338,8 +358,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'bloodGroup',
                 text: 'BloodGroup',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.bloodGroup ? row.extraData.bloodGroup : '',
                 filter: textFilter({
@@ -354,8 +378,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'followUp',
                 text: 'FollowUp',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.followUp ? row.extraData.followUp : '',
                 filter: textFilter({
@@ -370,8 +398,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'comments',
                 text: 'Comments',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.comments ? row.extraData.comments : '',
                 filter: textFilter({
@@ -386,8 +418,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'fyiLine',
                 text: 'FyiLine',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.fyiLine ? row.extraData.fyiLine : '',
                 filter: textFilter({
@@ -402,8 +438,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'balance',
                 text: 'Balance',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.balance ? row.extraData.balance : '',
                 filter: textFilter({
@@ -418,7 +458,7 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'externalPid',
                 text: 'External Pid',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
                 csvFormatter: (col, row) =>
                   row.extraData?.externalPid ? row.extraData?.externalPid : '',
@@ -431,8 +471,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'enteredBy',
                 text: 'Entered By',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.enteredBy ? row.extraData.enteredBy : '',
                 filter: textFilter({
@@ -448,8 +492,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'status',
                 text: 'Status',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.status ? row.extraData.status : '',
                 filter: textFilter({
@@ -496,8 +544,12 @@ export const ExtraDataPatientManagerList = observer(
               {
                 dataField: 'environment',
                 text: 'Environment',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader1',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.environment ? row.extraData.environment : '',
                 filter: textFilter({
