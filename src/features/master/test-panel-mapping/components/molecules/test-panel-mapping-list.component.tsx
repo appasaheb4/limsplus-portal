@@ -11,6 +11,7 @@ import {
   Tooltip,
   Icons,
   TableBootstrap,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -100,6 +101,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: 'Lab',
               headerClasses: 'textHeader',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -135,6 +140,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: 'Panel Code',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -171,6 +180,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: 'Test Code',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -209,6 +222,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: 'Test Name',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -538,8 +555,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -581,8 +602,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'enteredBy',
               text: 'Entered By',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -595,8 +620,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -638,8 +667,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive).format('YYYY-MM-DD')
@@ -682,8 +715,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'dateExpire',
               text: 'Date Expire',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.dateExpire).format('YYYY-MM-DD')
@@ -726,8 +763,12 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'version',
               text: 'Version',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
               filter: customFilter({
@@ -744,6 +785,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: 'Environment',
               headerClasses: 'textHeader',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),

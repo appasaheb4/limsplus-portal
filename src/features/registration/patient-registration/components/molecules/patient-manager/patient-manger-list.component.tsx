@@ -11,6 +11,7 @@ import {
   Form,
   Tooltip,
   Icons,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {FormHelper} from '@/helper';
@@ -83,6 +84,10 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               text: 'Pid',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: customFilter({
                 getFilter: filter => {
                   pId = filter;
@@ -128,8 +133,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'mobileNo',
               text: 'Mobile No',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
@@ -202,6 +211,10 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               text: 'Birthdate',
               headerClasses: 'textHeader11',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.birthDate ? dayjs(row.birthDate).format('YYYY-MM-DD') : '',
               editable: (content, row, rowIndex, columnIndex) =>
@@ -390,8 +403,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'title',
               text: 'Title',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -441,8 +458,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'firstName',
               text: 'First Name',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
@@ -469,8 +490,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'middleName',
               text: 'Middle Name',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
@@ -497,8 +522,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'lastName',
               text: 'Last Name',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 col
                   ? row.extraData?.confidental && !props.extraData.confidental
@@ -525,8 +554,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'sex',
               text: 'Sex',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -568,8 +601,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'species',
               text: 'Species',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -611,8 +648,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'breed',
               text: 'Breed',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -625,8 +666,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'usualDoctor',
               text: 'Usual Doctor',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -673,7 +718,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'diagnosis',
               text: 'Diagnosis',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
               csvFormatter: (col, row) =>
                 row.extraData?.diagnosis ? row.extraData?.diagnosis : '',
@@ -686,7 +731,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'disease',
               text: 'Disease',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
               csvFormatter: (col, row) =>
                 row.extraData?.disease ? row.extraData?.disease : '',

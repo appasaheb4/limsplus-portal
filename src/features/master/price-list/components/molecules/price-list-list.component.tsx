@@ -9,6 +9,7 @@ import {
   Form,
   Icons,
   Tooltip,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
@@ -90,8 +91,12 @@ export const PriceListList = (props: PriceListProps) => {
             {
               dataField: 'priceGroup',
               text: 'Price Group',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -143,6 +148,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Price List',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -213,6 +222,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Description',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -225,8 +238,12 @@ export const PriceListList = (props: PriceListProps) => {
             {
               dataField: 'panelCode',
               text: 'Panel Code',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -262,8 +279,12 @@ export const PriceListList = (props: PriceListProps) => {
             {
               dataField: 'panelName',
               text: 'Panel Name',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -302,6 +323,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Price',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -343,6 +368,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Min Sp',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -384,6 +413,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Max Sp',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -425,6 +458,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Max Discount',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -485,8 +522,12 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: 'enteredBy',
               editable: false,
               text: 'Entered By',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -499,6 +540,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Status',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -539,8 +584,12 @@ export const PriceListList = (props: PriceListProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -589,6 +638,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Date Creation',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation || 0).format('YYYY-MM-DD')
@@ -633,6 +686,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Date Active',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive || 0).format('YYYY-MM-DD')
@@ -677,6 +734,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Date Expire',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.dateExpire || 0).format('YYYY-MM-DD')
@@ -721,6 +782,10 @@ export const PriceListList = (props: PriceListProps) => {
               text: 'Version',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {

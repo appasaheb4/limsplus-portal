@@ -5,6 +5,7 @@ import {
   Icons,
   Tooltip,
   Form,
+  sortCaret,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {Confirm} from '@/library/models';
@@ -60,6 +61,10 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: 'variable',
               text: 'Variable',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   variable = filter;
@@ -93,6 +98,10 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: 'lab',
               text: 'Labs',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.lab.map(item => item.name).join(' , ')}`,
@@ -142,6 +151,10 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: 'user',
               text: 'Users',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               separator: '| ',
               editable: false,
               // csvFormatter: (cell, row, rowIndex) => `${row.user.map((item,index)=>{
@@ -195,6 +208,10 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: 'department',
               text: 'Departments',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               headerClasses: 'textHeader4',
               filter: textFilter({
@@ -250,6 +267,10 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: 'value',
               text: 'Value',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   value = filter;
@@ -286,6 +307,10 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: 'description',
               text: 'Description',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -326,6 +351,10 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               headerClasses: 'textHeader3',
               csvFormatter: col => (col ? col : ''),
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   environment = filter;

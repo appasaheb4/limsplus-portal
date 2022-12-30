@@ -11,6 +11,7 @@ import {
   Icons,
   Tooltip,
   Form,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -84,6 +85,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Lab',
               headerClasses: 'textHeader',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   lab = filter;
@@ -118,6 +123,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Test Code',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -131,6 +140,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Test Name',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -144,6 +157,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Analyte Code',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -182,6 +199,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Analyte Name',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -218,7 +239,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: 'variable',
               text: 'Variable',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -260,8 +281,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: 'calculationFormula',
               text: 'Calculation Formula',
-              headerClasses: 'textHeader4',
-              sort: true,
+              headerClasses: 'textHeader2',
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row) && row.calculationFlag,
@@ -465,6 +485,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Status',
               headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -508,6 +532,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Entered By',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   enteredBy = filter;
@@ -521,6 +549,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Date Creation',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -564,6 +596,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Date Active',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: (col, row) =>
                 row.dateActive
@@ -608,6 +644,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Date Expire',
               headerClasses: 'textHeader6',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: (col, row) =>
                 row.dateExpire
@@ -652,6 +692,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Version',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
@@ -668,6 +712,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Environment',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   environment = filter;

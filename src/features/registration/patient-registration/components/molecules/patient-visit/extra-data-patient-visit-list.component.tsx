@@ -9,6 +9,7 @@ import {
   Form,
   Icons,
   Tooltip,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -75,6 +76,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Additional Information',
                 headerClasses: 'textHeader5',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.additionalInfo
                     ? row.extraData.additionalInfo
@@ -93,6 +98,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Invoice Ac',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.invoiceAc ? row.extraData.invoiceAc : '',
                 filter: textFilter({
@@ -148,6 +157,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Billing Method',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.billingMethod
                     ? row.extraData.billingMethod
@@ -202,6 +215,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Bill Number',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.billNumber ? row.extraData.billNumber : '',
                 filter: textFilter({
@@ -218,6 +235,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Method Collection',
                 headerClasses: 'textHeader5',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.methodCollection
                     ? row.extraData.methodCollection
@@ -272,6 +293,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Collection By',
                 headerClasses: 'textHeader5',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.collectedBy ? row.extraData.collectedBy : '',
                 filter: textFilter({
@@ -288,6 +313,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Received Date',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData.receivedDate
                     ? dayjs(row.extraData.receivedDate).format('YYYY-MM-DD')
@@ -335,6 +364,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Result Date',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.resultDate
                     ? dayjs(row.extraData?.resultDate).format('YYYY-MM-DD')
@@ -456,6 +489,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Approval Date',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.approvalDate
                     ? dayjs(row.extraData.approvalDate).format('YYYY-MM-DD')
@@ -502,6 +539,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Approval Status',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.approvalStatus
                     ? row.extraData.approvalStatus
@@ -556,6 +597,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Report Status',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.reportStatus ? row.extraData.reportStatus : '',
                 filter: textFilter({
@@ -608,6 +653,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Reported Date',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.reportedDate
                     ? dayjs(row.extraData.reportedDate).format('YYYY-MM-DD')
@@ -654,6 +703,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Entered By',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.enteredBy ? row.extraData.enteredBy : '',
                 filter: textFilter({
@@ -671,6 +724,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Height',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.height ? row.extraData.height : '',
                 filter: textFilter({
@@ -687,6 +744,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Weight',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.weight ? row.extraData.weight : '',
                 filter: textFilter({
@@ -703,6 +764,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Archive',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.archieve ? row.extraData.archieve : '',
                 filter: textFilter({
@@ -755,6 +820,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Login Interface',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.loginInterface
                     ? row.extraData.loginInterface
@@ -810,6 +879,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Registration Interface',
                 headerClasses: 'textHeader5',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.registrationInterface
                     ? row.extraData.registrationInterface
@@ -864,6 +937,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Submitting System',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.submittingSystem
                     ? row.extraData.submittingSystem
@@ -882,6 +959,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Submitting On',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.submittindOn ? row.extraData.submittindOn : '',
                 filter: textFilter({
@@ -898,6 +979,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Account Type',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.accountType ? row.extraData.accountType : '',
                 filter: textFilter({
@@ -950,6 +1035,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Delivery Mode',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.deliveryMode ? row.extraData.deliveryMode : '',
                 filter: textFilter({
@@ -1014,6 +1103,10 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Environment',
                 headerClasses: 'textHeader4',
                 sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.environment ? row.extraData.environment : '',
                 filter: textFilter({

@@ -1,6 +1,11 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {NumberFilter, Form, customFilter} from '@/library/components';
+import {
+  NumberFilter,
+  Form,
+  customFilter,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 
@@ -53,6 +58,10 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                   labId = filter;
                 },
               }),
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -68,6 +77,10 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                   labId = filter;
                 },
               }),
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),

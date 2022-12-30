@@ -10,6 +10,7 @@ import {
   customFilter,
   TableBootstrap,
   Form,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {FormHelper} from '@/helper';
@@ -113,6 +114,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Title',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -154,6 +159,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Doctor Code',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -167,6 +176,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Doctor Name',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -180,6 +193,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Report Name',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -193,6 +210,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Sex',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -233,6 +254,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Doctor Type',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -278,6 +303,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Speciality',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -319,6 +348,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Category',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -363,6 +396,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Postal Code',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -392,6 +429,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             dataField: 'country',
             text: 'Country',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             filter: textFilter({
               getFilter: filter => {
@@ -406,6 +447,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'State',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -418,6 +463,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             dataField: 'district',
             text: 'District',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -432,6 +481,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'City',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -445,6 +498,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Area',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -459,6 +516,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'SBU',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -472,6 +533,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Zone',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -485,6 +550,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Sales Territory',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -516,6 +585,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Telephone',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -572,6 +645,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Mobile No',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -626,6 +703,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Email',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -640,6 +721,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Delivery Type',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -686,6 +771,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Delivery Method',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -733,6 +822,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Registration Location',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -769,6 +862,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Lab',
             headerClasses: 'textHeader',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -811,6 +908,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Opening Time',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -825,6 +926,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Closing Time',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -838,6 +943,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Info',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -851,6 +960,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'FYI Line',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -864,6 +977,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Work Line',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -952,6 +1069,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Date Creation',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -996,6 +1117,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Date Active',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
             editable: false,
@@ -1034,6 +1159,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Date Expire',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
             editable: false,
@@ -1072,6 +1201,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Version',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: customFilter({
@@ -1088,6 +1221,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Entered By',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1101,6 +1238,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Status',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1142,6 +1283,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: textFilter({

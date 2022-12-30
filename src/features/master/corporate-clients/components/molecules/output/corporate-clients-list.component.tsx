@@ -9,6 +9,7 @@ import {
   Tooltip,
   Icons,
   Type,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -104,6 +105,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Client Code',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -117,6 +122,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Client Name',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -130,6 +139,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Invoice Ac',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -172,6 +185,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Ac Type',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -214,6 +231,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Ac Class',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -256,6 +277,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Billing On',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -300,6 +325,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Billing Frequency',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -349,6 +378,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Customer Group',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -396,6 +429,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Category',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -437,6 +474,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Postal Code',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: customFilter({
@@ -474,6 +515,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'country',
             text: 'Country',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             filter: textFilter({
               getFilter: filter => {
@@ -488,6 +533,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'State',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -500,6 +549,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'district',
             text: 'District',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -514,6 +567,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'City',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -527,6 +584,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Area',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -540,6 +601,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Address',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editor: {
               type: Type.TEXTAREA,
             },
@@ -555,6 +620,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Credit Limit',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -568,6 +637,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Consumed Limit',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -581,6 +654,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Zone',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -594,6 +671,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'SBU',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -607,6 +688,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Sales Territory',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -638,6 +723,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Telephone',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -651,6 +740,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Mobile No',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -706,6 +799,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Email',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -719,6 +816,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Report Type',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -765,6 +866,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Delivery Mode',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -812,6 +917,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Info',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -930,8 +1039,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'fyiLine',
             text: 'FYI Line',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -943,8 +1056,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'workLine',
             text: 'Work Line',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -958,8 +1075,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'dateCreation',
             editable: false,
             text: 'Date Creation',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation || 0).format('YYYY-MM-DD')
@@ -1002,8 +1123,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'dateActive',
             editable: false,
             text: 'Date Active',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive || 0).format('YYYY-MM-DD')
@@ -1042,8 +1167,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'dateExpire',
             editable: false,
             text: 'Date Expire',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire || 0).format('YYYY-MM-DD')
@@ -1082,8 +1211,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'version',
             editable: false,
             text: 'Version',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: customFilter({
               getFilter: filter => {
@@ -1097,9 +1230,13 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'enteredBy',
             editable: false,
-            headerClasses: 'textHeader3',
+            headerClasses: 'textHeader4',
             text: 'Entered By',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1110,8 +1247,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'status',
             text: 'Status',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -1151,8 +1292,12 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'environment',
             text: 'Environment',
-            headerClasses: 'textHeader3',
+            headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({

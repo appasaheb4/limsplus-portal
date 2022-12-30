@@ -8,6 +8,7 @@ import {
   Form,
   Icons,
   Tooltip,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {useStores} from '@/stores';
@@ -102,31 +103,44 @@ export const LabList = (props: LabListProps) => {
               dataField: 'code',
               text: 'Code',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   code = filter;
                 },
               }),
               editable: false,
-              headerClasses: 'textHeader3',
             },
             {
               dataField: 'name',
               text: 'Name',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   name = filter;
                 },
               }),
               editable: false,
-              headerClasses: 'textHeader3',
             },
             {
               dataField: 'postalCode',
               text: 'Postal Code',
-              headerClasses: 'textHeader3',
+
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -157,20 +171,29 @@ export const LabList = (props: LabListProps) => {
               dataField: 'country',
               text: 'Country',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               filter: textFilter({
                 getFilter: filter => {
                   country = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+
               style: {textTransform: 'uppercase'},
             },
             {
               dataField: 'state',
               text: 'State',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -183,6 +206,11 @@ export const LabList = (props: LabListProps) => {
               dataField: 'district',
               text: 'District',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -190,13 +218,16 @@ export const LabList = (props: LabListProps) => {
                   district = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
             },
             {
               dataField: 'city',
               text: 'City',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -208,8 +239,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'area',
               text: 'Area',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -222,8 +257,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'address',
               text: 'Address',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
@@ -255,8 +294,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'registeredOffice',
               text: 'Registered Office',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -283,8 +326,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'corporateOffice',
               text: 'Corporate Office',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -313,6 +360,10 @@ export const LabList = (props: LabListProps) => {
               text: 'Price List',
               headerClasses: 'textHeader3 z-10',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 `PriceGroup : ${row?.priceList
                   ?.map(item => item.priceGroup)
@@ -348,6 +399,11 @@ export const LabList = (props: LabListProps) => {
               dataField: 'salesTerritory',
               text: 'Sales Territory',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -356,7 +412,7 @@ export const LabList = (props: LabListProps) => {
                   salesTerritory = filter;
                 },
               }),
-              headerClasses: 'textHeader5',
+
               editorRenderer: (
                 editorProps,
                 value,
@@ -394,8 +450,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'labLicence',
               text: 'Lab Licence',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -413,8 +473,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'director',
               text: 'Director',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -431,8 +495,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'physician',
               text: 'Physician',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -445,8 +513,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'mobileNo',
               text: 'Mobile No',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -503,8 +575,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'contactNo',
               text: 'Contact No',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -562,8 +638,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'speciality',
               text: 'Speciality',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -576,8 +656,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'labType',
               text: 'Lab Type',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -619,8 +703,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'defaultLab',
               text: 'Default Lab',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -650,8 +738,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'openingTime',
               text: 'Opening Time',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -665,8 +757,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'closingTime',
               text: 'Closing Time',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -679,8 +775,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'email',
               text: 'Email',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -693,61 +793,87 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'web',
               text: 'Web',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'registeredOffice',
               text: 'Registered Office',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'customerCare',
               text: 'Customer Care',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'corporateOffice',
               text: 'Corporate Office',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'gst',
               text: 'GST',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'sacCode',
               text: 'Sac Code',
-              headerClasses: 'textHeader3',
+
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'cinNo',
               text: 'CIN No',
-              headerClasses: 'textHeader3',
               sort: true,
+              // headerClasses: 'textHeader2',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'image',
               text: 'Lab Log',
-              headerClasses: 'textHeader3',
-              sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvExport: false,
-              filter: textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -985,8 +1111,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'fyiLine',
               text: 'Fyi Line',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader1',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -999,8 +1129,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'workLine',
               text: 'Work Line',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader1',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -1013,8 +1147,13 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader3',
+
               sort: true,
+              headerClasses: 'textHeader1',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -1058,8 +1197,12 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader3',
               sort: true,
+              headerClasses: 'textHeader1',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
