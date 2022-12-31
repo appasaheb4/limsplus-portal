@@ -213,10 +213,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'method',
               text: 'Method',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 `${row.method ? (row.method ? 'Yes' : 'No') : 'No'}`,
               editable: false,
@@ -461,7 +457,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'reportable',
               text: 'Reportable',
               sort: true,
-              headerClasses: 'textHeader',
               csvFormatter: (col, row) =>
                 `${row.reportable ? (row.reportable ? 'Yes' : 'No') : 'No'}`,
               editable: false,
@@ -655,7 +650,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: 'analyteType',
               text: 'Analyte Type',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -798,7 +793,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: 'picture',
               text: 'picture',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1237,7 +1232,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader5',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1285,7 +1280,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader5',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1333,7 +1328,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateExpire',
               editable: false,
               text: 'Date Expire',
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader5',
               sort: true,
               headerStyle: {
                 fontSize: 0,

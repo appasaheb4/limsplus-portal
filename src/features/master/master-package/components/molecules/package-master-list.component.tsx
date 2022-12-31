@@ -79,7 +79,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'lab',
             text: 'Lab',
-            headerClasses: 'textHeader',
+            headerClasses: 'textHeader2',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -416,7 +416,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'status',
             text: 'Status',
-            headerClasses: 'textHeader1',
+            headerClasses: 'textHeader2',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -461,7 +461,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'enteredBy',
             text: 'Entered By',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeader3',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -479,7 +479,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'dateCreation',
             editable: false,
             text: 'Date Creation',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader5',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -526,7 +526,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader5',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -569,7 +569,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'dateExpire',
             editable: false,
             text: 'Date Expire',
-            headerClasses: 'textHeader11',
+            headerClasses: 'textHeader5',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -610,7 +610,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'version',
             text: 'Version',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader3',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -630,7 +630,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'environment',
             text: 'Environment',
-            headerClasses: 'textHeader3',
+            headerClasses: 'textHeader2',
             sort: true,
             headerStyle: {
               fontSize: 0,
