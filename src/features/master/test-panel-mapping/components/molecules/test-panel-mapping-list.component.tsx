@@ -99,7 +99,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'lab',
               text: 'Lab',
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeader1',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -783,7 +783,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,

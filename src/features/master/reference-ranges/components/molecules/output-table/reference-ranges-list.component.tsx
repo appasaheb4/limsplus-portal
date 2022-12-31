@@ -95,7 +95,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvExport: false,
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader',
               filter: customFilter({
                 getFilter: filter => {
                   age = filter;

@@ -76,7 +76,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: 'lab',
             text: 'Lab',
-            headerClasses: 'textHeader',
+            headerClasses: 'textHeader1',
             sort: true,
             headerStyle: {
               fontSize: 0,

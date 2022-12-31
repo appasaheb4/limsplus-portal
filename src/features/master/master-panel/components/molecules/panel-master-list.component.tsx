@@ -199,7 +199,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'department',
               text: 'Department',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -277,7 +277,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'serviceType',
               text: 'Service Type',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -362,7 +362,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'description',
               text: 'Description',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -506,7 +506,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'price',
               text: 'Price',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -574,7 +574,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'schedule',
               text: 'Schedule',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -761,7 +761,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'category',
               text: 'Category',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -807,7 +807,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'panelType',
               text: 'Panel Type',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1046,7 +1046,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'sexAction',
               text: 'Sex Action',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1247,7 +1247,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'hiAge',
               text: 'Hi Age',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1295,7 +1295,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'actionMessage',
               text: 'Action Message',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1518,7 +1518,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'externalComments',
               text: 'External Comments',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1564,7 +1564,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'panelRightMarker',
               text: 'Panel Right Marker',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1637,7 +1637,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'enteredBy',
               text: 'Entered By',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
