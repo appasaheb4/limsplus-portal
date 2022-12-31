@@ -95,6 +95,7 @@ const SegmentMapping = SegmentMappingHoc(
           'Field Length',
           'Required For Lims',
           'Lims Tables',
+          'Lims Document Type',
           'Lims Fields',
           'Environment',
         ];
@@ -129,8 +130,9 @@ const SegmentMapping = SegmentMappingHoc(
                 fieldLength: item[15],
                 requiredForLims: item[16] === 'Yes' ? true : false,
                 limsTables: item[17],
-                limsFields: item[18],
-                environment: item[19],
+                limsDocumentType: item[18],
+                limsFields: item[19],
+                environment: item[20],
               });
               fileImaport = true;
             }
