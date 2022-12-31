@@ -54,8 +54,26 @@ export const ModalGenerateReports = ({
     return (
       <PDFViewer style={{width, height}} showToolbar={isToolbar}>
         <Document title={documentTitle}>
-          {reports['TEMP0004'] && <PdfTemp0004 data={{}} />}
-          {reports['TEMP0005'] && <PdfTemp0005 data={{}} />}
+          {reports['TEMP0001'] &&
+            _.uniqBy(reportList['TEMP0001'], 'labId').map(patientReports => (
+              <PdfTemp0001 data={{patientReports}} />
+            ))}
+          {reports['TEMP0002'] &&
+            _.uniqBy(reportList['TEMP0002'], 'labId').map(patientReports => (
+              <PdfTemp0002 data={{patientReports}} />
+            ))}
+          {reports['TEMP0003'] &&
+            _.uniqBy(reportList['TEMP0003'], 'labId').map(patientReports => (
+              <PdfTemp0003 data={{patientReports}} />
+            ))}
+          {reports['TEMP0004'] &&
+            _.uniqBy(reportList['TEMP0004'], 'labId').map(patientReports => (
+              <PdfTemp0004 data={{patientReports}} />
+            ))}
+          {reports['TEMP0005'] &&
+            _.uniqBy(reportList['TEMP0005'], 'labId').map(patientReports => (
+              <PdfTemp0005 data={{patientReports}} />
+            ))}
         </Document>
       </PDFViewer>
     );
