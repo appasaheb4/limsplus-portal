@@ -191,6 +191,45 @@ export const SegmentMappingInputTable = observer(
               ),
             },
             {
+              dataField: 'limsFields',
+              text: 'Lims Fields',
+              headerClasses: 'textHeaderM',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.limsFields}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const limsFields = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            limsFields,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, 'LIMS_FIELDS').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
               dataField: 'elementRequired',
               text: 'Element Required',
               headerClasses: 'textHeader2',
@@ -445,6 +484,7 @@ export const SegmentMappingInputTable = observer(
             {
               dataField: 'limsTables',
               text: 'Lims Tables',
+              hidden: true,
               headerClasses: 'textHeaderM',
               events: {
                 onClick: (e, column, columnIndex, row, rowIndex) => {
@@ -487,6 +527,7 @@ export const SegmentMappingInputTable = observer(
             {
               dataField: 'limsDocumentType',
               text: 'Lims Document Type',
+              hidden: true,
               headerClasses: 'textHeaderM',
               events: {
                 onClick: (e, column, columnIndex, row, rowIndex) => {
@@ -546,68 +587,7 @@ export const SegmentMappingInputTable = observer(
                 </>
               ),
             },
-            {
-              dataField: 'limsFields',
-              text: 'Lims Fields',
-              headerClasses: 'textHeaderM',
-              events: {
-                onClick: (e, column, columnIndex, row, rowIndex) => {
-                  if (collectionDetails.limsTables != row?.limsTables)
-                    segmentMappingStore.segmentMappingService
-                      .getCollectionFields({
-                        input: {collection: row?.limsTables},
-                      })
-                      .then(res => {
-                        if (res.getCollectionFields.success) {
-                          setCollectionDetails({
-                            limsTables: row?.limsTables,
-                            schema: res.getCollectionFields.list.keys,
-                            documentType:
-                              res.getCollectionFields.list.documentTypes,
-                          });
-                        } else {
-                          alert(
-                            'Please try again.Technical issue fetching table fields',
-                          );
-                        }
-                      });
-                },
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.limsFields}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const limsFields = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems(
-                          {
-                            limsFields,
-                          },
-                          row.index,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {collectionDetails.schema.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
-            },
+
             {
               dataField: 'environment',
               text: 'Environment',
