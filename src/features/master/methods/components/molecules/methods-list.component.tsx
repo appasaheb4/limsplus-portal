@@ -1,6 +1,12 @@
 import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {TableBootstrap, textFilter, Tooltip, Icons} from '@/library/components';
+import {
+  TableBootstrap,
+  textFilter,
+  Tooltip,
+  Icons,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 
 let methodsCode;
@@ -48,6 +54,10 @@ export const MethodsList = (props: MethodsListProps) => {
           text: 'Methods Code',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -61,6 +71,10 @@ export const MethodsList = (props: MethodsListProps) => {
           text: 'Methods Name',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -74,6 +88,10 @@ export const MethodsList = (props: MethodsListProps) => {
           text: 'Description',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -89,6 +107,10 @@ export const MethodsList = (props: MethodsListProps) => {
           text: 'Status',
           headerClasses: 'textHeader2',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -130,6 +152,10 @@ export const MethodsList = (props: MethodsListProps) => {
           text: 'Environment',
           headerClasses: 'textHeader3',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           filter: textFilter({

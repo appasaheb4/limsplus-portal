@@ -6,6 +6,7 @@ import {
   Tooltip,
   Form,
   textFilter,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 
@@ -49,8 +50,12 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
         {
           dataField: 'containerCode',
           text: 'Container Code',
-          headerClasses: 'textHeader4',
+          headerClasses: 'textHeader2',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -64,6 +69,10 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           text: 'Container Name',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -77,6 +86,10 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           text: 'Description',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -125,6 +138,10 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           dataField: 'environment',
           text: 'Environment',
           headerClasses: 'textHeader4',
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           sort: true,
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({

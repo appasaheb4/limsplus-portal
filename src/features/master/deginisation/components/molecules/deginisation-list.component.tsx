@@ -1,6 +1,12 @@
 import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {textFilter, TableBootstrap, Tooltip, Icons} from '@/library/components';
+import {
+  textFilter,
+  TableBootstrap,
+  Tooltip,
+  Icons,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 
 let code;
@@ -42,6 +48,10 @@ export const DeginisationList = (props: DeginisationListProps) => {
           dataField: 'code',
           text: 'Code',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               code = filter;
@@ -53,6 +63,10 @@ export const DeginisationList = (props: DeginisationListProps) => {
           dataField: 'description',
           text: 'Description',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               description = filter;
@@ -65,6 +79,10 @@ export const DeginisationList = (props: DeginisationListProps) => {
           dataField: 'environment',
           text: 'Environment',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               environment = filter;

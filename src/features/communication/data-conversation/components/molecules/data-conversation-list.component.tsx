@@ -1,5 +1,11 @@
 import React from 'react';
-import {TableBootstrap, textFilter, Icons, Tooltip} from '@/library/components';
+import {
+  TableBootstrap,
+  textFilter,
+  Icons,
+  Tooltip,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
 
@@ -44,6 +50,10 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: 'Hexa Decimal',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -71,6 +81,10 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: 'Binary',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -98,6 +112,10 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
           text: 'ASCII',
           headerClasses: 'textHeader4',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -123,8 +141,12 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
         {
           dataField: 'environment',
           text: 'Environment',
-          headerClasses: 'textHeader4',
+          headerClasses: 'textHeader2',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {

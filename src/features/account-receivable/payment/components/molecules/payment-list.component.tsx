@@ -1,6 +1,6 @@
 import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {textFilter, Tooltip, Icons} from '@/library/components';
+import {textFilter, Tooltip, Icons, sortCaret} from '@/library/components';
 import {Confirm} from '@/library/models';
 import {TableBootstrap} from './table-bootstrap.components';
 
@@ -47,6 +47,10 @@ export const PaymentList = (props: PaymentListProps) => {
               pId = filter;
             },
           }),
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           editable: false,
           headerClasses: 'textHeader3',
         },
@@ -59,6 +63,10 @@ export const PaymentList = (props: PaymentListProps) => {
               labId = filter;
             },
           }),
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           editable: false,
           headerClasses: 'textHeader3',
         },

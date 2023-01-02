@@ -1,6 +1,11 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {NumberFilter, customFilter, Form} from '@/library/components';
+import {
+  NumberFilter,
+  customFilter,
+  Form,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 import {PatientTestExpandPanel} from './patient-test-expand-panel.component';
 import dayjs from 'dayjs';
@@ -49,6 +54,10 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               text: 'Lab Id',
               headerClasses: 'textHeader4 z-10',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: customFilter({
                 getFilter: filter => {
                   labid = filter;
@@ -68,6 +77,10 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
                   orderId = filter;
                 },
               }),
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),

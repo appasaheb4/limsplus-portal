@@ -1,6 +1,12 @@
 import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {TableBootstrap, Icons, Tooltip, textFilter} from '@/library/components';
+import {
+  TableBootstrap,
+  Icons,
+  Tooltip,
+  textFilter,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 
 let code;
@@ -42,6 +48,10 @@ export const RoleList = (props: RoleListProps) => {
           dataField: 'code',
           text: 'Code',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               code = filter;
@@ -53,6 +63,10 @@ export const RoleList = (props: RoleListProps) => {
           dataField: 'description',
           text: 'Description',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               description = filter;
@@ -65,6 +79,10 @@ export const RoleList = (props: RoleListProps) => {
           dataField: 'environment',
           text: 'Environment',
           sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               environment = filter;
