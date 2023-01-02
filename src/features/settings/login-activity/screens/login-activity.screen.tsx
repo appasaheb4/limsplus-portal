@@ -8,6 +8,7 @@ import {
   DateFilter,
   textFilter,
   customFilter,
+  sortCaret,
 } from '@/library/components';
 import dayjs from 'dayjs';
 import {useStores} from '@/stores';
@@ -47,6 +48,10 @@ const LoginActivity = observer(() => {
                   dataField: 'userId',
                   text: 'User details',
                   sort: true,
+                  headerStyle: {
+                    fontSize: 0,
+                  },
+                  sortCaret: (order, column) => sortCaret(order, column),
                   csvFormatter: (cell, row, rowIndex) =>
                     `UserId: ${row.user.userId}, User Name: ${row.user.fullName},  Lab: ${row.user.lab}, Role: ${row.user.role}`,
                   filter: textFilter({
@@ -71,6 +76,10 @@ const LoginActivity = observer(() => {
                   dataField: 'systemInfo',
                   text: 'System info',
                   sort: true,
+                  headerStyle: {
+                    fontSize: 0,
+                  },
+                  sortCaret: (order, column) => sortCaret(order, column),
                   filter: textFilter({
                     getFilter: filter => {
                       systemInfo = filter;
@@ -102,12 +111,16 @@ const LoginActivity = observer(() => {
                   dataField: 'ipInfo',
                   text: 'Ip Information',
                   sort: true,
+                  headerStyle: {
+                    fontSize: 0,
+                  },
+                  sortCaret: (order, column) => sortCaret(order, column),
                   filter: textFilter({
                     getFilter: filter => {
                       ipInfo = filter;
                     },
                   }),
-                  headerClasses: 'textHeader3',
+                  headerClasses: 'textHeader4',
                   csvFormatter: (cell, row, rowIndex) =>
                     `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
                   formatter: (cell, row) => {
@@ -134,8 +147,12 @@ const LoginActivity = observer(() => {
                 {
                   dataField: 'dateOfEntry',
                   text: 'In',
-                  headerClasses: 'textHeader4',
+                  headerClasses: 'textHeader5',
                   sort: true,
+                  headerStyle: {
+                    fontSize: 0,
+                  },
+                  sortCaret: (order, column) => sortCaret(order, column),
                   csvFormatter: (cell, row, rowIndex) =>
                     row.dateOfEntry
                       ? dayjs(row.dateOfEntry).format('YYYY-MM-DD h:mm:ss a')
@@ -153,8 +170,12 @@ const LoginActivity = observer(() => {
                 {
                   dataField: 'lastUpdated',
                   text: 'Out',
-                  headerClasses: 'textHeader4',
+                  headerClasses: 'textHeader5',
                   sort: true,
+                  headerStyle: {
+                    fontSize: 0,
+                  },
+                  sortCaret: (order, column) => sortCaret(order, column),
                   csvFormatter: (cell, row, rowIndex) =>
                     row.lastUpdated
                       ? dayjs(row.lastUpdated).format('YYYY-MM-DD h:mm:ss a')

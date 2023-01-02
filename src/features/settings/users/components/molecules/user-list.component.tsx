@@ -15,6 +15,7 @@ import {
   customFilter,
   Buttons,
   Toast,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -122,6 +123,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'defaultLab',
               text: 'Default Lab',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -129,7 +134,7 @@ export const UserList = (props: UserListProps) => {
                   defaultLab = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               formatter: (cellContent, row) => <span>{row.defaultLab}</span>,
               events: {
                 onDoubleClick: (
@@ -153,6 +158,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'defaultDepartment',
               text: 'Default Department',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -180,7 +189,7 @@ export const UserList = (props: UserListProps) => {
                   }
                 },
               },
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
             },
             {
               dataField: 'userGroup',
@@ -188,13 +197,17 @@ export const UserList = (props: UserListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   userGroup = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -238,7 +251,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               sort: true,
               csvFormatter: col => (col ? col : ''),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -284,7 +297,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.corporateClient.map(item => item.name)}`,
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{listStyle: 'inside'}}>
@@ -325,7 +338,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.registrationLocation?.map(item => item.name)}`,
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{listStyle: 'inside'}}>
@@ -362,19 +375,27 @@ export const UserList = (props: UserListProps) => {
               dataField: 'userId',
               text: 'UserId',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   userId = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editable: false,
             },
             {
               dataField: 'fullName',
               text: 'Full Name',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -383,7 +404,7 @@ export const UserList = (props: UserListProps) => {
                   fullName = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               style: {textTransform: 'uppercase'},
               editorStyle: {textTransform: 'uppercase'},
             },
@@ -391,19 +412,27 @@ export const UserList = (props: UserListProps) => {
               dataField: 'empCode',
               text: 'Emp Code',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   empCode = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editable: false,
             },
             {
               dataField: 'reportingTo',
               text: 'Reporting To',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -412,7 +441,7 @@ export const UserList = (props: UserListProps) => {
                   reportingTo = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -439,6 +468,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'deginisation',
               text: 'Deginisation',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -447,7 +480,7 @@ export const UserList = (props: UserListProps) => {
                   deginisation = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -474,6 +507,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'userDegree',
               text: 'User Degree',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -482,12 +519,16 @@ export const UserList = (props: UserListProps) => {
                   userDegree = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
             },
             {
               dataField: 'role',
               text: 'Role',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
@@ -530,6 +571,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'lab',
               text: 'Assigned Lab',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.lab.map(item => item.name)}`,
               editable: (content, row, rowIndex, columnIndex) =>
@@ -539,7 +584,7 @@ export const UserList = (props: UserListProps) => {
                   lab = filter;
                 },
               }),
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{listStyle: 'inside'}}>
@@ -571,6 +616,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'department',
               text: 'Assigned Department',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
@@ -580,7 +629,7 @@ export const UserList = (props: UserListProps) => {
                   department = filter;
                 },
               }),
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{listStyle: 'inside'}}>
@@ -612,6 +661,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'mobileNo',
               text: 'Mobile No',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -620,7 +673,7 @@ export const UserList = (props: UserListProps) => {
                   mobileNo = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -666,6 +719,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'contactNo',
               text: 'Contact No',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -674,7 +731,7 @@ export const UserList = (props: UserListProps) => {
                   contactNo = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -720,6 +777,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'email',
               text: 'Email',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -728,7 +789,7 @@ export const UserList = (props: UserListProps) => {
                   email = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
             },
             {
               dataField: 'signature',
@@ -811,6 +872,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'validationLevel',
               text: 'Validation Level',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -860,6 +925,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'dateOfBirth',
               text: 'Birth Date',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: (col, row) =>
@@ -874,7 +943,7 @@ export const UserList = (props: UserListProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               formatter: (cell, row) => {
                 return dayjs(row.dateOfBirth).format('YYYY-MM-DD');
               },
@@ -905,6 +974,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'marriageAnniversary',
               text: 'Marriage Anniversary',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: (col, row) =>
@@ -950,6 +1023,10 @@ export const UserList = (props: UserListProps) => {
               text: 'Exipre Date',
               dataField: 'exipreDate',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: (col, row) =>
@@ -964,7 +1041,7 @@ export const UserList = (props: UserListProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               formatter: (cell, row) => {
                 return dayjs(row.exipreDate).format('YYYY-MM-DD');
               },
@@ -1132,6 +1209,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'dateCreation',
               text: 'Date Creation',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateOfEntry
                   ? dayjs(row.dateOfEntry).format('YYYY-MM-DD')
@@ -1144,7 +1225,7 @@ export const UserList = (props: UserListProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               editable: false,
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateOfEntry).format('YYYY-MM-DD')}</>;
@@ -1176,8 +1257,12 @@ export const UserList = (props: UserListProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive || 0).format('YYYY-MM-DD')
@@ -1220,13 +1305,17 @@ export const UserList = (props: UserListProps) => {
               dataField: 'createdBy',
               text: 'Created By',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   createdBy = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editable: false,
             },
 
@@ -1234,6 +1323,10 @@ export const UserList = (props: UserListProps) => {
               text: 'Status',
               dataField: 'status',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -1242,7 +1335,7 @@ export const UserList = (props: UserListProps) => {
                   status = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -1277,8 +1370,12 @@ export const UserList = (props: UserListProps) => {
               dataField: 'version',
               editable: false,
               text: 'Version',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -1293,6 +1390,10 @@ export const UserList = (props: UserListProps) => {
               dataField: 'environment',
               text: 'Environment',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
@@ -1301,7 +1402,7 @@ export const UserList = (props: UserListProps) => {
                   environment = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               editorRenderer: (
                 editorProps,
                 value,
@@ -1339,6 +1440,7 @@ export const UserList = (props: UserListProps) => {
             },
             {
               dataField: 'opration',
+              headerClasses: 'textHeaderA',
               text: 'Password Re-Send',
               editable: false,
               csvExport: false,

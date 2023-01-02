@@ -7,6 +7,7 @@ import {
   Tooltip,
   Icons,
   Buttons,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -58,6 +59,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'Country',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: {textTransform: 'uppercase'},
             style: {textTransform: 'uppercase'},
@@ -72,6 +77,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'State',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: {textTransform: 'uppercase'},
             style: {textTransform: 'uppercase'},
@@ -86,6 +95,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'District',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: {textTransform: 'uppercase'},
             style: {textTransform: 'uppercase'},
@@ -100,6 +113,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'City',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: {textTransform: 'uppercase'},
             style: {textTransform: 'uppercase'},
@@ -114,6 +131,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'Area',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: {textTransform: 'uppercase'},
             style: {textTransform: 'uppercase'},
@@ -128,6 +149,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'Postcode',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -157,6 +182,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'SBU',
             headerClasses: 'textHeader',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -198,6 +227,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'Zone',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -240,6 +273,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {

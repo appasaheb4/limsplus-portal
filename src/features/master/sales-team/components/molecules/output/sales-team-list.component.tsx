@@ -10,6 +10,7 @@ import {
   DateFilter,
   customFilter,
   Form,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -118,6 +119,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Sales Territory',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -155,6 +160,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Description',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -168,6 +177,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Employee Code',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -181,6 +194,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Employee Name',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -194,6 +211,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Sales Hierarchy',
             headerClasses: 'textHeader6 z-10',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               `Employee: ${row?.salesHierarchy
                 ?.map?.(item => item.empCode)
@@ -229,6 +250,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Target',
             headerClasses: 'textHeader5 z-10',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               `FyYear : ${row?.targets
                 ?.map(item => item.fyYear)
@@ -262,6 +287,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Date Creation',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -306,6 +335,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Date Active',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
             editable: false,
@@ -344,6 +377,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Date Expire',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
             editable: false,
@@ -382,6 +419,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Version',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: customFilter({
@@ -398,6 +439,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Status',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -439,6 +484,10 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {

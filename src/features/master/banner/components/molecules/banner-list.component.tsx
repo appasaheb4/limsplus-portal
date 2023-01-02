@@ -47,8 +47,8 @@ export const BannerList = (props: BannerListProps) => {
         {
           dataField: 'title',
           text: 'Title',
-          headerClasses: 'textHeaderA',
           sort: true,
+          headerClasses: 'textHeaderA',
           headerStyle: {
             fontSize: 0,
           },
