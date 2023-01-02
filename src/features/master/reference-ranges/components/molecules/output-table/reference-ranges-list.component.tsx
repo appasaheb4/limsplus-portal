@@ -11,6 +11,7 @@ import {
   customFilter,
   Form,
   Toast,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -89,7 +90,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: 'rangeId',
               text: 'Range Id',
               editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvExport: false,
+              headerClasses: 'textHeader',
               filter: customFilter({
                 getFilter: filter => {
                   age = filter;
@@ -102,8 +108,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'analyteCode',
               text: 'Analyte Code',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -139,8 +149,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'analyteName',
               text: 'Analayte Name',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -176,8 +190,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'department',
               text: 'Department',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -213,8 +231,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'species',
               text: 'Species',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -255,8 +277,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'sex',
               text: 'Sex',
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -297,8 +323,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'rangeSetOn',
               text: 'Range Set On',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -346,8 +376,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'instType',
               text: 'Inst Type',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -399,6 +433,10 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: 'Lab',
               headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -436,8 +474,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'rangeType',
               text: 'Range Type',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -478,8 +520,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'ageFrom',
               text: 'Age From',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -515,8 +561,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'ageTo',
               text: 'Age To',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -552,8 +602,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'ageUnit',
               text: 'Age Unit',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -594,8 +648,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'low',
               text: 'Low',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -637,8 +695,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'high',
               text: 'High',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -680,8 +742,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'alpha',
               text: 'Alpha',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -694,8 +760,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'deltaType',
               text: 'Delta Type',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -708,8 +778,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'deltaInterval',
               text: 'Delta Interval',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -722,8 +796,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'intervalUnit',
               text: 'Interval Unit',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -770,8 +848,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: 'enterBy',
               editable: false,
               text: 'Entered By',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -782,8 +864,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -824,8 +910,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -872,8 +962,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -916,8 +1010,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive).format('YYYY-MM-DD')
@@ -960,8 +1058,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: 'dateExpire',
               editable: false,
               text: 'Date Expire',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader8',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.dateExpire).format('YYYY-MM-DD')
@@ -1006,6 +1108,10 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: 'Version',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {

@@ -12,6 +12,7 @@ import {
   Icons,
   TableBootstrap,
   Type,
+  sortCaret,
 } from '@/library/components';
 import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
@@ -121,6 +122,10 @@ export const RegistrationLocationsList = (
             text: 'Location Code',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -134,6 +139,10 @@ export const RegistrationLocationsList = (
             text: 'Location Name',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -147,6 +156,10 @@ export const RegistrationLocationsList = (
             text: 'Client Code',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -183,6 +196,10 @@ export const RegistrationLocationsList = (
             text: 'Invoice Ac',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -196,6 +213,10 @@ export const RegistrationLocationsList = (
             text: 'Price List',
             headerClasses: 'textHeader5 z-10',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -225,6 +246,10 @@ export const RegistrationLocationsList = (
             text: 'Ac Class',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -266,6 +291,10 @@ export const RegistrationLocationsList = (
             text: 'Account Type',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -311,6 +340,10 @@ export const RegistrationLocationsList = (
             text: 'Customer Group',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -357,6 +390,10 @@ export const RegistrationLocationsList = (
             text: 'Method Coln',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -398,6 +435,10 @@ export const RegistrationLocationsList = (
             text: 'Category',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -439,6 +480,10 @@ export const RegistrationLocationsList = (
             text: 'Postal Code',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: customFilter({
               getFilter: filter => {
@@ -478,6 +523,10 @@ export const RegistrationLocationsList = (
             dataField: 'country',
             text: 'Country',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             filter: textFilter({
               getFilter: filter => {
@@ -492,6 +541,10 @@ export const RegistrationLocationsList = (
             text: 'State',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -504,6 +557,10 @@ export const RegistrationLocationsList = (
             dataField: 'district',
             text: 'District',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -518,6 +575,10 @@ export const RegistrationLocationsList = (
             text: 'City',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -531,6 +592,10 @@ export const RegistrationLocationsList = (
             text: 'Area',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -545,6 +610,10 @@ export const RegistrationLocationsList = (
             text: 'Address',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -560,6 +629,10 @@ export const RegistrationLocationsList = (
             text: 'SBU',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -573,6 +646,10 @@ export const RegistrationLocationsList = (
             text: 'Zone',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -586,6 +663,10 @@ export const RegistrationLocationsList = (
             text: 'Sales Territory',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -617,6 +698,10 @@ export const RegistrationLocationsList = (
             text: 'Telephone',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -674,6 +759,10 @@ export const RegistrationLocationsList = (
             text: 'Mobile No',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -729,6 +818,10 @@ export const RegistrationLocationsList = (
             text: 'Email',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -742,6 +835,10 @@ export const RegistrationLocationsList = (
             text: 'Report Type',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -784,6 +881,10 @@ export const RegistrationLocationsList = (
             text: 'Delivery Mode',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -830,6 +931,10 @@ export const RegistrationLocationsList = (
             text: 'Route',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -843,6 +948,10 @@ export const RegistrationLocationsList = (
             text: 'Lab',
             headerClasses: 'textHeader',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -887,6 +996,10 @@ export const RegistrationLocationsList = (
             text: 'Opening Time',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -901,6 +1014,10 @@ export const RegistrationLocationsList = (
             text: 'Closing Time',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -1037,6 +1154,10 @@ export const RegistrationLocationsList = (
             text: 'Info',
             headerClasses: 'textHeader',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1050,6 +1171,10 @@ export const RegistrationLocationsList = (
             text: 'FYI Line',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1063,6 +1188,10 @@ export const RegistrationLocationsList = (
             text: 'Work Line',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1150,6 +1279,10 @@ export const RegistrationLocationsList = (
             text: 'Date Creation',
             headerClasses: 'textHeader7',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation || 0).format('YYYY-MM-DD')
@@ -1194,6 +1327,10 @@ export const RegistrationLocationsList = (
             text: 'Date Active',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive || 0).format('YYYY-MM-DD')
@@ -1234,6 +1371,10 @@ export const RegistrationLocationsList = (
             text: 'Date Expire',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire || 0).format('YYYY-MM-DD')
@@ -1274,6 +1415,10 @@ export const RegistrationLocationsList = (
             text: 'Version',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: customFilter({
@@ -1290,6 +1435,10 @@ export const RegistrationLocationsList = (
             text: 'Entered By',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1303,6 +1452,10 @@ export const RegistrationLocationsList = (
             text: 'Status',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -1344,6 +1497,10 @@ export const RegistrationLocationsList = (
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: textFilter({

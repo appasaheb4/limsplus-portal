@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {textFilter, Form} from '@/library/components';
+import {textFilter, Form, sortCaret} from '@/library/components';
 import {Confirm} from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 import dayjs from 'dayjs';
@@ -117,6 +117,10 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                   plab = filter;
                 },
               }),
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),

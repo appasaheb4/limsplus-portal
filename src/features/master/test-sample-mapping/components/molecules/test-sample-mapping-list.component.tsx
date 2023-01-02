@@ -11,6 +11,7 @@ import {
   Buttons,
   Grid,
   Svg,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -80,6 +81,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Test Code',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -113,6 +118,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Sample Code',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -146,6 +155,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Sample Type',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -179,6 +192,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Sample Group',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -212,6 +229,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Coll Container Code',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -245,6 +266,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Coll Container Name',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -278,6 +303,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Test Container Code',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -311,6 +340,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Test Container Name',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -528,6 +561,10 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Min Draw Vol',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -539,8 +576,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'minDrawVolUnit',
               text: 'Min Draw Vol Unit',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -584,8 +625,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'minTestVol',
               text: 'Min Test Vol',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -596,8 +641,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'minTestVolUnit',
               text: 'Min Test Vol Unit',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -641,8 +690,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'condition',
               text: 'Condition',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -653,8 +706,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'repentionPeriod',
               text: 'Repention Period',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -666,8 +723,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'repentionUnits',
               text: 'Repention Units',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -711,8 +772,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'labelInst',
               text: 'Label Inst',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -748,8 +813,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'info',
               text: 'Info',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -760,7 +829,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'departments',
               text: 'Departments',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: (cell, row, rowIndex) =>
                 `Prefrence:${row.departments?.map(
@@ -949,8 +1018,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {

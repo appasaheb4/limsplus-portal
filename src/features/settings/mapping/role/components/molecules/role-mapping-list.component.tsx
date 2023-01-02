@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 
-import {TableBootstrap, Icons, Buttons, textFilter} from '@/library/components';
+import {
+  TableBootstrap,
+  Icons,
+  Buttons,
+  textFilter,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 
 import {stores} from '@/stores';
@@ -48,6 +54,10 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               text: 'Role',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (row, col) => `${col.role.description}`,
               filter: textFilter({
                 getFilter: filter => {

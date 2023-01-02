@@ -11,6 +11,7 @@ import {
   Form,
   Tooltip,
   Icons,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
@@ -83,8 +84,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -99,7 +104,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'externalLabId',
               text: 'External Lab Id',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: (col, row) => (col ? col : false),
               editable: false,
@@ -110,8 +115,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'pId',
               text: 'Pid',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -126,8 +135,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'rLab',
               text: 'Rlab',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -139,8 +152,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'visitId',
               text: 'Visit Id',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -155,8 +172,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'visitDate',
               text: 'Visit Date',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.visitDate ? dayjs(row.visitDate).format('YYYY-MM-DD') : '',
               filter: customFilter({
@@ -194,8 +215,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'registrationDate',
               text: 'Registration Date',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.registrationDate
                   ? dayjs(row.registrationDate).format('YYYY-MM-DD')
@@ -239,8 +264,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'collectionDate',
               text: 'Collection Date',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.collectionDate
                   ? dayjs(row.collectionDate).format('YYYY-MM-DD')
@@ -284,8 +313,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'dueDate',
               text: 'Due Date',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dueDate ? dayjs(row.dueDate).format('YYYY-MM-DD') : '',
               filter: customFilter({
@@ -328,8 +361,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'birthDate',
               text: 'Birth Date',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.birthDate ? dayjs(row.birthDate).format('YYYY-MM-DD') : '',
               filter: customFilter({
@@ -376,8 +413,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'age',
               text: 'Age',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -394,6 +435,10 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               text: 'Age Units',
               headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -439,8 +484,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'collectionCenter',
               text: 'Collection Center',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -474,8 +523,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'corporateCode',
               text: 'Corporate Code',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -509,8 +562,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'acClass',
               text: 'AC Class',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -609,8 +666,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'doctorId',
               text: 'Doctor Id',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -646,8 +707,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'doctorName',
               text: 'Doctor Name',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -675,7 +740,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'miscCharges',
               text: 'Misc Charges',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
               csvFormatter: (col, row) => (col ? col : ''),
               editable: false,
@@ -696,7 +761,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'discountCharges',
               text: 'Other Charges',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
               csvFormatter: (col, row) => (col ? col : ''),
               editable: false,
@@ -718,8 +783,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'reportType',
               text: 'Report Type',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -828,8 +897,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'holdReason',
               text: 'Hold Reason',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               filter: textFilter({
                 getFilter: filter => {
@@ -913,8 +986,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : false),
               filter: textFilter({
                 getFilter: filter => {

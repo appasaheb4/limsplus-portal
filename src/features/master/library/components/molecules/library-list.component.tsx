@@ -11,6 +11,7 @@ import {
   AutoCompleteCheckMultiFilterKeys,
   Buttons,
   customFilter,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {
@@ -86,6 +87,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Code',
               headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -97,8 +102,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'description',
               text: 'Description',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -119,8 +128,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'usageType',
               text: 'Usage Type',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -165,8 +178,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'libraryType',
               text: 'Library Type',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -212,8 +229,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'commentType',
               text: 'Comment Type',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -261,6 +282,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Lab',
               headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -294,8 +319,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'department',
               text: 'Department',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -329,8 +358,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'commentsTarget',
               text: 'CommentsTarget',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -378,6 +411,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Details',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -417,6 +454,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Parameter',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -463,6 +504,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Action',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -505,6 +550,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Results',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -547,6 +596,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Value',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -559,8 +612,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'reflex',
               text: 'Reflex',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
@@ -619,6 +676,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Analyte',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -633,6 +694,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Rule',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -668,8 +733,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -710,8 +779,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'organismGroup',
               text: 'Organism Group',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -724,8 +797,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'organismClass',
               text: 'Organism Class',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -738,8 +815,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'loAge',
               text: 'LO Age',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -755,8 +836,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'hiAge',
               text: 'HI Age',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
                 getFilter: filter => {
@@ -774,6 +859,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Sex',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -814,8 +903,12 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'sexAction',
               text: 'Sex Action',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -862,6 +955,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Environment',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
