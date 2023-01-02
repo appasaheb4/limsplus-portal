@@ -11,6 +11,7 @@ import {
   Icons,
   Tooltip,
   Svg,
+  sortCaret,
 } from '@/library/components';
 import {TableBootstrap} from '../organsims/table-bootstrap.component';
 import {Confirm} from '@/library/models';
@@ -79,6 +80,10 @@ export const LookupList = (props: LookupListProps) => {
             text: 'Document Name',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `${row.documentName?.children.title}`,
             filter: textFilter({
@@ -123,6 +128,10 @@ export const LookupList = (props: LookupListProps) => {
             text: 'Field Name',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             style: {textTransform: 'uppercase'},
             editorStyle: {textTransform: 'uppercase'},
@@ -137,6 +146,10 @@ export const LookupList = (props: LookupListProps) => {
             text: 'Value & code',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `Value:${row.arrValue.map(
                 item => item.value,
@@ -177,6 +190,10 @@ export const LookupList = (props: LookupListProps) => {
             text: 'Description',
             headerClasses: 'textHeader2',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -189,6 +206,10 @@ export const LookupList = (props: LookupListProps) => {
             text: 'Default Item',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `Value:${row.defaultItem.map(
                 item => item.value,
@@ -266,6 +287,10 @@ export const LookupList = (props: LookupListProps) => {
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {

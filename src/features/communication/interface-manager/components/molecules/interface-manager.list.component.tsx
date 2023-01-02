@@ -10,6 +10,7 @@ import {
   Buttons,
   Grid,
   Svg,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -60,6 +61,10 @@ export const InterfaceManagerList = observer(
             text: 'Interface Type',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -106,6 +111,10 @@ export const InterfaceManagerList = observer(
             text: 'Inst Type',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -146,6 +155,10 @@ export const InterfaceManagerList = observer(
             text: 'Inst Name',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -186,6 +199,10 @@ export const InterfaceManagerList = observer(
             text: 'Protocol',
             headerClasses: 'textHeader6',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -227,6 +244,10 @@ export const InterfaceManagerList = observer(
             text: 'Block',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -336,6 +357,10 @@ export const InterfaceManagerList = observer(
             text: 'Fileds',
             headerClasses: 'textHeader4',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `Filed:${row.fileds.map(
                 item => item.filed,
@@ -515,6 +540,10 @@ export const InterfaceManagerList = observer(
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {

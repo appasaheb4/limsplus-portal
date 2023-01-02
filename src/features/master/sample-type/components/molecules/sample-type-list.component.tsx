@@ -1,6 +1,12 @@
 import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {TableBootstrap, textFilter, Icons, Tooltip} from '@/library/components';
+import {
+  TableBootstrap,
+  textFilter,
+  Icons,
+  Tooltip,
+  sortCaret,
+} from '@/library/components';
 import {Confirm} from '@/library/models';
 
 let sampleCode;
@@ -47,6 +53,10 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               text: 'Sample Code',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -60,6 +70,10 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               text: 'Sample Type',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -73,6 +87,10 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               text: 'Descriptions',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -85,6 +103,10 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               text: 'Sample Group',
               headerClasses: 'textHeader4',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -97,6 +119,10 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               text: 'Environment',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {

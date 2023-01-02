@@ -6,6 +6,7 @@ import {
   Icons,
   Tooltip,
   Form,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {AutoCompleteFilterSingleSelectDepartment} from '../index';
@@ -69,6 +70,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Department Code',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -99,6 +104,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Code',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -112,6 +121,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Name',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -125,6 +138,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Short Name',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -140,6 +157,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Section In Charge',
             headerClasses: 'textHeader5',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -153,6 +174,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Mobie No',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -208,6 +233,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Contact No',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -265,6 +294,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Fyi Line',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -278,6 +311,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Work Line',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -291,6 +328,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Status',
             headerClasses: 'textHeader1',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -332,6 +373,10 @@ export const SectionList = (props: SectionListProps) => {
             text: 'Environment',
             headerClasses: 'textHeader3',
             sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             filter: textFilter({

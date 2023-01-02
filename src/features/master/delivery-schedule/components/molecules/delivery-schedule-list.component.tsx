@@ -6,6 +6,7 @@ import {
   Form,
   Tooltip,
   Icons,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 let schCode;
@@ -57,8 +58,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'schCode',
               text: 'Sch Code',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -115,7 +120,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'sundayReporting',
               text: 'Sunday Reporting',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               // filter: textFilter({
@@ -161,8 +166,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'pStartTime',
               text: 'P Start Time',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -173,8 +182,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'pEndTime',
               text: 'P End Time',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -185,8 +198,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'cutofTime',
               text: 'Cutof Time',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -197,8 +214,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'secoundCutofTime',
               text: 'Secound Cutof Time',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -209,8 +230,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'processingType',
               text: 'Processing Type',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -256,7 +281,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'schFrequency',
               text: 'Sch Frequency',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: (cell, row, rowIndex) =>
                 `${JSON.stringify(row.schFrequency)}`,
@@ -268,8 +293,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'reportOn',
               text: 'Report On',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -280,8 +309,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'dynamicRT',
               text: 'Dynamic RT',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -292,8 +325,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'dynamicTU',
               text: 'Dynamic TU',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -339,8 +376,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'fixedRT',
               text: 'Fixed RT',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -373,8 +414,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'schForDept',
               text: 'Sch For Dept',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -385,8 +430,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'schForPat',
               text: 'Sch For Pat',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -397,8 +446,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader1',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
