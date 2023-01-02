@@ -425,6 +425,56 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
+            dataField: 'limsFields',
+            text: 'Lims Fields',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsFields = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  value={row.limsFields}
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const limsFields = e.target.value;
+                    props.onUpdateFields &&
+                      props.onUpdateFields(
+                        {
+                          limsFields,
+                        },
+                        row._id,
+                      );
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems(props.extraData.lookupItems, 'LIMS_FIELDS').map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </>
+            ),
+          },
+          {
             dataField: 'elementRequired',
             text: 'Element Required',
             headerClasses: 'textHeaderM',
@@ -743,6 +793,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'limsTables',
             text: 'Lims Tables',
+            hidden: true,
             headerClasses: 'textHeader',
             filter: textFilter({
               getFilter: filter => {
@@ -796,6 +847,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           {
             dataField: 'limsDocumentType',
             text: 'Lims Document Type',
+            hidden: true,
             headerClasses: 'textHeader',
             filter: textFilter({
               getFilter: filter => {
@@ -866,77 +918,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               </>
             ),
           },
-          {
-            dataField: 'limsFields',
-            text: 'Lims Fields',
-            headerClasses: 'textHeader',
-            filter: textFilter({
-              getFilter: filter => {
-                limsFields = filter;
-              },
-            }),
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            events: {
-              onClick: (e, column, columnIndex, row, rowIndex) => {
-                if (collectionDetails.limsTables != row?.limsTables)
-                  segmentMappingStore.segmentMappingService
-                    .getCollectionFields({
-                      input: {collection: row?.limsTables},
-                    })
-                    .then(res => {
-                      if (res.getCollectionFields.success) {
-                        setCollectionDetails({
-                          limsTables: row?.limsTables,
-                          schema: res.getCollectionFields.list.keys,
-                          documentType:
-                            res.getCollectionFields.list.documentTypes,
-                        });
-                      } else {
-                        alert(
-                          'Please try again.Technical issue fetching table fields',
-                        );
-                      }
-                    });
-              },
-            },
-            csvFormatter: col => (col ? col : ''),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row.limsFields}
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const limsFields = e.target.value;
-                    props.onUpdateFields &&
-                      props.onUpdateFields(
-                        {
-                          limsFields,
-                        },
-                        row._id,
-                      );
-                  }}
-                >
-                  <option selected>Select</option>
-                  {collectionDetails.schema.map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </>
-            ),
-          },
+
           {
             dataField: 'environment',
             text: 'Environment',

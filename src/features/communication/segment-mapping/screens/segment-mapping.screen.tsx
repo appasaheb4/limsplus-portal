@@ -58,6 +58,8 @@ const SegmentMapping = SegmentMappingHoc(
           },
         })
         .then(res => {
+          console.log({res});
+
           if (res.findByFieldsInterfaceManager.success) {
             setArrInstType(res.findByFieldsInterfaceManager.data);
           }
