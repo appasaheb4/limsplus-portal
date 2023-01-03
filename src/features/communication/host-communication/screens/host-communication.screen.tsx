@@ -334,9 +334,16 @@ const HostCommunication = HostCommunicationHoc(
                       });
                     }}
                     onConnect={details => {
+                      if (!hostCommunicationStore.hostCommuication.instType)
+                        return alert('Please select inst type.');
                       hostCommunicationStore.hostCommunicationService
                         .connectHostCommunication({
-                          input: {...details, type: 'tcpIP'},
+                          input: {
+                            ...details,
+                            instType:
+                              hostCommunicationStore.hostCommuication.instType,
+                            type: 'tcpIP',
+                          },
                         })
                         .then(res => {
                           hostCommunicationStore.updateHostCommuication({
