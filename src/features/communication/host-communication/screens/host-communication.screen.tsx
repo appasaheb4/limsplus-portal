@@ -746,9 +746,31 @@ const HostCommunication = HostCommunicationHoc(
                                 <Buttons.Button
                                   size='medium'
                                   type='solid'
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    console.log({
+                                      message:
+                                        hostCommunicationStore.convertTo.hl7,
+                                    });
+
+                                    hostCommunicationStore.hostCommunicationService
+                                      .createTransmittedMessage({
+                                        input: {
+                                          filter: {
+                                            message:
+                                              hostCommunicationStore.convertTo
+                                                .hl7,
+                                            instType:
+                                              hostCommunicationStore
+                                                .hostCommuication.instType,
+                                          },
+                                        },
+                                      })
+                                      .then(res => {
+                                        console.log({res});
+                                      });
+                                  }}
                                 >
-                                  Convert
+                                  Save
                                 </Buttons.Button>
                               </div>
                             </div>

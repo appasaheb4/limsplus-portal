@@ -11,13 +11,28 @@ import {
   ServiceResponse,
 } from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
-import {CONNECT} from './mutation';
+import {CONNECT, CREATE_TRANSMITTED_MESSAGE} from './mutation';
 export class HostCommunicationService {
   connectHostCommunication = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       clientLocal
         .mutate({
           mutation: CONNECT,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  createTransmittedMessage = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CREATE_TRANSMITTED_MESSAGE,
           variables,
         })
         .then((response: any) => {

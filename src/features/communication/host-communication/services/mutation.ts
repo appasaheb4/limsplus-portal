@@ -8,3 +8,12 @@ export const CONNECT = gql`
     }
   }
 `;
+
+export const CREATE_TRANSMITTED_MESSAGE = gql`
+  mutation ($input: TransmittedMessageInput!) {
+    createTransmittedMessage(input: $input) {
+      success
+      message
+    }
+  }
+`;
