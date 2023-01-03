@@ -11,6 +11,7 @@ import {
   Icons,
   NumberFilter,
   ModalImportFile,
+  sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {useStores} from '@/stores';
@@ -81,6 +82,10 @@ export const ClientRegistrationList = observer(
               text: 'Country Name',
               headerClasses: 'textHeader3',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -93,6 +98,10 @@ export const ClientRegistrationList = observer(
               text: 'Lab ID',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -173,6 +182,10 @@ export const ClientRegistrationList = observer(
               text: 'Client Code',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   clientCode = filter;
@@ -184,6 +197,10 @@ export const ClientRegistrationList = observer(
               text: 'Client Name',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   clientName = filter;
@@ -195,6 +212,10 @@ export const ClientRegistrationList = observer(
               text: 'Patient Name',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   patientName = filter;
@@ -204,8 +225,12 @@ export const ClientRegistrationList = observer(
             {
               dataField: 'age',
               text: 'Age',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   age = filter;
@@ -243,6 +268,10 @@ export const ClientRegistrationList = observer(
               text: 'Age Units',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   ageUnits = filter;
@@ -276,6 +305,10 @@ export const ClientRegistrationList = observer(
               text: 'Test Code',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   testCode = filter;
@@ -287,6 +320,10 @@ export const ClientRegistrationList = observer(
               text: 'Sample',
               headerClasses: 'textHeader2',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
                   sample = filter;
@@ -296,8 +333,12 @@ export const ClientRegistrationList = observer(
             {
               dataField: 'dueDate',
               text: 'Due Date',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader5',
               sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (cell, row, rowIndex) =>
                 `${
                   row.dueDate !== undefined
@@ -378,7 +419,7 @@ export const ClientRegistrationList = observer(
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader2',
-              sort: true,
+              sortCaret: (order, column) => sortCaret(order, column),
               editorRenderer: (
                 editorProps,
                 value,
