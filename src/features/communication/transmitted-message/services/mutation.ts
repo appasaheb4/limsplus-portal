@@ -70,8 +70,8 @@ export const CHECK_EXISTS_RECORD = gql`
 `;
 
 export const FILTER = gql`
-  mutation ($input: InstrumentResultMappingInput!) {
-    filterInstrumentResultMappings(input: $input) {
+  mutation ($input: TransmittedMessageInput!) {
+    filterTransmittedMessage(input: $input) {
       paginatorInfo {
         count
       }
@@ -79,19 +79,13 @@ export const FILTER = gql`
       message
       data {
         _id
-        index
-        key
-        pLab
-        testCode
-        testName
-        department
         instType
         instId
-        analyteCode
-        analyteName
-        assayCode
-        instTest
-        environment
+        protocol
+        segmentMessage
+        segmentOrder
+        segmentArray
+        status
         dateOfEntry
         lastUpdated
       }

@@ -10,7 +10,7 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-
+import dayjs from 'dayjs';
 interface TransmittedMessageListProps {
   data: any;
   extraData: any;
@@ -38,6 +38,7 @@ let protocol;
 let segmentMessage;
 let segmentOrder;
 let segmentArray;
+let dateOfEntry;
 let status;
 
 export const TransmittedMessageList = observer(
@@ -167,6 +168,29 @@ export const TransmittedMessageList = observer(
               },
             },
             {
+              dataField: 'dateOfEntry',
+              editable: false,
+              text: 'Date Of Entry',
+              headerClasses: 'textHeader4',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row.dateOfEntry
+                  ? dayjs(row.dateOfEntry || 0).format('YYYY-MM-DD')
+                  : '',
+              filter: textFilter({
+                getFilter: filter => {
+                  dateOfEntry = filter;
+                },
+              }),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateOfEntry || 0).format('YYYY-MM-DD')}</>;
+              },
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader',
@@ -206,6 +230,7 @@ export const TransmittedMessageList = observer(
             segmentMessage('');
             segmentOrder('');
             segmentArray('');
+            dateOfEntry('');
             status('');
           }}
         />

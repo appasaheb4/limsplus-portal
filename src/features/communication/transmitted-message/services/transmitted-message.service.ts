@@ -94,15 +94,16 @@ export class TransmittedMessageService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterInstrumentResultMappings.success)
+          console.log({response});
+
+          if (!response.data.filterTransmittedMessage.success)
             return this.listTransmittedMessage();
-          stores.instResultMappingStore.updateInstResultMappingList({
-            instrumentResultMappings: {
-              data: response.data.filterInstrumentResultMappings.data,
+          stores.transmittedMessageStore.updateTransmittedMessageList({
+            transmittedMessages: {
+              data: response.data.filterTransmittedMessage.data,
               paginatorInfo: {
                 count:
-                  response.data.filterInstrumentResultMappings.paginatorInfo
-                    .count,
+                  response.data.filterTransmittedMessage.paginatorInfo.count,
               },
             },
           });
