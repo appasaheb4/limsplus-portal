@@ -342,6 +342,7 @@ const HostCommunication = HostCommunicationHoc(
                             ...details,
                             instType:
                               hostCommunicationStore.hostCommuication.instType,
+                            pushToken: loginStore.login.webPushTokenFcm,
                             type: 'tcpIP',
                           },
                         })
