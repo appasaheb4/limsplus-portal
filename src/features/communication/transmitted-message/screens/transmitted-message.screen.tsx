@@ -49,9 +49,9 @@ const TransmittedMessage = observer(() => {
             );
           }}
           onFilter={(type, filter, page, limit) => {
-            // transmittedMessageStore.transmittedMessageService.filter({
-            //   input: {type, filter, page, limit},
-            // });
+            transmittedMessageStore.transmittedMessageService.filter({
+              input: {type, filter, page, limit},
+            });
           }}
         />
       </div>

@@ -24,8 +24,6 @@ export class TransmittedMessageStore {
   }
 
   updateTransmittedMessageList(res) {
-    console.log({res});
-
     this.transmittedMessageList = res.transmittedMessages.data;
     this.transmittedMessageListCount =
       res.transmittedMessages.paginatorInfo.count;
