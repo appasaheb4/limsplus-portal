@@ -55,33 +55,28 @@ class HostCommunicationFlows {
       try {
         const mappingList = await this.mapping(interfaceManager);
         // decode
-        if (type === 'HL7') {
-          const tempData = {};
-          for (const item of mappingList) {
-            for (const key of Object.keys(item)) {
-              tempData[key] = item[key];
-            }
+        const tempData = {};
+        for (const item of mappingList) {
+          for (const key of Object.keys(item)) {
+            tempData[key] = item[key];
           }
-          const mapping = {
-            mapping: tempData,
-          };
-
-          const hl7 = decode(
-            message,
-            stores.hostCommunicationStore.selectedInterfaceManager,
-            mapping,
-          );
-          console.log({hl7});
-
-          if (!hl7) return alert('Please enter correct message');
-          stores.hostCommunicationStore.updateConvertTo({
-            ...stores.hostCommunicationStore.convertTo,
-            hl7,
-          });
-          stores.hostCommunicationStore.updateHostCommuication({
-            ...stores.hostCommunicationStore.hostCommuication,
-          });
         }
+        const mapping = {
+          mapping: tempData,
+        };
+        const output = decode(
+          message,
+          stores.hostCommunicationStore.selectedInterfaceManager,
+          mapping,
+        );
+        if (!output) return alert('Please enter correct message');
+        stores.hostCommunicationStore.updateConvertTo({
+          ...stores.hostCommunicationStore.convertTo,
+          hl7: output,
+        });
+        stores.hostCommunicationStore.updateHostCommuication({
+          ...stores.hostCommunicationStore.hostCommuication,
+        });
       } catch (error) {
         reject(error);
       }

@@ -15,6 +15,9 @@ const InstrumentResultMapping = async(
   () =>
     import('../instrument-result-mapping/screens/inst-result-mapping.screen'),
 );
+const TransmittedMessage = async(
+  () => import('../transmitted-message/screens/transmitted-message.screen'),
+);
 
 export const communicationRoutes = {
   path: '/communication',
@@ -50,6 +53,12 @@ export const communicationRoutes = {
       name: 'Instrument Result Mapping',
       icon: 'Icons.Iconvsc.VscOutput',
       component: InstrumentResultMapping,
+    },
+    {
+      path: '/communication/transmitted-message',
+      name: 'Transmitted Message',
+      icon: 'Icons.Iconai.AiOutlineMessage',
+      component: TransmittedMessage,
     },
   ],
 };
