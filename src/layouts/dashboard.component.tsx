@@ -85,6 +85,8 @@ const Dashboard = observer(({children}) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>();
 
   const loadApi = async (pathname?: string) => {
+    console.log({login: loginStore.login});
+
     const currentLocation = window.location;
     pathname = pathname || currentLocation.pathname;
     //console.log({ beforeStore: pathname })
