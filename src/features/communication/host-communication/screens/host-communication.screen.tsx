@@ -12,6 +12,7 @@ import {
   Svg,
   ModalConfirm,
   ModalImportFile,
+  Toast,
 } from '@/library/components';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
@@ -774,7 +775,13 @@ const HostCommunication = HostCommunicationHoc(
                                         },
                                       })
                                       .then(res => {
-                                        console.log({res});
+                                        if (
+                                          res.createTransmittedMessage.success
+                                        ) {
+                                          Toast.success({
+                                            message: `😊 ${res.createTransmittedMessage.message}`,
+                                          });
+                                        }
                                       });
                                   }}
                                 >

@@ -58,8 +58,6 @@ const SegmentMapping = SegmentMappingHoc(
           },
         })
         .then(res => {
-          console.log({res});
-
           if (res.findByFieldsInterfaceManager.success) {
             setArrInstType(res.findByFieldsInterfaceManager.data);
           }
@@ -87,6 +85,9 @@ const SegmentMapping = SegmentMappingHoc(
           'Segment Required',
           'Element No',
           'Element Name',
+          'Lims Tables',
+          'Lims Fields',
+          'Lims Document Type',
           'Element Required',
           'Element Sequence',
           'Transmitted Data',
@@ -96,9 +97,6 @@ const SegmentMapping = SegmentMappingHoc(
           'Field Type',
           'Field Length',
           'Required For Lims',
-          'Lims Tables',
-          'Lims Document Type',
-          'Lims Fields',
           'Environment',
         ];
         const headers: any = [];
@@ -122,18 +120,18 @@ const SegmentMapping = SegmentMappingHoc(
                 segmentRequired: item[5] === 'Yes' ? true : false,
                 elementNo: item[6],
                 elementName: item[7],
-                elementRequired: item[8] === 'Yes' ? true : false,
-                elementSequence: item[9],
-                transmittedData: item[10],
-                defaultValue: item[11],
-                fieldArray: item[12],
-                repeatDelimiter: item[13] === 'Yes' ? true : false,
-                fieldType: item[14],
-                fieldLength: item[15],
-                requiredForLims: item[16] === 'Yes' ? true : false,
-                limsTables: item[17],
-                limsDocumentType: item[18],
-                limsFields: item[19],
+                limsTables: item[8],
+                limsFields: item[9],
+                limsDocumentType: item[10],
+                elementRequired: item[11] === 'Yes' ? true : false,
+                elementSequence: item[12],
+                transmittedData: item[13],
+                defaultValue: item[14],
+                fieldArray: item[15],
+                repeatDelimiter: item[16] === 'Yes' ? true : false,
+                fieldType: item[17],
+                fieldLength: item[18],
+                requiredForLims: item[19] === 'Yes' ? true : false,
                 environment: item[20],
               });
               fileImaport = true;

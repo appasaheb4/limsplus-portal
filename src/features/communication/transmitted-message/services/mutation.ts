@@ -25,8 +25,8 @@ export const LIST = gql`
 `;
 
 export const REMOVE_RECORD = gql`
-  mutation ($input: InstrumentResultMappingRemoveInput!) {
-    removeInstrumentResultMapping(input: $input) {
+  mutation ($input: TransmittedMessageRemoveInput!) {
+    removeTransmittedMessage(input: $input) {
       success
       message
     }

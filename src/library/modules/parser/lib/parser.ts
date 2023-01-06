@@ -97,15 +97,11 @@ export class Parser {
   // }
 
   parseSegment = data => {
-    let fields = data.split(this._fileds.FIELD_DELIMITER);
-    if (fields[0] === 'MSH') {
-      fields[0] = this._fileds.FIELD_DELIMITER;
-      fields = ['MSH'].concat(fields);
-    }
+    const fields = data.split(this._fileds.FIELD_DELIMITER);
     const firstElement = fields.shift();
     const item = {
       fields: firstElement,
-      values: fields,
+      values: [firstElement].concat(fields),
     };
     return item;
   };

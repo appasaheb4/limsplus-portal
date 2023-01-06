@@ -55,7 +55,7 @@ export class TransmittedMessageService {
         );
     });
 
-  deleteInstResultMapping = (variables: any) =>
+  delete = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({

@@ -11,6 +11,10 @@ import {
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
+
+import {Accordion, AccordionItem} from 'react-sanfona';
+import '@/library/assets/css/accordion.css';
+
 interface TransmittedMessageListProps {
   data: any;
   extraData: any;
@@ -49,13 +53,20 @@ export const TransmittedMessageList = observer(
     getAnalyteDetails,
     ...props
   }: TransmittedMessageListProps) => {
+    const [list, setList] = useState([]);
     const [pLabDetails, setPLabDetails] = useState<any>();
+    const [selectedRowId, setSelectedRowId] = useState('');
+
+    useEffect(() => {
+      setList(JSON.parse(JSON.stringify(props.data)));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedRowId, props.data]);
 
     return (
       <>
         <TableBootstrap
           id='_id'
-          data={props.data}
+          data={list}
           totalSize={props.totalSize}
           columns={[
             {
@@ -155,15 +166,48 @@ export const TransmittedMessageList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               formatter: (cell, row) => {
                 return (
-                  <>
-                    {row.segmentArray?.map((item, index) => (
-                      <>
-                        <h6>{item[1]?.filed}</h6>
-                        <h6>{item[1]?.field_no}</h6>
-                        <h6>{item[1]?.value}</h6>
-                      </>
-                    ))}
-                  </>
+                  <div
+                    key={row._id}
+                    className='flex flex-col items-center gap-4'
+                  >
+                    {row.segmentArray?.length > 0 && (
+                      <Tooltip
+                        tooltipText={
+                          row._id != selectedRowId ? 'Expand' : 'Collapse'
+                        }
+                      >
+                        <Icons.IconContext
+                          color='#000000'
+                          size='20'
+                          onClick={() => {
+                            row._id == selectedRowId
+                              ? setSelectedRowId('')
+                              : setSelectedRowId(row._id);
+                          }}
+                        >
+                          {Icons.getIconTag(
+                            row._id != selectedRowId
+                              ? Icons.IconBi.BiExpand
+                              : Icons.IconBi.BiCollapse,
+                          )}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                    {selectedRowId == row._id && (
+                      <Accordion>
+                        {row.segmentArray?.map(item => {
+                          return (
+                            <AccordionItem title={`${item.filed}`}>
+                              <h6>Field No: {item?.field_no}</h6>
+                              <span style={{fontSize: 12}}>
+                                Value: {item?.value}
+                              </span>
+                            </AccordionItem>
+                          );
+                        })}
+                      </Accordion>
+                    )}
+                  </div>
                 );
               },
             },
@@ -207,7 +251,7 @@ export const TransmittedMessageList = observer(
             },
           ]}
           isEditModify={props.isEditModify}
-          isSelectRow={false}
+          isSelectRow={true}
           isDelete={props.isDelete}
           fileName='Transmitted Message'
           onSelectedRow={rows => {

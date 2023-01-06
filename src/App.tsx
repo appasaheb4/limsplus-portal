@@ -84,29 +84,26 @@ const App = observer(() => {
 
   return (
     <>
-      <span>{show.toString()}</span>
-      {show && (
-        <Toast
-          onClose={() => setShow(false)}
-          show={true}
-          delay={5000}
-          autohide
-          animation
-          style={{
-            position: 'absolute',
-            top: 100,
-            right: 20,
-            minWidth: 400,
-            zIndex: 1,
-          }}
-        >
-          <Toast.Header>
-            <strong className='mr-auto'>{notification.title}</strong>
-            <small>just now</small>
-          </Toast.Header>
-          <Toast.Body>{notification.body}</Toast.Body>
-        </Toast>
-      )}
+      <Toast
+        onClose={() => setShow(false)}
+        show={show}
+        delay={5000}
+        autohide
+        animation
+        style={{
+          position: 'absolute',
+          top: 100,
+          right: 20,
+          minWidth: 400,
+          zIndex: 1,
+        }}
+      >
+        <Toast.Header>
+          <strong className='mr-auto'>{notification.title}</strong>
+          <small>just now</small>
+        </Toast.Header>
+        <Toast.Body>{notification.body}</Toast.Body>
+      </Toast>
       <ApolloProvider client={client}>
         <I18nextProvider i18n={i18next}>
           <Provider store={store}>
