@@ -54,7 +54,7 @@ export const PdfTemp0001Header = ({data}: PdfTemp0001HeaderProps) => {
       fixed
     >
       <PdfImage
-        src={decompressString(data.header?.logoUrl || '')}
+        src={data.header?.logo}
         style={{
           width: 50,
           height: 50,

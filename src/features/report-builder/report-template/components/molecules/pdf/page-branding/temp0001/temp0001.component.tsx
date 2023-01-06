@@ -35,30 +35,31 @@ Font.register({
 });
 
 interface PdfPBTemp0001Props {
-  data: PageBranding;
+  data: any;
   templateSettings?: any;
   children?: any;
 }
 
 export const PdfPBTemp0001 = observer(
   ({data, templateSettings, children}: PdfPBTemp0001Props) => {
-    // const pageNumberCSS = useRef<any>({});
-    // if (data?.pageNumber?.pageNumberCSS) {
-    //   try {
-    //     pageNumberCSS.current = eval(
-    //       '({' + data?.pageNumber?.pageNumberCSS + '})',
-    //     );
-    //   } catch (e) {
-    //     pageNumberCSS.current = {};
-    //   }
-    // }
+    const pageNumberCSS = useRef<any>({});
+    if (data?.pageNumber?.pageNumberCSS) {
+      try {
+        pageNumberCSS.current = eval(
+          '({' + data?.pageNumber?.pageNumberCSS + '})',
+        );
+      } catch (e) {
+        pageNumberCSS.current = {};
+      }
+    }
+
     return (
       <PdfTSTemp0001
         height={window.innerHeight / 1.3}
         documentTitle='Page Branding'
         isToolbar={templateSettings?.isToolbar}
-        isBackgroundImage={templateSettings?.isBackgroundImage}
-        backgroundImage={templateSettings?.backgroundImageBase64}
+        isBackgroundImage={templateSettings?.isBackgroundImage || ''}
+        backgroundImage={templateSettings?.backgroundImage || ''}
         mainBoxCSS={templateSettings?.mainBoxCSS}
         pageSize={templateSettings?.pageSize}
         children={

@@ -41,12 +41,11 @@ export const PdfTSTemp0001 = ({
   documentTitle = 'Template Settings',
   isToolbar = false,
   isBackgroundImage = false,
-  backgroundImage,
-  mainBoxCSS,
+  backgroundImage = '',
+  mainBoxCSS = {},
   pageSize,
   children,
 }: PdfTSTemp0001Props) => {
-  //const [boxCSS, setBoxCSS] = useState<any>(mainBoxCSS);
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -81,7 +80,7 @@ export const PdfTSTemp0001 = ({
                   top: 0,
                   objectFit: 'fill',
                 }}
-                src={decompressString(backgroundImage || '')}
+                src={backgroundImage}
               />
             </View>
           )}
@@ -111,7 +110,12 @@ export const PdfTSTemp0001 = ({
                   top: 0,
                   objectFit: 'fill',
                 }}
-                src={decompressString(backgroundImage || '')}
+                src={{
+                  uri: backgroundImage,
+                  method: 'GET',
+                  headers: {'Cache-Control': 'no-cache'},
+                  body: '',
+                }}
               />
             </View>
           )}
