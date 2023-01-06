@@ -14,6 +14,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
+import {PDFViewer, Document} from '@react-pdf/renderer';
 import {
   PageBrandingList,
   PageBrandingHeader,
@@ -34,6 +35,8 @@ import '@/library/assets/css/accordion.css';
 
 import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
 
+const width = '100%';
+const height = window.innerHeight / 1.3;
 export const PageBranding = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
   const {
@@ -77,18 +80,18 @@ export const PageBranding = observer(() => {
   };
 
   const getTemplate = (tempCode: string, data: any) => {
-    switch (tempCode) {
-      case 'TEMP0001':
-        return <PdfPBTemp0001 data={data} />;
-      default:
-        return (
-          <div className='justify-center items-center'>
-            <h4 className='text-center text-red'>
-              Template not found. Please select correct temp code. 🚨
-            </h4>
-          </div>
-        );
-        break;
+    if (tempCode)
+      return (
+        <PdfPBTemp0001 data={data} templateSettings={data?.templateSettings} />
+      );
+    else {
+      return (
+        <div className='justify-center items-center'>
+          <h4 className='text-center text-red'>
+            Template not found. Please select correct temp code. 🚨
+          </h4>
+        </div>
+      );
     }
   };
 
@@ -143,11 +146,7 @@ export const PageBranding = observer(() => {
                     onChange(item.tempCode);
                     reportSettingStore.updatePageBranding({
                       ...reportSettingStore.pageBranding,
-                      templateSettings: {
-                        _id: item._id,
-                        tempCode: item.tempCode,
-                        tempName: item.tempName,
-                      },
+                      templateSettings: {...item},
                       tempCode: item.tempCode,
                     });
                     reportSettingStore.pageBrandingService
@@ -331,10 +330,17 @@ export const PageBranding = observer(() => {
             </Accordion>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
-            {getTemplate(
-              reportSettingStore.pageBranding?.tempCode,
-              reportSettingStore.pageBranding,
-            )}
+            <PDFViewer
+              style={{width, height}}
+              showToolbar={reportSettingStore.templateSettings?.isToolbar}
+            >
+              <Document title='Page Branding'>
+                {getTemplate(
+                  reportSettingStore.pageBranding?.tempCode,
+                  reportSettingStore.pageBranding,
+                )}
+              </Document>
+            </PDFViewer>
           </List>
         </Grid>
         <br />
