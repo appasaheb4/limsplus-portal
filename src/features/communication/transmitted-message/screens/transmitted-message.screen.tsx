@@ -25,7 +25,7 @@ import {toJS} from 'mobx';
 
 const TransmittedMessage = observer(() => {
   const {loginStore, transmittedMessageStore, routerStore} = useStores();
-
+  const [modalConfirm, setModalConfirm] = useState<any>();
   return (
     <>
       <Header>
@@ -40,7 +40,19 @@ const TransmittedMessage = observer(() => {
           extraData={{
             lookupItems: routerStore.lookupItems,
           }}
-          isDelete={false}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          onSelectedRow={rows => {
+            setModalConfirm({
+              show: true,
+              type: 'delete',
+              id: rows,
+              title: 'Are you sure?',
+              body: 'Delete selected items!',
+            });
+          }}
           isEditModify={false}
           onPageSizeChange={(page, limit) => {
             transmittedMessageStore.transmittedMessageService.listTransmittedMessage(
@@ -53,6 +65,25 @@ const TransmittedMessage = observer(() => {
               input: {type, filter, page, limit},
             });
           }}
+        />
+        <ModalConfirm
+          {...modalConfirm}
+          click={(type?: string) => {
+            if (type === 'delete') {
+              transmittedMessageStore.transmittedMessageService
+                .delete({input: {id: modalConfirm.id}})
+                .then(res => {
+                  setModalConfirm({show: false});
+                  if (res.removeTransmittedMessage.success) {
+                    transmittedMessageStore.transmittedMessageService.listTransmittedMessage();
+                    Toast.success({
+                      message: `😊 ${res.removeTransmittedMessage.message}`,
+                    });
+                  }
+                });
+            }
+          }}
+          onClose={() => setModalConfirm({show: false})}
         />
       </div>
     </>

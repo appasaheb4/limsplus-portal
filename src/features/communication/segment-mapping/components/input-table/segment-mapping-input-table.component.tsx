@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Icons, Tooltip} from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {observer} from 'mobx-react';
@@ -23,7 +23,7 @@ export const SegmentMappingInputTable = observer(
     onDuplicate,
   }: SegmentMappingInputTableProps) => {
     const {segmentMappingStore} = useStores();
-    const [collection, setCollection] = useState([]);
+    const [collection, setCollection] = useState<any>([]);
     const [collectionDetails, setCollectionDetails] = useState<{
       limsTables: string;
       schema: Array<string>;
@@ -42,6 +42,11 @@ export const SegmentMappingInputTable = observer(
           }
         });
     };
+
+    useEffect(() => {
+      collection?.length == 0 && getCollection();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
       <div style={{position: 'relative'}}>
@@ -190,6 +195,49 @@ export const SegmentMappingInputTable = observer(
                 </>
               ),
             },
+
+            {
+              dataField: 'limsTables',
+              text: 'Lims Tables',
+              headerClasses: 'textHeaderM',
+              events: {
+                onClick: (e, column, columnIndex, row, rowIndex) => {
+                  collection?.length == 0 && getCollection();
+                },
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.limsTables}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const limsTables = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            limsTables,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {collection.map((item: any, index: number) => (
+                      <option key={index} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
             {
               dataField: 'limsFields',
               text: 'Lims Fields',
@@ -218,13 +266,52 @@ export const SegmentMappingInputTable = observer(
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'LIMS_FIELDS').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
+                    {collection
+                      .find((item: any) => item.name == row?.limsTables)
+                      ?.fields?.map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
                         </option>
-                      ),
-                    )}
+                      ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'limsDocumentType',
+              text: 'Lims Document Type',
+              headerClasses: 'textHeaderM',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.limsDocumentType}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const limsDocumentType = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            limsDocumentType,
+                          },
+                          row.index,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {collection
+                      .find((item: any) => item.name == row?.limsTables)
+                      ?.documentType?.map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
                   </select>
                 </>
               ),
@@ -481,113 +568,6 @@ export const SegmentMappingInputTable = observer(
                 );
               },
             },
-            {
-              dataField: 'limsTables',
-              text: 'Lims Tables',
-              hidden: true,
-              headerClasses: 'textHeaderM',
-              events: {
-                onClick: (e, column, columnIndex, row, rowIndex) => {
-                  collection?.length == 0 && getCollection();
-                },
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.limsTables}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const limsTables = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems(
-                          {
-                            limsTables,
-                          },
-                          row.index,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {collection.map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              ),
-            },
-            {
-              dataField: 'limsDocumentType',
-              text: 'Lims Document Type',
-              hidden: true,
-              headerClasses: 'textHeaderM',
-              events: {
-                onClick: (e, column, columnIndex, row, rowIndex) => {
-                  if (collectionDetails.limsTables != row?.limsTables)
-                    segmentMappingStore.segmentMappingService
-                      .getCollectionFields({
-                        input: {collection: row?.limsTables},
-                      })
-                      .then(res => {
-                        if (res.getCollectionFields.success) {
-                          setCollectionDetails({
-                            limsTables: row?.limsTables,
-                            schema: res.getCollectionFields.list.keys,
-                            documentType:
-                              res.getCollectionFields.list.documentTypes,
-                          });
-                        } else {
-                          alert(
-                            'Please try again.Technical issue fetching table fields',
-                          );
-                        }
-                      });
-                },
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.limsDocumentType}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const limsDocumentType = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems(
-                          {
-                            limsDocumentType,
-                          },
-                          row.index,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {collectionDetails.documentType.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
-            },
-
             {
               dataField: 'environment',
               text: 'Environment',
