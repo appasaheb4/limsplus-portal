@@ -34,7 +34,7 @@ export const ModalGenerateReports = ({
 }: ModalGenerateReportsProps) => {
   const [reportList, setReportList] = useState<any>();
   const [showModal, setShowModal] = React.useState(show);
-  const [reportType, setReportType] = useState('withHeader');
+  const [isWithHeader, setWithHeader] = useState(true);
 
   useEffect(() => {
     setShowModal(show);
@@ -48,70 +48,70 @@ export const ModalGenerateReports = ({
   }, [data]);
 
   const getReports = reports => {
-    const width = '100%';
-    const height = '90%';
-    const isToolbar = true;
     const documentTitle = 'Delivery Queue';
     return (
-      <PDFViewer style={{width, height}} showToolbar={isToolbar}>
-        <Document title={documentTitle}>
-          {reports['TEMP0001'] &&
-            _.uniqBy(reportList['TEMP0001'], 'labId').map(patientReports => (
-              <PdfTemp0001
-                data={{
-                  patientReports,
-                  pageBranding: templateDetails.find(
-                    item => item.templateCode == 'TEMP0001',
-                  ),
-                }}
-              />
-            ))}
-          {reports['TEMP0002'] &&
-            _.uniqBy(reportList['TEMP0002'], 'labId').map(patientReports => (
-              <PdfTemp0002
-                data={{
-                  patientReports,
-                  pageBranding: templateDetails.find(
-                    item => item.templateCode == 'TEMP0002',
-                  ),
-                }}
-              />
-            ))}
-          {reports['TEMP0003'] &&
-            _.uniqBy(reportList['TEMP0003'], 'labId').map(patientReports => (
-              <PdfTemp0003
-                data={{
-                  patientReports,
-                  pageBranding: templateDetails.find(
-                    item => item.templateCode == 'TEMP0003',
-                  ),
-                }}
-              />
-            ))}
-          {reports['TEMP0004'] &&
-            _.uniqBy(reportList['TEMP0004'], 'labId').map(patientReports => (
-              <PdfTemp0004
-                data={{
-                  patientReports,
-                  pageBranding: templateDetails.find(
-                    item => item.templateCode == 'TEMP0004',
-                  ),
-                }}
-              />
-            ))}
-          {reports['TEMP0005'] &&
-            _.uniqBy(reportList['TEMP0005'], 'labId').map(patientReports => (
-              <PdfTemp0005
-                data={{
-                  patientReports,
-                  pageBranding: templateDetails.find(
-                    item => item.templateCode == 'TEMP0005',
-                  ),
-                }}
-              />
-            ))}
-        </Document>
-      </PDFViewer>
+      <Document title={documentTitle}>
+        {reports['TEMP0001'] &&
+          _.uniqBy(reportList['TEMP0001'], 'labId').map(patientReports => (
+            <PdfTemp0001
+              data={{
+                patientReports,
+                pageBranding: templateDetails.find(
+                  item => item.templateCode == 'TEMP0001',
+                ),
+              }}
+              isWithHeader={isWithHeader}
+            />
+          ))}
+        {reports['TEMP0002'] &&
+          _.uniqBy(reportList['TEMP0002'], 'labId').map(patientReports => (
+            <PdfTemp0002
+              data={{
+                patientReports,
+                pageBranding: templateDetails.find(
+                  item => item.templateCode == 'TEMP0002',
+                ),
+              }}
+              isWithHeader={isWithHeader}
+            />
+          ))}
+        {reports['TEMP0003'] &&
+          _.uniqBy(reportList['TEMP0003'], 'labId').map(patientReports => (
+            <PdfTemp0003
+              data={{
+                patientReports,
+                pageBranding: templateDetails.find(
+                  item => item.templateCode == 'TEMP0003',
+                ),
+              }}
+              isWithHeader={isWithHeader}
+            />
+          ))}
+        {reports['TEMP0004'] &&
+          _.uniqBy(reportList['TEMP0004'], 'labId').map(patientReports => (
+            <PdfTemp0004
+              data={{
+                patientReports,
+                pageBranding: templateDetails.find(
+                  item => item.templateCode == 'TEMP0004',
+                ),
+              }}
+              isWithHeader={isWithHeader}
+            />
+          ))}
+        {reports['TEMP0005'] &&
+          _.uniqBy(reportList['TEMP0005'], 'labId').map(patientReports => (
+            <PdfTemp0005
+              data={{
+                patientReports,
+                pageBranding: templateDetails.find(
+                  item => item.templateCode == 'TEMP0005',
+                ),
+              }}
+              isWithHeader={isWithHeader}
+            />
+          ))}
+      </Document>
     );
   };
 
@@ -154,13 +154,13 @@ export const ModalGenerateReports = ({
                         <Form.InputRadio
                           label='Report Type'
                           labelStyle={{fontWeight: 'bold', fontSize: 16}}
-                          value={reportType}
+                          value={isWithHeader ? 'withHeader' : 'withoutHeader'}
                           values={[
                             {value: 'withHeader', label: 'With Header'},
                             {value: 'withoutHeader', label: 'Without Header'},
                           ]}
                           onChange={value => {
-                            setReportType(value);
+                            setWithHeader(value == 'withHeader' ? true : false);
                           }}
                         />
                         <div className='flex flex-row content-center justify-center gap-2'>
@@ -177,12 +177,11 @@ export const ModalGenerateReports = ({
                                 padding: 4,
                               }}
                               onClick={async () => {
-                                // const doc = <PdfTemp0006 data={data} />;
-                                // const asPdf = pdf(doc);
-                                // asPdf.updateContainer(doc);
-                                // const blob = await asPdf.toBlob();
-                                // saveAs(blob, 'MedicalReport.pdf');
-                                getReports(reportList);
+                                const doc = getReports(reportList);
+                                const asPdf = pdf(doc);
+                                asPdf.updateContainer(doc);
+                                const blob = await asPdf.toBlob();
+                                saveAs(blob, 'Delivery Queue.pdf');
                               }}
                             >
                               {Icons.getIconTag(
@@ -190,7 +189,6 @@ export const ModalGenerateReports = ({
                               )}
                             </Icons.IconContext>
                           </Tooltip>
-                          {reportList && getReports(reportList)}
                         </div>
                       </div>
                     )}

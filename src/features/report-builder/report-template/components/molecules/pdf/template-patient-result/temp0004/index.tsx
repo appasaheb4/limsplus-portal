@@ -1,8 +1,8 @@
 import React, {useRef} from 'react';
 import {Page, StyleSheet, Font} from '@react-pdf/renderer';
-import {PdfPageNumber} from '@components';
+import {PdfPageNumber, PdfView, PdfFooterView} from '@components';
 import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Fotter} from '../../common/aarvak-diagnostic-center/pdf-fotter.component';
+import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
 import {PdfPatientDetails} from './pdf-patient-details.component';
 import {PdfResultList} from './pdf-result-list.component';
 
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 
 interface PdfTemp0004Props {
   data?: any;
+  isWithHeader?: boolean;
   width?: string | number;
   height?: number | string;
   documentTitle?: string;
@@ -33,6 +34,7 @@ interface PdfTemp0004Props {
 
 export const PdfTemp0004 = ({
   data,
+  isWithHeader = true,
   width = '100%',
   height = '90%',
   documentTitle = 'Aarvak Diagnostic Center Without',
@@ -56,14 +58,18 @@ export const PdfTemp0004 = ({
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
-        <Header />
+        <PdfView style={{height: 100}} fixed mh={0} p={0}>
+          {isWithHeader && <Header />}
+        </PdfView>
         <PdfPatientDetails data={patientReports} />
         <PdfResultList data={patientReports?.patientResultList} />
         <PdfPageNumber
           style={{textAlign: 'center', right: '45%'}}
           bottom={77}
         />
-        <Fotter />
+        <PdfFooterView fixed bg='transparent' style={{height: 90}} p={0}>
+          {isWithHeader && <Footer />}
+        </PdfFooterView>
       </Page>
     </>
   );

@@ -100,7 +100,6 @@ const DeliveryQueue = observer(() => {
     });
   };
 
-  // userModule ="Corporate Portal"
   const reportDeliveryList = useMemo(
     () => (
       <ReportDeliveryList
@@ -170,6 +169,8 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.deliveryQueueService
             .listPatientReports(labId)
             .then(res => {
+              console.log({res});
+
               if (res.getPatientReports.success) {
                 let patientResultList: any[] = [];
                 res.getPatientReports.data?.patientResultList?.filter(item => {

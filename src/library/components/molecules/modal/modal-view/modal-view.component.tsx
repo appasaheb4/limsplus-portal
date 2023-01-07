@@ -8,11 +8,6 @@ export interface ModalViewProps {
 }
 
 export const ModalView = ({visible, onClose, children}: ModalViewProps) => {
-  //   const [showModal, setShowModal] = React.useState(visible);
-  //   useEffect(() => {
-  //     setShowModal(visible);
-  //   }, [visible]);
-
   return (
     <Container>
       {visible && (
