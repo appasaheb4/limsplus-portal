@@ -82,7 +82,17 @@ export const PageBranding = observer(() => {
   const getTemplate = (tempCode: string, data: any) => {
     if (tempCode)
       return (
-        <PdfPBTemp0001 data={data} templateSettings={data?.templateSettings} />
+        <PDFViewer
+          style={{width, height}}
+          showToolbar={reportSettingStore.templateSettings?.isToolbar}
+        >
+          <Document title='Page Branding'>
+            <PdfPBTemp0001
+              data={data}
+              templateSettings={data?.templateSettings}
+            />
+          </Document>
+        </PDFViewer>
       );
     else {
       return (
@@ -330,17 +340,10 @@ export const PageBranding = observer(() => {
             </Accordion>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
-            <PDFViewer
-              style={{width, height}}
-              showToolbar={reportSettingStore.templateSettings?.isToolbar}
-            >
-              <Document title='Page Branding'>
-                {getTemplate(
-                  reportSettingStore.pageBranding?.tempCode,
-                  reportSettingStore.pageBranding,
-                )}
-              </Document>
-            </PDFViewer>
+            {getTemplate(
+              reportSettingStore.pageBranding?.tempCode,
+              reportSettingStore.pageBranding,
+            )}
           </List>
         </Grid>
         <br />
@@ -405,10 +408,30 @@ export const PageBranding = observer(() => {
             // });
           }}
           onPdfPreview={item => {
-            setModalView({
-              visible: true,
-              children: <>{getTemplate(item.tempCode, item)}</>,
-            });
+            reportSettingStore.templateSettingsService
+              .findByFields({
+                input: {
+                  filter: {
+                    tempCode: item?.tempCode,
+                  },
+                },
+              })
+              .then(res => {
+                if (res.findByFieldsTemplateSetting.success) {
+                  setModalView({
+                    visible: true,
+                    children: (
+                      <>
+                        {getTemplate(item.tempCode, {
+                          ...item,
+                          templateSettings:
+                            res.findByFieldsTemplateSetting.data[0],
+                        })}
+                      </>
+                    ),
+                  });
+                }
+              });
           }}
         />
       </div>

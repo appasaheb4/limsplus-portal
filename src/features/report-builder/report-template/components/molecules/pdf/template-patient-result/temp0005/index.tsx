@@ -7,9 +7,9 @@ import {
   Text,
   PDFViewer,
 } from '@react-pdf/renderer';
-import {PdfSmall, PdfView} from '@components';
+import {PdfSmall, PdfView, PdfFooterView} from '@components';
 import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Fotter} from '../../common/aarvak-diagnostic-center/pdf-fotter.component';
+import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
 import {PdfMedicialFitnessCertificate} from './pdf-medicial-fitness-certificate';
 import {PdfMedicalCheckup} from './pdf-medical-checkup';
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
 interface PdfTemp0005Props {
   data: any;
-  isWithHeaderFooter?: boolean;
+  isWithHeader?: boolean;
   width?: string | number;
   height?: number | string;
   documentTitle?: string;
@@ -41,7 +41,7 @@ interface PdfTemp0005Props {
 
 export const PdfTemp0005 = ({
   data,
-  isWithHeaderFooter = true,
+  isWithHeader = true,
   width = '100%',
   height = '95%',
   documentTitle = 'Medical Report',
@@ -64,13 +64,17 @@ export const PdfTemp0005 = ({
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
-        <Header />
-        <PdfMedicialFitnessCertificate data={data} />
-        <PdfMedicalCheckup data={data} />
+        <PdfView style={{height: 100}} fixed mh={0} p={0}>
+          {isWithHeader && <Header />}
+        </PdfView>
+        <PdfMedicialFitnessCertificate data={data?.patientReports} />
+        <PdfMedicalCheckup data={data?.patientReports} />
         <PdfSmall style={{left: 20, marginTop: 10}} fixed>
           {` Registration No.: ${data.labId}`}
         </PdfSmall>
-        <Fotter />
+        <PdfFooterView fixed bg='transparent' style={{height: 90}} p={0}>
+          {isWithHeader && <Footer />}
+        </PdfFooterView>
       </Page>
     </>
   );

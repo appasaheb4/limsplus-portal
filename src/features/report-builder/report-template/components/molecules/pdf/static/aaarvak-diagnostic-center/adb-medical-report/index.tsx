@@ -9,7 +9,7 @@ import {
 } from '@react-pdf/renderer';
 import {PdfSmall} from '@components';
 import {Header} from '../../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Fotter} from '../../../common/aarvak-diagnostic-center/pdf-fotter.component';
+import {Footer} from '../../../common/aarvak-diagnostic-center/pdf-footer.component';
 import {PdfMedicialFitnessCertificate} from './pdf-medicial-fitness-certificate';
 import {PdfMedicalCheckup} from './pdf-medical-checkup';
 
@@ -68,7 +68,7 @@ export const ADCMedicalReportPdf = ({
           <PdfSmall style={{left: 20, marginTop: 10}} fixed>
             Registration No.: 0887687987678
           </PdfSmall>
-          <Fotter />
+          <Footer />
         </Page>
       </Document>
       {/* </PDFViewer> */}

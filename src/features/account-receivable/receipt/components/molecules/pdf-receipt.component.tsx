@@ -58,6 +58,7 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
       discountChargesAmount;
     return amountPayable;
   };
+
   return (
     <PdfReceiptViewer
       pageSize='A4'

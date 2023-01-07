@@ -51,7 +51,7 @@ const ReportTemplate = observer(() => {
       icon: Icons.IconBs.BsPrinter,
     },
     {
-      tempCode: 'TEMP0006',
+      tempCode: 'TEMP0005',
       title: 'AARVAK DIAGNOSTIC CENTER MEDICAL REPORT',
       component: ADCMedicalReportPdf,
       tooltipText: 'Print',
