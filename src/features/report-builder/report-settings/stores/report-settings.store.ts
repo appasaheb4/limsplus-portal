@@ -200,6 +200,11 @@ export class ReportSettingStore {
     }
   }
 
+  filterPageBrandingList(res: any) {
+    this.pageBrandingList = res.filterPageBranding.data;
+    this.pageBrandingListCount = res.filterPageBranding.paginatorInfo.count;
+  }
+
   updateTemplatePatientResult(payload: TemplatePatientResult) {
     this.templatePatientResult = payload;
   }

@@ -17,3 +17,6 @@ export * from './molecules/page-branding/page-branding-list.components';
 
 // template patient result
 export * from './molecules/template-patient-result/template-patient-result-list.components';
+export * from './molecules/template-patient-result/page-branding.components';
+export * from './molecules/template-patient-result/end-of-page.components';
+export * from './molecules/template-patient-result/end-of-report.components';
