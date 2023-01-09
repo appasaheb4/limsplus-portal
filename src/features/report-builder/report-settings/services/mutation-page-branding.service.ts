@@ -58,7 +58,7 @@ export const UPDATE_PAGE_BRANDING = gql`
 
 export const FILTER = gql`
   mutation ($input: PageBrandingInput!) {
-    filterByFieldsPageBranding(input: $input) {
+    filterPageBranding(input: $input) {
       paginatorInfo {
         count
       }

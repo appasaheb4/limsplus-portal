@@ -98,9 +98,6 @@ export class AdministrativeDivisionsService {
         .then((response: any) => {
           if (!response.data.filterAdministrativeDivisions.success)
             return this.listAdministrativeDivisions();
-
-          console.log({response});
-
           stores.administrativeDivisions.filterAdministrativeDivList(
             response.data,
           );

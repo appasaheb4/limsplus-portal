@@ -14,6 +14,7 @@ import {
   UPDATE_PAGE_BRANDING,
   FIND_BY_FIELDS,
   FILTER_BY_FIELDS,
+  FILTER,
 } from './mutation-page-branding.service';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -121,6 +122,26 @@ export class PageBrandingService {
           variables,
         })
         .then((response: any) => {
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterAdministrativeDivisions.success)
+            return this.listPageBranding();
+          stores.reportSettingStore.filterPageBrandingList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
