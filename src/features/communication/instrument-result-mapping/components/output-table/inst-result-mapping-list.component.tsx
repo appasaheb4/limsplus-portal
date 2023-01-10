@@ -86,6 +86,7 @@ export const InstResultMappingList = observer(
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
               editorRenderer: (
                 editorProps,
                 value,
@@ -119,6 +120,7 @@ export const InstResultMappingList = observer(
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
               editorRenderer: (
                 editorProps,
                 value,
@@ -166,6 +168,8 @@ export const InstResultMappingList = observer(
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.testCode} - ${row.testName}`,
               events: {
                 onClick: async (e, column, columnIndex, row, rowIndex) => {
                   if (pLabDetails?.pLab != row.pLab && getTestDetails) {
@@ -228,6 +232,7 @@ export const InstResultMappingList = observer(
               dataField: 'instType',
               text: 'Inst Type',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   instType = filter;
@@ -275,6 +280,7 @@ export const InstResultMappingList = observer(
               dataField: 'instId',
               text: 'Inst Id',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   instId = filter;
@@ -318,6 +324,8 @@ export const InstResultMappingList = observer(
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.analyteCode} - ${row.analyteName}`,
               events: {
                 onClick: async (e, column, columnIndex, row, rowIndex) => {
                   console.log({
@@ -403,6 +411,7 @@ export const InstResultMappingList = observer(
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
               editorRenderer: (
                 editorProps,
                 value,
@@ -436,6 +445,7 @@ export const InstResultMappingList = observer(
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
               editorRenderer: (
                 editorProps,
                 value,
@@ -469,6 +479,7 @@ export const InstResultMappingList = observer(
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
               editorRenderer: (
                 editorProps,
                 value,
