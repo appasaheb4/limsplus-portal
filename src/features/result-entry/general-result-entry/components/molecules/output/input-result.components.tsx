@@ -30,7 +30,6 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
     clearErrors,
   } = useForm();
   const [conclusionResult, setConclusionResult] = useState<Array<any>>();
-  const [labList, setLabList] = useState<Array<any>>();
   const [libraryList, setLibraryList] = useState<Array<any>>();
 
   useEffect(() => {
@@ -94,7 +93,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             <Form.Input
               label=''
               type='text'
-              placeholder={row?.result}
+              placeholder={row?.result || 'Result'}
               maxLength={50}
               pattern={FormHelper.patterns.decimalPatterm}
               className={
@@ -102,11 +101,17 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               }
               hasError={!!errors.result}
               onBlur={result => {
-                onChange(Number.parseFloat(result).toFixed(row?.picture || 0));
-                onSelect({
-                  result: Number.parseFloat(result).toFixed(row?.picture || 0),
-                  numeric: result,
-                });
+                if (result) {
+                  onChange(
+                    Number.parseFloat(result).toFixed(row?.picture || 0),
+                  );
+                  onSelect({
+                    result: Number.parseFloat(result).toFixed(
+                      row?.picture || 0,
+                    ),
+                    numeric: result,
+                  });
+                }
               }}
             />
           )}
