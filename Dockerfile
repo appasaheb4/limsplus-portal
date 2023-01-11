@@ -1,12 +1,13 @@
-FROM node:14.18.1 as build 
+FROM node:14-alpine AS development
+ENV NODE_ENV development
+# Add a work directory
 WORKDIR /app
+# Cache and Install dependencies
 COPY package.json .
-COPY yarn.lock .
 RUN yarn install
+# Copy app files
 COPY . .
-RUN yarn build
-FROM nginx:stable-alpine
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/build /usr/share/nginx/html
-# CMD ["yarn", "build"]
-#docker build  -f Dockerfile -t  limsplus/limsplus-portal .
+# Expose port
+EXPOSE 3000
+# Start the app
+CMD [ "yarn", "start" ] 

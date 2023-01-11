@@ -16,7 +16,7 @@
     "prettier:fix": "prettier --write .",
     "storybook": "start-storybook -p 7007 -s public",
     "build-storybook": "build-storybook -s public",
-    "dockerizeImage": "docker-compose -f docker-compose.yml up -d",
+    "dockerizeImage": "docker-compose build --no-cache",
     "prepare": "husky install",
     "sonar": "node sonarqube-scanner.js"
   },
