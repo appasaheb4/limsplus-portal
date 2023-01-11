@@ -31,6 +31,7 @@ import {
 let userId;
 let empCode;
 let defaultLab;
+let userModule;
 let lab;
 let deginisation;
 let fullName;
@@ -45,7 +46,6 @@ let dateActive;
 let department;
 let reportingTo;
 let exipreDate;
-let expireDays;
 let dateOfEntry;
 let role;
 let validationLevel;
@@ -90,19 +90,9 @@ export const UserList = (props: UserListProps) => {
   const [modalDefaultLabDeptUpdate, setModalDefaultLabDeptUpdate] =
     useState<ModalDefaultLabDeptUpdateProps>({show: false});
 
-  function priceFormatter(column, colIndex, {sortElement, filterElement}) {
-    return (
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        {filterElement}
-        {column.text}
-        {sortElement}
-      </div>
-    );
-  }
-
   const editorCell = (row: any) => {
     if (props?.role === 'SYSADMIN') return true;
-    return row.status !== 'I' ? true : false;
+    return row.status == 'A' ? true : false;
   };
 
   return (
@@ -252,6 +242,11 @@ export const UserList = (props: UserListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               headerClasses: 'textHeader2',
+              filter: textFilter({
+                getFilter: filter => {
+                  userModule = filter;
+                },
+              }),
               editorRenderer: (
                 editorProps,
                 value,
@@ -943,7 +938,7 @@ export const UserList = (props: UserListProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader8',
               formatter: (cell, row) => {
                 return dayjs(row.dateOfBirth).format('YYYY-MM-DD');
               },
@@ -957,6 +952,7 @@ export const UserList = (props: UserListProps) => {
               ) => (
                 <>
                   <Form.InputDateTime
+                    disabled={!editorCell(row)}
                     value={new Date(row.dateOfBirth)}
                     onFocusRemove={dateOfBirth => {
                       props.onUpdateItem &&
@@ -992,7 +988,7 @@ export const UserList = (props: UserListProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: 'textHeader10',
+              headerClasses: 'textHeader11',
               formatter: (cell, row) => {
                 return dayjs(row.marriageAnniversary).format('YYYY-MM-DD');
               },
@@ -1006,6 +1002,7 @@ export const UserList = (props: UserListProps) => {
               ) => (
                 <>
                   <Form.InputDateTime
+                    disabled={!editorCell(row)}
                     value={new Date(row.marriageAnniversary)}
                     onFocusRemove={marriageAnniversary => {
                       props.onUpdateItem &&
@@ -1020,7 +1017,7 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              text: 'Exipre Date',
+              text: 'Expire Date',
               dataField: 'exipreDate',
               sort: true,
               headerStyle: {
@@ -1041,7 +1038,7 @@ export const UserList = (props: UserListProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader9',
               formatter: (cell, row) => {
                 return dayjs(row.exipreDate).format('YYYY-MM-DD');
               },
@@ -1055,6 +1052,7 @@ export const UserList = (props: UserListProps) => {
               ) => (
                 <>
                   <Form.InputDateTime
+                    disabled={!editorCell(row)}
                     value={new Date(row.exipreDate)}
                     onFocusRemove={exipreDate => {
                       props.onUpdateItem &&
@@ -1225,7 +1223,7 @@ export const UserList = (props: UserListProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader9',
               editable: false,
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateOfEntry).format('YYYY-MM-DD')}</>;
@@ -1257,7 +1255,7 @@ export const UserList = (props: UserListProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader9',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1586,6 +1584,7 @@ export const UserList = (props: UserListProps) => {
             userId('');
             empCode('');
             defaultLab('');
+            userModule('');
             lab('');
             deginisation('');
             reportingTo('');
