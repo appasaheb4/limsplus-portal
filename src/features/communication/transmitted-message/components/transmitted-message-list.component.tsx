@@ -79,6 +79,7 @@ export const TransmittedMessageList = observer(
               dataField: 'instType',
               text: 'Inst Type',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   instType = filter;
@@ -94,6 +95,7 @@ export const TransmittedMessageList = observer(
               dataField: 'instId',
               text: 'Inst Id',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   instId = filter;
@@ -109,6 +111,7 @@ export const TransmittedMessageList = observer(
               dataField: 'protocol',
               text: 'Protocol',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   protocol = filter;
@@ -124,6 +127,7 @@ export const TransmittedMessageList = observer(
               dataField: 'segmentMessage',
               text: 'Segment Message',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   segmentMessage = filter;
@@ -139,6 +143,7 @@ export const TransmittedMessageList = observer(
               dataField: 'segmentOrder',
               text: 'Segment Order',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   segmentOrder = filter;
@@ -154,6 +159,14 @@ export const TransmittedMessageList = observer(
               dataField: 'segmentArray',
               text: 'Segment Array',
               headerClasses: 'textHeader',
+              csvFormatter: (cell, row, rowIndex) =>
+                `FieldNo:${row.segmentArray?.map(
+                  (item: any) => item.field_no,
+                )}  - Filed:${row.segmentArray?.map(
+                  (item: any) => item.filed,
+                )} - Value:${row.segmentArray?.map(
+                  (item: any) => item.value,
+                )} `,
               filter: textFilter({
                 getFilter: filter => {
                   segmentArray = filter;
@@ -238,6 +251,7 @@ export const TransmittedMessageList = observer(
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader',
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
                   status = filter;
