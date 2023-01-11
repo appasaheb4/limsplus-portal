@@ -14,11 +14,15 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import {TemplatePatientResultList} from '../components';
+import {
+  TemplatePatientResultList,
+  PageBrandingComponents,
+  EndOfPageComponents,
+  EndOfReportComponents,
+} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
-import {PageBranding as PageBrandingModel} from '../models';
 
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
@@ -135,8 +139,6 @@ export const TemplatePatientResult = observer(() => {
                             },
                           })
                           .then(res => {
-                            console.log({res});
-
                             if (res.findByFieldsTemplatePatientResult.success) {
                               setError('reportTemplateType', {type: 'onBlur'});
                               setError('templateCode', {type: 'onBlur'});
@@ -176,26 +178,8 @@ export const TemplatePatientResult = observer(() => {
                     label='Page Branding'
                     hasError={!!errors.pageBranding}
                   >
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder='Page Branding'
-                      data={{
-                        list: reportSettingStore.pageBrandingList,
-                        displayKey: ['tempCode', 'brandingTitle'],
-                      }}
-                      hasError={!!errors.pageBranding}
-                      onFilter={(value: string) => {
-                        // reportSettingStore.updateReportSectionList(
-                        //   reportSettingStore.reportSectionListCopy.filter(item =>
-                        //     item.section
-                        //       .toString()
-                        //       .toLowerCase()
-                        //       .includes(value.toLowerCase()),
-                        //   ),
-                        // );
-                      }}
+                    <PageBrandingComponents
                       onSelect={item => {
-                        onChange(item.tempCode);
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
                           pageBranding: {
@@ -328,64 +312,12 @@ export const TemplatePatientResult = observer(() => {
                     label='End Of Page'
                     hasError={!!errors.endOfPage}
                   >
-                    <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder='Search by code or details'
-                      data={{
-                        list: libraryStore.listLibrary,
-                        selected:
-                          reportSettingStore.selectedItemTemplatePatientResult
-                            ?.endOfPage,
-                        displayKey: ['code', 'details'],
-                      }}
-                      hasError={!!errors.endOfPage}
-                      onUpdate={item => {
-                        const endOfPage =
-                          reportSettingStore.selectedItemTemplatePatientResult
-                            ?.endOfPage;
-                        onChange(endOfPage);
+                    <EndOfPageComponents
+                      onSelect={item => {
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
-                          endOfPage: _.map(endOfPage, o =>
-                            _.pick(o, ['_id', 'code', 'details']),
-                          ),
+                          endOfPage: item,
                         });
-                        libraryStore.updateLibraryList(
-                          libraryStore.listLibraryCopy,
-                        );
-                      }}
-                      onFilter={(value: string) => {
-                        libraryStore.libraryService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ['code', 'details'],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        });
-                      }}
-                      onSelect={item => {
-                        onChange(item);
-                        let endOfPage =
-                          reportSettingStore.selectedItemTemplatePatientResult
-                            ?.endOfPage;
-                        if (!item.selected) {
-                          if (endOfPage && endOfPage.length > 0) {
-                            endOfPage.push(item);
-                          } else endOfPage = [item];
-                        } else {
-                          endOfPage = endOfPage.filter(items => {
-                            return items._id !== item._id;
-                          });
-                        }
-                        reportSettingStore.updateSelectedItemTemplatePatientResult(
-                          {
-                            ...reportSettingStore.selectedItemTemplatePatientResult,
-                            endOfPage,
-                          },
-                        );
                       }}
                     />
                   </Form.InputWrapper>
@@ -405,64 +337,12 @@ export const TemplatePatientResult = observer(() => {
                     label='End Of Report'
                     hasError={!!errors.endOfReport}
                   >
-                    <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                      loader={loading}
-                      placeholder='Search by code or details'
-                      data={{
-                        list: libraryStore.listLibrary,
-                        selected:
-                          reportSettingStore.selectedItemTemplatePatientResult
-                            ?.endOfReport,
-                        displayKey: ['code', 'details'],
-                      }}
-                      hasError={!!errors.endOfReport}
-                      onUpdate={item => {
-                        const endOfReport =
-                          reportSettingStore.selectedItemTemplatePatientResult
-                            ?.endOfReport;
-                        onChange(endOfReport);
+                    <EndOfReportComponents
+                      onSelect={item => {
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
-                          endOfReport: _.map(endOfReport, o =>
-                            _.pick(o, ['_id', 'code', 'details']),
-                          ),
+                          endOfReport: item,
                         });
-                        libraryStore.updateLibraryList(
-                          libraryStore.listLibraryCopy,
-                        );
-                      }}
-                      onFilter={(value: string) => {
-                        libraryStore.libraryService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ['code', 'details'],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        });
-                      }}
-                      onSelect={item => {
-                        onChange(item);
-                        let endOfReport =
-                          reportSettingStore.selectedItemTemplatePatientResult
-                            ?.endOfReport;
-                        if (!item.selected) {
-                          if (endOfReport && endOfReport.length > 0) {
-                            endOfReport.push(item);
-                          } else endOfReport = [item];
-                        } else {
-                          endOfReport = endOfReport.filter(items => {
-                            return items._id !== item._id;
-                          });
-                        }
-                        reportSettingStore.updateSelectedItemTemplatePatientResult(
-                          {
-                            ...reportSettingStore.selectedItemTemplatePatientResult,
-                            endOfReport,
-                          },
-                        );
                       }}
                     />
                   </Form.InputWrapper>
@@ -476,359 +356,7 @@ export const TemplatePatientResult = observer(() => {
                 }
               />
             </List>
-
-            {/* <List direction='col' space={4} justify='stretch' fill>
-              <div className='p-3 border border-gray-800 relative mt-2'>
-                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
-                  Department Header
-                </h2>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Name CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult
-                          .departmentHeader?.nameCSS
-                      }
-                      onChange={nameCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          departmentHeader: {
-                            ...reportSettingStore.templatePatientResult
-                              ?.departmentHeader,
-                            nameCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='departmentNameCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </div>
-              <div className='p-3 border border-gray-800 relative mt-2'>
-                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
-                  Panel Header
-                </h2>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Description CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult.panelHeader
-                          ?.descriptionCSS
-                      }
-                      onChange={descriptionCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          panelHeader: {
-                            ...reportSettingStore.templatePatientResult
-                              ?.panelHeader,
-                            descriptionCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='panelDescriptionCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Method Description CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult.panelHeader
-                          ?.methodDescriptionCSS
-                      }
-                      onChange={methodDescriptionCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          panelHeader: {
-                            ...reportSettingStore.templatePatientResult
-                              ?.panelHeader,
-                            methodDescriptionCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='panelMethodDescriptionCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </div>
-
-              <div className='p-3 border border-gray-800 relative mt-2'>
-                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
-                  Test Header
-                </h2>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Description CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult?.testHeader
-                          ?.descriptionCSS
-                      }
-                      onChange={descriptionCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          testHeader: {
-                            ...reportSettingStore.templatePatientResult
-                              .testHeader,
-                            descriptionCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='testDescriptionCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Method Description CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult.testHeader
-                          ?.methodDescriptionCSS
-                      }
-                      onChange={methodDescriptionCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          testHeader: {
-                            ...reportSettingStore.templatePatientResult
-                              ?.testHeader,
-                            methodDescriptionCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='testMethodDescriptionCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </div>
-            </List>
-
-            <List direction='col' space={4} justify='stretch' fill>
-              <div className='p-3 border border-gray-800 relative mt-2'>
-                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
-                  Patient Result List
-                </h2>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Fields Text CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult
-                          .patientResultList?.fieldsTextCSS
-                      }
-                      onChange={fieldsTextCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          patientResultList: {
-                            ...reportSettingStore.templatePatientResult
-                              .patientResultList,
-                            fieldsTextCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='prListFieldsTextCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </div>
-              <div className='p-3 border border-gray-800 relative mt-2'>
-                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
-                  Test Footer
-                </h2>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Interpretation CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult.testFooter
-                          ?.interpretationCSS
-                      }
-                      onChange={interpretationCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          testFooter: {
-                            ...reportSettingStore.templatePatientResult
-                              .testFooter,
-                            interpretationCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='testInterpretationCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </div>
-              <div className='p-3 border border-gray-800 relative mt-2'>
-                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
-                  Panel Footer
-                </h2>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Interpretation CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={
-                        "Like fontSize: 12,backgroundColor:'#000000'"
-                      }
-                      value={
-                        reportSettingStore.templatePatientResult.panelFooter
-                          ?.interpretationCSS
-                      }
-                      onChange={interpretationCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          panelFooter: {
-                            ...reportSettingStore.templatePatientResult
-                              .panelFooter,
-                            interpretationCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='panelInterpretationCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </div>
-              <div className='p-3 border border-gray-800 relative mt-2'>
-                <h2 className='-mt-10 translate-y-1/2 p-1 w-fit bg-white mb-4'>
-                  Department Footer
-                </h2>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Form.MultilineInput
-                      label='Image CSS'
-                      className='text-sm'
-                      style={{
-                        color: '#ffffff',
-                        backgroundColor: '#000000',
-                        fontSize: 12,
-                      }}
-                      placeholder={'Like width:150,height: 100'}
-                      value={
-                        reportSettingStore.templatePatientResult
-                          .departmentFooter?.imageCSS
-                      }
-                      onChange={imageCSS => {
-                        reportSettingStore.updateTemplatePatientResult({
-                          ...reportSettingStore.templatePatientResult,
-                          departmentFooter: {
-                            ...reportSettingStore.templatePatientResult
-                              ?.departmentFooter,
-                            imageCSS,
-                          },
-                        });
-                      }}
-                    />
-                  )}
-                  name='departmentImageCSS'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </div>
-            </List> */}
           </Grid>
-          {/* <List direction='col' space={4} justify='stretch' fill>
-            {getTemplate(
-              reportSettingStore.pageBranding?.tempCode,
-              reportSettingStore.pageBranding,
-            )}
-          </List> */}
         </Grid>
         <br />
         <List direction='row' space={3} align='center'>
@@ -884,7 +412,10 @@ export const TemplatePatientResult = observer(() => {
             });
           }}
           onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
+            reportSettingStore.templatePatientResultService.listTemplatePatientResult(
+              page,
+              limit,
+            );
           }}
           onFilter={(type, filter, page, limit) => {
             // bannerStore.BannerService.filter({
@@ -920,7 +451,7 @@ export const TemplatePatientResult = observer(() => {
               break;
             }
             case 'update': {
-              reportSettingStore.pageBrandingService
+              reportSettingStore.templatePatientResultService
                 .update({
                   input: {
                     ...modalConfirm.data.fields,
@@ -929,13 +460,11 @@ export const TemplatePatientResult = observer(() => {
                 })
                 .then((res: any) => {
                   setModalConfirm({show: false});
-                  if (res.updatePageBranding.success) {
+                  if (res.updateTemplatePatientResult.success) {
                     Toast.success({
-                      message: `😊 ${res.updatePageBranding.message}`,
+                      message: `😊 ${res.updateTemplatePatientResult.message}`,
                     });
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 2000);
+                    reportSettingStore.templatePatientResultService.listTemplatePatientResult();
                   }
                 });
               break;

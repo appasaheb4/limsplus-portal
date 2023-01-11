@@ -50,8 +50,8 @@ export const REMOVE_TEMPLATE_PATIENT_RESULT = gql`
 `;
 
 export const UPDATE_TEMPLATE_PATIENT_RESULT = gql`
-  mutation ($input: UpdateTemplateSettingInput!) {
-    updateTemplateSetting(input: $input) {
+  mutation ($input: UpdateTemplatePatientResultInput!) {
+    updateTemplatePatientResult(input: $input) {
       success
       message
     }

@@ -14,19 +14,21 @@ import {createUploadLink} from 'apollo-upload-client';
 
 const customFetch = async (uri, options): Promise<any> => {
   try {
-    stores.setLoading(true);
-    //console.log({uri, options});
+    if (!stores.loading) stores.setLoading(true);
     const response = await fetch(uri, options).then(response => {
       if (response.status >= 500) {
         return Promise.reject(response.status);
       }
+      if (response)
+        setTimeout(() => {
+          stores.setLoading(false);
+        }, 1000);
       return response;
     });
     return response;
   } catch (error) {
-    return await Promise.reject(error);
-  } finally {
     stores.setLoading(false);
+    return await Promise.reject(error);
   }
 };
 

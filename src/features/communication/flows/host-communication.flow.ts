@@ -10,7 +10,7 @@ class HostCommunicationFlows {
       .findByFields({
         input: {
           filter: {
-            equipmentType: interfaceManager.instrumentType,
+            instType: interfaceManager.instrumentType,
           },
         },
       })
@@ -21,29 +21,17 @@ class HostCommunicationFlows {
       });
     const mapping: any[] = [];
     const values: MappingValues[] = [];
-    const dataFlowFrom =
-      interfaceManager.dataFlowFrom !== undefined
-        ? interfaceManager.dataFlowFrom
-            .replaceAll(/&amp;/g, '&')
-            .replaceAll(/&gt;/g, '>')
-            .replaceAll(/&lt;/g, '<')
-            .replaceAll(/&quot;/g, '"')
-            .replaceAll(/â/g, '’')
-            .replaceAll(/â¦/g, '…')
-        : undefined;
+
     for (const item of data) {
-      if (
-        item.equipmentType === interfaceManager.instrumentType &&
-        item.dataFlowFrom === dataFlowFrom
-      ) {
+      if (item.instType === interfaceManager.instrumentType) {
         values.push({
           segments: item.segments,
-          field: `${item.segments?.toLowerCase()}.${item.element_name
+          field: `${item.segments?.toLowerCase()}.${item.elementName
             ?.toLowerCase()
             .replaceAll(' ', '_')}`,
-          component: [Number(item.field_no), 1],
-          field_no: Number(item.field_no),
-          mandatory: item.mandatory,
+          component: [Number(item.elementNo), 1],
+          field_no: Number(item.elementNo),
+          mandatory: item.requiredForLims,
           default: '',
         });
       }
@@ -67,31 +55,28 @@ class HostCommunicationFlows {
       try {
         const mappingList = await this.mapping(interfaceManager);
         // decode
-        if (type === 'HL7') {
-          const tempData = {};
-          for (const item of mappingList) {
-            for (const key of Object.keys(item)) {
-              tempData[key] = item[key];
-            }
+        const tempData = {};
+        for (const item of mappingList) {
+          for (const key of Object.keys(item)) {
+            tempData[key] = item[key];
           }
-          const mapping = {
-            mapping: tempData,
-          };
-
-          const hl7 = decode(
-            message,
-            stores.hostCommunicationStore.selectedInterfaceManager,
-            mapping,
-          );
-          if (!hl7) return alert('Please enter correct message');
-          stores.hostCommunicationStore.updateConvertTo({
-            ...stores.hostCommunicationStore.convertTo,
-            hl7,
-          });
-          stores.hostCommunicationStore.updateHostCommuication({
-            ...stores.hostCommunicationStore.hostCommuication,
-          });
         }
+        const mapping = {
+          mapping: tempData,
+        };
+        const output = decode(
+          message,
+          stores.hostCommunicationStore.selectedInterfaceManager,
+          mapping,
+        );
+        if (!output) return alert('Please enter correct message');
+        stores.hostCommunicationStore.updateConvertTo({
+          ...stores.hostCommunicationStore.convertTo,
+          hl7: output,
+        });
+        stores.hostCommunicationStore.updateHostCommuication({
+          ...stores.hostCommunicationStore.hostCommuication,
+        });
       } catch (error) {
         reject(error);
       }

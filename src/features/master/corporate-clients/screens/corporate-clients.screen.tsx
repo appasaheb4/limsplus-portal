@@ -635,7 +635,7 @@ const CorporateClients = CorporateClientsHoc(
                       hasError={!!errors.country}
                       placeholder='Country'
                       value={corporateClientsStore.corporateClients?.country}
-                      disabled={true}
+                      //disabled={true}
                       onChange={country => {
                         onChange(country);
                         corporateClientsStore.updateCorporateClients({
@@ -658,7 +658,7 @@ const CorporateClients = CorporateClientsHoc(
                       hasError={!!errors.state}
                       placeholder='State'
                       value={corporateClientsStore.corporateClients?.state}
-                      disabled={true}
+                      //disabled={true}
                       onChange={state => {
                         onChange(state);
                         corporateClientsStore.updateCorporateClients({
@@ -681,7 +681,7 @@ const CorporateClients = CorporateClientsHoc(
                       hasError={!!errors.district}
                       placeholder='District'
                       value={corporateClientsStore.corporateClients?.district}
-                      disabled={true}
+                      //disabled={true}
                       onChange={district => {
                         onChange(district);
                         corporateClientsStore.updateCorporateClients({
@@ -704,7 +704,7 @@ const CorporateClients = CorporateClientsHoc(
                       hasError={!!errors.city}
                       placeholder='City'
                       value={corporateClientsStore.corporateClients?.city}
-                      disabled={true}
+                      //disabled={true}
                       onChange={city => {
                         onChange(city);
                         corporateClientsStore.updateCorporateClients({
@@ -726,7 +726,7 @@ const CorporateClients = CorporateClientsHoc(
                       hasError={!!errors.area}
                       placeholder='Area'
                       value={corporateClientsStore.corporateClients?.area}
-                      disabled={true}
+                      //disabled={true}
                       onChange={area => {
                         onChange(area);
                         corporateClientsStore.updateCorporateClients({

@@ -130,6 +130,8 @@ export const getIcons = (icon: string): any => {
   if (icon === 'Icons.IconGi.GiDatabase') return Icons.IconGi.GiDatabase;
   if (icon === 'Icons.IconGi.GiKeyring') return Icons.IconGi.GiKeyring;
   if (icon === 'Icons.Iconvsc.VscOutput') return Icons.Iconvsc.VscOutput;
+  if (icon === 'Icons.Iconai.AiOutlineMessage')
+    return Icons.Iconai.AiOutlineMessage;
 
   //settings
   if (icon === 'Icons.IconRi.RiSettings5Fill')

@@ -42,6 +42,7 @@ import {DataConversationStore} from '@/features/communication/data-conversation/
 import {HostCommunicationStore} from '@/features/communication/host-communication/stores/host-communication.store';
 import {SegmentMappingStore} from '@/features/communication/segment-mapping/stores/segment-mapping.store';
 import {InstResultMappingStore} from '@/features/communication/instrument-result-mapping/stores/inst-result-mapping.store';
+import {TransmittedMessageStore} from '@/features/communication/transmitted-message/stores/transmitted-message.store';
 
 // setting
 import {RoleStore} from '@/features/settings/roles/stores/role.store';
@@ -120,6 +121,7 @@ export class Stores extends Store {
   hostCommunicationStore!: HostCommunicationStore;
   segmentMappingStore!: SegmentMappingStore;
   instResultMappingStore!: InstResultMappingStore;
+  transmittedMessageStore!: TransmittedMessageStore;
 
   // settings
   userStore!: UserStore;
@@ -198,6 +200,7 @@ export class Stores extends Store {
     this.hostCommunicationStore = new HostCommunicationStore();
     this.segmentMappingStore = new SegmentMappingStore();
     this.instResultMappingStore = new InstResultMappingStore();
+    this.transmittedMessageStore = new TransmittedMessageStore();
 
     // settings
     this.userStore = new UserStore();

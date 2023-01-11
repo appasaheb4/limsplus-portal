@@ -58,12 +58,7 @@ interface SegmentMappingListProps {
 
 export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
   const {segmentMappingStore} = useStores();
-  const [collection, setCollection] = useState([]);
-  const [collectionDetails, setCollectionDetails] = useState<{
-    limsTables: string;
-    schema: Array<string>;
-    documentType: Array<string>;
-  }>({limsTables: '', schema: [], documentType: []});
+  const [collection, setCollection] = useState<any>([]);
 
   const getCollection = () => {
     segmentMappingStore.segmentMappingService.getCollectionList().then(res => {
@@ -76,6 +71,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
   };
 
   useEffect(() => {
+    collection?.length == 0 && getCollection();
     segmentMappingStore.fetchListSegmentMapping();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -425,6 +421,160 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
+            dataField: 'limsTables',
+            text: 'Lims Tables',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsTables = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            events: {
+              onClick: (e, column, columnIndex, row, rowIndex) => {
+                collection?.length == 0 && getCollection();
+              },
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  value={row.limsTables}
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const limsTables = e.target.value;
+                    props.onUpdateFields &&
+                      props.onUpdateFields(
+                        {
+                          limsTables,
+                        },
+                        row._id,
+                      );
+                  }}
+                >
+                  <option selected>Select</option>
+                  {collection.map((item: any, index: number) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ),
+          },
+          {
+            dataField: 'limsFields',
+            text: 'Lims Fields',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsFields = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  value={row.limsFields}
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const limsFields = e.target.value;
+                    props.onUpdateFields &&
+                      props.onUpdateFields(
+                        {
+                          limsFields,
+                        },
+                        row._id,
+                      );
+                  }}
+                >
+                  <option selected>Select</option>
+                  {collection
+                    .find((item: any) => item.name == row?.limsTables)
+                    ?.fields?.map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                </select>
+              </>
+            ),
+          },
+          {
+            dataField: 'limsDocumentType',
+            text: 'Lims Document Type',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsDocumentType = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  value={row.limsDocumentType}
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const limsDocumentType = e.target.value;
+                    props.onUpdateFields &&
+                      props.onUpdateFields(
+                        {
+                          limsDocumentType,
+                        },
+                        row._id,
+                      );
+                  }}
+                >
+                  <option selected>Select</option>
+                  {collection
+                    .find((item: any) => item.name == row?.limsTables)
+                    ?.documentType?.map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                </select>
+              </>
+            ),
+          },
+
+          {
             dataField: 'elementRequired',
             text: 'Element Required',
             headerClasses: 'textHeaderM',
@@ -740,203 +890,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               );
             },
           },
-          {
-            dataField: 'limsTables',
-            text: 'Lims Tables',
-            headerClasses: 'textHeader',
-            filter: textFilter({
-              getFilter: filter => {
-                limsTables = filter;
-              },
-            }),
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            csvFormatter: col => (col ? col : ''),
-            events: {
-              onClick: (e, column, columnIndex, row, rowIndex) => {
-                collection?.length == 0 && getCollection();
-              },
-            },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row.limsTables}
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const limsTables = e.target.value;
-                    props.onUpdateFields &&
-                      props.onUpdateFields(
-                        {
-                          limsTables,
-                        },
-                        row._id,
-                      );
-                  }}
-                >
-                  <option selected>Select</option>
-                  {collection.map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </>
-            ),
-          },
-          {
-            dataField: 'limsDocumentType',
-            text: 'Lims Document Type',
-            headerClasses: 'textHeader',
-            filter: textFilter({
-              getFilter: filter => {
-                limsDocumentType = filter;
-              },
-            }),
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            events: {
-              onClick: (e, column, columnIndex, row, rowIndex) => {
-                if (collectionDetails.limsTables != row?.limsTables)
-                  segmentMappingStore.segmentMappingService
-                    .getCollectionFields({
-                      input: {collection: row?.limsTables},
-                    })
-                    .then(res => {
-                      if (res.getCollectionFields.success) {
-                        setCollectionDetails({
-                          limsTables: row?.limsTables,
-                          schema: res.getCollectionFields.list.keys,
-                          documentType:
-                            res.getCollectionFields.list.documentTypes,
-                        });
-                      } else {
-                        alert(
-                          'Please try again.Technical issue fetching table fields',
-                        );
-                      }
-                    });
-              },
-            },
-            csvFormatter: col => (col ? col : ''),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row.limsDocumentType}
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const limsDocumentType = e.target.value;
-                    props.onUpdateFields &&
-                      props.onUpdateFields(
-                        {
-                          limsDocumentType,
-                        },
-                        row._id,
-                      );
-                  }}
-                >
-                  <option selected>Select</option>
-                  {collectionDetails.documentType?.map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ),
-                  )}
-                </select>
-              </>
-            ),
-          },
-          {
-            dataField: 'limsFields',
-            text: 'Lims Fields',
-            headerClasses: 'textHeader',
-            filter: textFilter({
-              getFilter: filter => {
-                limsFields = filter;
-              },
-            }),
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            events: {
-              onClick: (e, column, columnIndex, row, rowIndex) => {
-                if (collectionDetails.limsTables != row?.limsTables)
-                  segmentMappingStore.segmentMappingService
-                    .getCollectionFields({
-                      input: {collection: row?.limsTables},
-                    })
-                    .then(res => {
-                      if (res.getCollectionFields.success) {
-                        setCollectionDetails({
-                          limsTables: row?.limsTables,
-                          schema: res.getCollectionFields.list.keys,
-                          documentType:
-                            res.getCollectionFields.list.documentTypes,
-                        });
-                      } else {
-                        alert(
-                          'Please try again.Technical issue fetching table fields',
-                        );
-                      }
-                    });
-              },
-            },
-            csvFormatter: col => (col ? col : ''),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row.limsFields}
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const limsFields = e.target.value;
-                    props.onUpdateFields &&
-                      props.onUpdateFields(
-                        {
-                          limsFields,
-                        },
-                        row._id,
-                      );
-                  }}
-                >
-                  <option selected>Select</option>
-                  {collectionDetails.schema.map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </>
-            ),
-          },
+
           {
             dataField: 'environment',
             text: 'Environment',

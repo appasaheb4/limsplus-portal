@@ -792,7 +792,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         registrationLocationsStore.registrationLocations
                           ?.country
                       }
-                      disabled={true}
+                      //disabled={true}
                       onChange={country => {
                         onChange(country);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -817,7 +817,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       value={
                         registrationLocationsStore.registrationLocations?.state
                       }
-                      disabled={true}
+                      //disabled={true}
                       onChange={state => {
                         onChange(state);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -845,7 +845,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         registrationLocationsStore.registrationLocations
                           ?.district
                       }
-                      disabled={true}
+                      //disabled={true}
                       onChange={district => {
                         onChange(district);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -872,7 +872,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       value={
                         registrationLocationsStore.registrationLocations?.city
                       }
-                      disabled={true}
+                      // disabled={true}
                       onChange={city => {
                         onChange(city);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -900,7 +900,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       value={
                         registrationLocationsStore.registrationLocations?.area
                       }
-                      disabled={true}
+                      //disabled={true}
                       onChange={area => {
                         onChange(area);
                         registrationLocationsStore.updateRegistrationLocations({

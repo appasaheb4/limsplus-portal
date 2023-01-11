@@ -82,7 +82,6 @@ const PanelApproval = observer(() => {
             // });
           }}
           onClickRow={(item, index) => {
-            console.log({item});
             transactionDetailsStore.transactionDetailsService.findByFieldsTransactionLine(
               {
                 input: {

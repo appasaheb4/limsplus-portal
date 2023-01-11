@@ -32,3 +32,6 @@ __snapshots__/
 reports
 .scannerwork/
 
+
+./netlify/*
+.env

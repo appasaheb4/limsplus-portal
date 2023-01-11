@@ -62,8 +62,6 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
           count++;
           return item;
         });
-        console.log({finalList});
-
         list = finalList;
       }
       return list;
@@ -108,8 +106,6 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
       });
     };
     const onSelect = item => {
-      console.log({item});
-
       let roles = userStore.selectedItems?.roles;
       if (!item.selected) {
         if (roles && roles.length > 0) {

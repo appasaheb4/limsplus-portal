@@ -12,6 +12,7 @@ import {
   Svg,
   ModalConfirm,
   ModalImportFile,
+  Toast,
 } from '@/library/components';
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
@@ -334,9 +335,17 @@ const HostCommunication = HostCommunicationHoc(
                       });
                     }}
                     onConnect={details => {
+                      if (!hostCommunicationStore.hostCommuication.instType)
+                        return alert('Please select inst type.');
                       hostCommunicationStore.hostCommunicationService
                         .connectHostCommunication({
-                          input: {...details, type: 'tcpIP'},
+                          input: {
+                            ...details,
+                            instType:
+                              hostCommunicationStore.hostCommuication.instType,
+                            pushToken: loginStore.login.webPushTokenFcm,
+                            type: 'tcpIP',
+                          },
                         })
                         .then(res => {
                           hostCommunicationStore.updateHostCommuication({
@@ -746,9 +755,37 @@ const HostCommunication = HostCommunicationHoc(
                                 <Buttons.Button
                                   size='medium'
                                   type='solid'
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    console.log({
+                                      message:
+                                        hostCommunicationStore.convertTo.hl7,
+                                    });
+
+                                    hostCommunicationStore.hostCommunicationService
+                                      .createTransmittedMessage({
+                                        input: {
+                                          filter: {
+                                            message:
+                                              hostCommunicationStore.convertTo
+                                                .hl7,
+                                            instType:
+                                              hostCommunicationStore
+                                                .hostCommuication.instType,
+                                          },
+                                        },
+                                      })
+                                      .then(res => {
+                                        if (
+                                          res.createTransmittedMessage.success
+                                        ) {
+                                          Toast.success({
+                                            message: `😊 ${res.createTransmittedMessage.message}`,
+                                          });
+                                        }
+                                      });
+                                  }}
                                 >
-                                  Convert
+                                  Save
                                 </Buttons.Button>
                               </div>
                             </div>

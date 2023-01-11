@@ -510,7 +510,6 @@ export const PatientVisit = PatientVisitHoc(
                             );
                           }}
                           onSelect={item => {
-                            console.log({item});
                             onChange(item.locationCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,

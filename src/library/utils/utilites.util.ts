@@ -1,6 +1,5 @@
 import _ from 'lodash';
 export const checkNotUndefined = (object: any) => {
-  console.log({object});
   for (const key in object) {
     if (object[key] !== undefined) return true;
   }

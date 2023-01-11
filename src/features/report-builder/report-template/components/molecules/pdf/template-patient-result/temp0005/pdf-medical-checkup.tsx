@@ -50,6 +50,7 @@ export const PdfMedicalCheckup = ({
   headerStyle,
 }: PdfMedicalCheckupProps) => {
   const {medicalCheckup, physicalExamination} = data;
+
   return (
     <>
       {/* S.No */}
