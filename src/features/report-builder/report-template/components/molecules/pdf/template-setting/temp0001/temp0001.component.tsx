@@ -32,6 +32,7 @@ interface PdfTSTemp0001Props {
   backgroundImage?: string;
   pageSize: any;
   mainBoxCSS?: any;
+  isWithHeader?: boolean;
   children: React.ReactNode;
 }
 
@@ -44,6 +45,7 @@ export const PdfTSTemp0001 = ({
   backgroundImage = '',
   mainBoxCSS = {},
   pageSize,
+  isWithHeader,
   children,
 }: PdfTSTemp0001Props) => {
   const boxCSS = useRef<any>(styles.page);
@@ -59,7 +61,7 @@ export const PdfTSTemp0001 = ({
     <>
       {isToolbar ? (
         <Page size={pageSize} style={boxCSS.current}>
-          {isBackgroundImage && (
+          {isBackgroundImage && isWithHeader && (
             <View
               style={{
                 position: 'absolute',
@@ -89,7 +91,7 @@ export const PdfTSTemp0001 = ({
         </Page>
       ) : (
         <Page size={pageSize} style={boxCSS.current}>
-          {isBackgroundImage && (
+          {isBackgroundImage && isWithHeader && (
             <View
               style={{
                 position: 'absolute',

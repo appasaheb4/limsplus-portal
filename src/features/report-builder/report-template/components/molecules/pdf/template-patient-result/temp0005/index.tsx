@@ -70,7 +70,7 @@ export const PdfTemp0005 = ({
         <PdfMedicialFitnessCertificate data={data?.patientReports} />
         <PdfMedicalCheckup data={data?.patientReports} />
         <PdfSmall style={{left: 20, marginTop: 10}} fixed>
-          {` Registration No.: ${data.labId}`}
+          {` Registration No.: ${data.labId || ''}`}
         </PdfSmall>
         <PdfFooterView fixed bg='transparent' style={{height: 90}} p={0}>
           {isWithHeader && <Footer />}

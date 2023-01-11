@@ -27,7 +27,7 @@ export const PdfTemp0003 = observer(
       patientReports?.patientResultList?.filter(item => {
         arrDetails.push(item?.testHeader?.testBottomMarker?.details);
       });
-      setTestBottomMarker(_.uniq(arrDetails));
+      setTestBottomMarker(_.compact(_.uniq(arrDetails)));
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patientReports]);
 
@@ -117,28 +117,34 @@ export const PdfTemp0003 = observer(
             </PdfView>
 
             {/* End of Report */}
-            <PdfView alignItems='center' style={{marginTop: 10}}>
+            <PdfView alignItems='center' style={{marginTop: 15}}>
               <PdfRegular fontSize={13}>
                 ---------------------- End of report ----------------------
               </PdfRegular>
-              <PdfBorderView style={{width: '100%'}}>
+              <PdfBorderView
+                style={{width: '100%', minHeight: 15, marginTop: 20}}
+                mh={0}
+                p={0}
+              >
                 <PdfRegular
                   style={{
                     textDecoration: 'underline',
                     textAlign: 'center',
                   }}
-                  fontWeight='bold'
+                  fontSize={10}
                 >
                   IMPORTANT INSTRUCTIONS
                 </PdfRegular>
-
-                <PdfView flexDirection='row' style={{marginTop: 10}}>
-                  {patientReports?.templatePatientResultLabWise?.endOfReport?.map(
-                    item => (
-                      <PdfSmall>{` * ${item?.details}`}</PdfSmall>
-                    ),
-                  )}
-                </PdfView>
+                {patientReports?.templatePatientResultLabWise?.endOfReport
+                  ?.length > 0 && (
+                  <PdfView flexDirection='row' style={{marginTop: 10}}>
+                    {patientReports?.templatePatientResultLabWise?.endOfReport?.map(
+                      item => (
+                        <PdfSmall>{` * ${item?.details}`}</PdfSmall>
+                      ),
+                    )}
+                  </PdfView>
+                )}
               </PdfBorderView>
             </PdfView>
           </>

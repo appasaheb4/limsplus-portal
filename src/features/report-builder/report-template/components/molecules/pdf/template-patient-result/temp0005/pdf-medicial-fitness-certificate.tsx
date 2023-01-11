@@ -25,7 +25,7 @@ export const PdfMedicialFitnessCertificate = observer(
     return (
       <PdfView>
         <PdfSmall style={{alignSelf: 'flex-end', marginTop: -30}}>
-          {`S.NO - ${data?.srNo}`}
+          {`S.NO - ${data?.srNo || ''}`}
         </PdfSmall>
         <PdfMedium textAlign='center'>
           PERFORMA FOR MEDICIAL FITNESS CERTIFICATE FOR FOOD HANDLERS
@@ -37,7 +37,13 @@ export const PdfMedicialFitnessCertificate = observer(
           (see Para No. 10.1.2, Part-II, Schedule-4 of FSS Regulation, 2011)
         </PdfRegular>
         <PdfRegular style={{marginTop: 20}}>
-          {`It is certified that ${data?.name} Age ${data?.age} ${data?.ageUnit}  Emp.Code ${data?.empCode} is having employed with M/s Haldiram Ethnic Foods Private Limited, SPICE MALL coming in direct contact with food items has been carefully examined* by me on date ${data?.date}.`}
+          {`It is certified that ${data?.name || ''} Age ${data?.age || ''} ${
+            data?.ageUnit || ''
+          }  Emp.Code ${
+            data?.empCode || ''
+          } is having employed with M/s Haldiram Ethnic Foods Private Limited, SPICE MALL coming in direct contact with food items has been carefully examined* by me on date ${
+            data?.date || ''
+          }.`}
         </PdfRegular>
         <PdfRegular style={{marginTop: 20}}>
           {
