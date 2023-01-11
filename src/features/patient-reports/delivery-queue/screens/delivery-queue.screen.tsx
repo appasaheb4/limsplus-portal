@@ -89,7 +89,6 @@ const DeliveryQueue = observer(() => {
     const filterKeys = Object.keys(filters);
     // console.log({filterKeys});
     return array.filter(item => {
-      console.log({item});
       return filterKeys.every(key => {
         console.log({key});
         if (!filters[key].length) return true;
@@ -169,8 +168,6 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.deliveryQueueService
             .listPatientReports(labId)
             .then(res => {
-              console.log({res});
-
               if (res.getPatientReports.success) {
                 let patientResultList: any[] = [];
                 res.getPatientReports.data?.patientResultList?.filter(item => {

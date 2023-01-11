@@ -68,6 +68,7 @@ export const PdfPBTemp0001 = observer(
         backgroundImage={templateSettings?.backgroundImage || ''}
         mainBoxCSS={templateSettings?.mainBoxCSS}
         pageSize={templateSettings?.pageSize}
+        isWithHeader={isWithHeader}
         children={
           <>
             <PdfView style={{height: 100}} fixed mh={0} p={0}>

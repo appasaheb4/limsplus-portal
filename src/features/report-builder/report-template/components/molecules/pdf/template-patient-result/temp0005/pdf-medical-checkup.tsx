@@ -70,7 +70,7 @@ export const PdfMedicalCheckup = ({
             paddingLeft: 5,
           }}
         >
-          <PdfSmall>{`S.No :- ${medicalCheckup?.srNo}`}</PdfSmall>
+          <PdfSmall>{`S.No :- ${medicalCheckup?.srNo || ''}`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -101,7 +101,9 @@ export const PdfMedicalCheckup = ({
             width: '20%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.date}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.date || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -161,7 +163,9 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.name}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.name || ''
+          }`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -181,7 +185,9 @@ export const PdfMedicalCheckup = ({
             width: '20%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.age} ${medicalCheckup?.ageUnit}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${medicalCheckup?.age || ''} ${
+            medicalCheckup?.ageUnit || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -212,7 +218,9 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.empCode}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.empCode || ''
+          }`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -232,7 +240,9 @@ export const PdfMedicalCheckup = ({
             width: '20%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.gender}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.gender || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -263,7 +273,9 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.jobDescription}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.jobDescription || ''
+          }`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -283,7 +295,9 @@ export const PdfMedicalCheckup = ({
             width: '20%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.department}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.department || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -312,7 +326,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.presentComplaint}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.presentComplaint || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -341,7 +357,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.pastHistory}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.pastHistory || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -372,7 +390,9 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.smoking}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.smoking || ''
+          }`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -403,7 +423,9 @@ export const PdfMedicalCheckup = ({
             width: '10%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.alcohol}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.alcohol || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -433,7 +455,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.otherRelInfo}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            medicalCheckup?.otherRelInfo || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -481,7 +505,9 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.height}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.height || ''
+          }`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -503,7 +529,9 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.weight}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.weight || ''
+          }`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -525,7 +553,9 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.pulse}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.pulse || ''
+          }`}</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -545,7 +575,9 @@ export const PdfMedicalCheckup = ({
             width: '20%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.bp}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.bp || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -574,7 +606,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.skin}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.skin || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -604,7 +638,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.respiratorySystem}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.respiratorySystem || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -633,7 +669,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.cardIovascular}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.cardIovascular || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -662,7 +700,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.nervousSystem}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.nervousSystem || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -691,7 +731,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.gISystem}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.gISystem || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -720,7 +762,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.vision}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.vision || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -749,7 +793,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.hearing}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.hearing || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -778,7 +824,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.bloodTest}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.bloodTest || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -807,7 +855,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.finalObservation}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.finalObservation || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
 
@@ -837,7 +887,9 @@ export const PdfMedicalCheckup = ({
             width: '80%',
           }}
         >
-          <PdfSmall textAlign='center'>{`${physicalExamination?.signOfMedicalExaminer}`}</PdfSmall>
+          <PdfSmall textAlign='center'>{`${
+            physicalExamination?.signOfMedicalExaminer || ''
+          }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
     </>
