@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {Page, Document, StyleSheet, Font} from '@react-pdf/renderer';
 import {PdfPageNumber} from '@components';
 import {Header} from '../../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Fotter} from '../../../common/aarvak-diagnostic-center/pdf-fotter.component';
+import {Footer} from '../../../common/aarvak-diagnostic-center/pdf-footer.component';
 import {PdfPatientDetails} from './pdf-patient-details.component';
 import {PdfResultList} from './pdf-result-list.component';
 
@@ -62,7 +62,7 @@ export const ADCPdf = ({
             style={{textAlign: 'center', right: '45%'}}
             bottom={77}
           />
-          <Fotter />
+          <Footer />
         </Page>
       </Document>
       {/* </PDFViewer> */}

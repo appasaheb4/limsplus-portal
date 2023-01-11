@@ -103,11 +103,6 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                           ...administrativeDivisions.administrativeDiv,
                           country: country.toUpperCase(),
                         });
-                        // administrativeDivisions.administrativeDivisionsService.filterRecord(
-                        //   {
-                        //     filter: { country },
-                        //   }
-                        // )
                       }}
                     />
                   )}

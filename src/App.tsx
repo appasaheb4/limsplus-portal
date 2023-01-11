@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {ToastContainer, ModalLoader} from '@/library/components';
 import {Provider} from 'react-redux';
@@ -10,6 +10,10 @@ import {Alert, Snackbar} from '@mui/material';
 import i18next, {setLanguage} from './localization';
 import store from './redux/store/index';
 import Routes from './routes/root-route';
+import {getToken, onMessageListener} from './firebase';
+import {Toast} from 'react-bootstrap';
+import useOnEvent from 'react-app-events/lib/useOnEvent';
+import fireEvent from 'react-app-events/lib/fireEvent';
 
 // toast
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,18 +24,6 @@ import {stores} from '@/stores';
 import hydrateStore from '@/library/modules/startup';
 import {ApolloProvider, client} from '@/core-services/graphql/apollo-client';
 
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBSEVfJAzr5qYLFmpF3yZQUp-bm56YtXbE",
-//   authDomain: "lims-plus-854e4.firebaseapp.com",
-//   projectId: "lims-plus-854e4",
-//   storageBucket: "lims-plus-854e4.appspot.com",
-//   messagingSenderId: "723104013699",
-//   appId: "1:723104013699:web:52a9edfd4c898101216ab6",
-//   measurementId: "G-46WKN1KLQM"
-// };
-
 // setup again new method
 configure({
   reactionScheduler: f => {
@@ -40,6 +32,8 @@ configure({
 });
 
 const App = observer(() => {
+  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState({title: '', body: ''});
   setLanguage();
 
   const loader = async () => {
@@ -52,8 +46,32 @@ const App = observer(() => {
     );
   };
 
+  useOnEvent('notificationPopup', payload => {
+    setShow(true);
+    setNotification({
+      title: payload.notification.title,
+      body: payload.notification.body,
+    });
+  });
+
+  const loaderNotification = async () => {
+    await getToken().then(webPushTokenFcm => {
+      stores.loginStore.updateInputUser({
+        ...stores.loginStore.inputLogin,
+        webPushTokenFcm,
+      });
+    });
+    onMessageListener()
+      .then(payload => {
+        fireEvent('notificationPopup', payload);
+      })
+      .catch(err => console.log('failed:', err));
+  };
+
   React.useEffect(() => {
     loader();
+    loaderNotification();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const environments = {
@@ -66,6 +84,26 @@ const App = observer(() => {
 
   return (
     <>
+      <Toast
+        onClose={() => setShow(false)}
+        show={show}
+        delay={5000}
+        autohide
+        animation
+        style={{
+          position: 'absolute',
+          top: 100,
+          right: 20,
+          minWidth: 400,
+          zIndex: 1,
+        }}
+      >
+        <Toast.Header>
+          <strong className='mr-auto'>{notification.title}</strong>
+          <small>just now</small>
+        </Toast.Header>
+        <Toast.Body>{notification.body}</Toast.Body>
+      </Toast>
       <ApolloProvider client={client}>
         <I18nextProvider i18n={i18next}>
           <Provider store={store}>

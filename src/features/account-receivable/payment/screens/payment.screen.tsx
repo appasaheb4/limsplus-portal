@@ -87,8 +87,6 @@ const Payment = PaymentHoc(
     };
 
     const updatePayment = (payload: any) => {
-      console.log({payload});
-
       paymentStore.updatePayment({
         ...paymentStore.payment,
         pId: Number.parseInt(payload?.pId),

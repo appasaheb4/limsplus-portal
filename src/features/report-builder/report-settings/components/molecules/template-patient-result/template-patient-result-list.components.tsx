@@ -5,12 +5,15 @@ import {
   textFilter,
   customFilter,
   Form,
+  Type,
   TableBootstrap,
   Tooltip,
   Icons,
 } from '@/library/components';
+import {PageBrandingComponents} from './page-branding.components';
+import {EndOfPageComponents} from './end-of-page.components';
+import {EndOfReportComponents} from './end-of-report.components';
 import {Confirm} from '@/library/models';
-import {resizeFile, compressString} from '@/library/utils';
 
 interface TemplatePatientResultProps {
   data: any;
@@ -55,38 +58,92 @@ export const TemplatePatientResultList = observer(
                 text: 'Report Template Type',
                 headerClasses: 'textHeader',
                 sort: true,
-                editable: false,
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex,
+                ) => (
+                  <>
+                    <select
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  border-gray-300 rounded-md'
+                      }
+                      onChange={e => {
+                        const reportTemplateType = e.target.value;
+                        props.onUpdateItem &&
+                          props.onUpdateItem({reportTemplateType}, row._id);
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {['Lab Wise', 'Client Wise', 'Doctor Wise'].map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </>
+                ),
               },
               {
                 dataField: 'pageBranding',
                 text: 'Page Branding',
                 headerClasses: 'textHeader',
                 sort: true,
-                editable: false,
                 formatter: (cell, row) => {
                   return <>{row?.pageBranding?.tempCode}</>;
                 },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex,
+                ) => (
+                  <>
+                    <PageBrandingComponents
+                      onSelect={item => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {
+                              pageBranding: {
+                                _id: item?._id,
+                                tempCode: item?.tempCode,
+                                brandingTitle: item?.brandingTitle,
+                              },
+                            },
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: 'templateCode',
                 text: 'Template code',
                 headerClasses: 'textHeader',
                 sort: true,
-                editable: false,
               },
               {
                 dataField: 'templateTitle',
                 text: 'Template title',
                 headerClasses: 'textHeader',
                 sort: true,
-                editable: false,
+                editor: {
+                  type: Type.TEXTAREA,
+                },
               },
               {
                 dataField: 'endOfPage',
                 text: 'End Of Page',
                 headerClasses: 'textHeader',
                 sort: true,
-                editable: false,
                 formatter: (cell, row) => {
                   return (
                     <>
@@ -96,13 +153,34 @@ export const TemplatePatientResultList = observer(
                     </>
                   );
                 },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex,
+                ) => (
+                  <>
+                    <EndOfPageComponents
+                      onSelect={item => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {
+                              endOfPage: item,
+                            },
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: 'endOfReport',
                 text: 'End Of Report',
                 headerClasses: 'textHeader',
                 sort: true,
-                editable: false,
                 formatter: (cell, row) => {
                   return (
                     <>
@@ -112,6 +190,28 @@ export const TemplatePatientResultList = observer(
                     </>
                   );
                 },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex,
+                ) => (
+                  <>
+                    <EndOfReportComponents
+                      onSelect={item => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {
+                              endOfReport: item,
+                            },
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: 'operation',
@@ -156,7 +256,7 @@ export const TemplatePatientResultList = observer(
             ]}
             isEditModify={props.isEditModify}
             isSelectRow={true}
-            fileName='Template_Settings'
+            fileName='Template Patient Result'
             onSelectedRow={rows => {
               props.onSelectedRow &&
                 props.onSelectedRow(rows.map((item: any) => item._id));
@@ -166,6 +266,10 @@ export const TemplatePatientResultList = observer(
             }}
             onFilter={(type, filter, page, size) => {
               props.onFilter && props.onFilter(type, filter, page, size);
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              props.onUpdateItem &&
+                props.onUpdateItem({[dataField]: value}, id);
             }}
             clearAllFilter={() => {
               sectionSetting('');

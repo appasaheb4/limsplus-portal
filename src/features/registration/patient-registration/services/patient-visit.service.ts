@@ -60,8 +60,6 @@ export class PatientVisitService {
 
   deletePatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
       client
         .mutate({
           mutation: REMOVE_PATIENT_VISIT,

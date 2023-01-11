@@ -144,15 +144,6 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                         props.onUpdateItem(
                           {
                             backgroundImage,
-                            backgroundImageBase64: compressString(
-                              await resizeFile(
-                                backgroundImage,
-                                300,
-                                300,
-                                100,
-                                0,
-                              ),
-                            ),
                           },
                           row._id,
                         );
@@ -167,7 +158,6 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                         props.onUpdateItem(
                           {
                             backgroundImage: null,
-                            backgroundImageBase64: '',
                           },
                           row._id,
                         );

@@ -307,7 +307,7 @@ const Lab = LabHoc(
                       hasError={!!errors.country}
                       placeholder='Country'
                       value={labStore.labs?.country}
-                      disabled={true}
+                      //disabled={true}
                       onChange={country => {
                         onChange(country);
                         labStore.updateLabs({
@@ -330,7 +330,7 @@ const Lab = LabHoc(
                       hasError={!!errors.state}
                       placeholder='State'
                       value={labStore.labs?.state}
-                      disabled={true}
+                      //disabled={true}
                       onChange={state => {
                         onChange(state);
                         labStore.updateLabs({
@@ -353,7 +353,7 @@ const Lab = LabHoc(
                       hasError={!!errors.district}
                       placeholder='District'
                       value={labStore.labs?.district}
-                      disabled={true}
+                      //disabled={true}
                       onChange={district => {
                         onChange(district);
                         labStore.updateLabs({
@@ -376,7 +376,7 @@ const Lab = LabHoc(
                       hasError={!!errors.city}
                       placeholder='City'
                       value={labStore.labs?.city}
-                      disabled={true}
+                      //disabled={true}
                       onChange={city => {
                         onChange(city);
                         labStore.updateLabs({
@@ -399,7 +399,7 @@ const Lab = LabHoc(
                       hasError={!!errors.area}
                       placeholder='Area'
                       value={labStore.labs?.area}
-                      disabled={true}
+                      //disabled={true}
                       onChange={area => {
                         onChange(area);
                         labStore.updateLabs({

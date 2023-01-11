@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
-
+import {PDFViewer, Document} from '@react-pdf/renderer';
 import {
   Toast,
   Buttons,
@@ -15,11 +15,9 @@ import {
   ModalViewProps,
 } from '@/library/components';
 import {TemplateSettingsList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
-import {resizeFile, compressString} from '@/library/utils';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
@@ -42,6 +40,8 @@ export const TemplateSettings = observer(() => {
   const [isInputView, setIsInputView] = useState<boolean>(true);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
+  const width = '100%';
+  const height = window.innerHeight / 1.3;
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({
@@ -235,9 +235,6 @@ export const TemplateSettings = observer(() => {
                         reportSettingStore.updateTemplateSettings({
                           ...reportSettingStore.templateSettings,
                           backgroundImage,
-                          backgroundImageBase64: compressString(
-                            await resizeFile(backgroundImage, 300, 300, 100, 0),
-                          ),
                         });
                       }}
                     />
@@ -375,19 +372,25 @@ export const TemplateSettings = observer(() => {
             </Grid>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
-            <PdfTSTemp0001
-              documentTitle='Template Setting'
-              isToolbar={reportSettingStore.templateSettings?.isToolbar}
-              isBackgroundImage={
-                reportSettingStore.templateSettings?.isBackgroundImage
-              }
-              backgroundImage={
-                reportSettingStore.templateSettings?.backgroundImageBase64
-              }
-              mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
-              pageSize={reportSettingStore.templateSettings?.pageSize}
-              children={<PdfMedium>Template Setting</PdfMedium>}
-            />
+            <PDFViewer
+              style={{width, height}}
+              showToolbar={reportSettingStore.templateSettings?.isToolbar}
+            >
+              <Document title='Template Setting'>
+                <PdfTSTemp0001
+                  documentTitle='Template Setting'
+                  isBackgroundImage={
+                    reportSettingStore.templateSettings?.isBackgroundImage
+                  }
+                  backgroundImage={
+                    reportSettingStore.templateSettings?.backgroundImage
+                  }
+                  mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
+                  pageSize={reportSettingStore.templateSettings?.pageSize}
+                  children={<PdfMedium>Template Setting</PdfMedium>}
+                />
+              </Document>
+            </PDFViewer>
           </List>
         </Grid>
         <br />
@@ -455,16 +458,20 @@ export const TemplateSettings = observer(() => {
             setModalView({
               visible: true,
               children: (
-                <PdfTSTemp0001
-                  documentTitle='Template Setting'
-                  height={window.innerHeight / 1.3}
-                  isToolbar={item.isToolbar}
-                  isBackgroundImage={item?.isBackgroundImage}
-                  backgroundImage={item?.backgroundImageBase64}
-                  mainBoxCSS={item.mainBoxCSS}
-                  pageSize={item.pageSize}
-                  children={<PdfMedium>Template Setting</PdfMedium>}
-                />
+                <PDFViewer style={{width, height}} showToolbar={item.isToolbar}>
+                  <Document title='Template Setting'>
+                    <PdfTSTemp0001
+                      documentTitle='Template Setting'
+                      height={window.innerHeight / 1.3}
+                      isToolbar={item.isToolbar}
+                      isBackgroundImage={item?.isBackgroundImage}
+                      backgroundImage={item?.backgroundImage}
+                      mainBoxCSS={item.mainBoxCSS}
+                      pageSize={item.pageSize}
+                      children={<PdfMedium>Template Setting</PdfMedium>}
+                    />
+                  </Document>
+                </PDFViewer>
               ),
             });
           }}

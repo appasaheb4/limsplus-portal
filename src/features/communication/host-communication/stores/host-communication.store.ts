@@ -13,7 +13,7 @@ export class HostCommunicationStore {
     this.hostCommuication = new HostCommunication({
       modeOfConnection: 'TCP/IP Communication',
       tcpipCommunication: {
-        host: '192.168.1.58',
+        host: '192.168.1.3',
         port: 1009,
       },
     });

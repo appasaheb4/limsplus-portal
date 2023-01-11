@@ -57,6 +57,7 @@ import * as InterfaceManager from '@/features/communication/interface-manager';
 import * as DataConveration from '@/features/communication/data-conversation';
 import * as HostCommunication from '@/features/communication/host-communication';
 import * as InstResultMapping from '@/features/communication/instrument-result-mapping';
+import * as TransmittedMessage from '@/features/communication/transmitted-message';
 
 // result entry
 import * as GeneralResultEntry from '@/features/result-entry/general-result-entry';
@@ -232,6 +233,9 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/communication/instrument-result-mapping') {
         await InstResultMapping.startup();
+      }
+      if (pathname === '/communication/transmitted-message') {
+        await TransmittedMessage.startup();
       }
 
       // registration

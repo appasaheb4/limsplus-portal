@@ -159,13 +159,10 @@ export const CommonInputTable = observer(
                       }}
                     >
                       <option selected>Select</option>
-                      {extraData?.arrInstType?.map(
+                      {_.uniqBy(extraData?.arrInstType, 'protocol')?.map(
                         (item: any, index: number) => (
-                          <option
-                            key={index}
-                            value={item.communicationProtocol}
-                          >
-                            {item?.communicationProtocol}
+                          <option key={index} value={item.protocol}>
+                            {item?.protocol}
                           </option>
                         ),
                       )}

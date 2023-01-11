@@ -25,6 +25,7 @@ export class Login {
   sessionTimeoutCount: number;
   sessionAllowed: string;
   systemInfo: any;
+  webPushTokenFcm: string;
   environment: string;
 
   constructor(rawData: {[key in string]: any}) {
@@ -54,6 +55,7 @@ export class Login {
     this.sessionTimeoutCount = rawData.sessionTimeoutCount;
     this.sessionAllowed = rawData.sessionAllowed;
     this.systemInfo = rawData.systemInfo;
+    this.webPushTokenFcm = rawData.webPushTokenFcm;
     this.environment = rawData.environment;
   }
 }

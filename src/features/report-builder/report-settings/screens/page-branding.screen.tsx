@@ -14,6 +14,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
+import {PDFViewer, Document} from '@react-pdf/renderer';
 import {
   PageBrandingList,
   PageBrandingHeader,
@@ -34,6 +35,8 @@ import '@/library/assets/css/accordion.css';
 
 import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
 
+const width = '100%';
+const height = window.innerHeight / 1.3;
 export const PageBranding = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
   const {
@@ -77,18 +80,28 @@ export const PageBranding = observer(() => {
   };
 
   const getTemplate = (tempCode: string, data: any) => {
-    switch (tempCode) {
-      case 'TEMP0001':
-        return <PdfPBTemp0001 data={data} />;
-      default:
-        return (
-          <div className='justify-center items-center'>
-            <h4 className='text-center text-red'>
-              Template not found. Please select correct temp code. 🚨
-            </h4>
-          </div>
-        );
-        break;
+    if (tempCode)
+      return (
+        <PDFViewer
+          style={{width, height}}
+          showToolbar={reportSettingStore.templateSettings?.isToolbar}
+        >
+          <Document title='Page Branding'>
+            <PdfPBTemp0001
+              data={data}
+              templateSettings={data?.templateSettings}
+            />
+          </Document>
+        </PDFViewer>
+      );
+    else {
+      return (
+        <div className='justify-center items-center'>
+          <h4 className='text-center text-red'>
+            Template not found. Please select correct temp code. 🚨
+          </h4>
+        </div>
+      );
     }
   };
 
@@ -143,11 +156,7 @@ export const PageBranding = observer(() => {
                     onChange(item.tempCode);
                     reportSettingStore.updatePageBranding({
                       ...reportSettingStore.pageBranding,
-                      templateSettings: {
-                        _id: item._id,
-                        tempCode: item.tempCode,
-                        tempName: item.tempName,
-                      },
+                      templateSettings: {...item},
                       tempCode: item.tempCode,
                     });
                     reportSettingStore.pageBrandingService
@@ -162,7 +171,6 @@ export const PageBranding = observer(() => {
                         },
                       })
                       .then(res => {
-                        console.log({res});
                         if (res.findByFieldsPageBranding.success) {
                           setError('tempCode', {type: 'onBlur'});
                           setError('brandingTitle', {type: 'onBlur'});
@@ -400,10 +408,30 @@ export const PageBranding = observer(() => {
             // });
           }}
           onPdfPreview={item => {
-            setModalView({
-              visible: true,
-              children: <>{getTemplate(item.tempCode, item)}</>,
-            });
+            reportSettingStore.templateSettingsService
+              .findByFields({
+                input: {
+                  filter: {
+                    tempCode: item?.tempCode,
+                  },
+                },
+              })
+              .then(res => {
+                if (res.findByFieldsTemplateSetting.success) {
+                  setModalView({
+                    visible: true,
+                    children: (
+                      <>
+                        {getTemplate(item.tempCode, {
+                          ...item,
+                          templateSettings:
+                            res.findByFieldsTemplateSetting.data[0],
+                        })}
+                      </>
+                    ),
+                  });
+                }
+              });
           }}
         />
       </div>

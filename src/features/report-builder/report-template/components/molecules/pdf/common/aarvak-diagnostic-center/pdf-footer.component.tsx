@@ -14,11 +14,11 @@ import {
   PdfMedium,
 } from '@components';
 
-interface FotterProps {
+interface FooterProps {
   data?: any;
 }
 
-export const Fotter = ({data}: FotterProps) => {
+export const Footer = ({data}: FooterProps) => {
   return (
     <PdfFooterView fixed bg='white' p={5}>
       <PdfSmall>
