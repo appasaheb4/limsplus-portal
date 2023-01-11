@@ -51,7 +51,7 @@ export const NumberFilter = props => {
         )}
         <input
           type='text'
-          placeholder='Enter value...'
+          placeholder={props.column?.text || 'Enter value...'}
           value={number}
           className='leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black ml-1'
           onChange={e => {
@@ -108,7 +108,8 @@ export const DateFilter = props => {
 
   return (
     <>
-      <div className='flex-row inline'>
+      <div className='flex flex-row gap-2 items-center'>
+        <span className='text-white text-sm'>{props.column?.text}</span>
         <div
           onClick={triggerToggle}
           className={`wrg-toggle mr-2 ${
