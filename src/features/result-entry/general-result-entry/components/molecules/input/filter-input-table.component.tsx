@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Table} from 'reactstrap';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
@@ -29,6 +29,11 @@ export const FilterInputTable = observer(() => {
     }
     return itemList;
   };
+
+  useEffect(() => {
+    console.log({generalResultEntryStore});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='flex flex-row gap-2 items-center overflow-auto'>

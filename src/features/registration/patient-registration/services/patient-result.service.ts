@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-
+import _ from 'lodash';
 import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
 import {
@@ -144,10 +144,17 @@ export class PatientResultService {
   patientListForGeneralResultEntry = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false);
+      const filter = _.pickBy(
+        variables.input.filter,
+        v => v !== null && v !== undefined && v !== '',
+      );
       client
         .mutate({
           mutation: PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
-          variables,
+          variables: {
+            ...variables,
+            input: {filter},
+          },
         })
         .then((response: any) => {
           if (!response.data.patientResultListForGenResEntry.success)
