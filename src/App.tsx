@@ -12,8 +12,7 @@ import store from './redux/store/index';
 import Routes from './routes/root-route';
 import {getToken, onMessageListener} from './firebase';
 import {Toast} from 'react-bootstrap';
-import useOnEvent from 'react-app-events/lib/useOnEvent';
-import fireEvent from 'react-app-events/lib/fireEvent';
+//import {useOnEvent, fireEvent} from 'react-app-events';
 
 // toast
 import 'react-toastify/dist/ReactToastify.css';
@@ -46,13 +45,13 @@ const App = observer(() => {
     );
   };
 
-  useOnEvent('notificationPopup', payload => {
-    setShow(true);
-    setNotification({
-      title: payload.notification.title,
-      body: payload.notification.body,
-    });
-  });
+  // useOnEvent('notificationPopup', payload => {
+  //   setShow(true);
+  //   setNotification({
+  //     title: payload.notification.title,
+  //     body: payload.notification.body,
+  //   });
+  // });
 
   const loaderNotification = async () => {
     await getToken().then(webPushTokenFcm => {
@@ -63,7 +62,12 @@ const App = observer(() => {
     });
     onMessageListener()
       .then(payload => {
-        fireEvent('notificationPopup', payload);
+        //fireEvent('notificationPopup', payload);
+        setShow(true);
+        setNotification({
+          title: payload.notification.title,
+          body: payload.notification.body,
+        });
       })
       .catch(err => console.log('failed:', err));
   };
