@@ -79,8 +79,6 @@ const ClientRegistration = observer(() => {
         } else {
           if (JSON.stringify(headers[0]) === JSON.stringify(defaultHeader)) {
             if (item?.length > 0) {
-              console.log({item});
-
               object.push({
                 countryName: item[0],
                 labId: Number.parseInt(item[1]),
