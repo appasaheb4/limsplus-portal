@@ -48,7 +48,7 @@ export const BannerList = (props: BannerListProps) => {
           dataField: 'title',
           text: 'Title',
           sort: true,
-          headerClasses: 'textHeaderA',
+          headerClasses: 'textHeader',
           headerStyle: {
             fontSize: 0,
           },
@@ -99,7 +99,7 @@ export const BannerList = (props: BannerListProps) => {
         {
           dataField: 'environment',
           text: 'Environment',
-          headerClasses: 'textHeaderA',
+          headerClasses: 'textHeader',
           sort: true,
           headerStyle: {
             fontSize: 0,
