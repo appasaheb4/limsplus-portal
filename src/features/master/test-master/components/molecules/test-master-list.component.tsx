@@ -112,7 +112,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'rLab',
               text: 'RLab',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -159,7 +159,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'pLab',
               text: 'PLab',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -198,7 +198,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'department',
               text: 'Department',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -238,7 +238,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'section',
               text: 'Section',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -293,7 +293,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testCode',
               text: 'Test  Code',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -327,7 +327,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'description',
               text: 'Description',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -976,7 +976,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testMethodCode',
               text: 'Test Method Code',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1017,7 +1017,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testMethodName',
               text: 'Test Method Name',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader4',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1417,7 +1417,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'internalComments',
               text: 'Internal Comments',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1435,7 +1435,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'externalComments',
               text: 'External Comments',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1481,7 +1481,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'testRightMarker',
               text: 'Test Right Marker',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1563,7 +1563,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'dateCreation',
               text: 'Date Creation',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1611,7 +1611,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1660,7 +1660,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: 'dateExpire',
               editable: false,
               text: 'Date Expire',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1707,7 +1707,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'version',
               text: 'Version',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader5',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1727,7 +1727,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'interpretation',
               text: 'Interpretation',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1763,7 +1763,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               dataField: 'testResultDate',
               editable: false,
               text: 'Test Result Date',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1794,7 +1794,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,

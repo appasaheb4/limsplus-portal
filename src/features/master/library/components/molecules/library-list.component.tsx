@@ -815,7 +815,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'loAge',
               text: 'LO Age',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -836,7 +836,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'hiAge',
               text: 'HI Age',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
