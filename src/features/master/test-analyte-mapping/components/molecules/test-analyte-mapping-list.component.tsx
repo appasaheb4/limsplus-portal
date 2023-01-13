@@ -547,7 +547,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -594,7 +594,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -642,7 +642,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: 'dateExpire',
               text: 'Date Expire',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,

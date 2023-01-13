@@ -1067,7 +1067,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: 'dateCreation',
             text: 'Date Creation',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1115,7 +1115,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1157,7 +1157,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: 'dateExpire',
             text: 'Date Expire',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,

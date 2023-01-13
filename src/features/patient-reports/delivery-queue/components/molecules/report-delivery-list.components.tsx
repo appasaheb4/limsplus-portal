@@ -154,7 +154,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               filter: customFilter({
                 getFilter: filter => {
                   deliveryDate = filter;
@@ -182,7 +182,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               filter: customFilter({
                 getFilter: filter => {
                   reportDate = filter;
@@ -291,7 +291,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               filter: customFilter({
                 getFilter: filter => {
                   startDate = filter;
@@ -319,7 +319,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               filter: customFilter({
                 getFilter: filter => {
                   endDate = filter;

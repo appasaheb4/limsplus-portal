@@ -479,7 +479,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'dateCreation',
             editable: false,
             text: 'Date Creation',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -526,7 +526,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -569,7 +569,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'dateExpire',
             editable: false,
             text: 'Date Expire',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
