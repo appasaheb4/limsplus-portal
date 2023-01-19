@@ -474,56 +474,6 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
-            dataField: 'limsFields',
-            text: 'Lims Fields',
-            headerClasses: 'textHeader',
-            filter: textFilter({
-              getFilter: filter => {
-                limsFields = filter;
-              },
-            }),
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            csvFormatter: col => (col ? col : ''),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row.limsFields}
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const limsFields = e.target.value;
-                    props.onUpdateFields &&
-                      props.onUpdateFields(
-                        {
-                          limsFields,
-                        },
-                        row._id,
-                      );
-                  }}
-                >
-                  <option selected>Select</option>
-                  {collection
-                    .find((item: any) => item.name == row?.limsTables)
-                    ?.fields?.map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                </select>
-              </>
-            ),
-          },
-          {
             dataField: 'limsDocumentType',
             text: 'Lims Document Type',
             headerClasses: 'textHeader',
@@ -565,10 +515,76 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   {collection
                     .find((item: any) => item.name == row?.limsTables)
                     ?.documentType?.map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
+                      <option key={index} value={item.name}>
+                        {item.name}
                       </option>
                     ))}
+                </select>
+              </>
+            ),
+          },
+          {
+            dataField: 'limsFields',
+            text: 'Lims Fields',
+            headerClasses: 'textHeader',
+            filter: textFilter({
+              getFilter: filter => {
+                limsFields = filter;
+              },
+            }),
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  value={row.limsFields}
+                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                  onChange={e => {
+                    const limsFields = e.target.value;
+                    props.onUpdateFields &&
+                      props.onUpdateFields(
+                        {
+                          limsFields,
+                        },
+                        row._id,
+                      );
+                  }}
+                >
+                  <option selected>Select</option>
+                  {_.has(
+                    collection.find(
+                      (item: any) => item.name == row?.limsTables,
+                    ),
+                    'documentType',
+                  )
+                    ? collection
+                        .find((item: any) => item.name == row?.limsTables)
+                        ?.documentType?.find(
+                          e => e.name == row?.limsDocumentType,
+                        )
+                        ?.fields?.map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))
+                    : collection
+                        .find((item: any) => item.name == row?.limsTables)
+                        .fields?.map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))}
                 </select>
               </>
             ),

@@ -857,7 +857,7 @@ export const PatientManager = PatientManagerHoc(
                             patientManagerStore.patientManger?.extraData
                               ?.country
                           }
-                          disabled={true}
+                          //disabled={true}
                           onChange={country => {
                             onChange(country);
                             patientManagerStore.updatePatientManager({
@@ -885,7 +885,7 @@ export const PatientManager = PatientManagerHoc(
                           value={
                             patientManagerStore.patientManger?.extraData?.state
                           }
-                          disabled={true}
+                          //disabled={true}
                           onChange={state => {
                             onChange(state);
                             patientManagerStore.updatePatientManager({
@@ -914,7 +914,7 @@ export const PatientManager = PatientManagerHoc(
                             patientManagerStore.patientManger?.extraData
                               ?.district
                           }
-                          disabled={true}
+                          //disabled={true}
                           onChange={district => {
                             onChange(district);
                             patientManagerStore.updatePatientManager({
@@ -942,7 +942,7 @@ export const PatientManager = PatientManagerHoc(
                           value={
                             patientManagerStore.patientManger?.extraData?.city
                           }
-                          disabled={true}
+                          //disabled={true}
                           onChange={city => {
                             onChange(city);
                             patientManagerStore.updatePatientManager({
@@ -970,7 +970,7 @@ export const PatientManager = PatientManagerHoc(
                           value={
                             patientManagerStore.patientManger?.extraData?.area
                           }
-                          disabled={true}
+                          //disabled={true}
                           onChange={area => {
                             onChange(area);
                             patientManagerStore.updatePatientManager({

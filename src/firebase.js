@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/messaging';
-import fireEvent from 'react-app-events/lib/fireEvent';
+//import {fireEvent} from 'react-app-events';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDD6wgEjzaMQ_K9h2hcokebQ_nY8NbNzIs',
@@ -43,7 +43,10 @@ export const getToken = () =>
 export const onMessageListener = () =>
   new Promise(resolve => {
     firebase.messaging().onMessage(payload => {
-      fireEvent('notificationPopup', payload);
-      resolve(payload);
+      //fireEvent('notificationPopup', payload);
+      console.log({payload});
+      setTimeout(() => {
+        resolve(payload);
+      }, 1000);
     });
   });

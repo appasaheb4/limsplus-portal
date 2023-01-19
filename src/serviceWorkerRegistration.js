@@ -50,6 +50,25 @@ export function register(config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
+
+      window.addEventListener('message', messageEvent => {
+        const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+        if (messageEvent.data === 'skipWaiting') {
+          console.log('skipWaiting');
+          return navigator.serviceWorker
+            .getRegistration(swUrl)
+            .then(registration => registration.skipWaiting());
+        }
+        console.log(`message=${messageEvent.data}`);
+      });
+
+      let refreshingPage;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        console.log('refreshing page now');
+        if (refreshingPage) return;
+        refreshingPage = true;
+        window.location.reload();
+      });
     });
   }
 }
