@@ -63,7 +63,7 @@ export const BannerList = (props: BannerListProps) => {
           dataField: 'image',
           text: 'Image',
           csvExport: false,
-          headerClasses: 'textHeaderA',
+          headerClasses: 'textHeader',
           formatter: (cell, row) => {
             return (
               <>

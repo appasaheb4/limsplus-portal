@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
+import _ from 'lodash';
 import {
   TableBootstrap,
   textFilter,
@@ -57,12 +58,17 @@ interface ClientRegistrationListProps {
 
 export const ClientRegistrationList = observer(
   (props: ClientRegistrationListProps) => {
-    const [modalConfirm, setModalConfirm] = useState<any>();
     const [modalImportFile, setModalImportFile] = useState({});
 
     const sharePdfLink = async (type: string, link: string) => {
       window.open(type + link, '_blank');
     };
+
+    function getExt(filename) {
+      const ext = filename.split('.').pop();
+      if (ext == filename) return '';
+      return ext;
+    }
 
     return (
       <>
@@ -283,6 +289,9 @@ export const ClientRegistrationList = observer(
               text: 'Sex',
               headerClasses: 'textHeader2',
               editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
               filter: textFilter({
                 getFilter: filter => {
                   sex = filter;
@@ -294,6 +303,9 @@ export const ClientRegistrationList = observer(
               text: 'Test Name',
               headerClasses: 'textHeader2',
               editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
               filter: textFilter({
                 getFilter: filter => {
                   testName = filter;
@@ -379,6 +391,9 @@ export const ClientRegistrationList = observer(
               dataField: 'reportDate',
               text: 'Report Date',
               headerClasses: 'textHeader2',
+              headerStyle: {
+                fontSize: 0,
+              },
               csvFormatter: (cell, row, rowIndex) =>
                 `${
                   row.reportDate !== undefined
@@ -459,7 +474,7 @@ export const ClientRegistrationList = observer(
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row.pdfReport && (
+                    {row.pdfReport && !_.isEmpty(getExt(row.pdfReport)) && (
                       <div className='flex flex-row gap-2'>
                         <Tooltip tooltipText='View'>
                           <Icons.IconContext
@@ -497,26 +512,6 @@ export const ClientRegistrationList = observer(
                           onClick={() => {
                             sharePdfLink(
                               'https://api.whatsapp.com/send?text=Pdf%20report%20link:',
-                              row.pdfReport,
-                            );
-                          }}
-                        />
-                        <SocialIcon
-                          network='twitter'
-                          style={{height: 32, width: 32}}
-                          onClick={() => {
-                            sharePdfLink(
-                              'https://twitter.com/intent/tweet?url=Pdf%20report%20link:',
-                              row.pdfReport,
-                            );
-                          }}
-                        />
-                        <SocialIcon
-                          network='telegram'
-                          style={{height: 32, width: 32}}
-                          onClick={() => {
-                            sharePdfLink(
-                              'https://t.me/share/url?url=Pdf%20report%20link:',
                               row.pdfReport,
                             );
                           }}
