@@ -1,5 +1,5 @@
 import {makeObservable, action, observable, computed} from 'mobx';
-import {RegistrationLocations} from '../models';
+import {RegistrationLocations, SelectedItems} from '../models';
 import {RegistrationLocationsService} from '../services';
 import dayjs from 'dayjs';
 
@@ -9,6 +9,7 @@ export class RegistrationLocationsStore {
   listRegistrationLocationsCopy: RegistrationLocations[];
   listRegistrationLocationsCount: number;
   checkExitsLabEnvCode: boolean;
+  selectedItems!: SelectedItems;
 
   constructor() {
     this.listRegistrationLocations = [];
@@ -31,6 +32,7 @@ export class RegistrationLocationsStore {
       isPrintPrimaryBarcod: false,
       isPrintSecondaryBarcode: false,
     };
+    this.selectedItems = new SelectedItems({});
 
     makeObservable<RegistrationLocationsStore, any>(this, {
       registrationLocations: observable,
@@ -38,6 +40,7 @@ export class RegistrationLocationsStore {
       listRegistrationLocationsCopy: observable,
       listRegistrationLocationsCount: observable,
       checkExitsLabEnvCode: observable,
+      selectedItems: observable,
 
       registrationLocationsService: computed,
       fetchRegistrationLocations: action,
@@ -45,6 +48,7 @@ export class RegistrationLocationsStore {
       updateRegistrationLocations: action,
       updateExistsLabEnvCode: action,
       filterRegistrationLocationList: action,
+      updateSelectedItems: action,
     });
   }
 
@@ -82,4 +86,8 @@ export class RegistrationLocationsStore {
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status;
   };
+
+  updateSelectedItems(items: SelectedItems) {
+    this.selectedItems = items;
+  }
 }

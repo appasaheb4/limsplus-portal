@@ -24,9 +24,9 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'DELIVERY_METHOD',
         ),
-        reportType: getDefaultLookupItem(
+        reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
-          'DELIVERY_TYPE',
+          'REPORT_PRIORITY',
         ),
         category: getDefaultLookupItem(routerStore.lookupItems, 'CATEGORY'),
         customerGroup: getDefaultLookupItem(

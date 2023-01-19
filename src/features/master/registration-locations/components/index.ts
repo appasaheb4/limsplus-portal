@@ -10,3 +10,4 @@ export * from './molecules/output/registration-locations-list.component';
 export * from './molecules/input/price-list-table.component';
 export * from './molecules/input/price-list-table-for-reg-locations-list.component';
 export * from './organsims/auto-complete-sales-territory.component';
+export * from './organsims/auto-complete-filter-delivery-mode.component';

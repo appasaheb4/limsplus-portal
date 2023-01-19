@@ -999,31 +999,31 @@ const CorporateClients = CorporateClientsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Report Type'
-                      hasError={!!errors.reportType}
+                      label='Report Priority'
+                      hasError={!!errors.reportPriority}
                     >
                       <select
                         value={
-                          corporateClientsStore.corporateClients?.reportType
+                          corporateClientsStore.corporateClients?.reportPriority
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.reportType
+                          errors.reportPriority
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const reportType = e.target.value;
-                          onChange(reportType);
+                          const reportPriority = e.target.value;
+                          onChange(reportPriority);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            reportType,
+                            reportPriority,
                           });
                         }}
                       >
                         <option selected>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          'DELIVERY_TYPE',
+                          'REPORT_PRIORITY',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -1032,7 +1032,7 @@ const CorporateClients = CorporateClientsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='reportType'
+                  name='reportPriority'
                   rules={{required: false}}
                   defaultValue=''
                 />

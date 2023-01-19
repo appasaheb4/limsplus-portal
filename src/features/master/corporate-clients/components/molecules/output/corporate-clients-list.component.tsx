@@ -45,7 +45,7 @@ let category;
 let telephone;
 let mobileNo;
 let email;
-let reportType;
+let reportPriority;
 let deliveryMode;
 let salesTerritoRy;
 let area;
@@ -812,8 +812,8 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             }),
           },
           {
-            dataField: 'reportType',
-            text: 'Report Type',
+            dataField: 'reportPriority',
+            text: 'Report Priority',
             headerClasses: 'textHeader4',
             sort: true,
             headerStyle: {
@@ -824,7 +824,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                reportType = filter;
+                reportPriority = filter;
               },
             }),
             editorRenderer: (
@@ -839,10 +839,10 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                 <select
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
-                    const deliveryType = e.target.value;
+                    const reportPriority = e.target.value;
                     props.onUpdateItem &&
                       props.onUpdateItem(
-                        deliveryType,
+                        reportPriority,
                         column.dataField,
                         row._id,
                       );
@@ -851,7 +851,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                   <option selected>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
-                    'DELIVERY_TYPE',
+                    'REPORT_PRIORITY',
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {lookupValue(item)}
@@ -1453,7 +1453,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           billingFrequency('');
           sbu('');
           email('');
-          reportType('');
+          reportPriority('');
           deliveryMode('');
           corporateCode('');
           invoiceAc('');
