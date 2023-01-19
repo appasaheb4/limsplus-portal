@@ -40,7 +40,7 @@ export const LIST = gql`
         telephone
         mobileNo
         email
-        reportType
+        reportPriority
         deliveryMode
         salesTerritoRy
         area
@@ -156,7 +156,7 @@ export const FILTER = gql`
         telephone
         mobileNo
         email
-        reportType
+        reportPriority
         deliveryMode
         salesTerritoRy
         area
@@ -217,7 +217,7 @@ export const FILTER_BY_FIELDS = gql`
         telephone
         mobileNo
         email
-        reportType
+        reportPriority
         deliveryMode
         salesTerritoRy
         area

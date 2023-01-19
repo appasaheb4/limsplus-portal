@@ -4,6 +4,7 @@ import {Spinner} from 'react-bootstrap';
 import {Icons} from '../..';
 
 interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
+  uniqueField?: string;
   loader?: boolean;
   placeholder?: string;
   data: any;
@@ -15,6 +16,7 @@ interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
 }
 
 export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
+  uniqueField = '_id',
   loader = false,
   placeholder = 'Search...',
   data,
@@ -58,7 +60,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
         item.selected = false;
         selectedItem && selectedItem.length > 0
           ? selectedItem.find((sItem, index) => {
-              if (sItem._id === item._id) {
+              if (sItem[uniqueField] === item[uniqueField]) {
                 item.selected = true;
               }
             })

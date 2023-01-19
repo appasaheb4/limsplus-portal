@@ -26,8 +26,8 @@ export class RegistrationLocations {
   telephone: string;
   mobileNo: string;
   email: string;
-  reportType: string;
-  deliveryMode: string;
+  reportPriority: string;
+  deliveryMode: Array<any>;
   route: string;
   lab: string;
   openingTime: string;
@@ -75,7 +75,7 @@ export class RegistrationLocations {
     this.telephone = rawData.telephone;
     this.mobileNo = rawData.mobileNo;
     this.email = rawData.email;
-    this.reportType = rawData.reportType;
+    this.reportPriority = rawData.reportPriority;
     this.deliveryMode = rawData.deliveryMode;
     this.urgent = rawData.urgent;
     this.corporateCode = rawData.corporateCode;
@@ -106,5 +106,12 @@ export class RegistrationLocations {
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
+  }
+}
+
+export class SelectedItems {
+  deliveryMode: any[];
+  constructor(rawData: {[key in string]: any}) {
+    this.deliveryMode = rawData.deliveryMode;
   }
 }

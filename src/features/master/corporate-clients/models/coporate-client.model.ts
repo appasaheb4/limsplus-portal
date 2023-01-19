@@ -29,7 +29,7 @@ export class CorporateClients {
   telephone: string;
   mobileNo: string;
   email: string;
-  reportType: string;
+  reportPriority: string;
   deliveryMode: string;
   schedule: string;
   info: string;
@@ -79,7 +79,7 @@ export class CorporateClients {
     this.telephone = rawData.telephone;
     this.mobileNo = rawData.mobileNo;
     this.email = rawData.email;
-    this.reportType = rawData.reportType;
+    this.reportPriority = rawData.reportPriority;
     this.deliveryMode = rawData.deliveryMode;
     this.schedule = rawData.schedule;
     this.info = rawData.info;

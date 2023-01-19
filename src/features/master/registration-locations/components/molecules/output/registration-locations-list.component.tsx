@@ -28,8 +28,8 @@ import {
   AutoCompleteFilterSingleSelectState,
   AutoCompleteSalesTerritory,
   PriceListTableForRegLocationsList,
-} from '../../index';
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+  AutoCompleteFilterDeliveryMode,
+} from '../..';
 
 let dateCreation;
 let dateActive;
@@ -50,7 +50,7 @@ let category;
 let telephone;
 let mobileNo;
 let email;
-let reportType;
+let reportPriority;
 let deliveryMode;
 let corporateCode;
 let invoiceAc;
@@ -831,8 +831,8 @@ export const RegistrationLocationsList = (
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
-            dataField: 'reportType',
-            text: 'Report Type',
+            dataField: 'reportPriority',
+            text: 'Report Priority',
             headerClasses: 'textHeader5',
             sort: true,
             headerStyle: {
@@ -842,7 +842,7 @@ export const RegistrationLocationsList = (
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                reportType = filter;
+                reportPriority = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -858,15 +858,19 @@ export const RegistrationLocationsList = (
                 <select
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
-                    const reportType = e.target.value;
+                    const reportPriority = e.target.value;
                     props.onUpdateItem &&
-                      props.onUpdateItem(reportType, column.dataField, row._id);
+                      props.onUpdateItem(
+                        reportPriority,
+                        column.dataField,
+                        row._id,
+                      );
                   }}
                 >
                   <option selected>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
-                    'DELIVERY_TYPE',
+                    'REPORT_PRIORITY',
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {lookupValue(item)}
@@ -886,12 +890,19 @@ export const RegistrationLocationsList = (
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                deliveryMode = filter;
-              },
-            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            formatter: (cell, row) => {
+              return (
+                <div className='flex flex-row flex-wrap gap-2'>
+                  {typeof row.deliveryMode != 'string' &&
+                    row.deliveryMode?.map(item => (
+                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                        {item.value}
+                      </span>
+                    ))}
+                </div>
+              );
+            },
             editorRenderer: (
               editorProps,
               value,
@@ -901,10 +912,9 @@ export const RegistrationLocationsList = (
               columnIndex,
             ) => (
               <>
-                <select
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const deliveryMode = e.target.value;
+                <AutoCompleteFilterDeliveryMode
+                  selectedItems={row?.deliveryMode}
+                  onSelect={deliveryMode => {
                     props.onUpdateItem &&
                       props.onUpdateItem(
                         deliveryMode,
@@ -912,17 +922,7 @@ export const RegistrationLocationsList = (
                         row._id,
                       );
                   }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    'DELIVERY_METHOD',
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
-                </select>
+                />
               </>
             ),
           },
@@ -1649,7 +1649,7 @@ export const RegistrationLocationsList = (
           telephone('');
           mobileNo('');
           email('');
-          reportType('');
+          reportPriority('');
           deliveryMode('');
           corporateCode('');
           invoiceAc('');

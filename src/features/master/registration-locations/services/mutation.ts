@@ -31,7 +31,7 @@ export const LIST = gql`
         telephone
         mobileNo
         email
-        reportType
+        reportPriority
         deliveryMode
         corporateCode
         invoiceAc
@@ -151,7 +151,7 @@ export const FILTER = gql`
         telephone
         mobileNo
         email
-        reportType
+        reportPriority
         deliveryMode
         corporateCode
         invoiceAc
@@ -217,7 +217,7 @@ export const FILTER_BY_FIELDS = gql`
         telephone
         mobileNo
         email
-        reportType
+        reportPriority
         deliveryMode
         corporateCode
         invoiceAc

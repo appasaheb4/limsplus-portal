@@ -12,10 +12,13 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {RegistrationLocationsList} from '../components';
+import {
+  RegistrationLocationsList,
+  AutoCompleteFilterDeliveryMode,
+} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {
@@ -1135,26 +1138,26 @@ const RegistrationLocation = RegistrationLocationHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Report Type'
-                      hasError={!!errors.reportType}
+                      label='Report Priority'
+                      hasError={!!errors.reportPriority}
                     >
                       <select
                         value={
                           registrationLocationsStore.registrationLocations
-                            ?.reportType
+                            ?.reportPriority
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.reportType
+                          errors.reportPriority
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const reportType = e.target.value;
-                          onChange(reportType);
+                          const reportPriority = e.target.value;
+                          onChange(reportPriority);
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
-                              reportType,
+                              reportPriority,
                             },
                           );
                         }}
@@ -1162,7 +1165,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         <option selected>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          'DELIVERY_TYPE',
+                          'REPORT_PRIORITY',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -1171,7 +1174,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='reportType'
+                  name='reportPriority'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1180,21 +1183,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
                       label='Delivery Mode'
-                      hasError={!!errors.deliveryMode}
+                      hasError={!!errors.panelCode}
                     >
-                      <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.deliveryMode
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryMode
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const deliveryMode = e.target.value;
-                          onChange(deliveryMode);
+                      <AutoCompleteFilterDeliveryMode
+                        onSelect={deliveryMode => {
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
@@ -1202,23 +1194,14 @@ const RegistrationLocation = RegistrationLocationHoc(
                             },
                           );
                         }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'DELIVERY_METHOD',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     </Form.InputWrapper>
                   )}
                   name='deliveryMode'
-                  rules={{required: false}}
+                  rules={{required: true}}
                   defaultValue=''
                 />
+
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
