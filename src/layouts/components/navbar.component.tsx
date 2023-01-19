@@ -227,48 +227,53 @@ const NavbarComponent = observer(({dispatch}) => {
         <UncontrolledDropdown nav inNavbar className='flex'>
           <span>
             <DropdownToggle nav>
-              <div className='flex flex-row'>
-                <img
-                  className='rounded-circle mr-3'
-                  src={loginStore.login?.picture || Assets.defaultAvatar}
-                  alt={loginStore.login?.fullName}
-                  width='40'
-                  height='40'
-                />
-                <span className='text-dark sm:mt-4 d-none d-sm-inline-block '>
+              <div className='flex flex-row gap-2'>
+                <div style={{width: '40px', height: '40px'}}>
+                  <img
+                    className='rounded-full'
+                    src={loginStore.login?.picture || Assets.defaultAvatar}
+                    alt={loginStore.login?.fullName}
+                  />
+                </div>
+
+                <span className='text-dark  sm:mt-2 d-none d-sm-inline-block '>
                   {loginStore.login?.fullName}
                 </span>
               </div>
             </DropdownToggle>
           </span>
-          <DropdownMenu right>
-            <DropdownItem onClick={() => setModalAccount({show: true})}>
-              Account
-            </DropdownItem>
-            <DropdownItem onClick={() => setModalChangePassword({show: true})}>
-              Change Password
-            </DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem
-              onClick={() => {
-                loginStore
-                  .removeUser()
-                  .then(res => {
-                    if (res.logout.success) {
-                      Toast.success({
-                        message: `😊 ${res.logout.message}`,
-                      });
-                      history.push('/');
-                    }
-                  })
-                  .catch(() => {
-                    alert('Please try again');
-                  });
-              }}
-            >
-              Sign out
-            </DropdownItem>
-          </DropdownMenu>
+          <div className='test'>
+            <DropdownMenu right>
+              <DropdownItem onClick={() => setModalAccount({show: true})}>
+                Account
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => setModalChangePassword({show: true})}
+              >
+                Change Password
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem
+                onClick={() => {
+                  loginStore
+                    .removeUser()
+                    .then(res => {
+                      if (res.logout.success) {
+                        Toast.success({
+                          message: `😊 ${res.logout.message}`,
+                        });
+                        history.push('/');
+                      }
+                    })
+                    .catch(() => {
+                      alert('Please try again');
+                    });
+                }}
+              >
+                Sign out
+              </DropdownItem>
+            </DropdownMenu>
+          </div>
         </UncontrolledDropdown>
       </Navbar>
       <ModalAccount
