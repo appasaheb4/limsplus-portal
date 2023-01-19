@@ -147,7 +147,7 @@ const LoginActivity = observer(() => {
                 {
                   dataField: 'dateOfEntry',
                   text: 'In',
-                  headerClasses: 'textHeader5',
+                  headerClasses: 'textHeader11',
                   sort: true,
                   headerStyle: {
                     fontSize: 0,

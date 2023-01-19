@@ -51,6 +51,7 @@ export const RoleList = (props: RoleListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
@@ -66,6 +67,7 @@ export const RoleList = (props: RoleListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
@@ -82,6 +84,7 @@ export const RoleList = (props: RoleListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {

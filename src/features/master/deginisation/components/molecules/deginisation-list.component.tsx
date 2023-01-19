@@ -48,6 +48,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
           dataField: 'code',
           text: 'Code',
           sort: true,
+          headerClasses: 'textHeader',
           headerStyle: {
             fontSize: 0,
           },
@@ -63,6 +64,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
           dataField: 'description',
           text: 'Description',
           sort: true,
+          headerClasses: 'textHeader',
           headerStyle: {
             fontSize: 0,
           },
@@ -78,6 +80,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
         {
           dataField: 'environment',
           text: 'Environment',
+          headerClasses: 'textHeader',
           sort: true,
           headerStyle: {
             fontSize: 0,

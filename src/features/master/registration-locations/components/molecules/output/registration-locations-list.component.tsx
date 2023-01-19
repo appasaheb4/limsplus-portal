@@ -1277,7 +1277,7 @@ export const RegistrationLocationsList = (
           {
             dataField: 'dateCreation',
             text: 'Date Creation',
-            headerClasses: 'textHeader7',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1325,7 +1325,7 @@ export const RegistrationLocationsList = (
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1369,7 +1369,7 @@ export const RegistrationLocationsList = (
           {
             dataField: 'dateExpire',
             text: 'Date Expire',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,

@@ -1232,7 +1232,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1280,7 +1280,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1328,7 +1328,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateExpire',
               editable: false,
               text: 'Date Expire',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,

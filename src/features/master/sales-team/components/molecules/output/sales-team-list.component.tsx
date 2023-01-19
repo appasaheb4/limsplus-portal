@@ -285,7 +285,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'dateCreation',
             text: 'Date Creation',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -333,7 +333,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -375,7 +375,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'dateExpire',
             text: 'Date Expire',
-            headerClasses: 'textHeader6',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -417,7 +417,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'version',
             text: 'Version',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader3',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -437,7 +437,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'status',
             text: 'Status',
-            headerClasses: 'textHeader1',
+            headerClasses: 'textHeader2',
             sort: true,
             headerStyle: {
               fontSize: 0,

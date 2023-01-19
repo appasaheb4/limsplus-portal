@@ -172,7 +172,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'visitDate',
               text: 'Visit Date',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -215,7 +215,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'registrationDate',
               text: 'Registration Date',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -264,7 +264,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'collectionDate',
               text: 'Collection Date',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -313,7 +313,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'dueDate',
               text: 'Due Date',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -361,7 +361,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'birthDate',
               text: 'Birth Date',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
