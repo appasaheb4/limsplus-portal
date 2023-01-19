@@ -530,7 +530,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'reportOrder',
               text: 'Report Order',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader4',
               sort: true,
               formatter: (cell, row) => {
                 return (
@@ -555,7 +555,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader1',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -602,7 +602,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'enteredBy',
               text: 'Entered By',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -620,7 +620,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -667,7 +667,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -715,7 +715,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: 'dateExpire',
               text: 'Date Expire',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,

@@ -34,7 +34,7 @@ export const NumberFilter = props => {
         {!/[.,]/.test(number) && (
           <select
             value={comparator}
-            className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12`}
+            className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black w-12`}
             onChange={e => {
               const comp = e.target.value;
               setComparator(comp);
@@ -53,7 +53,7 @@ export const NumberFilter = props => {
           type='text'
           placeholder={props.column?.text || 'Enter value...'}
           value={number}
-          className='leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black ml-1'
+          className='leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1'
           onChange={e => {
             const num = e.target.value;
             const re = /^[0-9.,]+$|^$/;
@@ -141,7 +141,7 @@ export const DateFilter = props => {
         {!diffFlag && (
           <select
             value={comparator}
-            className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black w-12 mr-2`}
+            className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black w-12`}
             onChange={e => {
               const comp = e.target.value;
               setComparator(comp);
@@ -164,7 +164,7 @@ export const DateFilter = props => {
             setStartDate(date);
             filter(date, endDate, comparator, diffFlag);
           }}
-          className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2`}
+          className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1 `}
         />
         {diffFlag && (
           <input
@@ -175,7 +175,7 @@ export const DateFilter = props => {
               setEndDate(date);
               filter(startDate, date, comparator, diffFlag);
             }}
-            className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm sm:text-base border-2 border-gray-300 rounded-md text-black mr-2`}
+            className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1`}
           />
         )}
       </div>

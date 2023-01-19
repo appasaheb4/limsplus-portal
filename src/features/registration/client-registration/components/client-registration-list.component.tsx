@@ -144,10 +144,7 @@ export const ClientRegistrationList = observer(
             {
               dataField: 'registrationDate',
               text: 'Registration Date',
-              headerClasses: 'textHeader2',
-              headerStyle: {
-                fontSize: 0,
-              },
+              headerClasses: 'textHeader4',
               csvFormatter: (cell, row, rowIndex) =>
                 `${
                   row?.registrationDate !== undefined
@@ -348,7 +345,7 @@ export const ClientRegistrationList = observer(
             {
               dataField: 'dueDate',
               text: 'Due Date',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,

@@ -86,51 +86,57 @@ export const PatientOrderExpand = ({
     currSizePerPage,
     onSizePerPageChange,
   }) => (
-    <div className='btn-group items-center' role='group'>
-      {isSelectRow && (
-        <Buttons.Button
-          style={{height: 10, width: 200}}
-          size='small'
-          type='solid'
-          onClick={() => {
-            if (selectedRow) {
-              onSelectedRow && onSelectedRow(selectedRow);
-            } else {
-              alert('Please select any item.');
+    <div className='btn-group items-center flex flex-wrap ' role='group'>
+      <div className='flex flex-wrap gap-4'>
+        {isSelectRow && (
+          <Buttons.Button
+            style={{height: 10, width: 150}}
+            size='small'
+            type='solid'
+            onClick={() => {
+              if (selectedRow) {
+                onSelectedRow && onSelectedRow(selectedRow);
+              } else {
+                alert('Please select any item.');
+              }
+            }}
+          >
+            <Icons.EvaIcon
+              icon='trash-outline'
+              size='large'
+              color='#ffffff'
+              className='mr-1'
+            />
+            {'Remove Selected'}
+          </Buttons.Button>
+        )}
+
+        <input
+          type='number'
+          min='0'
+          placeholder='No'
+          onChange={(e: any) => {
+            if (e.target.value) {
+              onSizePerPageChange(e.target.value);
             }
           }}
-        >
-          <Icons.EvaIcon
-            icon='trash-outline'
-            size='large'
-            color={Config.Styles.COLORS.BLACK}
-          />
-          Remove Selected
-        </Buttons.Button>
-      )}
-      <input
-        type='number'
-        min='0'
-        placeholder='No'
-        onChange={e => {
-          if (e.target.value) {
-            onSizePerPageChange(e.target.value);
-          }
-        }}
-        className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
-      />
-      {options.map(option => (
-        <button
-          key={option.text}
-          type='button'
-          onClick={() => onSizePerPageChange(option.page)}
-          className={`btn ${
-            currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
-          }`}
-        >
-          {option.text}
-        </button>
-      ))}
+          className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
+        />
+        <div className='flex '>
+          {options.map(option => (
+            <button
+              key={option.text}
+              type='button'
+              onClick={() => onSizePerPageChange(option.page)}
+              className={`btn  ${
+                currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
+              }`}
+            >
+              {option.text}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
   const options = {
@@ -813,7 +819,7 @@ export const PatientOrderExpand = ({
                   expandRow={expandRow}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
+              <div className='flex items-center gap-2 mt-2 flex-wrap'>
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
@@ -822,7 +828,7 @@ export const PatientOrderExpand = ({
                 />
                 <PaginationListStandalone {...paginationProps} />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
+              <div className='flex items-center gap-2 mt-2 '>
                 <PaginationTotalStandalone {...paginationProps} />
               </div>
             </div>

@@ -2423,7 +2423,14 @@ input[type="button"].btn-block {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.2rem; }
+  border-radius: 0.2rem; 
+  
+}
+@media (max-width: 560px) {
+    .dropdown-menu{
+      left: -92px !important;
+    }
+}
 
 .dropdown-menu-left {
   right: auto;

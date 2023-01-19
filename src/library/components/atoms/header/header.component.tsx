@@ -40,11 +40,11 @@ interface PageHeadingLabDetailsProps {
 export const PageHeadingLabDetails = (props: PageHeadingLabDetailsProps) => {
   const loginStore = props.store;
   return (
-    <div className='flex flex-row items-center'>
+    <div className='flex flex-row items-center justify-between'>
       <img
         src={loginStore.login && loginStore.login.labLogo}
         alt='banner'
-        className='object-fill h-10 w-12 rounded-md mr-2'
+        className='object-fill h-10 w-12 rounded-md mr-2 d-none d-sm-inline-block'
       />
       <h2 className='text-base  leading-4 text-gray-900 mt-0'>
         {(loginStore.login &&

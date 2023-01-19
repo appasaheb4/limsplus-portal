@@ -57,9 +57,9 @@ const NavbarComponent = observer(({dispatch}) => {
         }}
         light
         expand
-        className='flex flex-row w-full pr-5 '
+        className='flex flex-row w-full xl:pr-5 sm:p-0'
       >
-        <div className='flex w-8 '>
+        <div className='flex w-8 sm:ml-4'>
           <span
             className='sidebar-toggle d-flex mr-2'
             onClick={() => {
@@ -221,57 +221,60 @@ const NavbarComponent = observer(({dispatch}) => {
                   {loginStore.login?.sessionAllowed}
                 </label>
               </Buttons.Button>
-              <UncontrolledDropdown nav inNavbar>
-                <span className='d-none d-sm-inline-block'>
-                  <DropdownToggle nav>
-                    <div className='flex items-center'>
-                      <img
-                        className='rounded-circle mr-3'
-                        src={loginStore.login?.picture || Assets.defaultAvatar}
-                        alt={loginStore.login?.fullName}
-                        width='40'
-                        height='40'
-                      />
-                      <span className='text-dark'>
-                        {loginStore.login?.fullName}
-                      </span>
-                    </div>
-                  </DropdownToggle>
-                </span>
-                <DropdownMenu right>
-                  <DropdownItem onClick={() => setModalAccount({show: true})}>
-                    Account
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setModalChangePassword({show: true})}
-                  >
-                    Change Password
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem
-                    onClick={() => {
-                      loginStore
-                        .removeUser()
-                        .then(res => {
-                          if (res.logout.success) {
-                            Toast.success({
-                              message: `😊 ${res.logout.message}`,
-                            });
-                            history.push('/');
-                          }
-                        })
-                        .catch(() => {
-                          alert('Please try again');
-                        });
-                    }}
-                  >
-                    Sign out
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
             </Nav>
           </div>
         </div>
+        <UncontrolledDropdown nav inNavbar className='flex'>
+          <span>
+            <DropdownToggle nav>
+              <div className='flex flex-row gap-2'>
+                <div style={{width: '40px', height: '40px'}}>
+                  <img
+                    className='rounded-full'
+                    src={loginStore.login?.picture || Assets.defaultAvatar}
+                    alt={loginStore.login?.fullName}
+                  />
+                </div>
+
+                <span className='text-dark  sm:mt-2 d-none d-sm-inline-block '>
+                  {loginStore.login?.fullName}
+                </span>
+              </div>
+            </DropdownToggle>
+          </span>
+          <div className='test'>
+            <DropdownMenu right>
+              <DropdownItem onClick={() => setModalAccount({show: true})}>
+                Account
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => setModalChangePassword({show: true})}
+              >
+                Change Password
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem
+                onClick={() => {
+                  loginStore
+                    .removeUser()
+                    .then(res => {
+                      if (res.logout.success) {
+                        Toast.success({
+                          message: `😊 ${res.logout.message}`,
+                        });
+                        history.push('/');
+                      }
+                    })
+                    .catch(() => {
+                      alert('Please try again');
+                    });
+                }}
+              >
+                Sign out
+              </DropdownItem>
+            </DropdownMenu>
+          </div>
+        </UncontrolledDropdown>
       </Navbar>
       <ModalAccount
         {...modalAccount}

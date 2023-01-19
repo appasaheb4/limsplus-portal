@@ -1654,7 +1654,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'dateCreation',
               text: 'Date Creation',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1702,7 +1702,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1750,7 +1750,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'dateExpire',
               text: 'Date Expire',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1798,7 +1798,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'version',
               text: 'Version',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1819,7 +1819,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,

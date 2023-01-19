@@ -311,7 +311,7 @@ export const ExtraDataPatientVisitList = observer(
               {
                 dataField: 'receivedDate',
                 text: 'Received Date',
-                headerClasses: 'textHeader4',
+                headerClasses: 'textHeader11',
                 sort: true,
                 headerStyle: {
                   fontSize: 0,
@@ -362,7 +362,7 @@ export const ExtraDataPatientVisitList = observer(
               {
                 dataField: 'resultDate',
                 text: 'Result Date',
-                headerClasses: 'textHeader4',
+                headerClasses: 'textHeader11',
                 sort: true,
                 headerStyle: {
                   fontSize: 0,
@@ -487,7 +487,7 @@ export const ExtraDataPatientVisitList = observer(
               {
                 dataField: 'approvalDate',
                 text: 'Approval Date',
-                headerClasses: 'textHeader4',
+                headerClasses: 'textHeader11',
                 sort: true,
                 headerStyle: {
                   fontSize: 0,
@@ -651,7 +651,7 @@ export const ExtraDataPatientVisitList = observer(
               {
                 dataField: 'reportedDate',
                 text: 'Reported Date',
-                headerClasses: 'textHeader4',
+                headerClasses: 'textHeader11',
                 sort: true,
                 headerStyle: {
                   fontSize: 0,

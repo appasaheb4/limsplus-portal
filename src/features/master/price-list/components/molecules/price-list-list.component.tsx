@@ -636,7 +636,7 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -684,7 +684,7 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -732,7 +732,7 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: 'dateExpire',
               editable: false,
               text: 'Date Expire',
-              headerClasses: 'textHeader6',
+              headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
                 fontSize: 0,

@@ -1075,7 +1075,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'dateCreation',
             editable: false,
             text: 'Date Creation',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1123,7 +1123,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'dateActive',
             editable: false,
             text: 'Date Active',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1167,7 +1167,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'dateExpire',
             editable: false,
             text: 'Date Expire',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1211,7 +1211,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             dataField: 'version',
             editable: false,
             text: 'Version',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader2',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1230,7 +1230,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'enteredBy',
             editable: false,
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader2',
             text: 'Entered By',
             sort: true,
             headerStyle: {
@@ -1247,7 +1247,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'status',
             text: 'Status',
-            headerClasses: 'textHeader3',
+            headerClasses: 'textHeader2',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -1292,7 +1292,7 @@ export const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: 'environment',
             text: 'Environment',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeader1',
             sort: true,
             headerStyle: {
               fontSize: 0,
