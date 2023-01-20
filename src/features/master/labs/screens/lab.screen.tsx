@@ -1323,6 +1323,26 @@ const Lab = LabHoc(
                     rules={{required: false}}
                     defaultValue=''
                   />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Specific Format'
+                        hasError={!!errors.specificFormat}
+                        value={labStore.labs?.specificFormat}
+                        onChange={specificFormat => {
+                          onChange(specificFormat);
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            specificFormat,
+                          });
+                        }}
+                      />
+                    )}
+                    name='specificFormat'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
                 </Grid>
               </List>
             </Grid>

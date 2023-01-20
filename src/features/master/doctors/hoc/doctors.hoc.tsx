@@ -22,13 +22,9 @@ export const DoctorsHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'SPECIALITY',
         ),
-        deliveryType: getDefaultLookupItem(
+        reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
-          'DELIVERY_TYPE',
-        ),
-        deliveryMethod: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'DELIVERY_METHOD',
+          'REPORT_PRIORITY',
         ),
         registrationLocation: getDefaultLookupItem(
           routerStore.lookupItems,

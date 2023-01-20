@@ -1010,22 +1010,22 @@ export const PatientVisit = PatientVisitHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Report Type'
-                      hasError={!!errors.reportType}
+                      label='Report Priority'
+                      hasError={!!errors.reportPriority}
                     >
                       <select
-                        value={patientVisitStore.patientVisit.reportType}
+                        value={patientVisitStore.patientVisit.reportPriority}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.reportType
+                          errors.reportPriority
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const reportType = e.target.value as string;
-                          onChange(reportType);
+                          const reportPriority = e.target.value as string;
+                          onChange(reportPriority);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
-                            reportType,
+                            reportPriority,
                           });
                         }}
                       >
@@ -1041,7 +1041,7 @@ export const PatientVisit = PatientVisitHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='reportType'
+                  name='reportPriority'
                   rules={{required: false}}
                   defaultValue=''
                 />

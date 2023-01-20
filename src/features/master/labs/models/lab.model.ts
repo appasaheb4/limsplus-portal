@@ -42,10 +42,10 @@ export class Labs {
   critical: boolean;
   fyiLine: string;
   workLine: string;
+  priceList: Array<PriceList>;
+  specificFormat: boolean;
   status: string;
   environment: string;
-  priceList: Array<PriceList>;
-
   dateOfEntry: Date;
   lastUpdated: Date;
 
@@ -92,9 +92,10 @@ export class Labs {
     this.critical = rawData.critical;
     this.fyiLine = rawData.fyiLine;
     this.workLine = rawData.workLine;
+    this.priceList = rawData.priceList;
+    this.specificFormat = rawData.specificFormat;
     this.status = rawData.status;
     this.environment = rawData.environment;
-    this.priceList = rawData.priceList;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

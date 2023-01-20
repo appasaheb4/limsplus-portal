@@ -28,7 +28,7 @@ export class PatientVisit {
   miscellaneousCharges: number;
   miscCharges: Array<any>;
   discountCharges: object;
-  reportType: string;
+  reportPriority: string;
   history: boolean;
   holdReport: boolean;
   holdReason: string;
@@ -100,7 +100,7 @@ export class PatientVisit {
     this.miscellaneousCharges = rawData.miscellaneousCharges;
     this.miscCharges = rawData.miscCharges;
     this.discountCharges = rawData.discountCharges;
-    this.reportType = rawData.reportType;
+    this.reportPriority = rawData.reportPriority;
     this.history = rawData.history;
     this.holdReport = rawData.holdReport;
     this.holdReason = rawData.holdReason;

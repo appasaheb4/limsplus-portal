@@ -24,6 +24,7 @@ export class LabStore {
       abnFlag: false,
       critical: false,
       priceList: [{id: 0, maxDis: 0}],
+      specificFormat: true,
     };
     this.selectedItems = new SelectedItems({});
     makeObservable<LabStore, any>(this, {

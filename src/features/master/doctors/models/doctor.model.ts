@@ -23,8 +23,8 @@ export class Doctors {
   telephone: string;
   mobileNo: string;
   email: string;
-  deliveryType: string;
-  deliveryMethod: string;
+  reportPriority: string;
+  deliveryMode: Array<any>;
   registrationLocation: string;
   lab: string;
   openingTime: string;
@@ -35,6 +35,7 @@ export class Doctors {
   confidential: boolean;
   urgent: boolean;
   reportFormat: boolean;
+  specificFormat: boolean;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -70,8 +71,8 @@ export class Doctors {
     this.telephone = rawData.telephone;
     this.mobileNo = rawData.mobileNo;
     this.email = rawData.email;
-    this.deliveryType = rawData.deliveryType;
-    this.deliveryMethod = rawData.deliveryMethod;
+    this.reportPriority = rawData.reportPriority;
+    this.deliveryMode = rawData.deliveryMode;
     this.registrationLocation = rawData.registrationLocation;
     this.lab = rawData.lab;
     this.openingTime = rawData.openingTime;
@@ -82,6 +83,7 @@ export class Doctors {
     this.confidential = rawData.confidential;
     this.urgent = rawData.urgent;
     this.reportFormat = rawData.reportFormat;
+    this.specificFormat = rawData.specificFormat;
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;
     this.dateExpire = rawData.dateExpire;

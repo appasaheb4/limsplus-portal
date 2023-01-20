@@ -12,7 +12,6 @@ interface AutoCompleteFilterDeliveryModeProps {
 export const AutoCompleteFilterDeliveryMode = observer(
   ({selectedItems = [], onSelect}: AutoCompleteFilterDeliveryModeProps) => {
     const {registrationLocationsStore, routerStore, loading} = useStores();
-
     return (
       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
         loader={loading}

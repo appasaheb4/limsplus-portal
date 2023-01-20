@@ -12,10 +12,10 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {DoctorsList} from '../components';
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 import {lookupItems, lookupValue, toTitleCase} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {DoctorsHoc} from '../hoc';
@@ -854,29 +854,29 @@ const Doctors = DoctorsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Type'
-                      hasError={!!errors.deliveryType}
+                      label='Report Priority'
+                      hasError={!!errors.reportPriority}
                     >
                       <select
-                        value={doctorsStore.doctors?.deliveryType}
+                        value={doctorsStore.doctors?.reportPriority}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryType
+                          errors.reportPriority
                             ? 'border-red-500  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const deliveryType = e.target.value;
-                          onChange(deliveryType);
+                          const reportPriority = e.target.value;
+                          onChange(reportPriority);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            deliveryType,
+                            reportPriority,
                           });
                         }}
                       >
                         <option selected>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          'DELIVERY_TYPE',
+                          'REPORT_PRIORITY',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -885,7 +885,7 @@ const Doctors = DoctorsHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='deliveryType'
+                  name='reportPriority'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -893,38 +893,21 @@ const Doctors = DoctorsHoc(
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.InputWrapper
-                      label='Delivery Method'
-                      hasError={!!errors.deliveryMethod}
+                      label='Delivery Mode'
+                      hasError={!!errors.deliveryMode}
                     >
-                      <select
-                        value={doctorsStore.doctors?.deliveryMethod}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryMethod
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const deliveryMethod = e.target.value;
-                          onChange(deliveryMethod);
+                      <AutoCompleteFilterDeliveryMode
+                        onSelect={deliveryMode => {
+                          onChange(deliveryMode);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            deliveryMethod,
+                            deliveryMode,
                           });
                         }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'DELIVERY_METHOD',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     </Form.InputWrapper>
                   )}
-                  name='deliveryMethod'
+                  name='deliveryMode'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1344,7 +1327,7 @@ const Doctors = DoctorsHoc(
                   rules={{required: true}}
                   defaultValue=''
                 />
-                <Grid cols={3}>
+                <Grid cols={4}>
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
@@ -1402,6 +1385,26 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='reportFormat'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Specific Format'
+                        hasError={!!errors.specificFormat}
+                        value={doctorsStore.doctors?.specificFormat}
+                        onChange={specificFormat => {
+                          onChange(specificFormat);
+                          doctorsStore.updateDoctors({
+                            ...doctorsStore.doctors,
+                            specificFormat,
+                          });
+                        }}
+                      />
+                    )}
+                    name='specificFormat'
                     rules={{required: false}}
                     defaultValue=''
                   />

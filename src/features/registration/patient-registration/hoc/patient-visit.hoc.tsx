@@ -29,7 +29,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
       patientVisitStore.updatePatientVisit({
         ...patientVisitStore.patientVisit,
         rLab: loginStore.login.lab,
-        reportType: getDefaultLookupItem(
+        reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
           'PATIENT VISIT - DELIVERY_TYPE',
         ),

@@ -59,7 +59,7 @@ let corporateCode;
 let acClass;
 let doctorId;
 let doctorName;
-let reportType;
+let reportPriority;
 let holdReason;
 let status;
 
@@ -781,8 +781,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             },
 
             {
-              dataField: 'reportType',
-              text: 'Report Type',
+              dataField: 'reportPriority',
+              text: 'Report Priority',
               headerClasses: 'textHeader5',
               sort: true,
               headerStyle: {
@@ -792,7 +792,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               csvFormatter: (col, row) => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  reportType = filter;
+                  reportPriority = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -807,15 +807,15 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <select
-                    value={row.reportType}
+                    value={row.reportPriority}
                     className={
                       'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                     }
                     onChange={e => {
-                      const reportType = e.target.value as string;
+                      const reportPriority = e.target.value as string;
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          reportType,
+                          reportPriority,
                           column.dataField,
                           row._id,
                         );
@@ -1108,7 +1108,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             acClass('');
             doctorId('');
             doctorName('');
-            reportType('');
+            reportPriority('');
             holdReason('');
             status('');
           }}

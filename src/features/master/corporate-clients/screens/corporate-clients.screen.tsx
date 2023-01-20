@@ -15,7 +15,8 @@ import {
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {CorporateClient, PriceListTable} from '../components';
+import {CorporateClient} from '../components';
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 import {lookupItems, lookupValue} from '@/library/utils';
 
 import {useForm, Controller} from 'react-hook-form';
@@ -1043,34 +1044,15 @@ const CorporateClients = CorporateClientsHoc(
                       label='Delivery Mode'
                       hasError={!!errors.deliveryMode}
                     >
-                      <select
-                        value={
-                          corporateClientsStore.corporateClients?.deliveryMode
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryMode
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const deliveryMode = e.target.value;
+                      <AutoCompleteFilterDeliveryMode
+                        onSelect={deliveryMode => {
                           onChange(deliveryMode);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
                             deliveryMode,
                           });
                         }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'DELIVERY_METHOD',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     </Form.InputWrapper>
                   )}
                   name='deliveryMode'
@@ -1457,6 +1439,30 @@ const CorporateClients = CorporateClientsHoc(
                   rules={{required: true}}
                   defaultValue=''
                 />
+                <Grid cols={4}>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Specific Format'
+                        hasError={!!errors.specificFormat}
+                        value={
+                          corporateClientsStore.corporateClients?.specificFormat
+                        }
+                        onChange={specificFormat => {
+                          onChange(specificFormat);
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            specificFormat,
+                          });
+                        }}
+                      />
+                    )}
+                    name='specificFormat'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </Grid>
               </List>
             </Grid>
             <br />
