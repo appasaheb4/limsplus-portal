@@ -25,6 +25,7 @@ export class DoctorsStore {
       version: 1,
       confidential: false,
       urgent: false,
+      specificFormat: false,
     };
 
     makeObservable<DoctorsStore, any>(this, {

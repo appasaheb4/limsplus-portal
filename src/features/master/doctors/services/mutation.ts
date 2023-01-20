@@ -42,8 +42,8 @@ export const LIST = gql`
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportPriority
+        deliveryMode
         urgent
         registrationLocation
         lab
@@ -53,6 +53,7 @@ export const LIST = gql`
         workLine
         openingTime
         closingTime
+        specificFormat
         status
         environment
         dateOfEntry
@@ -158,8 +159,8 @@ export const FILTER = gql`
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportPriority
+        deliveryMode
         urgent
         registrationLocation
         lab
@@ -169,6 +170,7 @@ export const FILTER = gql`
         workLine
         openingTime
         closingTime
+        specificFormat
         status
         environment
         dateOfEntry
@@ -220,8 +222,8 @@ export const FILTER_BY_FIELDS = gql`
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportPriority
+        deliveryMode
         urgent
         registrationLocation
         lab
@@ -231,6 +233,7 @@ export const FILTER_BY_FIELDS = gql`
         workLine
         openingTime
         closingTime
+        specificFormat
         status
         environment
         dateOfEntry
@@ -282,8 +285,8 @@ export const FIND_BY_FIELDS = gql`
         telephone
         mobileNo
         email
-        deliveryType
-        deliveryMethod
+        reportPriority
+        deliveryMode
         urgent
         registrationLocation
         lab
@@ -293,6 +296,7 @@ export const FIND_BY_FIELDS = gql`
         workLine
         openingTime
         closingTime
+        specificFormat
         status
         environment
         dateOfEntry

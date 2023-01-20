@@ -28,8 +28,8 @@ import {
   AutoCompleteFilterSingleSelectState,
   AutoCompleteSalesTerritory,
   PriceListTableForRegLocationsList,
-  AutoCompleteFilterDeliveryMode,
 } from '../..';
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -885,10 +885,6 @@ export const RegistrationLocationsList = (
             text: 'Delivery Mode',
             headerClasses: 'textHeader5',
             sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
@@ -913,7 +909,9 @@ export const RegistrationLocationsList = (
             ) => (
               <>
                 <AutoCompleteFilterDeliveryMode
-                  selectedItems={row?.deliveryMode}
+                  selectedItems={
+                    Array.isArray(row?.deliveryMode) ? row?.deliveryMode : []
+                  }
                   onSelect={deliveryMode => {
                     props.onUpdateItem &&
                       props.onUpdateItem(

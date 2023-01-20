@@ -13,12 +13,9 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {
-  RegistrationLocationsList,
-  AutoCompleteFilterDeliveryMode,
-} from '../components';
+import {RegistrationLocationsList} from '../components';
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {

@@ -1109,6 +1109,38 @@ export const LabList = (props: LabListProps) => {
               },
             },
             {
+              dataField: 'specificFormat',
+              text: 'Specific Format',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.specificFormat
+                    ? row.specificFormat
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.specificFormat}
+                      onChange={specificFormat => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            specificFormat,
+                            'specificFormat',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'fyiLine',
               text: 'Fyi Line',
               sort: true,

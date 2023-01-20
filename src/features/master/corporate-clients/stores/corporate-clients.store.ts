@@ -1,5 +1,5 @@
 import {makeObservable, action, observable, computed} from 'mobx';
-import {CorporateClients} from '../models';
+import {CorporateClients, SelectedItems} from '../models';
 import {CorporateClientsService} from '../services';
 import dayjs from 'dayjs';
 
@@ -9,6 +9,7 @@ export class CorporateClientsStore {
   listCorporateClients: CorporateClients[];
   listCorporateClientsCopy!: CorporateClients[];
   checkExistsEnvCode: boolean;
+  selectedItems!: SelectedItems;
 
   constructor() {
     this.listCoporateClientsCount = 0;
@@ -26,19 +27,23 @@ export class CorporateClientsStore {
       urgent: false,
       priceList: [{id: 0, maxDis: 0}],
       isEmployeeCode: false,
+      specificFormat: false,
     };
+    this.selectedItems = new SelectedItems({});
 
     makeObservable<CorporateClientsStore, any>(this, {
       corporateClients: observable,
       listCoporateClientsCount: observable,
       listCorporateClients: observable,
       checkExistsEnvCode: observable,
+      selectedItems: observable,
 
       corporateClientsService: computed,
       fetchCorporateClients: action,
       updateCorporateClientsList: action,
       updateCorporateClients: action,
       updateExistsEnvCode: action,
+      updateSelectedItems: action,
     });
   }
 
@@ -74,5 +79,9 @@ export class CorporateClientsStore {
 
   updateExistsEnvCode(status: boolean) {
     this.checkExistsEnvCode = status;
+  }
+
+  updateSelectedItems(items: SelectedItems) {
+    this.selectedItems = items;
   }
 }

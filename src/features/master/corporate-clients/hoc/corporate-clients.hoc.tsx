@@ -20,10 +20,6 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'SPECIALITY',
         ),
-        deliveryMode: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'DELIVERY_METHOD',
-        ),
         reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
           'REPORT_PRIORITY',

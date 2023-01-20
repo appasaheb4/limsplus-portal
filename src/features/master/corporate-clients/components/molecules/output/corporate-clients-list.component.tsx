@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
 import {AutoCompleteSalesTerritory} from '@/features/master/registration-locations/components';
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -866,17 +867,20 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             text: 'Delivery Mode',
             headerClasses: 'textHeader5',
             sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                deliveryMode = filter;
-              },
-            }),
+            formatter: (cell, row) => {
+              return (
+                <div className='flex flex-row flex-wrap gap-2'>
+                  {typeof row.deliveryMode != 'string' &&
+                    row.deliveryMode?.map(item => (
+                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                        {item.value}
+                      </span>
+                    ))}
+                </div>
+              );
+            },
             editorRenderer: (
               editorProps,
               value,
@@ -886,28 +890,19 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               columnIndex,
             ) => (
               <>
-                <select
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const deliveryMethod = e.target.value;
+                <AutoCompleteFilterDeliveryMode
+                  selectedItems={
+                    Array.isArray(row?.deliveryMode) ? row?.deliveryMode : []
+                  }
+                  onSelect={deliveryMode => {
                     props.onUpdateItem &&
                       props.onUpdateItem(
-                        deliveryMethod,
+                        deliveryMode,
                         column.dataField,
                         row._id,
                       );
                   }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    'DELIVERY_METHOD',
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
-                </select>
+                />
               </>
             ),
           },
@@ -1028,6 +1023,34 @@ export const CorporateClient = (props: CorporateClientListProps) => {
                         props.onUpdateItem(
                           isEmployeeCode,
                           'isEmployeeCode',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
+          {
+            dataField: 'specificFormat',
+            text: 'Specific Format',
+            sort: true,
+            editable: false,
+            csvFormatter: (col, row) =>
+              `${
+                row.specificFormat ? (row.specificFormat ? 'Yes' : 'No') : 'No'
+              }`,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.specificFormat}
+                    onChange={specificFormat => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          specificFormat,
+                          'specificFormat',
                           row._id,
                         );
                     }}

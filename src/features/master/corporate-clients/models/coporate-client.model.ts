@@ -30,7 +30,7 @@ export class CorporateClients {
   mobileNo: string;
   email: string;
   reportPriority: string;
-  deliveryMode: string;
+  deliveryMode: Array<any>;
   schedule: string;
   info: string;
   fyiLine: string;
@@ -39,6 +39,7 @@ export class CorporateClients {
   urgent: boolean;
   reportFormat: boolean;
   isEmployeeCode: boolean;
+  specificFormat: boolean;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -89,6 +90,7 @@ export class CorporateClients {
     this.urgent = rawData.urgent;
     this.reportFormat = rawData.reportFormat;
     this.isEmployeeCode = rawData.isEmployeeCode;
+    this.specificFormat = rawData.specificFormat;
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;
     this.dateExpire = rawData.dateExpire;
@@ -98,5 +100,12 @@ export class CorporateClients {
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
+  }
+}
+
+export class SelectedItems {
+  deliveryMode: any[];
+  constructor(rawData: {[key in string]: any}) {
+    this.deliveryMode = rawData.deliveryMode;
   }
 }

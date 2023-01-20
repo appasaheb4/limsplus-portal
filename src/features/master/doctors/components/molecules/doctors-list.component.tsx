@@ -25,7 +25,7 @@ import {
   AutoCompleteFilterSingleSelectState,
   AutoCompleteFilterSingleSelectCity,
 } from '../index';
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -53,8 +53,7 @@ let zone;
 let telephone;
 let mobileNo;
 let email;
-let deliveryType;
-let deliveryMethod;
+let reportPriority;
 let registrationLocation;
 let lab;
 let info;
@@ -717,8 +716,8 @@ export const DoctorsList = (props: DoctorsListProps) => {
           },
 
           {
-            dataField: 'deliveryType',
-            text: 'Delivery Type',
+            dataField: 'reportPriority',
+            text: 'Report Priority',
             headerClasses: 'textHeader5',
             sort: true,
             headerStyle: {
@@ -728,7 +727,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
-                deliveryType = filter;
+                reportPriority = filter;
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -744,10 +743,10 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 <select
                   className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                   onChange={e => {
-                    const deliveryType = e.target.value;
+                    const reportPriority = e.target.value;
                     props.onUpdateItem &&
                       props.onUpdateItem(
-                        deliveryType,
+                        reportPriority,
                         column.dataField,
                         row._id,
                       );
@@ -756,7 +755,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                   <option selected>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
-                    'DELIVERY_TYPE',
+                    'REPORT_PRIORITY',
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {lookupValue(item)}
@@ -767,21 +766,24 @@ export const DoctorsList = (props: DoctorsListProps) => {
             ),
           },
           {
-            dataField: 'deliveryMethod',
-            text: 'Delivery Method',
+            dataField: 'deliveryMode',
+            text: 'Delivery Mode',
             headerClasses: 'textHeader5',
             sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                deliveryMethod = filter;
-              },
-            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            formatter: (cell, row) => {
+              return (
+                <div className='flex flex-row flex-wrap gap-2'>
+                  {typeof row.deliveryMode != 'string' &&
+                    row.deliveryMode?.map(item => (
+                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                        {item.value}
+                      </span>
+                    ))}
+                </div>
+              );
+            },
             editorRenderer: (
               editorProps,
               value,
@@ -791,28 +793,19 @@ export const DoctorsList = (props: DoctorsListProps) => {
               columnIndex,
             ) => (
               <>
-                <select
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const deliveryMethod = e.target.value;
+                <AutoCompleteFilterDeliveryMode
+                  selectedItems={
+                    Array.isArray(row?.deliveryMode) ? row?.deliveryMode : []
+                  }
+                  onSelect={deliveryMode => {
                     props.onUpdateItem &&
                       props.onUpdateItem(
-                        deliveryMethod,
+                        deliveryMode,
                         column.dataField,
                         row._id,
                       );
                   }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(
-                    props.extraData.lookupItems,
-                    'DELIVERY_METHOD',
-                  ).map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ))}
-                </select>
+                />
               </>
             ),
           },
@@ -1060,6 +1053,34 @@ export const DoctorsList = (props: DoctorsListProps) => {
                         );
                     }}
                   />{' '}
+                </>
+              );
+            },
+          },
+          {
+            dataField: 'specificFormat',
+            text: 'Specific Format',
+            sort: true,
+            csvFormatter: (col, row) =>
+              `${
+                row.specificFormat ? (row.specificFormat ? 'Yes' : 'No') : 'No'
+              }`,
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.specificFormat}
+                    onChange={specificFormat => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          specificFormat,
+                          'specificFormat',
+                          row._id,
+                        );
+                    }}
+                  />
                 </>
               );
             },
@@ -1441,8 +1462,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           mobileNo('');
           email('');
           category('');
-          deliveryType('');
-          deliveryMethod('');
+          reportPriority('');
           openingTime('');
           registrationLocation('');
           lab('');
