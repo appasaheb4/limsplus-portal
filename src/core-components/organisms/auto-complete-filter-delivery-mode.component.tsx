@@ -5,19 +5,24 @@ import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from '@/library/componen
 import {lookupItems} from '@/library/utils';
 
 interface AutoCompleteFilterDeliveryModeProps {
+  lookupField?: string;
   selectedItems?: any;
   onSelect: (items: any) => void;
 }
 
 export const AutoCompleteFilterDeliveryMode = observer(
-  ({selectedItems = [], onSelect}: AutoCompleteFilterDeliveryModeProps) => {
+  ({
+    lookupField = 'DELIVERY_METHOD',
+    selectedItems = [],
+    onSelect,
+  }: AutoCompleteFilterDeliveryModeProps) => {
     const {registrationLocationsStore, routerStore, loading} = useStores();
     return (
       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
         loader={loading}
         placeholder='Search by code or name'
         data={{
-          list: lookupItems(routerStore.lookupItems, 'DELIVERY_METHOD') || [],
+          list: lookupItems(routerStore.lookupItems, lookupField) || [],
           selected:
             registrationLocationsStore.selectedItems?.deliveryMode ||
             selectedItems,

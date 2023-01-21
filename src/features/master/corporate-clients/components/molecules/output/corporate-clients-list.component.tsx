@@ -1060,6 +1060,34 @@ export const CorporateClient = (props: CorporateClientListProps) => {
             },
           },
           {
+            dataField: 'isBalanceCheck',
+            text: 'Balance Check',
+            sort: true,
+            editable: false,
+            csvFormatter: (col, row) =>
+              `${
+                row.isBalanceCheck ? (row.isBalanceCheck ? 'Yes' : 'No') : 'No'
+              }`,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.isBalanceCheck}
+                    onChange={isBalanceCheck => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          isBalanceCheck,
+                          'isBalanceCheck',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
+          {
             dataField: 'fyiLine',
             text: 'FYI Line',
             headerClasses: 'textHeader3',

@@ -28,6 +28,7 @@ export class CorporateClientsStore {
       priceList: [{id: 0, maxDis: 0}],
       isEmployeeCode: false,
       specificFormat: false,
+      isBalanceCheck: true,
     };
     this.selectedItems = new SelectedItems({});
 

@@ -89,7 +89,11 @@ export const PatientOrder = PatientOrderHoc(
           .addPatientOrder({
             input: {
               ...patientOrderStore.patientOrder,
-              packageList: packageList?.map(v => ({...v, orderStatus: 'P'})),
+              packageList: packageList?.map(v => ({
+                ...v,
+                orderStatus: 'P',
+                status: 'P',
+              })),
               documentType: 'patientOrder',
               enteredBy: loginStore.login.userId,
               __typename: undefined,

@@ -16,7 +16,7 @@ import {
   ModalConfirm,
   Svg,
 } from '@/library/components';
-import {calculateTimimg, lookupItems, lookupValue} from '@/library/utils';
+import {lookupItems, lookupValue} from '@/library/utils';
 import '@/library/assets/css/accordion.css';
 import {
   AutoCompleteFilterSingleSelectPid,
@@ -39,6 +39,7 @@ import {toJS} from 'mobx';
 import {RouterFlow} from '@/flows';
 import {getAgeByAgeObject, getDiffByDate} from '../utils';
 import {FormHelper} from '@/helper';
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
@@ -591,6 +592,7 @@ export const PatientVisit = PatientVisitHoc(
                             corporateName: item.corporateName,
                             isEmployeeCode: item?.isEmployeeCode,
                             acClass: item?.acClass,
+                            specificFormat: item?.specificFormat || false,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
                               invoiceAc: item?.invoiceAc?.toString(),
@@ -1084,6 +1086,26 @@ export const PatientVisit = PatientVisitHoc(
                       />
                     )}
                     name='holdReport'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Specific Format'
+                        hasError={!!errors.specificFormat}
+                        value={patientVisitStore.patientVisit?.specificFormat}
+                        onChange={specificFormat => {
+                          onChange(specificFormat);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            specificFormat,
+                          });
+                        }}
+                      />
+                    )}
+                    name='specificFormat'
                     rules={{required: false}}
                     defaultValue=''
                   />
@@ -1980,22 +2002,17 @@ export const PatientVisit = PatientVisitHoc(
                           rules={{required: false}}
                           defaultValue=''
                         />
+
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (
-                            <Form.InputWrapper label='Delivery Mode'>
-                              <select
-                                value={
-                                  patientVisitStore.patientVisit?.extraData
-                                    ?.deliveryMode
-                                }
-                                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                  errors.deliveryMode
-                                    ? 'border-red-500  '
-                                    : 'border-gray-300'
-                                } rounded-md`}
-                                onChange={e => {
-                                  const deliveryMode = e.target.value;
+                            <Form.InputWrapper
+                              label='Delivery Mode'
+                              hasError={!!errors.deliveryMode}
+                            >
+                              <AutoCompleteFilterDeliveryMode
+                                lookupField='PATIENT VISIT - DELIVERY_METHOD'
+                                onSelect={deliveryMode => {
                                   onChange(deliveryMode);
                                   patientVisitStore.updatePatientVisit({
                                     ...patientVisitStore.patientVisit,
@@ -2006,23 +2023,14 @@ export const PatientVisit = PatientVisitHoc(
                                     },
                                   });
                                 }}
-                              >
-                                <option selected>Select</option>
-                                {lookupItems(
-                                  routerStore.lookupItems,
-                                  'PATIENT VISIT - DELIVERY_METHOD',
-                                ).map((item: any, index: number) => (
-                                  <option key={index} value={item.code}>
-                                    {lookupValue(item)}
-                                  </option>
-                                ))}
-                              </select>
+                              />
                             </Form.InputWrapper>
                           )}
                           name='deliveryMode'
                           rules={{required: false}}
                           defaultValue=''
                         />
+
                         <Controller
                           control={control}
                           render={({field: {onChange}}) => (

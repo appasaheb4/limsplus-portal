@@ -12,7 +12,6 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {CorporateClient} from '../components';
@@ -1462,26 +1461,32 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{required: false}}
                     defaultValue=''
                   />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Form.Toggle
+                        label='Balance Check'
+                        hasError={!!errors.isBalanceCheck}
+                        value={
+                          corporateClientsStore.corporateClients?.isBalanceCheck
+                        }
+                        onChange={isBalanceCheck => {
+                          onChange(isBalanceCheck);
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            isBalanceCheck,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isBalanceCheck'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
                 </Grid>
               </List>
             </Grid>
             <br />
-            {/* <List direction='row' space={3} align='center'>
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Form.InputWrapper
-                    label='Price List'
-                    hasError={!!errors.priceList}
-                  >
-                    <PriceListTable />
-                  </Form.InputWrapper>
-                )}
-                name='priceList'
-                rules={{required: false}}
-                defaultValue=''
-              />
-            </List> */}
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button

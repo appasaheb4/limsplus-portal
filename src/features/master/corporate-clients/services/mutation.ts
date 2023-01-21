@@ -54,6 +54,7 @@ export const LIST = gql`
         workLine
         isEmployeeCode
         specificFormat
+        isBalanceCheck
         status
         environment
         dateOfEntry
@@ -171,6 +172,7 @@ export const FILTER = gql`
         workLine
         isEmployeeCode
         specificFormat
+        isBalanceCheck
         status
         environment
         dateOfEntry
@@ -233,6 +235,7 @@ export const FILTER_BY_FIELDS = gql`
         workLine
         isEmployeeCode
         specificFormat
+        isBalanceCheck
         status
         environment
         dateOfEntry

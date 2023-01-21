@@ -33,10 +33,11 @@ export class PatientVisit {
   holdReport: boolean;
   holdReason: string;
   isPrintPrimaryBarcod: boolean;
+  specificFormat: boolean;
   status: string;
   extraData: {
     accountType: string;
-    deliveryMode: string;
+    deliveryMode: Array<any>;
     additionalInfo: string;
     invoiceAc: string;
     billingMethod: string;
@@ -105,6 +106,7 @@ export class PatientVisit {
     this.holdReport = rawData.holdReport;
     this.holdReason = rawData.holdReason;
     this.isPrintPrimaryBarcod = rawData.isPrintPrimaryBarcod;
+    this.specificFormat = rawData.specificFormat;
     this.status = rawData.status;
     this.extraData = rawData.extraData;
     this.documentType = rawData.documentType;
