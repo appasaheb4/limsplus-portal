@@ -47,6 +47,7 @@ export const LIST_PATIENT_VISIT = gql`
         abnFlag
         critical
         isPrintPrimaryBarcod
+        specificFormat
         status
         extraData {
           accountType
@@ -164,6 +165,7 @@ export const FILTER_PATIENT_VISIT = gql`
         abnFlag
         critical
         isPrintPrimaryBarcod
+        specificFormat
         status
         extraData {
           accountType
@@ -284,6 +286,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         abnFlag
         critical
         isPrintPrimaryBarcod
+        specificFormat
         status
         extraData {
           accountType

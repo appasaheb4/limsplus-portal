@@ -13,7 +13,8 @@ import {
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
+
 let additionalInfo;
 let invoiceAc;
 let billingMethod;
@@ -35,7 +36,6 @@ let registrationInterface;
 let submittingSystem;
 let submittindOn;
 let accountType;
-let deliveryMode;
 let environment;
 interface ExtraDataPatientVisitProps {
   data: any;
@@ -1035,19 +1035,19 @@ export const ExtraDataPatientVisitList = observer(
                 text: 'Delivery Mode',
                 headerClasses: 'textHeader4',
                 sort: true,
-                headerStyle: {
-                  fontSize: 0,
-                },
-                sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.deliveryMode ? row.extraData.deliveryMode : '',
-                filter: textFilter({
-                  getFilter: filter => {
-                    deliveryMode = filter;
-                  },
-                }),
                 formatter: (cell, row) => {
-                  return <>{row.extraData.deliveryMode}</>;
+                  return (
+                    <div className='flex flex-row flex-wrap gap-2'>
+                      {typeof row.extraData?.deliveryMode != 'string' &&
+                        row.extraData?.deliveryMode?.map(item => (
+                          <span className='bg-blue-800 rounded-md p-2 text-white'>
+                            {item.value}
+                          </span>
+                        ))}
+                    </div>
+                  );
                 },
                 editorRenderer: (
                   editorProps,
@@ -1058,13 +1058,14 @@ export const ExtraDataPatientVisitList = observer(
                   columnIndex,
                 ) => (
                   <>
-                    <select
-                      value={row?.extraData?.deliveryMode}
-                      className={
-                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    <AutoCompleteFilterDeliveryMode
+                      lookupField='PATIENT VISIT - DELIVERY_METHOD'
+                      selectedItems={
+                        Array.isArray(row.extraData?.deliveryMode)
+                          ? row.extraData?.deliveryMode
+                          : []
                       }
-                      onChange={e => {
-                        const deliveryMode = e.target.value;
+                      onSelect={deliveryMode => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
                             deliveryMode,
@@ -1072,17 +1073,7 @@ export const ExtraDataPatientVisitList = observer(
                             row._id,
                           );
                       }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        'PATIENT VISIT - DELIVERY_METHOD',
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </>
                 ),
               },
@@ -1233,7 +1224,6 @@ export const ExtraDataPatientVisitList = observer(
               submittingSystem('');
               submittindOn('');
               accountType('');
-              deliveryMode('');
               environment('');
             }}
           />

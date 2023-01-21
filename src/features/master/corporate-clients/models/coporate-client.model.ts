@@ -40,6 +40,7 @@ export class CorporateClients {
   reportFormat: boolean;
   isEmployeeCode: boolean;
   specificFormat: boolean;
+  isBalanceCheck: boolean;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -91,6 +92,7 @@ export class CorporateClients {
     this.reportFormat = rawData.reportFormat;
     this.isEmployeeCode = rawData.isEmployeeCode;
     this.specificFormat = rawData.specificFormat;
+    this.isBalanceCheck = rawData.isBalanceCheck;
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;
     this.dateExpire = rawData.dateExpire;

@@ -984,6 +984,37 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               },
             },
             {
+              dataField: 'specificFormat',
+              text: 'Specific Format',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.specificFormat
+                    ? row.specificFormat
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row.specificFormat}
+                      onChange={specificFormat => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            specificFormat,
+                            'specificFormat',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader5',

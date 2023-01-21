@@ -141,6 +141,13 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               editable: false,
             },
             {
+              dataField: 'panelStatus',
+              text: 'Panel Status',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
               dataField: 'testCode',
               text: 'Test Code',
               headerClasses: 'textHeader4',
@@ -508,10 +515,22 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                     <Form.Toggle
                       disabled={!editorCell(row)}
                       value={row.extraData.method}
-                      // onChange={(method) => {
-                      //   props.onUpdateItem &&
-                      //     props.onUpdateItem(method, "showRanges", row._id)
-                      // }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'specificFormat',
+              text: 'Specific Format',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row?.specificFormat}
                     />
                   </>
                 );
@@ -634,6 +653,36 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                   <>
                     <span>{row.reportOrder}</span>
                   </>
+                );
+              },
+            },
+            {
+              dataField: 'reportPriority',
+              text: 'Report Priority',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: (col, row) =>
+                row?.reportPriority ? row.reportPriority : '',
+              editable: false,
+            },
+            {
+              dataField: 'deliveryMode',
+              text: 'Delivery Mode',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: (col, row) =>
+                row?.deliveryMode ? row.deliveryMode : '',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-row flex-wrap gap-2'>
+                    {typeof row?.deliveryMode != 'string' &&
+                      row?.deliveryMode?.map(item => (
+                        <span className='bg-blue-800 rounded-md p-2 text-white'>
+                          {item.value}
+                        </span>
+                      ))}
+                  </div>
                 );
               },
             },

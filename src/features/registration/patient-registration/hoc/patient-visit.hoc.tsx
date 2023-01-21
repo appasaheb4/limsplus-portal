@@ -49,10 +49,6 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             'PATIENT VISIT - ACCOUNT_TYPE',
           ),
-          deliveryMode: getDefaultLookupItem(
-            routerStore.lookupItems,
-            'PATIENT VISIT - DELIVERY_METHOD',
-          ),
           environment: getDefaultLookupItem(
             routerStore.lookupItems,
             'PATIENT VISIT - ENVIRONMENT',
