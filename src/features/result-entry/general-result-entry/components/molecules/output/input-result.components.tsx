@@ -79,7 +79,6 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
           });
         break;
       }
-      // No default
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [row]);
@@ -126,12 +125,13 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
           }
           onChange={e => {
             const defaultItem = JSON.parse(e.target.value);
-            onSelect({
-              result: defaultItem.possibleValue,
-              alpha: defaultItem.result,
-              abnFlag: defaultItem.abNormal,
-              critical: defaultItem.critical,
-            });
+            if (defaultItem)
+              onSelect({
+                result: defaultItem.possibleValue,
+                alpha: defaultItem.result,
+                abnFlag: defaultItem.abNormal,
+                critical: defaultItem.critical,
+              });
           }}
         >
           <option selected>Select</option>
@@ -156,12 +156,13 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
           }
           onChange={e => {
             const item = JSON.parse(e.target.value);
-            onSelect({
-              result: item.description,
-              alpha: item?.code,
-              abnFlag: item?.abNormal || false,
-              critical: item?.critical || false,
-            });
+            if (item)
+              onSelect({
+                result: item.description,
+                alpha: item?.code,
+                abnFlag: item?.abNormal || false,
+                critical: item?.critical || false,
+              });
           }}
         >
           <option selected>Select</option>
@@ -183,10 +184,11 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               hasError={!!errors.result}
               onBlur={result => {
                 onChange(result);
-                onSelect({
-                  result,
-                  alpha: `F - ${row._id}`,
-                });
+                if (result)
+                  onSelect({
+                    result,
+                    alpha: `F - ${row._id}`,
+                  });
               }}
             />
           )}
@@ -209,12 +211,13 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               hasError={!!errors.testName}
               onUpdate={item => {
                 const items = generalResultEntryStore.selectedItems?.library;
-                onSelect({
-                  result: JSON.stringify(
-                    _.map(items, o => _.pick(o, ['code'])),
-                  ),
-                  alpha: `M - ${row._id}`,
-                });
+                if (items)
+                  onSelect({
+                    result: JSON.stringify(
+                      _.map(items, o => _.pick(o, ['code'])),
+                    ),
+                    alpha: `M - ${row._id}`,
+                  });
               }}
               onFilter={(value: string) => {
                 // masterPanelStore.masterPanelService.filterByFields({
