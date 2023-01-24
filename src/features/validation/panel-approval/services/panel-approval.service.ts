@@ -7,7 +7,7 @@
 import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
 import {
-  TRANSACTION_HEADER_LIST,
+  PANEL_APPROVAL_LIST,
   FIND_BY_FIELDS_TRANSACTION_LINE,
 } from './mutation-panel-approval';
 import dayjs from 'dayjs';
@@ -17,18 +17,13 @@ dayjs.extend(utc);
 export class PanelApprovalService {
   listTransactionHeader = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const environment =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
-          mutation: TRANSACTION_HEADER_LIST,
-          variables: {input: {page, limit, environment, role}},
+          mutation: PANEL_APPROVAL_LIST,
+          variables: {input: {page, limit}},
         })
         .then((response: any) => {
-          stores.transactionDetailsStore.updateTransactionHeaderList(
-            response.data,
-          );
+          stores.panelApprovalStore.updatePendingPanelApproval(response.data);
           resolve(response.data);
         })
         .catch(error =>

@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
-export const TRANSACTION_HEADER_LIST = gql`
-  mutation ($input: TransactionHeaderInput!) {
-    transactionHeaders(input: $input) {
+export const PANEL_APPROVAL_LIST = gql`
+  mutation ($input: PanelApprovalInput!) {
+    panelApprovals(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,37 +10,45 @@ export const TRANSACTION_HEADER_LIST = gql`
       message
       data {
         _id
-        headerId
-        collectionCenter
-        corporateCode
-        labId
-        invoiceAc
-        invoiceDate
-        actionDate
-        registrationDate
-        dueDate
-        reportingDate
-        doctorId
         pId
-        priceGroup
-        priceList
-        grossAmount
-        netAmount
-        discountAmount
-        discountPer
-        miscellaneousCharges
-        receivedAmount
-        balance
-        acClass
-        accountType
-        customerGroup
-        patientOrderId
-        visitId
-        rLab
-        allMiscCharges
-        discountCharges
-        customerName
+        name
+        age
+        sex
+        dob
+        patientMobileNo
+        doctorId
+        doctorMobileNo
+        registrationLocation
+        contactNo
+        history
+        historyDetails
+        labId
+        sampleId
+        sampleType
+        containerId
+        panel
+        dueDate
         status
+        comments
+        pLab
+        department
+        test
+        analyte
+        result
+        final
+        abnFlag
+        critical
+        units
+        refRanges: JSON;
+        remarks
+        deltaFlag
+        deltaValue
+        resultStatus
+        testStatus
+        approvalDate
+        approvalStatus
+        autoRelease
+        patientOrderId
         enteredBy
         documentType
         dateOfEntry
