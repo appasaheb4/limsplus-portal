@@ -39,7 +39,7 @@ export const PANEL_APPROVAL_LIST = gql`
         abnFlag
         critical
         units
-        refRanges: JSON;
+        refRanges
         remarks
         deltaFlag
         deltaValue
@@ -58,48 +58,11 @@ export const PANEL_APPROVAL_LIST = gql`
   }
 `;
 
-export const FIND_BY_FIELDS_TRANSACTION_LINE = gql`
-  mutation ($input: TransactionLineInput!) {
-    findByFieldsTransactionLine(input: $input) {
+export const UPDATE_RECORD = gql`
+  mutation ($input: UpdatePanelApprovalInput!) {
+    updatePanelApproval(input: $input) {
       success
       message
-      data {
-        _id
-        headerId
-        lineId
-        rLab
-        pLab
-        collectionCenter
-        collectionCenterName
-        corporateCode
-        invoiceAC
-        invoiceDate
-        actionDate
-        receipt
-        pId
-        labId
-        acSub
-        department
-        serviceType
-        panelCode
-        panelName
-        priceGroup
-        priceList
-        grossAmount
-        netAmount
-        discountAmount
-        discountPer
-        miscellaneousCharges
-        transaction
-        acClass
-        accountType
-        customerGroup
-        status
-        enteredBy
-        documentType
-        dateOfEntry
-        lastUpdated
-      }
     }
   }
 `;

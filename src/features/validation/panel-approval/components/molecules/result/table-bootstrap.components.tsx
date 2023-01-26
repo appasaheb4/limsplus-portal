@@ -17,7 +17,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons} from '@/library/components';
+import {Buttons, Icons, Tooltip} from '@/library/components';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
@@ -36,7 +36,7 @@ interface TableBootstrapProps {
   isSelectRow?: boolean;
   selectedItem?: any;
   onDelete?: (selectedItem: any) => void;
-  onSelectedRow?: (selectedItem: any) => void;
+  onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
   onFilter?: (
@@ -87,6 +87,32 @@ export const TableBootstrap = ({
     onSizePerPageChange,
   }) => (
     <div className='btn-group items-center' role='group'>
+      {isSelectRow && (
+        <div className='flex flex-row gap-1 border-solid border-2 p-1'>
+          <Tooltip tooltipText='Approved'>
+            <Icons.IconContext
+              color='#6A727F'
+              size='30'
+              onClick={() => {
+                onSelectedRow && onSelectedRow(selectedRow, 'Approved');
+              }}
+            >
+              {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
+            </Icons.IconContext>
+          </Tooltip>
+          <Tooltip tooltipText='Rejected'>
+            <Icons.IconContext
+              color='#6A727F'
+              size='30'
+              onClick={() => {
+                onSelectedRow && onSelectedRow(selectedRow, 'Rejected');
+              }}
+            >
+              {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
+            </Icons.IconContext>
+          </Tooltip>
+        </div>
+      )}
       <input
         type='number'
         min='0'
@@ -185,7 +211,6 @@ export const TableBootstrap = ({
       searchText,
     },
   ) => {
-    // console.log({type});
     if (type === 'cellEdit' && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId);
@@ -378,9 +403,26 @@ export const TableBootstrap = ({
                   {...paginationTableProps}
                   filter={filterFactory()}
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  onTableChange={handleTableChange}
+                  selectRow={
+                    isSelectRow
+                      ? {
+                          mode: 'checkbox',
+                          onSelect: handleOnSelect,
+                          onSelectAll: handleOnSelectAll,
+                        }
+                      : undefined
+                  }
+                  cellEdit={
+                    isEditModify
+                      ? cellEditFactory({
+                          mode: 'dbclick',
+                          blurToSave: true,
+                        })
+                      : undefined
+                  }
                   rowEvents={rowEvents}
                   rowStyle={rowStyle}
+                  onTableChange={handleTableChange}
                 />
               </div>
               <div className='flex items-center gap-2 mt-2'>

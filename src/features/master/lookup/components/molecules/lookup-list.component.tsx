@@ -140,6 +140,29 @@ export const LookupList = (props: LookupListProps) => {
                 fieldName = filter;
               },
             }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  placeholder='Field Name'
+                  defaultValue={row.fieldName}
+                  onBlur={fieldName => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        fieldName.toUpperCase(),
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'arrValue',

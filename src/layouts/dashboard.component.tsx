@@ -78,6 +78,9 @@ import * as TransactionDetails from '@/features/account-receivable/transaction-d
 import * as Payment from '@/features/account-receivable/payment';
 import * as Receipt from '@/features/account-receivable/receipt';
 
+// Validations
+import * as PanelApproval from '@/features/validation/panel-approval';
+
 const Dashboard = observer(({children}) => {
   const {loginStore} = useStores();
   const history: any = useHistory();
@@ -279,6 +282,10 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/account-receivable/receipt') {
         await Receipt.startup();
+      }
+      // validation
+      if (pathname === '/validation/panel-approval') {
+        await PanelApproval.startup();
       }
       stores;
     }

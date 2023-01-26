@@ -31,7 +31,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         rLab: loginStore.login.lab,
         reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
-          'PATIENT VISIT - DELIVERY_TYPE',
+          'PATIENT VISIT - REPORT_PRIORITY',
         ),
         status: getDefaultLookupItem(
           routerStore.lookupItems,
