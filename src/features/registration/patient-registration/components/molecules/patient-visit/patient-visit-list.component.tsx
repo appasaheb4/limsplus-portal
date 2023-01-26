@@ -19,7 +19,6 @@ import {
   AutoCompleteFilterSingleSelectCollectionCenter,
   AutoCompleteFilterSingleSelectCorporateCode,
   AutoCompleteFilterSingleSelectDoctorId,
-  AutoCompleteFilterSingleSelectDoctorName,
 } from '../../index';
 
 interface DeleteExtraParams extends Confirm {
@@ -824,7 +823,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     <option selected>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
-                      'PATIENT VISIT - DELIVERY_TYPE',
+                      'PATIENT VISIT - REPORT_PRIORITY',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}

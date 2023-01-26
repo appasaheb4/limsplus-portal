@@ -71,6 +71,8 @@ export const PatientVisit = PatientVisitHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
+    setValue('reportPriority', patientVisitStore.patientVisit.reportPriority);
+
     const onSubmitPatientVisit = async () => {
       if (
         !patientVisitStore.checkExistsVisitId &&
@@ -1034,7 +1036,7 @@ export const PatientVisit = PatientVisitHoc(
                         <option selected>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          'PATIENT VISIT - DELIVERY_TYPE',
+                          'PATIENT VISIT - REPORT_PRIORITY',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -1044,7 +1046,7 @@ export const PatientVisit = PatientVisitHoc(
                     </Form.InputWrapper>
                   )}
                   name='reportPriority'
-                  rules={{required: false}}
+                  rules={{required: true}}
                   defaultValue=''
                 />
 
@@ -2011,7 +2013,7 @@ export const PatientVisit = PatientVisitHoc(
                               hasError={!!errors.deliveryMode}
                             >
                               <AutoCompleteFilterDeliveryMode
-                                lookupField='PATIENT VISIT - DELIVERY_METHOD'
+                                lookupField='PATIENT VISIT - DELIVERY_MODE'
                                 onSelect={deliveryMode => {
                                   onChange(deliveryMode);
                                   patientVisitStore.updatePatientVisit({

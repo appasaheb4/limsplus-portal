@@ -290,6 +290,7 @@ export const PatientOrder = PatientOrderHoc(
                                           'serviceType',
                                           'confidential',
                                           'externalPanelCode',
+                                          'schedule',
                                         ]),
                                       ),
                                       visitId:

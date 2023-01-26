@@ -10,7 +10,11 @@ import {
 } from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import {PendingPanelApprovalList, ResultList} from '../components';
+import {
+  PendingPanelApprovalList,
+  ResultList,
+  PatientDemographicsList,
+} from '../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -18,6 +22,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 const PanelApproval = observer(() => {
   const {
     loading,
+    panelApprovalStore,
     transactionDetailsStore,
     routerStore,
     loginStore,
@@ -32,6 +37,7 @@ const PanelApproval = observer(() => {
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [receiptPath, setReceiptPath] = useState<string>();
+  const [expandItem, setExpandItem] = useState<any>([]);
 
   return (
     <>
@@ -42,8 +48,13 @@ const PanelApproval = observer(() => {
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Result</span>
         <ResultList
-          data={transactionDetailsStore.transactionListList || []}
-          totalSize={transactionDetailsStore.transactionListListCount}
+          data={panelApprovalStore.panelApprovalList || []}
+          totalSize={panelApprovalStore.panelApprovalListCount}
+          selectedId={
+            expandItem?.map(item => {
+              return item._id;
+            })[0]
+          }
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -52,23 +63,27 @@ const PanelApproval = observer(() => {
             routerStore.userPermission,
             'Edit/Modify',
           )}
-          onSelectedRow={rows => {
+          onSelectedRow={(rows, type) => {
             setModalConfirm({
               show: true,
-              type: 'delete',
-              id: rows,
-              title: 'Are you sure?',
-              body: 'Delete selected items!',
-            });
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: 'update',
-              data: {value, dataField, id},
+              type: 'updateMany',
+              data: {rows, type},
               title: 'Are you sure?',
               body: 'Update items!',
             });
+          }}
+          onUpdateFields={(fields: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'update',
+              data: {fields, id},
+              title: 'Are you sure?',
+              body: 'Update items!',
+            });
+          }}
+          onExpand={items => {
+            if (typeof items == 'object') setExpandItem([items]);
+            else setExpandItem([]);
           }}
           onPageSizeChange={(page, limit) => {
             // bannerStore.fetchListBanner(page, limit);
@@ -80,106 +95,77 @@ const PanelApproval = observer(() => {
           }}
         />
       </div>
-      <div className='p-1 rounded-lg shadow-xl overflow-auto'>
-        <span className='font-bold text-lg underline'>
-          Pending Panel Approval
-        </span>
-        <PendingPanelApprovalList
-          data={transactionDetailsStore.transactionHeaderList || []}
-          totalSize={transactionDetailsStore.transactionHeaderListCount}
-          isDelete={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Delete',
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Edit/Modify',
-          )}
-          onUpdate={selectedItem => setModalConfirm(selectedItem)}
-          onSelectedRow={rows => {
-            setModalConfirm({
-              show: true,
-              type: 'delete',
-              id: rows,
-              title: 'Are you sure?',
-              body: 'Delete selected items!',
-            });
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: 'update',
-              data: {value, dataField, id},
-              title: 'Are you sure?',
-              body: 'Update items!',
-            });
-          }}
-          onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
-          }}
-          onFilter={(type, filter, page, limit) => {
-            // bannerStore.BannerService.filter({
-            //   input: {type, filter, page, limit},
-            // });
-          }}
-          onClickRow={(item, index) => {
-            transactionDetailsStore.transactionDetailsService.findByFieldsTransactionLine(
-              {
-                input: {
-                  filter: {
-                    headerId: item?.headerId,
+
+      {expandItem?.length > 0 && (
+        <>
+          <div className='p-1 rounded-lg shadow-xl overflow-auto mt-4'>
+            <span className='font-bold text-lg underline'>
+              Pending Panel Approval
+            </span>
+            <PendingPanelApprovalList
+              data={expandItem || []}
+              totalSize={expandItem.length}
+            />
+            <span className='font-bold text-lg underline'>
+              Patient Demographics
+            </span>
+            <PatientDemographicsList
+              data={expandItem || []}
+              totalSize={expandItem.length}
+            />
+          </div>
+        </>
+      )}
+
+      <ModalConfirm
+        {...modalConfirm}
+        click={(type?: string) => {
+          setModalConfirm({show: false});
+          switch (type) {
+            case 'update': {
+              panelApprovalStore.panelApprovalService
+                .update({
+                  input: {
+                    ...modalConfirm.data.fields,
+                    _id: modalConfirm.data.id,
                   },
-                },
-              },
-            );
-            // deliveryQueueStore.updateOrderDeliveredList([item]);
-          }}
-        />
-      </div>
-      <div className='p-3 rounded-lg shadow-xl overflow-auto'>
-        <span className='font-bold text-lg underline'>
-          Patient Demographics
-        </span>
-        {/* <TransactionLineList
-          data={transactionDetailsStore.transactionListList || []}
-          totalSize={transactionDetailsStore.transactionListListCount}
-          isDelete={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Delete',
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Edit/Modify',
-          )}
-          onDelete={selectedItem => setModalConfirm(selectedItem)}
-          onSelectedRow={rows => {
-            setModalConfirm({
-              show: true,
-              type: 'delete',
-              id: rows,
-              title: 'Are you sure?',
-              body: 'Delete selected items!',
-            });
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: 'update',
-              data: {value, dataField, id},
-              title: 'Are you sure?',
-              body: 'Update items!',
-            });
-          }}
-          onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
-          }}
-          onFilter={(type, filter, page, limit) => {
-            // bannerStore.BannerService.filter({
-            //   input: {type, filter, page, limit},
-            // });
-          }}
-        /> */}
-      </div>
+                })
+                .then((res: any) => {
+                  if (res.updatePanelApproval.success) {
+                    Toast.success({
+                      message: `😊 ${res.updatePanelApproval.message}`,
+                    });
+                    panelApprovalStore.panelApprovalService.listPanelApproval();
+                  }
+                });
+              break;
+            }
+            case 'updateMany': {
+              panelApprovalStore.panelApprovalService
+                .update({
+                  input: {
+                    updateMany: {
+                      fields: modalConfirm.data.rows,
+                      type: modalConfirm.data.type,
+                    },
+                  },
+                })
+                .then((res: any) => {
+                  if (res.updatePanelApproval.success) {
+                    Toast.success({
+                      message: `😊 ${res.updatePanelApproval.message}`,
+                    });
+                    panelApprovalStore.panelApprovalService.listPanelApproval();
+                  }
+                });
+              break;
+            }
+          }
+        }}
+        onClose={() => {
+          setModalConfirm({show: false});
+        }}
+      />
     </>
   );
 });

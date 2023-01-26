@@ -17,6 +17,7 @@ export const AutoCompleteFilterDeliveryMode = observer(
     onSelect,
   }: AutoCompleteFilterDeliveryModeProps) => {
     const {registrationLocationsStore, routerStore, loading} = useStores();
+
     return (
       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
         loader={loading}

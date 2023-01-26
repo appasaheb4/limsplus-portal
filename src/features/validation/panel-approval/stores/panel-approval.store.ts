@@ -4,18 +4,18 @@ import {PanelApprovalService} from '../services';
 import _ from 'lodash';
 
 export class PanelApprovalStore {
-  pendingPanelApprovalList!: Array<PendingPanelApproval>;
-  pendingPanelApprovalListCount: number = 0;
+  panelApprovalList!: Array<PendingPanelApproval>;
+  panelApprovalListCount: number = 0;
 
   constructor() {
-    this.pendingPanelApprovalList = [];
+    this.panelApprovalList = [];
     makeObservable<PanelApprovalStore, any>(this, {
-      pendingPanelApprovalList: observable,
-      pendingPanelApprovalListCount: observable,
+      panelApprovalList: observable,
+      panelApprovalListCount: observable,
 
       panelApprovalService: computed,
 
-      updatePendingPanelApproval: action,
+      updatePanelApproval: action,
     });
   }
 
@@ -23,14 +23,13 @@ export class PanelApprovalStore {
     return new PanelApprovalService();
   }
 
-  updatePendingPanelApproval(res) {
+  updatePanelApproval(res) {
     if (!Array.isArray(res)) {
-      this.pendingPanelApprovalList = res.transactionHeaders.data;
-      this.pendingPanelApprovalListCount =
-        res.transactionHeaders.paginatorInfo.count;
+      this.panelApprovalList = res.panelApprovals.data;
+      this.panelApprovalListCount = res.panelApprovals.paginatorInfo.count;
     } else {
-      this.pendingPanelApprovalList = res;
-      this.pendingPanelApprovalListCount = res?.length || 0;
+      this.panelApprovalList = res;
+      this.panelApprovalListCount = res?.length || 0;
     }
   }
 }

@@ -99,3 +99,6 @@ th {
 .react-bootstrap-table .textHeader11 {
   min-width: 460px;
 }
+.react-bootstrap-table .textHeaderAuto {
+  min-width: auto;
+}

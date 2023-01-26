@@ -1059,7 +1059,7 @@ export const ExtraDataPatientVisitList = observer(
                 ) => (
                   <>
                     <AutoCompleteFilterDeliveryMode
-                      lookupField='PATIENT VISIT - DELIVERY_METHOD'
+                      lookupField='PATIENT VISIT - DELIVERY_MODE'
                       selectedItems={
                         Array.isArray(row.extraData?.deliveryMode)
                           ? row.extraData?.deliveryMode

@@ -1,14 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
-import {
-  NumberFilter,
-  textFilter,
-  customFilter,
-  Form,
-  Tooltip,
-  Icons,
-} from '@/library/components';
-import {Confirm} from '@/library/models';
+import React, {useEffect, useState} from 'react';
+import {Form, Tooltip, Icons} from '@/library/components';
 import dayjs from 'dayjs';
 
 import {TableBootstrap} from './table-bootstrap.components';
@@ -18,9 +9,11 @@ interface ResultListProps {
   totalSize: number;
   isDelete?: boolean;
   isEditModify?: boolean;
-  onUpdate?: (selectedItem: Confirm) => void;
-  onSelectedRow?: (selectedItem: any) => void;
-  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  selectedId?: string;
+  selectedItems?: any;
+  onSelectedRow?: (selectedItem: any, type: string) => void;
+  onUpdateFields?: (fields: any, id: string) => void;
+  onExpand?: (items: any) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -32,16 +25,29 @@ interface ResultListProps {
   onReport?: (item: any) => void;
 }
 
-export const ResultList = observer((props: ResultListProps) => {
-  const [selectedItem, setSelectedItem] = useState<any>({});
+export const ResultList = (props: ResultListProps) => {
+  const [selectId, setSelectId] = useState('');
+  const [localData, setLocalData] = useState(props.data);
+
+  useEffect(() => {
+    setSelectId(props.selectedId || '');
+    setLocalData(
+      props.selectedId
+        ? props.data.map(item => {
+            return {...item, selectedId: props.selectedId};
+          })
+        : props.data,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.selectedId, props.data]);
+
   return (
     <>
       <div style={{position: 'relative'}}>
         <TableBootstrap
           id='_id'
-          data={props.data}
+          data={localData}
           totalSize={props.totalSize}
-          selectedItem={selectedItem}
           columns={[
             {
               dataField: '_id',
@@ -50,201 +56,139 @@ export const ResultList = observer((props: ResultListProps) => {
               csvExport: false,
             },
             {
-              dataField: 'headerId',
-              text: 'Header Id',
+              dataField: 'test',
+              text: 'Test',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader',
             },
             {
-              dataField: 'collectionCenter',
-              text: 'Collection Center',
+              dataField: 'analyte',
+              text: 'Analyte',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderl',
             },
             {
-              dataField: 'corporateCode',
-              text: 'Corporate Code',
+              dataField: 'result',
+              text: 'Result',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderl',
             },
             {
-              dataField: 'labId',
-              text: 'Lab Id',
+              dataField: 'final',
+              text: 'Final',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderl',
             },
             {
-              dataField: 'invoiceAc',
-              text: 'Invoice Ac',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'invoiceDate',
-              text: 'Invoice Date',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return dayjs(row.invoiceDate).format('YYYY-MM-DD');
-              },
-            },
-            {
-              dataField: 'actionDate',
-              text: 'Action Date',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return dayjs(row.actionDate).format('YYYY-MM-DD');
-              },
-            },
-            {
-              dataField: 'registrationDate',
-              text: 'Registration Date',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return dayjs(row.registrationDate).format('YYYY-MM-DD');
-              },
-            },
-            {
-              dataField: 'dueDate',
-              text: 'Due Date',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return dayjs(row.dueDate).format('YYYY-MM-DD');
-              },
-            },
-            {
-              dataField: 'reportingDate',
-              text: 'Reporting Date',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return dayjs(row.reportingDate).format('YYYY-MM-DD');
-              },
-            },
-            {
-              dataField: 'doctorId',
-              text: 'Doctor Id',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'pId',
-              text: 'PId',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'grossAmount',
-              text: 'Gross Amount',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'netAmount',
-              text: 'NetAmount',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'discountAmount',
-              text: 'Discount Amount',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'discountPer',
-              text: 'Discount Per',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'miscellaneousCharges',
-              text: 'Miscellaneous Charges',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'allMiscCharges',
-              text: 'All Misc Charges',
-              headerClasses: 'textHeader3',
-              sort: true,
-              csvFormatter: (col, row) => (col ? col : ''),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <div className='flex flex-row gap-2'>
-                      {row?.allMiscCharges?.map(item => (
-                        <span>
-                          {item?.code + ' - ' + item?.amount?.toString()}
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'discountCharges',
-              text: 'Other Charges',
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
-                    <div className='flex flex-row gap-2'>
-                      {row?.discountCharges && (
-                        <span>
-                          {row?.discountCharges?.code +
-                            ' - ' +
-                            row?.discountCharges?.amount?.toString()}
-                        </span>
-                      )}
-                    </div>
+                    <Form.Toggle disabled={true} value={row.abnFlag} />
                   </>
                 );
               },
             },
             {
-              dataField: 'receivedAmount',
-              text: 'Received Amount',
+              dataField: 'critical',
+              text: 'Critical',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.critical} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'units',
+              text: 'Units',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'balance',
-              text: 'Balance',
+              dataField: 'refRanges',
+              text: 'Ref Ranges',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <span>
+                    {row.refRanges ? JSON.stringify(row.refRanges) : ''}
+                  </span>
+                );
+              },
+            },
+            {
+              dataField: 'remarks',
+              text: 'Remarks',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'acClass',
-              text: 'AC Class',
+              dataField: 'deltaFlag',
+              text: 'Delta Flag',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.deltaFlag} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'deltaValue',
+              text: 'Delta Value',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'accountType',
-              text: 'Account Type',
+              dataField: 'resultStatus',
+              text: 'resultStatus',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'customerGroup',
-              text: 'Customer Group',
+              dataField: 'testStatus',
+              text: 'Test Status',
               sort: true,
               editable: false,
             },
             {
-              dataField: 'status',
-              text: 'Status',
+              dataField: 'approvalDate',
+              text: 'Approval Date',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return row.approvalDate
+                  ? dayjs(row.approvalDate).format('YYYY-MM-DD')
+                  : '';
+              },
             },
-
+            {
+              dataField: 'autoRelease',
+              text: 'Auto Release',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.autoRelease} />
+                  </>
+                );
+              },
+            },
             {
               dataField: 'enteredBy',
               text: 'Entered By',
@@ -253,25 +197,68 @@ export const ResultList = observer((props: ResultListProps) => {
               editable: false,
             },
             {
-              dataField: 'operation',
-              text: 'Report',
-              editable: false,
-              csvExport: false,
-              hidden: !props.isDelete,
+              dataField: 'approvalStatus',
+              text: 'Operation',
+              sort: true,
+              editable: true,
               formatter: (cellContent, row) => (
-                <>
-                  <div className='flex flex-row'>
-                    <Tooltip tooltipText='Generate PDF'>
+                <div className='flex flex-row gap-1'>
+                  <Tooltip tooltipText='Approved'>
+                    <Icons.IconContext
+                      color='#fff'
+                      size='20'
+                      onClick={() => {
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {approvalStatus: 'Approved'},
+                            row._id,
+                          );
+                      }}
+                    >
+                      {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
+                    </Icons.IconContext>
+                  </Tooltip>
+                  <Tooltip tooltipText='Rejected'>
+                    <Icons.IconContext
+                      color='#fff'
+                      size='20'
+                      onClick={() => {
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {approvalStatus: 'Rejected'},
+                            row._id,
+                          );
+                      }}
+                    >
+                      {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
+                    </Icons.IconContext>
+                  </Tooltip>
+                  {selectId == row._id ? (
+                    <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
                         color='#fff'
                         size='20'
-                        onClick={() => props.onReport && props.onReport(row)}
+                        onClick={() => {
+                          props.onExpand && props.onExpand('');
+                        }}
                       >
-                        {Icons.getIconTag(Icons.Iconai.AiOutlineFilePdf)}
+                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
                       </Icons.IconContext>
                     </Tooltip>
-                  </div>
-                </>
+                  ) : (
+                    <Tooltip tooltipText='Expand'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {
+                          props.onExpand && props.onExpand(row);
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+                </div>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
               classes: (cell, row, rowIndex, colIndex) => {
@@ -286,27 +273,12 @@ export const ResultList = observer((props: ResultListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='Report Delivery'
-          onSelectedRow={rows => {
-            props.onSelectedRow &&
-              props.onSelectedRow(rows.map((item: any) => item._id));
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
-          }}
-          onPageSizeChange={(page, size) => {
-            props.onPageSizeChange && props.onPageSizeChange(page, size);
-          }}
-          onFilter={(type, filter, page, size) => {
-            props.onFilter && props.onFilter(type, filter, page, size);
-          }}
-          clearAllFilter={() => {}}
-          onClickRow={(item, index) => {
-            setSelectedItem(item);
-            props.onClickRow && props.onClickRow(item, index);
+          fileName='Report Panel Approval'
+          onSelectedRow={(rows, type) => {
+            props.onSelectedRow && props.onSelectedRow(rows, type);
           }}
         />
       </div>
     </>
   );
-});
+};

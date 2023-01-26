@@ -4,18 +4,16 @@
  
  * @author limsplus
  */
+
 import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
-import {
-  PANEL_APPROVAL_LIST,
-  FIND_BY_FIELDS_TRANSACTION_LINE,
-} from './mutation-panel-approval';
+import {PANEL_APPROVAL_LIST, UPDATE_RECORD} from './mutation-panel-approval';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export class PanelApprovalService {
-  listTransactionHeader = (page = 0, limit = 10) =>
+  listPanelApproval = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -23,7 +21,7 @@ export class PanelApprovalService {
           variables: {input: {page, limit}},
         })
         .then((response: any) => {
-          stores.panelApprovalStore.updatePendingPanelApproval(response.data);
+          stores.panelApprovalStore.updatePanelApproval(response.data);
           resolve(response.data);
         })
         .catch(error =>
@@ -31,17 +29,14 @@ export class PanelApprovalService {
         );
     });
 
-  findByFieldsTransactionLine = (variables: any) =>
+  update = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: FIND_BY_FIELDS_TRANSACTION_LINE,
+          mutation: UPDATE_RECORD,
           variables,
         })
         .then((response: any) => {
-          stores.transactionDetailsStore.updateTransactionListList(
-            response.data,
-          );
           resolve(response.data);
         })
         .catch(error =>

@@ -1,4 +1,4 @@
 import {stores} from '@/stores';
 export const startup = async () => {
-  stores.transactionDetailsStore.transactionDetailsService.listTransactionHeader();
+  stores.panelApprovalStore.panelApprovalService.listPanelApproval();
 };
