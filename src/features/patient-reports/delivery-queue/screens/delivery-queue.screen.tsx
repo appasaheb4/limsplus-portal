@@ -8,8 +8,7 @@ import {
   PageHeadingLabDetails,
   Toast,
 } from '@/library/components';
-import {debounce} from '@/core-utils';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {
   ReportDeliveryList,
@@ -96,6 +95,20 @@ const DeliveryQueue = observer(() => {
           filter => getValue(filter) === getValue(item[key]),
         );
       });
+    });
+  };
+
+  const getReportDeliveryList = arr => {
+    const list: any = [];
+    arr.filter((item: any) => {
+      if (item.reportPriority == 'Progressive') list.push(item);
+      else if (item.reportPriority == 'Final') {
+        console.log(
+          _.maxBy(arr, function (o) {
+            return o.score;
+          }),
+        );
+      }
     });
   };
 
@@ -262,41 +275,6 @@ const DeliveryQueue = observer(() => {
         <OrderDeliveredList
           data={deliveryQueueStore.orderDeliveredList || []}
           totalSize={deliveryQueueStore.orderDeliveredListCount}
-          isDelete={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Delete',
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Edit/Modify',
-          )}
-          onDelete={selectedItem => setModalConfirm(selectedItem)}
-          onSelectedRow={rows => {
-            setModalConfirm({
-              show: true,
-              type: 'delete',
-              id: rows,
-              title: 'Are you sure?',
-              body: 'Delete selected items!',
-            });
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: 'update',
-              data: {value, dataField, id},
-              title: 'Are you sure?',
-              body: 'Update items!',
-            });
-          }}
-          onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
-          }}
-          onFilter={(type, filter, page, limit) => {
-            // bannerStore.BannerService.filter({
-            //   input: {type, filter, page, limit},
-            // });
-          }}
         />
         <ModalConfirm
           {...modalConfirm}
@@ -350,7 +328,6 @@ const DeliveryQueue = observer(() => {
             setModalConfirm({show: false});
           }}
         />
-
         <ModalGenerateReports
           {...modalGenerateReports}
           onClose={() => {
