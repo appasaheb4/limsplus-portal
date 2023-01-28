@@ -100,22 +100,24 @@ const DeliveryQueue = observer(() => {
 
   const getReportDeliveryList = arr => {
     const list: any = [];
-    arr.filter((item: any) => {
-      if (item.reportPriority == 'Progressive') list.push(item);
-      else if (item.reportPriority == 'Final') {
-        console.log(
-          _.maxBy(arr, function (o) {
-            return o.score;
-          }),
-        );
-      }
-    });
+    const grouped = _.groupBy(arr, 'reportPriority');
+    if (grouped.Progressive) list.push(...grouped.Progressive);
+    else if (grouped['All Togather']) {
+      const arrAllTogather: any = grouped['All Togather'];
+      const result = _.map(_.groupBy(arrAllTogather, 'labId'), g =>
+        _.maxBy(g, 'deliveryId'),
+      );
+      list.push(...result);
+    }
+    return list;
   };
 
   const reportDeliveryList = useMemo(
     () => (
       <ReportDeliveryList
-        data={deliveryQueueStore.reportDeliveryList || []}
+        data={
+          getReportDeliveryList(deliveryQueueStore.reportDeliveryList) || []
+        }
         totalSize={deliveryQueueStore.reportDeliveryListCount}
         isPagination={loginStore.login?.role == 'SYSADMIN' ? true : false}
         isDelete={RouterFlow.checkPermission(
@@ -163,7 +165,24 @@ const DeliveryQueue = observer(() => {
           }
         }}
         onClickRow={(item, index) => {
-          deliveryQueueStore.updateOrderDeliveredList([item]);
+          if (item.reportPriority == 'Progressive')
+            deliveryQueueStore.updateOrderDeliveredList([item]);
+          else {
+            deliveryQueueStore.deliveryQueueService
+              .findByFields({
+                input: {
+                  filter: {
+                    labId: item.labId,
+                  },
+                },
+              })
+              .then(res => {
+                if (res.findByFieldsDeliveryQueue.success)
+                  deliveryQueueStore.updateOrderDeliveredList(
+                    res.findByFieldsDeliveryQueue.data,
+                  );
+              });
+          }
         }}
         onUpdateDeliveryStatus={() => {
           setModalConfirm({

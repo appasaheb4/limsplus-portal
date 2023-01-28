@@ -54,6 +54,7 @@ export const DELIVERY_QUEUE_LIST = gql`
         analyteName
         rep
         delivered
+        reportPriority
         documentType
         dateOfEntry
         lastUpdated
@@ -142,6 +143,7 @@ export const FILTER = gql`
         analyteName
         rep
         delivered
+        reportPriority
         documentType
         dateOfEntry
         lastUpdated
@@ -191,6 +193,7 @@ export const FIND_BY_FIELDS = gql`
         analyteName
         rep
         delivered
+        reportPriority
         documentType
         dateOfEntry
         lastUpdated

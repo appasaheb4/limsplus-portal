@@ -23,6 +23,7 @@ export class ReportDelivery {
   doctorName: string;
   qrCode: string;
   pdf: string;
+  reportPriority: string;
   enteredBy: string;
   userComments: string;
 
@@ -51,6 +52,7 @@ export class ReportDelivery {
     this.doctorName = rawData.doctorName;
     this.qrCode = rawData.qrCode;
     this.pdf = rawData.pdf;
+    this.reportPriority = rawData.reportPriority;
     this.enteredBy = rawData.enteredBy;
     this.userComments = rawData.userComments;
   }
