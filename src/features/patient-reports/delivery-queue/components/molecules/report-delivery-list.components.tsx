@@ -167,7 +167,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 return (
                   <>
                     {row.deliveryDate
-                      ? dayjs(row.deliveryDate).format('YYYY-MM-DD')
+                      ? dayjs(row.deliveryDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );
@@ -195,7 +195,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 return (
                   <>
                     {row.reportDate
-                      ? dayjs(row.reportDate).format('YYYY-MM-DD')
+                      ? dayjs(row.reportDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );
@@ -234,20 +234,34 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               }),
             },
             {
+              dataField: 'reportPriority',
+              text: 'Report Priority',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: (col, row) =>
+                row?.reportPriority ? row.reportPriority : '',
+              editable: false,
+            },
+            {
               dataField: 'deliveryMode',
               text: 'Delivery Mode',
+              headerClasses: 'textHeader4',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row?.deliveryMode ? row.deliveryMode : '',
               editable: false,
-              headerClasses: 'textHeader3',
-              filter: textFilter({
-                getFilter: filter => {
-                  deliveryMode = filter;
-                },
-              }),
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-row flex-wrap gap-2'>
+                    {typeof row?.deliveryMode != 'string' &&
+                      row?.deliveryMode?.map(item => (
+                        <span className='bg-blue-800 rounded-md p-2 text-white'>
+                          {item.value}
+                        </span>
+                      ))}
+                  </div>
+                );
+              },
             },
             {
               dataField: 'destination',
@@ -304,7 +318,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 return (
                   <>
                     {row.startDate
-                      ? dayjs(row.startDate).format('YYYY-MM-DD')
+                      ? dayjs(row.startDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );
@@ -331,7 +345,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row.endDate ? dayjs(row.endDate).format('YYYY-MM-DD') : ''}
+                    {row.endDate
+                      ? dayjs(row.endDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
                   </>
                 );
               },

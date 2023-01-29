@@ -15,36 +15,43 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
   const [packages, setPackages] = useState(data);
 
   useEffect(() => {
-    const panelStatus = getDefaultLookupItem(
-      routerStore.lookupItems,
-      'PATIENT ORDER - PANEL_STATUS',
-    );
+    const panelStatus = 'P';
+    //  getDefaultLookupItem(
+    //   routerStore.lookupItems,
+    //   'PATIENT ORDER - PANEL_STATUS',
+    // );
     const orderStatus = getDefaultLookupItem(
       routerStore.lookupItems,
       'PATIENT ORDER - ORDER_STATUS',
     );
+    const status = getDefaultLookupItem(
+      routerStore.lookupItems,
+      'PATIENT ORDER - STATUS',
+    );
+    console.log({status});
+
     let pacakgeListS = data?.pacakgeListS;
     if (data.pacakgeListS) {
       pacakgeListS = _.map(data.pacakgeListS, o =>
-        _.extend({panelStatus, orderStatus}, o),
+        _.extend({panelStatus, orderStatus, status}, o),
       );
     }
     let pacakgeListM = data.pacakgeListM;
     if (data.pacakgeListM) {
       pacakgeListM = _.map(data.pacakgeListM, o =>
-        _.extend({panelStatus, orderStatus}, o),
+        _.extend({panelStatus, orderStatus, status}, o),
       );
     }
     let pacakgeListN = data.pacakgeListN;
     if (data.pacakgeListN) {
       pacakgeListN = _.map(data.pacakgeListN, o =>
-        _.extend({panelStatus, orderStatus}, o),
+        _.extend({panelStatus, orderStatus, status}, o),
       );
     }
     let pacakgeListK = data.pacakgeListK;
     if (data.pacakgeListK) {
       pacakgeListK = _.map(data.pacakgeListK, o =>
-        _.extend({panelStatus, orderStatus}, o),
+        _.extend({panelStatus, orderStatus, status}, o),
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,6 +62,8 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
       pacakgeListN,
       pacakgeListK,
     };
+    console.log({data});
+
     setPackages(data);
   }, [data]);
 
@@ -404,7 +413,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                   <option selected>Select</option>
                   {lookupItems(
                     routerStore.lookupItems,
-                    'PATIENT ORDER - PANEL_STATUS',
+                    'PATIENT ORDER - STATUS',
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {`${item.value} - ${item.code}`}
@@ -644,7 +653,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                   <option selected>Select</option>
                   {lookupItems(
                     routerStore.lookupItems,
-                    'PATIENT ORDER - PANEL_STATUS',
+                    'PATIENT ORDER - STATUS',
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {`${item.value} - ${item.code}`}
@@ -877,7 +886,7 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                   <option selected>Select</option>
                   {lookupItems(
                     routerStore.lookupItems,
-                    'PATIENT ORDER - PANEL_STATUS',
+                    'PATIENT ORDER - STATUS',
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {`${item.value} - ${item.code}`}
@@ -1107,10 +1116,10 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
                     });
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>{item?.status || 'Select'}</option>
                   {lookupItems(
                     routerStore.lookupItems,
-                    'PATIENT ORDER - PANEL_STATUS',
+                    'PATIENT ORDER - STATUS',
                   ).map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {`${item.value} - ${item.code}`}
