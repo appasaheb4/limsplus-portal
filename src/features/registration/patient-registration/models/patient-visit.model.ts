@@ -29,6 +29,7 @@ export class PatientVisit {
   miscCharges: Array<any>;
   discountCharges: object;
   reportPriority: string;
+  deliveryMode: Array<any>;
   history: boolean;
   holdReport: boolean;
   holdReason: string;
@@ -37,7 +38,6 @@ export class PatientVisit {
   status: string;
   extraData: {
     accountType: string;
-    deliveryMode: Array<any>;
     additionalInfo: string;
     invoiceAc: string;
     billingMethod: string;
@@ -102,6 +102,7 @@ export class PatientVisit {
     this.miscCharges = rawData.miscCharges;
     this.discountCharges = rawData.discountCharges;
     this.reportPriority = rawData.reportPriority;
+    this.deliveryMode = rawData.deliveryMode;
     this.history = rawData.history;
     this.holdReport = rawData.holdReport;
     this.holdReason = rawData.holdReason;

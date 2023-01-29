@@ -13,7 +13,6 @@ import {
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 
 let additionalInfo;
 let invoiceAc;
@@ -1027,53 +1026,6 @@ export const ExtraDataPatientVisitList = observer(
                         </option>
                       ))}
                     </select>
-                  </>
-                ),
-              },
-              {
-                dataField: 'deliveryMode',
-                text: 'Delivery Mode',
-                headerClasses: 'textHeader4',
-                sort: true,
-                csvFormatter: (col, row) =>
-                  row.extraData?.deliveryMode ? row.extraData.deliveryMode : '',
-                formatter: (cell, row) => {
-                  return (
-                    <div className='flex flex-row flex-wrap gap-2'>
-                      {typeof row.extraData?.deliveryMode != 'string' &&
-                        row.extraData?.deliveryMode?.map(item => (
-                          <span className='bg-blue-800 rounded-md p-2 text-white'>
-                            {item.value}
-                          </span>
-                        ))}
-                    </div>
-                  );
-                },
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex,
-                ) => (
-                  <>
-                    <AutoCompleteFilterDeliveryMode
-                      lookupField='PATIENT VISIT - DELIVERY_MODE'
-                      selectedItems={
-                        Array.isArray(row.extraData?.deliveryMode)
-                          ? row.extraData?.deliveryMode
-                          : []
-                      }
-                      onSelect={deliveryMode => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            deliveryMode,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
                   </>
                 ),
               },

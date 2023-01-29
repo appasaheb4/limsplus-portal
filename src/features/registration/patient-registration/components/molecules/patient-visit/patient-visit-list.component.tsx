@@ -14,7 +14,7 @@ import {
   sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
+import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 import {
   AutoCompleteFilterSingleSelectCollectionCenter,
   AutoCompleteFilterSingleSelectCorporateCode,
@@ -833,6 +833,52 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 </>
               ),
             },
+            {
+              dataField: 'deliveryMode',
+              text: 'Delivery Mode',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: (col, row) =>
+                row?.deliveryMode ? row?.deliveryMode : '',
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-row flex-wrap gap-2'>
+                    {typeof row?.deliveryMode != 'string' &&
+                      row?.deliveryMode?.map(item => (
+                        <span className='bg-blue-800 rounded-md p-2 text-white'>
+                          {item.value}
+                        </span>
+                      ))}
+                  </div>
+                );
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterDeliveryMode
+                    lookupField='PATIENT VISIT - DELIVERY_MODE'
+                    selectedItems={
+                      Array.isArray(row?.deliveryMode) ? row?.deliveryMode : []
+                    }
+                    onSelect={deliveryMode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          deliveryMode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+
             {
               dataField: 'resultDate',
               text: 'Result Date',

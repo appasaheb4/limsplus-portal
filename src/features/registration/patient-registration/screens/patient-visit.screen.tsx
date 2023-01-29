@@ -1050,6 +1050,30 @@ export const PatientVisit = PatientVisitHoc(
                   defaultValue=''
                 />
 
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper
+                      label='Delivery Mode'
+                      hasError={!!errors.deliveryMode}
+                    >
+                      <AutoCompleteFilterDeliveryMode
+                        lookupField='PATIENT VISIT - DELIVERY_MODE'
+                        onSelect={deliveryMode => {
+                          onChange(deliveryMode);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            deliveryMode,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='deliveryMode'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+
                 <Grid cols={4}>
                   <Controller
                     control={control}
@@ -2001,34 +2025,6 @@ export const PatientVisit = PatientVisitHoc(
                             </Form.InputWrapper>
                           )}
                           name='accountType'
-                          rules={{required: false}}
-                          defaultValue=''
-                        />
-
-                        <Controller
-                          control={control}
-                          render={({field: {onChange}}) => (
-                            <Form.InputWrapper
-                              label='Delivery Mode'
-                              hasError={!!errors.deliveryMode}
-                            >
-                              <AutoCompleteFilterDeliveryMode
-                                lookupField='PATIENT VISIT - DELIVERY_MODE'
-                                onSelect={deliveryMode => {
-                                  onChange(deliveryMode);
-                                  patientVisitStore.updatePatientVisit({
-                                    ...patientVisitStore.patientVisit,
-                                    extraData: {
-                                      ...patientVisitStore.patientVisit
-                                        ?.extraData,
-                                      deliveryMode,
-                                    },
-                                  });
-                                }}
-                              />
-                            </Form.InputWrapper>
-                          )}
-                          name='deliveryMode'
                           rules={{required: false}}
                           defaultValue=''
                         />
