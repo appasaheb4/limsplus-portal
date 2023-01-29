@@ -40,6 +40,7 @@ export const LIST_PATIENT_VISIT = gql`
         miscCharges
         discountCharges
         reportPriority
+        deliveryMode
         history
         holdReport
         holdReason
@@ -51,7 +52,6 @@ export const LIST_PATIENT_VISIT = gql`
         status
         extraData {
           accountType
-          deliveryMode
           additionalInfo
           invoiceAc
           billingMethod
@@ -158,6 +158,7 @@ export const FILTER_PATIENT_VISIT = gql`
         miscCharges
         discountCharges
         reportPriority
+        deliveryMode
         history
         holdReport
         holdReason
@@ -169,7 +170,6 @@ export const FILTER_PATIENT_VISIT = gql`
         status
         extraData {
           accountType
-          deliveryMode
           additionalInfo
           invoiceAc
           billingMethod
@@ -279,6 +279,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         miscCharges
         discountCharges
         reportPriority
+        deliveryMode
         history
         holdReport
         holdReason
@@ -290,7 +291,6 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         status
         extraData {
           accountType
-          deliveryMode
           additionalInfo
           invoiceAc
           billingMethod

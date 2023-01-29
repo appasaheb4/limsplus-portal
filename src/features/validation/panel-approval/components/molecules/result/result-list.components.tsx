@@ -56,6 +56,12 @@ export const ResultList = (props: ResultListProps) => {
               csvExport: false,
             },
             {
+              dataField: 'labId',
+              text: 'Lab Id',
+              sort: true,
+              editable: false,
+            },
+            {
               dataField: 'test',
               text: 'Test',
               sort: true,
