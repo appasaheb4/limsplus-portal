@@ -226,7 +226,7 @@ export const InputDateTime = ({
   id,
   hasError,
   disabled,
-  format,
+  format = 'dd-MM-yyyy HH:mm:ss',
   style,
   className,
   onChange,

@@ -13,6 +13,8 @@ export const PatientResult = observer((props: PatientResultProps) => {
   const {patientResultStore, patientRegistrationStore, routerStore} =
     useStores();
 
+  console.log({data: patientResultStore.patientResultListWithLabId});
+
   return (
     <>
       <div

@@ -102,8 +102,8 @@ const DeliveryQueue = observer(() => {
     const list: any = [];
     const grouped = _.groupBy(arr, 'reportPriority');
     if (grouped.Progressive) list.push(...grouped.Progressive);
-    else if (grouped['All Togather']) {
-      const arrAllTogather: any = grouped['All Togather'];
+    else if (grouped['All Together']) {
+      const arrAllTogather: any = grouped['All Together'];
       const result = _.map(_.groupBy(arrAllTogather, 'labId'), g =>
         _.maxBy(g, 'deliveryId'),
       );
