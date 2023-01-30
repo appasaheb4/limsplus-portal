@@ -1947,15 +1947,14 @@ const MasterPanel = MasterPanelHoc(
                   masterPanelStore.masterPanelService
                     .deletePanelMaster({input: {id: modalConfirm.id}})
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.removePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.removePanelMaster.message}`,
                         });
-                        setModalConfirm({show: false});
                         masterPanelStore.fetchPanelMaster();
                       }
                     });
-
                   break;
                 }
                 case 'Update': {
@@ -1967,15 +1966,14 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updatePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
                         });
-                        setModalConfirm({show: false});
                         masterPanelStore.fetchPanelMaster();
                       }
                     });
-
                   break;
                 }
                 case 'UpdateFileds': {
@@ -1987,15 +1985,14 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updatePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
                         });
-                        setModalConfirm({show: false});
                         masterPanelStore.fetchPanelMaster();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -2005,7 +2002,7 @@ const MasterPanel = MasterPanelHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateActive: new Date(),
                   });
                   setValue('rLab', modalConfirm.data.rLab);
                   setValue('pLab', modalConfirm.data.pLab);
@@ -2015,7 +2012,7 @@ const MasterPanel = MasterPanelHoc(
                   setValue('serviceType', modalConfirm.data.serviceType);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
+                  setModalConfirm({show: false});
                   break;
                 }
                 case 'duplicate': {
@@ -2025,7 +2022,7 @@ const MasterPanel = MasterPanelHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateActive: new Date(),
                   });
                   setIsInputView(!isInputView);
                   setValue('rLab', modalConfirm.data.rLab);
@@ -2036,7 +2033,7 @@ const MasterPanel = MasterPanelHoc(
                   setValue('serviceType', modalConfirm.data.serviceType);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
+                  setModalConfirm({show: false});
                   break;
                 }
                 // No default

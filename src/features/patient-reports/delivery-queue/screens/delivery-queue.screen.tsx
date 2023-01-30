@@ -102,15 +102,15 @@ const DeliveryQueue = observer(() => {
     const list: any = [];
     const grouped = _.groupBy(arr, 'reportPriority');
     if (grouped.Progressive) list.push(...grouped.Progressive);
-    else if (grouped['All Together']) {
+    if (grouped['All Together']) {
       const arrAllTogather: any = grouped['All Together'];
       const result = _.map(_.groupBy(arrAllTogather, 'labId'), g =>
         _.maxBy(g, 'deliveryId'),
       );
       list.push(...result);
-    } else if (grouped['One Today']) {
+    }
+    if (grouped['One Today']) {
       const arrOneToday: any = grouped['One Today'];
-      console.log({arrOneToday});
       const result = _.map(_.groupBy(arrOneToday, 'labId'), g =>
         _.maxBy(g, 'deliveryId'),
       );
