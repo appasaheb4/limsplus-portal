@@ -33,6 +33,7 @@ const Deginisation = DeginisationHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDeginisation, setHideAddDeginisation] =
       useState<boolean>(true);
+
     const onSubmitDesginiation = () => {
       if (!deginisationStore.checkExitsCode) {
         deginisationStore.DeginisationService.addDeginisation({
@@ -274,33 +275,47 @@ const Deginisation = DeginisationHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 deginisationStore.fetchListDeginisation(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 deginisationStore.DeginisationService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {
+                  mode: 'filter',
+                  type,
+                  filter,
+                  page,
+                  limit,
+                };
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              const {mode, type, filter, page, limit} = global.filter;
+              switch (action) {
                 case 'Delete': {
                   deginisationStore.DeginisationService.deleteDeginisation({
                     input: {id: modalConfirm.id},
                   }).then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.removeDesignation.success) {
                       Toast.success({
                         message: `😊 ${res.removeDesignation.message}`,
                       });
-                      setModalConfirm({show: false});
-                      deginisationStore.fetchListDeginisation();
+                      if (mode == 'pagination')
+                        deginisationStore.fetchListDeginisation(page, limit);
+                      else if (mode == 'filter')
+                        deginisationStore.DeginisationService.filter({
+                          input: {type, filter, page, limit},
+                        });
+                      else deginisationStore.fetchListDeginisation();
                     }
                   });
                   break;
                 }
-
                 case 'Update': {
                   deginisationStore.DeginisationService.updateSingleFiled({
                     input: {
@@ -308,12 +323,18 @@ const Deginisation = DeginisationHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.updateDesignation.success) {
                       Toast.success({
                         message: `😊 ${res.updateDesignation.message}`,
                       });
-                      setModalConfirm({show: false});
-                      deginisationStore.fetchListDeginisation();
+                      if (mode == 'pagination')
+                        deginisationStore.fetchListDeginisation(page, limit);
+                      else if (mode == 'filter')
+                        deginisationStore.DeginisationService.filter({
+                          input: {type, filter, page, limit},
+                        });
+                      else deginisationStore.fetchListDeginisation();
                     }
                   });
                   break;

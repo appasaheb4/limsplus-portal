@@ -93,6 +93,8 @@ const Dashboard = observer(({children}) => {
     //console.log({ beforeStore: pathname })
     //console.log({ pathname })
     if (pathname !== '/' && stores && loginStore.login) {
+      // for every table filer access filter data
+      global.filter = undefined;
       //console.log({ loginafter: pathname })
       // common use api
       await Deginisation.startup();
