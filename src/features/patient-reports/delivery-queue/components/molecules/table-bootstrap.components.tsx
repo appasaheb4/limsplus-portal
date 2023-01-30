@@ -399,9 +399,9 @@ export const TableBootstrap = ({
                     />
                     <PaginationListStandalone {...paginationProps} />
                   </div>
-                  <div className='flex items-center gap-2 mt-2'>
+                  {/* <div className='flex items-center gap-2 mt-2'>
                     <PaginationTotalStandalone {...paginationProps} />
-                  </div>
+                  </div> */}
                 </>
               )}
             </div>
