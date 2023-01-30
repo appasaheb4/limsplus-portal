@@ -108,6 +108,13 @@ const DeliveryQueue = observer(() => {
         _.maxBy(g, 'deliveryId'),
       );
       list.push(...result);
+    } else if (grouped['One Today']) {
+      const arrOneToday: any = grouped['One Today'];
+      console.log({arrOneToday});
+      const result = _.map(_.groupBy(arrOneToday, 'labId'), g =>
+        _.maxBy(g, 'deliveryId'),
+      );
+      list.push(...result);
     }
     return list;
   };
