@@ -188,11 +188,19 @@ const CorporateClients = CorporateClientsHoc(
           }}
           onPageSizeChange={(page, limit) => {
             corporateClientsStore.fetchCorporateClients(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             corporateClientsStore.corporateClientsService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              page,
+              filter,
+              limit,
+            };
           }}
         />
       ),
@@ -1514,18 +1522,28 @@ const CorporateClients = CorporateClientsHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              const {mode, type, page, limit, filter} = global.filter;
+              switch (action) {
                 case 'Delete': {
                   corporateClientsStore.corporateClientsService
                     .deleteCorporateClients({input: {id: modalConfirm.id}})
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.removeCorporateClient.success) {
                         Toast.success({
                           message: `😊 ${res.removeCorporateClient.message}`,
                         });
-                        setModalConfirm({show: false});
-                        corporateClientsStore.fetchCorporateClients();
+                        if (mode == 'pagination')
+                          corporateClientsStore.fetchCorporateClients(
+                            page,
+                            limit,
+                          );
+                        else if (mode == 'filter')
+                          corporateClientsStore.corporateClientsService.filter({
+                            input: {type, filter, page, limit},
+                          });
+                        else corporateClientsStore.fetchCorporateClients();
                       }
                     });
 
@@ -1540,12 +1558,21 @@ const CorporateClients = CorporateClientsHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updateCorporateClient.success) {
                         Toast.success({
                           message: `😊 ${res.updateCorporateClient.message}`,
                         });
-                        setModalConfirm({show: false});
-                        corporateClientsStore.fetchCorporateClients();
+                        if (mode == 'pagination')
+                          corporateClientsStore.fetchCorporateClients(
+                            page,
+                            limit,
+                          );
+                        else if (mode == 'filter')
+                          corporateClientsStore.corporateClientsService.filter({
+                            input: {type, filter, page, limit},
+                          });
+                        else corporateClientsStore.fetchCorporateClients();
                       }
                     });
 
@@ -1560,12 +1587,22 @@ const CorporateClients = CorporateClientsHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updateCorporateClient.success) {
                         Toast.success({
                           message: `😊 ${res.updateCorporateClient.message}`,
                         });
-                        setModalConfirm({show: false});
-                        corporateClientsStore.fetchCorporateClients();
+
+                        if (mode == 'pagination')
+                          corporateClientsStore.fetchCorporateClients(
+                            page,
+                            limit,
+                          );
+                        else if (mode == 'filter')
+                          corporateClientsStore.corporateClientsService.filter({
+                            input: {type, filter, page, limit},
+                          });
+                        else corporateClientsStore.fetchCorporateClients();
                       }
                     });
 
