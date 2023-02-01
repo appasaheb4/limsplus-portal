@@ -690,28 +690,46 @@ const DeliverySchedule = DeliveryScheduleHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 deliveryScheduleStore.fetchDeliverySchedule(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 deliveryScheduleStore.deliveryScheduleService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {
+                  mode: 'filter',
+                  type,
+                  page,
+                  filter,
+                  limit,
+                };
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              const {mode, filter, type, page, limit} = global.filter;
+              switch (action) {
                 case 'Delete': {
                   deliveryScheduleStore.deliveryScheduleService
                     .deleteDeliverySchdule({input: {id: modalConfirm.id}})
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.removeDeliverySchdule.success) {
                         Toast.success({
                           message: `😊 ${res.removeDeliverySchdule.message}`,
                         });
-                        setModalConfirm({show: false});
-                        deliveryScheduleStore.fetchDeliverySchedule();
+                        if (mode == 'pagination')
+                          deliveryScheduleStore.fetchDeliverySchedule(
+                            page,
+                            limit,
+                          );
+                        else if (mode == 'filter')
+                          deliveryScheduleStore.deliveryScheduleService.filter({
+                            input: {type, filter, page, limit},
+                          });
+                        else deliveryScheduleStore.fetchDeliverySchedule();
                       }
                     });
                   break;
@@ -727,11 +745,20 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     })
                     .then((res: any) => {
                       if (res.updateDeliverySchdule.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateDeliverySchdule.message}`,
                         });
-                        setModalConfirm({show: false});
-                        deliveryScheduleStore.fetchDeliverySchedule();
+                        if (mode == 'pagination')
+                          deliveryScheduleStore.fetchDeliverySchedule(
+                            page,
+                            limit,
+                          );
+                        else if (mode == 'filter')
+                          deliveryScheduleStore.deliveryScheduleService.filter({
+                            input: {type, filter, page, limit},
+                          });
+                        else deliveryScheduleStore.fetchDeliverySchedule();
                       }
                     });
                   break;

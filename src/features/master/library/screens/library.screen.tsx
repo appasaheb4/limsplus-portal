@@ -132,11 +132,19 @@ export const Library = LibraryHoc(
           }}
           onPageSizeChange={(page, limit) => {
             libraryStore.fetchLibrary(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             libraryStore.libraryService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -1033,18 +1041,25 @@ export const Library = LibraryHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              const {mode, page, filter, type, limit} = global.filter;
+              switch (action) {
                 case 'Delete': {
                   libraryStore.libraryService
                     .deleteLibrary({input: {id: modalConfirm.id}})
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.removeLibrary.success) {
                         Toast.success({
                           message: `😊 ${res.removeLibrary.message}`,
                         });
-                        setModalConfirm({show: false});
-                        libraryStore.fetchLibrary();
+                        if (mode == 'pagination')
+                          libraryStore.fetchLibrary(page.limit);
+                        else if (mode == 'filter')
+                          libraryStore.libraryService.filter({
+                            input: {type, filter, page, limit},
+                          });
+                        else libraryStore.fetchLibrary();
                       }
                     });
                   break;
@@ -1059,12 +1074,18 @@ export const Library = LibraryHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updateLibrary.success) {
                         Toast.success({
                           message: `😊 ${res.updateLibrary.message}`,
                         });
-                        setModalConfirm({show: false});
-                        libraryStore.fetchLibrary();
+                        if (mode == 'pagination')
+                          libraryStore.fetchLibrary(page.limit);
+                        else if (mode == 'filter')
+                          libraryStore.libraryService.filter({
+                            input: {type, filter, page, limit},
+                          });
+                        else libraryStore.fetchLibrary();
                       }
                     });
                   break;
