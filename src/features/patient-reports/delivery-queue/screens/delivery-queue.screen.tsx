@@ -116,6 +116,13 @@ const DeliveryQueue = observer(() => {
       );
       list.push(...result);
     }
+    if (grouped.Daily) {
+      const arrOneToday: any = grouped.Daily;
+      const result = _.map(_.groupBy(arrOneToday, 'labId'), g =>
+        _.maxBy(g, 'deliveryId'),
+      );
+      list.push(...result);
+    }
     return list;
   };
 
@@ -184,10 +191,13 @@ const DeliveryQueue = observer(() => {
                 },
               })
               .then(res => {
-                if (res.findByFieldsDeliveryQueue.success)
-                  deliveryQueueStore.updateOrderDeliveredList(
-                    res.findByFieldsDeliveryQueue.data,
-                  );
+                if (res.findByFieldsDeliveryQueue.success) {
+                  let data = res.findByFieldsDeliveryQueue.data;
+                  data = _.unionBy(data, (o: any) => {
+                    return o.patientResultId;
+                  });
+                  deliveryQueueStore.updateOrderDeliveredList(data);
+                }
               });
           }
         }}
