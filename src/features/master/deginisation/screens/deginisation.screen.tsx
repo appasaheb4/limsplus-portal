@@ -291,10 +291,10 @@ const Deginisation = DeginisationHoc(
               }}
             />
           </div>
+
           <ModalConfirm
             {...modalConfirm}
-            click={(action?: string) => {
-              const {mode, type, filter, page, limit} = global.filter;
+            click={(action: string) => {
               switch (action) {
                 case 'Delete': {
                   deginisationStore.DeginisationService.deleteDeginisation({
@@ -305,11 +305,19 @@ const Deginisation = DeginisationHoc(
                       Toast.success({
                         message: `😊 ${res.removeDesignation.message}`,
                       });
-                      if (mode == 'pagination')
-                        deginisationStore.fetchListDeginisation(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        deginisationStore.fetchListDeginisation(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         deginisationStore.DeginisationService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else deginisationStore.fetchListDeginisation();
                     }
@@ -323,16 +331,25 @@ const Deginisation = DeginisationHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
+                    console.log({res});
                     setModalConfirm({show: false});
                     if (res.updateDesignation.success) {
                       Toast.success({
                         message: `😊 ${res.updateDesignation.message}`,
                       });
-                      if (mode == 'pagination')
-                        deginisationStore.fetchListDeginisation(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        deginisationStore.fetchListDeginisation(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         deginisationStore.DeginisationService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else deginisationStore.fetchListDeginisation();
                     }
