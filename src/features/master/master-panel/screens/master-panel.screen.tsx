@@ -1,6 +1,7 @@
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
+import dayjs from 'dayjs';
 import {
   Toast,
   Header,
@@ -2002,7 +2003,6 @@ const MasterPanel = MasterPanelHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActive: new Date(),
                   });
                   setValue('rLab', modalConfirm.data.rLab);
                   setValue('pLab', modalConfirm.data.pLab);
@@ -2021,8 +2021,12 @@ const MasterPanel = MasterPanelHoc(
                     _id: undefined,
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
-                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    version: 1,
                     dateActive: new Date(),
+                    dateCreation: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
                   setIsInputView(!isInputView);
                   setValue('rLab', modalConfirm.data.rLab);
