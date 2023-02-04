@@ -331,7 +331,6 @@ const Deginisation = DeginisationHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
-                    console.log({res});
                     setModalConfirm({show: false});
                     if (res.updateDesignation.success) {
                       Toast.success({

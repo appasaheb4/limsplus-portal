@@ -1522,8 +1522,7 @@ const CorporateClients = CorporateClientsHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(action?: string) => {
-              const {mode, type, page, limit, filter} = global.filter;
+            click={(action: string) => {
               switch (action) {
                 case 'Delete': {
                   corporateClientsStore.corporateClientsService
@@ -1534,14 +1533,19 @@ const CorporateClients = CorporateClientsHoc(
                         Toast.success({
                           message: `😊 ${res.removeCorporateClient.message}`,
                         });
-                        if (mode == 'pagination')
+                        if (global?.filter?.mode == 'pagination')
                           corporateClientsStore.fetchCorporateClients(
-                            page,
-                            limit,
+                            global?.filter?.page,
+                            global?.filter?.limit,
                           );
-                        else if (mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           corporateClientsStore.corporateClientsService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else corporateClientsStore.fetchCorporateClients();
                       }
@@ -1559,21 +1563,21 @@ const CorporateClients = CorporateClientsHoc(
                     })
                     .then((res: any) => {
                       setModalConfirm({show: false});
-                      if (res.updateCorporateClient.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateCorporateClient.message}`,
+                      if (global?.filter?.mode == 'pagination')
+                        corporateClientsStore.fetchCorporateClients(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        corporateClientsStore.corporateClientsService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
-                        if (mode == 'pagination')
-                          corporateClientsStore.fetchCorporateClients(
-                            page,
-                            limit,
-                          );
-                        else if (mode == 'filter')
-                          corporateClientsStore.corporateClientsService.filter({
-                            input: {type, filter, page, limit},
-                          });
-                        else corporateClientsStore.fetchCorporateClients();
-                      }
+                      else corporateClientsStore.fetchCorporateClients();
                     });
 
                   break;
@@ -1593,14 +1597,19 @@ const CorporateClients = CorporateClientsHoc(
                           message: `😊 ${res.updateCorporateClient.message}`,
                         });
 
-                        if (mode == 'pagination')
+                        if (global?.filter?.mode == 'pagination')
                           corporateClientsStore.fetchCorporateClients(
-                            page,
-                            limit,
+                            global?.filter?.page,
+                            global?.filter?.limit,
                           );
-                        else if (mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           corporateClientsStore.corporateClientsService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else corporateClientsStore.fetchCorporateClients();
                       }

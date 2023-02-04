@@ -791,8 +791,7 @@ export const Department = DeginisationHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(action?: string) => {
-              const {mode, type, filter, page, limit} = global.filter;
+            click={(action: string) => {
               switch (action) {
                 case 'Delete': {
                   departmentStore.DepartmentService.deletedepartment({
@@ -803,11 +802,19 @@ export const Department = DeginisationHoc(
                       Toast.success({
                         message: `😊 ${res.removeDepartment.message}`,
                       });
-                      if (mode == 'pagination')
-                        departmentStore.fetchListDepartment(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        departmentStore.fetchListDepartment(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         departmentStore.DepartmentService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.type,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else departmentStore.fetchListDepartment();
                     }
@@ -827,11 +834,19 @@ export const Department = DeginisationHoc(
                       Toast.success({
                         message: `😊 ${res.updateDepartment.message}`,
                       });
-                      if (mode == 'pagination')
-                        departmentStore.fetchListDepartment(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        departmentStore.fetchListDepartment(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         departmentStore.DepartmentService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.type,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else departmentStore.fetchListDepartment();
                     }

@@ -1447,7 +1447,6 @@ const Doctors = DoctorsHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
-              const {mode, filter, type, page, limit} = global.filter;
               switch (action) {
                 case 'Delete': {
                   doctorsStore.doctorsService
@@ -1458,11 +1457,19 @@ const Doctors = DoctorsHoc(
                         Toast.success({
                           message: `😊 ${res.removeDoctor.message}`,
                         });
-                        if (mode == 'pagination')
-                          doctorsStore.fetchDoctors(page, limit);
-                        else if (mode == 'filter')
+                        if (global?.filter?.mode == 'pagination')
+                          doctorsStore.fetchDoctors(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
                           doctorsStore.doctorsService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else doctorsStore.fetchDoctors();
                       }
@@ -1484,11 +1491,19 @@ const Doctors = DoctorsHoc(
                         Toast.success({
                           message: `😊 ${res.updateDoctor.message}`,
                         });
-                        if (mode == 'pagination')
-                          doctorsStore.fetchDoctors(page, limit);
-                        else if (mode == 'filter')
+                        if (global?.filter?.mode == 'pagination')
+                          doctorsStore.fetchDoctors(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
                           doctorsStore.doctorsService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else doctorsStore.fetchDoctors();
                       }
@@ -1510,11 +1525,19 @@ const Doctors = DoctorsHoc(
                         Toast.success({
                           message: `😊 ${res.updateDoctor.message}`,
                         });
-                        if (mode == 'pagination')
-                          doctorsStore.fetchDoctors(page, limit);
-                        else if (mode == 'filter')
+                        if (global?.filter?.mode == 'pagination')
+                          doctorsStore.fetchDoctors(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
                           doctorsStore.doctorsService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else doctorsStore.fetchDoctors();
                       }
