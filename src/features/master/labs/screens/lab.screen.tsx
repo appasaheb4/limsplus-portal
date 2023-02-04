@@ -1401,8 +1401,7 @@ const Lab = LabHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(action?: string) => {
-              const {mode, type, page, filter, limit} = global.filter;
+            click={(action: string) => {
               switch (action) {
                 case 'Delete': {
                   labStore.LabService.deleteLab({
@@ -1413,11 +1412,19 @@ const Lab = LabHoc(
                       Toast.success({
                         message: `😊 ${res.removeLab.message}`,
                       });
-                      if (mode == 'pagination')
-                        labStore.fetchListLab(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         labStore.LabService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else labStore.fetchListLab();
                     }
@@ -1437,11 +1444,19 @@ const Lab = LabHoc(
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
                       });
-                      if (mode == 'pagination')
-                        labStore.fetchListLab(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         labStore.LabService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else labStore.fetchListLab();
                     }
@@ -1461,11 +1476,19 @@ const Lab = LabHoc(
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
                       });
-                      if (mode == 'pagination')
-                        labStore.fetchListLab(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         labStore.LabService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else labStore.fetchListLab();
                     }
@@ -1485,11 +1508,19 @@ const Lab = LabHoc(
                       Toast.success({
                         message: `😊 ${res.updateLabImages.message}`,
                       });
-                      if (mode == 'pagination')
-                        labStore.fetchListLab(page, limit);
-                      else if (mode == 'filter')
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
                         labStore.LabService.filter({
-                          input: {type, filter, page, limit},
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
                         });
                       else labStore.fetchListLab();
                     }

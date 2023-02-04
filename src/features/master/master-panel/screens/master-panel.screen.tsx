@@ -196,11 +196,13 @@ const MasterPanel = MasterPanelHoc(
           }}
           onPageSizeChange={(page, limit) => {
             masterPanelStore.fetchPanelMaster(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             masterPanelStore.masterPanelService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, page, limit, filter};
           }}
         />
       ),
@@ -1941,18 +1943,32 @@ const MasterPanel = MasterPanelHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   masterPanelStore.masterPanelService
                     .deletePanelMaster({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removePanelMaster.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removePanelMaster.message}`,
                         });
-                        setModalConfirm({show: false});
-                        masterPanelStore.fetchPanelMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          masterPanelStore.fetchPanelMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          masterPanelStore.masterPanelService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else masterPanelStore.fetchPanelMaster();
                       }
                     });
 
@@ -1968,11 +1984,25 @@ const MasterPanel = MasterPanelHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePanelMaster.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
                         });
-                        setModalConfirm({show: false});
-                        masterPanelStore.fetchPanelMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          masterPanelStore.fetchPanelMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          masterPanelStore.masterPanelService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else masterPanelStore.fetchPanelMaster();
                       }
                     });
 
@@ -1988,11 +2018,25 @@ const MasterPanel = MasterPanelHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePanelMaster.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
                         });
-                        setModalConfirm({show: false});
-                        masterPanelStore.fetchPanelMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          masterPanelStore.fetchPanelMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          masterPanelStore.masterPanelService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else masterPanelStore.fetchPanelMaster();
                       }
                     });
 

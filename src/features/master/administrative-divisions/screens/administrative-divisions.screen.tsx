@@ -533,8 +533,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(action?: string) => {
-              const {mode, type, filter, page, limit} = global.filter;
+            click={(action: string) => {
               switch (action) {
                 case 'Delete': {
                   administrativeDivisions.administrativeDivisionsService
@@ -547,18 +546,23 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         Toast.success({
                           message: `😊 ${res.removeAdministrativeDivision.message}`,
                         });
-                        if (mode == 'pagination') {
+                        if (global?.filter?.mode == 'pagination')
                           administrativeDivisions.fetchAdministrativeDiv(
-                            page,
-                            limit,
+                            global?.filter?.page,
+                            global?.filter?.limit,
                           );
-                        } else if (mode == 'filter') {
+                        else if (global?.filter?.mode == 'filter')
                           administrativeDivisions.administrativeDivisionsService.filter(
                             {
-                              input: {type, filter, page, limit},
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
                             },
                           );
-                        } else administrativeDivisions.fetchAdministrativeDiv();
+                        else administrativeDivisions.fetchAdministrativeDiv();
                       }
                     });
                   break;
@@ -578,12 +582,20 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         Toast.success({
                           message: `😊 ${res.updateAdministrativeDivision.message}`,
                         });
-                        if (mode == 'pagination')
-                          administrativeDivisions.fetchAdministrativeDiv();
-                        else if (mode == 'filter')
+                        if (global?.filter?.mode == 'pagination')
+                          administrativeDivisions.fetchAdministrativeDiv(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
                           administrativeDivisions.administrativeDivisionsService.filter(
                             {
-                              input: {type, filter, page, limit},
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
                             },
                           );
                         else administrativeDivisions.fetchAdministrativeDiv();

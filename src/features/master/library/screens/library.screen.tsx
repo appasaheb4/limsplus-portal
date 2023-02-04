@@ -1042,7 +1042,6 @@ export const Library = LibraryHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
-              const {mode, page, filter, type, limit} = global.filter;
               switch (action) {
                 case 'Delete': {
                   libraryStore.libraryService
@@ -1053,11 +1052,19 @@ export const Library = LibraryHoc(
                         Toast.success({
                           message: `😊 ${res.removeLibrary.message}`,
                         });
-                        if (mode == 'pagination')
-                          libraryStore.fetchLibrary(page.limit);
-                        else if (mode == 'filter')
+                        if (global?.filter?.mode == 'pagination')
+                          libraryStore.fetchLibrary(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
                           libraryStore.libraryService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else libraryStore.fetchLibrary();
                       }
@@ -1079,11 +1086,19 @@ export const Library = LibraryHoc(
                         Toast.success({
                           message: `😊 ${res.updateLibrary.message}`,
                         });
-                        if (mode == 'pagination')
-                          libraryStore.fetchLibrary(page.limit);
-                        else if (mode == 'filter')
+                        if (global?.filter?.mode == 'pagination')
+                          libraryStore.fetchLibrary(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
                           libraryStore.libraryService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else libraryStore.fetchLibrary();
                       }

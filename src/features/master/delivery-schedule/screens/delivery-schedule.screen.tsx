@@ -709,7 +709,6 @@ const DeliverySchedule = DeliveryScheduleHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
-              const {mode, filter, type, page, limit} = global.filter;
               switch (action) {
                 case 'Delete': {
                   deliveryScheduleStore.deliveryScheduleService
@@ -720,14 +719,19 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         Toast.success({
                           message: `😊 ${res.removeDeliverySchdule.message}`,
                         });
-                        if (mode == 'pagination')
+                        if (global?.filter?.mode == 'pagination')
                           deliveryScheduleStore.fetchDeliverySchedule(
-                            page,
-                            limit,
+                            global?.filter?.page,
+                            global?.filter?.limit,
                           );
-                        else if (mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           deliveryScheduleStore.deliveryScheduleService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else deliveryScheduleStore.fetchDeliverySchedule();
                       }
@@ -749,14 +753,19 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         Toast.success({
                           message: `😊 ${res.updateDeliverySchdule.message}`,
                         });
-                        if (mode == 'pagination')
+                        if (global?.filter?.mode == 'pagination')
                           deliveryScheduleStore.fetchDeliverySchedule(
-                            page,
-                            limit,
+                            global?.filter?.page,
+                            global?.filter?.limit,
                           );
-                        else if (mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           deliveryScheduleStore.deliveryScheduleService.filter({
-                            input: {type, filter, page, limit},
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
                           });
                         else deliveryScheduleStore.fetchDeliverySchedule();
                       }
