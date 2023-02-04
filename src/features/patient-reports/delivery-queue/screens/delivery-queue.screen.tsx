@@ -101,7 +101,17 @@ const DeliveryQueue = observer(() => {
   const getReportDeliveryList = arr => {
     const list: any = [];
     const grouped = _.groupBy(arr, 'reportPriority');
-    if (grouped.Progressive) list.push(...grouped.Progressive);
+    if (grouped?.Progressive) {
+      const allProgressive: any = grouped?.Progressive;
+      const result = _.map(
+        _.groupBy(allProgressive, function (item) {
+          return item.labId && item.panelCode;
+        }),
+        g => _.maxBy(g, 'deliveryId'),
+      );
+      console.log({result});
+      list.push(...result);
+    }
     if (grouped['All Together']) {
       const arrAllTogather: any = grouped['All Together'];
       const result = _.map(_.groupBy(arrAllTogather, 'labId'), g =>
@@ -179,9 +189,27 @@ const DeliveryQueue = observer(() => {
           }
         }}
         onClickRow={(item, index) => {
-          if (item.reportPriority == 'Progressive')
-            deliveryQueueStore.updateOrderDeliveredList([item]);
-          else {
+          console.log(item);
+          if (item.reportPriority) {
+            deliveryQueueStore.deliveryQueueService
+              .findByFields({
+                input: {
+                  filter: {
+                    labId: item.labId,
+                    panelCode: item.panelCode,
+                  },
+                },
+              })
+              .then(res => {
+                if (res.findByFieldsDeliveryQueue.success) {
+                  let data = res.findByFieldsDeliveryQueue.data;
+                  data = _.unionBy(data, (o: any) => {
+                    return o.patientResultId;
+                  });
+                  deliveryQueueStore.updateOrderDeliveredList(data);
+                }
+              });
+          } else
             deliveryQueueStore.deliveryQueueService
               .findByFields({
                 input: {
@@ -199,7 +227,6 @@ const DeliveryQueue = observer(() => {
                   deliveryQueueStore.updateOrderDeliveredList(data);
                 }
               });
-          }
         }}
         onUpdateDeliveryStatus={() => {
           setModalConfirm({
