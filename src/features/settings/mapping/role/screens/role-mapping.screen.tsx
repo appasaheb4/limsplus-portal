@@ -578,27 +578,43 @@ const RoleMapping = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               roleMappingStore.fetchRoleMappingList(page, limit);
+              global.filter = {mode: 'pagination', page, limit};
             }}
             onFilter={(type, filter, page, limit) => {
               roleMappingStore.roleMappingService.filter({
                 input: {type, filter, page, limit},
               });
+              global.filter = {mode: 'filter', type, filter, page, limit};
             }}
           />
         </div>
         <ModalConfirm
           {...modalConfirm}
-          click={(type?: string) => {
-            if (type === 'Delete') {
+          click={(action?: string) => {
+            if (action === 'Delete') {
               roleMappingStore.roleMappingService
                 .deleteRoleMapping({input: {id: modalConfirm.id}})
                 .then((res: any) => {
+                  setModalConfirm({show: false});
                   if (res.removeRoleMapping.success) {
                     Toast.success({
                       message: `😊 ${res.removeRoleMapping.message}`,
                     });
-                    setModalConfirm({show: false});
-                    roleMappingStore.fetchRoleMappingList();
+                    if (global?.filter?.mode == 'pagination')
+                      roleMappingStore.fetchRoleMappingList(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      roleMappingStore.roleMappingService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else roleMappingStore.fetchRoleMappingList();
                   }
                 });
             }
