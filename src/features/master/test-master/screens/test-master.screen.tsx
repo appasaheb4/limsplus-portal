@@ -193,11 +193,19 @@ const TestMater = TestMasterHOC(
           }}
           onPageSizeChange={(page, limit) => {
             testMasterStore.fetchTestMaster(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             testMasterStore.testMasterService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -1984,18 +1992,32 @@ const TestMater = TestMasterHOC(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   testMasterStore.testMasterService
                     .deleteTestMaster({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeTestMaster.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeTestMaster.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testMasterStore.fetchTestMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          testMasterStore.fetchTestMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          testMasterStore.testMasterService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else testMasterStore.fetchTestMaster();
                       }
                     });
 
@@ -2011,11 +2033,25 @@ const TestMater = TestMasterHOC(
                     })
                     .then((res: any) => {
                       if (res.updateTestMaster.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestMaster.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testMasterStore.fetchTestMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          testMasterStore.fetchTestMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          testMasterStore.testMasterService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else testMasterStore.fetchTestMaster();
                       }
                     });
 
@@ -2031,11 +2067,25 @@ const TestMater = TestMasterHOC(
                     })
                     .then((res: any) => {
                       if (res.updateTestMaster.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestMaster.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testMasterStore.fetchTestMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          testMasterStore.fetchTestMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          testMasterStore.testMasterService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else testMasterStore.fetchTestMaster();
                       }
                     });
 

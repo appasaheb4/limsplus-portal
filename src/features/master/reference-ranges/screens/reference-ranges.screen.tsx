@@ -161,11 +161,13 @@ const ReferenceRanges = ReferenceRangesHoc(
           }}
           onPageSizeChange={(page, limit) => {
             refernceRangesStore.fetchListReferenceRanges(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             refernceRangesStore.referenceRangesService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, page, limit, filter};
           }}
         />
       ),
@@ -273,18 +275,32 @@ const ReferenceRanges = ReferenceRangesHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'delete': {
                   refernceRangesStore.referenceRangesService
                     .deleteReferenceRanges({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeReferenceRange.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeReferenceRange.message}`,
                         });
-                        setModalConfirm({show: false});
-                        refernceRangesStore.fetchListReferenceRanges();
+                        if (global?.filter?.mode == 'pagination')
+                          refernceRangesStore.fetchListReferenceRanges(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          refernceRangesStore.referenceRangesService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else refernceRangesStore.fetchListReferenceRanges();
                       }
                     });
 
@@ -300,11 +316,25 @@ const ReferenceRanges = ReferenceRangesHoc(
                     })
                     .then((res: any) => {
                       if (res.updateReferenceRange.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateReferenceRange.message}`,
                         });
-                        setModalConfirm({show: false});
-                        refernceRangesStore.fetchListReferenceRanges();
+                        if (global?.filter?.mode == 'pagination')
+                          refernceRangesStore.fetchListReferenceRanges(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          refernceRangesStore.referenceRangesService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else refernceRangesStore.fetchListReferenceRanges();
                       }
                     });
 
@@ -320,11 +350,25 @@ const ReferenceRanges = ReferenceRangesHoc(
                     })
                     .then((res: any) => {
                       if (res.updateReferenceRange.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateReferenceRange.message}`,
                         });
-                        setModalConfirm({show: false});
-                        refernceRangesStore.fetchListReferenceRanges();
+                        if (global?.filter?.mode == 'pagination')
+                          refernceRangesStore.fetchListReferenceRanges(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          refernceRangesStore.referenceRangesService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else refernceRangesStore.fetchListReferenceRanges();
                       }
                     });
 

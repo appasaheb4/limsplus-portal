@@ -327,28 +327,50 @@ const SampleType = SampleTypeHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 sampleTypeStore.fetchSampleTypeList(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 sampleTypeStore.sampleTypeService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {
+                  mode: 'filter',
+                  type,
+                  filter,
+                  page,
+                  limit,
+                };
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   sampleTypeStore.sampleTypeService
                     .deleteSampleType({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeSampleType.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeSampleType.message}`,
                         });
-                        setModalConfirm({show: false});
-                        sampleTypeStore.fetchSampleTypeList();
+                        if (global?.filter?.mode == 'pagination')
+                          sampleTypeStore.fetchSampleTypeList(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          sampleTypeStore.sampleTypeService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else sampleTypeStore.fetchSampleTypeList();
                       }
                     });
                   break;
@@ -363,11 +385,25 @@ const SampleType = SampleTypeHoc(
                     })
                     .then((res: any) => {
                       if (res.updateSampleType.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateSampleType.message}`,
                         });
-                        setModalConfirm({show: false});
-                        sampleTypeStore.fetchSampleTypeList();
+                        if (global?.filter?.mode == 'pagination')
+                          sampleTypeStore.fetchSampleTypeList(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          sampleTypeStore.sampleTypeService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else sampleTypeStore.fetchSampleTypeList();
                       }
                     });
                   break;

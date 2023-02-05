@@ -335,28 +335,44 @@ const Methods = MethodsHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 methodsStore.fetchMethods(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 methodsStore.methodsService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {mode: 'filter', type, page, limit, filter};
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   methodsStore.methodsService
                     .deleteMethods({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeMethod.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeMethod.message}`,
                         });
-                        setModalConfirm({show: false});
-                        methodsStore.fetchMethods();
+                        if (global?.filter?.mode == 'pagination')
+                          methodsStore.fetchMethods(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          methodsStore.methodsService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else methodsStore.fetchMethods();
                       }
                     });
                   break;
@@ -371,11 +387,25 @@ const Methods = MethodsHoc(
                     })
                     .then((res: any) => {
                       if (res.updateMethod.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateMethod.message}`,
                         });
-                        setModalConfirm({show: false});
-                        methodsStore.fetchMethods();
+                        if (global?.filter?.mode == 'pagination')
+                          methodsStore.fetchMethods(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          methodsStore.methodsService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else methodsStore.fetchMethods();
                       }
                     });
                   break;
