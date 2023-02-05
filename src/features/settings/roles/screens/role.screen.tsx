@@ -266,42 +266,72 @@ const Role = RolesHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 roleStore.fetchListRole(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 roleStore.RoleService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {mode: 'filter', type, filter, page, limit};
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              if (type === 'Delete') {
+            click={(action?: string) => {
+              if (action === 'Delete') {
                 roleStore.RoleService.deleterole({
                   input: {id: modalConfirm.id},
                 }).then((res: any) => {
                   if (res.removeRole.success) {
+                    setModalConfirm({show: false});
                     Toast.success({
                       message: `😊 ${res.removeRole.message}`,
                     });
-                    setModalConfirm({show: false});
-                    roleStore.fetchListRole();
+                    if (global?.filter?.mode == 'pagination')
+                      roleStore.fetchListRole(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      roleStore.RoleService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else roleStore.fetchListRole();
                   }
                 });
-              } else if (type === 'Update') {
+              } else if (action === 'Update') {
                 roleStore.RoleService.updateSingleFiled({
                   input: {
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
                   },
                 }).then((res: any) => {
+                  setModalConfirm({show: false});
                   if (res.updateRole.success) {
                     Toast.success({
                       message: `😊 ${res.updateRole.message}`,
                     });
-                    setModalConfirm({show: false});
-                    roleStore.fetchListRole();
+                    if (global?.filter?.mode == 'pagination')
+                      roleStore.fetchListRole(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      roleStore.RoleService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else roleStore.fetchListRole();
                   }
                 });
               }
