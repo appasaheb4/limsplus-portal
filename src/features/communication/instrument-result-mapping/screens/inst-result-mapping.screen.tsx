@@ -427,11 +427,13 @@ const InstResultMapping = observer(() => {
               page,
               limit,
             );
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             instResultMappingStore.instResultMappingService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, filter, page, limit};
           }}
         />
       </div>
@@ -448,9 +450,9 @@ const InstResultMapping = observer(() => {
       />
       <ModalConfirm
         {...modalConfirm}
-        click={type => {
+        click={action => {
           setModalConfirm({show: false});
-          if (type === 'delete') {
+          if (action === 'delete') {
             instResultMappingStore.instResultMappingService
               .deleteInstResultMapping({
                 input: {
@@ -459,13 +461,28 @@ const InstResultMapping = observer(() => {
               })
               .then(res => {
                 if (res.removeInstrumentResultMapping.success) {
-                  instResultMappingStore.instResultMappingService.listInstResultMapping();
                   Toast.success({
                     message: `😊 ${res.removeInstrumentResultMapping.message}`,
                   });
+                  if (global?.filter?.mode == 'pagination')
+                    instResultMappingStore.instResultMappingService.listInstResultMapping(
+                      global?.filter?.page,
+                      global?.filter?.limit,
+                    );
+                  else if (global?.filter?.mode == 'filter')
+                    instResultMappingStore.instResultMappingService.filter({
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    });
+                  else
+                    instResultMappingStore.instResultMappingService.listInstResultMapping();
                 }
               });
-          } else if (type == 'updateFields') {
+          } else if (action == 'updateFields') {
             instResultMappingStore.instResultMappingService
               .update({
                 input: {
@@ -475,10 +492,25 @@ const InstResultMapping = observer(() => {
               })
               .then(res => {
                 if (res.updateInstrumentResultMapping.success) {
-                  instResultMappingStore.instResultMappingService.listInstResultMapping();
                   Toast.success({
                     message: ` ${res.updateInstrumentResultMapping.message}`,
                   });
+                  if (global?.filter?.mode == 'pagination')
+                    instResultMappingStore.instResultMappingService.listInstResultMapping(
+                      global?.filter?.page,
+                      global?.filter?.limit,
+                    );
+                  else if (global?.filter?.mode == 'filter')
+                    instResultMappingStore.instResultMappingService.filter({
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    });
+                  else
+                    instResultMappingStore.instResultMappingService.listInstResultMapping();
                 }
               });
           }

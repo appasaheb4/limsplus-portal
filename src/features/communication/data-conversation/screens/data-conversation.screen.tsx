@@ -280,30 +280,46 @@ const DataConversation = DataConversationHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 dataConversationStore.fetchDataConversation(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 dataConversationStore.dataConversationService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {mode: 'filter', type, filter, page, limit};
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              if (type === 'Delete') {
+            click={(action?: string) => {
+              if (action === 'Delete') {
                 dataConversationStore.dataConversationService
                   .deleteDataConversation({input: {id: modalConfirm.id}})
                   .then(res => {
                     setModalConfirm({show: false});
                     if (res.removeDataConversation.success) {
-                      dataConversationStore.fetchDataConversation();
                       Toast.success({
                         message: `😊 ${res.removeDataConversation.message}`,
                       });
+                      if (global?.filter?.mode == 'pagination')
+                        dataConversationStore.fetchDataConversation(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        dataConversationStore.dataConversationService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else dataConversationStore.fetchDataConversation();
                     }
                   });
-              } else if (type == 'Update') {
+              } else if (action == 'Update') {
                 dataConversationStore.dataConversationService
                   .updateDataConversationUpdateSingleFiled({
                     input: {
@@ -314,10 +330,24 @@ const DataConversation = DataConversationHoc(
                   .then(res => {
                     setModalConfirm({show: false});
                     if (res.updateDataConversation.success) {
-                      dataConversationStore.fetchDataConversation();
                       Toast.success({
                         message: `😊 ${res.updateDataConversation.message}`,
                       });
+                      if (global?.filter?.mode == 'pagination')
+                        dataConversationStore.fetchDataConversation(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        dataConversationStore.dataConversationService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else dataConversationStore.fetchDataConversation();
                     }
                   });
               }
