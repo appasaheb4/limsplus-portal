@@ -197,6 +197,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           }}
           onPageSizeChange={(page, limit) => {
             testAnalyteMappingStore.fetchTestAnalyteMapping(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onUpdateOrderSeq={orderSeq => {
             testAnalyteMappingStore.testAnalyteMappingService
@@ -212,6 +213,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             testAnalyteMappingStore.testAnalyteMappingService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -1349,18 +1357,34 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   testAnalyteMappingStore.testAnalyteMappingService
                     .deleteTestAnalyteMapping({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeTestAnalyteMapping.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeTestAnalyteMapping.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testAnalyteMappingStore.fetchTestAnalyteMapping();
+                        if (global?.filter?.mode == 'pagination')
+                          testAnalyteMappingStore.fetchTestAnalyteMapping(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          testAnalyteMappingStore.testAnalyteMappingService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else testAnalyteMappingStore.fetchTestAnalyteMapping();
                       }
                     });
 
@@ -1376,11 +1400,27 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestAnalyteMapping.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testAnalyteMappingStore.fetchTestAnalyteMapping();
+                        if (global?.filter?.mode == 'pagination')
+                          testAnalyteMappingStore.fetchTestAnalyteMapping(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          testAnalyteMappingStore.testAnalyteMappingService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else testAnalyteMappingStore.fetchTestAnalyteMapping();
                       }
                     });
 
@@ -1396,11 +1436,27 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestAnalyteMapping.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testAnalyteMappingStore.fetchTestAnalyteMapping();
+                        if (global?.filter?.mode == 'pagination')
+                          testAnalyteMappingStore.fetchTestAnalyteMapping(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          testAnalyteMappingStore.testAnalyteMappingService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else testAnalyteMappingStore.fetchTestAnalyteMapping();
                       }
                     });
 

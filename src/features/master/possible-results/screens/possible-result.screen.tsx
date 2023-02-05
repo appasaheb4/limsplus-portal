@@ -131,11 +131,13 @@ export const PossibleResults = PossibleResultHoc(
           }}
           onPageSizeChange={(page, limit) => {
             possibleResultsStore.fetchListPossibleResults(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             possibleResultsStore.possibleResultsService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, page, limit, filter};
           }}
         />
       ),
@@ -712,18 +714,32 @@ export const PossibleResults = PossibleResultHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   possibleResultsStore.possibleResultsService
                     .deletePossibleResults({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removePossibleResult.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removePossibleResult.message}`,
                         });
-                        setModalConfirm({show: false});
-                        possibleResultsStore.fetchListPossibleResults();
+                        if (global?.filter?.mode == 'pagination')
+                          possibleResultsStore.fetchListPossibleResults(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          possibleResultsStore.possibleResultsService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else possibleResultsStore.fetchListPossibleResults();
                       }
                     });
 
@@ -739,11 +755,25 @@ export const PossibleResults = PossibleResultHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePossibleResult.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updatePossibleResult.message}`,
                         });
-                        setModalConfirm({show: false});
-                        possibleResultsStore.fetchListPossibleResults();
+                        if (global?.filter?.mode == 'pagination')
+                          possibleResultsStore.fetchListPossibleResults(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          possibleResultsStore.possibleResultsService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else possibleResultsStore.fetchListPossibleResults();
                       }
                     });
 
