@@ -120,24 +120,47 @@ const DeliveryQueue = observer(() => {
     }
     if (grouped['One Today']) {
       const arrOneToday: any = grouped['One Today'];
-      console.log({arrOneToday});
-      const result = _.map(
+      const result: any = _.map(
         _.groupBy(arrOneToday, function (item) {
           return item.labId && item.approvalDate;
         }),
-        g => _.maxBy(g, 'deliveryId'),
       );
-      list.push(...result);
+      result?.filter(item => {
+        if (item?.find(o => o?.reportType == 'Final')) {
+          list.push(item?.find(o => o?.reportType == 'Final'));
+        } else {
+          list.push(
+            ..._.map(
+              _.groupBy(item, function (o) {
+                return o.labId && o.approvalDate;
+              }),
+              g => _.maxBy(g, 'deliveryId'),
+            ),
+          );
+        }
+      });
     }
     if (grouped.Daily) {
-      const arrOneToday: any = grouped.Daily;
-      const result = _.map(
-        _.groupBy(arrOneToday, function (item) {
+      const arrDaily: any = grouped.Daily;
+      const result: any = _.map(
+        _.groupBy(arrDaily, function (item) {
           return item.labId && item.approvalDate;
         }),
-        g => _.maxBy(g, 'deliveryId'),
       );
-      list.push(...result);
+      result?.filter(item => {
+        if (item?.find(o => o?.reportType == 'Final')) {
+          list.push(item?.find(o => o?.reportType == 'Final'));
+        } else {
+          list.push(
+            ..._.map(
+              _.groupBy(item, function (o) {
+                return o.labId && o.approvalDate;
+              }),
+              g => _.maxBy(g, 'deliveryId'),
+            ),
+          );
+        }
+      });
     }
     return list;
   };
