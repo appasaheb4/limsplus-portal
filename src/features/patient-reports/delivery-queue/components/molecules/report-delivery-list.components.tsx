@@ -10,7 +10,7 @@ import {
   sortCaret,
 } from '@/library/components';
 import dayjs from 'dayjs';
-import {TableBootstrap} from './table-bootstrap.components';
+import {TableBootstrapReport} from './table-bootstrap-report.components';
 import * as Material from '@mui/material';
 
 let labId;
@@ -50,6 +50,7 @@ interface ReportDeliveryProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onUpdateDeliveryStatus?: () => void;
+  onPagination?: (type: string) => void;
   onReport: (labId: string) => void;
   onFilter?: (
     type: string,
@@ -65,7 +66,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   return (
     <>
       <div style={{position: 'relative'}}>
-        <TableBootstrap
+        <TableBootstrapReport
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
@@ -679,6 +680,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           }}
           onUpdateDeliveryStatus={() => {
             props.onUpdateDeliveryStatus && props.onUpdateDeliveryStatus();
+          }}
+          onPagination={type => {
+            props.onPagination && props.onPagination(type);
           }}
         />
       </div>

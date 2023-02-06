@@ -35,7 +35,8 @@ export class DeliveryQueueService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
-  listDeliveryQueue = (page = 0, limit = 10) =>
+
+  listDeliveryQueue = (page = 0, limit = 100) =>
     new Promise<any>((resolve, reject) => {
       const environment =
         stores.loginStore.login && stores.loginStore.login.environment;
@@ -46,8 +47,6 @@ export class DeliveryQueueService {
           variables: {input: {page, limit, environment, role}},
         })
         .then((response: any) => {
-          console.log({response});
-
           stores.deliveryQueueStore.updateReportDeliveryList(response.data);
           resolve(response.data);
         })
