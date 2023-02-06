@@ -330,27 +330,49 @@ export const PatientTest = PatientOrderHoc(
             }}
             onPageSizeChange={(page, limit) => {
               patientTestStore.patientTestService.listPatientTest(page, limit);
+              global.filter = {mode: 'pagination', page, limit};
             }}
             onFilter={(type, filter, page, limit) => {
               patientTestStore.patientTestService.filter({
                 input: {type, filter, page, limit},
               });
+              global.filter = {
+                mode: 'filter',
+                type,
+                filter,
+                page,
+                limit,
+              };
             }}
           />
         </div>
         <ModalConfirm
           {...modalConfirm}
-          click={(type?: string) => {
-            if (type === 'delete') {
+          click={(action?: string) => {
+            if (action === 'delete') {
               patientTestStore.patientTestService
                 .deletePatientTest({input: {id: modalConfirm.id}})
                 .then((res: any) => {
+                  setModalConfirm({show: false});
                   if (res.removePatientTest.success) {
                     Toast.success({
                       message: `😊 ${res.removePatientTest.message}`,
                     });
-                    setModalConfirm({show: false});
-                    patientTestStore.patientTestService.listPatientTest();
+                    if (global?.filter?.mode == 'pagination')
+                      patientTestStore.patientTestService.listPatientTest(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      patientTestStore.patientTestService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else patientTestStore.patientTestService.listPatientTest();
                   }
                 });
             }

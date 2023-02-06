@@ -500,11 +500,13 @@ export const PatientOrder = PatientOrderHoc(
                 page,
                 limit,
               );
+              global.filter = {mode: 'pagination', page, limit};
             }}
             onFilter={(type, filter, page, limit) => {
               patientOrderStore.patientOrderService.filter({
                 input: {type, filter, page, limit},
               });
+              global.filter = {mode: 'filter', type, filter, page, limit};
             }}
             onBarcode={(item: any) => {
               setModalBarcodeLab({visible: true, data: {value: item.labId}});
@@ -513,9 +515,9 @@ export const PatientOrder = PatientOrderHoc(
         </div>
         <ModalConfirm
           {...modalConfirm}
-          click={(type?: string) => {
+          click={(action?: string) => {
             setModalConfirm({show: false});
-            if (type === 'delete') {
+            if (action === 'delete') {
               patientOrderStore.patientOrderService
                 .deletePatientOrder({input: {id: modalConfirm.id}})
                 .then((res: any) => {
@@ -523,9 +525,25 @@ export const PatientOrder = PatientOrderHoc(
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
                     });
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 1000);
+                    if (global?.filter?.mode == 'pagination')
+                      patientOrderStore.patientOrderService.listPatientOrder(
+                        {documentType: 'patientOrder'},
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      patientOrderStore.patientOrderService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else
+                      patientOrderStore.patientOrderService.listPatientOrder({
+                        documentType: 'patientOrder',
+                      });
                   }
                 });
             }
