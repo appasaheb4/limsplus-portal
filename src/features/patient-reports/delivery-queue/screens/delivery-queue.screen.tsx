@@ -109,7 +109,6 @@ const DeliveryQueue = observer(() => {
         }),
         g => _.maxBy(g, 'deliveryId'),
       );
-      console.log({result});
       list.push(...result);
     }
     if (grouped['All Together']) {
@@ -121,15 +120,22 @@ const DeliveryQueue = observer(() => {
     }
     if (grouped['One Today']) {
       const arrOneToday: any = grouped['One Today'];
-      const result = _.map(_.groupBy(arrOneToday, 'labId'), g =>
-        _.maxBy(g, 'deliveryId'),
+      console.log({arrOneToday});
+      const result = _.map(
+        _.groupBy(arrOneToday, function (item) {
+          return item.labId && item.approvalDate;
+        }),
+        g => _.maxBy(g, 'deliveryId'),
       );
       list.push(...result);
     }
     if (grouped.Daily) {
       const arrOneToday: any = grouped.Daily;
-      const result = _.map(_.groupBy(arrOneToday, 'labId'), g =>
-        _.maxBy(g, 'deliveryId'),
+      const result = _.map(
+        _.groupBy(arrOneToday, function (item) {
+          return item.labId && item.approvalDate;
+        }),
+        g => _.maxBy(g, 'deliveryId'),
       );
       list.push(...result);
     }
@@ -153,12 +159,6 @@ const DeliveryQueue = observer(() => {
           'Edit/Modify',
         )}
         onUpdate={selectedItem => setModalConfirm(selectedItem)}
-        onPageSizeChange={(page, limit) => {
-          deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
-            page,
-            limit,
-          );
-        }}
         onFilter={(type, filter, page, limit) => {
           if (loginStore.login?.role == 'SYSADMIN') {
             deliveryQueueStore.deliveryQueueService.filter({
@@ -189,44 +189,42 @@ const DeliveryQueue = observer(() => {
           }
         }}
         onClickRow={(item, index) => {
-          console.log(item);
-          if (item.reportPriority) {
-            deliveryQueueStore.deliveryQueueService
-              .findByFields({
-                input: {
-                  filter: {
-                    labId: item.labId,
-                    panelCode: item.panelCode,
-                  },
-                },
-              })
-              .then(res => {
-                if (res.findByFieldsDeliveryQueue.success) {
-                  let data = res.findByFieldsDeliveryQueue.data;
-                  data = _.unionBy(data, (o: any) => {
-                    return o.patientResultId;
-                  });
-                  deliveryQueueStore.updateOrderDeliveredList(data);
-                }
-              });
-          } else
-            deliveryQueueStore.deliveryQueueService
-              .findByFields({
-                input: {
-                  filter: {
-                    labId: item.labId,
-                  },
-                },
-              })
-              .then(res => {
-                if (res.findByFieldsDeliveryQueue.success) {
-                  let data = res.findByFieldsDeliveryQueue.data;
-                  data = _.unionBy(data, (o: any) => {
-                    return o.patientResultId;
-                  });
-                  deliveryQueueStore.updateOrderDeliveredList(data);
-                }
-              });
+          let filter: any = {};
+          if (item.reportPriority == 'Progressive') {
+            filter = {
+              labId: item.labId,
+              panelCode: item.panelCode,
+            };
+          } else if (
+            (item.reportPriority == 'One Today' ||
+              item.reportPriority == 'Daily') &&
+            item.reportType == 'Interim'
+          ) {
+            filter = {
+              labId: item.labId,
+              reportType: 'Interim',
+              approvalDate: item?.approvalDate,
+            };
+          } else {
+            filter = {
+              labId: item.labId,
+            };
+          }
+          deliveryQueueStore.deliveryQueueService
+            .findByFields({
+              input: {
+                filter,
+              },
+            })
+            .then(res => {
+              if (res.findByFieldsDeliveryQueue.success) {
+                let data = res.findByFieldsDeliveryQueue.data;
+                data = _.unionBy(data, (o: any) => {
+                  return o.patientResultId;
+                });
+                deliveryQueueStore.updateOrderDeliveredList(data);
+              }
+            });
         }}
         onUpdateDeliveryStatus={() => {
           setModalConfirm({
@@ -316,6 +314,17 @@ const DeliveryQueue = observer(() => {
                 alert(res.getPatientReports.message);
               }
             });
+        }}
+        onPagination={(type: string) => {
+          let pageNo = deliveryQueueStore.orderDeliveryPageNo;
+          if (type == 'next')
+            pageNo = deliveryQueueStore.orderDeliveryPageNo + 1;
+          else pageNo == 0 ? (pageNo = 0) : (pageNo = pageNo - 1);
+          deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
+            pageNo,
+            100,
+          );
+          deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
         }}
       />
     ),

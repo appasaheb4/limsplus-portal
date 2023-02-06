@@ -215,7 +215,7 @@ const MasterAnalyte = MasterAnalyteHoc(
           onSelect={item => {
             masterAnalyteStore.updateMasterAnalyte({
               ...masterAnalyteStore.masterAnalyte,
-              defaultResult: item?.result,
+              defaultResult: item?.result || '',
               numeric: item?.numeric,
               alpha: item?.alpha,
               abnFlag: item?.abnFlag,
