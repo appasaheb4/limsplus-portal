@@ -49,6 +49,8 @@ export const PANEL_APPROVAL_LIST = gql`
         approvalStatus
         autoRelease
         patientOrderId
+        patientResultId
+        reportPriority
         enteredBy
         documentType
         dateOfEntry
