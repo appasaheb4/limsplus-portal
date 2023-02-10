@@ -64,7 +64,21 @@ export const ModalDefaultLabDeptUpdate = observer(
           });
           // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           props.onClose && props.onClose();
-          userStore.UsersService.userList();
+          if (global?.filter?.mode == 'pagination')
+            userStore.UsersService.userList(
+              global?.filter?.page,
+              global?.filter?.limit,
+            );
+          else if (global?.filter?.mode == 'filter')
+            userStore.UsersService.filter({
+              input: {
+                type: global?.filter?.type,
+                filter: global?.filter?.filter,
+                page: global?.filter?.page,
+                limit: global?.filter?.limit,
+              },
+            });
+          else userStore.UsersService.userList();
         }
       });
     };
