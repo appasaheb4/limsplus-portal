@@ -39,6 +39,7 @@ export class PendingPanelApproval {
   approvalStatus: string;
   autoRelease: boolean;
   patientOrderId: string;
+  reportPriority: string;
   enteredBy: string;
   documentType: string;
   dateOfEntry: Date;
@@ -85,6 +86,7 @@ export class PendingPanelApproval {
     this.approvalStatus = rawData.approvalStatus;
     this.autoRelease = rawData.autoRelease;
     this.patientOrderId = rawData.patientOrderId;
+    this.reportPriority = rawData.reportPriority;
     this.enteredBy = rawData.enteredBy;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;

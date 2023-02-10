@@ -3,6 +3,7 @@ import {Form, Tooltip, Icons} from '@/library/components';
 import dayjs from 'dayjs';
 
 import {TableBootstrap} from './table-bootstrap.components';
+import {RefRanges} from './ref-ranges.component';
 
 interface ResultListProps {
   data: any;
@@ -126,11 +127,60 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Ref Ranges',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader16',
               formatter: (cell, row) => {
                 return (
-                  <span>
-                    {row.refRanges ? JSON.stringify(row.refRanges) : ''}
-                  </span>
+                  <div className='flex flex-row'>
+                    {row.refRanges ? (
+                      <RefRanges
+                        id='_id'
+                        data={row?.refRanges || []}
+                        totalSize={row?.refRanges?.length || 0}
+                        columns={[
+                          {
+                            dataField: 'result',
+                            text: 'Result',
+                            editable: false,
+                            formatter: () => (
+                              <>
+                                <span>{row.result}</span>
+                              </>
+                            ),
+                          },
+                          {
+                            dataField: 'rangeType',
+                            text: 'Range Type',
+                          },
+                          {
+                            dataField: 'low',
+                            text: 'Low',
+                          },
+                          {
+                            dataField: 'high',
+                            text: 'High',
+                          },
+                          {
+                            dataField: 'rangeSetOn',
+                            text: 'Range Set On',
+                          },
+                          {
+                            dataField: 'rangeId',
+                            text: 'Range Id',
+                          },
+                          {
+                            dataField: 'version',
+                            text: 'Range Version',
+                          },
+                        ]}
+                        onSelectedRow={rows => {}}
+                        onUpdateItem={(
+                          value: any,
+                          dataField: string,
+                          id: string,
+                        ) => {}}
+                      />
+                    ) : null}
+                  </div>
                 );
               },
             },

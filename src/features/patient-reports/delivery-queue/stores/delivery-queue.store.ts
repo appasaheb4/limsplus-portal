@@ -8,6 +8,7 @@ export class DeliveryQueueStore {
   reportDeliveryListCount: number = 0;
   orderDeliveredList!: Array<OrderDelivered>;
   orderDeliveredListCount: number = 0;
+  orderDeliveryPageNo = 0;
   constructor() {
     this.reportDeliveryList = [];
     this.orderDeliveredList = [];
@@ -17,11 +18,13 @@ export class DeliveryQueueStore {
       reportDeliveryListCount: observable,
       orderDeliveredList: observable,
       orderDeliveredListCount: observable,
+      orderDeliveryPageNo: observable,
 
       deliveryQueueService: computed,
 
       updateReportDeliveryList: action,
       updateOrderDeliveredList: action,
+      updateOrderDeliveryPageNo: action,
     });
   }
 
@@ -53,5 +56,9 @@ export class DeliveryQueueStore {
     this.reportDeliveryList = res.filterDeliveryQueue.data;
     this.reportDeliveryListCopy = res.filterDeliveryQueue.data;
     this.reportDeliveryListCount = res.filterDeliveryQueue.paginatorInfo.count;
+  }
+
+  updateOrderDeliveryPageNo(number) {
+    this.orderDeliveryPageNo = number;
   }
 }

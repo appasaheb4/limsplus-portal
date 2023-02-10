@@ -1,5 +1,7 @@
 export class ReportDelivery {
   _id: string;
+  patientResultId: string;
+  index: number;
   labId: string;
   externalLabId: string;
   employeeCode: string;
@@ -24,11 +26,14 @@ export class ReportDelivery {
   qrCode: string;
   pdf: string;
   reportPriority: string;
+  approvalDate: string;
   enteredBy: string;
   userComments: string;
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.patientResultId = rawData.patientResultId;
+    this.index = rawData.index;
     this.labId = rawData.labId;
     this.externalLabId = rawData.externalLabId;
     this.employeeCode = rawData.employeeCode;
@@ -53,6 +58,7 @@ export class ReportDelivery {
     this.qrCode = rawData.qrCode;
     this.pdf = rawData.pdf;
     this.reportPriority = rawData.reportPriority;
+    this.approvalDate = rawData.approvalDate;
     this.enteredBy = rawData.enteredBy;
     this.userComments = rawData.userComments;
   }
