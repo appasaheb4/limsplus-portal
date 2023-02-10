@@ -89,11 +89,14 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               headerClasses: 'textHeader3',
-              filter: textFilter({
+              filter: customFilter({
                 getFilter: filter => {
                   labId = filter;
                 },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
             },
             {
               dataField: 'externalLabId',
