@@ -1,6 +1,7 @@
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
+import dayjs from 'dayjs';
 import {
   Toast,
   Header,
@@ -1949,6 +1950,7 @@ const MasterPanel = MasterPanelHoc(
                   masterPanelStore.masterPanelService
                     .deletePanelMaster({input: {id: modalConfirm.id}})
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.removePanelMaster.success) {
                         setModalConfirm({show: false});
                         Toast.success({
@@ -1971,7 +1973,6 @@ const MasterPanel = MasterPanelHoc(
                         else masterPanelStore.fetchPanelMaster();
                       }
                     });
-
                   break;
                 }
                 case 'Update': {
@@ -1983,6 +1984,7 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updatePanelMaster.success) {
                         setModalConfirm({show: false});
                         Toast.success({
@@ -2005,7 +2007,6 @@ const MasterPanel = MasterPanelHoc(
                         else masterPanelStore.fetchPanelMaster();
                       }
                     });
-
                   break;
                 }
                 case 'UpdateFileds': {
@@ -2017,6 +2018,7 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updatePanelMaster.success) {
                         setModalConfirm({show: false});
                         Toast.success({
@@ -2039,7 +2041,6 @@ const MasterPanel = MasterPanelHoc(
                         else masterPanelStore.fetchPanelMaster();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -2049,7 +2050,6 @@ const MasterPanel = MasterPanelHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
                   });
                   setValue('rLab', modalConfirm.data.rLab);
                   setValue('pLab', modalConfirm.data.pLab);
@@ -2059,7 +2059,7 @@ const MasterPanel = MasterPanelHoc(
                   setValue('serviceType', modalConfirm.data.serviceType);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
+                  setModalConfirm({show: false});
                   break;
                 }
                 case 'duplicate': {
@@ -2068,8 +2068,12 @@ const MasterPanel = MasterPanelHoc(
                     _id: undefined,
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
-                    version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    version: 1,
+                    dateActive: new Date(),
+                    dateCreation: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
                   setIsInputView(!isInputView);
                   setValue('rLab', modalConfirm.data.rLab);
@@ -2080,7 +2084,7 @@ const MasterPanel = MasterPanelHoc(
                   setValue('serviceType', modalConfirm.data.serviceType);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
+                  setModalConfirm({show: false});
                   break;
                 }
                 // No default

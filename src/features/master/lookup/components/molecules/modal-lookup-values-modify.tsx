@@ -17,7 +17,7 @@ export const ModalLookupValuesModify = observer(
   (props: ModalLookupValuesModifyProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
     const [values, setValues] = useState<any>();
-    const [localInput, setLocalInput] = useState<any>();
+    const [localInput, setLocalInput] = useState<any>({flagUpperCase: true});
 
     useEffect(() => {
       setShowModal(props.show);
@@ -51,7 +51,9 @@ export const ModalLookupValuesModify = observer(
                         onChange={code => {
                           setLocalInput({
                             ...localInput,
-                            code: code?.toUpperCase(),
+                            code: localInput?.flagUpperCase
+                              ? code?.toUpperCase()
+                              : code,
                           });
                         }}
                       />
@@ -107,7 +109,7 @@ export const ModalLookupValuesModify = observer(
                               setLocalInput({
                                 value: '',
                                 code: '',
-                                flagUpperCase: false,
+                                flagUpperCase: true,
                               });
                             }
                           }}

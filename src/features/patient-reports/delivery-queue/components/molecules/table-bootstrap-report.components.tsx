@@ -23,7 +23,7 @@ import {Buttons, Icons, Tooltip} from '@/library/components';
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
 
-interface TableBootstrapProps {
+interface TableBootstrapReportProps {
   id: string;
   data: any;
   totalSize?: number;
@@ -41,6 +41,7 @@ interface TableBootstrapProps {
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
+  onPagination?: (type: string) => void;
   onUpdateDeliveryStatus?: () => void;
   onFilter?: (
     type: string,
@@ -51,7 +52,7 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
 }
-export const TableBootstrap = ({
+export const TableBootstrapReport = ({
   id,
   data,
   totalSize = 10,
@@ -69,9 +70,10 @@ export const TableBootstrap = ({
   onPageSizeChange,
   onUpdateDeliveryStatus,
   onFilter,
+  onPagination,
   clearAllFilter,
   onClickRow,
-}: TableBootstrapProps) => {
+}: TableBootstrapReportProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
@@ -388,22 +390,43 @@ export const TableBootstrap = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              {isPagination && (
-                <>
-                  <div className='flex items-center gap-2 mt-2'>
-                    <SizePerPageDropdownStandalone
-                      {...Object.assign(
-                        {},
-                        {...paginationProps, hideSizePerPage: false},
-                      )}
-                    />
-                    <PaginationListStandalone {...paginationProps} />
-                  </div>
-                  {/* <div className='flex items-center gap-2 mt-2'>
-                    <PaginationTotalStandalone {...paginationProps} />
-                  </div> */}
-                </>
-              )}
+
+              <div className='flex items-center gap-2 mt-2'>
+                <Icons.IconContext
+                  color='#fff'
+                  size='25'
+                  style={{
+                    backgroundColor: '#808080',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    align: 'center',
+                    padding: 4,
+                  }}
+                  onClick={async () => {
+                    onPagination && onPagination('next');
+                  }}
+                >
+                  <Icons.IconBi.BiSkipNext />
+                </Icons.IconContext>
+                <Icons.IconContext
+                  color='#fff'
+                  size='25'
+                  style={{
+                    backgroundColor: '#808080',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    align: 'center',
+                    padding: 4,
+                  }}
+                  onClick={async () => {
+                    onPagination && onPagination('prev');
+                  }}
+                >
+                  <Icons.IconBi.BiSkipPrevious />
+                </Icons.IconContext>
+              </div>
             </div>
           )}
         </ToolkitProvider>

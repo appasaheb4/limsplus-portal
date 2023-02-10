@@ -101,20 +101,66 @@ const DeliveryQueue = observer(() => {
   const getReportDeliveryList = arr => {
     const list: any = [];
     const grouped = _.groupBy(arr, 'reportPriority');
-    if (grouped.Progressive) list.push(...grouped.Progressive);
-    else if (grouped['All Together']) {
+    if (grouped?.Progressive) {
+      const allProgressive: any = grouped?.Progressive;
+      const result = _.map(
+        _.groupBy(allProgressive, function (item) {
+          return item.labId && item.panelCode;
+        }),
+        g => _.maxBy(g, 'deliveryId'),
+      );
+      list.push(...result);
+    }
+    if (grouped['All Together']) {
       const arrAllTogather: any = grouped['All Together'];
       const result = _.map(_.groupBy(arrAllTogather, 'labId'), g =>
         _.maxBy(g, 'deliveryId'),
       );
       list.push(...result);
-    } else if (grouped['One Today']) {
+    }
+    if (grouped['One Today']) {
       const arrOneToday: any = grouped['One Today'];
-      console.log({arrOneToday});
-      const result = _.map(_.groupBy(arrOneToday, 'labId'), g =>
-        _.maxBy(g, 'deliveryId'),
+      const result: any = _.map(
+        _.groupBy(arrOneToday, function (item) {
+          return item.labId && item.approvalDate;
+        }),
       );
-      list.push(...result);
+      result?.filter(item => {
+        if (item?.find(o => o?.reportType == 'Final')) {
+          list.push(item?.find(o => o?.reportType == 'Final'));
+        } else {
+          list.push(
+            ..._.map(
+              _.groupBy(item, function (o) {
+                return o.labId && o.approvalDate;
+              }),
+              g => _.maxBy(g, 'deliveryId'),
+            ),
+          );
+        }
+      });
+    }
+    if (grouped.Daily) {
+      const arrDaily: any = grouped.Daily;
+      const result: any = _.map(
+        _.groupBy(arrDaily, function (item) {
+          return item.labId && item.approvalDate;
+        }),
+      );
+      result?.filter(item => {
+        if (item?.find(o => o?.reportType == 'Final')) {
+          list.push(item?.find(o => o?.reportType == 'Final'));
+        } else {
+          list.push(
+            ..._.map(
+              _.groupBy(item, function (o) {
+                return o.labId && o.approvalDate;
+              }),
+              g => _.maxBy(g, 'deliveryId'),
+            ),
+          );
+        }
+      });
     }
     return list;
   };
@@ -136,12 +182,6 @@ const DeliveryQueue = observer(() => {
           'Edit/Modify',
         )}
         onUpdate={selectedItem => setModalConfirm(selectedItem)}
-        onPageSizeChange={(page, limit) => {
-          deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
-            page,
-            limit,
-          );
-        }}
         onFilter={(type, filter, page, limit) => {
           if (loginStore.login?.role == 'SYSADMIN') {
             deliveryQueueStore.deliveryQueueService.filter({
@@ -172,24 +212,42 @@ const DeliveryQueue = observer(() => {
           }
         }}
         onClickRow={(item, index) => {
-          if (item.reportPriority == 'Progressive')
-            deliveryQueueStore.updateOrderDeliveredList([item]);
-          else {
-            deliveryQueueStore.deliveryQueueService
-              .findByFields({
-                input: {
-                  filter: {
-                    labId: item.labId,
-                  },
-                },
-              })
-              .then(res => {
-                if (res.findByFieldsDeliveryQueue.success)
-                  deliveryQueueStore.updateOrderDeliveredList(
-                    res.findByFieldsDeliveryQueue.data,
-                  );
-              });
+          let filter: any = {};
+          if (item.reportPriority == 'Progressive') {
+            filter = {
+              labId: item.labId,
+              panelCode: item.panelCode,
+            };
+          } else if (
+            (item.reportPriority == 'One Today' ||
+              item.reportPriority == 'Daily') &&
+            item.reportType == 'Interim'
+          ) {
+            filter = {
+              labId: item.labId,
+              reportType: 'Interim',
+              approvalDate: item?.approvalDate,
+            };
+          } else {
+            filter = {
+              labId: item.labId,
+            };
           }
+          deliveryQueueStore.deliveryQueueService
+            .findByFields({
+              input: {
+                filter,
+              },
+            })
+            .then(res => {
+              if (res.findByFieldsDeliveryQueue.success) {
+                let data = res.findByFieldsDeliveryQueue.data;
+                data = _.unionBy(data, (o: any) => {
+                  return o.patientResultId;
+                });
+                deliveryQueueStore.updateOrderDeliveredList(data);
+              }
+            });
         }}
         onUpdateDeliveryStatus={() => {
           setModalConfirm({
@@ -279,6 +337,17 @@ const DeliveryQueue = observer(() => {
                 alert(res.getPatientReports.message);
               }
             });
+        }}
+        onPagination={(type: string) => {
+          let pageNo = deliveryQueueStore.orderDeliveryPageNo;
+          if (type == 'next')
+            pageNo = deliveryQueueStore.orderDeliveryPageNo + 1;
+          else pageNo == 0 ? (pageNo = 0) : (pageNo = pageNo - 1);
+          deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
+            pageNo,
+            100,
+          );
+          deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
         }}
       />
     ),

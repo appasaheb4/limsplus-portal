@@ -94,6 +94,9 @@ const PanelApproval = observer(() => {
             // });
           }}
         />
+        <span className='text-red'>
+          Note: Report Priority= Daily single-single update.
+        </span>
       </div>
 
       {expandItem?.length > 0 && (

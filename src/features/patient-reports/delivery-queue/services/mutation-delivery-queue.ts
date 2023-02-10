@@ -20,6 +20,8 @@ export const DELIVERY_QUEUE_LIST = gql`
       message
       data {
         _id
+        patientResultId
+        index
         labId
         externalLabId
         employeeCode
@@ -55,6 +57,7 @@ export const DELIVERY_QUEUE_LIST = gql`
         rep
         delivered
         reportPriority
+        approvalDate
         documentType
         dateOfEntry
         lastUpdated
@@ -109,6 +112,8 @@ export const FILTER = gql`
       message
       data {
         _id
+        patientResultId
+        index
         labId
         externalLabId
         employeeCode
@@ -144,6 +149,7 @@ export const FILTER = gql`
         rep
         delivered
         reportPriority
+        approvalDate
         documentType
         dateOfEntry
         lastUpdated
@@ -159,6 +165,8 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
+        patientResultId
+        index
         labId
         externalLabId
         employeeCode
@@ -194,6 +202,7 @@ export const FIND_BY_FIELDS = gql`
         rep
         delivered
         reportPriority
+        approvalDate
         documentType
         dateOfEntry
         lastUpdated
