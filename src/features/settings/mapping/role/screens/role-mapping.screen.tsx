@@ -600,21 +600,7 @@ const RoleMapping = observer(() => {
                     Toast.success({
                       message: `😊 ${res.removeRoleMapping.message}`,
                     });
-                    if (global?.filter?.mode == 'pagination')
-                      roleMappingStore.fetchRoleMappingList(
-                        global?.filter?.page,
-                        global?.filter?.limit,
-                      );
-                    else if (global?.filter?.mode == 'filter')
-                      roleMappingStore.roleMappingService.filter({
-                        input: {
-                          type: global?.filter?.type,
-                          filter: global?.filter?.filter,
-                          page: global?.filter?.page,
-                          limit: global?.filter?.limit,
-                        },
-                      });
-                    else roleMappingStore.fetchRoleMappingList();
+                    roleMappingStore.fetchRoleMappingList();
                   }
                 });
             }
