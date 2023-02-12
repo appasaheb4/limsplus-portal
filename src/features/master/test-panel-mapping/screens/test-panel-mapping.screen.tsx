@@ -225,11 +225,19 @@ const TestPanelMapping = TestPanelMappingHoc(
           }}
           onPageSizeChange={(page, limit) => {
             testPanelMappingStore.fetchTestPanelMapping(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             testPanelMappingStore.testPanelMappingService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -1131,18 +1139,32 @@ const TestPanelMapping = TestPanelMappingHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   testPanelMappingStore.testPanelMappingService
                     .deleteTestPanelMapping({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeTestPanelMapping.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeTestPanelMapping.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testPanelMappingStore.fetchTestPanelMapping();
+                        if (global?.filter?.mode == 'pagination')
+                          testPanelMappingStore.fetchTestPanelMapping(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          testPanelMappingStore.testPanelMappingService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else testPanelMappingStore.fetchTestPanelMapping();
                       }
                     });
 
@@ -1158,11 +1180,25 @@ const TestPanelMapping = TestPanelMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestPanelMapping.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestPanelMapping.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testPanelMappingStore.fetchTestPanelMapping();
+                        if (global?.filter?.mode == 'pagination')
+                          testPanelMappingStore.fetchTestPanelMapping(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          testPanelMappingStore.testPanelMappingService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else testPanelMappingStore.fetchTestPanelMapping();
                       }
                     });
 
@@ -1178,11 +1214,25 @@ const TestPanelMapping = TestPanelMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestPanelMapping.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestPanelMapping.message}`,
                         });
-                        setModalConfirm({show: false});
-                        testPanelMappingStore.fetchTestPanelMapping();
+                        if (global?.filter?.mode == 'pagination')
+                          testPanelMappingStore.fetchTestPanelMapping(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          testPanelMappingStore.testPanelMappingService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else testPanelMappingStore.fetchTestPanelMapping();
                       }
                     });
 

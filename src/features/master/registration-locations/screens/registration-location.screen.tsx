@@ -203,11 +203,13 @@ const RegistrationLocation = RegistrationLocationHoc(
           }}
           onPageSizeChange={(page, limit) => {
             registrationLocationsStore.fetchRegistrationLocations(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             registrationLocationsStore.registrationLocationsService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, page, limit, filter};
           }}
         />
       ),
@@ -1829,18 +1831,35 @@ const RegistrationLocation = RegistrationLocationHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   registrationLocationsStore.registrationLocationsService
                     .deleteRegistrationLocations({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeRegistrationLocation.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeRegistrationLocation.message}`,
                         });
-                        setModalConfirm({show: false});
-                        registrationLocationsStore.fetchRegistrationLocations();
+                        if (global?.filter?.mode == 'pagination')
+                          registrationLocationsStore.fetchRegistrationLocations(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          registrationLocationsStore.registrationLocationsService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else
+                          registrationLocationsStore.fetchRegistrationLocations();
                       }
                     });
 
@@ -1856,11 +1875,28 @@ const RegistrationLocation = RegistrationLocationHoc(
                     })
                     .then((res: any) => {
                       if (res.updateRegistrationLocation.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateRegistrationLocation.message}`,
                         });
-                        setModalConfirm({show: false});
-                        registrationLocationsStore.fetchRegistrationLocations();
+                        if (global?.filter?.mode == 'pagination')
+                          registrationLocationsStore.fetchRegistrationLocations(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          registrationLocationsStore.registrationLocationsService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else
+                          registrationLocationsStore.fetchRegistrationLocations();
                       }
                     });
 
@@ -1876,11 +1912,28 @@ const RegistrationLocation = RegistrationLocationHoc(
                     })
                     .then((res: any) => {
                       if (res.updateRegistrationLocation.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateRegistrationLocation.message}`,
                         });
-                        setModalConfirm({show: false});
-                        registrationLocationsStore.fetchRegistrationLocations();
+                        if (global?.filter?.mode == 'pagination')
+                          registrationLocationsStore.fetchRegistrationLocations(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          registrationLocationsStore.registrationLocationsService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else
+                          registrationLocationsStore.fetchRegistrationLocations();
                       }
                     });
 

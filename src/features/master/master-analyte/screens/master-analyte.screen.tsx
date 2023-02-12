@@ -189,11 +189,13 @@ const MasterAnalyte = MasterAnalyteHoc(
           }}
           onPageSizeChange={(page, limit) => {
             masterAnalyteStore.fetchAnalyteMaster(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             masterAnalyteStore.masterAnalyteService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, filter, page, limit};
           }}
         />
       ),
@@ -1689,9 +1691,9 @@ const MasterAnalyte = MasterAnalyteHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
+            click={(action?: string) => {
               setModalConfirm({show: false});
-              switch (type) {
+              switch (action) {
                 case 'Delete': {
                   masterAnalyteStore.masterAnalyteService
                     .deleteAnalyteMaster({input: {id: modalConfirm.id}})
@@ -1700,7 +1702,21 @@ const MasterAnalyte = MasterAnalyteHoc(
                         Toast.success({
                           message: `😊 ${res.removeAnalyteMaster.message}`,
                         });
-                        masterAnalyteStore.fetchAnalyteMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          masterAnalyteStore.fetchAnalyteMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          masterAnalyteStore.masterAnalyteService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else masterAnalyteStore.fetchAnalyteMaster();
                       }
                     });
 
@@ -1719,7 +1735,21 @@ const MasterAnalyte = MasterAnalyteHoc(
                         Toast.success({
                           message: `😊 ${res.updateAnalyteMaster.message}`,
                         });
-                        masterAnalyteStore.fetchAnalyteMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          masterAnalyteStore.fetchAnalyteMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          masterAnalyteStore.masterAnalyteService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else masterAnalyteStore.fetchAnalyteMaster();
                       }
                     });
 
@@ -1738,7 +1768,21 @@ const MasterAnalyte = MasterAnalyteHoc(
                         Toast.success({
                           message: `😊 ${res.updateAnalyteMaster.message}`,
                         });
-                        masterAnalyteStore.fetchAnalyteMaster();
+                        if (global?.filter?.mode == 'pagination')
+                          masterAnalyteStore.fetchAnalyteMaster(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          masterAnalyteStore.masterAnalyteService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else masterAnalyteStore.fetchAnalyteMaster();
                       }
                     });
 

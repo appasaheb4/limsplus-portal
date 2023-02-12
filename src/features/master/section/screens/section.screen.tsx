@@ -103,11 +103,19 @@ const Section = SectionHoc(
           }}
           onPageSizeChange={(page, limit) => {
             sectionStore.fetchSections(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             sectionStore.sectionService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -513,18 +521,32 @@ const Section = SectionHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   sectionStore.sectionService
                     .deleteSection({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeSection.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeSection.message}`,
                         });
-                        setModalConfirm({show: false});
-                        sectionStore.fetchSections();
+                        if (global?.filter?.mode == 'pagination')
+                          sectionStore.fetchSections(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global.filter.mode == 'filter')
+                          sectionStore.sectionService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else sectionStore.fetchSections();
                       }
                     });
                   break;
@@ -539,11 +561,25 @@ const Section = SectionHoc(
                     })
                     .then((res: any) => {
                       if (res.updateSection.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateSection.message}`,
                         });
-                        setModalConfirm({show: false});
-                        sectionStore.fetchSections();
+                        if (global?.filter?.mode == 'pagination')
+                          sectionStore.fetchSections(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          sectionStore.sectionService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else sectionStore.fetchSections();
                       }
                     });
                   break;

@@ -2161,11 +2161,17 @@ export const PatientVisit = PatientVisitHoc(
                 page,
                 limit,
               );
+              global.filter = {
+                mode: 'pagination',
+                page,
+                limit,
+              };
             }}
             onFilter={(type, filter, page, limit) => {
               patientVisitStore.patientVisitService.filter({
                 input: {type, filter, page, limit},
               });
+              global.filter = {mode: 'filter', type, filter, page, limit};
             }}
           />
         </div>
@@ -2240,9 +2246,9 @@ export const PatientVisit = PatientVisitHoc(
         </div>
         <ModalConfirm
           {...modalConfirm}
-          click={(type?: string) => {
+          click={(action: string) => {
             setModalConfirm({show: false});
-            switch (type) {
+            switch (action) {
               case 'delete': {
                 patientVisitStore.patientVisitService
                   .deletePatientVisit({
@@ -2257,9 +2263,28 @@ export const PatientVisit = PatientVisitHoc(
                       Toast.success({
                         message: `😊 ${res.removePatientVisit.message}`,
                       });
-                      setTimeout(() => {
-                        window.location.reload();
-                      }, 1000);
+                      if (global?.filter?.mode == 'pagination')
+                        patientVisitStore.patientVisitService.listPatientVisit(
+                          {documentType: 'patientVisit'},
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientVisitStore.patientVisitService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientVisitStore.patientVisitService.listPatientVisit({
+                          documentType: 'patientVisit',
+                        });
+                      // setTimeout(() => {
+                      //   window.location.reload();
+                      // }, 1000);
                     }
                   });
 
@@ -2278,9 +2303,25 @@ export const PatientVisit = PatientVisitHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientVisit.message}`,
                       });
-                      patientVisitStore.patientVisitService.listPatientVisit({
-                        documentType: 'patientVisit',
-                      });
+                      if (global?.filter?.mode == 'pagination')
+                        patientVisitStore.patientVisitService.listPatientVisit(
+                          {documentType: 'patientVisit'},
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientVisitStore.patientVisitService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientVisitStore.patientVisitService.listPatientVisit({
+                          documentType: 'patientVisit',
+                        });
                     }
                   });
 
@@ -2299,9 +2340,25 @@ export const PatientVisit = PatientVisitHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientVisit.message}`,
                       });
-                      patientVisitStore.patientVisitService.listPatientVisit({
-                        documentType: 'patientVisit',
-                      });
+                      if (global?.filter?.mode == 'pagination')
+                        patientVisitStore.patientVisitService.listPatientVisit(
+                          {documentType: 'patientVisit'},
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientVisitStore.patientVisitService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientVisitStore.patientVisitService.listPatientVisit({
+                          documentType: 'patientVisit',
+                        });
                     }
                   });
                 break;

@@ -248,11 +248,13 @@ const ClientRegistration = observer(() => {
           }}
           onPageSizeChange={(page, limit) => {
             clientRegistrationStore.clientRegistrationService.list(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             clientRegistrationStore.clientRegistrationService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, filter, page, limit};
           }}
         />
       </div>
@@ -270,18 +272,33 @@ const ClientRegistration = observer(() => {
 
       <ModalConfirm
         {...modalConfirm}
-        click={(type?: string) => {
+        click={(action?: string) => {
           setModalConfirm({show: false});
-          switch (type) {
+          switch (action) {
             case 'delete': {
               clientRegistrationStore.clientRegistrationService
                 .delete({input: {id: modalConfirm.id}})
                 .then(res => {
                   if (res.removeClientRegistration.success) {
-                    clientRegistrationStore.clientRegistrationService.list();
                     Toast.success({
                       message: `😊 ${res.removeClientRegistration.message}`,
                     });
+                    if (global?.filter?.mode == 'pagination')
+                      clientRegistrationStore.clientRegistrationService.list(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      clientRegistrationStore.clientRegistrationService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else
+                      clientRegistrationStore.clientRegistrationService.list();
                   }
                 });
 
@@ -297,10 +314,25 @@ const ClientRegistration = observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateClientRegistration.success) {
-                    clientRegistrationStore.clientRegistrationService.list();
                     Toast.success({
                       message: `😊 ${res.updateClientRegistration.message}`,
                     });
+                    if (global?.filter?.mode == 'pagination')
+                      clientRegistrationStore.clientRegistrationService.list(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      clientRegistrationStore.clientRegistrationService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else
+                      clientRegistrationStore.clientRegistrationService.list();
                   }
                 });
 
@@ -316,10 +348,25 @@ const ClientRegistration = observer(() => {
                 })
                 .then((res: any) => {
                   if (res.updateClientRegistration.success) {
-                    clientRegistrationStore.clientRegistrationService.list();
                     Toast.success({
                       message: `😊 ${res.updateClientRegistration.message}`,
                     });
+                    if (global?.filter?.mode == 'pagination')
+                      clientRegistrationStore.clientRegistrationService.list(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      clientRegistrationStore.clientRegistrationService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else
+                      clientRegistrationStore.clientRegistrationService.list();
                   }
                 });
 

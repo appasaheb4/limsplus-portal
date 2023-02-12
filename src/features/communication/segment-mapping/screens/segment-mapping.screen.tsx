@@ -343,11 +343,13 @@ const SegmentMapping = SegmentMappingHoc(
             }}
             onPageSizeChange={(page, limit) => {
               segmentMappingStore.fetchListSegmentMapping(page, limit);
+              global.filter = {mode: 'pagination', page, limit};
             }}
             onFilter={(type, filter, page, limit) => {
               segmentMappingStore.segmentMappingService.filter({
                 input: {type, filter, page, limit},
               });
+              global.filter = {mode: 'filter', type, filter, page, limit};
             }}
           />
         </div>
@@ -364,10 +366,10 @@ const SegmentMapping = SegmentMappingHoc(
         />
         <ModalConfirm
           {...modalConfirm}
-          click={type => {
+          click={action => {
             setModalConfirm({show: false});
             if (segmentMappingStore.selectedItems) {
-              if (type === 'delete') {
+              if (action === 'delete') {
                 segmentMappingStore.segmentMappingService
                   .deleteSegmentMapping({
                     input: {
@@ -376,14 +378,28 @@ const SegmentMapping = SegmentMappingHoc(
                   })
                   .then(res => {
                     if (res.removeSegmentMapping.success) {
-                      segmentMappingStore.fetchListSegmentMapping();
                       segmentMappingStore.updateSelectedItem([]);
                       Toast.success({
                         message: `😊 ${res.removeSegmentMapping.message}`,
                       });
+                      if (global?.filter?.mode == 'pagination')
+                        segmentMappingStore.fetchListSegmentMapping(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        segmentMappingStore.segmentMappingService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else segmentMappingStore.fetchListSegmentMapping();
                     }
                   });
-              } else if (type == 'updateFields') {
+              } else if (action == 'updateFields') {
                 segmentMappingStore.segmentMappingService
                   .updateSingleFiled({
                     input: {
@@ -393,10 +409,24 @@ const SegmentMapping = SegmentMappingHoc(
                   })
                   .then(res => {
                     if (res.updateSegmentMapping.success) {
-                      segmentMappingStore.fetchListSegmentMapping();
                       Toast.success({
                         message: ` ${res.updateSegmentMapping.message}`,
                       });
+                      if (global?.filter?.mode == 'pagination')
+                        segmentMappingStore.fetchListSegmentMapping(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        segmentMappingStore.segmentMappingService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else segmentMappingStore.fetchListSegmentMapping();
                     }
                   });
               }

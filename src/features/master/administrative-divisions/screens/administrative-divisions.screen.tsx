@@ -515,30 +515,54 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 administrativeDivisions.fetchAdministrativeDiv(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 administrativeDivisions.administrativeDivisionsService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {
+                  mode: 'filter',
+                  type,
+                  filter,
+                  page,
+                  limit,
+                };
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action: string) => {
+              switch (action) {
                 case 'Delete': {
                   administrativeDivisions.administrativeDivisionsService
                     .deleteAdministrativeDivisions({
                       input: {id: modalConfirm.id},
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.removeAdministrativeDivision.success) {
                         Toast.success({
                           message: `😊 ${res.removeAdministrativeDivision.message}`,
                         });
-                        setModalConfirm({show: false});
-                        administrativeDivisions.fetchAdministrativeDiv();
+                        if (global?.filter?.mode == 'pagination')
+                          administrativeDivisions.fetchAdministrativeDiv(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else administrativeDivisions.fetchAdministrativeDiv();
                       }
                     });
                   break;
@@ -553,12 +577,28 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updateAdministrativeDivision.success) {
                         Toast.success({
                           message: `😊 ${res.updateAdministrativeDivision.message}`,
                         });
-                        setModalConfirm({show: false});
-                        administrativeDivisions.fetchAdministrativeDiv();
+                        if (global?.filter?.mode == 'pagination')
+                          administrativeDivisions.fetchAdministrativeDiv(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                type: global?.filter?.type,
+                                filter: global?.filter?.filter,
+                                page: global?.filter?.page,
+                                limit: global?.filter?.limit,
+                              },
+                            },
+                          );
+                        else administrativeDivisions.fetchAdministrativeDiv();
                       }
                     });
                   break;

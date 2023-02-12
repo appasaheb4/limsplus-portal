@@ -180,11 +180,19 @@ export const Users = UsersHoc(
           }}
           onPageSizeChange={(page, limit) => {
             userStore.loadUser(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             userStore.UsersService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -1688,9 +1696,9 @@ export const Users = UsersHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
+            click={(action?: string) => {
               setModalConfirm({show: false});
-              switch (type) {
+              switch (action) {
                 case 'delete': {
                   userStore &&
                     userStore.UsersService.deleteUser({
@@ -1700,9 +1708,24 @@ export const Users = UsersHoc(
                         Toast.success({
                           message: `😊 ${res.removeUser.message}`,
                         });
-                        setTimeout(() => {
-                          userStore.UsersService.userList();
-                        }, 2000);
+                        if (global?.filter?.mode == 'pagination')
+                          userStore.UsersService.userList(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          userStore.UsersService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else userStore.UsersService.userList();
+                        // setTimeout(() => {
+                        //   userStore.UsersService.userList();
+                        // }, 2000);
                       }
                     });
 
@@ -1720,7 +1743,21 @@ export const Users = UsersHoc(
                         Toast.success({
                           message: `😊 ${res.updateUser.message}`,
                         });
-                        userStore.loadUser();
+                        if (global?.filter?.mode == 'pagination')
+                          userStore.loadUser(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          userStore.UsersService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else userStore.loadUser();
                       }
                     });
                   break;
@@ -1737,9 +1774,24 @@ export const Users = UsersHoc(
                       Toast.success({
                         message: `😊 ${res.updateUser.message}`,
                       });
-                      setTimeout(() => {
-                        window.location.reload();
-                      }, 2000);
+                      if (global?.filter?.mode == 'pagination')
+                        userStore.loadUser(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        userStore.UsersService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else userStore.loadUser();
+                      // setTimeout(() => {
+                      //   window.location.reload();
+                      // }, 2000);
                     }
                   });
 
@@ -1831,9 +1883,24 @@ export const Users = UsersHoc(
                         Toast.success({
                           message: `😊 ${res.updateUserImages.message}`,
                         });
-                        setTimeout(() => {
-                          window.location.reload();
-                        }, 1000);
+                        if (global?.filter?.mode == 'pagination')
+                          userStore.loadUser(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          userStore.UsersService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else userStore.loadUser();
+                        // setTimeout(() => {
+                        //   window.location.reload();
+                        // }, 1000);
                       }
                     });
                 }

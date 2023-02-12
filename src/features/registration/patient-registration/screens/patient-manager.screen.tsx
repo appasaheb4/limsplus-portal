@@ -137,11 +137,19 @@ export const PatientManager = PatientManagerHoc(
               page,
               limit,
             );
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             patientManagerStore.patientManagerService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -1738,9 +1746,9 @@ export const PatientManager = PatientManagerHoc(
         </div>
         <ModalConfirm
           {...modalConfirm}
-          click={(type?: string) => {
+          click={(action?: string) => {
             setModalConfirm({show: false});
-            switch (type) {
+            switch (action) {
               case 'delete': {
                 patientManagerStore.patientManagerService
                   .deletePatientManager({input: {id: modalConfirm.id}})
@@ -1749,9 +1757,29 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.removePatientManager.message}`,
                       });
-                      setTimeout(() => {
-                        window.location.reload();
-                      }, 1000);
+                      if (global?.filter.mode == 'pagination')
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientManagerStore.patientManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                        );
                     }
                   });
 
@@ -1770,11 +1798,29 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientManager.message}`,
                       });
-                      patientManagerStore.patientManagerService.listPatientManager(
-                        {
-                          documentType: 'patientManager',
-                        },
-                      );
+                      if (global?.filter.mode == 'pagination')
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientManagerStore.patientManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                        );
                     }
                   });
                 break;
@@ -1792,11 +1838,29 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientManager.message}`,
                       });
-                      patientManagerStore.patientManagerService.listPatientManager(
-                        {
-                          documentType: 'patientManager',
-                        },
-                      );
+                      if (global?.filter.mode == 'pagination')
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientManagerStore.patientManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                        );
                     }
                   });
 

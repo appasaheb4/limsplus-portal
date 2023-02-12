@@ -59,11 +59,13 @@ const TransmittedMessage = observer(() => {
               page,
               limit,
             );
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             transmittedMessageStore.transmittedMessageService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, filter, page, limit};
           }}
         />
         <ModalConfirm
@@ -79,6 +81,22 @@ const TransmittedMessage = observer(() => {
                     Toast.success({
                       message: `😊 ${res.removeTransmittedMessage.message}`,
                     });
+                    if (global?.filter?.mode == 'pagination')
+                      transmittedMessageStore.transmittedMessageService.listTransmittedMessage(
+                        global?.filter?.page,
+                        global?.filter?.limit,
+                      );
+                    else if (global?.filter?.mode == 'filter')
+                      transmittedMessageStore.transmittedMessageService.filter({
+                        input: {
+                          type: global?.filter?.type,
+                          filter: global?.filter?.filter,
+                          page: global?.filter?.page,
+                          limit: global?.filter?.limit,
+                        },
+                      });
+                    else
+                      transmittedMessageStore.transmittedMessageService.listTransmittedMessage();
                   }
                 });
             }
