@@ -29,6 +29,7 @@ interface ResultListProps {
 export const ResultList = (props: ResultListProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
+  const [selectedRowId, setSelectedRowId] = useState('');
 
   useEffect(() => {
     setSelectId(props.selectedId || '');
@@ -41,6 +42,11 @@ export const ResultList = (props: ResultListProps) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.selectedId, props.data]);
+
+  useEffect(() => {
+    setLocalData(JSON.parse(JSON.stringify(localData)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRowId]);
 
   return (
     <>
@@ -130,8 +136,31 @@ export const ResultList = (props: ResultListProps) => {
               headerClasses: 'textHeader16',
               formatter: (cell, row) => {
                 return (
-                  <div className='flex flex-row'>
-                    {row.refRanges ? (
+                  <div className='flex flex-col'>
+                    {row.refRanges?.length > 0 && (
+                      <Tooltip
+                        tooltipText={
+                          row._id != selectedRowId ? 'Expand' : 'Collapse'
+                        }
+                      >
+                        <Icons.IconContext
+                          color='#000000'
+                          size='20'
+                          onClick={() => {
+                            row._id == selectedRowId
+                              ? setSelectedRowId('')
+                              : setSelectedRowId(row._id);
+                          }}
+                        >
+                          {Icons.getIconTag(
+                            row._id != selectedRowId
+                              ? Icons.IconBi.BiExpand
+                              : Icons.IconBi.BiCollapse,
+                          )}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                    {selectedRowId == row._id ? (
                       <RefRanges
                         id='_id'
                         data={row?.refRanges || []}
