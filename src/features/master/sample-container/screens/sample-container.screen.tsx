@@ -347,30 +347,52 @@ const SampleContainer = SampleContainerHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 sampleContainerStore.fetchListSampleContainer(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 sampleContainerStore.sampleContainerService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {
+                  mode: 'filter',
+                  type,
+                  filter,
+                  page,
+                  limit,
+                };
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type: string) => {
-              if (type === 'Delete') {
+            click={(action: string) => {
+              if (action === 'Delete') {
                 sampleContainerStore.sampleContainerService
                   .deleteSampleContainer({input: {id: modalConfirm.id}})
                   .then((res: any) => {
                     if (res.removeSampleContainer.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.removeSampleContainer.message}`,
                       });
-                      setModalConfirm({show: false});
-                      sampleContainerStore.fetchListSampleContainer();
+                      if (global?.filter?.mode == 'pagination')
+                        sampleContainerStore.fetchListSampleContainer(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        sampleContainerStore.sampleContainerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else sampleContainerStore.fetchListSampleContainer();
                     }
                   });
-              } else if (type === 'Update') {
+              } else if (action === 'Update') {
                 sampleContainerStore.sampleContainerService
                   .updateSingleFiled({
                     input: {
@@ -380,11 +402,25 @@ const SampleContainer = SampleContainerHoc(
                   })
                   .then((res: any) => {
                     if (res.updateSampleContainer.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.updateSampleContainer.message}`,
                       });
-                      setModalConfirm({show: false});
-                      sampleContainerStore.fetchListSampleContainer();
+                      if (global?.filter?.mode == 'pagination')
+                        sampleContainerStore.fetchListSampleContainer(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global.filter.mode == 'filter')
+                        sampleContainerStore.sampleContainerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else sampleContainerStore.fetchListSampleContainer();
                     }
                   });
               } else {
@@ -400,9 +436,21 @@ const SampleContainer = SampleContainerHoc(
                       Toast.success({
                         message: `😊 ${res.updateSampleContainersImage.message}`,
                       });
-                      setTimeout(() => {
-                        window.location.reload();
-                      }, 2000);
+                      if (global?.filter?.mode == 'pagination')
+                        sampleContainerStore.fetchListSampleContainer(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global.filter.mode == 'filter')
+                        sampleContainerStore.sampleContainerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else sampleContainerStore.fetchListSampleContainer();
                     }
                   });
               }

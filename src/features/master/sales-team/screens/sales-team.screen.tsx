@@ -133,11 +133,13 @@ export const SalesTeam = SalesTeamHoc(
           }}
           onPageSizeChange={(page, limit) => {
             salesTeamStore.fetchSalesTeam(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             salesTeamStore.salesTeamService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, page, limit, filter};
           }}
         />
       ),
@@ -601,18 +603,32 @@ export const SalesTeam = SalesTeamHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'Delete': {
                   salesTeamStore.salesTeamService
                     .deleteSalesTeam({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removeSalesTeam.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeSalesTeam.message}`,
                         });
-                        setModalConfirm({show: false});
-                        salesTeamStore.fetchSalesTeam();
+                        if (global?.filter?.mode == 'pagination')
+                          salesTeamStore.fetchSalesTeam(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          salesTeamStore.salesTeamService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else salesTeamStore.fetchSalesTeam();
                       }
                     });
 
@@ -628,11 +644,25 @@ export const SalesTeam = SalesTeamHoc(
                     })
                     .then((res: any) => {
                       if (res.updateSalesTeam.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateSalesTeam.message}`,
                         });
-                        setModalConfirm({show: false});
-                        salesTeamStore.fetchSalesTeam();
+                        if (global?.filter?.mode == 'pagination')
+                          salesTeamStore.fetchSalesTeam(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          salesTeamStore.salesTeamService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else salesTeamStore.fetchSalesTeam();
                       }
                     });
 

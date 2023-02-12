@@ -200,11 +200,13 @@ export const PriceList = PriceListHoc(
           }}
           onPageSizeChange={(page, limit) => {
             priceListStore.fetchListPriceList(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             priceListStore.priceListService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, page, limit, filter};
           }}
         />
       ),
@@ -944,18 +946,32 @@ export const PriceList = PriceListHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action?: string) => {
+              switch (action) {
                 case 'delete': {
                   priceListStore.priceListService
                     .deletePriceList({input: {id: modalConfirm.id}})
                     .then((res: any) => {
                       if (res.removePriceList.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removePriceList.message}`,
                         });
-                        setModalConfirm({show: false});
-                        priceListStore.fetchListPriceList();
+                        if (global?.filter?.mode == 'pagination')
+                          priceListStore.fetchListPriceList(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          priceListStore.priceListService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else priceListStore.fetchListPriceList();
                       }
                     });
 
@@ -971,11 +987,25 @@ export const PriceList = PriceListHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePriceList.success) {
+                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updatePriceList.message}`,
                         });
-                        setModalConfirm({show: false});
-                        priceListStore.fetchListPriceList();
+                        if (global?.filter?.mode == 'pagination')
+                          priceListStore.fetchListPriceList(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          priceListStore.priceListService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else priceListStore.fetchListPriceList();
                       }
                     });
 

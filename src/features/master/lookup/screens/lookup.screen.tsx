@@ -158,28 +158,50 @@ const Lookup = observer(() => {
               }}
               onPageSizeChange={(page, size) => {
                 lookupStore.fetchListLookup(page, size);
+                global.filter = {mode: 'pagination', page, size};
               }}
               onFilter={(type, filter, page, limit) => {
                 lookupStore.LookupService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {
+                  mode: 'filter',
+                  type,
+                  filter,
+                  page,
+                  limit,
+                };
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action: string) => {
+              switch (action) {
                 case 'Delete': {
                   lookupStore.LookupService.deleteLookup({
                     input: {id: modalConfirm.id},
                   }).then((res: any) => {
                     if (res.removeLookup.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.removeLookup.message}`,
                       });
-                      setModalConfirm({show: false});
-                      lookupStore.fetchListLookup();
+                      if (global?.filter?.mode == 'pagination')
+                        lookupStore.fetchListLookup(
+                          global?.filter?.page,
+                          global?.filter?.size,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        lookupStore.LookupService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else lookupStore.fetchListLookup();
                     }
                   });
                   break;
@@ -192,11 +214,25 @@ const Lookup = observer(() => {
                     },
                   }).then((res: any) => {
                     if (res.updateLookup.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.updateLookup.message}`,
                       });
-                      setModalConfirm({show: false});
-                      lookupStore.fetchListLookup();
+                      if (global?.filter?.mode == 'pagination')
+                        lookupStore.fetchListLookup(
+                          global?.filter?.page,
+                          global?.filter?.size,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        lookupStore.LookupService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else lookupStore.fetchListLookup();
                     }
                   });
                   break;

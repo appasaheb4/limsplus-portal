@@ -92,11 +92,13 @@ const NoticeBoard = NoticeBoardHoc(
           }}
           onPageSizeChange={(page, limit) => {
             noticeBoardStore.fetchNoticeBoards(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             noticeBoardStore.NoticeBoardService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {mode: 'filter', type, filter, page, limit};
           }}
         />
       ),
@@ -285,34 +287,60 @@ const NoticeBoard = NoticeBoardHoc(
 
         <ModalConfirm
           {...modalConfirm}
-          click={(type?: string) => {
-            if (type === 'Delete') {
+          click={(action?: string) => {
+            if (action === 'Delete') {
               noticeBoardStore.NoticeBoardService.deleteNoticeBoards({
                 input: {id: modalConfirm.id},
               }).then((res: any) => {
                 if (res.removeNoticeBoard.success) {
+                  setModalConfirm({show: false});
                   Toast.success({
                     message: `😊 ${res.removeNoticeBoard.message}`,
                   });
-                  setModalConfirm({show: false});
-                  noticeBoardStore.fetchNoticeBoards();
+                  if (global?.filter?.mode == 'pagination')
+                    noticeBoardStore.fetchNoticeBoards(
+                      global?.filter?.page,
+                      global?.filter?.limit,
+                    );
+                  else if (global?.filter?.mode == 'filter')
+                    noticeBoardStore.NoticeBoardService.filter({
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    });
+                  else noticeBoardStore.fetchNoticeBoards();
                 }
               });
-            } else if (type === 'Update') {
+            } else if (action === 'Update') {
               noticeBoardStore.NoticeBoardService.updateSingleFiled({
                 input: {
                   _id: modalConfirm.data.id,
                   [modalConfirm.data.dataField]: modalConfirm.data.value,
                 },
               }).then((res: any) => {
+                setModalConfirm({show: false});
                 if (res.updateNoticeBoard.success) {
                   Toast.success({
                     message: `😊 ${res.updateNoticeBoard.message}`,
                   });
-                  setModalConfirm({show: false});
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 1000);
+                  if (global?.filter?.mode == 'pagination')
+                    noticeBoardStore.fetchNoticeBoards(
+                      global?.filter?.page,
+                      global?.filter?.limit,
+                    );
+                  else if (global?.filter?.mode == 'filter')
+                    noticeBoardStore.NoticeBoardService.filter({
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    });
+                  else noticeBoardStore.fetchNoticeBoards();
                 }
               });
             }

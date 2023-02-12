@@ -148,11 +148,23 @@ const Lab = LabHoc(
           }}
           onPageSizeChange={(page, limit) => {
             labStore.fetchListLab(page, limit);
+            global.filter = {
+              mode: 'pagination',
+              page,
+              limit,
+            };
           }}
           onFilter={(type, filter, page, limit) => {
             labStore.LabService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              filter,
+              type,
+              page,
+              limit,
+            };
           }}
         />
       ),
@@ -1389,18 +1401,32 @@ const Lab = LabHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action: string) => {
+              switch (action) {
                 case 'Delete': {
                   labStore.LabService.deleteLab({
                     input: {id: modalConfirm.id},
                   }).then((res: any) => {
                     if (res.removeLab.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.removeLab.message}`,
                       });
-                      setModalConfirm({show: false});
-                      labStore.fetchListLab();
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        labStore.LabService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else labStore.fetchListLab();
                     }
                   });
 
@@ -1414,11 +1440,25 @@ const Lab = LabHoc(
                     },
                   }).then((res: any) => {
                     if (res.updateLab.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
                       });
-                      setModalConfirm({show: false});
-                      labStore.fetchListLab();
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        labStore.LabService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else labStore.fetchListLab();
                     }
                   });
 
@@ -1431,12 +1471,26 @@ const Lab = LabHoc(
                       _id: modalConfirm.data.id,
                     },
                   }).then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.updateLab.success) {
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
                       });
-                      setModalConfirm({show: false});
-                      labStore.fetchListLab();
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        labStore.LabService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else labStore.fetchListLab();
                     }
                   });
 
@@ -1450,13 +1504,25 @@ const Lab = LabHoc(
                     },
                   }).then((res: any) => {
                     if (res.updateLabImages.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.updateLabImages.message}`,
                       });
-                      setModalConfirm({show: false});
-                      setTimeout(() => {
-                        window.location.reload();
-                      }, 2000);
+                      if (global?.filter?.mode == 'pagination')
+                        labStore.fetchListLab(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        labStore.LabService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else labStore.fetchListLab();
                     }
                   });
                 }

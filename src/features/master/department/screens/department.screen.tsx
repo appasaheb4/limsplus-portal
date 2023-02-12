@@ -116,11 +116,19 @@ export const Department = DeginisationHoc(
           }}
           onPageSizeChange={(page, limit) => {
             departmentStore.fetchListDepartment(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
             departmentStore.DepartmentService.filter({
               input: {type, filter, page, limit},
             });
+            global.filter = {
+              mode: 'filter',
+              page,
+              filter,
+              type,
+              limit,
+            };
           }}
         />
       ),
@@ -783,18 +791,32 @@ export const Department = DeginisationHoc(
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={(type?: string) => {
-              switch (type) {
+            click={(action: string) => {
+              switch (action) {
                 case 'Delete': {
                   departmentStore.DepartmentService.deletedepartment({
                     input: {id: modalConfirm.id},
                   }).then((res: any) => {
                     if (res.removeDepartment.success) {
+                      setModalConfirm({show: false});
                       Toast.success({
                         message: `😊 ${res.removeDepartment.message}`,
                       });
-                      setModalConfirm({show: false});
-                      departmentStore.fetchListDepartment();
+                      if (global?.filter?.mode == 'pagination')
+                        departmentStore.fetchListDepartment(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        departmentStore.DepartmentService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.type,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else departmentStore.fetchListDepartment();
                     }
                   });
                   break;
@@ -807,12 +829,26 @@ export const Department = DeginisationHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
+                    setModalConfirm({show: false});
                     if (res.updateDepartment.success) {
                       Toast.success({
                         message: `😊 ${res.updateDepartment.message}`,
                       });
-                      setModalConfirm({show: false});
-                      departmentStore.fetchListDepartment();
+                      if (global?.filter?.mode == 'pagination')
+                        departmentStore.fetchListDepartment(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        departmentStore.DepartmentService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.type,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else departmentStore.fetchListDepartment();
                     }
                   });
                   break;

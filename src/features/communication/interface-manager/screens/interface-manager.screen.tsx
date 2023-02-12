@@ -534,18 +534,20 @@ const InterfaceManager = InterfaceManagerHoc(
               }}
               onPageSizeChange={(page, limit) => {
                 interfaceManagerStore.fetchEncodeCharacter(page, limit);
+                global.filter = {mode: 'pagination', page, limit};
               }}
               onFilter={(type, filter, page, limit) => {
                 interfaceManagerStore.interfaceManagerService.filter({
                   input: {type, filter, page, limit},
                 });
+                global.filter = {mode: 'filter', type, filter, page, limit};
               }}
             />
           </div>
           <ModalConfirm
             {...modalConfirm}
-            click={type => {
-              if (type === 'Delete') {
+            click={action => {
+              if (action === 'Delete') {
                 interfaceManagerStore.interfaceManagerService
                   .deleteInterfaceManager({input: {id: modalConfirm.id}})
                   .then((res: any) => {
@@ -554,7 +556,21 @@ const InterfaceManager = InterfaceManagerHoc(
                       Toast.success({
                         message: `😊 ${res.removeInterfaceManager.message}`,
                       });
-                      interfaceManagerStore.fetchEncodeCharacter();
+                      if (global?.filter?.mode == 'pagination')
+                        interfaceManagerStore.fetchEncodeCharacter(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        interfaceManagerStore.interfaceManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else interfaceManagerStore.fetchEncodeCharacter();
                     }
                   });
               } else {
@@ -571,7 +587,21 @@ const InterfaceManager = InterfaceManagerHoc(
                       Toast.success({
                         message: `😊 ${res.updateInterfaceManager.message}`,
                       });
-                      interfaceManagerStore.fetchEncodeCharacter();
+                      if (global?.filter?.mode == 'pagination')
+                        interfaceManagerStore.fetchEncodeCharacter(
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        interfaceManagerStore.interfaceManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else interfaceManagerStore.fetchEncodeCharacter();
                     }
                   });
               }
