@@ -58,17 +58,68 @@ const Environment = observer(() => {
             environmentStore.EnvironmentService.deleteRecord({
               input: {id: modalConfirm.id},
             }).then((res: any) => {
+              setModalConfirm({show: false});
               if (res.removeEnviroment.success) {
                 Toast.success({
                   message: `😊 ${res.removeEnviroment.message}`,
                 });
-                setModalConfirm({show: false});
-                environmentStore.fetchEnvironment({
-                  documentType: 'environmentVariable',
-                });
-                environmentStore.fetchEnvironment({
-                  documentType: 'environmentSettings',
-                });
+
+                if (
+                  global?.filter?.mode == 'pagination' &&
+                  global?.filter?.section == 'environmentSettings'
+                )
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentSettings',
+                    page: global?.filter?.page,
+                    limit: global?.filter?.limit,
+                  });
+                if (
+                  global?.filter?.mode == 'pagination' &&
+                  global?.filter?.section == 'environmentVariable'
+                )
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentVariable',
+                    page: global?.filter?.page,
+                    limit: global?.filter?.limit,
+                  });
+                else if (
+                  global?.filter?.mode == 'filter' &&
+                  global?.filter?.section == 'environmentSettings'
+                )
+                  environmentStore.EnvironmentService.filter(
+                    {
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    },
+                    'environmentSettings',
+                  );
+                else if (
+                  global?.filter?.mode == 'filter' &&
+                  global?.filter?.section == 'environmentVariable'
+                )
+                  environmentStore.EnvironmentService.filter(
+                    {
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    },
+                    'environmentVariable',
+                  );
+                else {
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentVariable',
+                  });
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentSettings',
+                  });
+                }
               }
             });
           } else if (type === 'update') {
@@ -78,22 +129,73 @@ const Environment = observer(() => {
                 [modalConfirm.data.dataField]: modalConfirm.data.value,
               },
             }).then((res: any) => {
+              setModalConfirm({show: false});
               if (res.updateEnviroment.success) {
                 Toast.success({
                   message: `😊 ${res.updateEnviroment.message}`,
                 });
-                setModalConfirm({show: false});
                 // eslint-disable-next-line unicorn/no-useless-undefined
                 environmentStore.updateSelectedItems(undefined);
                 // setTimeout(() => {
                 //   window.location.reload()
                 // }, 2000)
-                environmentStore.fetchEnvironment({
-                  documentType: 'environmentVariable',
-                });
-                environmentStore.fetchEnvironment({
-                  documentType: 'environmentSettings',
-                });
+
+                if (
+                  global?.filter?.mode == 'pagination' &&
+                  global?.filter?.section == 'environmentSettings'
+                )
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentSettings',
+                    page: global?.filter?.page,
+                    limit: global?.filter?.limit,
+                  });
+                if (
+                  global?.filter?.mode == 'pagination' &&
+                  global?.filter?.section == 'environmentVariable'
+                )
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentVariable',
+                    page: global?.filter?.page,
+                    limit: global?.filter?.limit,
+                  });
+                else if (
+                  global?.filter?.mode == 'filter' &&
+                  global?.filter?.section == 'environmentSettings'
+                )
+                  environmentStore.EnvironmentService.filter(
+                    {
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    },
+                    'environmentSettings',
+                  );
+                else if (
+                  global?.filter?.mode == 'filter' &&
+                  global?.filter?.section == 'environmentVariable'
+                )
+                  environmentStore.EnvironmentService.filter(
+                    {
+                      input: {
+                        type: global?.filter?.type,
+                        filter: global?.filter?.filter,
+                        page: global?.filter?.page,
+                        limit: global?.filter?.limit,
+                      },
+                    },
+                    'environmentVariable',
+                  );
+                else {
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentVariable',
+                  });
+                  environmentStore.fetchEnvironment({
+                    documentType: 'environmentSettings',
+                  });
+                }
               }
             });
           }

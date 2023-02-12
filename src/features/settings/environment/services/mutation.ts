@@ -68,6 +68,7 @@ export const FILTER = gql`
       success
       message
       data {
+        _id
         lab
         user
         department

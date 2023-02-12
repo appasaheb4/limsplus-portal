@@ -117,6 +117,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               page,
               limit,
             );
+            global.filter = {
+              mode: 'pagination',
+              page,
+              limit,
+              section: 'environmentSettings',
+            };
           }}
           onFilter={(type, filter, page, limit) => {
             environmentStore.EnvironmentService.filter(
@@ -125,6 +131,14 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               },
               'environmentSettings',
             );
+            global.filter = {
+              mode: 'filter',
+              type,
+              filter,
+              page,
+              limit,
+              section: 'environmentSettings',
+            };
           }}
         />
       ),
