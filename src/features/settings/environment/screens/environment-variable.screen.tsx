@@ -349,6 +349,12 @@ export const EnvironmentVariable = observer(
                 page,
                 limit,
               );
+              global.filter = {
+                mode: 'pagination',
+                page,
+                limit,
+                section: 'environmentVariable',
+              };
             }}
             onFilter={(type, filter, page, limit) => {
               environmentStore.EnvironmentService.filter(
@@ -357,6 +363,14 @@ export const EnvironmentVariable = observer(
                 },
                 'environmentVariable',
               );
+              global.filter = {
+                mode: 'filter',
+                type,
+                filter,
+                page,
+                limit,
+                section: 'environmentVariable',
+              };
             }}
           />
         </div>
