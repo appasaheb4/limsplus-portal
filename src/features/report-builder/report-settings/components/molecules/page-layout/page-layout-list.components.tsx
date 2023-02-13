@@ -9,9 +9,8 @@ import {
   Svg,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {resizeFile, compressString} from '@/library/utils';
 
-interface TemplateSettingsProps {
+interface PageLayoutProps {
   data: any;
   totalSize: number;
   isDelete?: boolean;
@@ -33,7 +32,7 @@ let sectionSetting;
 let version;
 let environment;
 
-export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
+export const PageLayoutList = observer((props: PageLayoutProps) => {
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -50,14 +49,14 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
             },
             {
               dataField: 'tempCode',
-              text: 'Template Code',
+              text: 'Layout Code',
               headerClasses: 'textHeader',
               sort: true,
               editable: false,
             },
             {
               dataField: 'tempName',
-              text: 'Template Name',
+              text: 'Layout Name',
               headerClasses: 'textHeader',
               sort: true,
               editable: false,
@@ -150,7 +149,7 @@ export const TemplateSettingsList = observer((props: TemplateSettingsProps) => {
                     }}
                   />
                   <Buttons.Button
-                    size='medium'
+                    size='small'
                     type='outline'
                     icon={Svg.Remove}
                     onClick={() => {

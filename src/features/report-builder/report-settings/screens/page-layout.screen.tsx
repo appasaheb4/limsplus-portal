@@ -14,7 +14,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import {TemplateSettingsList} from '../components';
+import {PageLayoutList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
@@ -24,7 +24,7 @@ import '@/library/assets/css/accordion.css';
 
 import {PdfTSTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/template-setting/temp0001/temp0001.component';
 
-export const TemplateSettings = observer(() => {
+export const PageLayout = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
   const {
     control,
@@ -47,8 +47,10 @@ export const TemplateSettings = observer(() => {
       return Toast.error({
         message: '😔 Already exists temp code. Please enter diff.',
       });
-    reportSettingStore.templateSettingsService
-      .addTemplateSetting({input: {...reportSettingStore.templateSettings}})
+    reportSettingStore.pageLayoutService
+      .addTemplateSetting({
+        input: {...reportSettingStore.pageLayout},
+      })
       .then(res => {
         if (res.createTemplateSetting.success) {
           Toast.success({
@@ -84,26 +86,25 @@ export const TemplateSettings = observer(() => {
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label='Template Code'
-                      placeholder='Template code'
+                      label='Layout Code'
+                      placeholder='Layout code'
                       hasError={!!errors.tempCode}
-                      value={reportSettingStore.templateSettings?.tempCode}
+                      value={reportSettingStore.pageLayout?.tempCode}
                       onChange={tempCode => {
                         onChange(tempCode);
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
+                        reportSettingStore.updatePageLayout({
+                          ...reportSettingStore.pageLayout,
                           tempCode,
                         });
                       }}
                       onBlur={tempCode => {
-                        reportSettingStore.templateSettingsService
+                        reportSettingStore.pageLayoutService
                           .findByFields({
                             input: {
                               filter: {
                                 tempCode,
                                 tempName:
-                                  reportSettingStore.templateSettings
-                                    ?.tempName || '',
+                                  reportSettingStore.pageLayout?.tempName || '',
                               },
                             },
                           })
@@ -133,26 +134,25 @@ export const TemplateSettings = observer(() => {
                   control={control}
                   render={({field: {onChange}}) => (
                     <Form.Input
-                      label='Template Name'
-                      placeholder='Template Name'
+                      label='Layout Name'
+                      placeholder='Layout Name'
                       hasError={!!errors.tempName}
-                      value={reportSettingStore.templateSettings?.tempName}
+                      value={reportSettingStore.pageLayout?.tempName}
                       onChange={tempName => {
                         onChange(tempName);
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
+                        reportSettingStore.updatePageLayout({
+                          ...reportSettingStore.pageLayout,
                           tempName,
                         });
                       }}
                       onBlur={tempName => {
-                        reportSettingStore.templateSettingsService
+                        reportSettingStore.pageLayoutService
                           .findByFields({
                             input: {
                               filter: {
                                 tempName,
                                 tempCode:
-                                  reportSettingStore.templateSettings
-                                    ?.tempCode || '',
+                                  reportSettingStore.pageLayout?.tempCode || '',
                               },
                             },
                           })
@@ -185,11 +185,11 @@ export const TemplateSettings = observer(() => {
                       <Form.Toggle
                         label='Show tool bar'
                         hasError={!!errors.isToolBar}
-                        value={reportSettingStore.templateSettings?.isToolbar}
+                        value={reportSettingStore.pageLayout?.isToolbar}
                         onChange={isToolbar => {
                           onChange(isToolbar);
-                          reportSettingStore.updateTemplateSettings({
-                            ...reportSettingStore.templateSettings,
+                          reportSettingStore.updatePageLayout({
+                            ...reportSettingStore.pageLayout,
                             isToolbar,
                           });
                         }}
@@ -205,13 +205,11 @@ export const TemplateSettings = observer(() => {
                       <Form.Toggle
                         label='Background Image Visible'
                         hasError={!!errors.isBackgroundImage}
-                        value={
-                          reportSettingStore.templateSettings?.isBackgroundImage
-                        }
+                        value={reportSettingStore.pageLayout?.isBackgroundImage}
                         onChange={isBackgroundImage => {
                           onChange(isBackgroundImage);
-                          reportSettingStore.updateTemplateSettings({
-                            ...reportSettingStore.templateSettings,
+                          reportSettingStore.updatePageLayout({
+                            ...reportSettingStore.pageLayout,
                             isBackgroundImage,
                           });
                         }}
@@ -232,8 +230,8 @@ export const TemplateSettings = observer(() => {
                       onChange={async e => {
                         const backgroundImage = e.target.files[0];
                         onChange(backgroundImage);
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
+                        reportSettingStore.updatePageLayout({
+                          ...reportSettingStore.pageLayout,
                           backgroundImage,
                         });
                       }}
@@ -253,7 +251,7 @@ export const TemplateSettings = observer(() => {
                       hasError={!!errors.pageSize}
                     >
                       <select
-                        value={reportSettingStore.templateSettings?.pageSize}
+                        value={reportSettingStore.pageLayout?.pageSize}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.pageSize
                             ? 'border-red-500  '
@@ -262,8 +260,8 @@ export const TemplateSettings = observer(() => {
                         onChange={e => {
                           const pageSize = e.target.value;
                           onChange(pageSize);
-                          reportSettingStore.updateTemplateSettings({
-                            ...reportSettingStore.templateSettings,
+                          reportSettingStore.updatePageLayout({
+                            ...reportSettingStore.pageLayout,
                             pageSize,
                           });
                         }}
@@ -342,10 +340,10 @@ export const TemplateSettings = observer(() => {
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.templateSettings?.mainBoxCSS}
+                      value={reportSettingStore.pageLayout?.mainBoxCSS}
                       onChange={mainBoxCSS => {
-                        reportSettingStore.updateTemplateSettings({
-                          ...reportSettingStore.templateSettings,
+                        reportSettingStore.updatePageLayout({
+                          ...reportSettingStore.pageLayout,
                           mainBoxCSS,
                         });
                       }}
@@ -374,19 +372,19 @@ export const TemplateSettings = observer(() => {
           <List direction='col' space={4} justify='stretch' fill>
             <PDFViewer
               style={{width, height}}
-              showToolbar={reportSettingStore.templateSettings?.isToolbar}
+              showToolbar={reportSettingStore.pageLayout?.isToolbar}
             >
               <Document title='Template Setting'>
                 <PdfTSTemp0001
                   documentTitle='Template Setting'
                   isBackgroundImage={
-                    reportSettingStore.templateSettings?.isBackgroundImage
+                    reportSettingStore.pageLayout?.isBackgroundImage
                   }
                   backgroundImage={
-                    reportSettingStore.templateSettings?.backgroundImage
+                    reportSettingStore.pageLayout?.backgroundImage
                   }
-                  mainBoxCSS={reportSettingStore.templateSettings?.mainBoxCSS}
-                  pageSize={reportSettingStore.templateSettings?.pageSize}
+                  mainBoxCSS={reportSettingStore.pageLayout?.mainBoxCSS}
+                  pageSize={reportSettingStore.pageLayout?.pageSize}
                   children={<PdfMedium>Template Setting</PdfMedium>}
                 />
               </Document>
@@ -416,9 +414,9 @@ export const TemplateSettings = observer(() => {
         </List>
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-        <TemplateSettingsList
-          data={reportSettingStore.templateSettingsList || []}
-          totalSize={reportSettingStore.templateSettingsListCount}
+        <PageLayoutList
+          data={reportSettingStore.pageLayoutList || []}
+          totalSize={reportSettingStore.pageLayoutListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -459,16 +457,16 @@ export const TemplateSettings = observer(() => {
               visible: true,
               children: (
                 <PDFViewer style={{width, height}} showToolbar={item.isToolbar}>
-                  <Document title='Template Setting'>
+                  <Document title='Page Layout'>
                     <PdfTSTemp0001
-                      documentTitle='Template Setting'
+                      documentTitle='Page Layout'
                       height={window.innerHeight / 1.3}
                       isToolbar={item.isToolbar}
                       isBackgroundImage={item?.isBackgroundImage}
                       backgroundImage={item?.backgroundImage}
                       mainBoxCSS={item.mainBoxCSS}
                       pageSize={item.pageSize}
-                      children={<PdfMedium>Template Setting</PdfMedium>}
+                      children={<PdfMedium>Page Layout</PdfMedium>}
                     />
                   </Document>
                 </PDFViewer>
@@ -482,7 +480,7 @@ export const TemplateSettings = observer(() => {
         click={(type?: string) => {
           switch (type) {
             case 'delete': {
-              reportSettingStore.templateSettingsService
+              reportSettingStore.pageLayoutService
                 .removeTemplateSetting({
                   input: {id: modalConfirm.id},
                 })
@@ -492,13 +490,13 @@ export const TemplateSettings = observer(() => {
                     Toast.success({
                       message: `😊 ${res.removeTemplateSetting.message}`,
                     });
-                    reportSettingStore.templateSettingsService.listTemplateSetting();
+                    reportSettingStore.pageLayoutService.listTemplateSetting();
                   }
                 });
               break;
             }
             case 'update': {
-              reportSettingStore.templateSettingsService
+              reportSettingStore.pageLayoutService
                 .update({
                   input: {
                     ...modalConfirm.data.fields,

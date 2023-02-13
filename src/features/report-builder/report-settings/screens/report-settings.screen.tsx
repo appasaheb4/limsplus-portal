@@ -10,7 +10,7 @@ import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
 import {PageBranding} from './page-branding.screen';
-import {TemplateSettings} from './template-setting.screen';
+import {PageLayout} from './page-layout.screen';
 import {TemplatePatientResult} from './template-patient-result.screen';
 
 const ReportSettings = observer(() => {
@@ -29,6 +29,7 @@ const ReportSettings = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
+
   setValue('species', patientManagerStore.patientManger.species);
 
   return (
@@ -40,35 +41,20 @@ const ReportSettings = observer(() => {
       <div>
         <Accordion>
           {[
-            {title: 'TEMPLATE SETTING'},
+            {title: 'Page LAYOUT'},
             {title: 'PAGE BRANDING'},
             {title: 'TEMPLATE PATIENT RESULT'},
-            // {title: 'REPORT SECTION'},
-            // {title: 'SECTION SETTING'},
-            // {title: 'PAGE SETTING'},
-            // {title: 'GENERAL SETTING'},
-            // {title: 'FONT SETTING'},
-            // {title: 'REPORT FIELD MAPPING'},
           ].map(item => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === 'TEMPLATE PATIENT RESULT'}
+                // expanded={item.title === 'PAGE BRANDING'}
               >
-                {item.title === 'TEMPLATE SETTING' && <TemplateSettings />}
+                {item.title === 'Page LAYOUT' && <PageLayout />}
                 {item.title === 'PAGE BRANDING' && <PageBranding />}
                 {item.title === 'TEMPLATE PATIENT RESULT' && (
                   <TemplatePatientResult />
                 )}
-
-                {/* {item.title === 'REPORT SECTION' && <ReportSection />}
-                {item.title === 'SECTION SETTING' && <SectionSettings />}
-                {item.title === 'PAGE SETTING' && <PageSetting />}
-                {item.title === 'GENERAL SETTING' && <GeneralSettings />}
-                {item.title === 'FONT SETTING' && <FontSetting />}
-                {item.title === 'REPORT FIELD MAPPING' && (
-                  <ReportFieldMapping />
-                )} */}
               </AccordionItem>
             );
           })}

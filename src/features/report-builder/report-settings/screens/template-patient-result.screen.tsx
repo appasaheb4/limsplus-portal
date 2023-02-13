@@ -194,7 +194,7 @@ export const TemplatePatientResult = observer(() => {
                 )}
                 name='pageBranding'
                 rules={{required: false}}
-                defaultValue={reportSettingStore.templateSettingsList}
+                defaultValue={reportSettingStore.pageLayoutList}
               />
               <Controller
                 control={control}
