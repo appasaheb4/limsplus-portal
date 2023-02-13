@@ -1,4 +1,3 @@
-import {TemplateSettings} from './template-setting.model';
 export class PageBranding {
   _id: string;
   tempCode: string;
@@ -8,8 +7,9 @@ export class PageBranding {
     title: string;
     titleCSS: any;
     logo: any;
-    logoUrl: any;
     logoCSS: number;
+    backgroundImage: any;
+    backgroundImageBase64: string;
     mainBoxCSS: string;
   };
   subHeader: {
@@ -24,6 +24,8 @@ export class PageBranding {
     titleCSS: string;
     subTitle: string;
     subTitleCSS: string;
+    backgroundImage: any;
+    backgroundImageBase64: string;
     mainBoxCSS: string;
   };
   pageNumber: {
@@ -33,9 +35,11 @@ export class PageBranding {
   isSubHeader: boolean;
   isFooter: boolean;
   isPdfPageNumber: boolean;
+
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
+
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
     this.tempCode = rawData.tempCode;

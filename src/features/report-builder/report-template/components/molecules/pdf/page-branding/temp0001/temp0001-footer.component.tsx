@@ -11,6 +11,7 @@ import {
   PdfSmall,
   PdfTable,
 } from '@components';
+import {Image, View} from '@react-pdf/renderer';
 
 interface PdfTemp0001FooterProps {
   data: any;
@@ -44,6 +45,41 @@ export const PdfTemp0001Footer = ({data}: PdfTemp0001FooterProps) => {
 
   return (
     <PdfFooterView fixed style={{...mainBoxCSS.current}}>
+      {data.footer?.backgroundImage && (
+        <>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              top: 0,
+            }}
+            fixed={true}
+          >
+            <Image
+              object-fit='fill'
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                top: 0,
+                objectFit: 'fill',
+              }}
+              source={{
+                uri:
+                  typeof data.footer?.backgroundImage == 'object'
+                    ? data.footer?.backgroundImageBase64
+                    : data.footer?.backgroundImage,
+                method: 'GET',
+                headers: {'Cache-Control': 'no-cache'},
+                body: '',
+              }}
+            />
+          </View>
+        </>
+      )}
       <PdfSmall style={{textAlign: 'center', ...titleCSS.current}}>
         {data.footer?.title || 'Title'}
       </PdfSmall>

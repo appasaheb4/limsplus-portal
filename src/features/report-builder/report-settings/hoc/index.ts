@@ -1,4 +1,1 @@
-export * from './section-setting.hoc';
-export * from './page-setting.hoc';
-export * from './general-setting.hoc';
-export * from './font-setting.hoc';
+export {};

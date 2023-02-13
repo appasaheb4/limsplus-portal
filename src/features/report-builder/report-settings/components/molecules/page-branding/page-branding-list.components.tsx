@@ -8,6 +8,8 @@ import {
   TableBootstrap,
   Tooltip,
   Icons,
+  Buttons,
+  Svg,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {resizeFile, compressString} from '@/library/utils';
@@ -50,7 +52,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
             },
             {
               dataField: 'tempCode',
-              text: 'Template Code',
+              text: 'Branding Code',
               sort: true,
               editable: false,
             },
@@ -163,7 +165,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                 rowIndex,
                 columnIndex,
               ) => (
-                <>
+                <div className='flex flex-col items-center gap gap-2'>
                   <Form.InputFile
                     label='File'
                     placeholder='File'
@@ -175,14 +177,32 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                             header: {
                               ...row.header,
                               logo,
-                              logoUrl: compressString(await resizeFile(logo)),
                             },
                           },
                           row._id,
                         );
                     }}
                   />
-                </>
+                  <Buttons.Button
+                    size='small'
+                    type='outline'
+                    icon={Svg.Remove}
+                    onClick={() => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            header: {
+                              ...row.header,
+                              logo: null,
+                            },
+                          },
+                          row._id,
+                        );
+                    }}
+                  >
+                    Remove Image
+                  </Buttons.Button>
+                </div>
               ),
             },
             {
@@ -213,6 +233,69 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                     />
                   )}
                 </>
+              ),
+            },
+            {
+              dataField: 'header.backgroundImage',
+              text: 'Header Background Image',
+              sort: true,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <img
+                      src={row.header?.backgroundImage}
+                      alt='backgroundImage'
+                      className='object-fill h-35 w-40 rounded-md'
+                    />
+                  </>
+                );
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <div className='flex flex-col items-center gap gap-2'>
+                  <Form.InputFile
+                    label='File'
+                    placeholder='File'
+                    onChange={async e => {
+                      const backgroundImage = e.target.files[0];
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            header: {
+                              ...row.header,
+                              backgroundImage,
+                            },
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                  <Buttons.Button
+                    size='small'
+                    type='outline'
+                    icon={Svg.Remove}
+                    onClick={() => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            header: {
+                              ...row.header,
+                              backgroundImage: null,
+                            },
+                          },
+                          row._id,
+                        );
+                    }}
+                  >
+                    Remove Image
+                  </Buttons.Button>
+                </div>
               ),
             },
             {
@@ -553,6 +636,69 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                     />
                   )}
                 </>
+              ),
+            },
+            {
+              dataField: 'footer.backgroundImage',
+              text: 'Footer Background Image',
+              sort: true,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <img
+                      src={row.footer?.backgroundImage}
+                      alt='backgroundImage'
+                      className='object-fill h-35 w-40 rounded-md'
+                    />
+                  </>
+                );
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <div className='flex flex-col items-center gap gap-2'>
+                  <Form.InputFile
+                    label='File'
+                    placeholder='File'
+                    onChange={async e => {
+                      const backgroundImage = e.target.files[0];
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            footer: {
+                              ...row.footer,
+                              backgroundImage,
+                            },
+                          },
+                          row._id,
+                        );
+                    }}
+                  />
+                  <Buttons.Button
+                    size='small'
+                    type='outline'
+                    icon={Svg.Remove}
+                    onClick={() => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {
+                            footer: {
+                              ...row.footer,
+                              backgroundImage: null,
+                            },
+                          },
+                          row._id,
+                        );
+                    }}
+                  >
+                    Remove Image
+                  </Buttons.Button>
+                </div>
               ),
             },
             {

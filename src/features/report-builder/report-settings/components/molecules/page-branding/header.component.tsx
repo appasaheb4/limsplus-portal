@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
-import {resizeFile, compressString} from '@/library/utils';
+import {resizeFile} from '@/library/utils';
 
 export const PageBrandingHeader = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -81,7 +81,6 @@ export const PageBrandingHeader = observer(() => {
                 header: {
                   ...reportSettingStore.pageBranding?.header,
                   logo,
-                  //logoUrl: compressString(await resizeFile(logo)),
                 },
               });
             }}
@@ -111,6 +110,33 @@ export const PageBrandingHeader = observer(() => {
           />
         )}
         name='logoCSS'
+        rules={{required: false}}
+        defaultValue=''
+      />
+      <Controller
+        control={control}
+        render={({field: {onChange}}) => (
+          <Form.InputFile
+            label='Background Image'
+            placeholder='Background Image'
+            hasError={!!errors.backgroundImage}
+            onChange={async e => {
+              const backgroundImage = e.target.files[0];
+              onChange(backgroundImage);
+              reportSettingStore.updatePageBranding({
+                ...reportSettingStore.pageBranding,
+                header: {
+                  ...reportSettingStore.pageBranding.header,
+                  backgroundImage,
+                  backgroundImageBase64: (await resizeFile(
+                    backgroundImage,
+                  )) as string,
+                },
+              });
+            }}
+          />
+        )}
+        name='backgroundImage'
         rules={{required: false}}
         defaultValue=''
       />

@@ -13,12 +13,12 @@ import {
   REMOVE_TEMPLATE_SETTING,
   UPDATE_TEMPLATE_SETTING,
   FIND_BY_FIELDS,
-} from './mutation-template-setting.service';
+} from './mutation-page-layout.service';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
-export class TemplateSettingService {
+export class PageLayoutService {
   listTemplateSetting = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const environment =
@@ -30,7 +30,7 @@ export class TemplateSettingService {
           variables: {input: {page, limit, environment, role}},
         })
         .then((response: any) => {
-          stores.reportSettingStore.updateTemplateSettingsList(response.data);
+          stores.reportSettingStore.updatePageLayoutList(response.data);
           resolve(response.data);
         })
         .catch(error =>

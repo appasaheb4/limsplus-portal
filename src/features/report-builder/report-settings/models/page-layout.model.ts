@@ -1,4 +1,4 @@
-export class TemplateSettings {
+export class PageLayout {
   _id: string;
   tempCode: string;
   tempName: string;

@@ -10,7 +10,6 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  PdfMedium,
   ModalView,
   ModalViewProps,
 } from '@/library/components';
@@ -37,6 +36,7 @@ import {PdfPBTemp0001} from '@features/report-builder/report-template/components
 
 const width = '100%';
 const height = window.innerHeight / 1.3;
+
 export const PageBranding = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
   const {
@@ -50,13 +50,13 @@ export const PageBranding = observer(() => {
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
-  const [isInputView, setIsInputView] = useState<boolean>(true);
+  const [isInputView, setIsInputView] = useState<boolean>(false);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({
-        message: '😔 Already exists temp code. Please select diff.',
+        message: '😔 Already exists branding code. Please select diff.',
       });
     reportSettingStore.pageBrandingService
       .addPageBranding({
@@ -64,6 +64,11 @@ export const PageBranding = observer(() => {
           ...reportSettingStore.pageBranding,
           header: {
             ...reportSettingStore.pageBranding?.header,
+            backgroundImageBase64: undefined,
+          },
+          footer: {
+            ...reportSettingStore.pageBranding?.footer,
+            backgroundImageBase64: undefined,
           },
         },
       })
@@ -84,7 +89,7 @@ export const PageBranding = observer(() => {
       return (
         <PDFViewer
           style={{width, height}}
-          showToolbar={reportSettingStore.templateSettings?.isToolbar}
+          showToolbar={reportSettingStore.pageLayout?.isToolbar}
         >
           <Document title='Page Branding'>
             <PdfPBTemp0001
@@ -126,7 +131,7 @@ export const PageBranding = observer(() => {
       )}
       <div
         className={
-          ' rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
+          'rounded-lg shadow-xl p-2 ' + (isInputView ? 'hidden' : 'shown')
         }
       >
         <Grid cols={2}>
@@ -136,9 +141,9 @@ export const PageBranding = observer(() => {
               render={({field: {onChange}}) => (
                 <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                   loader={loading}
-                  placeholder='Temp Code'
+                  placeholder='Branding Code'
                   data={{
-                    list: reportSettingStore.templateSettingsList,
+                    list: reportSettingStore.pageLayoutList,
                     displayKey: ['tempCode', 'tempName'],
                   }}
                   hasError={!!errors.tempCode}
@@ -190,7 +195,7 @@ export const PageBranding = observer(() => {
               )}
               name='tempCode'
               rules={{required: true}}
-              defaultValue={reportSettingStore.templateSettingsList}
+              defaultValue={reportSettingStore.pageLayoutList}
             />
             <Controller
               control={control}
@@ -368,7 +373,7 @@ export const PageBranding = observer(() => {
           </Buttons.Button>
         </List>
       </div>
-      <div className=' rounded-lg shadow-xl overflow-auto'>
+      <div className='rounded-lg shadow-xl overflow-auto p-2'>
         <PageBrandingList
           data={reportSettingStore.pageBrandingList}
           totalSize={reportSettingStore.pageBrandingListCount}
@@ -408,7 +413,7 @@ export const PageBranding = observer(() => {
             // });
           }}
           onPdfPreview={item => {
-            reportSettingStore.templateSettingsService
+            reportSettingStore.pageLayoutService
               .findByFields({
                 input: {
                   filter: {

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useRef} from 'react';
 import {
   Page,
   Text,
@@ -9,7 +9,6 @@ import {
   Image,
   View,
 } from '@react-pdf/renderer';
-import {decompressString} from '@/library/utils';
 
 Font.register({
   family: 'arimaRegular',
@@ -39,13 +38,13 @@ interface PdfTSTemp0001Props {
 export const PdfTSTemp0001 = ({
   width = '100%',
   height = 300,
-  documentTitle = 'Template Settings',
+  documentTitle = 'Page Layout',
   isToolbar = false,
   isBackgroundImage = false,
   backgroundImage = '',
   mainBoxCSS = {},
   pageSize,
-  isWithHeader,
+  isWithHeader = true,
   children,
 }: PdfTSTemp0001Props) => {
   const boxCSS = useRef<any>(styles.page);

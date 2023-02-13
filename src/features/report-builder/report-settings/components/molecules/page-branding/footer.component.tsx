@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
+import {resizeFile} from '@/library/utils';
 
 export const PageBrandingFooter = observer(() => {
   const {reportSettingStore} = useStores();
@@ -115,6 +116,33 @@ export const PageBrandingFooter = observer(() => {
         defaultValue=''
       />
 
+      <Controller
+        control={control}
+        render={({field: {onChange}}) => (
+          <Form.InputFile
+            label='Background Image'
+            placeholder='Background Image'
+            hasError={!!errors.backgroundImage}
+            onChange={async e => {
+              const backgroundImage = e.target.files[0];
+              onChange(backgroundImage);
+              reportSettingStore.updatePageBranding({
+                ...reportSettingStore.pageBranding,
+                footer: {
+                  ...reportSettingStore.pageBranding.footer,
+                  backgroundImage,
+                  backgroundImageBase64: (await resizeFile(
+                    backgroundImage,
+                  )) as string,
+                },
+              });
+            }}
+          />
+        )}
+        name='backgroundImage'
+        rules={{required: false}}
+        defaultValue=''
+      />
       <Controller
         control={control}
         render={({field: {onChange}}) => (
