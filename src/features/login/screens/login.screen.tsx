@@ -23,8 +23,7 @@ import {useHistory} from 'react-router-dom';
 import {useStores} from '@/stores';
 import {t} from '@/localization';
 import * as Assets from '@/library/assets';
-
-import packageJson from '../../../../package.json';
+import LogRocket from 'logrocket';
 
 export const Login = observer(() => {
   const {
@@ -128,8 +127,14 @@ export const Login = observer(() => {
                 Toast.success({
                   message: `😊 ${res.login.message}`,
                 });
-                loginStore.saveLogin(res.login.data.user);
+                const user = res.login.data.user;
+                loginStore.saveLogin(user);
                 loginStore.clearInputUser();
+                LogRocket.identify(user?.userId, {
+                  name: user?.fullName,
+                  email: user?.email,
+                  mobileNo: user?.mobileNo,
+                });
                 setTimeout(() => {
                   history.push('/dashboard/default');
                 }, 1000);

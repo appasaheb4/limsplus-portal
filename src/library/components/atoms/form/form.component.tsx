@@ -355,6 +355,7 @@ export const InputFile = (props: InputFileProps) => (
 
 interface ToggleProps extends InputWrapperProps {
   disabled?: boolean;
+  isToggleLabel?: boolean;
   defaultChecked?: boolean;
   className?: string;
   icons?: any;
@@ -369,7 +370,7 @@ interface ToggleProps extends InputWrapperProps {
 
 export const Toggle = (props: ToggleProps) => {
   const [toggle, setToggle] = useState(props.value);
-  const {onChange, disabled, className} = props;
+  const {onChange, disabled, className, isToggleLabel = true} = props;
 
   useEffect(() => {
     setToggle(props.value);
@@ -402,12 +403,16 @@ export const Toggle = (props: ToggleProps) => {
             'wrg-toggle-container ' + (toggle ? 'bg-green-700' : 'bg-black')
           }
         >
-          <div className='wrg-toggle-check'>
-            <span className='text-white ml-1'>Yes</span>
-          </div>
-          <div className='wrg-toggle-uncheck'>
-            <span className='text-white'>No</span>
-          </div>
+          {isToggleLabel && (
+            <>
+              <div className='wrg-toggle-check'>
+                <span className='text-white ml-1'>Yes</span>
+              </div>
+              <div className='wrg-toggle-uncheck'>
+                <span className='text-white'>No</span>
+              </div>
+            </>
+          )}
         </div>
         <div
           className={`wrg-toggle-circle ${toggle ? 'ml-1' : 'mr-1'}  `}

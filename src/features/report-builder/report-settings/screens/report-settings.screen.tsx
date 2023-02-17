@@ -12,6 +12,7 @@ import '@/library/assets/css/accordion.css';
 import {PageBranding} from './page-branding.screen';
 import {PageLayout} from './page-layout.screen';
 import {TemplatePatientResult} from './template-patient-result.screen';
+import {ReportBody} from './report-body.screen';
 
 const ReportSettings = observer(() => {
   const {
@@ -43,15 +44,17 @@ const ReportSettings = observer(() => {
           {[
             {title: 'Page LAYOUT'},
             {title: 'PAGE BRANDING'},
+            {title: 'REPORT BODY'},
             {title: 'TEMPLATE PATIENT RESULT'},
           ].map(item => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                // expanded={item.title === 'PAGE BRANDING'}
+                expanded={item.title === 'REPORT BODY'}
               >
                 {item.title === 'Page LAYOUT' && <PageLayout />}
                 {item.title === 'PAGE BRANDING' && <PageBranding />}
+                {item.title === 'REPORT BODY' && <ReportBody />}
                 {item.title === 'TEMPLATE PATIENT RESULT' && (
                   <TemplatePatientResult />
                 )}

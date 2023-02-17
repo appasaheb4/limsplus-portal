@@ -58,6 +58,8 @@
     "i18next": "^21.6.16",
     "jest-canvas-mock": "^2.4.0",
     "lodash": "^4.17.21",
+    "logrocket": "^3.0.1",
+    "logrocket-react": "^5.0.1",
     "mobx": "6.2.0",
     "mobx-react": "7.1.0",
     "mobx-sync": "3.0.0",

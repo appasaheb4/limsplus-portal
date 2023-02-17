@@ -12,9 +12,11 @@ import store from './redux/store/index';
 import Routes from './routes/root-route';
 import {getToken, onMessageListener} from './firebase';
 import {Toast} from 'react-bootstrap';
+import LogRocket from 'logrocket';
+import setupLogRocketReact from 'logrocket-react';
 //import {useOnEvent, fireEvent} from 'react-app-events';
 
-// toast
+// Toast
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
@@ -43,6 +45,11 @@ const App = observer(() => {
       'patientRegistrationStore',
       stores.patientRegistrationStore,
     );
+    if (!__DEV__) {
+      console.log('this is prod');
+      LogRocket.init('ycpqi5/limsplus-portal');
+      setupLogRocketReact(LogRocket);
+    }
   };
 
   // useOnEvent('notificationPopup', payload => {
@@ -52,7 +59,7 @@ const App = observer(() => {
   //     body: payload.notification.body,
   //   });
   // });
-
+   
   const loaderNotification = async () => {
     await getToken().then(webPushTokenFcm => {
       stores.loginStore.updateInputUser({
