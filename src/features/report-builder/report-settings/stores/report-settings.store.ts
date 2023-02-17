@@ -11,16 +11,24 @@ import {
   PageBranding,
   TemplatePatientResult,
   SelectedItemsTemplatePatientResult,
+  ReportBody,
 } from '../models';
 
 export class ReportSettingStore {
   pageLayout: PageLayout;
   pageLayoutList!: Array<PageLayout>;
   pageLayoutListCount: number = 0;
+
   pageBranding!: PageBranding;
   pageBrandingList!: Array<PageBranding>;
   pageBrandingListCopy!: Array<PageBranding>;
   pageBrandingListCount: number = 0;
+
+  reportBody: ReportBody;
+  reportBodyList!: Array<ReportBody>;
+  reportBodyListCopy!: Array<ReportBody>;
+  reportBodyListCount: number = 0;
+
   templatePatientResult!: TemplatePatientResult;
   templatePatientResultList!: Array<TemplatePatientResult>;
   templatePatientResultListCount: number = 0;
@@ -34,6 +42,7 @@ export class ReportSettingStore {
       mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '120pt',",
     });
     this.pageLayoutList = [];
+
     this.pageBranding = new PageBranding({
       ...this.pageBranding,
       isHeader: true,
@@ -43,6 +52,11 @@ export class ReportSettingStore {
     });
     this.pageBrandingList = [];
     this.pageBrandingListCopy = [];
+
+    this.reportBody = new ReportBody({});
+    this.reportBodyList = [];
+    this.reportBodyListCopy = [];
+
     this.templatePatientResult = new TemplatePatientResult({});
     this.templatePatientResultList = [];
     this.selectedItemTemplatePatientResult =
@@ -52,10 +66,17 @@ export class ReportSettingStore {
       pageLayout: observable,
       pageLayoutList: observable,
       pageLayoutListCount: observable,
+
       pageBranding: observable,
       pageBrandingList: observable,
       pageBrandingListCopy: observable,
       pageBrandingListCount: observable,
+
+      reportBody: observable,
+      reportBodyList: observable,
+      reportBodyListCopy: observable,
+      reportBodyListCount: observable,
+
       templatePatientResult: observable,
       templatePatientResultList: observable,
       templatePatientResultListCount: observable,
@@ -67,8 +88,13 @@ export class ReportSettingStore {
 
       updatePageLayout: action,
       updatePageLayoutList: action,
+
       updatePageBranding: action,
       updatePageBrandingList: action,
+
+      updateReportBody: action,
+      updateReportBodyList: action,
+
       updateTemplatePatientResult: action,
       updateTemplatePatientResultList: action,
       updateSelectedItemTemplatePatientResult: action,
@@ -108,6 +134,21 @@ export class ReportSettingStore {
     } else {
       this.pageBrandingList = res;
       this.pageBrandingListCount = res?.length;
+    }
+  }
+
+  updateReportBody(payload: ReportBody) {
+    this.reportBody = payload;
+  }
+
+  updateReportBodyList(res: any) {
+    if (!Array.isArray(res)) {
+      this.reportBodyList = res.pageBrandings.data;
+      this.reportBodyListCopy = res.pageBrandings.data;
+      this.reportBodyListCount = res.pageBrandings.paginatorInfo.count;
+    } else {
+      this.reportBodyList = res;
+      this.reportBodyListCount = res?.length;
     }
   }
 

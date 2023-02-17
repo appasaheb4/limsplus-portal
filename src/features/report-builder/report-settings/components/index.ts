@@ -8,6 +8,9 @@ export * from './molecules/page-branding/footer.component';
 export * from './molecules/page-branding/page-number.component';
 export * from './molecules/page-branding/page-branding-list.components';
 
+// report body
+export * from './molecules/report-body/general.component';
+
 // template patient result
 export * from './molecules/template-patient-result/template-patient-result-list.components';
 export * from './molecules/template-patient-result/page-branding.components';
