@@ -10,6 +10,10 @@ export * from './molecules/page-branding/page-branding-list.components';
 
 // report body
 export * from './molecules/report-body/general.component';
+export * from './molecules/report-body/panel.component';
+export * from './molecules/report-body/test.component';
+export * from './molecules/report-body/analyte.component';
+export * from './molecules/report-body/report-body-list.components';
 
 // template patient result
 export * from './molecules/template-patient-result/template-patient-result-list.components';

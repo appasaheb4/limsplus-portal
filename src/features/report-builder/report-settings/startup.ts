@@ -3,6 +3,7 @@ export const startup = async () => {
   stores.reportSettingStore.pageLayoutService.listTemplateSetting();
   stores.reportSettingStore.pageBrandingService.listPageBranding();
   stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();
+  stores.reportSettingStore.reportBodyService.listReportBody();
 };
 
 export const startUpPageBranding = async () => {
