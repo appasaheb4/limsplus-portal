@@ -65,7 +65,7 @@
     "mobx-sync": "3.0.0",
     "numeral": "^2.0.6",
     "print-js": "^1.6.0",
-    "react": "^18.0.0",
+    "react": "^18.2.0",
     "react-accessible-accordion": "^4.0.0",
     "react-app-events": "^2.0.0",
     "react-autocomplete": "^1.8.1",

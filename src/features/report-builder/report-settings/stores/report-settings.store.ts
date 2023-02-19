@@ -4,6 +4,7 @@ import {
   PageLayoutService,
   PageBrandingService,
   TemplatePatientResultService,
+  ReportBodyService,
 } from '../services';
 
 import {
@@ -85,6 +86,7 @@ export class ReportSettingStore {
       pageLayoutService: computed,
       pageBrandingService: computed,
       templatePatientResultService: computed,
+      reportBodyService: computed,
 
       updatePageLayout: action,
       updatePageLayoutList: action,
@@ -111,6 +113,10 @@ export class ReportSettingStore {
 
   get templatePatientResultService() {
     return new TemplatePatientResultService();
+  }
+
+  get reportBodyService() {
+    return new ReportBodyService();
   }
 
   updatePageLayout(payload: PageLayout) {
@@ -143,9 +149,9 @@ export class ReportSettingStore {
 
   updateReportBodyList(res: any) {
     if (!Array.isArray(res)) {
-      this.reportBodyList = res.pageBrandings.data;
-      this.reportBodyListCopy = res.pageBrandings.data;
-      this.reportBodyListCount = res.pageBrandings.paginatorInfo.count;
+      this.reportBodyList = res.reportBodys.data;
+      this.reportBodyListCopy = res.reportBodys.data;
+      this.reportBodyListCount = res.reportBodys.paginatorInfo.count;
     } else {
       this.reportBodyList = res;
       this.reportBodyListCount = res?.length;
@@ -174,5 +180,10 @@ export class ReportSettingStore {
 
   updateSelectedItemTemplatePatientResult(res: any) {
     this.selectedItemTemplatePatientResult = res;
+  }
+
+  resetReportBody() {
+    this.reportBody = new ReportBody({});
+    this.reportBodyService.listReportBody();
   }
 }

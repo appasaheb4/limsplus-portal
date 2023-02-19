@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const REPORT_BODY_LIST = gql`
-  mutation ($input: PageBrandingInput!) {
-    pageBrandings(input: $input) {
+  mutation ($input: ReportBodyInput!) {
+    reportBodys(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,17 +10,12 @@ export const REPORT_BODY_LIST = gql`
       message
       data {
         _id
-        tempCode
-        brandingTitle
-        templateSettings
-        header
-        subHeader
-        footer
-        pageNumber
-        isHeader
-        isSubHeader
-        isFooter
-        isPdfPageNumber
+        reportCode
+        reportName
+        general
+        panel
+        test
+        analyte
         documentType
         dateOfEntry
         lastUpdated
@@ -30,8 +25,8 @@ export const REPORT_BODY_LIST = gql`
 `;
 
 export const CREATE_REPORT_BODY = gql`
-  mutation ($input: CreatePageBrandingInput!) {
-    createPageBranding(input: $input) {
+  mutation ($input: CreateReportBodyInput!) {
+    createReportBody(input: $input) {
       success
       message
     }
@@ -39,8 +34,8 @@ export const CREATE_REPORT_BODY = gql`
 `;
 
 export const REMOVE_REPORT_BODY = gql`
-  mutation ($input: PageBrandingInput!) {
-    removePageBranding(input: $input) {
+  mutation ($input: ReportBodyInput!) {
+    removeReportBody(input: $input) {
       success
       message
     }
@@ -66,17 +61,12 @@ export const FILTER = gql`
       message
       data {
         _id
-        tempCode
-        brandingTitle
-        templateSettings
-        header
-        subHeader
-        footer
-        pageNumber
-        isHeader
-        isSubHeader
-        isFooter
-        isPdfPageNumber
+        reportCode
+        reportName
+        general
+        panel
+        test
+        analyte
         documentType
         dateOfEntry
         lastUpdated
@@ -95,17 +85,12 @@ export const FILTER_BY_FIELDS = gql`
       message
       data {
         _id
-        tempCode
-        brandingTitle
-        templateSettings
-        header
-        subHeader
-        footer
-        pageNumber
-        isHeader
-        isSubHeader
-        isFooter
-        isPdfPageNumber
+        reportCode
+        reportName
+        general
+        panel
+        test
+        analyte
         documentType
         dateOfEntry
         lastUpdated
@@ -121,17 +106,12 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
-        tempCode
-        brandingTitle
-        templateSettings
-        header
-        subHeader
-        footer
-        pageNumber
-        isHeader
-        isSubHeader
-        isFooter
-        isPdfPageNumber
+        reportCode
+        reportName
+        general
+        panel
+        test
+        analyte
         documentType
         dateOfEntry
         lastUpdated

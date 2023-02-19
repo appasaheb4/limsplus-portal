@@ -59,7 +59,7 @@ const App = observer(() => {
   //     body: payload.notification.body,
   //   });
   // });
-   
+
   const loaderNotification = async () => {
     await getToken().then(webPushTokenFcm => {
       stores.loginStore.updateInputUser({

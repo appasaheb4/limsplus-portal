@@ -15,7 +15,7 @@ import {
 } from '@/library/components';
 import {Collapsible} from '@/core-components';
 import {PDFViewer, Document} from '@react-pdf/renderer';
-import {PageBrandingList, General} from '../components';
+import {ReportBodyList, General, Panel, Test, Analyte} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
@@ -35,6 +35,7 @@ export const ReportBody = observer(() => {
     setValue,
     setError,
     clearErrors,
+    reset,
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
@@ -45,33 +46,27 @@ export const ReportBody = observer(() => {
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({
-        message: '😔 Already exists branding code. Please select diff.',
+        message: '😔 Already exists report code. Please select diff.',
       });
-    reportSettingStore.pageBrandingService
-      .addPageBranding({
+    reportSettingStore.reportBodyService
+      .addReportBody({
         input: {
-          ...reportSettingStore.pageBranding,
-          header: {
-            ...reportSettingStore.pageBranding?.header,
-            backgroundImageBase64: undefined,
-          },
-          footer: {
-            ...reportSettingStore.pageBranding?.footer,
-            backgroundImageBase64: undefined,
-          },
+          ...reportSettingStore.reportBody,
         },
       })
       .then(res => {
-        if (res.createPageBranding.success) {
+        if (res.createReportBody.success) {
           Toast.success({
-            message: `😊 ${res.createPageBranding.message}`,
+            message: `😊 ${res.createReportBody.message}`,
           });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        setIsInputView(false);
+        reportSettingStore.resetReportBody();
+        reset();
       });
   };
+
+  console.log({values: reportSettingStore.reportBody});
 
   const getTemplate = (tempCode: string, data: any) => {
     if (tempCode)
@@ -99,35 +94,25 @@ export const ReportBody = observer(() => {
     }
   };
 
-  const getAccordionItem = (pageBranding: PageBrandingModel) => {
-    const accordionItem: Array<any> = [];
-    if (pageBranding.isHeader) accordionItem.push({title: 'Header'});
-    if (pageBranding.isSubHeader) accordionItem.push({title: 'Sub Header'});
-    if (pageBranding.isFooter) accordionItem.push({title: 'Footer'});
-    if (pageBranding.isPdfPageNumber)
-      accordionItem.push({title: 'Page Number'});
-    return accordionItem;
-  };
-
   return (
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
           style={{bottom: 50}}
-          show={isInputView}
+          show={!isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
       )}
       <div
         className={
-          'rounded-lg shadow-xl p-2 ' + (isInputView ? 'hidden' : 'shown')
+          'rounded-lg shadow-xl p-2 ' + (!isInputView ? 'hidden' : 'shown')
         }
       >
         <Grid cols={2}>
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                   loader={loading}
                   placeholder='Report Code'
@@ -135,6 +120,7 @@ export const ReportBody = observer(() => {
                     list: reportSettingStore.pageBrandingList,
                     displayKey: ['tempCode', 'brandingTitle'],
                   }}
+                  displayValue={value}
                   hasError={!!errors.reportCode}
                   onFilter={(value: string) => {
                     // reportSettingStore.updateReportSectionList(
@@ -187,12 +173,12 @@ export const ReportBody = observer(() => {
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.Input
                   label='Report Name'
                   placeholder='Report Name'
                   hasError={!!errors.reportName}
-                  value={reportSettingStore.reportBody?.reportName?.toUpperCase()}
+                  value={value?.toUpperCase()}
                   onChange={reportName => {
                     onChange(reportName);
                     reportSettingStore.updateReportBody({
@@ -209,13 +195,13 @@ export const ReportBody = observer(() => {
 
             <div>
               <Collapsible label='General' children={<General />} />
-              <Collapsible label='Panel' children={<General />} />
+              <Collapsible label='Panel' children={<Panel />} />
             </div>
           </List>
           <List direction='col' space={4} justify='stretch' fill>
             <div>
-              <Collapsible label='Test' children={<General />} />
-              <Collapsible label='Analyte' children={<General />} />
+              <Collapsible label='Test' children={<Test />} />
+              <Collapsible label='Analyte' children={<Analyte />} />
             </div>
           </List>
         </Grid>
@@ -242,9 +228,9 @@ export const ReportBody = observer(() => {
         </List>
       </div>
       <div className='rounded-lg shadow-xl overflow-auto p-2'>
-        <PageBrandingList
-          data={reportSettingStore.pageBrandingList}
-          totalSize={reportSettingStore.pageBrandingListCount}
+        <ReportBodyList
+          data={reportSettingStore.reportBodyList}
+          totalSize={reportSettingStore.reportBodyListCount}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
@@ -313,17 +299,17 @@ export const ReportBody = observer(() => {
         click={(type?: string) => {
           switch (type) {
             case 'delete': {
-              reportSettingStore.pageBrandingService
-                .removePageBranding({
+              reportSettingStore.reportBodyService
+                .removeReportBody({
                   input: {id: modalConfirm.id},
                 })
                 .then((res: any) => {
-                  if (res.removePageBranding.success) {
+                  if (res.removeReportBody.success) {
                     Toast.success({
-                      message: `😊 ${res.removePageBranding.message}`,
+                      message: `😊 ${res.removeReportBody.message}`,
                     });
                     setModalConfirm({show: false});
-                    reportSettingStore.pageBrandingService.listPageBranding();
+                    reportSettingStore.reportBodyService.listReportBody();
                   }
                 });
               break;
