@@ -5,16 +5,12 @@ import {BannerService} from '../services';
 
 export class BannerStore {
   banner!: Banner;
-  listBanner: Banner[];
-  listAllBanner: Banner[];
-  listBannerCount: number;
+  listBanner!: Banner[];
+  listAllBanner!: Banner[];
+  listBannerCount!: number;
 
   constructor() {
-    this.banner = new Banner({});
-    this.listBanner = [];
-    this.listAllBanner = [];
-    this.listBannerCount = 0;
-
+    this.reset();
     makeObservable<BannerStore, any>(this, {
       banner: observable,
       listBanner: observable,
@@ -29,6 +25,13 @@ export class BannerStore {
       updateListAllBanner: action,
       updateBanner: action,
     });
+  }
+
+  reset() {
+    this.banner = new Banner({});
+    this.listBanner = [];
+    this.listAllBanner = [];
+    this.listBannerCount = 0;
   }
 
   get BannerService() {
