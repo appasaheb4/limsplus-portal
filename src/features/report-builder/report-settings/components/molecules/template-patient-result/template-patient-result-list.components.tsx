@@ -10,7 +10,7 @@ import {
   Tooltip,
   Icons,
 } from '@/library/components';
-import {PageBrandingComponents} from './page-branding.components';
+import {ReportBodyComponents} from './report-body.components';
 import {EndOfPageComponents} from './end-of-page.components';
 import {EndOfReportComponents} from './end-of-report.components';
 import {Confirm} from '@/library/models';
@@ -90,12 +90,12 @@ export const TemplatePatientResultList = observer(
                 ),
               },
               {
-                dataField: 'pageBranding',
-                text: 'Page Branding',
+                dataField: 'reportBody',
+                text: 'Report Body',
                 headerClasses: 'textHeader',
                 sort: true,
                 formatter: (cell, row) => {
-                  return <>{row?.pageBranding?.tempCode}</>;
+                  return <>{row?.reportBody?.reportCode}</>;
                 },
                 editorRenderer: (
                   editorProps,
@@ -106,15 +106,15 @@ export const TemplatePatientResultList = observer(
                   columnIndex,
                 ) => (
                   <>
-                    <PageBrandingComponents
+                    <ReportBodyComponents
                       onSelect={item => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
                             {
-                              pageBranding: {
+                              reportBody: {
                                 _id: item?._id,
-                                tempCode: item?.tempCode,
-                                brandingTitle: item?.brandingTitle,
+                                reportCode: item?.reportCode,
+                                reportName: item?.reportName,
                               },
                             },
                             row._id,

@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -18,7 +18,6 @@ import {
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {toJS} from 'mobx';
 
 const DeliveryQueue = observer(() => {
   const {
@@ -165,6 +164,46 @@ const DeliveryQueue = observer(() => {
     return list;
   };
 
+  const getOrderDeliveredList = async (item: any) =>
+    new Promise<any>((resolve, reject) => {
+      let filter: any = {};
+      if (item.reportPriority == 'Progressive') {
+        filter = {
+          labId: item.labId,
+          panelCode: item.panelCode,
+        };
+      } else if (
+        (item.reportPriority == 'One Today' ||
+          item.reportPriority == 'Daily') &&
+        item.reportType == 'Interim'
+      ) {
+        filter = {
+          labId: item.labId,
+          reportType: 'Interim',
+          approvalDate: item?.approvalDate,
+        };
+      } else {
+        filter = {
+          labId: item.labId,
+        };
+      }
+      deliveryQueueStore.deliveryQueueService
+        .findByFields({
+          input: {
+            filter,
+          },
+        })
+        .then(res => {
+          if (res.findByFieldsDeliveryQueue.success) {
+            let data = res.findByFieldsDeliveryQueue.data;
+            data = _.unionBy(data, (o: any) => {
+              return o.patientResultId;
+            });
+            resolve(data);
+          }
+        });
+    });
+
   const reportDeliveryList = useMemo(
     () => (
       <ReportDeliveryList
@@ -211,43 +250,10 @@ const DeliveryQueue = observer(() => {
             }
           }
         }}
-        onClickRow={(item, index) => {
-          let filter: any = {};
-          if (item.reportPriority == 'Progressive') {
-            filter = {
-              labId: item.labId,
-              panelCode: item.panelCode,
-            };
-          } else if (
-            (item.reportPriority == 'One Today' ||
-              item.reportPriority == 'Daily') &&
-            item.reportType == 'Interim'
-          ) {
-            filter = {
-              labId: item.labId,
-              reportType: 'Interim',
-              approvalDate: item?.approvalDate,
-            };
-          } else {
-            filter = {
-              labId: item.labId,
-            };
-          }
-          deliveryQueueStore.deliveryQueueService
-            .findByFields({
-              input: {
-                filter,
-              },
-            })
-            .then(res => {
-              if (res.findByFieldsDeliveryQueue.success) {
-                let data = res.findByFieldsDeliveryQueue.data;
-                data = _.unionBy(data, (o: any) => {
-                  return o.patientResultId;
-                });
-                deliveryQueueStore.updateOrderDeliveredList(data);
-              }
-            });
+        onClickRow={async (item, index) => {
+          getOrderDeliveredList(item).then(result => {
+            deliveryQueueStore.updateOrderDeliveredList(result);
+          });
         }}
         onUpdateDeliveryStatus={() => {
           setModalConfirm({
@@ -261,13 +267,14 @@ const DeliveryQueue = observer(() => {
             body: 'All generate pdf status update',
           });
         }}
-        onReport={labId => {
+        onReport={async item => {
+          const result = await getOrderDeliveredList(item);
           deliveryQueueStore.deliveryQueueService
-            .listPatientReports(labId)
+            .listPatientReports(result[0]?.labId)
             .then(res => {
               if (res.getPatientReports.success) {
                 let patientResultList: any[] = [];
-                res.getPatientReports.data?.patientResultList?.filter(item => {
+                result?.filter(item => {
                   if (item.reportTemplate) {
                     patientResultList.push({
                       ...res.getPatientReports.data,
@@ -275,12 +282,9 @@ const DeliveryQueue = observer(() => {
                     });
                   }
                 });
-                const uniqByPatientResult = _.uniqBy(
-                  res.getPatientReports.data?.patientResultList,
-                  (item: any) => {
-                    return item.reportTemplate;
-                  },
-                );
+                const uniqByPatientResult = _.uniqBy(result, (item: any) => {
+                  return item.reportTemplate;
+                });
                 const reportTemplateList: any[] = [];
                 uniqByPatientResult.filter(item => {
                   reportTemplateList.push(item?.reportTemplate.split(' -')[0]);

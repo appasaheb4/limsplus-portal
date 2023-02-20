@@ -51,7 +51,7 @@ interface ReportDeliveryProps {
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onUpdateDeliveryStatus?: () => void;
   onPagination?: (type: string) => void;
-  onReport: (labId: string) => void;
+  onReport: (items: any) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -610,13 +610,16 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         {Icons.getIconTag(Icons.IconTb.TbExchange)}
                       </Icons.IconContext>
                     </Tooltip>
-                    <Tooltip tooltipText='Medical Report'>
+                    <Tooltip tooltipText='Report'>
                       <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() =>
-                          props.onReport && props.onReport(row?.labId)
+                        color={
+                          row?.deliveryStatus == 'Done' ? '#ffffff' : '#5A5A5A'
                         }
+                        size='20'
+                        onClick={() => {
+                          if (row?.deliveryStatus == 'Done')
+                            props.onReport && props.onReport(row);
+                        }}
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFilePdf)}
                       </Icons.IconContext>

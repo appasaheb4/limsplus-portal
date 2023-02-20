@@ -115,15 +115,6 @@ export const ModalGenerateReports = ({
     );
   };
 
-  // const sharePdfLink = async (type: string) => {
-  //   const doc = <PdfTemp0006 data={data} />;
-  //   const asPdf = pdf(doc);
-  //   asPdf.updateContainer(doc);
-  //   const blob: any = await asPdf.toBlob();
-  //   blob.name = 'Medical-Report.pdf';
-  //   onReceiptUpload(blob, type);
-  // };
-
   return (
     <Container>
       {showModal && (

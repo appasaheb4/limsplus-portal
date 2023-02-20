@@ -61,6 +61,8 @@ export const PdfTemp0005 = ({
     }
   }
 
+  console.log({data});
+
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>

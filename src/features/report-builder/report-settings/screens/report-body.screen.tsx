@@ -48,6 +48,15 @@ export const ReportBody = observer(() => {
       return Toast.error({
         message: '😔 Already exists report code. Please select diff.',
       });
+    if (
+      !reportSettingStore.reportBody?.general &&
+      !reportSettingStore.reportBody?.panel &&
+      !reportSettingStore.reportBody?.test &&
+      !reportSettingStore.reportBody?.analyte
+    )
+      return Toast.error({
+        message: '😔 Please enter anyone correct style',
+      });
     reportSettingStore.reportBodyService
       .addReportBody({
         input: {
@@ -65,8 +74,6 @@ export const ReportBody = observer(() => {
         reset();
       });
   };
-
-  console.log({values: reportSettingStore.reportBody});
 
   const getTemplate = (tempCode: string, data: any) => {
     if (tempCode)
@@ -133,37 +140,30 @@ export const ReportBody = observer(() => {
                     // );
                   }}
                   onSelect={item => {
-                    onChange(item.tempCode);
                     reportSettingStore.updateReportBody({
                       ...reportSettingStore.reportBody,
                       reportCode: item.tempCode,
                     });
-                    // reportSettingStore.pageBrandingService
-                    //   .findByFields({
-                    //     input: {
-                    //       filter: {
-                    //         tempCode: item.tempCode,
-                    //         brandingTitle:
-                    //           reportSettingStore.pageBranding?.brandingTitle ||
-                    //           '',
-                    //       },
-                    //     },
-                    //   })
-                    //   .then(res => {
-                    //     if (res.findByFieldsPageBranding.success) {
-                    //       setError('tempCode', {type: 'onBlur'});
-                    //       setError('brandingTitle', {type: 'onBlur'});
-                    //       Toast.error({
-                    //         message:
-                    //           '😔 Already exists temp code. Please select diff.',
-                    //       });
-                    //       return setIsExistsTempCode(true);
-                    //     } else {
-                    //       clearErrors('tempCode');
-                    //       clearErrors('brandingTitle');
-                    //       return setIsExistsTempCode(false);
-                    //     }
-                    //   });
+                    reportSettingStore.reportBodyService
+                      .findByFields({
+                        input: {
+                          filter: {
+                            reportCode: item.tempCode,
+                          },
+                        },
+                      })
+                      .then(res => {
+                        if (res.findByFieldsReportBody.success) {
+                          Toast.error({
+                            message:
+                              '😔 Already exists temp code. Please select diff.',
+                          });
+                          return setIsExistsTempCode(true);
+                        } else {
+                          onChange(item.tempCode);
+                          return setIsExistsTempCode(false);
+                        }
+                      });
                   }}
                 />
               )}

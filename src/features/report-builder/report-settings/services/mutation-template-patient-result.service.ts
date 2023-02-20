@@ -11,7 +11,7 @@ export const TEMPLATE_PATIENT_RESULT_LIST = gql`
       data {
         _id
         reportTemplateType
-        pageBranding
+        reportBody
         templateCode
         templateTitle
         endOfPage
@@ -69,7 +69,7 @@ export const FILTER_BY_FIELDS = gql`
       data {
         _id
         reportTemplateType
-        pageBranding
+        reportBody
         templateCode
         templateTitle
         endOfPage
@@ -97,7 +97,7 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         reportTemplateType
-        pageBranding
+        reportBody
         templateCode
         templateTitle
         endOfPage
