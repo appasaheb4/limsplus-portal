@@ -20,6 +20,7 @@ import {RouterFlow} from '@/flows';
 
 import {BannerHoc} from '../hoc';
 import {useStores} from '@/stores';
+import {resetBanner} from '../startup';
 
 const Banner = BannerHoc(
   observer(() => {
@@ -29,6 +30,7 @@ const Banner = BannerHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue('environment', bannerStore.banner?.environment);
 
@@ -41,13 +43,14 @@ const Banner = BannerHoc(
           Toast.success({
             message: `😊 ${res.createBanner.message}`,
           });
+          setHideAddBanner(true);
+          reset();
+          resetBanner();
         }
-        setTimeout(() => {
-          // bannerStore.fetchListBanner()
-          window.location.reload();
-        }, 1000);
       });
     };
+
+    console.log({value: bannerStore.banner});
 
     return (
       <>
@@ -71,14 +74,14 @@ const Banner = BannerHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Title'
                       placeholder={
                         errors.title ? 'Please Enter Title' : 'Title'
                       }
                       hasError={!!errors.title}
-                      value={bannerStore.banner?.title}
+                      value={value}
                       onChange={title => {
                         onChange(title);
                         bannerStore.updateBanner({
@@ -112,7 +115,7 @@ const Banner = BannerHoc(
                     />
                   )}
                   name='image'
-                  rules={{required: true}}
+                  rules={{required: false}}
                   defaultValue=''
                 />
                 <Controller
