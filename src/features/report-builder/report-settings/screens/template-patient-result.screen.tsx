@@ -16,7 +16,7 @@ import {
 } from '@/library/components';
 import {
   TemplatePatientResultList,
-  PageBrandingComponents,
+  ReportBodyComponents,
   EndOfPageComponents,
   EndOfReportComponents,
 } from '../components';
@@ -175,26 +175,26 @@ export const TemplatePatientResult = observer(() => {
                 control={control}
                 render={({field: {onChange}}) => (
                   <Form.InputWrapper
-                    label='Page Branding'
-                    hasError={!!errors.pageBranding}
+                    label='Report Body'
+                    hasError={!!errors.reportBody}
                   >
-                    <PageBrandingComponents
+                    <ReportBodyComponents
                       onSelect={item => {
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
-                          pageBranding: {
+                          reportBody: {
                             _id: item?._id,
-                            tempCode: item?.tempCode,
-                            brandingTitle: item?.brandingTitle,
+                            reportCode: item?.reportCode,
+                            reportName: item?.reportName,
                           },
                         });
                       }}
                     />
                   </Form.InputWrapper>
                 )}
-                name='pageBranding'
+                name='reportBody'
                 rules={{required: false}}
-                defaultValue={reportSettingStore.pageLayoutList}
+                defaultValue={reportSettingStore.reportBodyList}
               />
               <Controller
                 control={control}

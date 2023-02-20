@@ -32,7 +32,6 @@ export class ReportBodyService {
           variables: {input: {page, limit, environment, role}},
         })
         .then((response: any) => {
-          console.log({response});
           stores.reportSettingStore.updateReportBodyList(response.data);
           resolve(response.data);
         })

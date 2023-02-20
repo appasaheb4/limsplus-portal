@@ -100,8 +100,8 @@ export const FILTER_BY_FIELDS = gql`
 `;
 
 export const FIND_BY_FIELDS = gql`
-  mutation ($input: PageBrandingInput!) {
-    findByFieldsPageBranding(input: $input) {
+  mutation ($input: ReportBodyInput!) {
+    findByFieldsReportBody(input: $input) {
       success
       message
       data {

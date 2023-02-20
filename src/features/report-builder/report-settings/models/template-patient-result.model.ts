@@ -1,7 +1,7 @@
 export class TemplatePatientResult {
   _id: string;
   reportTemplateType: string;
-  pageBranding: object;
+  reportBody: object;
   templateCode: string;
   templateTitle: string;
   endOfPage: any[];
@@ -35,7 +35,7 @@ export class TemplatePatientResult {
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
     this.reportTemplateType = rawData.reportTemplateType;
-    this.pageBranding = rawData.pageBranding;
+    this.reportBody = rawData.reportBody;
     this.templateCode = rawData.templateCode;
     this.templateTitle = rawData.templateName;
     this.endOfPage = rawData.endOfPage;
