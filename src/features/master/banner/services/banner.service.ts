@@ -53,8 +53,8 @@ export class BannerService {
     });
 
   addBanner = (banner: any) =>
-    new Promise<any>((resolve, reject) => {
-      client
+    new Promise<any>(async (resolve, reject) => {
+      await client
         .mutate({
           mutation: CREATE_BANNER,
           variables: {

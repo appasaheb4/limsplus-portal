@@ -133,3 +133,9 @@ export const numToWords = n => {
 export const debounce = _.debounce((fun: () => void) => {
   fun();
 }, 1000);
+
+export const sleep = ms => {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+};

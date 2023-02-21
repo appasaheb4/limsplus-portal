@@ -19,6 +19,7 @@ import Storage from '@/library/modules/storage';
 import {stores, useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {eventEmitter} from '@/core-utils';
 
 import * as Banner from '@/features/master/banner';
 import * as Deginisation from '@/features/master/deginisation';
@@ -81,11 +82,26 @@ import * as Receipt from '@/features/account-receivable/receipt';
 // Validations
 import * as PanelApproval from '@/features/validation/panel-approval';
 
+export const RouterService = () => {
+  console.log('calling fun');
+
+  const history: any = useHistory();
+  const refreshPage = () => {
+    console.log({path: window.location.pathname});
+    history.replace(window.location.pathname);
+  };
+  return refreshPage();
+};
+
 const Dashboard = observer(({children}) => {
   const {loginStore} = useStores();
   const history: any = useHistory();
   const [isLogined, setIsLogined] = useState<boolean>(false);
   const [modalIdleTime, setModalIdleTime] = useState<any>();
+
+  const refreshPage = () => {
+    history.replace(window.location.pathname);
+  };
 
   const loadApi = async (pathname?: string) => {
     const currentLocation = window.location;
@@ -339,6 +355,9 @@ const Dashboard = observer(({children}) => {
           permission();
         }, 1000);
       }
+    });
+    eventEmitter.on('reload', data => {
+      refreshPage();
     });
   }, []);
 
