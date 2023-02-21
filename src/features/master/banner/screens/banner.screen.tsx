@@ -37,20 +37,22 @@ const Banner = BannerHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);
 
-    const onSubmitBanner = () => {
-      bannerStore.BannerService.addBanner(bannerStore.banner).then(res => {
-        if (res.createBanner.success) {
-          Toast.success({
-            message: `😊 ${res.createBanner.message}`,
-          });
-          setHideAddBanner(true);
-          reset();
-          resetBanner();
-        }
-      });
-    };
+    const onSubmitBanner = async () => {
+      await bannerStore.BannerService.addBanner(bannerStore.banner).then(
+        res => {
+          console.log({res});
 
-    console.log({value: bannerStore.banner});
+          if (res.createBanner.success) {
+            Toast.success({
+              message: `😊 ${res.createBanner.message}`,
+            });
+            setHideAddBanner(true);
+            reset();
+            resetBanner();
+          }
+        },
+      );
+    };
 
     return (
       <>
@@ -97,12 +99,13 @@ const Banner = BannerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputFile
                       label='File'
                       placeholder={
                         errors.image ? 'Please insert image' : 'File'
                       }
+                      value={value ? value?.filename : ''}
                       hasError={!!errors.image}
                       onChange={e => {
                         const image = e.target.files[0];
@@ -115,15 +118,15 @@ const Banner = BannerHoc(
                     />
                   )}
                   name='image'
-                  rules={{required: false}}
-                  defaultValue=''
+                  rules={{required: true}}
+                  defaultValue={bannerStore.banner?.image}
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={bannerStore.banner?.environment}
+                        value={value}
                         disabled={
                           loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'

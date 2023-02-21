@@ -1,14 +1,14 @@
+import React from 'react';
 import {stores} from '@/stores';
-import {Banner} from './screens';
-import {useHistory} from 'react-router-dom';
-
+import {eventEmitter} from '@/core-utils';
 const startup = async () => {
-  stores.bannerStore.fetchListBanner();
+  setTimeout(() => {
+    stores.bannerStore.fetchListBanner();
+  }, 2000);
 };
 
 export const resetBanner = async () => {
   stores.bannerStore.reset();
-
-  stores.bannerStore.fetchListBanner();
+  eventEmitter.emit('reload', {});
 };
 export default startup;
