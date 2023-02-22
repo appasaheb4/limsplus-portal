@@ -14,16 +14,16 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
       appStore,
       // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useStores();
-    let labId: any = Number.parseFloat(
-      uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
-    );
+    // let labId: any = Number.parseFloat(
+    //   uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
+    // );
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useMemo(() => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      labId = Number.parseFloat(
-        uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
-      );
-    }, [appStore.environmentValues?.LABID_AUTO_GENERATE]);
+    // useMemo(() => {
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    //   labId = Number.parseFloat(
+    //     uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
+    //   );
+    // }, [appStore.environmentValues?.LABID_AUTO_GENERATE]);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       patientVisitStore.updatePatientVisit({
@@ -37,11 +37,11 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'PATIENT VISIT - STATUS',
         ),
-        labId:
-          appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-          'no'
-            ? labId
-            : '',
+        // labId:
+        //   appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+        //   'no'
+        //     ? labId
+        //     : '',
         extraData: {
           ...patientVisitStore.patientVisit.extraData,
           enteredBy: loginStore.login.userId,

@@ -70,7 +70,6 @@ export const ReportBody = observer(() => {
           });
         }
         setIsInputView(false);
-        reportSettingStore.resetReportBody();
         reset();
       });
   };

@@ -116,10 +116,11 @@ export const PatientVisit = PatientVisitHoc(
                 label='Lab Id'
                 placeholder={errors.labId ? 'Please Enter Lab ID' : 'Lab ID'}
                 hasError={!!errors.labId}
-                disabled={
-                  appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-                  'no'
-                }
+                // disabled={
+                //   appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
+                //   'no'
+                // }
+                disabled={true}
                 type='number'
                 value={patientVisitStore.patientVisit?.labId}
                 onChange={labId => {

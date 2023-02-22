@@ -40,8 +40,6 @@ const Banner = BannerHoc(
     const onSubmitBanner = async () => {
       await bannerStore.BannerService.addBanner(bannerStore.banner).then(
         res => {
-          console.log({res});
-
           if (res.createBanner.success) {
             Toast.success({
               message: `😊 ${res.createBanner.message}`,
@@ -185,7 +183,8 @@ const Banner = BannerHoc(
                 type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
-                  window.location.reload();
+                  reset();
+                  resetBanner();
                 }}
               >
                 Clear

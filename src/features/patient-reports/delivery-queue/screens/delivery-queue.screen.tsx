@@ -312,29 +312,38 @@ const DeliveryQueue = observer(() => {
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-                      const keys = _.mapKeys(
-                        grouped,
-                        (value, key) => key.split(' -')[0],
-                      );
-                      const templates = Object.keys(keys);
-                      await reportSettingStore.templatePatientResultService
-                        .getTempPatientResultListByTempCodes({
-                          input: {
-                            filter: {
-                              reportTemplateList: templates,
-                            },
-                          },
-                        })
-                        .then(res => {
-                          if (res.getTempPatientResultListByTempCodes.success) {
-                            setModalGenerateReports({
-                              show: true,
-                              data: grouped,
-                              templateDetails:
-                                res.getTempPatientResultListByTempCodes.list,
-                            });
-                          }
-                        });
+
+                      //console.log({patientResultList, grouped});
+
+                      setModalGenerateReports({
+                        show: true,
+                        data: grouped,
+                        templateDetails:
+                          res.getTempPatientResultListByTempCodes.list,
+                      });
+                      // const keys = _.mapKeys(
+                      //   grouped,
+                      //   (value, key) => key.split(' -')[0],
+                      // );
+                      // const templates = Object.keys(keys);
+                      // await reportSettingStore.templatePatientResultService
+                      //   .getTempPatientResultListByTempCodes({
+                      //     input: {
+                      //       filter: {
+                      //         reportTemplateList: templates,
+                      //       },
+                      //     },
+                      //   })
+                      //   .then(res => {
+                      //     if (res.getTempPatientResultListByTempCodes.success) {
+                      //       setModalGenerateReports({
+                      //         show: true,
+                      //         data: grouped,
+                      //         templateDetails:
+                      //           res.getTempPatientResultListByTempCodes.list,
+                      //       });
+                      //     }
+                      //   });
                     });
                 }
               } else {

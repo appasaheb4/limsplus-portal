@@ -52,65 +52,110 @@ export const ModalGenerateReports = ({
     return (
       <Document title={documentTitle}>
         {reports['TEMP0001'] &&
-          _.uniqBy(reportList['TEMP0001'], 'labId').map(patientReports => (
-            <PdfTemp0001
-              data={{
-                patientReports,
-                pageBranding: templateDetails.find(
-                  item => item.templateCode == 'TEMP0001',
-                ),
-              }}
-              isWithHeader={isWithHeader}
-            />
-          ))}
+          _.uniqBy(reportList['TEMP0001'], 'labId').map(
+            (patientReports: any) => (
+              <PdfTemp0001
+                data={{
+                  patientReports: {
+                    ...patientReports,
+                    patientResultList:
+                      patientReports?.patientResultList?.filter(
+                        item =>
+                          item?.reportTemplate?.split(' -')[0] == 'TEMP0001',
+                      ),
+                  },
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0001',
+                  ),
+                }}
+                isWithHeader={isWithHeader}
+              />
+            ),
+          )}
         {reports['TEMP0002'] &&
-          _.uniqBy(reportList['TEMP0002'], 'labId').map(patientReports => (
-            <PdfTemp0002
-              data={{
-                patientReports,
-                pageBranding: templateDetails.find(
-                  item => item.templateCode == 'TEMP0002',
-                ),
-              }}
-              isWithHeader={isWithHeader}
-            />
-          ))}
+          _.uniqBy(reportList['TEMP0002'], 'labId').map(
+            (patientReports: any) => (
+              <PdfTemp0002
+                data={{
+                  patientReports: {
+                    ...patientReports,
+                    patientResultList:
+                      patientReports?.patientResultList?.filter(
+                        item =>
+                          item?.reportTemplate?.split(' -')[0] == 'TEMP0002',
+                      ),
+                  },
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0002',
+                  ),
+                }}
+                isWithHeader={isWithHeader}
+              />
+            ),
+          )}
         {reports['TEMP0003'] &&
-          _.uniqBy(reportList['TEMP0003'], 'labId').map(patientReports => (
-            <PdfTemp0003
-              data={{
-                patientReports,
-                pageBranding: templateDetails.find(
-                  item => item.templateCode == 'TEMP0003',
-                ),
-              }}
-              isWithHeader={isWithHeader}
-            />
-          ))}
+          _.uniqBy(reportList['TEMP0003'], 'labId').map(
+            (patientReports: any) => (
+              <PdfTemp0003
+                data={{
+                  patientReports: {
+                    ...patientReports,
+                    patientResultList:
+                      patientReports?.patientResultList?.filter(
+                        item =>
+                          item?.reportTemplate?.split(' -')[0] == 'TEMP0003',
+                      ),
+                  },
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0003',
+                  ),
+                }}
+                isWithHeader={isWithHeader}
+              />
+            ),
+          )}
         {reports['TEMP0004'] &&
-          _.uniqBy(reportList['TEMP0004'], 'labId').map(patientReports => (
-            <PdfTemp0004
-              data={{
-                patientReports,
-                pageBranding: templateDetails.find(
-                  item => item.templateCode == 'TEMP0004',
-                ),
-              }}
-              isWithHeader={isWithHeader}
-            />
-          ))}
+          _.uniqBy(reportList['TEMP0004'], 'labId').map(
+            (patientReports: any) => (
+              <PdfTemp0004
+                data={{
+                  patientReports: {
+                    ...patientReports,
+                    patientResultList:
+                      patientReports?.patientResultList?.filter(
+                        item =>
+                          item?.reportTemplate?.split(' -')[0] == 'TEMP0004',
+                      ),
+                  },
+                  pageBranding: templateDetails.find(
+                    item => item?.templateCode == 'TEMP0004',
+                  ),
+                }}
+                isWithHeader={isWithHeader}
+              />
+            ),
+          )}
         {reports['TEMP0005'] &&
-          _.uniqBy(reportList['TEMP0005'], 'labId').map(patientReports => (
-            <PdfTemp0005
-              data={{
-                patientReports,
-                pageBranding: templateDetails.find(
-                  item => item.templateCode == 'TEMP0005',
-                ),
-              }}
-              isWithHeader={isWithHeader}
-            />
-          ))}
+          _.uniqBy(reportList['TEMP0005'], 'labId').map(
+            (patientReports: any) => (
+              <PdfTemp0005
+                data={{
+                  patientReports: {
+                    ...patientReports,
+                    patientResultList:
+                      patientReports?.patientResultList?.filter(
+                        item =>
+                          item?.reportTemplate?.split(' -')[0] == 'TEMP0005',
+                      ),
+                  },
+                  pageBranding: templateDetails.find(
+                    item => item.templateCode == 'TEMP0005',
+                  ),
+                }}
+                isWithHeader={isWithHeader}
+              />
+            ),
+          )}
       </Document>
     );
   };
