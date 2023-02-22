@@ -1,4 +1,3 @@
-import React from 'react';
 import {stores} from '@/stores';
 import {eventEmitter} from '@/core-utils';
 const startup = async () => {
@@ -7,8 +6,9 @@ const startup = async () => {
   }, 2000);
 };
 
-export const resetBanner = async () => {
+export const resetBanner = () => {
   stores.bannerStore.reset();
   eventEmitter.emit('reload', {});
 };
+
 export default startup;

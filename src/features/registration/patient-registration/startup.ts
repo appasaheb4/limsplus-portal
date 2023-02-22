@@ -11,6 +11,7 @@ const startup = async () => {
     documentType: 'patientVisit',
   });
   stores.patientVisitStore.patientVisitService.sequencingVisitId();
+  stores.patientVisitStore.patientVisitService.sequencingLabId();
   stores.patientVisitStore.patientVisitService.filterByLabId({
     input: {filter: {labId: '*'}},
   });

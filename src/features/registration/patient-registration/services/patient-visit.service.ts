@@ -13,7 +13,7 @@ import {
   UPDATE_PATIENT_VISIT,
   CREATE_PATIENT_VISIT,
   FILTER_PATIENT_VISIT,
-  COUNTER_PATIENT_VISIT_VISITID,
+  COUNTER,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_VISIT,
   CHECK_EXISTS_RECORD,
@@ -139,13 +139,39 @@ export class PatientVisitService {
       };
       client
         .mutate({
-          mutation: COUNTER_PATIENT_VISIT_VISITID,
+          mutation: COUNTER,
           variables,
         })
         .then((response: any) => {
           stores.patientVisitStore.updatePatientVisit({
             ...stores.patientVisitStore.patientVisit,
             visitId: response.data.counter.data[0]?.seq + 1 || 1,
+          });
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  sequencingLabId = () =>
+    new Promise<any>((resolve, reject) => {
+      const variables = {
+        input: {
+          filter: {
+            id: 'patientVisit_labId',
+          },
+        },
+      };
+      client
+        .mutate({
+          mutation: COUNTER,
+          variables,
+        })
+        .then((response: any) => {
+          stores.patientVisitStore.updatePatientVisit({
+            ...stores.patientVisitStore.patientVisit,
+            labId: response.data.counter.data[0]?.seq + 1 || 100_000,
           });
           resolve(response.data);
         })

@@ -31,6 +31,8 @@ export const PdfTemp0003 = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patientReports]);
 
+    //console.log({report3: patientReports});
+
     return (
       <PdfPBTemp0001
         data={pageBranding.pageBrandingRes}

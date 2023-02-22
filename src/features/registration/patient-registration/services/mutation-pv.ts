@@ -220,7 +220,7 @@ export const FILTER_BY_LAB_ID_PATIENT_VISIT = gql`
   }
 `;
 
-export const COUNTER_PATIENT_VISIT_VISITID = gql`
+export const COUNTER = gql`
   mutation ($input: CounterInput!) {
     counter(input: $input) {
       message
