@@ -1,5 +1,6 @@
 export class PageBranding {
   _id: string;
+  layoutCode: string;
   tempCode: string;
   brandingTitle: string;
   templateSettings: any;
@@ -42,6 +43,7 @@ export class PageBranding {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.layoutCode = rawData.layoutCode;
     this.tempCode = rawData.tempCode;
     this.brandingTitle = rawData.brandingTitle;
     this.templateSettings = rawData.templateSettings;

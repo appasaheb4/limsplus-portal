@@ -12,7 +12,8 @@ import {
   Svg,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {resizeFile, compressString} from '@/library/utils';
+import {AutoCompletePageBrandingCode} from '../..';
+
 interface ReportBodyListProps {
   data: any;
   totalSize: number;
@@ -49,6 +50,33 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
               text: 'Id',
               hidden: true,
               csvExport: false,
+            },
+            {
+              dataField: 'pageBrandingCode',
+              text: 'Page Branding',
+              headerClasses: 'textHeader',
+              sort: true,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompletePageBrandingCode
+                    hasError={false}
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {pageBrandingCode: item.tempCode},
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'reportCode',

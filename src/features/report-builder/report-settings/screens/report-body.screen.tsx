@@ -15,11 +15,17 @@ import {
 } from '@/library/components';
 import {Collapsible} from '@/core-components';
 import {PDFViewer, Document} from '@react-pdf/renderer';
-import {ReportBodyList, General, Panel, Test, Analyte} from '../components';
+import {
+  ReportBodyList,
+  General,
+  Panel,
+  Test,
+  Analyte,
+  AutoCompletePageBrandingCode,
+} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {useStores} from '@/stores';
-import {PageBranding as PageBrandingModel} from '../models';
 
 import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
 
@@ -119,35 +125,41 @@ export const ReportBody = observer(() => {
             <Controller
               control={control}
               render={({field: {onChange, value}}) => (
-                <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                  loader={loading}
-                  placeholder='Report Code'
-                  data={{
-                    list: reportSettingStore.pageBrandingList,
-                    displayKey: ['tempCode', 'brandingTitle'],
-                  }}
-                  displayValue={value}
-                  hasError={!!errors.reportCode}
-                  onFilter={(value: string) => {
-                    // reportSettingStore.updateReportSectionList(
-                    //   reportSettingStore.reportSectionListCopy.filter(item =>
-                    //     item.section
-                    //       .toString()
-                    //       .toLowerCase()
-                    //       .includes(value.toLowerCase()),
-                    //   ),
-                    // );
-                  }}
+                <AutoCompletePageBrandingCode
+                  hasError={!!errors.pageBrandingCode}
                   onSelect={item => {
                     reportSettingStore.updateReportBody({
                       ...reportSettingStore.reportBody,
-                      reportCode: item.tempCode,
+                      pageBrandingCode: item.tempCode,
                     });
+                  }}
+                />
+              )}
+              name='pageBrandingCode'
+              rules={{required: true}}
+              defaultValue={reportSettingStore.pageBrandingList}
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Form.Input
+                  label='Report Code'
+                  placeholder='Report Code'
+                  hasError={!!errors.reportCode}
+                  value={value?.toUpperCase()}
+                  onChange={reportCode => {
+                    onChange(reportCode);
+                    reportSettingStore.updateReportBody({
+                      ...reportSettingStore.reportBody,
+                      reportCode: reportCode?.toUpperCase(),
+                    });
+                  }}
+                  onBlur={reportCode => {
                     reportSettingStore.reportBodyService
                       .findByFields({
                         input: {
                           filter: {
-                            reportCode: item.tempCode,
+                            reportCode,
                           },
                         },
                       })
@@ -155,11 +167,11 @@ export const ReportBody = observer(() => {
                         if (res.findByFieldsReportBody.success) {
                           Toast.error({
                             message:
-                              '😔 Already exists temp code. Please select diff.',
+                              '😔 Already exists report code. Please select diff.',
                           });
                           return setIsExistsTempCode(true);
                         } else {
-                          onChange(item.tempCode);
+                          onChange(reportCode);
                           return setIsExistsTempCode(false);
                         }
                       });
@@ -168,7 +180,7 @@ export const ReportBody = observer(() => {
               )}
               name='reportCode'
               rules={{required: true}}
-              defaultValue={reportSettingStore.pageBrandingList}
+              defaultValue=''
             />
             <Controller
               control={control}
@@ -303,18 +315,18 @@ export const ReportBody = observer(() => {
                   input: {id: modalConfirm.id},
                 })
                 .then((res: any) => {
+                  setModalConfirm({show: false});
                   if (res.removeReportBody.success) {
                     Toast.success({
                       message: `😊 ${res.removeReportBody.message}`,
                     });
-                    setModalConfirm({show: false});
                     reportSettingStore.reportBodyService.listReportBody();
                   }
                 });
               break;
             }
             case 'update': {
-              reportSettingStore.pageBrandingService
+              reportSettingStore.reportBodyService
                 .update({
                   input: {
                     ...modalConfirm.data.fields,
@@ -323,13 +335,11 @@ export const ReportBody = observer(() => {
                 })
                 .then((res: any) => {
                   setModalConfirm({show: false});
-                  if (res.updatePageBranding.success) {
+                  if (res.updateReportBody.success) {
                     Toast.success({
-                      message: `😊 ${res.updatePageBranding.message}`,
+                      message: `😊 ${res.updateReportBody.message}`,
                     });
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 2000);
+                    reportSettingStore.reportBodyService.listReportBody();
                   }
                 });
               break;

@@ -50,7 +50,7 @@ const ReportSettings = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === 'REPORT BODY'}
+                expanded={item.title === 'PAGE BRANDING'}
               >
                 {item.title === 'Page LAYOUT' && <PageLayout />}
                 {item.title === 'PAGE BRANDING' && <PageBranding />}

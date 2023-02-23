@@ -1,9 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {
-  NumberFilter,
-  textFilter,
-  customFilter,
   Form,
   TableBootstrap,
   Tooltip,
@@ -11,8 +8,9 @@ import {
   Buttons,
   Svg,
 } from '@/library/components';
+import {AutoCompleteLayoutCode} from '../../';
 import {Confirm} from '@/library/models';
-import {resizeFile, compressString} from '@/library/utils';
+
 interface PageBrandingProps {
   data: any;
   totalSize: number;
@@ -49,6 +47,33 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
               text: 'Id',
               hidden: true,
               csvExport: false,
+            },
+            {
+              dataField: 'layoutCode',
+              text: 'Layout Code',
+              headerClasses: 'textHeader',
+              sort: true,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteLayoutCode
+                    hasError={false}
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {layoutCode: item.tempCode},
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'tempCode',

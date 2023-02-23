@@ -10,6 +10,7 @@ export const PAGE_BRANDING_LIST = gql`
       message
       data {
         _id
+        layoutCode
         tempCode
         brandingTitle
         templateSettings
@@ -66,6 +67,7 @@ export const FILTER = gql`
       message
       data {
         _id
+        layoutCode
         tempCode
         brandingTitle
         templateSettings
@@ -95,6 +97,7 @@ export const FILTER_BY_FIELDS = gql`
       message
       data {
         _id
+        layoutCode
         tempCode
         brandingTitle
         templateSettings
@@ -121,6 +124,7 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
+        layoutCode
         tempCode
         brandingTitle
         templateSettings
