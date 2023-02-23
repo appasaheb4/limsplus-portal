@@ -1,5 +1,6 @@
 export class ReportBody {
   _id: string;
+  pageBrandingCode: string;
   reportCode: string;
   reportName: string;
   general: {
@@ -64,6 +65,7 @@ export class ReportBody {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.pageBrandingCode = rawData.pageBrandingCode;
     this.reportCode = rawData.reportCode;
     this.reportName = rawData.reportName;
     this.general = rawData.general;

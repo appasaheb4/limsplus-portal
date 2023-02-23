@@ -10,6 +10,7 @@ export const REPORT_BODY_LIST = gql`
       message
       data {
         _id
+        pageBrandingCode
         reportCode
         reportName
         general
@@ -43,8 +44,8 @@ export const REMOVE_REPORT_BODY = gql`
 `;
 
 export const UPDATE_REPORT_BODY = gql`
-  mutation ($input: UpdatePageBrandingInput!) {
-    updatePageBranding(input: $input) {
+  mutation ($input: UpdateReportBodyInput!) {
+    updateReportBody(input: $input) {
       success
       message
     }
@@ -61,6 +62,7 @@ export const FILTER = gql`
       message
       data {
         _id
+        pageBrandingCode
         reportCode
         reportName
         general
@@ -85,6 +87,7 @@ export const FILTER_BY_FIELDS = gql`
       message
       data {
         _id
+        pageBrandingCode
         reportCode
         reportName
         general
@@ -106,6 +109,7 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
+        pageBrandingCode
         reportCode
         reportName
         general

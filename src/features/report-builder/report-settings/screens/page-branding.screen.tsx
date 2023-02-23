@@ -9,7 +9,6 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   ModalView,
   ModalViewProps,
 } from '@/library/components';
@@ -20,6 +19,7 @@ import {
   PageBrandingSubHeader,
   PageBrandingFooter,
   PageNumber,
+  AutoCompleteLayoutCode,
 } from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
@@ -139,46 +139,48 @@ export const PageBranding = observer(() => {
             <Controller
               control={control}
               render={({field: {onChange}}) => (
-                <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                  loader={loading}
-                  placeholder='Branding Code'
-                  data={{
-                    list: reportSettingStore.pageLayoutList,
-                    displayKey: ['tempCode', 'tempName'],
-                  }}
-                  hasError={!!errors.tempCode}
-                  onFilter={(value: string) => {
-                    // reportSettingStore.updateReportSectionList(
-                    //   reportSettingStore.reportSectionListCopy.filter(item =>
-                    //     item.section
-                    //       .toString()
-                    //       .toLowerCase()
-                    //       .includes(value.toLowerCase()),
-                    //   ),
-                    // );
-                  }}
+                <AutoCompleteLayoutCode
+                  hasError={!!errors.layoutCode}
                   onSelect={item => {
                     onChange(item.tempCode);
                     reportSettingStore.updatePageBranding({
                       ...reportSettingStore.pageBranding,
-                      templateSettings: {...item},
-                      tempCode: item.tempCode,
+                      layoutCode: item.tempCode,
                     });
+                  }}
+                />
+              )}
+              name='layoutCode'
+              rules={{required: true}}
+              defaultValue={reportSettingStore.pageLayoutList}
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Form.Input
+                  label='Branding Code'
+                  placeholder='Branding Code'
+                  hasError={!!errors.brandingCode}
+                  value={value?.toUpperCase()}
+                  onChange={tempCode => {
+                    onChange(tempCode);
+                    reportSettingStore.updatePageBranding({
+                      ...reportSettingStore.pageBranding,
+                      tempCode: tempCode?.toUpperCase(),
+                    });
+                  }}
+                  onBlur={tempCode => {
                     reportSettingStore.pageBrandingService
                       .findByFields({
                         input: {
                           filter: {
-                            tempCode: item.tempCode,
-                            brandingTitle:
-                              reportSettingStore.pageBranding?.brandingTitle ||
-                              '',
+                            tempCode,
                           },
                         },
                       })
                       .then(res => {
                         if (res.findByFieldsPageBranding.success) {
                           setError('tempCode', {type: 'onBlur'});
-                          setError('brandingTitle', {type: 'onBlur'});
                           Toast.error({
                             message:
                               '😔 Already exists temp code. Please select diff.',
@@ -186,16 +188,15 @@ export const PageBranding = observer(() => {
                           return setIsExistsTempCode(true);
                         } else {
                           clearErrors('tempCode');
-                          clearErrors('brandingTitle');
                           return setIsExistsTempCode(false);
                         }
                       });
                   }}
                 />
               )}
-              name='tempCode'
+              name='brandingCode'
               rules={{required: true}}
-              defaultValue={reportSettingStore.pageLayoutList}
+              defaultValue=''
             />
             <Controller
               control={control}
@@ -212,33 +213,33 @@ export const PageBranding = observer(() => {
                       brandingTitle: brandingTitle?.toUpperCase(),
                     });
                   }}
-                  onBlur={brandingTitle => {
-                    reportSettingStore.pageBrandingService
-                      .findByFields({
-                        input: {
-                          filter: {
-                            tempCode:
-                              reportSettingStore.pageBranding?.tempCode || '',
-                            brandingTitle: brandingTitle?.toUpperCase(),
-                          },
-                        },
-                      })
-                      .then(res => {
-                        if (res.findByFieldsPageBranding.success) {
-                          setError('tempCode', {type: 'onBlur'});
-                          setError('brandingTitle', {type: 'onBlur'});
-                          Toast.error({
-                            message:
-                              '😔 Already exists temp code. Please select diff.',
-                          });
-                          return setIsExistsTempCode(true);
-                        } else {
-                          clearErrors('tempCode');
-                          clearErrors('brandingTitle');
-                          return setIsExistsTempCode(false);
-                        }
-                      });
-                  }}
+                  // onBlur={brandingTitle => {
+                  //   reportSettingStore.pageBrandingService
+                  //     .findByFields({
+                  //       input: {
+                  //         filter: {
+                  //           tempCode:
+                  //             reportSettingStore.pageBranding?.tempCode || '',
+                  //           brandingTitle: brandingTitle?.toUpperCase(),
+                  //         },
+                  //       },
+                  //     })
+                  //     .then(res => {
+                  //       if (res.findByFieldsPageBranding.success) {
+                  //         setError('tempCode', {type: 'onBlur'});
+                  //         setError('brandingTitle', {type: 'onBlur'});
+                  //         Toast.error({
+                  //           message:
+                  //             '😔 Already exists temp code. Please select diff.',
+                  //         });
+                  //         return setIsExistsTempCode(true);
+                  //       } else {
+                  //         clearErrors('tempCode');
+                  //         clearErrors('brandingTitle');
+                  //         return setIsExistsTempCode(false);
+                  //       }
+                  //     });
+                  // }}
                 />
               )}
               name='brandingTitle'
@@ -346,7 +347,7 @@ export const PageBranding = observer(() => {
           </List>
           <List direction='col' space={4} justify='stretch' fill>
             {getTemplate(
-              reportSettingStore.pageBranding?.tempCode,
+              reportSettingStore.pageBranding?.layoutCode,
               reportSettingStore.pageBranding,
             )}
           </List>
