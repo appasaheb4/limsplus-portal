@@ -71,9 +71,24 @@ export const PdfTemp0005 = ({
         </PdfView>
         <PdfMedicialFitnessCertificate data={data?.patientReports} />
         <PdfMedicalCheckup data={data?.patientReports} />
-        <PdfSmall style={{left: 20, marginTop: 10}} fixed>
+        <PdfSmall style={{left: 20, marginTop: 5}} fixed>
           {` Registration No.: ${data.labId || ''}`}
         </PdfSmall>
+        <PdfView style={{height: 20, marginTop: -5}} fixed mh={0} p={0}>
+          <Text
+            style={{
+              fontWeight: 'normal',
+              fontSize: 10,
+              fontFamily: 'arimaRegular',
+              lineHeight: 0,
+              textAlign: 'center',
+            }}
+            render={({pageNumber, totalPages}) =>
+              pageNumber == totalPages &&
+              ' ---------------------- End of report ----------------------'
+            }
+          />
+        </PdfView>
         <PdfFooterView fixed bg='transparent' style={{height: 90}} p={0}>
           {isWithHeader && <Footer />}
         </PdfFooterView>

@@ -126,6 +126,7 @@ const GeneralResultEntry = observer(() => {
                 input: {
                   filter: {
                     ...generalResultEntryStore.filterGeneralResEntry,
+                    panelStatus: 'P',
                   },
                   page: 0,
                   limit: 10,

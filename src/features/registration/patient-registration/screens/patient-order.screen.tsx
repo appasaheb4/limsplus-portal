@@ -243,7 +243,8 @@ export const PatientOrder = PatientOrderHoc(
                             list: masterPanelStore.listMasterPanel.filter(
                               item =>
                                 item.rLab ===
-                                patientOrderStore.patientOrder?.rLab,
+                                  patientOrderStore.patientOrder?.rLab &&
+                                item.status == 'A',
                             ),
                             selected: patientOrderStore.selectedItems?.panels,
                             displayKey: ['panelCode', 'panelName'],
