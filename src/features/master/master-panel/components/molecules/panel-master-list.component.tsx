@@ -1603,8 +1603,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   status = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: true,
               editorRenderer: (
                 editorProps,
                 value,

@@ -147,7 +147,30 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               headerClasses: 'textHeader',
               formatter: (cellContent, row) => (
                 <>
-                  <DisplayResult row={row} />
+                  <DisplayResult
+                    row={row}
+                    onSelect={async result => {
+                      await props.onUpdateValue(result, row._id);
+                      const rows = {...row, ...result};
+                      if (_.isEmpty(row?.result)) {
+                        props.onSaveFields(
+                          {
+                            ...rows,
+                            resultStatus: getResultStatus(
+                              rows.resultType,
+                              rows,
+                            ),
+                            testStatus: getTestStatus(rows.resultType, rows),
+                            abnFlag: getAbnFlag(rows.resultType, rows),
+                            critical: getCretical(rows.resultType, rows),
+                            ...result,
+                          },
+                          rows._id,
+                          'directSave',
+                        );
+                      }
+                    }}
+                  />
                 </>
               ),
               editorRenderer: (

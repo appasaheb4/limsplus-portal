@@ -191,14 +191,17 @@ export const PdfResultList = ({
                             >
                               {typeof _item[1] == 'object' ? (
                                 <>
-                                  <PdfSmall style={{textAlign: 'center'}}>
+                                  <PdfSmall
+                                    style={{textAlign: 'left', marginLeft: 20}}
+                                  >
                                     {_item[1]?.analyteDescription}
                                   </PdfSmall>
 
                                   {_item[1]?.tpmAnalyteMethod ? (
                                     <PdfSmall
                                       style={{
-                                        textAlign: 'center',
+                                        textAlign: 'left',
+                                        marginLeft: 20,
                                         fontSize: 6,
                                       }}
                                     >
@@ -208,7 +211,8 @@ export const PdfResultList = ({
                                   {_item[1]?.tpmAnalyteInterpretation ? (
                                     <PdfSmall
                                       style={{
-                                        textAlign: 'center',
+                                        textAlign: 'left',
+                                        marginLeft: 20,
                                         fontSize: 6,
                                       }}
                                     >
@@ -234,9 +238,19 @@ export const PdfResultList = ({
         ))}
       </View>
       <PdfView style={{marginTop: 10}}>
-        <PdfSmall style={{textAlign: 'center'}}>
-          ---------------------- End of report ----------------------
-        </PdfSmall>
+        <Text
+          style={{
+            fontWeight: 'normal',
+            fontSize: 10,
+            fontFamily: 'arimaRegular',
+            lineHeight: 0,
+            textAlign: 'center',
+          }}
+          render={({pageNumber, totalPages}) =>
+            pageNumber == totalPages &&
+            ' ---------------------- End of report ----------------------'
+          }
+        />
         <PdfView alignItems='flex-end'>
           <PdfImage
             src={images.signAparajita}
