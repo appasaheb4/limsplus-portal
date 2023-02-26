@@ -61,8 +61,6 @@ export const PdfTemp0005 = ({
     }
   }
 
-  console.log({data});
-
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
@@ -72,7 +70,9 @@ export const PdfTemp0005 = ({
         <PdfMedicialFitnessCertificate data={data?.patientReports} />
         <PdfMedicalCheckup data={data?.patientReports} />
         <PdfSmall style={{left: 20, marginTop: 5}} fixed>
-          {` Registration No.: ${data.labId || ''}`}
+          {` Registration No.: ${
+            data?.patientReports?.labId?.toString() || ''
+          }`}
         </PdfSmall>
         <PdfView style={{height: 20, marginTop: -5}} fixed mh={0} p={0}>
           <Text

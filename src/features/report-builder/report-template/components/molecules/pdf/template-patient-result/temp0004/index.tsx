@@ -55,8 +55,6 @@ export const PdfTemp0004 = ({
     }
   }
 
-  // console.log({report4: patientReports});
-
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
