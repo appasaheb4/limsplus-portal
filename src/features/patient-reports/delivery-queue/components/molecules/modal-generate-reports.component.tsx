@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {Container} from 'reactstrap';
 import _ from 'lodash';
-import {Icons, Tooltip, Form} from '@components';
+import {Icons, Tooltip, Form, Modal} from '@components';
 import {pdf, PDFViewer, Document} from '@react-pdf/renderer';
 import {
   PdfTemp0001,
@@ -11,8 +11,7 @@ import {
   PdfTemp0004,
   PdfTemp0005,
 } from '@/features/report-builder/report-template/components';
-import {saveAs} from 'file-saver';
-import {SocialIcon} from 'react-social-icons';
+
 import printjs from 'print-js';
 
 interface ModalGenerateReportsProps {
@@ -35,6 +34,7 @@ export const ModalGenerateReports = ({
   const [reportList, setReportList] = useState<any>();
   const [showModal, setShowModal] = React.useState(show);
   const [isWithHeader, setWithHeader] = useState(true);
+  const [isPdfViewer, setPdfViewer] = useState(false);
 
   useEffect(() => {
     setShowModal(show);
@@ -200,7 +200,26 @@ export const ModalGenerateReports = ({
                           }}
                         />
                         <div className='flex flex-row content-center justify-center gap-2'>
-                          <Tooltip tooltipText='Download'>
+                          <Tooltip tooltipText='View'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='25'
+                              style={{
+                                backgroundColor: '#808080',
+                                width: 32,
+                                height: 32,
+                                borderRadius: 16,
+                                align: 'center',
+                                padding: 4,
+                              }}
+                              onClick={async () => {
+                                setPdfViewer(true);
+                              }}
+                            >
+                              {Icons.getIconTag(Icons.Iconmd.MdOutlinePreview)}
+                            </Icons.IconContext>
+                          </Tooltip>
+                          <Tooltip tooltipText='Print'>
                             <Icons.IconContext
                               color='#fff'
                               size='25'
@@ -214,15 +233,16 @@ export const ModalGenerateReports = ({
                               }}
                               onClick={async () => {
                                 const doc = getReports(reportList);
-                                const asPdf = pdf(doc);
-                                asPdf.updateContainer(doc);
-                                const blob = await asPdf.toBlob();
-                                saveAs(blob, 'Delivery Queue.pdf');
+                                const blob = await pdf(doc).toBlob();
+                                const blobURL = URL.createObjectURL(blob);
+                                printjs({
+                                  printable: blobURL,
+                                  type: 'pdf',
+                                  showModal: true,
+                                });
                               }}
                             >
-                              {Icons.getIconTag(
-                                Icons.Iconhi.HiOutlineFolderDownload,
-                              )}
+                              {Icons.getIconTag(Icons.IconBi.BiPrinter)}
                             </Icons.IconContext>
                           </Tooltip>
                         </div>
@@ -249,6 +269,26 @@ export const ModalGenerateReports = ({
           <div className='opacity-25 fixed inset-0 z-40 bg-black'></div>
         </>
       )}
+      <Modal
+        title='Delivery Queue Reports'
+        show={isPdfViewer}
+        close={() => {
+          setPdfViewer(false);
+        }}
+        children={
+          isPdfViewer ? (
+            <PDFViewer
+              style={{
+                width: window.innerWidth,
+                height: window.innerHeight / 1.2,
+              }}
+              showToolbar={false}
+            >
+              {getReports(reportList)}
+            </PDFViewer>
+          ) : null
+        }
+      />
     </Container>
   );
 };

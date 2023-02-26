@@ -37,14 +37,13 @@ const DeliveryQueue = observer(() => {
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalGenerateReports, setModalGenerateReports] = useState<any>();
-  const [receiptPath, setReceiptPath] = useState<string>();
 
   const getDeliveryList = () => {
     const loginDetails = loginStore.login;
-    if (loginDetails?.role == 'SYSADMIN') {
-      deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
-      return;
-    }
+    // if (loginDetails?.role == 'SYSADMIN') {
+    //   deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+    //   return;
+    // }
     if (loginDetails?.role == 'CORPORATE_PORTAL') {
       deliveryQueueStore.deliveryQueueService
         .findByFields({
@@ -68,10 +67,12 @@ const DeliveryQueue = observer(() => {
         });
       return;
     } else {
-      Toast.warning({
-        message:
-          "😞 You don't have access permission for delivery queue. Please contact to admin",
-      });
+      deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+      return;
+      // Toast.warning({
+      //   message:
+      //     "😞 You don't have access permission for delivery queue. Please contact to admin",
+      // });
     }
   };
 
@@ -272,6 +273,8 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.deliveryQueueService
             .listPatientReports(result[0]?.labId)
             .then(res => {
+              console.log({res});
+
               if (res.getPatientReports.success) {
                 let patientResultList: any[] = [];
                 result?.filter(item => {
@@ -312,38 +315,12 @@ const DeliveryQueue = observer(() => {
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-
-                      //console.log({patientResultList, grouped});
-
                       setModalGenerateReports({
                         show: true,
                         data: grouped,
                         templateDetails:
                           res.getTempPatientResultListByTempCodes.list,
                       });
-                      // const keys = _.mapKeys(
-                      //   grouped,
-                      //   (value, key) => key.split(' -')[0],
-                      // );
-                      // const templates = Object.keys(keys);
-                      // await reportSettingStore.templatePatientResultService
-                      //   .getTempPatientResultListByTempCodes({
-                      //     input: {
-                      //       filter: {
-                      //         reportTemplateList: templates,
-                      //       },
-                      //     },
-                      //   })
-                      //   .then(res => {
-                      //     if (res.getTempPatientResultListByTempCodes.success) {
-                      //       setModalGenerateReports({
-                      //         show: true,
-                      //         data: grouped,
-                      //         templateDetails:
-                      //           res.getTempPatientResultListByTempCodes.list,
-                      //       });
-                      //     }
-                      //   });
                     });
                 }
               } else {
@@ -440,23 +417,6 @@ const DeliveryQueue = observer(() => {
           {...modalGenerateReports}
           onClose={() => {
             setModalGenerateReports({show: false});
-          }}
-          onReceiptUpload={(file, type) => {
-            // if (!receiptPath) {
-            //   receiptStore.receiptService
-            //     .paymentReceiptUpload({input: {file}})
-            //     .then(res => {
-            //       if (res.paymentReceiptUpload.success) {
-            //         setReceiptPath(res.paymentReceiptUpload?.receiptPath);
-            //         window.open(
-            //           `${type} ${res.paymentReceiptUpload?.receiptPath}`,
-            //           '_blank',
-            //         );
-            //       }
-            //     });
-            // } else {
-            //   window.open(type + receiptPath, '_blank');
-            // }
           }}
         />
       </div>

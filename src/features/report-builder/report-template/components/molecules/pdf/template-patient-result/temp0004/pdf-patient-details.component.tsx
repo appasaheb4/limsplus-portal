@@ -31,18 +31,18 @@ export const PdfPatientDetails = observer(
             } ${patientReports?.middleName || ''} ${
               patientReports?.lastName || ''
             }`}</PdfSmall>
-            <PdfSmall>{'Ref. By: '}</PdfSmall>
-            <PdfSmall>{'Ref Lab: '}</PdfSmall>
+            <PdfSmall>{`Ref. By: ${patientReports?.refBy}`}</PdfSmall>
+            <PdfSmall>{`Ref Lab: ${patientReports?.refLab}`}</PdfSmall>
           </PdfGrid>
           <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{'Sr No: '}</PdfSmall>
+            <PdfSmall>{`Sr No: ${patientReports?.labId?.toString()}`}</PdfSmall>
             <PdfSmall>{`Age: ${patientReports?.age || ''} ${
               patientReports?.ageUnits || ''
             }`}</PdfSmall>
             <PdfSmall>{`Gender: ${patientReports?.sex || ''}`}</PdfSmall>
           </PdfGrid>
           <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{'Patient Id: '}</PdfSmall>
+            <PdfSmall>{`Patient Id: ${patientReports?.pId?.toString()}`}</PdfSmall>
             <PdfSmall fontSize={9}>{`Samp. Collected: ${dayjs(
               patientReports?.collectionDate,
             ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>

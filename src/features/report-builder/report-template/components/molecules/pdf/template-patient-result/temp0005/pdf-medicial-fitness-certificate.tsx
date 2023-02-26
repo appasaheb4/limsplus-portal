@@ -25,7 +25,7 @@ export const PdfMedicialFitnessCertificate = observer(
     return (
       <PdfView>
         <PdfSmall style={{alignSelf: 'flex-end', marginTop: -30}}>
-          {`S.NO - ${data?.srNo || ''}`}
+          {`S.NO - ${data?.labId?.toString() || ''}`}
         </PdfSmall>
         <PdfMedium textAlign='center'>
           PERFORMA FOR MEDICIAL FITNESS CERTIFICATE FOR FOOD HANDLERS
