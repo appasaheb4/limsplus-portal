@@ -22,7 +22,7 @@ import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
-import {PdfTSTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/template-setting/temp0001/temp0001.component';
+import {PdfTSTemp0001} from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
 
 export const PageLayout = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();

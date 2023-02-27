@@ -10,8 +10,7 @@ import {
   PdfRegular,
   PdfImage,
 } from '@/library/components';
-import {images} from '@/library/assets';
-
+import {getAgeUnits, getSex} from '@/core-utils';
 const styles = StyleSheet.create({
   table: {
     marginHorizontal: 10,
@@ -186,7 +185,7 @@ export const PdfMedicalCheckup = ({
           }}
         >
           <PdfSmall textAlign='center'>{`${medicalCheckup?.age || ''} ${
-            medicalCheckup?.ageUnit || ''
+            getAgeUnits(medicalCheckup?.ageUnit) || ''
           }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
@@ -231,7 +230,7 @@ export const PdfMedicalCheckup = ({
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>Gender</PdfSmall>
+          <PdfSmall textAlign='center'>Sex</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -241,7 +240,7 @@ export const PdfMedicalCheckup = ({
           }}
         >
           <PdfSmall textAlign='center'>{`${
-            medicalCheckup?.gender || ''
+            getSex(medicalCheckup?.gender) || ''
           }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>

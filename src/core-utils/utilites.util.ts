@@ -139,3 +139,33 @@ export const sleep = ms => {
     setTimeout(resolve, ms);
   });
 };
+
+export const getAgeUnits = (unit: string) => {
+  switch (unit) {
+    case 'Y':
+      return 'Years';
+    case 'M':
+      return 'Months';
+    case 'D':
+      return 'Days';
+    case 'W':
+      return 'Weeks';
+    default:
+      return unit;
+  }
+};
+
+export const getSex = (sex: string) => {
+  switch (sex) {
+    case 'M':
+      return 'Male';
+    case 'F':
+      return 'Female';
+    case 'U':
+      return 'Unknown';
+    case 'O':
+      return 'Others';
+    default:
+      return sex;
+  }
+};
