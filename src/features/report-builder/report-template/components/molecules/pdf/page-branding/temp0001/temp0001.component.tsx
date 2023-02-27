@@ -22,7 +22,7 @@ import {
   PdfTable,
 } from '@components';
 import {observer} from 'mobx-react';
-import {PdfTSTemp0001} from '../../template-setting/temp0001/temp0001.component';
+import {PdfTSTemp0001} from '../../page-layout/temp0001/temp0001.component';
 import {PageBranding} from '@features/report-builder/report-settings/models/page-branding.model';
 
 import {PdfTemp0001Header} from './temp0001-header.component';
