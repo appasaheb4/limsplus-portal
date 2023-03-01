@@ -335,6 +335,18 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               },
             },
             {
+              dataField: 'enteredBy',
+              text: 'Entered By',
+              headerClasses: 'textHeader1',
+              sort: true,
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) => (row.enteredBy ? row.enteredBy : ''),
+              formatter: (cell, row) => {
+                return <span>{row.enteredBy}</span>;
+              },
+              editable: false,
+            },
+            {
               dataField: 'version',
               text: 'Version',
               formatter: (cell, row) => {

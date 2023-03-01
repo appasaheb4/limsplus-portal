@@ -11,6 +11,7 @@ export const PatientOrderHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       patientOrderStore.updatePatientOrder({
         ...patientOrderStore.patientOrder,
+        enteredBy: loginStore.login.userId,
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'PATIENT ORDER - ENVIRONMENT',

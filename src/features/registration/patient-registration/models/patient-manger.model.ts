@@ -48,6 +48,7 @@ export class PatientManger {
     status: string;
     environment: string;
   };
+
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;

@@ -26,11 +26,11 @@ export const Footer = ({data}: FooterProps) => {
         Behind SBI Bank, Badshahpur, Sohna Road, Sector 66, Gurugram, Haryana -
         122101,
       </PdfSmall>
-      <PdfSmall>
+      {/* <PdfSmall>
         <PdfRegular style={{color: '#A52728'}}>Lab Address:</PdfRegular>Opp.
         Radha Krishna Mandir, Main Sohna Road, Badhshahpur, Sector 66, Gurugram,
         Haryana - 122101
-      </PdfSmall>
+      </PdfSmall> */}
       <PdfSmall>
         <PdfRegular style={{color: '#A52728'}}>Phone:</PdfRegular> +91
         9810063340, 9354212163{' '}

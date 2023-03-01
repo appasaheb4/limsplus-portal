@@ -34,6 +34,8 @@ export class PatientTestService {
           variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
+          console.log({response});
+
           stores.patientTestStore.updateTestList(response.data);
           resolve(response.data);
         })

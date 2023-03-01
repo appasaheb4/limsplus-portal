@@ -75,6 +75,7 @@ export const LIST_PATIENT_ORDER = gql`
             comment
           }
         }
+        enteredBy
         environment
         documentType
         dateOfEntry
@@ -186,6 +187,7 @@ export const FILTER_PATIENT_ORDER = gql`
             comment
           }
         }
+        enteredBy
         environment
         documentType
         dateOfEntry
@@ -289,6 +291,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
             comment
           }
         }
+        enteredBy
         environment
         documentType
         dateOfEntry

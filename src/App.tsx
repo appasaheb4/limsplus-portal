@@ -10,10 +10,12 @@ import {Alert, Snackbar} from '@mui/material';
 import i18next, {setLanguage} from './localization';
 import store from './redux/store/index';
 import Routes from './routes/root-route';
-import {getToken, onMessageListener} from './firebase';
+
 import {Toast} from 'react-bootstrap';
-import LogRocket from 'logrocket';
-import setupLogRocketReact from 'logrocket-react';
+
+// import {getToken, onMessageListener} from './firebase';
+// import LogRocket from 'logrocket';
+// import setupLogRocketReact from 'logrocket-react';
 //import {useOnEvent, fireEvent} from 'react-app-events';
 
 // Toast
@@ -45,11 +47,11 @@ const App = observer(() => {
       'patientRegistrationStore',
       stores.patientRegistrationStore,
     );
-    if (!__DEV__) {
-      console.log('this is prod');
-      LogRocket.init('ycpqi5/limsplus-portal');
-      setupLogRocketReact(LogRocket);
-    }
+    // if (!__DEV__) {
+    //   console.log('this is prod');
+    //   LogRocket.init('ycpqi5/limsplus-portal');
+    //   setupLogRocketReact(LogRocket);
+    // }
   };
 
   // useOnEvent('notificationPopup', payload => {
@@ -60,28 +62,28 @@ const App = observer(() => {
   //   });
   // });
 
-  const loaderNotification = async () => {
-    await getToken().then(webPushTokenFcm => {
-      stores.loginStore.updateInputUser({
-        ...stores.loginStore.inputLogin,
-        webPushTokenFcm,
-      });
-    });
-    onMessageListener()
-      .then(payload => {
-        //fireEvent('notificationPopup', payload);
-        setShow(true);
-        setNotification({
-          title: payload.notification.title,
-          body: payload.notification.body,
-        });
-      })
-      .catch(err => console.log('failed:', err));
-  };
+  // const loaderNotification = async () => {
+  //   await getToken().then(webPushTokenFcm => {
+  //     stores.loginStore.updateInputUser({
+  //       ...stores.loginStore.inputLogin,
+  //       webPushTokenFcm,
+  //     });
+  //   });
+  //   onMessageListener()
+  //     .then(payload => {
+  //       //fireEvent('notificationPopup', payload);
+  //       setShow(true);
+  //       setNotification({
+  //         title: payload.notification.title,
+  //         body: payload.notification.body,
+  //       });
+  //     })
+  //     .catch(err => console.log('failed:', err));
+  // };
 
   React.useEffect(() => {
     loader();
-    loaderNotification();
+    // loaderNotification();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

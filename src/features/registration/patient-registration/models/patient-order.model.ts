@@ -67,6 +67,7 @@ export class PatientOrder {
       };
     },
   ];
+  enteredBy: string;
   environment: string;
   documentType: string;
   dateOfEntry: Date;
@@ -84,6 +85,7 @@ export class PatientOrder {
     this.patientName = rawData.patientName;
     this.panelCode = rawData.panelCode;
     this.packageList = rawData.packageList;
+    this.enteredBy = rawData.enteredBy;
     this.environment = rawData.environment;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
