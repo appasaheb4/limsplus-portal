@@ -10,7 +10,7 @@ import {
 import {PdfSmall, PdfView, PdfFooterView} from '@components';
 import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
 import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
-import {PdfMedicialFitnessCertificate} from './pdf-medicial-fitness-certificate';
+import {PdfMedicalCheckup} from './pdf-medical-checkup';
 
 Font.register({
   family: 'arimaRegular',
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface PdfTemp0005Props {
+interface PdfTemp0006Props {
   data: any;
   isWithHeader?: boolean;
   width?: string | number;
@@ -38,7 +38,7 @@ interface PdfTemp0005Props {
   children?: React.ReactNode;
 }
 
-export const PdfTemp0005 = ({
+export const PdfTemp0006 = ({
   data,
   isWithHeader = true,
   width = '100%',
@@ -50,7 +50,7 @@ export const PdfTemp0005 = ({
   mainBoxCSS,
   pageSize,
   children,
-}: PdfTemp0005Props) => {
+}: PdfTemp0006Props) => {
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -63,16 +63,16 @@ export const PdfTemp0005 = ({
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
-        <PdfView style={{height: 100}} fixed mh={0} p={0}>
+        <PdfView style={{height: 100}} mh={0} p={0}>
           {isWithHeader && <Header />}
         </PdfView>
-        <PdfMedicialFitnessCertificate data={data?.patientReports} />
-        <PdfSmall style={{left: 20, marginTop: 5}} fixed>
+        <PdfMedicalCheckup data={data?.patientReports} />
+        <PdfSmall style={{left: 20, marginTop: 5}}>
           {` Registration No.: ${
             data?.patientReports?.labId?.toString() || ''
           }`}
         </PdfSmall>
-        <PdfView style={{height: 20, marginTop: -5}} fixed mh={0} p={0}>
+        <PdfView style={{height: 20, marginTop: -5}} mh={0} p={0}>
           <Text
             style={{
               fontWeight: 'normal',

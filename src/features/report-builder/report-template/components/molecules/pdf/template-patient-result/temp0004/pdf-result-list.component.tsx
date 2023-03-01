@@ -164,7 +164,18 @@ export const PdfResultList = ({
         <View style={[styles.tableRow, {...headerStyle}]} fixed={headerFixed}>
           {fields.map((item, index) => (
             <View key={index} style={[{width: item.width + '%'}]}>
-              <Text style={[styles.tableCellHeader]}>{item?.title}</Text>
+              {index == 0 ? (
+                <Text
+                  style={[
+                    styles.tableCellHeader,
+                    {textAlign: 'left', marginLeft: 20},
+                  ]}
+                >
+                  {item?.title}
+                </Text>
+              ) : (
+                <Text style={[styles.tableCellHeader]}>{item?.title}</Text>
+              )}
             </View>
           ))}
         </View>

@@ -9,8 +9,6 @@ import {
 import {Confirm} from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 
-// import { NumberFilter } from "@/library/components/Organisms"
-
 interface PatientSampleProps {
   data: any;
   totalSize: number;
@@ -317,6 +315,13 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'externalSampleId',
               text: 'External Sample Id',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'enteredBy',
+              text: 'Entered By',
               headerClasses: 'textHeader4',
               sort: true,
               editable: false,

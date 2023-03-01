@@ -305,14 +305,17 @@ const MasterPanel = MasterPanelHoc(
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
                         placeholder='Search by name'
-                        disable={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
+                        // disable={
+                        //   loginStore.login &&
+                        //   loginStore.login.role !== 'SYSADMIN'
+                        //     ? true
+                        //     : false
+                        // }
                         data={{
-                          list: labStore.listLabs,
+                          list:
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? loginStore.login.labList
+                              : labStore.listLabs,
                           displayKey: 'name',
                           findKey: 'name',
                         }}

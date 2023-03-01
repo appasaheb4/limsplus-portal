@@ -143,6 +143,18 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               ),
             },
             {
+              dataField: 'enteredBy',
+              text: 'Entered By',
+              headerClasses: 'textHeader1',
+              sort: true,
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) => (row.enteredBy ? row.enteredBy : ''),
+              formatter: (cell, row) => {
+                return <span>{row.enteredBy}</span>;
+              },
+              editable: false,
+            },
+            {
               dataField: 'packageList',
               text: 'packageList',
               csvExport: false,

@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {useStores} from '@/stores';
-import {getDefaultLookupItem, uuidv4} from '@/library/utils';
+import {getDefaultLookupItem} from '@/library/utils';
 
 export const PatientVisitHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
@@ -10,7 +10,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
       loginStore,
       patientVisitStore,
       routerStore,
-      environmentStore,
+      registrationLocationsStore,
       appStore,
       // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useStores();
@@ -26,8 +26,18 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
     // }, [appStore.environmentValues?.LABID_AUTO_GENERATE]);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
+      const deliveryMode = [
+        {
+          code: getDefaultLookupItem(
+            routerStore.lookupItems,
+            'PATIENT VISIT - DELIVERY_MODE',
+          ),
+          selected: true,
+        },
+      ];
       patientVisitStore.updatePatientVisit({
         ...patientVisitStore.patientVisit,
+        deliveryMode,
         rLab: loginStore.login.lab,
         reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
@@ -81,6 +91,11 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           ),
         },
       });
+      registrationLocationsStore.updateSelectedItems({
+        ...registrationLocationsStore.selectedItems,
+        deliveryMode,
+      });
+
       if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
         patientVisitStore.updatePatientVisit({
           ...patientVisitStore.patientVisit,
@@ -93,43 +108,40 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems, appStore.environmentValues]);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      // get Environment value
-      //if (!_.isBoolean(appStore.environmentValues.LABID_AUTO_GENERATE.allLabs)) {
-      environmentStore.EnvironmentService.findValue({
-        input: {
-          filter: {
-            variable: ['LABID_AUTO_GENERATE', 'LABID_LENGTH'],
-            lab: loginStore.login.lab,
-          },
-        },
-      }).then(res => {
-        if (!res.getEnviromentValue.success) return;
-        appStore.updateEnvironmentValue({
-          ...appStore.environmentValues,
-          LABID_AUTO_GENERATE: {
-            ...appStore.environmentValues?.LABID_AUTO_GENERATE,
-            allLabs: res.getEnviromentValue.enviromentValues.find(
-              item => item.variable === 'LABID_AUTO_GENERATE',
-            ).data[0].allLabs,
-            value: res.getEnviromentValue.enviromentValues.find(
-              item => item.variable === 'LABID_AUTO_GENERATE',
-            ).data[0].value,
-          },
-          LABID_LENGTH: {
-            ...appStore.environmentValues?.LABID_LENGTH,
-            allLabs: res.getEnviromentValue.enviromentValues.find(
-              item => item.variable === 'LABID_LENGTH',
-            ).data[0].allLabs,
-            value: res.getEnviromentValue.enviromentValues.find(
-              item => item.variable === 'LABID_LENGTH',
-            ).data[0].value,
-          },
-        });
-      });
-      //}
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginStore.login]);
+    // useEffect(() => {
+    //   environmentStore.EnvironmentService.findValue({
+    //     input: {
+    //       filter: {
+    //         variable: ['LABID_AUTO_GENERATE', 'LABID_LENGTH'],
+    //         lab: loginStore.login.lab,
+    //       },
+    //     },
+    //   }).then(res => {
+    //     if (!res.getEnviromentValue.success) return;
+    //     appStore.updateEnvironmentValue({
+    //       ...appStore.environmentValues,
+    //       LABID_AUTO_GENERATE: {
+    //         ...appStore.environmentValues?.LABID_AUTO_GENERATE,
+    //         allLabs: res.getEnviromentValue.enviromentValues.find(
+    //           item => item.variable === 'LABID_AUTO_GENERATE',
+    //         ).data[0].allLabs,
+    //         value: res.getEnviromentValue.enviromentValues.find(
+    //           item => item.variable === 'LABID_AUTO_GENERATE',
+    //         ).data[0].value,
+    //       },
+    //       LABID_LENGTH: {
+    //         ...appStore.environmentValues?.LABID_LENGTH,
+    //         allLabs: res.getEnviromentValue.enviromentValues.find(
+    //           item => item.variable === 'LABID_LENGTH',
+    //         ).data[0].allLabs,
+    //         value: res.getEnviromentValue.enviromentValues.find(
+    //           item => item.variable === 'LABID_LENGTH',
+    //         ).data[0].value,
+    //       },
+    //     });
+    //   });
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [loginStore.login]);
     return <Component {...props} />;
   });
 };

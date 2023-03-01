@@ -846,7 +846,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     {typeof row?.deliveryMode != 'string' &&
                       row?.deliveryMode?.map(item => (
                         <span className='bg-blue-800 rounded-md p-2 text-white'>
-                          {item.value}
+                          {item.code}
                         </span>
                       ))}
                   </div>

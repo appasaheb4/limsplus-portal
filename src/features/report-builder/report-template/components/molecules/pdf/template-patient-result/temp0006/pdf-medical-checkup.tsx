@@ -53,12 +53,7 @@ export const PdfMedicalCheckup = ({
   return (
     <>
       {/* S.No */}
-      <PdfBorderView
-        mv={0}
-        bw={1}
-        style={{flexDirection: 'row'}}
-        isBreak={true}
-      >
+      <PdfBorderView mv={0} bw={1} style={{flexDirection: 'row'}}>
         <PdfView
           mh={0}
           p={0}

@@ -6,8 +6,6 @@ import TableBootstrap from './table-bootstrap.component';
 import dayjs from 'dayjs';
 import {RefRangesExpandList} from './ref-ranges-expand-list.component';
 
-// import { NumberFilter } from "@/library/components/Organisms"
-
 interface PatientResultProps {
   data: any;
   totalSize: number;
