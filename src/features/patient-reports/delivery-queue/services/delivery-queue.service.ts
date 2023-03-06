@@ -69,6 +69,7 @@ export class DeliveryQueueService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   updateDeliveryQueueByVisitIds = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

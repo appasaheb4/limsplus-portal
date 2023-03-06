@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Tooltip,
@@ -11,9 +11,9 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import {TableBootstrapReport} from './table-bootstrap-report.components';
-import * as Material from '@mui/material';
 
 let labId;
+let name;
 let externalLabId;
 let employeeCode;
 let visitId;
@@ -44,6 +44,7 @@ interface ReportDeliveryProps {
   totalSize: number;
   isDelete?: boolean;
   isEditModify?: boolean;
+  selectedId?: string;
   isPagination?: boolean;
   onUpdate?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
@@ -59,18 +60,32 @@ interface ReportDeliveryProps {
     totalSize: number,
   ) => void;
   onClickRow?: (item: any, index: number) => void;
+  onExpand?: (items: any) => void;
 }
 
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
-  const [selectedItem, setSelectedItem] = useState<any>({});
+  const [selectId, setSelectId] = useState('');
+  const [localData, setLocalData] = useState(props.data);
+
+  useEffect(() => {
+    setSelectId(props.selectedId || '');
+    setLocalData(
+      props.selectedId
+        ? props.data.map(item => {
+            return {...item, selectedId: props.selectedId};
+          })
+        : props.data,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.selectedId, props.data]);
+
   return (
     <>
       <div style={{position: 'relative'}}>
         <TableBootstrapReport
           id='_id'
-          data={props.data}
+          data={localData}
           totalSize={props.totalSize}
-          selectedItem={selectedItem}
           isPagination={props.isPagination}
           columns={[
             {
@@ -99,8 +114,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               ),
             },
             {
-              dataField: 'externalLabId',
-              text: 'External Lab Id',
+              dataField: 'name',
+              text: 'Name',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -110,23 +125,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               headerClasses: 'textHeader3',
               filter: textFilter({
                 getFilter: filter => {
-                  externalLabId = filter;
-                },
-              }),
-            },
-            {
-              dataField: 'employeeCode',
-              text: 'Employee Code',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              headerClasses: 'textHeader3',
-              filter: textFilter({
-                getFilter: filter => {
-                  employeeCode = filter;
+                  name = filter;
                 },
               }),
             },
@@ -510,6 +509,38 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               }),
             },
             {
+              dataField: 'externalLabId',
+              text: 'External Lab Id',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              headerClasses: 'textHeader3',
+              filter: textFilter({
+                getFilter: filter => {
+                  externalLabId = filter;
+                },
+              }),
+            },
+            {
+              dataField: 'employeeCode',
+              text: 'Employee Code',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              headerClasses: 'textHeader3',
+              filter: textFilter({
+                getFilter: filter => {
+                  employeeCode = filter;
+                },
+              }),
+            },
+            {
               dataField: 'enteredBy',
               text: 'Entered By',
               sort: true,
@@ -598,7 +629,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         onClick={() =>
                           props.onUpdate &&
                           props.onUpdate({
-                            type: 'generatePdf',
+                            type: 'done',
                             visitId: row?.visitId,
                             show: true,
                             id: row._id,
@@ -624,6 +655,32 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFilePdf)}
                       </Icons.IconContext>
                     </Tooltip>
+
+                    {selectId == row._id ? (
+                      <Tooltip tooltipText='Expand'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => {
+                            props.onExpand && props.onExpand('');
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip tooltipText='Expand'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => {
+                            props.onExpand && props.onExpand(row);
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
                   </div>
                 </>
               ),
@@ -656,6 +713,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           }}
           clearAllFilter={() => {
             labId('');
+            name('');
             externalLabId('');
             employeeCode('');
             deliveryId('');
@@ -680,10 +738,10 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             enteredBy('');
             userComments('');
           }}
-          onClickRow={(item, index) => {
-            setSelectedItem(item);
-            props.onClickRow && props.onClickRow(item, index);
-          }}
+          // onClickRow={(item, index) => {
+          //   setSelectedItem(item);
+          //   props.onClickRow && props.onClickRow(item, index);
+          // }}
           onUpdateDeliveryStatus={() => {
             props.onUpdateDeliveryStatus && props.onUpdateDeliveryStatus();
           }}

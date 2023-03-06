@@ -35,9 +35,53 @@ const PanelApproval = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  const [modalConfirm, setModalConfirm] = useState<any>();
+  //const [modalConfirm, setModalConfirm] = useState<any>();
   const [receiptPath, setReceiptPath] = useState<string>();
   const [expandItem, setExpandItem] = useState<any>([]);
+
+  const updateRecords = payload => {
+    const {type, data} = payload;
+    switch (type) {
+      case 'update': {
+        panelApprovalStore.panelApprovalService
+          .update({
+            input: {
+              ...data.fields,
+              _id: data.id,
+            },
+          })
+          .then((res: any) => {
+            if (res.updatePanelApproval.success) {
+              Toast.success({
+                message: `😊 ${res.updatePanelApproval.message}`,
+              });
+              panelApprovalStore.panelApprovalService.listPanelApproval();
+            }
+          });
+        break;
+      }
+      case 'updateMany': {
+        panelApprovalStore.panelApprovalService
+          .update({
+            input: {
+              updateMany: {
+                fields: data.rows,
+                type: data.type,
+              },
+            },
+          })
+          .then((res: any) => {
+            if (res.updatePanelApproval.success) {
+              Toast.success({
+                message: `😊 ${res.updatePanelApproval.message}`,
+              });
+              panelApprovalStore.panelApprovalService.listPanelApproval();
+            }
+          });
+        break;
+      }
+    }
+  };
 
   return (
     <>
@@ -64,7 +108,7 @@ const PanelApproval = observer(() => {
             'Edit/Modify',
           )}
           onSelectedRow={(rows, type) => {
-            setModalConfirm({
+            updateRecords({
               show: true,
               type: 'updateMany',
               data: {rows, type},
@@ -73,7 +117,7 @@ const PanelApproval = observer(() => {
             });
           }}
           onUpdateFields={(fields: any, id: string) => {
-            setModalConfirm({
+            updateRecords({
               show: true,
               type: 'update',
               data: {fields, id},
@@ -86,12 +130,15 @@ const PanelApproval = observer(() => {
             else setExpandItem([]);
           }}
           onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
+            panelApprovalStore.panelApprovalService.listPanelApproval(
+              page,
+              limit,
+            );
           }}
           onFilter={(type, filter, page, limit) => {
-            // bannerStore.BannerService.filter({
-            //   input: {type, filter, page, limit},
-            // });
+            panelApprovalStore.panelApprovalService.filter({
+              input: {type, filter, page, limit},
+            });
           }}
         />
         <span className='text-red'>
@@ -119,56 +166,6 @@ const PanelApproval = observer(() => {
           </div>
         </>
       )}
-
-      <ModalConfirm
-        {...modalConfirm}
-        click={(type?: string) => {
-          setModalConfirm({show: false});
-          switch (type) {
-            case 'update': {
-              panelApprovalStore.panelApprovalService
-                .update({
-                  input: {
-                    ...modalConfirm.data.fields,
-                    _id: modalConfirm.data.id,
-                  },
-                })
-                .then((res: any) => {
-                  if (res.updatePanelApproval.success) {
-                    Toast.success({
-                      message: `😊 ${res.updatePanelApproval.message}`,
-                    });
-                    panelApprovalStore.panelApprovalService.listPanelApproval();
-                  }
-                });
-              break;
-            }
-            case 'updateMany': {
-              panelApprovalStore.panelApprovalService
-                .update({
-                  input: {
-                    updateMany: {
-                      fields: modalConfirm.data.rows,
-                      type: modalConfirm.data.type,
-                    },
-                  },
-                })
-                .then((res: any) => {
-                  if (res.updatePanelApproval.success) {
-                    Toast.success({
-                      message: `😊 ${res.updatePanelApproval.message}`,
-                    });
-                    panelApprovalStore.panelApprovalService.listPanelApproval();
-                  }
-                });
-              break;
-            }
-          }
-        }}
-        onClose={() => {
-          setModalConfirm({show: false});
-        }}
-      />
     </>
   );
 });

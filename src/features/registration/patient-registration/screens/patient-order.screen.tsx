@@ -23,6 +23,7 @@ import {
   TableExtraDataPackages,
 } from '../components';
 import {PatientOrderHoc} from '../hoc';
+import {resetPatientOrder} from '../startup';
 
 import {useStores} from '@/stores';
 
@@ -57,7 +58,9 @@ export const PatientOrder = PatientOrderHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
+
     setValue('orderId', patientOrderStore.patientOrder?.orderId);
     setValue('environment', patientOrderStore.patientOrder?.environment);
 
@@ -110,9 +113,9 @@ export const PatientOrder = PatientOrderHoc(
                   patientOrderStore.patientOrder?.labId?.toString(),
                 );
             }
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
+            setHideInputView(true);
+            reset();
+            resetPatientOrder();
           });
       } else {
         Toast.warning({
@@ -146,7 +149,7 @@ export const PatientOrder = PatientOrderHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Lab Id'
                       hasError={!!errors.visitId}
@@ -171,11 +174,12 @@ export const PatientOrder = PatientOrderHoc(
                             },
                           });
                         }}
+                        displayValue={value}
                         onSelect={item => {
                           setIsPrintPrimaryBarcod(
                             item?.isPrintPrimaryBarcod || false,
                           );
-                          onChange(item.visitId);
+                          onChange(item.labId);
                           patientOrderStore.updatePatientOrder({
                             ...patientOrderStore.patientOrder,
                             pId: item?.pId,
@@ -345,7 +349,7 @@ export const PatientOrder = PatientOrderHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Order Id'
                       placeholder={
@@ -353,7 +357,7 @@ export const PatientOrder = PatientOrderHoc(
                       }
                       hasError={!!errors.orderId}
                       disabled={true}
-                      value={patientOrderStore.patientOrder?.orderId}
+                      value={value}
                       onChange={orderId => {
                         onChange(orderId);
                         patientOrderStore.updatePatientOrder({
@@ -369,10 +373,10 @@ export const PatientOrder = PatientOrderHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={patientOrderStore.patientOrder?.environment}
+                        value={value}
                         disabled={
                           loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'

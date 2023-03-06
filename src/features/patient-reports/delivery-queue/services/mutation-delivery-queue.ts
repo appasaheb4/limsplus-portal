@@ -20,6 +20,7 @@ export const DELIVERY_QUEUE_LIST = gql`
       message
       data {
         _id
+        name
         patientResultId
         index
         labId
@@ -113,6 +114,7 @@ export const FILTER = gql`
       message
       data {
         _id
+        name
         patientResultId
         index
         labId
@@ -167,6 +169,7 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
+        name
         patientResultId
         index
         labId

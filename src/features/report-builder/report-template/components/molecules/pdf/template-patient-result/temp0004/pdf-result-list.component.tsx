@@ -67,9 +67,9 @@ export const PdfResultList = ({
       width: '20',
     },
   ];
+  //const [patientResultList, setPatientResultList] = useState<Array<any>>([]);
 
-  const [patientResultList, setPatientResultList] = useState<Array<any>>();
-  useEffect(() => {
+  const getPatientResultList = data => {
     if (data?.length > 0) {
       const patientResultList: Array<any> = [];
       const departmentList = _.groupBy(
@@ -155,14 +155,15 @@ export const PdfResultList = ({
           },
         });
       }
-      setPatientResultList(patientResultList);
+      return patientResultList;
     }
-  }, [data]);
+  };
+
   return (
     <>
       <View style={[styles.table, {...style}]}>
         <View style={[styles.tableRow, {...headerStyle}]} fixed={headerFixed}>
-          {fields.map((item, index) => (
+          {fields?.map((item, index) => (
             <View key={index} style={[{width: item.width + '%'}]}>
               {index == 0 ? (
                 <Text
@@ -179,7 +180,7 @@ export const PdfResultList = ({
             </View>
           ))}
         </View>
-        {patientResultList?.map((deptItem, index) => (
+        {getPatientResultList(data)?.map((deptItem, index) => (
           <>
             {deptItem.panelHeader.map((panelItem, index) => (
               <>

@@ -1,5 +1,7 @@
 import {stores} from '@/stores';
 import {patientRegistrationHoc} from './hoc';
+import {eventEmitter} from '@/core-utils';
+
 const startup = async () => {
   // patient manager
   stores.patientManagerStore.patientManagerService.sequencingPid();
@@ -24,6 +26,21 @@ const startup = async () => {
   const labId = stores.patientRegistrationStore.defaultValues?.labId;
   if (labId && labId !== '*')
     patientRegistrationHoc.labIdChanged(labId as number);
+};
+
+export const resetPatientManager = () => {
+  stores.patientManagerStore.reset();
+  eventEmitter.emit('reload', {});
+};
+
+export const resetPatientVisit = () => {
+  stores.patientVisitStore.reset();
+  eventEmitter.emit('reload', {});
+};
+
+export const resetPatientOrder = () => {
+  stores.patientOrderStore.reset();
+  eventEmitter.emit('reload', {});
 };
 
 export default startup;

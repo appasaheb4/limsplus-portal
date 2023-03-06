@@ -11,6 +11,7 @@ import {PdfSmall, PdfView, PdfFooterView} from '@components';
 import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
 import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
 import {PdfMedicalCheckup} from './pdf-medical-checkup';
+import {PdfPatientDetails} from './pdf-patient-details.component';
 
 Font.register({
   family: 'arimaRegular',
@@ -51,6 +52,8 @@ export const PdfTemp0006 = ({
   pageSize,
   children,
 }: PdfTemp0006Props) => {
+  const {patientReports} = data;
+
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -66,6 +69,7 @@ export const PdfTemp0006 = ({
         <PdfView style={{height: 100}} mh={0} p={0}>
           {isWithHeader && <Header />}
         </PdfView>
+        <PdfPatientDetails data={patientReports} />
         <PdfMedicalCheckup data={data?.patientReports} />
         <PdfSmall style={{left: 20, marginTop: 5}}>
           {` Registration No.: ${

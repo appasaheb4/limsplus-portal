@@ -71,7 +71,6 @@ import * as ClientRegistration from '@/features/registration/client-registration
 import * as ReportSettings from '@/features/report-builder/report-settings';
 
 // Patient Report
-import * as DeliveryQueue from '@/features/patient-reports/delivery-queue';
 import * as GenerateReport from '@/features/patient-reports/generate-reports';
 
 // Account Receivable
@@ -279,10 +278,7 @@ const Dashboard = observer(({children}) => {
         await ReportSettings.startup();
         await Library.startup();
       }
-      // patient reports
-      // if (pathname === '/patient-reports/delivery-queue') {
-      //   await DeliveryQueue.startup();
-      // }
+
       if (pathname === '/patient-reports/generate-report') {
         stores.appStore.updateFooterView({visible: false});
         stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();

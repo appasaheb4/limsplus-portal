@@ -1,5 +1,6 @@
 export class ReportDelivery {
   _id: string;
+  name: string;
   patientResultId: string;
   index: number;
   labId: string;
@@ -32,6 +33,7 @@ export class ReportDelivery {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.name = rawData.name;
     this.patientResultId = rawData.patientResultId;
     this.index = rawData.index;
     this.labId = rawData.labId;
