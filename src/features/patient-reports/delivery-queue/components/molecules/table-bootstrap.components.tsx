@@ -349,20 +349,6 @@ export const TableBootstrap = ({
                     <Icons.IconFa.FaChevronDown />
                   </Buttons.Button>
                 )}
-                <Tooltip
-                  tooltipText='All records delivery status update'
-                  position='top'
-                >
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      onUpdateDeliveryStatus && onUpdateDeliveryStatus();
-                    }}
-                  >
-                    <Icons.IconTb.TbExchange />
-                  </Buttons.Button>
-                </Tooltip>
               </div>
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>

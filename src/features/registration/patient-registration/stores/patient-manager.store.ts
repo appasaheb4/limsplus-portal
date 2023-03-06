@@ -4,24 +4,13 @@ import {PatientManger} from '../models';
 
 export class PatientManagerStore {
   patientManger!: PatientManger;
-  listPatientManger: PatientManger[];
-  listPatientMangerCopy: PatientManger[];
+  listPatientManger!: PatientManger[];
+  listPatientMangerCopy!: PatientManger[];
   listPatientMangerCount!: number;
   checkExistsPatient!: boolean;
 
   constructor() {
-    this.listPatientManger = [];
-    this.listPatientMangerCopy = [];
-    this.listPatientMangerCount = 0;
-    this.checkExistsPatient = false;
-    this.patientManger = {
-      ...this.patientManger,
-      ageUnit: 'Y',
-      isBirthdateAvailabe: true,
-      isPatientMobileNo: true,
-      isVIP: false,
-      isAddress: false,
-    };
+    this.reset();
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,
       listPatientManger: observable,
@@ -34,6 +23,21 @@ export class PatientManagerStore {
       filterPatientManagerList: action,
       updateExistsPatient: action,
     });
+  }
+
+  reset() {
+    this.listPatientManger = [];
+    this.listPatientMangerCopy = [];
+    this.listPatientMangerCount = 0;
+    this.checkExistsPatient = false;
+    this.patientManger = {
+      ...this.patientManger,
+      ageUnit: 'Y',
+      isBirthdateAvailabe: true,
+      isPatientMobileNo: true,
+      isVIP: false,
+      isAddress: false,
+    };
   }
 
   get patientManagerService() {

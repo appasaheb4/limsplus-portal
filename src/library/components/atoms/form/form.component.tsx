@@ -281,6 +281,50 @@ export const InputDateTime = ({
   );
 };
 
+export const DatePicker = ({
+  name,
+  value,
+  placeholder,
+  use12Hours = true,
+  label,
+  id,
+  hasError,
+  disabled,
+  format = 'dd-MM-yyyy',
+  style,
+  className,
+  onChange,
+  onFocusRemove,
+}: InputDateProps) => {
+  const [date, setDate] = useState(value);
+
+  return (
+    <InputWrapper label={label} id={id} hasError={hasError}>
+      <div style={style}>
+        <DateTimePicker
+          disabled={disabled}
+          onChange={value => {
+            setDate(value);
+            onChange && onChange(value);
+          }}
+          onCalendarClose={() => {
+            if (value !== date) onFocusRemove && onFocusRemove(date);
+          }}
+          onClockClose={() => {
+            if (value !== date) onFocusRemove && onFocusRemove(date);
+          }}
+          value={value}
+          amPmAriaLabel='AM/PM'
+          format={format || 'dd-MM-yyyy'}
+          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+            hasError ? 'border-red-500 ' : 'border-gray-300'
+          } rounded-md relative z-2`}
+        />
+      </div>
+    </InputWrapper>
+  );
+};
+
 export const CheckBox = props => {
   return (
     <li>

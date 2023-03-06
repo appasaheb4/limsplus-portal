@@ -648,10 +648,14 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     <Form.Toggle
                       value={row.isNewDoctor}
                       onChange={isNewDoctor => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            isNewDoctor,
-                            'isNewDoctor',
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {
+                              isNewDoctor,
+                              doctorId: isNewDoctor ? '' : row?.doctorId,
+                              doctorName: '',
+                              doctorMobileNo: '',
+                            },
                             row._id,
                           );
                       }}

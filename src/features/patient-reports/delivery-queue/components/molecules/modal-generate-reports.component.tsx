@@ -65,7 +65,7 @@ export const ModalGenerateReports = ({
                           item?.reportTemplate?.split(' -')[0] == 'TEMP0001',
                       ),
                   },
-                  pageBranding: templateDetails.find(
+                  pageBranding: templateDetails?.find(
                     item => item.templateCode == 'TEMP0001',
                   ),
                 }}
@@ -86,7 +86,7 @@ export const ModalGenerateReports = ({
                           item?.reportTemplate?.split(' -')[0] == 'TEMP0002',
                       ),
                   },
-                  pageBranding: templateDetails.find(
+                  pageBranding: templateDetails?.find(
                     item => item.templateCode == 'TEMP0002',
                   ),
                 }}
@@ -107,7 +107,7 @@ export const ModalGenerateReports = ({
                           item?.reportTemplate?.split(' -')[0] == 'TEMP0003',
                       ),
                   },
-                  pageBranding: templateDetails.find(
+                  pageBranding: templateDetails?.find(
                     item => item.templateCode == 'TEMP0003',
                   ),
                 }}
@@ -128,7 +128,7 @@ export const ModalGenerateReports = ({
                           item?.reportTemplate?.split(' -')[0] == 'TEMP0004',
                       ),
                   },
-                  pageBranding: templateDetails.find(
+                  pageBranding: templateDetails?.find(
                     item => item?.templateCode == 'TEMP0004',
                   ),
                 }}
@@ -149,7 +149,7 @@ export const ModalGenerateReports = ({
                           item?.reportTemplate?.split(' -')[0] == 'TEMP0005',
                       ),
                   },
-                  pageBranding: templateDetails.find(
+                  pageBranding: templateDetails?.find(
                     item => item.templateCode == 'TEMP0005',
                   ),
                 }}
@@ -170,7 +170,7 @@ export const ModalGenerateReports = ({
                           item?.reportTemplate?.split(' -')[0] == 'TEMP0006',
                       ),
                   },
-                  pageBranding: templateDetails.find(
+                  pageBranding: templateDetails?.find(
                     item => item.templateCode == 'TEMP0006',
                   ),
                 }}
@@ -236,6 +236,7 @@ export const ModalGenerateReports = ({
                               }}
                               onClick={async () => {
                                 setPdfViewer(true);
+                                onClose && onClose();
                               }}
                             >
                               {Icons.getIconTag(Icons.Iconmd.MdOutlinePreview)}
@@ -254,7 +255,7 @@ export const ModalGenerateReports = ({
                                 padding: 4,
                               }}
                               onClick={async () => {
-                                const doc = getReports(reportList);
+                                const doc = await getReports(reportList);
                                 const blob = await pdf(doc).toBlob();
                                 const blobURL = URL.createObjectURL(blob);
                                 printjs({
@@ -262,6 +263,7 @@ export const ModalGenerateReports = ({
                                   type: 'pdf',
                                   showModal: true,
                                 });
+                                onClose && onClose();
                               }}
                             >
                               {Icons.getIconTag(Icons.IconBi.BiPrinter)}

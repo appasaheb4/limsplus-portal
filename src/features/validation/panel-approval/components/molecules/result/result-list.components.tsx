@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Tooltip, Icons} from '@/library/components';
+import {
+  Form,
+  Tooltip,
+  Icons,
+  NumberFilter,
+  sortCaret,
+  textFilter,
+  customFilter,
+} from '@/library/components';
 import dayjs from 'dayjs';
 
 import {TableBootstrap} from './table-bootstrap.components';
@@ -25,6 +33,8 @@ interface ResultListProps {
   onClickRow?: (item: any, index: number) => void;
   onReport?: (item: any) => void;
 }
+
+let labId;
 
 export const ResultList = (props: ResultListProps) => {
   const [selectId, setSelectId] = useState('');
@@ -67,6 +77,19 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Lab Id',
               sort: true,
               editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              headerClasses: 'textHeader3',
+              filter: customFilter({
+                getFilter: filter => {
+                  labId = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
             },
             {
               dataField: 'test',
@@ -361,6 +384,15 @@ export const ResultList = (props: ResultListProps) => {
           fileName='Report Panel Approval'
           onSelectedRow={(rows, type) => {
             props.onSelectedRow && props.onSelectedRow(rows, type);
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size);
+          }}
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size);
+          }}
+          clearAllFilter={() => {
+            labId('');
           }}
         />
       </div>

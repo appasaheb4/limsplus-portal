@@ -32,4 +32,9 @@ export class PanelApprovalStore {
       this.panelApprovalListCount = res?.length || 0;
     }
   }
+
+  filterPanelApproval(res: any) {
+    this.panelApprovalList = res.filterPanelApproval.data;
+    this.panelApprovalListCount = res.filterPanelApproval.paginatorInfo.count;
+  }
 }

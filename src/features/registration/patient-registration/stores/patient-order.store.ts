@@ -4,22 +4,15 @@ import {PatientOrder, SelectedItems} from '../models';
 
 export class PatientOrderStore {
   patientOrder!: PatientOrder;
-  listPatientOrder: PatientOrder[];
-  listPatientOrderCopy: PatientOrder[];
+  listPatientOrder!: PatientOrder[];
+  listPatientOrderCopy!: PatientOrder[];
   listPatientOrderCount!: number;
   selectedItems!: SelectedItems;
   packageList!: any;
   checkExistsRecord!: boolean;
 
   constructor() {
-    this.patientOrder = new PatientOrder({});
-    this.selectedItems = new SelectedItems({});
-    this.listPatientOrder = [];
-    this.listPatientOrderCopy = [];
-    this.packageList = undefined;
-    this.listPatientOrderCount = 0;
-    this.checkExistsRecord = false;
-
+    this.reset();
     makeObservable<PatientOrderStore, any>(this, {
       patientOrder: observable,
       listPatientOrder: observable,
@@ -37,6 +30,16 @@ export class PatientOrderStore {
       updatePackageList: action,
       updateExistsRecords: action,
     });
+  }
+
+  reset() {
+    this.patientOrder = new PatientOrder({});
+    this.selectedItems = new SelectedItems({});
+    this.listPatientOrder = [];
+    this.listPatientOrderCopy = [];
+    this.packageList = undefined;
+    this.listPatientOrderCount = 0;
+    this.checkExistsRecord = false;
   }
 
   get patientOrderService() {

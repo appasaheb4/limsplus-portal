@@ -390,7 +390,18 @@ export const TableBootstrapReport = ({
                   rowStyle={rowStyle}
                 />
               </div>
-
+              {/* <div className='flex items-center gap-2 mt-2 flex-wrap'>
+                <SizePerPageDropdownStandalone
+                  {...Object.assign(
+                    {},
+                    {...paginationProps, hideSizePerPage: false},
+                  )}
+                />
+                <PaginationListStandalone {...paginationProps} />
+              </div>
+              <div className='flex items-center gap-2 mt-2'>
+                <PaginationTotalStandalone {...paginationProps} />
+              </div> */}
               <div className='flex items-center gap-2 mt-2'>
                 <Icons.IconContext
                   color='#fff'

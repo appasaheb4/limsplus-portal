@@ -31,6 +31,7 @@ import {
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 import {dateAvailableUnits, getDiffByDate, getAgeByAgeObject} from '../utils';
+import {resetPatientManager} from '../startup';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
@@ -49,8 +50,10 @@ export const PatientManager = PatientManagerHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue('species', patientManagerStore.patientManger.species);
+    setValue('pId', patientManagerStore.patientManger?.pId);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
@@ -74,9 +77,9 @@ export const PatientManager = PatientManagerHoc(
                 message: `😊 ${res.createPatientManager.message}`,
               });
             }
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
+            setHideInputView(true);
+            reset();
+            resetPatientManager();
           });
       } else {
         Toast.warning({
@@ -176,14 +179,14 @@ export const PatientManager = PatientManagerHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Pid'
                       name='txtPid'
                       disabled={true}
                       placeholder={errors.pId ? 'Please enter pid' : 'Pid'}
                       hasError={!!errors.pId}
-                      value={patientManagerStore.patientManger?.pId}
+                      value={value}
                       onChange={pId => {
                         onChange(pId);
                         patientManagerStore.updatePatientManager({
@@ -200,13 +203,11 @@ export const PatientManager = PatientManagerHoc(
                 <div className='flex flex-row gap-4'>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Patient Mobile Number'
                         hasError={!!errors.isPatientMobileNo}
-                        value={
-                          patientManagerStore.patientManger?.isPatientMobileNo
-                        }
+                        value={value}
                         onChange={isPatientMobileNo => {
                           onChange(isPatientMobileNo);
                           patientManagerStore.updatePatientManager({
@@ -222,7 +223,7 @@ export const PatientManager = PatientManagerHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Input
                         label='Mobile No'
                         placeholder={
@@ -234,7 +235,7 @@ export const PatientManager = PatientManagerHoc(
                         type='number'
                         className='w-full'
                         pattern={FormHelper.patterns.mobileNo}
-                        value={patientManagerStore.patientManger?.mobileNo}
+                        value={value}
                         onChange={mobileNo => {
                           onChange(mobileNo);
                           patientManagerStore.updatePatientManager({
@@ -243,27 +244,32 @@ export const PatientManager = PatientManagerHoc(
                           });
                         }}
                         onBlur={mobileNo => {
-                          patientManagerStore.patientManagerService
-                            .checkExistsPatient({
-                              input: {
-                                firstName:
-                                  patientManagerStore.patientManger?.firstName,
-                                lastName:
-                                  patientManagerStore.patientManger?.lastName,
-                                mobileNo,
-                                birthDate:
-                                  patientManagerStore.patientManger?.birthDate,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkExistsPatientManager.success) {
-                                patientManagerStore.updateExistsPatient(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkExistsPatientManager.message}`,
-                                });
-                              } else
-                                patientManagerStore.updateExistsPatient(false);
-                            });
+                          if (mobileNo)
+                            patientManagerStore.patientManagerService
+                              .checkExistsPatient({
+                                input: {
+                                  firstName:
+                                    patientManagerStore.patientManger
+                                      ?.firstName,
+                                  lastName:
+                                    patientManagerStore.patientManger?.lastName,
+                                  mobileNo,
+                                  birthDate:
+                                    patientManagerStore.patientManger
+                                      ?.birthDate,
+                                },
+                              })
+                              .then(res => {
+                                if (res.checkExistsPatientManager.success) {
+                                  patientManagerStore.updateExistsPatient(true);
+                                  Toast.error({
+                                    message: `😔 ${res.checkExistsPatientManager.message}`,
+                                  });
+                                } else
+                                  patientManagerStore.updateExistsPatient(
+                                    false,
+                                  );
+                              });
                         }}
                       />
                     )}
@@ -278,10 +284,10 @@ export const PatientManager = PatientManagerHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <div className='flex flex-row gap-2 items-center'>
-                      <Form.InputDateTime
-                        label='Bithdate'
+                      <Form.DatePicker
+                        label='Birthrate'
                         placeholder={
                           errors.birthDate
                             ? 'Please Enter BirthDate'
@@ -289,7 +295,7 @@ export const PatientManager = PatientManagerHoc(
                         }
                         use12Hours={false}
                         hasError={!!errors.birthDate}
-                        value={patientManagerStore.patientManger?.birthDate}
+                        value={value}
                         onChange={birthDate => {
                           onChange(birthDate);
                           setValue('age', getDiffByDate(birthDate));
@@ -358,14 +364,14 @@ export const PatientManager = PatientManagerHoc(
                 {!patientManagerStore.patientManger.isBirthdateAvailabe && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <div className='flex flex-row items-center  gap-4'>
                         <Form.Input
                           label='Age'
                           placeholder={'Age'}
                           hasError={!!errors.age}
                           type='number'
-                          value={patientManagerStore.patientManger?.age}
+                          value={value}
                           onChange={age => {
                             onChange(age);
                             setValue(
@@ -432,9 +438,10 @@ export const PatientManager = PatientManagerHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Title' hasError={!!errors.title}>
                       <select
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.title ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -473,7 +480,7 @@ export const PatientManager = PatientManagerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='First Name'
                       name='txtFirstName'
@@ -483,7 +490,7 @@ export const PatientManager = PatientManagerHoc(
                           : 'First Name'
                       }
                       hasError={!!errors.firstName}
-                      value={patientManagerStore.patientManger?.firstName}
+                      value={value}
                       onChange={firstName => {
                         onChange(firstName);
                         patientManagerStore.updatePatientManager({
@@ -491,28 +498,55 @@ export const PatientManager = PatientManagerHoc(
                           firstName: firstName.toUpperCase(),
                         });
                       }}
-                      onBlur={firstName => {
-                        patientManagerStore.patientManagerService
-                          .checkExistsPatient({
-                            input: {
-                              firstName,
-                              lastName:
-                                patientManagerStore.patientManger?.lastName,
-                              mobileNo:
-                                patientManagerStore.patientManger?.mobileNo,
-                              birthDate:
-                                patientManagerStore.patientManger?.birthDate,
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkExistsPatientManager.success) {
-                              patientManagerStore.updateExistsPatient(true);
-                              Toast.error({
-                                message: `😔 ${res.checkExistsPatientManager.message}`,
-                              });
-                            } else
-                              patientManagerStore.updateExistsPatient(false);
+                      onBlur={inFirstName => {
+                        const names = inFirstName.split(' ');
+                        let firstName = inFirstName;
+                        let lastName =
+                          patientManagerStore.patientManger?.lastName;
+                        if (names?.length > 0 && names?.length == 2) {
+                          firstName = names[0];
+                          onChange(firstName);
+                          lastName = names[1];
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            firstName: names[0],
+                            lastName: names[1],
                           });
+                          setValue('lastName', lastName);
+                        }
+                        if (names?.length > 0 && names?.length == 3) {
+                          firstName = names[0];
+                          onChange(firstName);
+                          lastName = names[2];
+                          patientManagerStore.updatePatientManager({
+                            ...patientManagerStore.patientManger,
+                            firstName: names[0],
+                            middleName: names[1],
+                            lastName: names[2],
+                          });
+                          setValue('lastName', lastName);
+                        }
+                        if (inFirstName)
+                          patientManagerStore.patientManagerService
+                            .checkExistsPatient({
+                              input: {
+                                firstName,
+                                lastName,
+                                mobileNo:
+                                  patientManagerStore.patientManger?.mobileNo,
+                                birthDate:
+                                  patientManagerStore.patientManger?.birthDate,
+                              },
+                            })
+                            .then(res => {
+                              if (res.checkExistsPatientManager.success) {
+                                patientManagerStore.updateExistsPatient(true);
+                                Toast.error({
+                                  message: `😔 ${res.checkExistsPatientManager.message}`,
+                                });
+                              } else
+                                patientManagerStore.updateExistsPatient(false);
+                            });
                       }}
                     />
                   )}
@@ -522,7 +556,7 @@ export const PatientManager = PatientManagerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Middle Name'
                       placeholder={
@@ -531,7 +565,7 @@ export const PatientManager = PatientManagerHoc(
                           : 'Middle Name'
                       }
                       hasError={!!errors.middleName}
-                      value={patientManagerStore.patientManger?.middleName}
+                      value={value}
                       onChange={middleName => {
                         onChange(middleName);
                         patientManagerStore.updatePatientManager({
@@ -547,14 +581,14 @@ export const PatientManager = PatientManagerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Last Name'
                       placeholder={
                         errors.lastName ? 'Please Enter LastName' : 'Last Name'
                       }
                       hasError={!!errors.lastName}
-                      value={patientManagerStore.patientManger?.lastName}
+                      value={value}
                       onChange={lastName => {
                         onChange(lastName);
                         patientManagerStore.updatePatientManager({
@@ -563,27 +597,28 @@ export const PatientManager = PatientManagerHoc(
                         });
                       }}
                       onBlur={lastName => {
-                        patientManagerStore.patientManagerService
-                          .checkExistsPatient({
-                            input: {
-                              firstName:
-                                patientManagerStore.patientManger?.firstName,
-                              lastName,
-                              mobileNo:
-                                patientManagerStore.patientManger?.mobileNo,
-                              birthDate:
-                                patientManagerStore.patientManger?.birthDate,
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkExistsPatientManager.success) {
-                              patientManagerStore.updateExistsPatient(true);
-                              Toast.error({
-                                message: `😔 ${res.checkExistsPatientManager.message}`,
-                              });
-                            } else
-                              patientManagerStore.updateExistsPatient(false);
-                          });
+                        if (lastName)
+                          patientManagerStore.patientManagerService
+                            .checkExistsPatient({
+                              input: {
+                                firstName:
+                                  patientManagerStore.patientManger?.firstName,
+                                lastName,
+                                mobileNo:
+                                  patientManagerStore.patientManger?.mobileNo,
+                                birthDate:
+                                  patientManagerStore.patientManger?.birthDate,
+                              },
+                            })
+                            .then(res => {
+                              if (res.checkExistsPatientManager.success) {
+                                patientManagerStore.updateExistsPatient(true);
+                                Toast.error({
+                                  message: `😔 ${res.checkExistsPatientManager.message}`,
+                                });
+                              } else
+                                patientManagerStore.updateExistsPatient(false);
+                            });
                       }}
                     />
                   )}
@@ -598,13 +633,13 @@ export const PatientManager = PatientManagerHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sex ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
-                        value={patientManagerStore.patientManger?.sex}
+                        value={value}
                         onChange={e => {
                           const sex = e.target.value;
                           onChange(sex);
@@ -641,7 +676,7 @@ export const PatientManager = PatientManagerHoc(
                       hasError={!!errors.species}
                     >
                       <select
-                        value={patientManagerStore.patientManger?.species}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.species
                             ? 'border-red-500  '
@@ -676,14 +711,14 @@ export const PatientManager = PatientManagerHoc(
                 {patientManagerStore.patientManger.breed !== null && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Input
                         label='Breed'
                         placeholder={
                           errors.breed ? 'Please Enter Breed' : 'Breed'
                         }
                         hasError={!!errors.breed}
-                        value={patientManagerStore.patientManger?.breed}
+                        value={value}
                         onChange={breed => {
                           onChange(breed);
                           patientManagerStore.updatePatientManager({
@@ -701,12 +736,13 @@ export const PatientManager = PatientManagerHoc(
                 {doctorsStore.listDoctors && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Usual Doctor'
                         hasError={!!errors.usualDoctor}
                       >
                         <select
+                          value={value}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.usualDoctor
                               ? 'border-red-500'
@@ -742,13 +778,13 @@ export const PatientManager = PatientManagerHoc(
                   <>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.MultilineInput
                           rows={2}
                           label='Diagnosis'
                           placeholder='Diagnosis'
                           hasError={!!errors.diagnosis}
-                          value={patientManagerStore.patientManger?.diagnosis}
+                          value={value}
                           onChange={diagnosis => {
                             onChange(diagnosis);
                             patientManagerStore.updatePatientManager({
@@ -764,10 +800,10 @@ export const PatientManager = PatientManagerHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.InputWrapper label='Disease'>
                           <select
-                            value={patientManagerStore.patientManger?.disease}
+                            value={value}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.disease
                                 ? 'border-red-500  '
@@ -804,7 +840,7 @@ export const PatientManager = PatientManagerHoc(
                   <>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.InputWrapper
                           label='Postal Code'
                           id='postalCode'
@@ -856,15 +892,12 @@ export const PatientManager = PatientManagerHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           label='Country'
                           hasError={!!errors.country}
                           placeholder='Country'
-                          value={
-                            patientManagerStore.patientManger?.extraData
-                              ?.country
-                          }
+                          value={value}
                           //disabled={true}
                           onChange={country => {
                             onChange(country);
@@ -885,14 +918,12 @@ export const PatientManager = PatientManagerHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           label='State'
                           hasError={!!errors.state}
                           placeholder='State'
-                          value={
-                            patientManagerStore.patientManger?.extraData?.state
-                          }
+                          value={value}
                           //disabled={true}
                           onChange={state => {
                             onChange(state);
@@ -913,15 +944,12 @@ export const PatientManager = PatientManagerHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           label='District'
                           hasError={!!errors.district}
                           placeholder='District'
-                          value={
-                            patientManagerStore.patientManger?.extraData
-                              ?.district
-                          }
+                          value={value}
                           //disabled={true}
                           onChange={district => {
                             onChange(district);
@@ -942,14 +970,12 @@ export const PatientManager = PatientManagerHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           label='City'
                           hasError={!!errors.city}
                           placeholder='City'
-                          value={
-                            patientManagerStore.patientManger?.extraData?.city
-                          }
+                          value={value}
                           //disabled={true}
                           onChange={city => {
                             onChange(city);
@@ -970,14 +996,12 @@ export const PatientManager = PatientManagerHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           label='Area'
                           hasError={!!errors.area}
                           placeholder='Area'
-                          value={
-                            patientManagerStore.patientManger?.extraData?.area
-                          }
+                          value={value}
                           //disabled={true}
                           onChange={area => {
                             onChange(area);
@@ -998,7 +1022,7 @@ export const PatientManager = PatientManagerHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.MultilineInput
                           rows={2}
                           label='Address'
@@ -1006,10 +1030,7 @@ export const PatientManager = PatientManagerHoc(
                             errors.address ? 'Please Enter Address' : 'Address'
                           }
                           hasError={!!errors.address}
-                          value={
-                            patientManagerStore.patientManger?.extraData
-                              ?.address
-                          }
+                          value={value}
                           onChange={address => {
                             onChange(address);
                             patientManagerStore.updatePatientManager({
@@ -1031,11 +1052,11 @@ export const PatientManager = PatientManagerHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='History'
                         hasError={!!errors.history}
-                        value={patientManagerStore.patientManger?.history}
+                        value={value}
                         onChange={history => {
                           onChange(history);
                           patientManagerStore.updatePatientManager({
@@ -1051,11 +1072,11 @@ export const PatientManager = PatientManagerHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='VIP'
                         hasError={!!errors.isVIP}
-                        value={patientManagerStore.patientManger?.isVIP}
+                        value={value}
                         onChange={isVIP => {
                           onChange(isVIP);
                           patientManagerStore.updatePatientManager({
@@ -1071,11 +1092,11 @@ export const PatientManager = PatientManagerHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Address'
                         hasError={!!errors.isAddress}
-                        value={patientManagerStore.patientManger?.isAddress}
+                        value={value}
                         onChange={isAddress => {
                           onChange(isAddress);
                           patientManagerStore.updatePatientManager({
@@ -1107,7 +1128,7 @@ export const PatientManager = PatientManagerHoc(
                       <List direction='col' space={4} justify='stretch' fill>
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Email'
                               name='txtEmail'
@@ -1116,10 +1137,7 @@ export const PatientManager = PatientManagerHoc(
                               }
                               hasError={!!errors.email}
                               type='mail'
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.email
-                              }
+                              value={value}
                               onChange={email => {
                                 onChange(email);
                                 patientManagerStore.updatePatientManager({
@@ -1139,7 +1157,7 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='WhatsApp Number'
                               name='txtWhatsappNumber'
@@ -1151,10 +1169,7 @@ export const PatientManager = PatientManagerHoc(
                               type='number'
                               pattern={FormHelper.patterns.mobileNo}
                               hasError={!!errors.whatsappNumber}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.whatsappNumber
-                              }
+                              value={value}
                               onChange={whatsappNumber => {
                                 onChange(whatsappNumber);
                                 patientManagerStore.updatePatientManager({
@@ -1177,7 +1192,7 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputFile
                               label='Photograph'
                               placeholder='File'
@@ -1225,13 +1240,10 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Blood Group'>
                               <select
-                                value={
-                                  patientManagerStore.patientManger.extraData
-                                    ?.bloodGroup
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.bloodGroup
                                     ? 'border-red-500  '
@@ -1270,7 +1282,7 @@ export const PatientManager = PatientManagerHoc(
                       <List direction='col' space={4} justify='stretch' fill>
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Follow Up'
                               placeholder={
@@ -1279,10 +1291,7 @@ export const PatientManager = PatientManagerHoc(
                                   : 'FollowUp'
                               }
                               hasError={!!errors.followUp}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.followUp
-                              }
+                              value={value}
                               onChange={followUp => {
                                 onChange(followUp);
                                 patientManagerStore.updatePatientManager({
@@ -1302,7 +1311,7 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Comments'
                               placeholder={
@@ -1311,10 +1320,7 @@ export const PatientManager = PatientManagerHoc(
                                   : 'FollowUp'
                               }
                               hasError={!!errors.comments}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.comments
-                              }
+                              value={value}
                               onChange={comments => {
                                 onChange(comments);
                                 patientManagerStore.updatePatientManager({
@@ -1334,7 +1340,7 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='FyiLine'
                               placeholder={
@@ -1343,10 +1349,7 @@ export const PatientManager = PatientManagerHoc(
                                   : 'Fyiline'
                               }
                               hasError={!!errors.fyiLine}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.fyiLine
-                              }
+                              value={value}
                               onChange={fyiLine => {
                                 onChange(fyiLine);
                                 patientManagerStore.updatePatientManager({
@@ -1366,7 +1369,7 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Balance'
                               placeholder={
@@ -1375,10 +1378,7 @@ export const PatientManager = PatientManagerHoc(
                                   : 'Balance'
                               }
                               hasError={!!errors.balance}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.balance
-                              }
+                              value={value}
                               onChange={balance => {
                                 onChange(balance);
                                 patientManagerStore.updatePatientManager({
@@ -1398,15 +1398,12 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='External Pid'
                               placeholder='External Pid'
                               hasError={!!errors.externalPid}
-                              value={
-                                patientManagerStore.patientManger?.extraData
-                                  ?.externalPid
-                              }
+                              value={value}
                               onChange={externalPid => {
                                 onChange(externalPid);
                                 patientManagerStore.updatePatientManager({
@@ -1446,13 +1443,10 @@ export const PatientManager = PatientManagerHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Status'>
                               <select
-                                value={
-                                  patientManagerStore.patientManger.extraData
-                                    ?.status
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.status
                                     ? 'border-red-500  '
@@ -1490,13 +1484,10 @@ export const PatientManager = PatientManagerHoc(
 
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Environment'>
                               <select
-                                value={
-                                  patientManagerStore.patientManger.extraData
-                                    ?.environment
-                                }
+                                value={value}
                                 disabled={
                                   loginStore.login &&
                                   loginStore.login.role !== 'SYSADMIN'
@@ -1546,14 +1537,11 @@ export const PatientManager = PatientManagerHoc(
                         <Grid cols={4}>
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({field: {onChange, value}}) => (
                               <Form.Toggle
                                 label='Is Mobile WhatsApp'
                                 hasError={!!errors.isMobileAndWhatsApp}
-                                value={
-                                  patientManagerStore.patientManger?.extraData
-                                    ?.isMobileAndWhatsApp
-                                }
+                                value={value}
                                 onChange={isMobileAndWhatsApp => {
                                   onChange(isMobileAndWhatsApp);
                                   patientManagerStore.updatePatientManager({
@@ -1578,14 +1566,11 @@ export const PatientManager = PatientManagerHoc(
 
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({field: {onChange, value}}) => (
                               <Form.Toggle
                                 label='Confidental'
                                 hasError={!!errors.confidental}
-                                value={
-                                  patientManagerStore.patientManger?.extraData
-                                    ?.confidental
-                                }
+                                value={value}
                                 onChange={confidental => {
                                   onChange(confidental);
                                   patientManagerStore.updatePatientManager({
@@ -1605,14 +1590,11 @@ export const PatientManager = PatientManagerHoc(
                           />
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({field: {onChange, value}}) => (
                               <Form.Toggle
                                 label='Permanent'
                                 hasError={!!errors.permanent}
-                                value={
-                                  patientManagerStore.patientManger?.extraData
-                                    ?.permanent
-                                }
+                                value={value}
                                 onChange={permanent => {
                                   onChange(permanent);
                                   patientManagerStore.updatePatientManager({
@@ -1718,11 +1700,19 @@ export const PatientManager = PatientManagerHoc(
                 page,
                 limit,
               );
+              global.filter = {mode: 'pagination', page, limit};
             }}
             onFilter={(type, filter, page, limit) => {
               patientManagerStore.patientManagerService.filter({
                 input: {type, filter, page, limit},
               });
+              global.filter = {
+                mode: 'filter',
+                type,
+                filter,
+                page,
+                limit,
+              };
             }}
           />
         </div>
@@ -1757,7 +1747,7 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.removePatientManager.message}`,
                       });
-                      if (global?.filter.mode == 'pagination')
+                      if (global?.filter?.mode == 'pagination')
                         patientManagerStore.patientManagerService.listPatientManager(
                           {
                             documentType: 'patientManager',
@@ -1798,7 +1788,7 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientManager.message}`,
                       });
-                      if (global?.filter.mode == 'pagination')
+                      if (global?.filter?.mode == 'pagination')
                         patientManagerStore.patientManagerService.listPatientManager(
                           {
                             documentType: 'patientManager',
@@ -1838,7 +1828,7 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientManager.message}`,
                       });
-                      if (global?.filter.mode == 'pagination')
+                      if (global?.filter?.mode == 'pagination')
                         patientManagerStore.patientManagerService.listPatientManager(
                           {
                             documentType: 'patientManager',

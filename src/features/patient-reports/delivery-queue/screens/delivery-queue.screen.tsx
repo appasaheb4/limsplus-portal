@@ -35,8 +35,10 @@ const DeliveryQueue = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  const [modalConfirm, setModalConfirm] = useState<any>();
+
+  //const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalGenerateReports, setModalGenerateReports] = useState<any>();
+  const [selectId, setSelectId] = useState('');
 
   const getDeliveryList = () => {
     const loginDetails = loginStore.login;
@@ -200,10 +202,69 @@ const DeliveryQueue = observer(() => {
             data = _.unionBy(data, (o: any) => {
               return o.patientResultId;
             });
+            data = _.orderBy(data, 'deliveryId', 'desc');
             resolve(data);
           }
         });
     });
+
+  const updateRecords = (payload: any) => {
+    const {type, id, visitId, ids} = payload;
+    if (type == 'cancel' || type == 'hold' || type == 'done') {
+      deliveryQueueStore.deliveryQueueService
+        .updateDeliveryQueue({
+          input: {
+            _id: id,
+            visitId: visitId,
+            deliveryStatus:
+              type == 'cancel' ? 'Cancel' : type == 'hold' ? 'Hold' : 'Done',
+          },
+        })
+        .then(res => {
+          if (res.updateDeliveryQueue.success) {
+            Toast.success({
+              message: `😊 ${res.updateDeliveryQueue.message}`,
+            });
+          }
+        });
+    } else {
+      deliveryQueueStore.deliveryQueueService
+        .updateDeliveryQueueByVisitIds({
+          input: {
+            filter: {
+              ids: ids,
+              visitId: visitId,
+              deliveryStatus: 'Done',
+            },
+          },
+        })
+        .then(res => {
+          if (res.updateByVisitIdsDeliveryQueue.success) {
+            Toast.success({
+              message: `😊 ${res.updateByVisitIdsDeliveryQueue.message}`,
+            });
+          }
+        });
+    }
+
+    if (global?.filter?.mode == 'pagination') {
+      deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
+        global?.filter?.pageNo,
+        100,
+      );
+    } else if (global?.filter?.mode == 'filter') {
+      deliveryQueueStore.deliveryQueueService.filter({
+        input: {
+          type: global?.filter?.type,
+          filter: global?.filter?.filter,
+          page: global?.filter?.page,
+          limit: global?.filter?.limit,
+        },
+      });
+    } else {
+      deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+    }
+  };
 
   const reportDeliveryList = useMemo(
     () => (
@@ -211,8 +272,11 @@ const DeliveryQueue = observer(() => {
         data={
           getReportDeliveryList(deliveryQueueStore.reportDeliveryList) || []
         }
-        totalSize={deliveryQueueStore.reportDeliveryListCount}
+        totalSize={
+          getReportDeliveryList(deliveryQueueStore.reportDeliveryList)?.length
+        }
         isPagination={loginStore.login?.role == 'SYSADMIN' ? true : false}
+        selectedId={selectId}
         isDelete={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Delete',
@@ -221,8 +285,15 @@ const DeliveryQueue = observer(() => {
           routerStore.userPermission,
           'Edit/Modify',
         )}
-        onUpdate={selectedItem => setModalConfirm(selectedItem)}
+        onUpdate={selectedItem => updateRecords(selectedItem)}
         onFilter={(type, filter, page, limit) => {
+          global.filter = {
+            mode: 'filter',
+            type,
+            filter,
+            page,
+            limit,
+          };
           if (loginStore.login?.role == 'SYSADMIN') {
             deliveryQueueStore.deliveryQueueService.filter({
               input: {type, filter, page, limit},
@@ -251,13 +322,18 @@ const DeliveryQueue = observer(() => {
             }
           }
         }}
-        onClickRow={async (item, index) => {
-          getOrderDeliveredList(item).then(result => {
-            deliveryQueueStore.updateOrderDeliveredList(result);
-          });
+        onExpand={async item => {
+          setSelectId(item._id);
+          if (typeof item == 'object') {
+            getOrderDeliveredList(item).then(result => {
+              deliveryQueueStore.updateOrderDeliveredList(result);
+            });
+          } else {
+            deliveryQueueStore.updateOrderDeliveredList([]);
+          }
         }}
         onUpdateDeliveryStatus={() => {
-          setModalConfirm({
+          updateRecords({
             type: 'updateAllDeliveryStatus',
             ids: deliveryQueueStore.reportDeliveryList?.map(item => item._id),
             visitId: deliveryQueueStore.reportDeliveryList?.map(
@@ -273,12 +349,10 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.deliveryQueueService
             .listPatientReports(result[0]?.labId)
             .then(res => {
-              console.log({res});
-
               if (res.getPatientReports.success) {
                 let patientResultList: any[] = [];
                 result?.filter(item => {
-                  if (item.reportTemplate) {
+                  if (item?.reportTemplate) {
                     patientResultList.push({
                       ...res.getPatientReports.data,
                       patientResult: item,
@@ -286,12 +360,14 @@ const DeliveryQueue = observer(() => {
                   }
                 });
                 const uniqByPatientResult = _.uniqBy(result, (item: any) => {
-                  return item.reportTemplate;
+                  return item?.reportTemplate;
                 });
+
                 const reportTemplateList: any[] = [];
                 uniqByPatientResult.filter(item => {
-                  reportTemplateList.push(item?.reportTemplate.split(' -')[0]);
+                  reportTemplateList.push(item?.reportTemplate?.split(' -')[0]);
                 });
+
                 if (reportTemplateList?.length > 0) {
                   reportSettingStore.templatePatientResultService
                     .getTempPatientResultListByTempCodes({
@@ -311,16 +387,23 @@ const DeliveryQueue = observer(() => {
                           );
                         return Object.assign(item, {reportSettings});
                       });
+
                       const grouped = _.groupBy(
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-                      setModalGenerateReports({
-                        show: true,
-                        data: grouped,
-                        templateDetails:
-                          res.getTempPatientResultListByTempCodes.list,
-                      });
+                      if (_.isEmpty(grouped)) {
+                        return Toast.error({
+                          message: '😌 Report template not found.',
+                        });
+                      } else {
+                        setModalGenerateReports({
+                          show: true,
+                          data: grouped,
+                          templateDetails:
+                            res.getTempPatientResultListByTempCodes.list,
+                        });
+                      }
                     });
                 }
               } else {
@@ -338,11 +421,12 @@ const DeliveryQueue = observer(() => {
             100,
           );
           deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
+          global.filter = {mode: 'pagination', pageNo, limit: 100};
         }}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deliveryQueueStore.reportDeliveryList],
+    [deliveryQueueStore.reportDeliveryList, selectId],
   );
 
   return (
@@ -361,58 +445,7 @@ const DeliveryQueue = observer(() => {
           data={deliveryQueueStore.orderDeliveredList || []}
           totalSize={deliveryQueueStore.orderDeliveredListCount}
         />
-        <ModalConfirm
-          {...modalConfirm}
-          click={(type?: string) => {
-            if (type == 'cancel' || type == 'hold' || type == 'generatePdf') {
-              deliveryQueueStore.deliveryQueueService
-                .updateDeliveryQueue({
-                  input: {
-                    _id: modalConfirm.id,
-                    visitId: modalConfirm?.visitId,
-                    deliveryStatus:
-                      type == 'cancel'
-                        ? 'Cancel'
-                        : type == 'hold'
-                        ? 'Hold'
-                        : 'Done',
-                  },
-                })
-                .then(res => {
-                  setModalConfirm({show: false});
-                  if (res.updateDeliveryQueue.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateDeliveryQueue.message}`,
-                    });
-                    deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
-                  }
-                });
-            } else {
-              deliveryQueueStore.deliveryQueueService
-                .updateDeliveryQueueByVisitIds({
-                  input: {
-                    filter: {
-                      ids: modalConfirm?.ids,
-                      visitId: modalConfirm?.visitId,
-                      deliveryStatus: 'Done',
-                    },
-                  },
-                })
-                .then(res => {
-                  setModalConfirm({show: false});
-                  if (res.updateByVisitIdsDeliveryQueue.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateByVisitIdsDeliveryQueue.message}`,
-                    });
-                    deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
-                  }
-                });
-            }
-          }}
-          onClose={() => {
-            setModalConfirm({show: false});
-          }}
-        />
+
         <ModalGenerateReports
           {...modalGenerateReports}
           onClose={() => {

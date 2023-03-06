@@ -58,24 +58,12 @@ export const PdfMedicalCheckup = ({
           mh={0}
           p={0}
           style={{
-            width: '20%',
-            borderRightColor: 'gray',
-            borderRightWidth: 1,
-            paddingLeft: 5,
-          }}
-        >
-          <PdfSmall>{`S.No :- ${medicalCheckup?.srNo || ''}`}</PdfSmall>
-        </PdfView>
-        <PdfView
-          mh={0}
-          p={0}
-          style={{
-            width: '50%',
+            width: '70%',
             borderRightColor: 'gray',
             borderRightWidth: 1,
           }}
         >
-          <PdfSmall textAlign='center'>Medical Checkup</PdfSmall>
+          <PdfSmall>Medical Checkup</PdfSmall>
         </PdfView>
         <PdfView
           mh={0}
@@ -130,60 +118,6 @@ export const PdfMedicalCheckup = ({
           (SPICE MALL)`}</PdfSmall>
         </PdfView>
       </PdfBorderView>
-      {/* Name */}
-      <PdfBorderView
-        mv={0}
-        bw={1}
-        style={{flexDirection: 'row', borderTopWidth: 0}}
-      >
-        <PdfView
-          mh={0}
-          p={0}
-          style={{
-            width: '20%',
-            borderRightColor: 'gray',
-            borderRightWidth: 1,
-            paddingLeft: 5,
-          }}
-        >
-          <PdfSmall>Name</PdfSmall>
-        </PdfView>
-        <PdfView
-          mh={0}
-          p={0}
-          style={{
-            width: '50%',
-            borderRightColor: 'gray',
-            borderRightWidth: 1,
-          }}
-        >
-          <PdfSmall textAlign='center'>{`${
-            medicalCheckup?.name || ''
-          }`}</PdfSmall>
-        </PdfView>
-        <PdfView
-          mh={0}
-          p={0}
-          style={{
-            width: '10%',
-            borderRightColor: 'gray',
-            borderRightWidth: 1,
-          }}
-        >
-          <PdfSmall textAlign='center'>Age</PdfSmall>
-        </PdfView>
-        <PdfView
-          mh={0}
-          p={0}
-          style={{
-            width: '20%',
-          }}
-        >
-          <PdfSmall textAlign='center'>{`${medicalCheckup?.age || ''} ${
-            getAgeUnits(medicalCheckup?.ageUnit) || ''
-          }`}</PdfSmall>
-        </PdfView>
-      </PdfBorderView>
 
       {/* EMP. CODE */}
       <PdfBorderView
@@ -207,35 +141,11 @@ export const PdfMedicalCheckup = ({
           mh={0}
           p={0}
           style={{
-            width: '50%',
-            borderRightColor: 'gray',
-            borderRightWidth: 1,
+            width: '80%',
           }}
         >
           <PdfSmall textAlign='center'>{`${
             medicalCheckup?.empCode || ''
-          }`}</PdfSmall>
-        </PdfView>
-        <PdfView
-          mh={0}
-          p={0}
-          style={{
-            width: '10%',
-            borderRightColor: 'gray',
-            borderRightWidth: 1,
-          }}
-        >
-          <PdfSmall textAlign='center'>Sex</PdfSmall>
-        </PdfView>
-        <PdfView
-          mh={0}
-          p={0}
-          style={{
-            width: '20%',
-          }}
-        >
-          <PdfSmall textAlign='center'>{`${
-            getSex(medicalCheckup?.gender) || ''
           }`}</PdfSmall>
         </PdfView>
       </PdfBorderView>

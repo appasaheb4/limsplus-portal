@@ -28,8 +28,6 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
       routerStore.lookupItems,
       'PATIENT ORDER - STATUS',
     );
-    console.log({status});
-
     let pacakgeListS = data?.pacakgeListS;
     if (data.pacakgeListS) {
       pacakgeListS = _.map(data.pacakgeListS, o =>
@@ -62,8 +60,6 @@ export const TablePackagesList = observer(({data}: TablePackagesListProps) => {
       pacakgeListN,
       pacakgeListK,
     };
-    console.log({data});
-
     setPackages(data);
   }, [data]);
 

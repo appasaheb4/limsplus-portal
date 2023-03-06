@@ -113,6 +113,7 @@ const GeneralResultEntry = observer(() => {
         if (res.updatePatientResult.success) {
           Toast.success({
             message: `😊 ${res.updatePatientResult.message}`,
+            timer: 2000,
           });
           if (!generalResultEntryStore.filterGeneralResEntry)
             patientResultStore.patientResultService.listPatientResult({

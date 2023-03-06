@@ -1,6 +1,5 @@
 import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
-import dayjs from 'dayjs';
 import {Table} from 'reactstrap';
 import _ from 'lodash';
 import {
@@ -32,6 +31,8 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
+
+import {resetPatientVisit} from '../startup';
 
 import {PatientVisitHoc} from '../hoc';
 import {useStores} from '@/stores';
@@ -66,12 +67,26 @@ export const PatientVisit = PatientVisitHoc(
       setValue,
       clearErrors,
       setError,
+      reset,
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
+    setValue('visitDate', patientVisitStore.patientVisit.visitDate);
+    setValue(
+      'registrationDate',
+      patientVisitStore.patientVisit.registrationDate,
+    );
+    setValue('dateReceived', patientVisitStore.patientVisit.collectionDate);
     setValue('reportPriority', patientVisitStore.patientVisit.reportPriority);
+    setValue('visitId', patientVisitStore.patientVisit.visitId);
+    setValue('labId', patientVisitStore.patientVisit.labId);
+    setValue('status', patientVisitStore.patientVisit?.status);
+    setValue(
+      'environment',
+      patientVisitStore.patientVisit.extraData?.environment,
+    );
 
     const onSubmitPatientVisit = async () => {
       if (
@@ -95,9 +110,9 @@ export const PatientVisit = PatientVisitHoc(
                 message: `😊 ${res.createPatientVisit.message}`,
               });
             }
-            setTimeout(async () => {
-              window.location.reload();
-            }, 1000);
+            setHideInputView(true);
+            reset();
+            resetPatientVisit();
           });
       } else {
         Toast.warning({
@@ -111,18 +126,14 @@ export const PatientVisit = PatientVisitHoc(
         <>
           <Controller
             control={control}
-            render={({field: {onChange}}) => (
+            render={({field: {onChange, value}}) => (
               <Form.Input
                 label='Lab Id'
                 placeholder={errors.labId ? 'Please Enter Lab ID' : 'Lab ID'}
                 hasError={!!errors.labId}
-                // disabled={
-                //   appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-                //   'no'
-                // }
                 disabled={true}
                 type='number'
-                value={patientVisitStore.patientVisit?.labId}
+                value={value}
                 onChange={labId => {
                   onChange(labId);
                   patientVisitStore.updatePatientVisit({
@@ -206,7 +217,7 @@ export const PatientVisit = PatientVisitHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Visit Id'
                       placeholder={
@@ -214,7 +225,7 @@ export const PatientVisit = PatientVisitHoc(
                       }
                       hasError={!!errors.visitId}
                       disabled={true}
-                      value={patientVisitStore.patientVisit?.visitId}
+                      value={value}
                       onChange={visitId => {
                         onChange(visitId);
                         patientVisitStore.updatePatientVisit({
@@ -231,16 +242,13 @@ export const PatientVisit = PatientVisitHoc(
                 {labId}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <>
                       <Form.Input
                         label='External Lab Id'
                         placeholder='External Lab Id'
                         hasError={!!errors.externalLabId}
-                        value={
-                          patientVisitStore.patientVisit.extraData
-                            ?.externalLabId
-                        }
+                        value={value}
                         onChange={externalLabId => {
                           onChange(externalLabId);
                           patientVisitStore.updatePatientVisit({
@@ -260,12 +268,21 @@ export const PatientVisit = PatientVisitHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='PId' hasError={!!errors.pid}>
                       <AutoCompleteFilterSingleSelectPid
+                        displayValue={value}
                         hasError={!!errors.pid}
                         onSelect={item => {
                           onChange(item.pId);
+                          const age =
+                            getAgeByAgeObject(getDiffByDate(item.birthDate))
+                              .age || 0;
+                          const ageUnits = getAgeByAgeObject(
+                            getDiffByDate(item.birthDate),
+                          ).ageUnit;
+                          setValue('age', age);
+                          setValue('ageUnits', ageUnits);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
@@ -273,12 +290,8 @@ export const PatientVisit = PatientVisitHoc(
                               item.middleName ? item.middleName : ''
                             } ${item.lastName}`,
                             birthDate: item?.birthDate,
-                            age:
-                              getAgeByAgeObject(getDiffByDate(item.birthDate))
-                                .age || 0,
-                            ageUnits: getAgeByAgeObject(
-                              getDiffByDate(item.birthDate),
-                            ).ageUnit,
+                            age,
+                            ageUnits,
                           });
                         }}
                       />
@@ -290,10 +303,10 @@ export const PatientVisit = PatientVisitHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Rlab' hasError={!!errors.rLab}>
                       <select
-                        value={patientVisitStore.patientVisit?.rLab}
+                        value={value}
                         disabled={true}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.rLab ? 'border-red-500  ' : 'border-gray-300'
@@ -326,7 +339,7 @@ export const PatientVisit = PatientVisitHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Visit Date'
                       placeholder={
@@ -335,7 +348,7 @@ export const PatientVisit = PatientVisitHoc(
                           : 'VisitDate'
                       }
                       hasError={!!errors.visitDate}
-                      value={patientVisitStore.patientVisit.visitDate}
+                      value={value}
                       onChange={visitDate => {
                         onChange(visitDate);
                         patientVisitStore.updatePatientVisit({
@@ -351,7 +364,7 @@ export const PatientVisit = PatientVisitHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Registration Date'
                       name='txtRegistrationDate'
@@ -361,7 +374,7 @@ export const PatientVisit = PatientVisitHoc(
                           : 'RegistrationDate'
                       }
                       hasError={!!errors.registrationDate}
-                      value={patientVisitStore.patientVisit?.registrationDate}
+                      value={value}
                       onChange={registrationDate => {
                         onChange(registrationDate);
                         patientVisitStore.updatePatientVisit({
@@ -377,7 +390,7 @@ export const PatientVisit = PatientVisitHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Collection Date'
                       name='txtCollectionDate'
@@ -387,8 +400,9 @@ export const PatientVisit = PatientVisitHoc(
                           : 'Collection Date'
                       }
                       hasError={!!errors.collectionDate}
-                      value={patientVisitStore.patientVisit?.collectionDate}
+                      value={value}
                       onChange={collectionDate => {
+                        onChange(collectionDate);
                         patientVisitStore.updatePatientVisit({
                           ...patientVisitStore.patientVisit,
                           collectionDate,
@@ -402,7 +416,7 @@ export const PatientVisit = PatientVisitHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Due Date'
                       name='txtDueDate'
@@ -411,7 +425,7 @@ export const PatientVisit = PatientVisitHoc(
                       }
                       disabled={true}
                       hasError={!!errors.dueDate}
-                      value={patientVisitStore.patientVisit?.dueDate}
+                      value={value}
                       onChange={dueDate => {
                         onChange(dueDate);
                         patientVisitStore.updatePatientVisit({
@@ -428,7 +442,7 @@ export const PatientVisit = PatientVisitHoc(
                 {patientVisitStore.patientVisit && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Input
                         label='Age'
                         name='txtAge'
@@ -438,7 +452,7 @@ export const PatientVisit = PatientVisitHoc(
                         }
                         hasError={!!errors.age}
                         type='number'
-                        value={patientVisitStore.patientVisit?.age}
+                        value={value}
                         onChange={age => {
                           onChange(age);
                           patientVisitStore.updatePatientVisit({
@@ -456,7 +470,7 @@ export const PatientVisit = PatientVisitHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <>
                       <Form.Input
                         label='Age Units'
@@ -467,7 +481,7 @@ export const PatientVisit = PatientVisitHoc(
                         }
                         hasError={!!errors.ageUnits}
                         type='number'
-                        value={patientVisitStore.patientVisit?.ageUnits}
+                        value={value}
                         onChange={() => {}}
                       />
                     </>
@@ -481,7 +495,7 @@ export const PatientVisit = PatientVisitHoc(
                 {registrationLocationsStore.listRegistrationLocations && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Collection Center'
                         hasError={!!errors.collectionCenter}
@@ -493,11 +507,12 @@ export const PatientVisit = PatientVisitHoc(
                             list: registrationLocationsStore.listRegistrationLocations,
                             displayKey: ['locationCode', 'locationName'],
                           }}
-                          displayValue={
-                            patientVisitStore.patientVisit?.collectionCenter
-                              ? `${patientVisitStore.patientVisit?.collectionCenter} - ${patientVisitStore.patientVisit?.collectionCenterName}`
-                              : ''
-                          }
+                          // displayValue={
+                          //   patientVisitStore.patientVisit?.collectionCenter
+                          //     ? `${patientVisitStore.patientVisit?.collectionCenter} - ${patientVisitStore.patientVisit?.collectionCenterName}`
+                          //     : ''
+                          // }
+                          displayValue={value}
                           hasError={!!errors.collectionCenter}
                           onFilter={(value: string) => {
                             registrationLocationsStore.registrationLocationsService.filterByFields(
@@ -552,7 +567,7 @@ export const PatientVisit = PatientVisitHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Corporate Code'
                       hasError={!!errors.corporateCode}
@@ -560,14 +575,15 @@ export const PatientVisit = PatientVisitHoc(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by code or name'
-                        displayValue={
-                          patientVisitStore.patientVisit?.corporateCode &&
-                          patientVisitStore.patientVisit?.corporateName
-                            ? `${patientVisitStore.patientVisit?.corporateCode} - ${patientVisitStore.patientVisit?.corporateName}`
-                            : patientVisitStore.patientVisit?.corporateCode
-                            ? `${patientVisitStore.patientVisit?.corporateCode}`
-                            : ''
-                        }
+                        // displayValue={
+                        //   patientVisitStore.patientVisit?.corporateCode &&
+                        //   patientVisitStore.patientVisit?.corporateName
+                        //     ? `${patientVisitStore.patientVisit?.corporateCode} - ${patientVisitStore.patientVisit?.corporateName}`
+                        //     : patientVisitStore.patientVisit?.corporateCode
+                        //     ? `${patientVisitStore.patientVisit?.corporateCode}`
+                        //     : ''
+                        // }
+                        displayValue={value}
                         data={{
                           list: corporateClientsStore.listCorporateClients,
                           displayKey: ['corporateCode', 'corporateName'],
@@ -615,16 +631,13 @@ export const PatientVisit = PatientVisitHoc(
                 {patientVisitStore.patientVisit?.isEmployeeCode && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <>
                         <Form.Input
                           label='Employee Code'
                           placeholder='Employee Code'
                           hasError={!!errors.employeeCode}
-                          value={
-                            patientVisitStore.patientVisit.extraData
-                              ?.employeeCode
-                          }
+                          value={value}
                           onChange={employeeCode => {
                             onChange(employeeCode);
                             patientVisitStore.updatePatientVisit({
@@ -645,13 +658,13 @@ export const PatientVisit = PatientVisitHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='AC Class'
                       hasError={!!errors.acClass}
                     >
                       <select
-                        value={patientVisitStore.patientVisit?.acClass}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.acClass
                             ? 'border-red-500  '
@@ -688,11 +701,11 @@ export const PatientVisit = PatientVisitHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Toggle
                       label='New Doctor'
                       hasError={!!errors.isNewDoctor}
-                      value={patientVisitStore.patientVisit?.isNewDoctor}
+                      value={value}
                       onChange={isNewDoctor => {
                         onChange(isNewDoctor);
                         patientVisitStore.updatePatientVisit({
@@ -710,11 +723,11 @@ export const PatientVisit = PatientVisitHoc(
                   <>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           label='Doctor Name'
                           placeholder='Doctor Name'
-                          value={patientVisitStore.patientVisit.doctorName}
+                          value={value}
                           hasError={!!errors.newDoctorName}
                           onChange={doctorName => {
                             onChange(doctorName);
@@ -733,12 +746,12 @@ export const PatientVisit = PatientVisitHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           label='Doctor Mobile No'
                           type='number'
                           placeholder='Doctor Mobile No'
-                          value={patientVisitStore.patientVisit.doctorMobileNo}
+                          value={value}
                           hasError={!!errors.doctorMobileNo}
                           onChange={doctorMobileNo => {
                             onChange(doctorMobileNo);
@@ -760,7 +773,7 @@ export const PatientVisit = PatientVisitHoc(
                 ) : (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Doctor Id'
                         hasError={!!errors.doctorId}
@@ -768,11 +781,12 @@ export const PatientVisit = PatientVisitHoc(
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder='Search by code or name'
-                          displayValue={
-                            patientVisitStore.patientVisit.doctorId
-                              ? `${patientVisitStore.patientVisit.doctorId} - ${patientVisitStore.patientVisit.doctorName}`
-                              : ''
-                          }
+                          // displayValue={
+                          //   patientVisitStore.patientVisit.doctorId
+                          //     ? `${patientVisitStore.patientVisit.doctorId} - ${patientVisitStore.patientVisit.doctorName}`
+                          //     : ''
+                          // }
+                          displayValue={value}
                           data={{
                             list: doctorsStore.listDoctors,
                             displayKey: ['doctorCode', 'doctorName'],
@@ -812,7 +826,7 @@ export const PatientVisit = PatientVisitHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Misc Charges'
                       hasError={!!errors.miscCharges}
@@ -892,16 +906,17 @@ export const PatientVisit = PatientVisitHoc(
                           <td className='sticky left-0'>
                             <Controller
                               control={control}
-                              render={({field: {onChange}}) => (
+                              render={({field: {onChange, value}}) => (
                                 <Form.Input
                                   style={{height: 30}}
                                   label=''
                                   type='number'
                                   placeholder='Amount'
                                   hasError={!!errors[item?.code]}
+                                  value={value}
                                   onChange={amount => {
+                                    onChange(amount);
                                     if (Number.parseFloat(amount) > 0) {
-                                      onChange(amount);
                                       const miscCharges =
                                         patientVisitStore.patientVisit
                                           ?.miscCharges;
@@ -955,6 +970,7 @@ export const PatientVisit = PatientVisitHoc(
                             } rounded-md`}
                             onChange={e => {
                               const discountCharges = e.target.value;
+                              onChange(discountCharges);
                               patientVisitStore.updatePatientVisit({
                                 ...patientVisitStore.patientVisit,
                                 discountCharges: {
@@ -983,8 +999,8 @@ export const PatientVisit = PatientVisitHoc(
                             className='-mt-1'
                             hasError={!!errors.discountCharges}
                             onChange={amount => {
+                              onChange(amount);
                               if (Number.parseFloat(amount) > 0) {
-                                onChange(amount);
                                 clearErrors('discountCharges');
                                 patientVisitStore.updatePatientVisit({
                                   ...patientVisitStore.patientVisit,
@@ -1013,13 +1029,13 @@ export const PatientVisit = PatientVisitHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Report Priority'
                       hasError={!!errors.reportPriority}
                     >
                       <select
-                        value={patientVisitStore.patientVisit.reportPriority}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.reportPriority
                             ? 'border-red-500  '
@@ -1053,7 +1069,7 @@ export const PatientVisit = PatientVisitHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Delivery Mode'
                       hasError={!!errors.deliveryMode}
@@ -1078,13 +1094,14 @@ export const PatientVisit = PatientVisitHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='History'
                         id='toggleHistory'
                         hasError={!!errors.history}
-                        value={patientVisitStore.patientVisit?.history}
+                        value={value}
                         onChange={history => {
+                          onChange(history);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             history,
@@ -1098,13 +1115,14 @@ export const PatientVisit = PatientVisitHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Hold Report'
                         id='toggleHistory'
                         hasError={!!errors.holdReport}
-                        value={patientVisitStore.patientVisit?.holdReport}
+                        value={value}
                         onChange={holdReport => {
+                          onChange(holdReport);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             holdReport,
@@ -1118,11 +1136,11 @@ export const PatientVisit = PatientVisitHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Specific Format'
                         hasError={!!errors.specificFormat}
-                        value={patientVisitStore.patientVisit?.specificFormat}
+                        value={value}
                         onChange={specificFormat => {
                           onChange(specificFormat);
                           patientVisitStore.updatePatientVisit({
@@ -1142,13 +1160,13 @@ export const PatientVisit = PatientVisitHoc(
                 {patientVisitStore.patientVisit && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
                       >
                         <select
-                          value={patientVisitStore.patientVisit?.status}
+                          value={value}
                           disabled={true}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status
@@ -1197,7 +1215,7 @@ export const PatientVisit = PatientVisitHoc(
                       <List direction='col' fill space={4} justify='stretch'>
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Additional Information'
                               name='txtAdditionalInformation'
@@ -1207,10 +1225,7 @@ export const PatientVisit = PatientVisitHoc(
                                   : 'AdditionalInformation'
                               }
                               hasError={!!errors.additionalInfo}
-                              value={
-                                patientVisitStore.patientVisit?.extraData
-                                  ?.additionalInfo
-                              }
+                              value={value}
                               onChange={additionalInfo => {
                                 onChange(additionalInfo);
                                 patientVisitStore.updatePatientVisit({
@@ -1229,7 +1244,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper
                               label='Invoice Ac'
                               hasError={!!errors.invoiceAc}
@@ -1237,10 +1252,7 @@ export const PatientVisit = PatientVisitHoc(
                               <AutoCompleteFilterSingleSelect
                                 loader={loading}
                                 placeholder='Search by code'
-                                displayValue={
-                                  patientVisitStore.patientVisit.extraData?.invoiceAc?.toString() ||
-                                  ''
-                                }
+                                displayValue={value?.toString() || ''}
                                 disable={true}
                                 data={{
                                   list: corporateClientsStore.listCorporateClients,
@@ -1284,13 +1296,10 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Billing Method'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.billingMethod
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.billingMethod
                                     ? 'border-red-500  '
@@ -1327,7 +1336,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Bill Number'
                               name='txtBill Number'
@@ -1337,10 +1346,7 @@ export const PatientVisit = PatientVisitHoc(
                                   : 'Bill Number'
                               }
                               hasError={!!errors.billNumber}
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.billNumber
-                              }
+                              value={value}
                               onChange={billNumber => {
                                 onChange(billNumber);
                                 patientVisitStore.updatePatientVisit({
@@ -1359,13 +1365,10 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Method Collection'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.methodCollection
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.methodCollection
                                     ? 'border-red-500  '
@@ -1402,15 +1405,12 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Collection By'
                               placeholder='Collected By'
                               hasError={!!errors.collectedBy}
-                              value={
-                                patientVisitStore.patientVisit?.extraData
-                                  ?.collectedBy
-                              }
+                              value={value}
                               onChange={collectedBy => {
                                 onChange(collectedBy);
                                 patientVisitStore.updatePatientVisit({
@@ -1429,7 +1429,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputDateTime
                               label='Received Date'
                               name='txtReceivedDate'
@@ -1440,10 +1440,7 @@ export const PatientVisit = PatientVisitHoc(
                                   : 'Received Date'
                               }
                               hasError={!!errors.receivedDate}
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.receivedDate
-                              }
+                              value={value}
                               onChange={receivedDate => {
                                 onChange(receivedDate);
                                 patientVisitStore.updatePatientVisit({
@@ -1462,7 +1459,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputDateTime
                               label='Result Date'
                               name='txtResultDate'
@@ -1473,10 +1470,7 @@ export const PatientVisit = PatientVisitHoc(
                                   : 'Result Date'
                               }
                               hasError={!!errors.resultDate}
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.resultDate
-                              }
+                              value={value}
                               onChange={resultDate => {
                                 onChange(resultDate);
                                 patientVisitStore.updatePatientVisit({
@@ -1496,16 +1490,14 @@ export const PatientVisit = PatientVisitHoc(
                         <Grid cols={2}>
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({field: {onChange, value}}) => (
                               <Form.Toggle
                                 label='Urgent'
                                 id='toggleUrgent'
                                 hasError={!!errors.urgent}
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.urgent
-                                }
+                                value={value}
                                 onChange={urgent => {
+                                  onChange(urgent);
                                   patientVisitStore.updatePatientVisit({
                                     ...patientVisitStore.patientVisit,
                                     extraData: {
@@ -1523,16 +1515,14 @@ export const PatientVisit = PatientVisitHoc(
                           />
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({field: {onChange, value}}) => (
                               <Form.Toggle
                                 label='Pending Data Entry'
                                 id='togglePendingDataEntry'
                                 hasError={!!errors.pendingDataEntry}
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.pendingDataEntry
-                                }
+                                value={value}
                                 onChange={pendingDataEntry => {
+                                  onChange(pendingDataEntry);
                                   patientVisitStore.updatePatientVisit({
                                     ...patientVisitStore.patientVisit,
                                     extraData: {
@@ -1585,13 +1575,10 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Approval Status'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.approvalStatus
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.approvalStatus
                                     ? 'border-red-500  '
@@ -1628,13 +1615,10 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Report Status'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.reportStatus
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.reportStatus
                                     ? 'border-red-500  '
@@ -1671,7 +1655,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputDateTime
                               label='Reported Date'
                               disabled={true}
@@ -1681,10 +1665,7 @@ export const PatientVisit = PatientVisitHoc(
                                   : 'Reported Date'
                               }
                               hasError={!!errors.reportedDate}
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.reportedDate
-                              }
+                              value={value}
                               onChange={reportedDate => {
                                 onChange(reportedDate);
                                 patientVisitStore.updatePatientVisit({
@@ -1722,7 +1703,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Height (cm)'
                               type='number'
@@ -1730,9 +1711,7 @@ export const PatientVisit = PatientVisitHoc(
                                 errors.height ? 'Please Enter Height' : 'Height'
                               }
                               hasError={!!errors.height}
-                              value={
-                                patientVisitStore.patientVisit.extraData?.height
-                              }
+                              value={value}
                               onChange={height => {
                                 onChange(height);
                                 patientVisitStore.updatePatientVisit({
@@ -1754,7 +1733,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Weight (kg)'
                               name='txtWeight'
@@ -1763,9 +1742,7 @@ export const PatientVisit = PatientVisitHoc(
                                 errors.weight ? 'Please Enter Weight' : 'Weight'
                               }
                               hasError={!!errors.weight}
-                              value={
-                                patientVisitStore.patientVisit.extraData?.weight
-                              }
+                              value={value}
                               onChange={weight => {
                                 onChange(weight);
                                 patientVisitStore.updatePatientVisit({
@@ -1787,13 +1764,10 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Archieve'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.archieve
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.archieve
                                     ? 'border-red-500  '
@@ -1832,13 +1806,10 @@ export const PatientVisit = PatientVisitHoc(
                       <List direction='col' justify='stretch' fill space={4}>
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Login Interface'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.loginInterface
-                                }
+                                value={value}
                                 disabled={true}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.loginInterface
@@ -1877,13 +1848,10 @@ export const PatientVisit = PatientVisitHoc(
 
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Registration Interface'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.registrationInterface
-                                }
+                                value={value}
                                 disabled={true}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.registrationInterface
@@ -1921,7 +1889,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Submitted System'
                               name='txtSubmitted System'
@@ -1932,10 +1900,7 @@ export const PatientVisit = PatientVisitHoc(
                                   : 'Submitted System'
                               }
                               hasError={!!errors.submittedSystem}
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.submittedSystem
-                              }
+                              value={value}
                               onChange={submittedSystem => {
                                 onChange(submittedSystem);
                                 patientVisitStore.updatePatientVisit({
@@ -1954,7 +1919,7 @@ export const PatientVisit = PatientVisitHoc(
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.Input
                               label='Submitted On'
                               name='txtSubmittedOn'
@@ -1965,10 +1930,7 @@ export const PatientVisit = PatientVisitHoc(
                                   : 'Archieve'
                               }
                               hasError={!!errors.submittedOn}
-                              value={
-                                patientVisitStore.patientVisit.extraData
-                                  ?.submittedOn
-                              }
+                              value={value}
                               onChange={submittedOn => {
                                 onChange(submittedOn);
                                 patientVisitStore.updatePatientVisit({
@@ -1988,13 +1950,10 @@ export const PatientVisit = PatientVisitHoc(
 
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Account Type'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit?.extraData
-                                    ?.accountType
-                                }
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.accountType
                                     ? 'border-red-500  '
@@ -2032,13 +1991,10 @@ export const PatientVisit = PatientVisitHoc(
 
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <Form.InputWrapper label='Environment'>
                               <select
-                                value={
-                                  patientVisitStore.patientVisit.extraData
-                                    ?.environment
-                                }
+                                value={value}
                                 disabled={
                                   loginStore.login &&
                                   loginStore.login.role !== 'SYSADMIN'
@@ -2283,9 +2239,6 @@ export const PatientVisit = PatientVisitHoc(
                         patientVisitStore.patientVisitService.listPatientVisit({
                           documentType: 'patientVisit',
                         });
-                      // setTimeout(() => {
-                      //   window.location.reload();
-                      // }, 1000);
                     }
                   });
 

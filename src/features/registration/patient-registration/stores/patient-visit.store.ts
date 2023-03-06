@@ -14,22 +14,7 @@ export class PatientVisitStore {
   selectedItems!: SelectedPatientVisitItems;
 
   constructor() {
-    this.listPatientVisit = [];
-    this.labIdList = [];
-    this.listPatientVisitCopy = [];
-    this.listPatientVisitCount = 0;
-    this.checkExistsVisitId = false;
-    this.checkExistsLabId = false;
-    this.patientVisit = {
-      ...this.patientVisit,
-      visitDate: new Date(),
-      registrationDate: new Date(),
-      collectionDate: new Date(),
-      holdReport: false,
-      isNewDoctor: false,
-      specificFormat: false,
-    };
-
+    this.reset();
     makeObservable<PatientVisitStore, any>(this, {
       patientVisit: observable,
       listPatientVisit: observable,
@@ -45,6 +30,24 @@ export class PatientVisitStore {
       updatePatientVisit: action,
       updateSelectedItems: action,
     });
+  }
+
+  reset() {
+    this.listPatientVisit = [];
+    this.labIdList = [];
+    this.listPatientVisitCopy = [];
+    this.listPatientVisitCount = 0;
+    this.checkExistsVisitId = false;
+    this.checkExistsLabId = false;
+    this.patientVisit = {
+      ...this.patientVisit,
+      visitDate: new Date(),
+      registrationDate: new Date(),
+      collectionDate: new Date(),
+      holdReport: false,
+      isNewDoctor: false,
+      specificFormat: false,
+    };
   }
 
   get patientVisitService() {
