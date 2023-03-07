@@ -255,6 +255,22 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
           defaultValue={libraryList}
         />
       )}
+      {row?.resultType === 'FR' && (
+        <Form.InputFile
+          label='File'
+          placeholder={'File'}
+          accept='application/pdf'
+          onChange={e => {
+            const file = e.target.files[0];
+            if (file) {
+              onSelect &&
+                onSelect({
+                  result: file,
+                });
+            }
+          }}
+        />
+      )}
     </div>
   );
 });
