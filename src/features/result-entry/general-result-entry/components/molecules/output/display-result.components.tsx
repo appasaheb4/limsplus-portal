@@ -48,6 +48,23 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
           }}
         />
       )}
+      {row?.resultType == 'FR' && !row.result && (
+        <Form.InputFile
+          label='File'
+          placeholder={'File'}
+          accept='application/pdf'
+          onChange={e => {
+            const file = e.target.files[0];
+            if (file) {
+              onSelect &&
+                onSelect({
+                  result: file,
+                });
+            }
+          }}
+        />
+      )}
+      {row?.resultType == 'FR' && row.result && <span>{row?.result}</span>}
     </div>
   );
 });

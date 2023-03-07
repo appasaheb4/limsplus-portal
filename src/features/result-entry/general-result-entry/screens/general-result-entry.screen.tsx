@@ -86,11 +86,6 @@ const GeneralResultEntry = observer(() => {
               limit,
             );
           }}
-          onFilter={(type, filter, page, limit) => {
-            // refernceRangesStore.referenceRangesService.filter({
-            //   input: {type, filter, page, limit},
-            // });
-          }}
         />
       </>
     ),

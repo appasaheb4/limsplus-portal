@@ -18,6 +18,7 @@ export class BannerStore {
       listBannerCount: observable,
 
       BannerService: computed,
+      reset: action,
       fetchListBanner: action,
       updateBannerList: action,
       filterBannerList: action,
