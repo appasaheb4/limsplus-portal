@@ -3,6 +3,7 @@ export class OrderDelivered {
   deliveryId: number;
   labId: string;
   orderId: string;
+  resultType: string;
   panelCode: string;
   panelName: string;
   testCode: string;
@@ -17,6 +18,7 @@ export class OrderDelivered {
     this.deliveryId = rawData.deliveryId;
     this.labId = rawData.labId;
     this.orderId = rawData.orderId;
+    this.resultType = rawData.resultType;
     this.panelCode = rawData.panelCode;
     this.panelName = rawData.panelName;
     this.testCode = rawData.testCode;
