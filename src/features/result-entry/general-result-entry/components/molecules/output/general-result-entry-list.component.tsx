@@ -204,6 +204,24 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           'directSave',
                         );
                       }
+                      if (!_.isEmpty(row?.result) && row.resultType == 'FR') {
+                        console.log('upload');
+                        props.onSaveFields(
+                          {
+                            ...rows,
+                            resultStatus: getResultStatus(
+                              rows.resultType,
+                              rows,
+                            ),
+                            testStatus: getTestStatus(rows.resultType, rows),
+                            abnFlag: getAbnFlag(rows.resultType, rows),
+                            critical: getCretical(rows.resultType, rows),
+                            ...result,
+                          },
+                          rows._id,
+                          'directSave',
+                        );
+                      }
                     }}
                   />
                 </>

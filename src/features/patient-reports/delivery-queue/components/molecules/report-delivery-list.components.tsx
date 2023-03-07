@@ -738,10 +738,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             enteredBy('');
             userComments('');
           }}
-          // onClickRow={(item, index) => {
-          //   setSelectedItem(item);
-          //   props.onClickRow && props.onClickRow(item, index);
-          // }}
           onUpdateDeliveryStatus={() => {
             props.onUpdateDeliveryStatus && props.onUpdateDeliveryStatus();
           }}

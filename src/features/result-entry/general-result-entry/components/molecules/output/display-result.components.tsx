@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form} from '@/library/components';
+import {Form, Tooltip, Icons} from '@/library/components';
 import {observer} from 'mobx-react';
 import {FormHelper} from '@/helper';
 
@@ -20,13 +20,15 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
           </ul>
         </>
       )}
-      {row?.resultType !== 'M' && row?.resultType !== 'V' && (
-        <span>
-          {row.result.split('\n').map((str, index) => (
-            <p key={index}>{str}</p>
-          ))}
-        </span>
-      )}
+      {row?.resultType !== 'M' &&
+        row?.resultType !== 'V' &&
+        row?.resultType !== 'FR' && (
+          <span>
+            {row.result?.split('\n').map((str, index) => (
+              <p key={index}>{str}</p>
+            ))}
+          </span>
+        )}
       {row?.resultType == 'V' && (
         <Form.Input
           label=''
@@ -64,7 +66,28 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
           }}
         />
       )}
-      {row?.resultType == 'FR' && row.result && <span>{row?.result}</span>}
+      {row?.resultType == 'FR' && row?.result && (
+        <div className='flex'>
+          <Tooltip tooltipText='Report'>
+            <Icons.IconContext
+              size='20'
+              color='#000'
+              onClick={() => {
+                window.open(row?.result, '_black');
+              }}
+            >
+              {Icons.getIconTag(Icons.IconBs.BsFilePdf)}
+            </Icons.IconContext>
+            <span>
+              {typeof row?.result == 'string' &&
+                row?.result
+                  ?.split('/')
+                  .pop()
+                  .slice(11, row?.result?.split('/').pop()?.length)}
+            </span>
+          </Tooltip>
+        </div>
+      )}
     </div>
   );
 });

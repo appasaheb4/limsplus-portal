@@ -49,6 +49,7 @@ export const DELIVERY_QUEUE_LIST = gql`
         enteredBy
         userComments
         orderId
+        resultType
         panelCode
         panelName
         testCode
@@ -143,6 +144,7 @@ export const FILTER = gql`
         enteredBy
         userComments
         orderId
+        resultType
         panelCode
         panelName
         testCode
@@ -198,6 +200,7 @@ export const FIND_BY_FIELDS = gql`
         enteredBy
         userComments
         orderId
+        resultType
         panelCode
         panelName
         testCode
