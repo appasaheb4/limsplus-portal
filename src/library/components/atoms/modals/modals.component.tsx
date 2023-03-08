@@ -9,6 +9,7 @@ interface ModalProps {
   body?: string;
   click?: (type?: string) => void;
   close: () => void;
+  autoClose?: boolean;
   children?: React.ReactNode;
 }
 
@@ -16,6 +17,11 @@ export const Modal = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show);
   useEffect(() => {
     setShowModal(props.show);
+    if (props.autoClose) {
+      setTimeout(() => {
+        props.close && props.close();
+      }, 1000);
+    }
   }, [props]);
 
   return (

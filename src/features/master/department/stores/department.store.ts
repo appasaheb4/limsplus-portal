@@ -1,4 +1,3 @@
-import {version} from 'mobx-sync';
 import {makeObservable, action, observable, computed} from 'mobx';
 import {Department, SelectedItems} from '../models';
 import {DepartmentService} from '../services';

@@ -1,11 +1,13 @@
-import React, {useRef} from 'react';
-import {Document, Page, StyleSheet, Font, Text} from '@react-pdf/renderer';
-import {PdfSmall, PdfView, PdfFooterView} from '@components';
-import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
-import {PdfMedicalCheckup} from './pdf-medical-checkup';
-import {PdfPatientDetails} from './pdf-patient-details.component';
-
+import React, {useEffect, useRef} from 'react';
+import {
+  Document,
+  Page,
+  StyleSheet,
+  Font,
+  View,
+  PDFRenderer,
+} from '@react-pdf/renderer';
+import {PdfMedium, PdfView} from '@components';
 Font.register({
   family: 'arimaRegular',
   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
@@ -56,5 +58,18 @@ export const PdfTemp0007 = ({
     }
   }
 
-  return <></>;
+  useEffect(() => {
+    window.open(patientReports?.patientResultList[0]?.result, '_blank');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [patientReports?.patientResultList[0]?.result]);
+
+  return (
+    <>
+      <PdfView>
+        <PdfMedium textAlign='center'>
+          Please check full report next tab on
+        </PdfMedium>
+      </PdfView>
+    </>
+  );
 };

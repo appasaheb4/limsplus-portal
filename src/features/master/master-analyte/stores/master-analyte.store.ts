@@ -1,4 +1,3 @@
-import {version} from 'mobx-sync';
 import {makeObservable, action, observable, computed} from 'mobx';
 import {MasterAnalyte, SelectedItems, MasterAnalyteActivity} from '../models';
 import {MasterAnalyteService} from '../services';

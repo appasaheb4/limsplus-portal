@@ -45,6 +45,8 @@ export const ModalGenerateReports = ({
   useEffect(() => {
     if (data) {
       let newObj = _.mapKeys(data, (value, key) => key.split(' -')[0]);
+      console.log({newObj});
+
       setReportList(newObj);
     }
   }, [data]);
@@ -296,9 +298,12 @@ export const ModalGenerateReports = ({
                     )}
                   </div>
                 </div>
-                <div className='flex items-center justify-end p-3 border-t border-solid border-gray-300 rounded-b'>
+                <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>
+                  <span className='text-red'>
+                    Note: Full Report opening new tab runtime
+                  </span>
                   <button
-                    className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
+                    className='text-red background-transparent font-bold uppercase  text-sm outline-none focus:outline-none'
                     type='button'
                     style={{transition: 'all .15s ease'}}
                     onClick={() => {
@@ -315,12 +320,20 @@ export const ModalGenerateReports = ({
           <div className='opacity-25 fixed inset-0 z-40 bg-black'></div>
         </>
       )}
+
       <Modal
         title='Delivery Queue Reports'
         show={isPdfViewer}
         close={() => {
           setPdfViewer(false);
         }}
+        autoClose={
+          _.has(reportList, 'TEMP0007')
+            ? _.size(reportList) == 1
+              ? true
+              : false
+            : false
+        }
         children={
           isPdfViewer ? (
             <PDFViewer

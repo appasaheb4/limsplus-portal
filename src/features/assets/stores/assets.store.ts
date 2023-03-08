@@ -1,4 +1,3 @@
-import {version} from 'mobx-sync';
 import {makeAutoObservable, computed} from 'mobx';
 import * as Services from '../services';
 

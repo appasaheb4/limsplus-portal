@@ -346,13 +346,9 @@ const DeliveryQueue = observer(() => {
         }}
         onReport={async item => {
           const result = await getOrderDeliveredList(item);
-          console.log({result});
-
           deliveryQueueStore.deliveryQueueService
             .listPatientReports(result[0]?.labId)
             .then(res => {
-              // console.log({res});
-
               if (res.getPatientReports.success) {
                 let patientResultList: any[] = [];
                 result?.filter(item => {
@@ -396,7 +392,6 @@ const DeliveryQueue = observer(() => {
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-                      console.log({grouped});
 
                       if (_.isEmpty(grouped)) {
                         return Toast.error({
