@@ -1,4 +1,3 @@
-import {version} from 'mobx-sync';
 import {makeObservable, action, observable, computed} from 'mobx';
 import {Toast} from '@/library/components';
 import {MasterPanel, MasterPanelActivity} from '../models';

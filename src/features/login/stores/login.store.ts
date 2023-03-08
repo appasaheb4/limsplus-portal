@@ -4,7 +4,6 @@ import {Login, ForgotPassword} from '../models';
 import * as Services from '../services';
 import {stores} from '@/stores';
 import Storage from '@/library/modules/storage';
-// import { ignore } from "mobx-sync"
 
 export class LoginStore {
   inputLogin!: Login;

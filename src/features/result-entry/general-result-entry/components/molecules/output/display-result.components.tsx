@@ -60,7 +60,7 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
             if (file) {
               onSelect &&
                 onSelect({
-                  result: file,
+                  file,
                 });
             }
           }}

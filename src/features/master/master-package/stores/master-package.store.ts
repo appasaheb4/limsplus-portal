@@ -1,4 +1,3 @@
-import {version} from 'mobx-sync';
 import {makeObservable, action, observable, computed} from 'mobx';
 import {MasterPackage, SelectedItems} from '../models';
 import {MasterPackageService} from '../services';

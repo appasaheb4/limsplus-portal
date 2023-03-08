@@ -265,7 +265,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             if (file) {
               onSelect &&
                 onSelect({
-                  result: file,
+                  file,
                 });
             }
           }}

@@ -1,4 +1,3 @@
-import {version} from 'mobx-sync';
 import dayjs from 'dayjs';
 import {makeObservable, action, observable, computed} from 'mobx';
 import {Labs, SelectedItems} from '../models';

@@ -16,7 +16,6 @@ import {
   UPDATE_BANNER_IMAGE,
   FILTER,
 } from './mutation';
-import {constants} from '@/core-services';
 
 export class BannerService {
   listAllBanner = () =>
