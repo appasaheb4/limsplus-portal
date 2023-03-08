@@ -30,6 +30,17 @@ module.exports = {
           process: 'process/browser',
         }),
       ],
+      module: {
+        rules: [
+          {
+            test: /pdf\.worker\.js/,
+            loader: 'file-loader',
+            options: {
+              name: 'static/js/[name].[hash:8].[ext]',
+            },
+          },
+        ],
+      },
     },
   },
   style: {

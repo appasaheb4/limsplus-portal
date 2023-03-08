@@ -440,6 +440,7 @@ const DeliveryQueue = observer(() => {
         <span className='font-bold text-lg underline'>Report Delivery</span>
         {reportDeliveryList}
       </div>
+
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Order Delivered</span>
         <OrderDeliveredList

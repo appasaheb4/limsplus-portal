@@ -1,13 +1,11 @@
-import React, {useEffect, useRef} from 'react';
-import {
-  Document,
-  Page,
-  StyleSheet,
-  Font,
-  View,
-  PDFRenderer,
-} from '@react-pdf/renderer';
+import React, {useEffect, useRef, useState} from 'react';
+import {StyleSheet, Font, View, Page} from '@react-pdf/renderer';
 import {PdfMedium, PdfView} from '@components';
+import {Document, pdfjs, Page as PdfPage} from 'react-pdf';
+// import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+
 Font.register({
   family: 'arimaRegular',
   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
@@ -48,6 +46,7 @@ export const PdfTemp0007 = ({
   children,
 }: PdfTemp0007Props) => {
   const {patientReports} = data;
+  const [pageNumber, setPageNumber] = useState();
 
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
@@ -63,13 +62,27 @@ export const PdfTemp0007 = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patientReports?.patientResultList[0]?.result]);
 
+  const onDocumentLoad = ({numPages}) => {
+    setPageNumber(numPages);
+  };
+
   return (
     <>
-      <PdfView>
-        <PdfMedium textAlign='center'>
-          Please check full report next tab on
-        </PdfMedium>
-      </PdfView>
+      <Page>
+        <Document
+          file={{
+            url: 'https://limsplussolutions.blob.core.windows.net/patient-registration/1678267353_PaySlip-MPIPL-PNI-22-1214(APPASAHEB%20BALU%20LAKADE)_DEC_2022.pdf',
+          }}
+          renderMode='canvas'
+          onLoadSuccess={onDocumentLoad}
+          //className='w-full relative'
+          error={
+            'Unable to load the library article. Please reach out to the support for further assistance.'
+          }
+        >
+          <PdfPage size='A4' pageNumber={1} renderAnnotationLayer={true} />
+        </Document>
+      </Page>
     </>
   );
 };
