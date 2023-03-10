@@ -285,76 +285,84 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <div className='flex flex-row gap-2 items-center'>
-                      <Form.DatePicker
-                        label='Birthrate'
-                        placeholder={
-                          errors.birthDate
-                            ? 'Please Enter BirthDate'
-                            : 'BirthDate'
-                        }
-                        use12Hours={false}
-                        hasError={!!errors.birthDate}
-                        value={value}
-                        onChange={birthDate => {
-                          onChange(birthDate);
-                          setValue('age', getDiffByDate(birthDate));
-                          if (
-                            dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
-                          ) {
-                            patientManagerStore.updatePatientManager({
-                              ...patientManagerStore.patientManger,
-                              birthDate,
-                              isBirthdateAvailabe: true,
-                              age:
-                                getAgeByAgeObject(getDiffByDate(birthDate))
-                                  .age || 0,
-                              ageUnit: getAgeByAgeObject(
-                                getDiffByDate(birthDate),
-                              ).ageUnit,
-                            });
-                            patientManagerStore.patientManagerService
-                              .checkExistsPatient({
-                                input: {
-                                  firstName:
-                                    patientManagerStore.patientManger
-                                      ?.firstName,
-                                  lastName:
-                                    patientManagerStore.patientManger?.lastName,
-                                  mobileNo:
-                                    patientManagerStore.patientManger?.mobileNo,
-                                  birthDate,
-                                },
-                              })
-                              .then(res => {
-                                if (res.checkExistsPatientManager.success) {
-                                  patientManagerStore.updateExistsPatient(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkExistsPatientManager.message}`,
-                                  });
-                                } else
-                                  patientManagerStore.updateExistsPatient(
-                                    false,
-                                  );
-                              });
-                          } else {
-                            alert('Please select correct birth date!!');
-                          }
-                        }}
-                      />
+                    <div className='flex flex-row gap-11 items-center'>
                       <Form.Toggle
                         label='Birthdate Availabe'
                         value={
                           patientManagerStore.patientManger?.isBirthdateAvailabe
                         }
                         onChange={isBirthdateAvailabe => {
-                          onChange(isBirthdateAvailabe);
+                          //onChange(isBirthdateAvailabe);
                           patientManagerStore.updatePatientManager({
                             ...patientManagerStore.patientManger,
                             isBirthdateAvailabe,
                           });
                         }}
                       />
+                      {patientManagerStore.patientManger
+                        .isBirthdateAvailabe && (
+                        <Form.DatePicker
+                          label='Birthrate'
+                          placeholder={
+                            errors.birthDate
+                              ? 'Please Enter BirthDate'
+                              : 'BirthDate'
+                          }
+                          use12Hours={false}
+                          hasError={!!errors.birthDate}
+                          value={value}
+                          onChange={birthDate => {
+                            onChange(birthDate);
+                            setValue('age', getDiffByDate(birthDate));
+                            if (
+                              dayjs(new Date()).diff(dayjs(birthDate), 'hour') >
+                              0
+                            ) {
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                birthDate,
+                                isBirthdateAvailabe: true,
+                                age:
+                                  getAgeByAgeObject(getDiffByDate(birthDate))
+                                    .age || 0,
+                                ageUnit: getAgeByAgeObject(
+                                  getDiffByDate(birthDate),
+                                ).ageUnit,
+                              });
+                              patientManagerStore.patientManagerService
+                                .checkExistsPatient({
+                                  input: {
+                                    firstName:
+                                      patientManagerStore.patientManger
+                                        ?.firstName,
+                                    lastName:
+                                      patientManagerStore.patientManger
+                                        ?.lastName,
+                                    mobileNo:
+                                      patientManagerStore.patientManger
+                                        ?.mobileNo,
+                                    birthDate,
+                                  },
+                                })
+                                .then(res => {
+                                  if (res.checkExistsPatientManager.success) {
+                                    patientManagerStore.updateExistsPatient(
+                                      true,
+                                    );
+                                    Toast.error({
+                                      message: `😔 ${res.checkExistsPatientManager.message}`,
+                                    });
+                                  } else
+                                    patientManagerStore.updateExistsPatient(
+                                      false,
+                                    );
+                                });
+                            } else {
+                              alert('Please select correct birth date!!');
+                            }
+                          }}
+                        />
+                      )}
                     </div>
                   )}
                   name='birthDate'
@@ -504,27 +512,28 @@ export const PatientManager = PatientManagerHoc(
                         let lastName =
                           patientManagerStore.patientManger?.lastName;
                         if (names?.length > 0 && names?.length == 2) {
-                          firstName = names[0];
+                          firstName = names[0]?.toUpperCase();
                           onChange(firstName);
-                          lastName = names[1];
+                          lastName = names[1]?.toUpperCase();
                           patientManagerStore.updatePatientManager({
                             ...patientManagerStore.patientManger,
-                            firstName: names[0],
-                            lastName: names[1],
+                            firstName: names[0]?.toUpperCase(),
+                            lastName: names[1]?.toUpperCase(),
                           });
                           setValue('lastName', lastName);
                         }
                         if (names?.length > 0 && names?.length == 3) {
-                          firstName = names[0];
+                          firstName = names[0]?.toUpperCase();
                           onChange(firstName);
-                          lastName = names[2];
+                          lastName = names[2]?.toUpperCase();
                           patientManagerStore.updatePatientManager({
                             ...patientManagerStore.patientManger,
-                            firstName: names[0],
-                            middleName: names[1],
-                            lastName: names[2],
+                            firstName: names[0]?.toUpperCase(),
+                            middleName: names[1]?.toUpperCase(),
+                            lastName: names[2]?.toUpperCase(),
                           });
                           setValue('lastName', lastName);
+                          setValue('middleName', names[1]?.toUpperCase());
                         }
                         if (inFirstName)
                           patientManagerStore.patientManagerService
