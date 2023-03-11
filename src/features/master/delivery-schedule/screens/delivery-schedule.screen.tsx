@@ -22,6 +22,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetDeliverySchedule} from '../startup';
 
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
@@ -31,6 +32,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue(
@@ -52,9 +54,9 @@ const DeliverySchedule = DeliveryScheduleHoc(
               Toast.success({
                 message: `😊 ${res.createDeliverySchdule.message}`,
               });
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            setHideAddLab(true);
+            reset();
+            resetDeliverySchedule();
           });
       } else {
         Toast.warning({
@@ -88,14 +90,14 @@ const DeliverySchedule = DeliveryScheduleHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Sch Code'
                       placeholder={
                         errors.schCode ? 'Please Enter Sch Code' : 'Sch Code'
                       }
                       hasError={!!errors.schCode}
-                      value={deliveryScheduleStore.deliverySchedule?.schCode}
+                      value={value}
                       onChange={schCode => {
                         onChange(schCode);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -135,11 +137,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='P Start Time'
                       hasError={!!errors.pStartTime}
-                      value={deliveryScheduleStore.deliverySchedule?.pStartTime}
+                      value={value}
                       onChange={pStartTime => {
                         onChange(pStartTime);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -155,11 +157,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='P End Time'
                       hasError={!!errors.pEndTime}
-                      value={deliveryScheduleStore.deliverySchedule?.pEndTime}
+                      value={value}
                       onChange={pEndTime => {
                         onChange(pEndTime);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -175,11 +177,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Cutof Time'
                       hasError={!!errors.cutofTime}
-                      value={deliveryScheduleStore.deliverySchedule?.cutofTime}
+                      value={value}
                       onChange={cutofTime => {
                         onChange(cutofTime);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -195,13 +197,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Secound Cutof Time'
                       hasError={!!errors.secoundCutofTime}
-                      value={
-                        deliveryScheduleStore.deliverySchedule?.secoundCutofTime
-                      }
+                      value={value}
                       onChange={secoundCutofTime => {
                         onChange(secoundCutofTime);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -217,15 +217,13 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Processing Type'
                       hasError={!!errors.processingType}
                     >
                       <select
-                        value={
-                          deliveryScheduleStore.deliverySchedule?.processingType
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.processingType
                             ? 'border-red-500  '
@@ -260,12 +258,9 @@ const DeliverySchedule = DeliveryScheduleHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <ScheduleFrequency
-                      type={
-                        deliveryScheduleStore.deliverySchedule
-                          ?.processingType || ''
-                      }
+                      type={value || ''}
                       onChnage={schFrequency => {
                         onChange(schFrequency);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -281,14 +276,14 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Report on'
                       placeholder={
                         errors.reportOn ? 'Please Enter ReportOn' : 'ReportOn'
                       }
                       hasError={!!errors.reportOn}
-                      value={deliveryScheduleStore.deliverySchedule?.reportOn}
+                      value={value}
                       onChange={reportOn => {
                         onChange(reportOn);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -304,7 +299,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Dynamic RT'
                       placeholder={
@@ -313,7 +308,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           : 'DynamicRT'
                       }
                       hasError={!!errors.dynamicRT}
-                      value={deliveryScheduleStore.deliverySchedule?.dynamicRT}
+                      value={value}
                       onChange={dynamicRT => {
                         onChange(dynamicRT);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -332,15 +327,13 @@ const DeliverySchedule = DeliveryScheduleHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Dynamic TU'
                       hasError={!!errors.dynamicTU}
                     >
                       <select
-                        value={
-                          deliveryScheduleStore.deliverySchedule?.dynamicTU
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.dynamicTU
                             ? 'border-red-500  '
@@ -373,14 +366,14 @@ const DeliverySchedule = DeliveryScheduleHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Fixed RT'
                       placeholder={
                         errors.fixedRT ? 'Please Enter fixedRT' : 'fixedRT'
                       }
                       hasError={!!errors.fixedRT}
-                      value={deliveryScheduleStore.deliverySchedule?.fixedRT}
+                      value={value}
                       onChange={fixedRT => {
                         onChange(fixedRT);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -396,7 +389,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Sch For DEPT'
                       placeholder={
@@ -405,7 +398,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           : 'schForDept'
                       }
                       hasError={!!errors.schForDept}
-                      value={deliveryScheduleStore.deliverySchedule?.schForDept}
+                      value={value}
                       onChange={schForDept => {
                         onChange(schForDept);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -421,7 +414,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Sch For PAT'
                       placeholder={
@@ -430,7 +423,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           : 'schForPat'
                       }
                       hasError={!!errors.schForPat}
-                      value={deliveryScheduleStore.deliverySchedule?.schForPat}
+                      value={value}
                       onChange={schForPat => {
                         onChange(schForPat);
                         deliveryScheduleStore.updateDeliverySchedule({
@@ -446,12 +439,10 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          deliveryScheduleStore.deliverySchedule?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '
@@ -518,14 +509,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 <Grid cols={5}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Sunday Processing'
                         hasError={!!errors.sundayProcessing}
-                        value={
-                          deliveryScheduleStore.deliverySchedule
-                            ?.sundayProcessing
-                        }
+                        value={value}
                         onChange={sundayProcessing => {
                           onChange(sundayProcessing);
                           deliveryScheduleStore.updateDeliverySchedule({
@@ -541,14 +529,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Holiday Processing'
                         hasError={!!errors.holidayProcessing}
-                        value={
-                          deliveryScheduleStore.deliverySchedule
-                            ?.holidayProcessing
-                        }
+                        value={value}
                         onChange={holidayProcessing => {
                           onChange(holidayProcessing);
                           deliveryScheduleStore.updateDeliverySchedule({
@@ -564,14 +549,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         hasError={!!errors.sundayReporting}
                         label='Sunday Reporting'
-                        value={
-                          deliveryScheduleStore.deliverySchedule
-                            ?.sundayReporting
-                        }
+                        value={value}
                         onChange={sundayReporting => {
                           onChange(sundayReporting);
                           deliveryScheduleStore.updateDeliverySchedule({
@@ -587,14 +569,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Holiday Reporting'
                         hasError={!!errors.holidayReporting}
-                        value={
-                          deliveryScheduleStore.deliverySchedule
-                            ?.holidayReporting
-                        }
+                        value={value}
                         onChange={holidayReporting => {
                           onChange(holidayReporting);
                           deliveryScheduleStore.updateDeliverySchedule({
@@ -610,11 +589,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='On Time'
                         hasError={!!errors.onTime}
-                        value={deliveryScheduleStore.deliverySchedule?.onTime}
+                        value={value}
                         onChange={onTime => {
                           onChange(onTime);
                           deliveryScheduleStore.updateDeliverySchedule({

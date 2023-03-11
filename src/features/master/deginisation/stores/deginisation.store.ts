@@ -14,6 +14,7 @@ export class DeginisationStore {
     this.listDeginisation = [];
     this.listDeginisationCopy = [];
     this.deginisation = new Deginisation({});
+    this.reset();
     makeObservable<DeginisationStore, any>(this, {
       listDeginisation: observable,
       listDeginisationCount: observable,
@@ -26,7 +27,14 @@ export class DeginisationStore {
       setExitsCode: action,
       updateDescription: action,
       filterDeginisationList: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.deginisation = new Deginisation({});
+    this.listDeginisation = [];
+    this.listDeginisationCount = 0;
   }
 
   get DeginisationService() {
