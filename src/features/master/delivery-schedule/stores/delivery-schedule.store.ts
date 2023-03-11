@@ -41,6 +41,12 @@ export class DeliveryScheduleStore {
     });
   }
 
+  reset() {
+    this.deliverySchedule = new DeliverySchedule({});
+    this.listDeliverySchedule = [];
+    this.listDeliveryScheduleCount = 0;
+  }
+
   get deliveryScheduleService() {
     return new DeliveryScheduleService();
   }

@@ -19,6 +19,7 @@ import {DeginisationHoc} from '../hoc';
 import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {resetDesignation} from '../startup';
 
 const Deginisation = DeginisationHoc(
   observer(() => {
@@ -28,6 +29,7 @@ const Deginisation = DeginisationHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue('environment', deginisationStore.deginisation?.environment);
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -43,10 +45,9 @@ const Deginisation = DeginisationHoc(
             Toast.success({
               message: `😊 ${res.createDesignation.message}`,
             });
-            setTimeout(() => {
-              // deginisationStore.fetchListDeginisation()
-              window.location.reload();
-            }, 2000);
+            setHideAddDeginisation(true);
+            reset();
+            resetDesignation();
           } else {
             Toast.error({message: '😔 Please try again'});
           }
@@ -81,13 +82,13 @@ const Deginisation = DeginisationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Code'
                       id='code'
                       placeholder={errors.code ? 'Please Enter Code' : 'Code'}
                       hasError={!!errors.code}
-                      value={deginisationStore.deginisation?.code}
+                      value={value}
                       onChange={code => {
                         onChange(code);
                         deginisationStore.updateDescription({
@@ -127,7 +128,7 @@ const Deginisation = DeginisationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Description'
                       name='description'
@@ -137,7 +138,7 @@ const Deginisation = DeginisationHoc(
                           : 'Description'
                       }
                       hasError={!!errors.description}
-                      value={deginisationStore.deginisation?.description}
+                      value={value}
                       onChange={description => {
                         onChange(description);
                         deginisationStore.updateDescription({
@@ -153,10 +154,10 @@ const Deginisation = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={deginisationStore.deginisation?.environment}
+                        value={value}
                         disabled={
                           loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
