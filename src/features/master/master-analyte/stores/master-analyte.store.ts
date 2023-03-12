@@ -34,6 +34,7 @@ export class MasterAnalyteStore {
     };
     this.selectedItems = new SelectedItems({});
     this.masterAnalyteActivity = new MasterAnalyteActivity({});
+    this.reset();
     makeObservable<MasterAnalyteStore, any>(this, {
       masterAnalyte: observable,
       listMasterAnalyte: observable,
@@ -49,13 +50,34 @@ export class MasterAnalyteStore {
       updateExistsLabEnvCode: action,
       filterMasterAnalyteList: action,
       updateMasterAnalyteActivity: action,
+      reset: action,
     });
   }
 
   get masterAnalyteService() {
     return new MasterAnalyteService();
   }
-
+  reset() {
+    this.masterAnalyte = new MasterAnalyte({});
+    this.listMasterAnalyte = [];
+    this.listMasterAnalyteCount = 0;
+    this.masterAnalyte = {
+      ...this.masterAnalyte,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
+      schedule: new Date(),
+      bill: false,
+      instantResult: false,
+      method: false,
+      reportable: true,
+      calculationFlag: false,
+      repetition: false,
+    };
+  }
   fetchAnalyteMaster(page?, limit?) {
     this.masterAnalyteService.listAnalyteMaster(page, limit);
   }

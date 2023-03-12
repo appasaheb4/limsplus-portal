@@ -21,6 +21,7 @@ const router = dashboardRoutes;
 import {GeneralFieldHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
+import {resetLookup} from '../startup';
 
 interface GeneralFieldProps {
   onModalConfirm?: (item: any) => void;
@@ -34,6 +35,7 @@ export const GeneralField = GeneralFieldHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue('environment', lookupStore.globalSettings?.environment);
     const onSubmitGeneralFiled = (data: any) => {
@@ -47,9 +49,8 @@ export const GeneralField = GeneralFieldHoc(
           Toast.success({
             message: `😊 ${res.lookupGeneralSettingsUpdate.message}`,
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          reset();
+          resetLookup();
         }
       });
     };
@@ -60,7 +61,7 @@ export const GeneralField = GeneralFieldHoc(
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.InputWrapper
                   hasError={!!errors.documentList}
                   label='Document Name'
@@ -90,7 +91,7 @@ export const GeneralField = GeneralFieldHoc(
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.InputWrapper
                   hasError={!!errors.filedName}
                   label='Global Filed'
@@ -125,7 +126,7 @@ export const GeneralField = GeneralFieldHoc(
               <Grid cols={3}>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       placeholder='Code'
                       hasError={!!errors.code}
@@ -147,7 +148,7 @@ export const GeneralField = GeneralFieldHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       placeholder='Value'
                       hasError={!!errors.value}
@@ -254,12 +255,13 @@ export const GeneralField = GeneralFieldHoc(
             </Form.InputWrapper>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.InputWrapper
                   hasError={!!errors.defaulItem}
                   label='Default Item'
                 >
                   <select
+                    value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.defaultLab ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
@@ -299,13 +301,13 @@ export const GeneralField = GeneralFieldHoc(
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.MultilineInput
                   rows={4}
                   label='Description'
                   name='txtDescription'
                   placeholder='Description'
-                  value={lookupStore.globalSettings?.description}
+                  value={value}
                   onChange={description => {
                     onChange(description);
                     lookupStore.updateGlobalSettings({
@@ -322,13 +324,13 @@ export const GeneralField = GeneralFieldHoc(
 
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.InputWrapper
                   label='Environment'
                   hasError={!!errors.environment}
                 >
                   <select
-                    value={lookupStore.globalSettings?.environment}
+                    value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.environment ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}

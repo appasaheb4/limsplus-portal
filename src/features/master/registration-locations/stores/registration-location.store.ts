@@ -33,6 +33,7 @@ export class RegistrationLocationsStore {
       isPrintSecondaryBarcode: false,
     };
     this.selectedItems = new SelectedItems({});
+    this.reset();
 
     makeObservable<RegistrationLocationsStore, any>(this, {
       registrationLocations: observable,
@@ -49,7 +50,30 @@ export class RegistrationLocationsStore {
       updateExistsLabEnvCode: action,
       filterRegistrationLocationList: action,
       updateSelectedItems: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.registrationLocations = new RegistrationLocations({});
+    this.listRegistrationLocations = [];
+    this.listRegistrationLocationsCount = 0;
+    this.registrationLocations = {
+      ...this.registrationLocations,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      ),
+      version: 1,
+      confidential: false,
+      printLabel: false,
+      neverBill: false,
+      urgent: false,
+      priceList: [{id: 0, maxDis: 0}],
+      isPrintPrimaryBarcod: false,
+      isPrintSecondaryBarcode: false,
+    };
   }
 
   get registrationLocationsService() {

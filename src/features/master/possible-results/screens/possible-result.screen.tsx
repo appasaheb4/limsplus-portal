@@ -23,6 +23,7 @@ import {PossibleResultHoc} from '../hoc';
 import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {resetPossibleResult} from '../startup';
 
 export const PossibleResults = PossibleResultHoc(
   observer(() => {
@@ -33,6 +34,7 @@ export const PossibleResults = PossibleResultHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('environment', possibleResultsStore.possibleResults?.environment);
@@ -58,10 +60,10 @@ export const PossibleResults = PossibleResultHoc(
               Toast.success({
                 message: `😊 ${res.createPossibleResult.message}`,
               });
+              setHideAddLookup(true);
+              reset();
+              resetPossibleResult();
             }
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
           });
       } else {
         Toast.warning({
@@ -167,16 +169,14 @@ export const PossibleResults = PossibleResultHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Analyte Code'
                       hasError={!!errors.analyteCode}
                     >
                       <AutoCompleteFilterSingleSelectAnalyteCode
                         hasError={!!errors.analyteCode}
-                        displayValue={
-                          possibleResultsStore.possibleResults?.analyteCode
-                        }
+                        displayValue={value}
                         onSelect={item => {
                           onChange(item.analyteCode);
                           possibleResultsStore.updatePossibleResults({
@@ -219,7 +219,7 @@ export const PossibleResults = PossibleResultHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       disabled={true}
                       label='Analyte Name'
@@ -229,7 +229,7 @@ export const PossibleResults = PossibleResultHoc(
                           : 'Analyte Name'
                       }
                       hasError={!!errors.analyteName}
-                      value={possibleResultsStore.possibleResults?.analyteName}
+                      value={value}
                     />
                   )}
                   name='analyteName'
@@ -241,13 +241,13 @@ export const PossibleResults = PossibleResultHoc(
                   <Grid cols={5}>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           placeholder={
                             errors.result ? 'Please Enter Result' : 'Result'
                           }
                           hasError={!!errors.result}
-                          value={possibleResultsStore.possibleResults?.result}
+                          value={value}
                           onChange={result => {
                             onChange(result);
                             possibleResultsStore.updatePossibleResults({
@@ -263,7 +263,7 @@ export const PossibleResults = PossibleResultHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           placeholder={
                             errors.possibleValue
@@ -271,9 +271,7 @@ export const PossibleResults = PossibleResultHoc(
                               : 'Possible Value'
                           }
                           hasError={!!errors.possibleValue}
-                          value={
-                            possibleResultsStore.possibleResults?.possibleValue
-                          }
+                          value={value}
                           onChange={possibleValue => {
                             onChange(possibleValue);
                             possibleResultsStore.updatePossibleResults({
@@ -289,11 +287,11 @@ export const PossibleResults = PossibleResultHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Toggle
                           label='AbNormal'
                           hasError={!!errors.abNormal}
-                          value={possibleResultsStore.possibleResults?.abNormal}
+                          value={value}
                           onChange={abNormal => {
                             onChange(abNormal);
                             possibleResultsStore.updatePossibleResults({
@@ -309,11 +307,11 @@ export const PossibleResults = PossibleResultHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Toggle
                           hasError={!!errors.critical}
                           label='Critical'
-                          value={possibleResultsStore.possibleResults?.critical}
+                          value={value}
                           onChange={critical => {
                             onChange(critical);
                             possibleResultsStore.updatePossibleResults({
@@ -431,12 +429,13 @@ export const PossibleResults = PossibleResultHoc(
                 </Form.InputWrapper>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       hasError={!!errors.defaulItem}
                       label='Default Conclusion'
                     >
                       <select
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.defaultLab
                             ? 'border-red-500'
@@ -483,12 +482,10 @@ export const PossibleResults = PossibleResultHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          possibleResultsStore.possibleResults?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '
@@ -550,7 +547,7 @@ export const PossibleResults = PossibleResultHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -570,7 +567,7 @@ export const PossibleResults = PossibleResultHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -589,7 +586,7 @@ export const PossibleResults = PossibleResultHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -608,7 +605,7 @@ export const PossibleResults = PossibleResultHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
@@ -617,7 +614,7 @@ export const PossibleResults = PossibleResultHoc(
                           : 'Date Expire'
                       }
                       hasError={!!errors.schedule}
-                      value={possibleResultsStore.possibleResults?.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         possibleResultsStore.updatePossibleResults({
@@ -633,7 +630,7 @@ export const PossibleResults = PossibleResultHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
@@ -650,13 +647,13 @@ export const PossibleResults = PossibleResultHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={possibleResultsStore.possibleResults?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}

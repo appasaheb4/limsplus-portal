@@ -23,6 +23,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {FormHelper} from '@/helper';
+import {resetSection} from '../startup';
 
 const Section = SectionHoc(
   observer(() => {
@@ -33,6 +34,7 @@ const Section = SectionHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('environment', sectionStore.section?.environment);
@@ -49,15 +51,15 @@ const Section = SectionHoc(
               Toast.success({
                 message: `😊 ${res.createSection.message}`,
               });
+              setHideAddSection(true);
+              reset();
+              resetSection();
             } else {
               Toast.error({
                 message: '😔 Please try again',
               });
             }
           });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       } else {
         Toast.error({
           message: '😔 Please enter diff code',
@@ -146,7 +148,7 @@ const Section = SectionHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Department Code'
                       hasError={!!errors.departmentCode}
@@ -172,13 +174,13 @@ const Section = SectionHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Code'
                       id='code'
                       hasError={!!errors.code}
                       placeholder={!!errors.code ? 'Please Enter Code' : 'Code'}
-                      value={sectionStore.section?.code}
+                      value={value}
                       onChange={code => {
                         onChange(code);
                         sectionStore.updateSection({
@@ -216,12 +218,12 @@ const Section = SectionHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Name'
                       hasError={!!errors.name}
                       placeholder={!!errors.name ? 'Please Enter Name' : 'Name'}
-                      value={sectionStore.section?.name}
+                      value={value}
                       onChange={name => {
                         onChange(name);
                         sectionStore.updateSection({
@@ -238,7 +240,7 @@ const Section = SectionHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Short Name'
                       placeholder={
@@ -247,7 +249,7 @@ const Section = SectionHoc(
                           : 'Short Name'
                       }
                       hasError={!!errors.shortName}
-                      value={sectionStore.section?.shortName}
+                      value={value}
                       onChange={shortName => {
                         onChange(shortName);
                         sectionStore.updateSection({
@@ -263,7 +265,7 @@ const Section = SectionHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Section In Charge'
                       placeholder={
@@ -272,7 +274,7 @@ const Section = SectionHoc(
                           : 'Section In Charge'
                       }
                       hasError={!!errors.sectionInCharge}
-                      value={sectionStore.section?.sectionInCharge}
+                      value={value}
                       onChange={sectionInCharge => {
                         onChange(sectionInCharge);
                         sectionStore.updateSection({
@@ -288,7 +290,7 @@ const Section = SectionHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       type='number'
                       label='Mobile No'
@@ -296,7 +298,7 @@ const Section = SectionHoc(
                         errors.mobieNo ? 'Please Enter mobile no' : 'Mobile No'
                       }
                       pattern={FormHelper.patterns.mobileNo}
-                      value={sectionStore.section?.mobileNo}
+                      value={value}
                       hasError={!!errors.mobieNo}
                       onChange={mobileNo => {
                         onChange(mobileNo);
@@ -316,7 +318,7 @@ const Section = SectionHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       type='number'
                       label='Contact No'
@@ -327,7 +329,7 @@ const Section = SectionHoc(
                       }
                       hasError={!!errors.contactNo}
                       pattern={FormHelper.patterns.mobileNo}
-                      value={sectionStore.section?.contactNo}
+                      value={value}
                       onChange={contactNo => {
                         onChange(contactNo);
                         sectionStore.updateSection({
@@ -348,14 +350,14 @@ const Section = SectionHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={3}
                       label='FYI line'
                       placeholder={
                         errors.fyiLine ? 'Please Enter fyiLine' : 'FYI line'
                       }
-                      value={sectionStore.section?.fyiLine}
+                      value={value}
                       onChange={fyiLine => {
                         onChange(fyiLine);
                         sectionStore.updateSection({
@@ -371,7 +373,7 @@ const Section = SectionHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={3}
                       label='Work line'
@@ -379,7 +381,7 @@ const Section = SectionHoc(
                         errors.workLine ? 'Please Enter workLine' : 'Work line'
                       }
                       hasError={!!errors.workLine}
-                      value={sectionStore.section?.workLine}
+                      value={value}
                       onChange={workLine => {
                         onChange(workLine);
                         sectionStore.updateSection({
@@ -395,13 +397,13 @@ const Section = SectionHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={sectionStore.section?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -431,10 +433,10 @@ const Section = SectionHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={sectionStore.section?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

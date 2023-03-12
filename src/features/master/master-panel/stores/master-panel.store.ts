@@ -42,6 +42,7 @@ export class MasterPanelStore {
       pageBreak: false,
       validationLevel: 0,
     };
+    this.reset();
     makeObservable<MasterPanelStore, any>(this, {
       masterPanel: observable,
       listMasterPanel: observable,
@@ -59,7 +60,35 @@ export class MasterPanelStore {
       updateExistsLabEnvCode: action,
       filterPanelMasterList: action,
       updateMasterPanelActivity: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.masterPanel = new MasterPanel({});
+    this.listMasterPanel = [];
+    this.listMasterPanelCount = 0;
+    this.masterPanel = {
+      ...this.masterPanel,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
+      bill: true,
+      autoRelease: false,
+      holdOOS: false,
+      confidential: false,
+      urgent: false,
+      ageSexAction: false,
+      repitation: false,
+      printLabel: false,
+      method: false,
+      cumulative: false,
+      pageBreak: false,
+      validationLevel: 0,
+    };
   }
 
   get masterPanelService() {

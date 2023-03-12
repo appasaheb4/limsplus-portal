@@ -24,7 +24,7 @@ export class PossibleResultsStore {
       ),
       version: 1,
     };
-
+    this.reset();
     makeObservable<PossibleResultsStore, any>(this, {
       listPossibleResults: observable,
       listPossibleResultsCount: observable,
@@ -36,7 +36,25 @@ export class PossibleResultsStore {
       updatePossibleResultList: action,
       updatePossibleResults: action,
       updateExistsRecords: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.possibleResults = new PossibleResults({});
+    this.listPossibleResults = [];
+    this.listPossibleResultsCount = 0;
+    this.possibleResults = {
+      ...this.possibleResults,
+      abNormal: false,
+      critical: false,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
+    };
   }
 
   get possibleResultsService() {

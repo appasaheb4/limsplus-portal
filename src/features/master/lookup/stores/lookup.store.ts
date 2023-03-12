@@ -21,6 +21,7 @@ export class LookupStore {
       flagUpperCase: true,
     });
     this.flagUpperCase = true;
+    this.reset();
     makeObservable<LookupStore, any>(this, {
       listLookup: observable,
       listLookupCount: observable,
@@ -39,11 +40,18 @@ export class LookupStore {
       updateFlagUppperCase: action,
       filterLookupList: action,
       updateUiVariable: action,
+      reset: action,
     });
   }
 
   get LookupService() {
     return new LookupService();
+  }
+
+  reset() {
+    this.lookup = new Lookup({});
+    this.listLookup = [];
+    this.listLookupCount = 0;
   }
 
   fetchListLookup(page?, limit?) {

@@ -27,7 +27,7 @@ export class TestSampleMappingStore {
       sharedSample: false,
       printLabels: false,
     };
-
+    this.reset();
     makeObservable<TestSampleMappingStore, any>(this, {
       listTestSampleMapping: observable,
       listTestSampleMappingCount: observable,
@@ -44,7 +44,25 @@ export class TestSampleMappingStore {
       updateExitsTestSampleEnvCode: action,
       filterTestSampleMappingList: action,
       updateDepartments: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.testSampleMapping = new TestSampleMapping({});
+    this.listTestSampleMapping = [];
+    this.listTestSampleMappingCount = 0;
+    this.testSampleMapping = {
+      ...this.testSampleMapping,
+      primaryContainer: false,
+      uniqueContainer: false,
+      centerIfuge: false,
+      aliquot: false,
+      labSpecfic: false,
+      departmentSpecfic: false,
+      sharedSample: false,
+      printLabels: false,
+    };
   }
 
   get testSampleMappingService() {

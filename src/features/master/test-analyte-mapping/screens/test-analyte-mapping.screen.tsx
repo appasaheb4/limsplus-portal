@@ -30,6 +30,7 @@ import {
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetTestAnalyteMapping} from '../startup';
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -47,6 +48,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('lab', loginStore.login.lab);
@@ -121,9 +123,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               }
             });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        setHideAddLab(true);
+        reset();
+        resetTestAnalyteMapping();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -275,7 +277,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 {labStore.listLabs && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
@@ -291,9 +293,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             displayKey: 'name',
                             findKey: 'name',
                           }}
-                          displayValue={
-                            testAnalyteMappingStore.testAnalyteMapping?.lab
-                          }
+                          displayValue={value}
                           hasError={!!errors.name}
                           onFilter={(value: string) => {
                             labStore.LabService.filter({
@@ -361,7 +361,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Test Code'
                       name='txtTestCode'
@@ -373,9 +373,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       } rounded-md`}
                       hasError={!!errors.testCode}
                       disabled={true}
-                      value={
-                        testAnalyteMappingStore.testAnalyteMapping?.testCode
-                      }
+                      value={value}
                     />
                   )}
                   name='testCode'
@@ -389,7 +387,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Test Name'
                       hasError={!!errors.testName}
@@ -449,7 +447,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Analyte Code'
                       hasError={!!errors.analyteCode}
@@ -598,7 +596,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Analyte Name'
                       placeholder={
@@ -625,7 +623,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <>
                       <Form.InputWrapper label='Variable'>
                         <Table striped bordered className='max-h-5' size='sm'>
@@ -704,15 +702,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={
-                          testAnalyteMappingStore.testAnalyteMapping?.status
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -742,7 +738,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -765,7 +761,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -785,7 +781,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       hasError={!!errors.dateActive}
@@ -806,7 +802,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
@@ -814,9 +810,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           ? 'Please Enter dateExpire'
                           : 'Date Expire'
                       }
-                      value={
-                        testAnalyteMappingStore.testAnalyteMapping?.dateExpire
-                      }
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         testAnalyteMappingStore.updateTestAnalyteMapping({
@@ -834,12 +828,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 <Grid cols={3}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
                         hasError={!!errors.bill}
-                        value={testAnalyteMappingStore.testAnalyteMapping?.bill}
+                        value={value}
                         onChange={bill => {
                           onChange(bill);
                           testAnalyteMappingStore.updateTestAnalyteMapping({
@@ -855,14 +849,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Test Method'
                         id='testMethod'
                         hasError={!!errors.testMethod}
-                        value={
-                          testAnalyteMappingStore.testAnalyteMapping?.testMethod
-                        }
+                        value={value}
                         onChange={testMethod => {
                           onChange(testMethod);
                           testAnalyteMappingStore.updateTestAnalyteMapping({
@@ -878,15 +870,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Analyte Method'
                         id='analyteMethod'
                         hasError={!!errors.analyteMethod}
-                        value={
-                          testAnalyteMappingStore.testAnalyteMapping
-                            ?.analyteMethod
-                        }
+                        value={value}
                         onChange={analyteMethod => {
                           onChange(analyteMethod);
                           testAnalyteMappingStore.updateTestAnalyteMapping({
@@ -1219,7 +1208,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 </Form.InputWrapper>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       hasError={!!errors.version}
@@ -1244,13 +1233,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          testAnalyteMappingStore.testAnalyteMapping
-                            ?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

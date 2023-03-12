@@ -18,6 +18,7 @@ export class LibraryStore {
       ...this.library,
       abNormal: false,
     };
+    this.reset();
     makeObservable<LibraryStore, any>(this, {
       library: observable,
       listLibrary: observable,
@@ -30,11 +31,21 @@ export class LibraryStore {
       updateLibraryList: action,
       updateLibrary: action,
       updateExistsLabEnvCode: action,
+      reset: action,
     });
   }
 
   get libraryService() {
     return new MasterAnalyteService();
+  }
+  reset() {
+    this.library = new Library({});
+    this.listLibrary = [];
+    this.listLibraryCount = 0;
+    this.library = {
+      ...this.library,
+      abNormal: false,
+    };
   }
 
   fetchLibrary(page?, limit?) {

@@ -32,6 +32,7 @@ export class MasterPackageStore {
       printPackageName: false,
       printPanelName: true,
     };
+    this.reset();
     makeObservable<MasterPackageStore, any>(this, {
       masterPackage: observable,
       listMasterPackage: observable,
@@ -46,7 +47,28 @@ export class MasterPackageStore {
       updateMasterPackage: action,
       updateExistsLabEnvCode: action,
       filterPackageMasterList: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.masterPackage = new MasterPackage({});
+    this.listMasterPackage = [];
+    this.listMasterPackageCount = 0;
+    this.masterPackage = {
+      ...this.masterPackage,
+      packageInterpretation: true,
+      panelInterpretation: true,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
+      bill: false,
+      printPackageName: false,
+      printPanelName: true,
+    };
   }
 
   get masterPackageService() {

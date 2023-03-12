@@ -14,6 +14,7 @@ export class MethodsStore {
     this.listMethodsCount = 0;
     this.checkExitsEnvCode = false;
     this.methods = new Methods({});
+    this.reset();
 
     makeObservable<MethodsStore, any>(this, {
       methods: observable,
@@ -26,7 +27,14 @@ export class MethodsStore {
       updateMethodsList: action,
       updateMethods: action,
       updateExitsEnvCode: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.methods = new Methods({});
+    this.listMethods = [];
+    this.listMethodsCount = 0;
   }
 
   get methodsService() {

@@ -12,6 +12,7 @@ export class SectionStore {
     this.listSection = [];
     this.listSectionCount = 0;
     this.section = new Section({});
+    this.reset();
     makeObservable<SectionStore, any>(this, {
       listSection: observable,
       listSectionCount: observable,
@@ -24,7 +25,14 @@ export class SectionStore {
       updateSection: action,
       setExitsEnvCode: action,
       filterSectionList: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.section = new Section({});
+    this.listSection = [];
+    this.listSectionCount = 0;
   }
 
   get sectionService() {
