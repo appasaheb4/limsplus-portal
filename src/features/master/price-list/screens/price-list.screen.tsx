@@ -24,6 +24,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetPriceList} from '../startup';
 
 export const PriceList = PriceListHoc(
   observer(() => {
@@ -44,6 +45,7 @@ export const PriceList = PriceListHoc(
       setValue,
       setError,
       clearErrors,
+      reset,
     } = useForm();
 
     setValue('priceGroup', priceListStore.priceList?.priceGroup);
@@ -114,9 +116,9 @@ export const PriceList = PriceListHoc(
               }
             });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        setHideAddLab(true);
+        reset();
+        resetPriceList();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -239,13 +241,13 @@ export const PriceList = PriceListHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Price Group'
                       hasError={!!errors.priceGroup}
                     >
                       <select
-                        value={priceListStore.priceList?.priceGroup}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.priceGroup
                             ? 'border-red-500  '
@@ -319,7 +321,7 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Price List'
                       hasError={!!errors.priceList}
@@ -332,7 +334,7 @@ export const PriceList = PriceListHoc(
                             list: corporateClientsStore?.listCorporateClients,
                             displayKey: ['invoiceAc', 'corporateName'],
                           }}
-                          displayValue={priceListStore.priceList?.priceList}
+                          displayValue={value}
                           hasError={!!errors.priceList}
                           onFilter={(value: string) => {
                             corporateClientsStore.corporateClientsService.filterByFields(
@@ -405,7 +407,7 @@ export const PriceList = PriceListHoc(
                         />
                       ) : (
                         <select
-                          value={priceListStore.priceList?.priceList}
+                          value={value}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceList
                               ? 'border-red-500  '
@@ -440,7 +442,7 @@ export const PriceList = PriceListHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={3}
                       label='Description'
@@ -451,7 +453,7 @@ export const PriceList = PriceListHoc(
                           : 'Description'
                       }
                       hasError={!!errors.description}
-                      value={priceListStore.priceList?.description}
+                      value={value}
                       onChange={description => {
                         onChange(description);
                         priceListStore.updatePriceList({
@@ -467,7 +469,7 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
                       hasError={!!errors.panelCode}
@@ -540,7 +542,7 @@ export const PriceList = PriceListHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Panel Name'
                       name='txtPanelName'
@@ -563,7 +565,7 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Price'
                       name='txtPrice'
@@ -572,7 +574,7 @@ export const PriceList = PriceListHoc(
                       }
                       type='number'
                       hasError={!!errors.price}
-                      value={priceListStore.priceList?.price}
+                      value={value}
                       onChange={price => {
                         onChange(price);
                         priceListStore.updatePriceList({
@@ -591,7 +593,7 @@ export const PriceList = PriceListHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Min Sales Price'
                       name='txtMinSp'
@@ -602,7 +604,7 @@ export const PriceList = PriceListHoc(
                           : 'Min Sales Price'
                       }
                       hasError={!!errors.minSp}
-                      value={priceListStore.priceList?.minSp}
+                      value={value}
                       onChange={minSp => {
                         onChange(minSp);
                         priceListStore.updatePriceList({
@@ -618,7 +620,7 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Max Sales Price'
                       name='txtMaxSp'
@@ -629,7 +631,7 @@ export const PriceList = PriceListHoc(
                           : ' Max Sales Price'
                       }
                       hasError={!!errors.minSp}
-                      value={priceListStore.priceList?.maxSp}
+                      value={value}
                       onChange={maxSp => {
                         onChange(maxSp);
                         priceListStore.updatePriceList({
@@ -645,14 +647,14 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Max Dis%'
                       name='txtMaxDis'
                       type='number'
                       placeholder='Max Dis%'
                       hasError={!!errors.maxDis}
-                      value={priceListStore.priceList?.maxDis}
+                      value={value}
                       onChange={maxDis => {
                         onChange(maxDis);
                         priceListStore.updatePriceList({
@@ -668,13 +670,13 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={priceListStore.priceList?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -705,7 +707,7 @@ export const PriceList = PriceListHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -723,11 +725,11 @@ export const PriceList = PriceListHoc(
                 <Grid cols={5}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Fixed Price'
                         hasError={!!errors.fixedPrice}
-                        value={priceListStore.priceList?.fixedPrice}
+                        value={value}
                         onChange={fixedPrice => {
                           onChange(fixedPrice);
                           priceListStore.updatePriceList({
@@ -746,7 +748,7 @@ export const PriceList = PriceListHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -765,7 +767,7 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -784,7 +786,7 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
@@ -793,7 +795,7 @@ export const PriceList = PriceListHoc(
                           : 'Date Expire'
                       }
                       hasError={!!errors.dateExpiry}
-                      value={priceListStore.priceList?.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         priceListStore.updatePriceList({
@@ -809,7 +811,7 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
@@ -826,16 +828,13 @@ export const PriceList = PriceListHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
                     >
                       <select
-                        value={
-                          priceListStore &&
-                          priceListStore.priceList?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

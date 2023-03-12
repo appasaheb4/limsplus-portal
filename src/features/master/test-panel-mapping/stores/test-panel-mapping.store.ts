@@ -50,6 +50,30 @@ export class TestPanelMappingStore {
     });
   }
 
+  reset() {
+    this.testPanelMapping = new TestPanelMapping({});
+    this.listTestPanelMapping = [];
+    this.listTestPanelMappingCount = 0;
+    this.testPanelMapping = {
+      ...this.testPanelMapping,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
+      bill: false,
+      printTestName: false,
+      printPanelName: true,
+      panelMethod: true,
+      testMethod: false,
+      analyteMethod: false,
+      panelInterpretation: true,
+      testInterpretation: false,
+      analyteInterpretation: true,
+    };
+  }
+
   get testPanelMappingService() {
     return new TestPanelMappingService();
   }

@@ -22,6 +22,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
 import {AutoCompleteFilterSingleSelectEmpolyeCode} from '../components';
 import {RouterFlow} from '@/flows';
+import {resetSalesTeam} from '../startup';
 
 export const SalesTeam = SalesTeamHoc(
   observer(() => {
@@ -37,6 +38,7 @@ export const SalesTeam = SalesTeamHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('environment', salesTeamStore.salesTeam?.environment);
@@ -61,10 +63,10 @@ export const SalesTeam = SalesTeamHoc(
               Toast.success({
                 message: `😊 ${res.createSalesTeam.message}`,
               });
+              setHideAddSection(true);
+              reset();
+              resetSalesTeam();
             }
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
           });
       } else {
         Toast.warning({
@@ -170,12 +172,12 @@ export const SalesTeam = SalesTeamHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Sales Territory'
                       placeholder='Sales Territory'
                       hasError={!!errors.salesTerritory}
-                      value={salesTeamStore.salesTeam?.salesTerritory}
+                      value={value}
                       onChange={salesTerritory => {
                         onChange(salesTerritory);
                         salesTeamStore.updateSalesTeam({
@@ -203,11 +205,11 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       label='Description'
                       placeholder='Description'
-                      value={salesTeamStore.salesTeam?.description}
+                      value={value}
                       onChange={description => {
                         onChange(description);
                         salesTeamStore.updateSalesTeam({
@@ -223,14 +225,14 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Employee code'
                       hasError={!!errors.empCode}
                     >
                       <AutoCompleteFilterSingleSelectEmpolyeCode
                         hasError={!!errors.empCode}
-                        displayValue={salesTeamStore.salesTeam?.empCode}
+                        displayValue={svalue}
                         onSelect={item => {
                           onChange(item.empCode);
                           setValue('empName', item.fullName);
@@ -355,7 +357,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Targets'
                       hasError={!!errors.targets}
@@ -393,7 +395,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -412,7 +414,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -431,7 +433,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
@@ -440,7 +442,7 @@ export const SalesTeam = SalesTeamHoc(
                           : 'Date Expire'
                       }
                       hasError={!!errors.schedule}
-                      value={salesTeamStore.salesTeam?.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         salesTeamStore.updateSalesTeam({
@@ -456,7 +458,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
@@ -473,7 +475,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
@@ -509,7 +511,7 @@ export const SalesTeam = SalesTeamHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
                         value={salesTeamStore.salesTeam?.environment}

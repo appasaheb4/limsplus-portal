@@ -23,6 +23,7 @@ import {useStores} from '@/stores';
 import {FormHelper} from '@/helper';
 
 import {RouterFlow} from '@/flows';
+import {resetDoctor} from '../startup';
 
 const Doctors = DoctorsHoc(
   observer(() => {
@@ -41,6 +42,7 @@ const Doctors = DoctorsHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('status', doctorsStore.doctors?.status);
@@ -67,6 +69,9 @@ const Doctors = DoctorsHoc(
                 Toast.success({
                   message: `😊 ${res.createDoctor.message}`,
                 });
+                setHideAddSection(true);
+                reset();
+                resetDoctor();
               }
             });
         } else if (
@@ -108,9 +113,6 @@ const Doctors = DoctorsHoc(
               }
             });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -229,10 +231,10 @@ const Doctors = DoctorsHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Title' hasError={!!errors.title}>
                       <select
-                        value={doctorsStore.doctors?.title}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.title ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -265,14 +267,14 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Doctor Code'
                       hasError={!!errors.doctorCode}
                       placeholder={
                         errors.doctorCode ? 'Please Enter Code' : 'Doctor Code'
                       }
-                      value={doctorsStore.doctors?.doctorCode}
+                      value={value}
                       onChange={doctorCode => {
                         onChange(doctorCode);
                         doctorsStore.updateDoctors({
@@ -313,7 +315,7 @@ const Doctors = DoctorsHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Doctor Name'
                       placeholder={
@@ -322,7 +324,7 @@ const Doctors = DoctorsHoc(
                           : 'Doctor Name'
                       }
                       hasError={!!errors.doctorName}
-                      value={doctorsStore.doctors?.doctorName}
+                      value={value}
                       onChange={doctorName => {
                         onChange(doctorName);
                         doctorsStore.updateDoctors({
@@ -341,7 +343,7 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Report Name'
                       placeholder={
@@ -350,7 +352,7 @@ const Doctors = DoctorsHoc(
                           : 'Report Name'
                       }
                       hasError={!!errors.reportName}
-                      value={doctorsStore.doctors?.reportName}
+                      value={value}
                       onChange={reportName => {
                         onChange(reportName);
                         doctorsStore.updateDoctors({
@@ -367,9 +369,10 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                       <select
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sex ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -400,13 +403,13 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Doctor Type'
                       hasError={!!errors.doctorType}
                     >
                       <select
-                        value={doctorsStore.doctors?.doctorType}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.doctorType
                             ? 'border-red-500  '
@@ -439,13 +442,13 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Speciality'
                       hasError={!!errors.speciality}
                     >
                       <select
-                        value={doctorsStore.doctors?.speciality}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.speciality
                             ? 'border-red-500  '
@@ -477,13 +480,13 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Category'
                       hasError={!!errors.category}
                     >
                       <select
-                        value={doctorsStore.doctors?.category}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.category
                             ? 'border-red-500  '
@@ -516,7 +519,7 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Postal Code'
                       id='postalCode'
@@ -536,9 +539,7 @@ const Doctors = DoctorsHoc(
                           ],
                         }}
                         hasError={!!errors.postalCode}
-                        displayValue={
-                          doctorsStore.doctors?.postalCode?.toString() || ''
-                        }
+                        displayValue={value}
                         onFilter={(value: string) => {
                           if (value?.length == 6) {
                             labStore.LabService?.getAddressDetailsByPincode(
@@ -571,12 +572,12 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Country'
                       hasError={!!errors.country}
                       placeholder='Country'
-                      value={doctorsStore.doctors?.country}
+                      value={value}
                       disabled={true}
                       onChange={country => {
                         onChange(country);
@@ -594,12 +595,12 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='State'
                       hasError={!!errors.state}
                       placeholder='State'
-                      value={doctorsStore.doctors?.state}
+                      value={value}
                       disabled={true}
                       onChange={state => {
                         onChange(state);
@@ -617,12 +618,12 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='District'
                       hasError={!!errors.district}
                       placeholder='District'
-                      value={doctorsStore.doctors?.district}
+                      value={value}
                       disabled={true}
                       onChange={district => {
                         onChange(district);
@@ -640,12 +641,12 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='City'
                       hasError={!!errors.city}
                       placeholder='City'
-                      value={doctorsStore.doctors?.city}
+                      value={value}
                       disabled={true}
                       onChange={city => {
                         onChange(city);
@@ -663,12 +664,12 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Area'
                       hasError={!!errors.area}
                       placeholder='Area'
-                      value={doctorsStore.doctors?.area}
+                      value={value}
                       disabled={true}
                       onChange={area => {
                         onChange(area);
@@ -687,12 +688,12 @@ const Doctors = DoctorsHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='SBU'
                       placeholder={!!errors.sbu ? 'Please Enter sbu' : 'SBU'}
                       hasError={!!errors.sbu}
-                      value={doctorsStore.doctors?.sbu}
+                      value={value}
                       onChange={sbu => {
                         onChange(sbu);
                         doctorsStore.updateDoctors({
@@ -708,12 +709,12 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Zone'
                       placeholder={!!errors.zone ? 'Please Enter Zone' : 'Zone'}
                       hasError={!!errors.zone}
-                      value={doctorsStore.doctors?.zone}
+                      value={value}
                       onChange={zone => {
                         onChange(zone);
                         doctorsStore.updateDoctors({
@@ -729,7 +730,7 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Sales Territory'
                       hasError={!!errors.salesTerritoRy}
@@ -757,6 +758,7 @@ const Doctors = DoctorsHoc(
                             },
                           });
                         }}
+                        displayValue={value}
                         onSelect={item => {
                           onChange(item.salesTerritory);
                           doctorsStore.updateDoctors({
@@ -777,7 +779,7 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Telephone'
                       placeholder={
@@ -788,7 +790,7 @@ const Doctors = DoctorsHoc(
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       hasError={!!errors.telephone}
-                      value={doctorsStore.doctors?.telephone}
+                      value={value}
                       onChange={telephone => {
                         onChange(telephone);
                         doctorsStore.updateDoctors({
@@ -807,7 +809,7 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Mobile No'
                       placeholder={
@@ -816,7 +818,7 @@ const Doctors = DoctorsHoc(
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       hasError={!!errors.mobileNo}
-                      value={doctorsStore.doctors?.mobileNo}
+                      value={value}
                       onChange={mobileNo => {
                         console.log({mobileNo});
                         onChange(mobileNo);
@@ -836,14 +838,14 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Email'
                       placeholder={
                         errors.email ? 'Please Enter Email' : 'Email'
                       }
                       hasError={!!errors.email}
-                      value={doctorsStore.doctors?.email}
+                      value={value}
                       onChange={email => {
                         onChange(email);
                         doctorsStore.updateDoctors({
@@ -860,13 +862,13 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Report Priority'
                       hasError={!!errors.reportPriority}
                     >
                       <select
-                        value={doctorsStore.doctors?.reportPriority}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.reportPriority
                             ? 'border-red-500  '
@@ -899,7 +901,7 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Delivery Mode'
                       hasError={!!errors.deliveryMode}
@@ -922,7 +924,7 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Registartion Location'
                       hasError={!!errors.registrationLocation}
@@ -949,6 +951,7 @@ const Doctors = DoctorsHoc(
                             },
                           );
                         }}
+                        displayValue={value}
                         onSelect={item => {
                           onChange(item.locationCode);
                           doctorsStore.updateDoctors({
@@ -968,10 +971,10 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <select
-                        value={doctorsStore.doctors?.lab}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.lab ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -1023,11 +1026,11 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Opening Time'
                       hasError={!!errors.openingTime}
-                      value={doctorsStore.doctors?.openingTime}
+                      value={value}
                       onChange={openingTime => {
                         onChange(openingTime);
                         doctorsStore.updateDoctors({
@@ -1043,11 +1046,11 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Closing Time'
                       hasError={!!errors.closingTime}
-                      value={doctorsStore.doctors?.closingTime}
+                      value={value}
                       onChange={closingTime => {
                         onChange(closingTime);
                         doctorsStore.updateDoctors({
@@ -1065,12 +1068,12 @@ const Doctors = DoctorsHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Info'
                       placeholder={!!errors.info ? 'Please Enter info' : 'Info'}
                       hasError={!!errors.info}
-                      value={doctorsStore.doctors?.info}
+                      value={value}
                       onChange={info => {
                         onChange(info);
                         doctorsStore.updateDoctors({
@@ -1087,14 +1090,14 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='FYI Line'
                       placeholder={
                         errors.fyiLine ? 'Please Enter fyiLine' : 'FYI Line'
                       }
                       hasError={!!errors.fyiLine}
-                      value={doctorsStore.doctors?.fyiLine}
+                      value={value}
                       onChange={fyiLine => {
                         onChange(fyiLine);
                         doctorsStore.updateDoctors({
@@ -1110,14 +1113,14 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Work Line'
                       placeholder={
                         errors.workLine ? 'Please Enter workLine' : 'Work Line'
                       }
                       hasError={!!errors.workLine}
-                      value={doctorsStore.doctors?.workLine}
+                      value={value}
                       onChange={workLine => {
                         onChange(workLine);
                         doctorsStore.updateDoctors({
@@ -1134,7 +1137,7 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -1143,7 +1146,7 @@ const Doctors = DoctorsHoc(
                           : 'DateCreation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={doctorsStore.doctors?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1153,7 +1156,7 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -1162,7 +1165,7 @@ const Doctors = DoctorsHoc(
                           : 'DateActiveFrom'
                       }
                       hasError={!!errors.dateActive}
-                      value={doctorsStore.doctors?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1172,7 +1175,7 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
@@ -1181,7 +1184,7 @@ const Doctors = DoctorsHoc(
                           : 'DateActiveTo'
                       }
                       hasError={!!errors.dateActiveTo}
-                      value={doctorsStore.doctors?.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         doctorsStore.updateDoctors({
@@ -1197,14 +1200,14 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={doctorsStore.doctors?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1215,7 +1218,7 @@ const Doctors = DoctorsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -1232,13 +1235,13 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={doctorsStore && doctorsStore.doctors?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -1268,13 +1271,13 @@ const Doctors = DoctorsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
                     >
                       <select
-                        value={doctorsStore.doctors?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '
@@ -1338,11 +1341,11 @@ const Doctors = DoctorsHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Confidential'
                         hasError={!!errors.confidential}
-                        value={doctorsStore.doctors?.confidential}
+                        value={value}
                         onChange={confidential => {
                           onChange(confidential);
                           doctorsStore.updateDoctors({
@@ -1358,11 +1361,11 @@ const Doctors = DoctorsHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Urgent'
                         hasError={!!errors.urgent}
-                        value={doctorsStore.doctors?.urgent}
+                        value={value}
                         onChange={urgent => {
                           onChange(urgent);
                           doctorsStore.updateDoctors({
@@ -1378,11 +1381,11 @@ const Doctors = DoctorsHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Report Format'
                         hasError={!!errors.reportFormat}
-                        value={doctorsStore.doctors?.reportFormat}
+                        value={value}
                         onChange={reportFormat => {
                           onChange(reportFormat);
                           doctorsStore.updateDoctors({
@@ -1398,11 +1401,11 @@ const Doctors = DoctorsHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Specific Format'
                         hasError={!!errors.specificFormat}
-                        value={doctorsStore.doctors?.specificFormat}
+                        value={value}
                         onChange={specificFormat => {
                           onChange(specificFormat);
                           doctorsStore.updateDoctors({

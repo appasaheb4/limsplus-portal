@@ -25,6 +25,7 @@ export class DepartmentStore {
       closingTime: dayjs().format('hh:mm a'),
     };
     this.selectedItems = new SelectedItems({});
+    this.reset();
     makeObservable<DepartmentStore, any>(this, {
       listDepartment: observable,
       listDepartmentCount: observable,
@@ -38,6 +39,7 @@ export class DepartmentStore {
       updateDepartmentList: action,
       updateDepartment: action,
       filterDepartmentList: action,
+      reset: action,
     });
   }
   get DepartmentService() {
@@ -63,6 +65,20 @@ export class DepartmentStore {
     }
   }
 
+  reset() {
+    this.department = new Department({});
+    this.listDepartment = [];
+    this.listDepartmentCount = 0;
+    this.department = {
+      ...this.department,
+      autoRelease: false,
+      requireReceveInLab: false,
+      requireScainIn: false,
+      routingDept: false,
+      openingTime: dayjs().format('hh:mm a'),
+      closingTime: dayjs().format('hh:mm a'),
+    };
+  }
   filterDepartmentList(res: any) {
     this.listDepartment = res.filterDepartments.data;
     this.listDepartmentCount = res.filterDepartments.paginatorInfo.count;

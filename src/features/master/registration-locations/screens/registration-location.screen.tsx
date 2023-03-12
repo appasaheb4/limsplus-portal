@@ -26,6 +26,7 @@ import {RegistrationLocationHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {FormHelper} from '@/helper';
+import {resetRegistrationLocation} from '../startup';
 
 const RegistrationLocation = RegistrationLocationHoc(
   observer(() => {
@@ -44,6 +45,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue(
@@ -125,9 +127,9 @@ const RegistrationLocation = RegistrationLocationHoc(
               }
             });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        setHideAddSection(true);
+        reset();
+        resetRegistrationLocation();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code!',
@@ -240,12 +242,10 @@ const RegistrationLocation = RegistrationLocationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations?.lab
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.lab ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -330,7 +330,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Location Code'
                       hasError={!!errors.locationCode}
@@ -339,10 +339,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           ? 'Please Enter Location Code'
                           : 'Loaction Code'
                       }
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.locationCode
-                      }
+                      value={value}
                       onChange={locationCode => {
                         onChange(locationCode);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -397,7 +394,7 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Location Name'
                       hasError={!!errors.locationName}
@@ -406,10 +403,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           ? 'Please Enter Loaction Name'
                           : 'Loaction Name'
                       }
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.locationName
-                      }
+                      value={value}
                       onChange={locationName => {
                         onChange(locationName);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -425,7 +419,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Client Code'
                       hasError={!!errors.corporateCode}
@@ -433,7 +427,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <AutoCompleteFilterSingleSelectCorparateCode
                         onSelect={item => {
                           onChange(item.corporateCode);
-                          console.log({item});
 
                           registrationLocationsStore.updateRegistrationLocations(
                             {
@@ -458,7 +451,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 </label>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Invoice Ac'
                       hasError={!!errors.invoiceAc}
@@ -470,7 +463,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           list: corporateClientsStore.listCorporateClients,
                           displayKey: ['invoiceAc'],
                         }}
-                        displayValue={registrationLocationsStore.registrationLocations?.invoiceAc?.toString()}
+                        displayValue={value}
                         hasError={!!errors.invoiceAc}
                         onFilter={(value: string) => {
                           corporateClientsStore.corporateClientsService.filterByFields(
@@ -507,16 +500,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='AC Class'
                       hasError={!!errors.acClass}
                     >
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.acClass
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.acClass
                             ? 'border-red-500  '
@@ -550,16 +540,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Account Type'
                       hasError={!!errors.accountType}
                     >
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.accountType
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.accountType
                             ? 'border-red-500  '
@@ -593,16 +580,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Customer Group'
                       hasError={!!errors.customerGroup}
                     >
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.customerGroup
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.customerGroup
                             ? 'border-red-500  '
@@ -637,16 +621,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Method Coln'
                       hasError={!!errors.methodColn}
                     >
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.methodColn
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.methodColn
                             ? 'border-red-500  '
@@ -681,16 +662,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Category'
                       hasError={!!errors.category}
                     >
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.category
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.category
                             ? 'border-red-500  '
@@ -725,7 +703,7 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Postal Code'
                       id='postalCode'
@@ -745,10 +723,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           ],
                         }}
                         hasError={!!errors.postalCode}
-                        displayValue={
-                          registrationLocationsStore.registrationLocations?.postalCode?.toString() ||
-                          ''
-                        }
+                        displayValue={value}
                         onFilter={(value: string) => {
                           if (value?.length == 6) {
                             labStore.LabService?.getAddressDetailsByPincode(
@@ -785,15 +760,12 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Country'
                       hasError={!!errors.country}
                       placeholder='Country'
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.country
-                      }
+                      value={value}
                       //disabled={true}
                       onChange={country => {
                         onChange(country);
@@ -811,14 +783,12 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='State'
                       hasError={!!errors.state}
                       placeholder='State'
-                      value={
-                        registrationLocationsStore.registrationLocations?.state
-                      }
+                      value={value}
                       //disabled={true}
                       onChange={state => {
                         onChange(state);
@@ -838,15 +808,12 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='District'
                       hasError={!!errors.district}
                       placeholder='District'
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.district
-                      }
+                      value={value}
                       //disabled={true}
                       onChange={district => {
                         onChange(district);
@@ -866,14 +833,12 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='City'
                       hasError={!!errors.city}
                       placeholder='City'
-                      value={
-                        registrationLocationsStore.registrationLocations?.city
-                      }
+                      value={value}
                       // disabled={true}
                       onChange={city => {
                         onChange(city);
@@ -894,14 +859,12 @@ const RegistrationLocation = RegistrationLocationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Area'
                       hasError={!!errors.area}
                       placeholder='Area'
-                      value={
-                        registrationLocationsStore.registrationLocations?.area
-                      }
+                      value={value}
                       //disabled={true}
                       onChange={area => {
                         onChange(area);
@@ -921,7 +884,7 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={2}
                       label='Address'
@@ -929,10 +892,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         errors.address ? 'Please enter address' : 'Address'
                       }
                       hasError={!!errors.address}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.address
-                      }
+                      value={value}
                       onChange={address => {
                         onChange(address);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -949,14 +909,12 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='SBU'
                       placeholder={errors.sbu ? 'Please Enter sbu' : 'SBU'}
                       hasError={!!errors.sbu}
-                      value={
-                        registrationLocationsStore.registrationLocations?.sbu
-                      }
+                      value={value}
                       onChange={sbu => {
                         onChange(sbu);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -973,14 +931,12 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Zone'
                       placeholder={errors.zone ? 'Please Enter zone' : 'Zone'}
                       hasError={!!errors.zone}
-                      value={
-                        registrationLocationsStore.registrationLocations?.zone
-                      }
+                      value={value}
                       onChange={zone => {
                         onChange(zone);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -996,7 +952,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Sales Territory'
                       hasError={!!errors.salesTerritoRy}
@@ -1024,6 +980,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             },
                           });
                         }}
+                        displayValue={value}
                         onSelect={item => {
                           onChange(item.salesTerritory);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1046,7 +1003,7 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Telephone'
                       placeholder={
@@ -1056,10 +1013,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       }
                       type='number'
                       hasError={!!errors.telephone}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.telephone
-                      }
+                      value={value}
                       pattern={FormHelper.patterns.mobileNo}
                       onChange={telephone => {
                         onChange(telephone);
@@ -1079,17 +1033,14 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Mobile No'
                       placeholder={
                         errors.mobileNo ? 'Please Enter mobileNo' : 'Mobile No'
                       }
                       hasError={!!errors.mobileNo}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.mobileNo
-                      }
+                      value={value}
                       pattern={FormHelper.patterns.mobileNo}
                       type='number'
                       onChange={mobileNo => {
@@ -1110,16 +1061,14 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Email'
                       placeholder={
                         errors.email ? 'Please Enter email' : 'Email'
                       }
                       hasError={!!errors.email}
-                      value={
-                        registrationLocationsStore.registrationLocations?.email
-                      }
+                      value={value}
                       onChange={email => {
                         onChange(email);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1135,16 +1084,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Report Priority'
                       hasError={!!errors.reportPriority}
                     >
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.reportPriority
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.reportPriority
                             ? 'border-red-500  '
@@ -1179,7 +1125,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Delivery Mode'
                       hasError={!!errors.panelCode}
@@ -1203,16 +1149,14 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Route'
                       placeholder={
                         errors.route ? 'Please Enter route' : 'Route'
                       }
                       hasError={!!errors.route}
-                      value={
-                        registrationLocationsStore.registrationLocations?.route
-                      }
+                      value={value}
                       onChange={route => {
                         onChange(route);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1229,14 +1173,11 @@ const RegistrationLocation = RegistrationLocationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Opening Time'
                       hasError={!!errors.openingTime}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.openingTime
-                      }
+                      value={value}
                       onChange={openingTime => {
                         onChange(openingTime);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1252,14 +1193,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Closing Time'
                       hasError={!!errors.closingTime}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.closingTime
-                      }
+                      value={value}
                       onChange={closingTime => {
                         onChange(closingTime);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1277,14 +1215,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Confidential'
                         hasError={!!errors.confidential}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.confidential
-                        }
+                        value={value}
                         onChange={confidential => {
                           onChange(confidential);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1302,14 +1237,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Primary Barcod'
                         hasError={!!errors.isPrintPrimaryBarcod}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.isPrintPrimaryBarcod
-                        }
+                        value={value}
                         onChange={isPrintPrimaryBarcod => {
                           onChange(isPrintPrimaryBarcod);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1327,14 +1259,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Secondary Barcode'
                         hasError={!!errors.isPrintSecondaryBarcode}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.isPrintSecondaryBarcode
-                        }
+                        value={value}
                         onChange={isPrintSecondaryBarcode => {
                           onChange(isPrintSecondaryBarcode);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1355,14 +1284,12 @@ const RegistrationLocation = RegistrationLocationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Info'
                       placeholder={errors.info ? 'Please Enter info' : 'Info'}
                       hasError={!!errors.info}
-                      value={
-                        registrationLocationsStore.registrationLocations?.info
-                      }
+                      value={value}
                       onChange={info => {
                         onChange(info);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1378,17 +1305,14 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='FYI Line'
                       placeholder={
                         errors.fyiLine ? 'Please Enter fyiLine' : 'FYI Line'
                       }
                       hasError={!!errors.fyiLine}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.fyiLine
-                      }
+                      value={value}
                       onChange={fyiLine => {
                         onChange(fyiLine);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1404,17 +1328,14 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Work Line'
                       placeholder={
                         errors.workLine ? 'Please Enter workLine' : 'Work Line'
                       }
                       hasError={!!errors.workLine}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.workLine
-                      }
+                      value={value}
                       onChange={workLine => {
                         onChange(workLine);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1430,14 +1351,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='GST No'
                       placeholder='GST No'
                       hasError={!!errors.gstNo}
-                      value={
-                        registrationLocationsStore.registrationLocations?.gstNo
-                      }
+                      value={value}
                       onChange={gstNo => {
                         onChange(gstNo);
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1453,7 +1372,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -1475,7 +1394,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -1497,15 +1416,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder='Date Expire'
                       hasError={!!errors.dateActiveTo}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.dateExpire
-                      }
+                      value={value}
                       onChange={dateExpire => {
                         registrationLocationsStore.updateRegistrationLocations({
                           ...registrationLocationsStore.registrationLocations,
@@ -1520,7 +1436,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder='Version'
@@ -1538,7 +1454,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder='Entered By'
@@ -1553,17 +1469,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={
-                          registrationLocationsStore &&
-                          registrationLocationsStore.registrationLocations
-                            ?.status
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -1595,16 +1507,13 @@ const RegistrationLocation = RegistrationLocationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
                     >
                       <select
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '
@@ -1684,14 +1593,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Label'
                         hasError={!!errors.printLabel}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.printLabel
-                        }
+                        value={value}
                         onChange={printLabel => {
                           onChange(printLabel);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1709,14 +1615,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Never Bill'
                         hasError={!!errors.neverBill}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.neverBill
-                        }
+                        value={value}
                         onChange={neverBill => {
                           onChange(neverBill);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1734,14 +1637,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Urgent'
                         hasError={!!errors.urgent}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.urgent
-                        }
+                        value={value}
                         onChange={urgent => {
                           onChange(urgent);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1759,14 +1659,11 @@ const RegistrationLocation = RegistrationLocationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Report Format'
                         hasError={!!errors.reportFormat}
-                        value={
-                          registrationLocationsStore.registrationLocations
-                            ?.reportFormat
-                        }
+                        value={value}
                         onChange={reportFormat => {
                           onChange(reportFormat);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1790,7 +1687,7 @@ const RegistrationLocation = RegistrationLocationHoc(
               <div className='overflow-auto'>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Price List'
                       hasError={!!errors.priceList}
