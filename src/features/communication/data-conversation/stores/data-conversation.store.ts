@@ -19,6 +19,7 @@ export class DataConversationStore {
     this.listdataConversation = [];
     this.listdataConversationCount = 0;
     this.updateItem = {};
+    this.reset();
     this.dataConversation = new DataConversation({});
     makeObservable<DataConversationStore, any>(this, {
       dataConversation: observable,
@@ -31,7 +32,14 @@ export class DataConversationStore {
       updateDataConversationList: action,
       updateDataConversation: action,
       changeUpdateItem: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.dataConversation = new DataConversation({});
+    this.listdataConversation = [];
+    this.listdataConversationCount = 0;
   }
 
   get dataConversationService() {

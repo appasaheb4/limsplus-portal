@@ -21,6 +21,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetInterfaceManager} from '../startup';
 const InterfaceManager = InterfaceManagerHoc(
   observer(() => {
     const {loginStore, interfaceManagerStore, routerStore} = useStores();
@@ -29,6 +30,7 @@ const InterfaceManager = InterfaceManagerHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue(
       'interfaceType',
@@ -59,9 +61,9 @@ const InterfaceManager = InterfaceManagerHoc(
               Toast.success({
                 message: `😊 ${res.createInterfaceManager.message}`,
               });
-              setTimeout(() => {
-                window.location.reload();
-              }, 1000);
+              setHideAddInterfaceManager(true);
+              reset();
+              resetInterfaceManager();
             }
           });
       } else {
@@ -98,12 +100,10 @@ const InterfaceManager = InterfaceManagerHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Interface Type'>
                       <select
-                        value={
-                          interfaceManagerStore.interfaceManager?.interfaceType
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
                           errors.interfaceType
                             ? 'border-red-500  '
@@ -137,7 +137,7 @@ const InterfaceManager = InterfaceManagerHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Inst Type'
                       placeholder={
@@ -146,9 +146,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           : 'Instrument Type'
                       }
                       hasError={!!errors.instrumentType}
-                      value={
-                        interfaceManagerStore.interfaceManager?.instrumentType
-                      }
+                      value={value}
                       onChange={instrumentType => {
                         onChange(instrumentType);
                         interfaceManagerStore.updateInterfaceManager({
@@ -164,7 +162,7 @@ const InterfaceManager = InterfaceManagerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Inst Name'
                       placeholder={
@@ -173,9 +171,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           : 'Instrument Name'
                       }
                       hasError={!!errors.instrumentName}
-                      value={
-                        interfaceManagerStore.interfaceManager?.instrumentName
-                      }
+                      value={value}
                       onChange={instrumentName => {
                         onChange(instrumentName);
                         interfaceManagerStore.updateInterfaceManager({
@@ -191,10 +187,10 @@ const InterfaceManager = InterfaceManagerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Protocol'>
                       <select
-                        value={interfaceManagerStore.interfaceManager?.protocol}
+                        value={value}
                         className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
                           errors.protocol
                             ? 'border-red-500  '
@@ -232,7 +228,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   <Grid cols={2}>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           name='startBlock'
                           placeholder={
@@ -241,9 +237,7 @@ const InterfaceManager = InterfaceManagerHoc(
                               : 'Start Block'
                           }
                           hasError={!!errors.startBlock}
-                          value={
-                            interfaceManagerStore.interfaceManager?.blockStart
-                          }
+                          value={value}
                           onChange={blockStart => {
                             onChange(blockStart);
                             interfaceManagerStore.updateInterfaceManager({
@@ -260,7 +254,7 @@ const InterfaceManager = InterfaceManagerHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           name='endBlock'
                           placeholder={
@@ -269,9 +263,7 @@ const InterfaceManager = InterfaceManagerHoc(
                               : 'End Block'
                           }
                           hasError={!!errors.endBlock}
-                          value={
-                            interfaceManagerStore.interfaceManager?.blockEnd
-                          }
+                          value={value}
                           onChange={blockEnd => {
                             onChange(blockEnd);
                             interfaceManagerStore.updateInterfaceManager({
@@ -292,14 +284,14 @@ const InterfaceManager = InterfaceManagerHoc(
                   <Grid cols={3}>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           name='filed'
                           placeholder={
                             errors.filed ? 'Please Enter Filed' : 'Filed'
                           }
                           hasError={!!errors.filed}
-                          value={interfaceManagerStore.interfaceManager?.filed}
+                          value={value}
                           onChange={filed => {
                             onChange(filed);
                             interfaceManagerStore.updateInterfaceManager({
@@ -315,14 +307,14 @@ const InterfaceManager = InterfaceManagerHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           name='value'
                           placeholder={
                             errors.value ? 'Please Enter Value' : 'Value'
                           }
                           hasError={!!errors.value}
-                          value={interfaceManagerStore.interfaceManager?.value}
+                          value={value}
                           onChange={value => {
                             onChange(value);
                             interfaceManagerStore.updateInterfaceManager({
@@ -421,12 +413,10 @@ const InterfaceManager = InterfaceManagerHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          interfaceManagerStore.interfaceManager?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '
