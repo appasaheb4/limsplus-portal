@@ -1308,14 +1308,14 @@ const CorporateClients = CorporateClientsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={corporateClientsStore.corporateClients?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}

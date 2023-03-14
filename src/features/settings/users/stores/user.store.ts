@@ -99,6 +99,7 @@ export class UserStore {
       validationLevel: 0,
       version: 1,
     };
+    this.selectedItems = new SelectedItems({});
   }
   get UsersService() {
     return new UserService();

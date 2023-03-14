@@ -57,6 +57,18 @@ const MasterPanel = MasterPanelHoc(
     setValue('pLab', loginStore.login.lab);
     setValue('environment', masterPanelStore.masterPanel?.environment);
     setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
+    setValue('validationLevel', masterPanelStore.masterPanel?.validationLevel);
+    setValue('processing', masterPanelStore.masterPanel?.processing);
+    setValue('category', masterPanelStore.masterPanel?.category);
+    setValue('panelType', masterPanelStore.masterPanel?.panelType);
+    setValue('sexAction', masterPanelStore.masterPanel?.sexAction);
+    setValue('ageAction', masterPanelStore.masterPanel?.ageAction);
+    setValue('sex', masterPanelStore.masterPanel?.sex);
+    setValue('bill', masterPanelStore.masterPanel?.bill);
+    setValue('dateExpire', masterPanelStore.masterPanel?.dateExpire);
+    setValue('dateActive', masterPanelStore.masterPanel?.dateActive);
+    setValue('dateCreation', masterPanelStore.masterPanel?.dateCreation);
+    setValue('version', masterPanelStore.masterPanel?.version);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
@@ -78,6 +90,9 @@ const MasterPanel = MasterPanelHoc(
                 Toast.success({
                   message: `😊 ${res.createPanelMaster.message}`,
                 });
+                setIsInputView(true);
+                reset();
+                resetMasterPanel();
               }
             });
         } else if (
@@ -119,9 +134,6 @@ const MasterPanel = MasterPanelHoc(
               }
             });
         }
-        setIsInputView(true);
-        reset();
-        resetMasterPanel();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -1699,7 +1711,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter DateCreation'
                           : 'Date Creation'
                       }
-                      value={masterPanelStore.masterPanel?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1718,7 +1730,7 @@ const MasterPanel = MasterPanelHoc(
                           ? 'Please Enter dateActive'
                           : 'Date Active'
                       }
-                      value={masterPanelStore.masterPanel?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1759,7 +1771,7 @@ const MasterPanel = MasterPanelHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      value={masterPanelStore.masterPanel?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}

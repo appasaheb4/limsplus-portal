@@ -31,6 +31,7 @@ import {
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetTestAnalyteMapping} from '../startup';
+import {SelectedItems, TestAnalyteMapping as Model} from '../models';
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -57,6 +58,23 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       'environment',
       testAnalyteMappingStore.testAnalyteMapping?.environment,
     );
+    setValue(
+      'dateCreation',
+      testAnalyteMappingStore.testAnalyteMapping?.dateCreation,
+    );
+    setValue(
+      'dateActive',
+      testAnalyteMappingStore.testAnalyteMapping?.dateActive,
+    );
+    setValue('version', testAnalyteMappingStore.testAnalyteMapping?.version);
+    setValue(
+      'dateExpire',
+      testAnalyteMappingStore.testAnalyteMapping?.dateExpire,
+    );
+    setValue(
+      'testMethod',
+      testAnalyteMappingStore.testAnalyteMapping?.testMethod,
+    );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
@@ -81,6 +99,16 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               if (res.createTestAnalyteMapping.success) {
                 Toast.success({
                   message: `😊 ${res.createTestAnalyteMapping.message}`,
+                });
+                setHideAddLab(true);
+                reset();
+                resetTestAnalyteMapping();
+                testAnalyteMappingStore.updateSelectedItems(
+                  new SelectedItems({}),
+                );
+                testAnalyteMappingStore.updateTestAnalyteMapping({
+                  ...testAnalyteMappingStore.testAnalyteMapping,
+                  analyteName: [],
                 });
               }
             });
@@ -123,9 +151,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               }
             });
         }
-        setHideAddLab(true);
-        reset();
-        resetTestAnalyteMapping();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -393,6 +418,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       hasError={!!errors.testName}
                     >
                       <AutoCompleteFilterSingleSelectTestName
+                        displayValue={value}
                         lab={testAnalyteMappingStore.testAnalyteMapping?.lab}
                         hasError={!!errors.testName}
                         onSelect={item => {
@@ -769,9 +795,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           ? 'Please Enter DateCreation'
                           : 'Date Creation'
                       }
-                      value={
-                        testAnalyteMappingStore.testAnalyteMapping?.dateCreation
-                      }
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -790,9 +814,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           ? 'Please Enter dateActive'
                           : 'Date Active'
                       }
-                      value={
-                        testAnalyteMappingStore.testAnalyteMapping?.dateActive
-                      }
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1215,9 +1237,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
-                      value={
-                        testAnalyteMappingStore.testAnalyteMapping?.version
-                      }
+                      value={value}
                       disabled={true}
                       // onChange={(analyteCode) => {
                       //   masterAnalyteStore.updateMasterAnalyte({
