@@ -255,7 +255,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
           defaultValue={libraryList}
         />
       )}
-      {row?.resultType === 'FR' && (
+      {(row?.resultType === 'FR' || row?.resultType == 'BO') && (
         <Form.InputFile
           label='File'
           placeholder={'File'}

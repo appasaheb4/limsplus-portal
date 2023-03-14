@@ -333,6 +333,7 @@ export const GeneralResultEntryExpand = ({
         break;
     }
   };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(

@@ -51,6 +51,7 @@ export const PANEL_APPROVAL_LIST = gql`
         patientOrderId
         patientResultId
         reportPriority
+        colorScheme
         enteredBy
         documentType
         dateOfEntry
@@ -120,6 +121,7 @@ export const FILTER = gql`
         patientOrderId
         patientResultId
         reportPriority
+        colorScheme
         enteredBy
         documentType
         dateOfEntry

@@ -52,8 +52,13 @@ export const PatientManager = PatientManagerHoc(
       setValue,
       reset,
     } = useForm();
+
     setValue('species', patientManagerStore.patientManger.species);
     setValue('pId', patientManagerStore.patientManger?.pId);
+    setValue(
+      'isPatientMobileNo',
+      patientManagerStore.patientManger?.isPatientMobileNo,
+    );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
