@@ -232,7 +232,7 @@ export const SalesTeam = SalesTeamHoc(
                     >
                       <AutoCompleteFilterSingleSelectEmpolyeCode
                         hasError={!!errors.empCode}
-                        displayValue={svalue}
+                        displayValue={value}
                         onSelect={item => {
                           onChange(item.empCode);
                           setValue('empName', item.fullName);

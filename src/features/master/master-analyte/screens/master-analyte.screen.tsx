@@ -1340,7 +1340,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={value}
+                      // value={value}
                       onChange={abnormalHighlighterCSS => {
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
@@ -1362,7 +1362,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={value}
+                      // value={value}
                       onChange={criticalHighlighterCSS => {
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
