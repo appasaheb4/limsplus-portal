@@ -45,7 +45,7 @@ export class UserStore {
       validationLevel: 0,
       version: 1,
     };
-
+    this.reset();
     makeObservable<UserStore, any>(this, {
       user: observable,
       userList: observable,
@@ -66,9 +66,40 @@ export class UserStore {
       updateUserFilterList: action,
       filterUserList: action,
       updateSelectedItems: action,
+      reset: action,
     });
   }
 
+  reset() {
+    this.user = new Users({});
+    this.userList = [];
+    this.userListCount = 0;
+    this.user = {
+      ...this.user,
+      exipreDate: new Date(
+        dayjs(new Date()).add(30, 'days').format('YYYY-MM-DD'),
+      ),
+      expireDays: 30,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateOfBirth: new Date(
+        dayjs(new Date()).add(-30, 'years').format('YYYY-MM-DD'),
+      ),
+      marriageAnniversary: new Date(
+        dayjs(new Date()).add(-5, 'years').format('YYYY-MM-DD HH:mm:ss'),
+      ),
+      confidential: false,
+      confirguration: false,
+      systemInfo: {
+        accessInfo: {
+          mobile: true,
+          desktop: true,
+        },
+      },
+      validationLevel: 0,
+      version: 1,
+    };
+  }
   get UsersService() {
     return new UserService();
   }
