@@ -74,6 +74,8 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   };
 
   useEffect(() => {
+    console.log({selected: data.selected});
+
     setOriginalOptions(getSelectedItem(data.selected, data.list));
     setOptions(getSelectedItem(data.selected, data.list));
   }, [data, data.selected]);
