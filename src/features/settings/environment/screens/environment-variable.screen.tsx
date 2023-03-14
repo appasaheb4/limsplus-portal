@@ -11,6 +11,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetEnvironmentVariable} from '../startup';
 
 interface EnvironmentVariableProps {
   onModalConfirm?: (item: any) => void;
@@ -23,6 +24,7 @@ export const EnvironmentVariable = observer(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     const {loginStore, environmentStore, routerStore} = useStores();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
@@ -40,9 +42,9 @@ export const EnvironmentVariable = observer(
             Toast.success({
               message: `😊 ${res.createEnviroment.message}`,
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            setHideInputView(true);
+            reset();
+            resetEnvironmentVariable();
           }
         });
       } else {
@@ -71,14 +73,11 @@ export const EnvironmentVariable = observer(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Environment Variables'
                       name='txtEnvironmentVariable'
-                      value={
-                        environmentStore.environmentVariable
-                          ?.environmentVariable
-                      }
+                      value={value}
                       hasError={!!errors.environmentVariable}
                       placeholder={
                         errors.environmentVariable
@@ -128,12 +127,13 @@ export const EnvironmentVariable = observer(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Category'
                       hasError={!!errors.category}
                     >
                       <select
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.category
                             ? 'border-red-500  '
@@ -166,7 +166,7 @@ export const EnvironmentVariable = observer(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={3}
                       label='Description'
@@ -177,7 +177,7 @@ export const EnvironmentVariable = observer(
                           : 'Description'
                       }
                       hasError={!!errors.descriptions}
-                      //value={userStore.user.password}
+                      value={value}
                       onChange={descriptions => {
                         onChange(descriptions);
                         environmentStore.updatEnvironmentVariable({
@@ -195,7 +195,7 @@ export const EnvironmentVariable = observer(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -215,11 +215,11 @@ export const EnvironmentVariable = observer(
                   <Grid cols={4}>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Toggle
                           label='Lab'
                           hasError={!!errors.lab}
-                          value={environmentStore.environmentVariable?.allLabs}
+                          value={value}
                           onChange={allLabs => {
                             onChange(allLabs);
                             environmentStore.updatEnvironmentVariable({
@@ -236,10 +236,10 @@ export const EnvironmentVariable = observer(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Toggle
                           label='User'
-                          value={environmentStore.environmentVariable?.allUsers}
+                          value={value}
                           onChange={allUsers => {
                             onChange(allUsers);
                             environmentStore.updatEnvironmentVariable({
@@ -255,12 +255,10 @@ export const EnvironmentVariable = observer(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Toggle
                           label='Departmetn'
-                          value={
-                            environmentStore.environmentVariable?.allDepartment
-                          }
+                          value={value}
                           onChange={allDepartment => {
                             onChange(allDepartment);
                             environmentStore.updatEnvironmentVariable({

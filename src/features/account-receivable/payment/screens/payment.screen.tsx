@@ -21,6 +21,7 @@ import {lookupItems, lookupValue} from '@/library/utils';
 import {useStores} from '@/stores';
 import {PaymentList} from '../components';
 import {PaymentHoc} from '../hoc';
+import {resetPayment} from '../startup';
 
 const Payment = PaymentHoc(
   observer(() => {
@@ -39,6 +40,7 @@ const Payment = PaymentHoc(
       setValue,
       clearErrors,
       setError,
+      reset,
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);
@@ -67,9 +69,9 @@ const Payment = PaymentHoc(
             });
           }
         });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      setIsInputView(true);
+      reset();
+      resetPayment();
     };
 
     const getAmountPayable = payload => {
@@ -141,7 +143,7 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='PId' hasError={!!errors.pId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -156,7 +158,7 @@ const Payment = PaymentHoc(
                           displayKey: ['pId', 'customerName'],
                         }}
                         disable={false}
-                        displayValue={paymentStore.payment?.pId?.toString()}
+                        displayValue={value?.toString()}
                         hasError={!!errors.pId}
                         onFilter={(value: string) => {
                           // methodsStore.methodsService.filterByFields({
@@ -192,7 +194,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -207,7 +209,7 @@ const Payment = PaymentHoc(
                           displayKey: ['labId', 'customerName'],
                         }}
                         disable={false}
-                        displayValue={paymentStore.payment?.labId?.toString()}
+                        displayValue={value?.toString()}
                         hasError={!!errors.labId}
                         onFilter={(value: string) => {
                           // methodsStore.methodsService.filterByFields({
@@ -243,7 +245,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='RLab'
                       placeholder={'RLab'}
@@ -259,7 +261,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Invoice AC'
                       placeholder={'Invoice AC'}
@@ -275,7 +277,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Customer Name'
                       placeholder={'Customer Name'}
@@ -290,7 +292,7 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Customer Group'
                       placeholder={'Customer Group'}
@@ -305,7 +307,7 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='AC Class'
                       placeholder={'AC Class'}
@@ -321,7 +323,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Ac Type'
                       placeholder={'Ac Type'}
@@ -336,7 +338,7 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Other Charges'
                       placeholder={'Other Charges'}
@@ -351,7 +353,7 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Invoice Date'
                       placeholder={'Invoice Date'}
@@ -369,7 +371,7 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Gross Amount'
                       placeholder={'Gross Amount'}
@@ -385,7 +387,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Net Amount'
                       placeholder={'Net Amount'}
@@ -401,7 +403,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Discount Amount'
                       placeholder={'Discount Amount'}
@@ -417,7 +419,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Discount Per'
                       placeholder={'Discount Per'}
@@ -433,7 +435,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Miscellaneous Charges'
                       placeholder={'Miscellaneous Charges'}
@@ -481,10 +483,10 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Mode of payment'>
                       <select
-                        value={paymentStore.payment?.modeOfPayment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.modeOfPayment
                             ? 'border-red-500  '
@@ -518,12 +520,12 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       label='Payment Remark'
                       placeholder='Payment Remark'
                       hasError={!!errors.paymentRemark}
-                      value={paymentStore.payment?.paymentRemark}
+                      value={value}
                       onChange={paymentRemark => {
                         onChange(paymentRemark);
                         paymentStore.updatePayment({
@@ -540,7 +542,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Amount Payable'
                       placeholder={'Amount Payable'}
@@ -556,13 +558,13 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Received Amount'
                       placeholder={'Received Amount'}
                       type='number'
                       hasError={!!errors.receivedAmount}
-                      value={paymentStore.payment?.receivedAmount}
+                      value={value}
                       onChange={receivedAmount => {
                         if (
                           paymentStore.payment?.amountPayable -
@@ -606,7 +608,7 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Balance'
                       placeholder={'Balance'}
@@ -621,7 +623,7 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Status'
                       placeholder={'Status'}
@@ -636,7 +638,7 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={'Entered By'}
