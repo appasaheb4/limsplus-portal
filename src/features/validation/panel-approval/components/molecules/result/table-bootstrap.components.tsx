@@ -307,8 +307,25 @@ export const TableBootstrap = ({
   };
 
   const rowStyle = (row, rowIndex) => {
-    if (row._id == selectedItem?._id) {
-      return {backgroundColor: '#a9a9a9'};
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        break;
     }
   };
 

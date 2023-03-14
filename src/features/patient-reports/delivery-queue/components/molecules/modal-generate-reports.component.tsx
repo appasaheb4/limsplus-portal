@@ -13,6 +13,7 @@ import {
   PdfTemp0005,
   PdfTemp0006,
   PdfTemp0007,
+  PdfTemp0008,
 } from '@/features/report-builder/report-template/components';
 
 import printjs from 'print-js';
@@ -46,8 +47,6 @@ export const ModalGenerateReports = ({
   useEffect(() => {
     if (data) {
       let newObj = _.mapKeys(data, (value, key) => key.split(' -')[0]);
-      console.log({newObj});
-
       setReportList(newObj);
     }
   }, [data]);
@@ -203,6 +202,27 @@ export const ModalGenerateReports = ({
               />
             ),
           )}
+        {reports['TEMP0008'] &&
+          _.uniqBy(reportList['TEMP0008'], 'labId').map(
+            (patientReports: any) => (
+              <PdfTemp0008
+                data={{
+                  patientReports: {
+                    ...patientReports,
+                    patientResultList:
+                      patientReports?.patientResultList?.filter(
+                        item =>
+                          item?.reportTemplate?.split(' -')[0] == 'TEMP0008',
+                      ),
+                  },
+                  pageBranding: templateDetails?.find(
+                    item => item.templateCode == 'TEMP0008',
+                  ),
+                }}
+                isWithHeader={isWithHeader}
+              />
+            ),
+          )}
       </Document>
     );
   };
@@ -301,7 +321,7 @@ export const ModalGenerateReports = ({
                 </div>
                 <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>
                   <span className='text-red'>
-                    Note: Full Report opening new tab runtime
+                    Note: ResultType FR & BO report opening new tab runtime
                   </span>
                   <button
                     className='text-red background-transparent font-bold uppercase  text-sm outline-none focus:outline-none'
@@ -330,6 +350,10 @@ export const ModalGenerateReports = ({
         }}
         autoClose={
           _.has(reportList, 'TEMP0007')
+            ? _.size(reportList) == 1
+              ? true
+              : false
+            : _.has(reportList, 'TEMP0008')
             ? _.size(reportList) == 1
               ? true
               : false

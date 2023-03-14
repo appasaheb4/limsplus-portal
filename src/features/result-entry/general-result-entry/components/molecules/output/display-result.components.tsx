@@ -22,7 +22,8 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
       )}
       {row?.resultType !== 'M' &&
         row?.resultType !== 'V' &&
-        row?.resultType !== 'FR' && (
+        row?.resultType !== 'FR' &&
+        row?.resultType !== 'BO' && (
           <span>
             {row.result?.split('\n').map((str, index) => (
               <p key={index}>{str}</p>
@@ -50,7 +51,7 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
           }}
         />
       )}
-      {row?.resultType == 'FR' && !row.result && (
+      {(row?.resultType == 'FR' || row?.resultType == 'BO') && !row.result && (
         <Form.InputFile
           label='File'
           placeholder={'File'}
@@ -66,7 +67,7 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
           }}
         />
       )}
-      {row?.resultType == 'FR' && row?.result && (
+      {(row?.resultType == 'FR' || row?.resultType == 'BO') && row?.result && (
         <div className='flex'>
           <Tooltip tooltipText='Report'>
             <Icons.IconContext
@@ -78,7 +79,7 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
             >
               {Icons.getIconTag(Icons.IconBs.BsFilePdf)}
             </Icons.IconContext>
-            <span>
+            <span className='w-12'>
               {typeof row?.result == 'string' &&
                 row?.result
                   ?.split('/')

@@ -228,6 +228,15 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               ),
             },
             {
+              dataField: 'normalRange',
+              text: 'Normal Range',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return <span>{row?.loNor + ' - ' + row?.hiNor}</span>;
+              },
+            },
+            {
               dataField: 'labId',
               text: 'Lab Id',
               editable: false,
@@ -379,16 +388,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'species',
               text: 'Species',
-              editable: false,
-            },
-            {
-              dataField: 'loNor',
-              text: 'Lo Nor',
-              editable: false,
-            },
-            {
-              dataField: 'hiNor',
-              text: 'Hi Nor',
               editable: false,
             },
             {
