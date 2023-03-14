@@ -21,27 +21,6 @@ export class MasterPanelStore {
     this.sectionListByDeptCode = [];
     this.checkExitsLabEnvCode = false;
     this.masterPanelActivity = new MasterPanelActivity({});
-    this.masterPanel = {
-      ...this.masterPanel,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-      bill: true,
-      autoRelease: false,
-      holdOOS: false,
-      confidential: false,
-      urgent: false,
-      ageSexAction: false,
-      repitation: false,
-      printLabel: false,
-      method: false,
-      cumulative: false,
-      pageBreak: false,
-      validationLevel: 0,
-    };
     this.reset();
     makeObservable<MasterPanelStore, any>(this, {
       masterPanel: observable,

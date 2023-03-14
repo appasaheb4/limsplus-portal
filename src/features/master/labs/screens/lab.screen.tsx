@@ -46,6 +46,17 @@ const Lab = LabHoc(
 
     setValue('environment', labStore.labs?.environment);
     setValue('status', labStore.labs?.status);
+    setValue('country', labStore.labs?.country);
+    setValue('state', labStore.labs?.state);
+    setValue('district', labStore.labs?.district);
+    setValue('city', labStore.labs?.city);
+    setValue('area', labStore.labs?.area);
+    setValue('labType', labStore.labs?.labType);
+    setValue('openingTime', labStore.labs?.openingTime);
+    setValue('closingTime', labStore.labs?.closingTime);
+    setValue('reportFormat', labStore.labs?.reportFormat);
+    setValue('specificFormat', labStore.labs?.specificFormat);
+    setValue('priceList', labStore.labs?.priceList);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
@@ -333,7 +344,7 @@ const Lab = LabHoc(
                   )}
                   name='country'
                   rules={{required: false}}
-                  defaultValue={labStore.labs}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -356,7 +367,7 @@ const Lab = LabHoc(
                   )}
                   name='state'
                   rules={{required: false}}
-                  defaultValue={labStore.labs}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -379,7 +390,7 @@ const Lab = LabHoc(
                   )}
                   name='district'
                   rules={{required: false}}
-                  defaultValue={labStore.labs}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -402,7 +413,7 @@ const Lab = LabHoc(
                   )}
                   name='city'
                   rules={{required: false}}
-                  defaultValue={labStore.labs}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -425,7 +436,7 @@ const Lab = LabHoc(
                   )}
                   name='area'
                   rules={{required: false}}
-                  defaultValue={labStore.labs}
+                  defaultValue=''
                 />
 
                 <Controller

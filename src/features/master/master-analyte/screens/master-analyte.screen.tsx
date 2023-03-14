@@ -53,6 +53,14 @@ const MasterAnalyte = MasterAnalyteHoc(
     setValue('lab', loginStore.login.lab);
     setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
     setValue('status', masterAnalyteStore.masterAnalyte?.status);
+    setValue('resultType', masterAnalyteStore.masterAnalyte?.resultType);
+    setValue('reportable', masterAnalyteStore.masterAnalyte?.reportable);
+    setValue('analyteType', masterAnalyteStore.masterAnalyte?.analyteType);
+    setValue('usage', masterAnalyteStore.masterAnalyte?.usage);
+    setValue('dateExpire', masterAnalyteStore.masterAnalyte?.dateExpire);
+    setValue('version', masterAnalyteStore.masterAnalyte?.version);
+    setValue('dateCreation', masterAnalyteStore.masterAnalyte?.dateCreation);
+    setValue('dateActive', masterAnalyteStore.masterAnalyte?.dateActive);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
@@ -1403,7 +1411,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={masterAnalyteStore.masterAnalyte?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1422,7 +1430,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={masterAnalyteStore.masterAnalyte?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1436,11 +1444,11 @@ const MasterAnalyte = MasterAnalyteHoc(
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
-                        errors.schedule
+                        errors.dateExpire
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={!!errors.schedule}
+                      hasError={!!errors.dateExpire}
                       value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -1451,7 +1459,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                     />
                   )}
-                  name='schedule'
+                  name='dateExpire'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1464,7 +1472,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={masterAnalyteStore.masterAnalyte?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}

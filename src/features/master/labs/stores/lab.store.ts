@@ -15,17 +15,6 @@ export class LabStore {
 
   constructor() {
     this.listLabs = [];
-    this.labs = {
-      ...this.labs,
-      openingTime: dayjs().format('hh:mm a'),
-      closingTime: dayjs().format('hh:mm a'),
-      reportFormat: true,
-      printLable: false,
-      abnFlag: false,
-      critical: false,
-      priceList: [{id: 0, maxDis: 0}],
-      specificFormat: true,
-    };
     this.selectedItems = new SelectedItems({});
     this.reset();
     makeObservable<LabStore, any>(this, {
