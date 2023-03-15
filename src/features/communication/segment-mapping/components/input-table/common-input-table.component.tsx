@@ -80,7 +80,7 @@ export const CommonInputTable = observer(
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.instType ? 'border-red-500  ' : 'border-gray-300'
@@ -112,7 +112,7 @@ export const CommonInputTable = observer(
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.dataFlow ? 'border-red-500  ' : 'border-gray-300'
@@ -144,7 +144,7 @@ export const CommonInputTable = observer(
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.protocol ? 'border-red-500  ' : 'border-gray-300'

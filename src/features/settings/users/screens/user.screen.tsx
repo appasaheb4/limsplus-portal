@@ -28,6 +28,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetUser} from '../startup';
+import {SelectedItems} from '../models';
 
 export const Users = UsersHoc(
   observer(() => {
@@ -62,6 +63,11 @@ export const Users = UsersHoc(
     setValue('environment', userStore.user?.environment);
     setValue('userGroup', userStore.user?.userGroup);
     setValue('userModule', userStore.user?.userModule);
+    setValue('dateCreation', userStore.user?.dateCreation);
+    setValue('dateActive', userStore.user?.dateActive);
+    setValue('exipreDate', userStore.user?.exipreDate);
+    setValue('dateOfBirth', userStore.user?.dateOfBirth);
+    setValue('marriageAnniversary', userStore.user?.marriageAnniversary);
 
     const onSubmitUser = (data: any) => {
       if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
@@ -81,6 +87,7 @@ export const Users = UsersHoc(
               setHideAddUser(true);
               reset();
               resetUser();
+              userStore.updateSelectedItems(new SelectedItems({}));
             } else {
               Toast.error({
                 message: `😔 ${res.createUser.message}`,
@@ -1514,7 +1521,7 @@ export const Users = UsersHoc(
                     <Form.InputDateTime
                       label='Date Creation'
                       disabled={true}
-                      value={userStore.user?.dateCreation}
+                      value={value}
                     />
                   )}
                   name='dateCreation'
@@ -1527,7 +1534,7 @@ export const Users = UsersHoc(
                     <Form.InputDateTime
                       label='Date Active'
                       disabled={true}
-                      value={userStore.user?.dateActive}
+                      value={value}
                     />
                   )}
                   name='dateActive'
