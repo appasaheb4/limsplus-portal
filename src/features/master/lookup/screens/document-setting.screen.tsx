@@ -19,6 +19,7 @@ const router = dashboardRoutes;
 import {DocumentSettingHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {resetLookup} from '../startup';
+import {LocalInput} from '../models';
 
 interface NewFieldProps {
   onModalConfirm?: (item: any) => void;
@@ -50,6 +51,7 @@ export const DocumentSettings = DocumentSettingHoc(
             });
             reset();
             resetLookup();
+            lookupStore.updateLocalInput(new LocalInput({}));
           }
         });
       } else {
@@ -73,6 +75,7 @@ export const DocumentSettings = DocumentSettingHoc(
                   <AutocompleteGroupBy
                     hasError={!!errors.documentName}
                     data={router}
+                    displayValue={value}
                     onChange={async (item: any, children: any) => {
                       const documentName = {
                         name: item.name,
@@ -80,7 +83,7 @@ export const DocumentSettings = DocumentSettingHoc(
                         path: item.path,
                         children,
                       };
-                      onChange(documentName);
+                      onChange(documentName.name);
                       lookupStore.updateLookup({
                         ...lookupStore.lookup,
                         documentName,
@@ -250,7 +253,7 @@ export const DocumentSettings = DocumentSettingHoc(
                   label='Default Item'
                 >
                   <select
-                    value={value}
+                    // value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.defaultLab ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
@@ -314,7 +317,7 @@ export const DocumentSettings = DocumentSettingHoc(
               render={({field: {onChange, value}}) => (
                 <Form.InputWrapper label='Environment'>
                   <select
-                    value={value}
+                    // value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.environment ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}

@@ -18,20 +18,6 @@ export class MasterPackageStore {
     this.listMasterPackageCopy = [];
     this.listMasterPackageCount = 0;
     this.checkExitsLabEnvCode = false;
-    this.masterPackage = {
-      ...this.masterPackage,
-      packageInterpretation: true,
-      panelInterpretation: true,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-      bill: false,
-      printPackageName: false,
-      printPanelName: true,
-    };
     this.reset();
     makeObservable<MasterPackageStore, any>(this, {
       masterPackage: observable,

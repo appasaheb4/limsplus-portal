@@ -18,32 +18,6 @@ export class TestMasterStore {
     this.sectionListByDeptCode = [];
     this.checkExitsLabEnvCode = false;
     this.listTestMasterCount = 0;
-    this.testMaster = {
-      ...this.testMaster,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-      bill: false,
-      autoFinish: false,
-      holdOOS: false,
-      confidential: false,
-      urgent: false,
-      accredited: false,
-      abnFlag: false,
-      cretical: false,
-      repitation: false,
-      printLabel: false,
-      method: false,
-      cumulative: false,
-      qcHold: false,
-      oosHold: false,
-      deltaHold: false,
-      allowPartial: false,
-      validationLevel: 0,
-    };
     this.reset();
     makeObservable<TestMasterStore, any>(this, {
       testMaster: observable,

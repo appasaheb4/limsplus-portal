@@ -154,6 +154,7 @@ const Section = SectionHoc(
                       hasError={!!errors.departmentCode}
                     >
                       <AutoCompleteFilterSingleSelectDepartment
+                        displayValue={value}
                         onSelect={item => {
                           onChange(item.name);
                           sectionStore.updateSection({

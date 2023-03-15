@@ -51,6 +51,18 @@ const TestMater = TestMasterHOC(
     setValue('rLab', loginStore.login.lab);
     setValue('status', testMasterStore.testMaster?.status);
     setValue('environment', testMasterStore.testMaster?.environment);
+    setValue('validationLevel', testMasterStore.testMaster?.validationLevel);
+    setValue('processing', testMasterStore.testMaster?.processing);
+    setValue('workflow', testMasterStore.testMaster?.workflow);
+    setValue('disease', testMasterStore.testMaster?.disease);
+    setValue('category', testMasterStore.testMaster?.category);
+    setValue('testType', testMasterStore.testMaster?.testType);
+    setValue('prefix', testMasterStore.testMaster?.prefix);
+    setValue('sufix', testMasterStore.testMaster?.sufix);
+    setValue('dateCreation', testMasterStore.testMaster?.dateCreation);
+    setValue('dateExpire', testMasterStore.testMaster?.dateExpire);
+    setValue('version', testMasterStore.testMaster?.version);
+    setValue('dateActive', testMasterStore.testMaster?.dateActive);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
@@ -1634,7 +1646,7 @@ const TestMater = TestMasterHOC(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={testMasterStore.testMaster?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1653,7 +1665,7 @@ const TestMater = TestMasterHOC(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={testMasterStore.testMaster?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1695,7 +1707,7 @@ const TestMater = TestMasterHOC(
                         errors.version ? 'Please Enter version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={testMasterStore.testMaster?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}

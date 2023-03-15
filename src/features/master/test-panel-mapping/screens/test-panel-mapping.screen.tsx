@@ -33,6 +33,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetTestPanelMapping} from '../startup';
+import {SelectedItems} from '../models';
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -59,9 +60,25 @@ const TestPanelMapping = TestPanelMappingHoc(
       'environment',
       testPanelMappingStore.testPanelMapping?.environment,
     );
+    setValue(
+      'dateCreation',
+      testPanelMappingStore.testPanelMapping?.dateCreation,
+    );
+    setValue('dateExpire', testPanelMappingStore.testPanelMapping?.dateExpire);
+    setValue('version', testPanelMappingStore.testPanelMapping?.version);
+    setValue('dateActive', testPanelMappingStore.testPanelMapping?.dateActive);
+    setValue(
+      'printPanelName',
+      testPanelMappingStore.testPanelMapping?.printPanelName,
+    );
+    setValue(
+      'analyteInterpretation',
+      testPanelMappingStore.testPanelMapping?.analyteInterpretation,
+    );
+    setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
 
     const [masterFlag, setMasgterFlag] = useState<any>([
@@ -99,6 +116,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                 Toast.success({
                   message: `😊 ${res.createTestPanelMapping.message}`,
                 });
+                setIsInputView(true);
+                reset();
+                resetTestPanelMapping();
+                testPanelMappingStore.updateSelectedItems(
+                  new SelectedItems({}),
+                );
               }
             });
         } else if (
@@ -140,9 +163,6 @@ const TestPanelMapping = TestPanelMappingHoc(
               }
             });
         }
-        setIsInputView(true);
-        reset();
-        resetTestPanelMapping();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -360,6 +380,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
                         hasError={!!errors.panelCode}
+                        displayValue={value}
                         lab={testPanelMappingStore.testPanelMapping?.lab}
                         onSelect={item => {
                           onChange(item.panelName);
@@ -629,9 +650,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={
-                        testPanelMappingStore.testPanelMapping?.dateCreation
-                      }
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -953,7 +972,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={testPanelMappingStore.testPanelMapping?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -995,7 +1014,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         errors.version ? 'Please Enter version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={testPanelMappingStore.testPanelMapping?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}

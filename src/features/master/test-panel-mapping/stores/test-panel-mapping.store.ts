@@ -16,24 +16,7 @@ export class TestPanelMappingStore {
     this.selectedItems = new SelectedItems({});
     this.listTestPanelMappingCount = 0;
     this.checkExitsLabEnvCode = false;
-    this.testPanelMapping = {
-      ...this.testPanelMapping,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-      bill: false,
-      printTestName: false,
-      printPanelName: true,
-      panelMethod: true,
-      testMethod: false,
-      analyteMethod: false,
-      panelInterpretation: true,
-      testInterpretation: false,
-      analyteInterpretation: true,
-    };
+    this.reset();
     makeObservable<TestPanelMappingStore, any>(this, {
       testPanelMapping: observable,
       listTestPanelMapping: observable,
