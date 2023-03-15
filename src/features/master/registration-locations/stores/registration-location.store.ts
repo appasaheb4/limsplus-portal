@@ -16,22 +16,6 @@ export class RegistrationLocationsStore {
     this.listRegistrationLocationsCopy = [];
     this.listRegistrationLocationsCount = 0;
     this.checkExitsLabEnvCode = false;
-    this.registrationLocations = {
-      ...this.registrationLocations,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      ),
-      version: 1,
-      confidential: false,
-      printLabel: false,
-      neverBill: false,
-      urgent: false,
-      priceList: [{id: 0, maxDis: 0}],
-      isPrintPrimaryBarcod: false,
-      isPrintSecondaryBarcode: false,
-    };
     this.selectedItems = new SelectedItems({});
     this.reset();
 
@@ -58,6 +42,7 @@ export class RegistrationLocationsStore {
     this.registrationLocations = new RegistrationLocations({});
     this.listRegistrationLocations = [];
     this.listRegistrationLocationsCount = 0;
+    this.selectedItems = new SelectedItems({});
     this.registrationLocations = {
       ...this.registrationLocations,
       dateCreation: new Date(),

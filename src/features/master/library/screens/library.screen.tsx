@@ -51,6 +51,15 @@ export const Library = LibraryHoc(
     setValue('lab', loginStore.login.lab);
     setValue('status', libraryStore.library?.status);
     setValue('environment', libraryStore.library?.environment);
+    setValue('usageType', libraryStore.library?.usageType);
+    setValue('libraryType', libraryStore.library?.libraryType);
+    setValue('commentType', libraryStore.library?.commentType);
+    setValue('commentsTarget', libraryStore.library?.commentsTarget);
+    setValue('parameter', libraryStore.library?.parameter);
+    setValue('action', libraryStore.library?.action);
+    setValue('results', libraryStore.library?.results);
+    setValue('sex', libraryStore.library?.sex);
+    setValue('sexAction', libraryStore.library?.sexAction);
 
     const onSubmitLibrary = data => {
       if (!libraryStore.checkExistsLabEnvCode) {

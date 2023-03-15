@@ -15,18 +15,6 @@ export class DoctorsStore {
     this.listDoctorsCopy = [];
     this.listDoctorsCount = 0;
     this.checkExitsLabEnvCode = false;
-    this.doctors = {
-      ...this.doctors,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-      confidential: false,
-      urgent: false,
-      specificFormat: false,
-    };
     this.reset();
 
     makeObservable<DoctorsStore, any>(this, {

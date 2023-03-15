@@ -13,17 +13,6 @@ export class PossibleResultsStore {
     this.listPossibleResults = [];
     this.listPossibleResultsCount = 0;
     this.checkExistsRecords = false;
-    this.possibleResults = {
-      ...this.possibleResults,
-      abNormal: false,
-      critical: false,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-    };
     this.reset();
     makeObservable<PossibleResultsStore, any>(this, {
       listPossibleResults: observable,

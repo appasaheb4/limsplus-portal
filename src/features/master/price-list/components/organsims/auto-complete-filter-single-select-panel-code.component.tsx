@@ -7,12 +7,17 @@ import {Icons} from '@/library/components';
 interface AutoCompleteFilterSingleSelectPanelCodeProps {
   onSelect: (item: any) => void;
   hasError?: boolean;
+  displayValue?: string;
 }
 
 export const AutoCompleteFilterSingleSelectPanelCode = observer(
-  ({onSelect, hasError}: AutoCompleteFilterSingleSelectPanelCodeProps) => {
+  ({
+    onSelect,
+    hasError,
+    displayValue,
+  }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
     const {loading, masterPanelStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(displayValue!);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -37,6 +42,10 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
+
+    useEffect(() => {
+      setValue(displayValue!);
+    }, [displayValue]);
 
     useEffect(() => {
       setOptions(masterPanelStore.listMasterPanel);

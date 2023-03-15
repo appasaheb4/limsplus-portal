@@ -27,6 +27,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {FormHelper} from '@/helper';
 import {resetRegistrationLocation} from '../startup';
+import {SelectedItems} from '../models';
 
 const RegistrationLocation = RegistrationLocationHoc(
   observer(() => {
@@ -64,7 +65,61 @@ const RegistrationLocation = RegistrationLocationHoc(
       'accountType',
       registrationLocationsStore.registrationLocations?.accountType,
     );
-
+    setValue(
+      'acClass',
+      registrationLocationsStore.registrationLocations?.acClass,
+    );
+    setValue(
+      'accountType',
+      registrationLocationsStore.registrationLocations?.accountType,
+    );
+    setValue(
+      'customerGroup',
+      registrationLocationsStore.registrationLocations?.customerGroup,
+    );
+    setValue(
+      'methodColn',
+      registrationLocationsStore.registrationLocations?.methodColn,
+    );
+    setValue(
+      'category',
+      registrationLocationsStore.registrationLocations?.category,
+    );
+    setValue(
+      'postalCode',
+      registrationLocationsStore.registrationLocations?.postalCode,
+    );
+    setValue(
+      'country',
+      registrationLocationsStore.registrationLocations?.country,
+    );
+    setValue('state', registrationLocationsStore.registrationLocations?.state);
+    setValue(
+      'district',
+      registrationLocationsStore.registrationLocations?.district,
+    );
+    setValue('city', registrationLocationsStore.registrationLocations?.city);
+    setValue('area', registrationLocationsStore.registrationLocations?.area);
+    setValue(
+      'dateExpire',
+      registrationLocationsStore.registrationLocations?.dateExpire,
+    );
+    setValue(
+      'version',
+      registrationLocationsStore.registrationLocations?.version,
+    );
+    setValue(
+      'dateCreation',
+      registrationLocationsStore.registrationLocations?.dateCreation,
+    );
+    setValue(
+      'dateActive',
+      registrationLocationsStore.registrationLocations?.dateActive,
+    );
+    setValue(
+      'reportPriority',
+      registrationLocationsStore.registrationLocations?.reportPriority,
+    );
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
 
@@ -86,6 +141,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                 Toast.success({
                   message: `😊 ${res.createRegistrationLocation.message}`,
                 });
+                setHideAddSection(true);
+                reset();
+                resetRegistrationLocation();
+                registrationLocationsStore.updateSelectedItems(
+                  new SelectedItems({}),
+                );
               }
             });
         } else if (
@@ -127,9 +188,6 @@ const RegistrationLocation = RegistrationLocationHoc(
               }
             });
         }
-        setHideAddSection(true);
-        reset();
-        resetRegistrationLocation();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code!',
@@ -466,7 +524,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         displayValue={value}
                         hasError={!!errors.invoiceAc}
                         onFilter={(value: string) => {
-                          corporateClientsStore.corporateClientsService.filterByFields(
+                          registrationLocationsStore.registrationLocationsService.filterByFields(
                             {
                               input: {
                                 filter: {
@@ -753,9 +811,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   )}
                   name='postalCode'
                   rules={{required: false}}
-                  defaultValue={
-                    registrationLocationsStore.registrationLocations
-                  }
+                  defaultValue=''
                 />
 
                 <Controller
@@ -778,7 +834,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   )}
                   name='country'
                   rules={{required: false}}
-                  defaultValue={administrativeDivisions.listAdministrativeDiv}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -801,9 +857,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   )}
                   name='state'
                   rules={{required: false}}
-                  defaultValue={
-                    registrationLocationsStore.registrationLocations
-                  }
+                  defaultValue=''
                 />
 
                 <Controller
@@ -826,9 +880,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   )}
                   name='district'
                   rules={{required: false}}
-                  defaultValue={
-                    registrationLocationsStore.registrationLocations
-                  }
+                  defaultValue=''
                 />
 
                 <Controller
@@ -851,9 +903,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   )}
                   name='city'
                   rules={{required: false}}
-                  defaultValue={
-                    registrationLocationsStore.registrationLocations
-                  }
+                  defaultValue=''
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
@@ -877,9 +927,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   )}
                   name='area'
                   rules={{required: false}}
-                  defaultValue={
-                    registrationLocationsStore.registrationLocations
-                  }
+                  defaultValue=''
                 />
 
                 <Controller

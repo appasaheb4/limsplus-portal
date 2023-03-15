@@ -33,6 +33,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     setValue,
     clearErrors,
     setError,
+    reset,
   } = useForm({mode: 'all'});
   setValue('species', refernceRangesStore.referenceRanges?.species);
   setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
@@ -239,7 +240,6 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       });
                     }}
                     onSelect={item => {
-                      console.log({item});
                       onChange(item.code);
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
