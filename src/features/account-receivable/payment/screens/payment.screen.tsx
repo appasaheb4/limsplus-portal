@@ -47,6 +47,23 @@ const Payment = PaymentHoc(
     const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
 
     setValue('modeOfPayment', paymentStore.payment?.modeOfPayment);
+    setValue('invoiceAc', paymentStore.payment?.invoiceAC);
+    setValue('rLab', paymentStore.payment?.rLab);
+    setValue('customerName', paymentStore.payment?.customerName);
+    setValue('customerGroup', paymentStore.payment?.customerGroup);
+    setValue('acClass', paymentStore.payment?.acClass);
+    setValue('acType', paymentStore.payment?.acType);
+    setValue('otherCharges', paymentStore.payment?.discountCharges);
+    setValue('invoiceDate', paymentStore.payment?.invoiceDate);
+    setValue('grossAmount', paymentStore.payment?.grossAmount);
+    setValue('netAmount', paymentStore.payment?.netAmount);
+    setValue('discountAmount', paymentStore.payment?.discountAmount);
+    setValue('discountPer', paymentStore.payment?.discountPer);
+    setValue(
+      'miscellaneousCharges',
+      paymentStore.payment?.miscellaneousCharges,
+    );
+    setValue('amountPayable', paymentStore.payment?.amountPayable);
 
     useEffect(() => {
       paymentStore.updatePayment({
@@ -251,12 +268,12 @@ const Payment = PaymentHoc(
                       placeholder={'RLab'}
                       hasError={!!errors.rLab}
                       disabled={true}
-                      value={paymentStore.payment?.rLab}
+                      value={value}
                     />
                   )}
                   name='rLab'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.rLab}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -267,7 +284,7 @@ const Payment = PaymentHoc(
                       placeholder={'Invoice AC'}
                       hasError={!!errors.invoiceAC}
                       disabled={true}
-                      value={paymentStore.payment?.invoiceAC?.toString() || ''}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='invoiceAC'
@@ -283,12 +300,12 @@ const Payment = PaymentHoc(
                       placeholder={'Customer Name'}
                       hasError={!!errors.customerName}
                       disabled={true}
-                      value={paymentStore.payment?.customerName}
+                      value={value}
                     />
                   )}
                   name='customerName'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.customerName}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
@@ -298,12 +315,12 @@ const Payment = PaymentHoc(
                       placeholder={'Customer Group'}
                       hasError={!!errors.customerGroup}
                       disabled={true}
-                      value={paymentStore.payment?.customerGroup}
+                      value={value}
                     />
                   )}
                   name='customerGroup'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.customerGroup}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
@@ -313,12 +330,12 @@ const Payment = PaymentHoc(
                       placeholder={'AC Class'}
                       hasError={!!errors.acClass}
                       disabled={true}
-                      value={paymentStore.payment?.acClass}
+                      value={value}
                     />
                   )}
                   name='acClass'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.acClass}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -329,12 +346,12 @@ const Payment = PaymentHoc(
                       placeholder={'Ac Type'}
                       hasError={!!errors.acType}
                       disabled={true}
-                      value={paymentStore.payment?.acType}
+                      value={value}
                     />
                   )}
                   name='acType'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.acType}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
@@ -344,12 +361,12 @@ const Payment = PaymentHoc(
                       placeholder={'Other Charges'}
                       hasError={!!errors.discountCharges}
                       disabled={true}
-                      value={paymentStore.payment?.discountCharges}
+                      value={value}
                     />
                   )}
                   name='discountCharges'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.discountCharges}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
@@ -359,12 +376,12 @@ const Payment = PaymentHoc(
                       placeholder={'Invoice Date'}
                       hasError={!!errors.invoiceDate}
                       disabled={true}
-                      value={paymentStore.payment?.invoiceDate}
+                      value={value}
                     />
                   )}
                   name='invoiceDate'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.invoiceDate}
+                  defaultValue=''
                 />
               </List>
 
@@ -377,12 +394,12 @@ const Payment = PaymentHoc(
                       placeholder={'Gross Amount'}
                       hasError={!!errors.grossAmount}
                       disabled={true}
-                      value={paymentStore.payment?.grossAmount?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='grossAmount'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.grossAmount}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -393,12 +410,12 @@ const Payment = PaymentHoc(
                       placeholder={'Net Amount'}
                       hasError={!!errors.netAmount}
                       disabled={true}
-                      value={paymentStore.payment?.netAmount?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='netAmount'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.netAmount}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -409,12 +426,12 @@ const Payment = PaymentHoc(
                       placeholder={'Discount Amount'}
                       hasError={!!errors.discountAmount}
                       disabled={true}
-                      value={paymentStore.payment?.discountAmount?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='discountAmount'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.discountAmount}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -425,12 +442,12 @@ const Payment = PaymentHoc(
                       placeholder={'Discount Per'}
                       hasError={!!errors.discountPer}
                       disabled={true}
-                      value={paymentStore.payment?.discountPer?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='discountPer'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.discountPer}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -441,12 +458,12 @@ const Payment = PaymentHoc(
                       placeholder={'Miscellaneous Charges'}
                       hasError={!!errors.miscellaneousCharges}
                       disabled={true}
-                      value={paymentStore.payment?.miscellaneousCharges?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='miscellaneousCharges'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.miscellaneousCharges}
+                  defaultValue=''
                 />
                 <Table striped bordered>
                   <thead>
@@ -537,7 +554,7 @@ const Payment = PaymentHoc(
                   )}
                   name='paymentRemark'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.paymentRemark}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -548,12 +565,12 @@ const Payment = PaymentHoc(
                       placeholder={'Amount Payable'}
                       hasError={!!errors.amountPayable}
                       disabled={true}
-                      value={paymentStore.payment?.amountPayable?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='amountPayable'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.amountPayable}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -614,12 +631,12 @@ const Payment = PaymentHoc(
                       placeholder={'Balance'}
                       type='number'
                       hasError={!!errors.balance}
-                      value={paymentStore.payment?.balance?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='balance'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.balance}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
@@ -628,13 +645,13 @@ const Payment = PaymentHoc(
                       label='Status'
                       placeholder={'Status'}
                       hasError={!!errors.status}
-                      value={paymentStore.payment?.status}
+                      value={value}
                       disabled={true}
                     />
                   )}
                   name='status'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.status}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
