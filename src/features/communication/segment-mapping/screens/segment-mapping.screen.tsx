@@ -26,6 +26,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetSegmentMapping} from '../startup';
 
 const SegmentMapping = SegmentMappingHoc(
   observer(() => {
@@ -40,6 +41,7 @@ const SegmentMapping = SegmentMappingHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     const [modalImportFile, setModalImportFile] = useState({});
     const [hideAddSegmentMapping, setHideAddSegmentMapping] =
@@ -175,9 +177,10 @@ const SegmentMapping = SegmentMappingHoc(
                 message: `😊 ${res.createSegmentMapping.message}`,
               });
               if (saveTitle === 'Save') {
-                setTimeout(() => {
-                  window.location.reload();
-                }, 2000);
+                setHideAddSegmentMapping(true);
+                reset();
+                resetSegmentMapping();
+                segmentMappingStore.updateSegmentMapping([]);
               }
             }
           });

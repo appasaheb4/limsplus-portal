@@ -64,6 +64,10 @@ const InterfaceManager = InterfaceManagerHoc(
               setHideAddInterfaceManager(true);
               reset();
               resetInterfaceManager();
+              interfaceManagerStore.updateInterfaceManager({
+                ...interfaceManagerStore.interfaceManager,
+                fileds: [],
+              });
             }
           });
       } else {
