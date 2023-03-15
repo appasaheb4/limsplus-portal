@@ -24,6 +24,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetTestSampleMapping} from '../startup';
+import {LocalInput} from '../models';
 
 const TestSampleMapping = TestSampleMappingHoc(
   observer(() => {
@@ -48,6 +49,18 @@ const TestSampleMapping = TestSampleMappingHoc(
       'environment',
       testSampleMappingStore.testSampleMapping?.environment,
     );
+    setValue(
+      'minDrawVolUnit',
+      testSampleMappingStore.testSampleMapping?.minDrawVolUnit,
+    );
+    setValue(
+      'minTestVolUnit',
+      testSampleMappingStore.testSampleMapping?.minTestVolUnit,
+    );
+    setValue(
+      'repentionUnits',
+      testSampleMappingStore.testSampleMapping?.repentionUnits,
+    );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
@@ -65,6 +78,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               setHideAddLab(true);
               reset();
               resetTestSampleMapping();
+              testSampleMappingStore.updateLocalInput(new LocalInput({}));
             }
           });
       } else {

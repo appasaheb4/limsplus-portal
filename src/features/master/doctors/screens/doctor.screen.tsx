@@ -47,6 +47,21 @@ const Doctors = DoctorsHoc(
 
     setValue('status', doctorsStore.doctors?.status);
     setValue('environment', doctorsStore.doctors?.environment);
+    setValue('title', doctorsStore.doctors?.title);
+    setValue('doctorType', doctorsStore.doctors?.doctorType);
+    setValue('speciality', doctorsStore.doctors?.speciality);
+    setValue('category', doctorsStore.doctors?.category);
+    setValue('postalCode', doctorsStore.doctors?.postalCode);
+    setValue('country', doctorsStore.doctors?.country);
+    setValue('state', doctorsStore.doctors?.state);
+    setValue('district', doctorsStore.doctors?.district);
+    setValue('city', doctorsStore.doctors?.city);
+    setValue('area', doctorsStore.doctors?.area);
+    setValue('reportPriority', doctorsStore.doctors?.reportPriority);
+    setValue('dateCreation', doctorsStore.doctors?.dateCreation);
+    setValue('dateExpire', doctorsStore.doctors?.dateExpire);
+    setValue('version', doctorsStore.doctors?.version);
+    setValue('dateActive', doctorsStore.doctors?.dateActive);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
@@ -567,7 +582,7 @@ const Doctors = DoctorsHoc(
                   )}
                   name='postalCode'
                   rules={{required: false}}
-                  defaultValue={doctorsStore.doctors.area}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -590,7 +605,7 @@ const Doctors = DoctorsHoc(
                   )}
                   name='country'
                   rules={{required: false}}
-                  defaultValue={doctorsStore.doctors}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -613,7 +628,7 @@ const Doctors = DoctorsHoc(
                   )}
                   name='state'
                   rules={{required: false}}
-                  defaultValue={doctorsStore.doctors}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -636,7 +651,7 @@ const Doctors = DoctorsHoc(
                   )}
                   name='district'
                   rules={{required: false}}
-                  defaultValue={doctorsStore.doctors}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -659,7 +674,7 @@ const Doctors = DoctorsHoc(
                   )}
                   name='city'
                   rules={{required: false}}
-                  defaultValue={doctorsStore.doctors}
+                  defaultValue=''
                 />
 
                 <Controller
@@ -682,7 +697,7 @@ const Doctors = DoctorsHoc(
                   )}
                   name='area'
                   rules={{required: false}}
-                  defaultValue={doctorsStore.doctors}
+                  defaultValue=''
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>

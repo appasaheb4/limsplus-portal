@@ -16,17 +16,6 @@ export class TestSampleMappingStore {
     this.checkExitsTestSampleEnvCode = false;
     this.localInput = new LocalInput({});
     this.departments = undefined;
-    this.testSampleMapping = {
-      ...this.testSampleMapping,
-      primaryContainer: false,
-      uniqueContainer: false,
-      centerIfuge: false,
-      aliquot: false,
-      labSpecfic: false,
-      departmentSpecfic: false,
-      sharedSample: false,
-      printLabels: false,
-    };
     this.reset();
     makeObservable<TestSampleMappingStore, any>(this, {
       listTestSampleMapping: observable,
@@ -52,6 +41,7 @@ export class TestSampleMappingStore {
     this.testSampleMapping = new TestSampleMapping({});
     this.listTestSampleMapping = [];
     this.listTestSampleMappingCount = 0;
+    this.localInput = new LocalInput({});
     this.testSampleMapping = {
       ...this.testSampleMapping,
       primaryContainer: false,

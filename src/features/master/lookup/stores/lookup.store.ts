@@ -52,6 +52,7 @@ export class LookupStore {
     this.lookup = new Lookup({});
     this.listLookup = [];
     this.listLookupCount = 0;
+    this.localInput = new LocalInput({});
   }
 
   fetchListLookup(page?, limit?) {
