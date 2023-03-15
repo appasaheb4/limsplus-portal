@@ -52,6 +52,11 @@ export const PriceList = PriceListHoc(
     setValue('priceList', priceListStore.priceList?.priceList);
     setValue('status', priceListStore.priceList?.status);
     setValue('environment', priceListStore.priceList?.environment);
+    setValue('description', priceListStore.priceList?.description);
+    setValue('dateExpire', priceListStore.priceList?.dateExpire);
+    setValue('version', priceListStore.priceList?.version);
+    setValue('dateCreation', priceListStore.priceList?.dateCreation);
+    setValue('dateActive', priceListStore.priceList?.dateActive);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
@@ -89,7 +94,6 @@ export const PriceList = PriceListHoc(
               },
             })
             .then(res => {
-              console.log({res});
               if (res.versionUpgradePriceList.success) {
                 Toast.success({
                   message: `😊 ${res.versionUpgradePriceList.message}`,
@@ -334,7 +338,7 @@ export const PriceList = PriceListHoc(
                             list: corporateClientsStore?.listCorporateClients,
                             displayKey: ['invoiceAc', 'corporateName'],
                           }}
-                          displayValue={value}
+                          // displayValue={value}
                           hasError={!!errors.priceList}
                           onFilter={(value: string) => {
                             corporateClientsStore.corporateClientsService.filterByFields(
@@ -476,8 +480,9 @@ export const PriceList = PriceListHoc(
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
                         hasError={!!errors.panelCode}
+                        displayValue={value}
                         onSelect={item => {
-                          onChange(item.panelName);
+                          onChange(item.panelCode);
                           setValue('panelName', item.panelName);
                           priceListStore.updatePriceList({
                             ...priceListStore.priceList,
@@ -547,7 +552,7 @@ export const PriceList = PriceListHoc(
                       label='Panel Name'
                       name='txtPanelName'
                       disabled={true}
-                      value={priceListStore.priceList?.panelName}
+                      value={value}
                       placeholder={
                         errors.panelName
                           ? 'Please Enter Panel Name'
@@ -757,7 +762,7 @@ export const PriceList = PriceListHoc(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={priceListStore.priceList?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -776,7 +781,7 @@ export const PriceList = PriceListHoc(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={priceListStore.priceList?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -790,11 +795,11 @@ export const PriceList = PriceListHoc(
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
-                        errors.dateExpiry
+                        errors.dateExpire
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={!!errors.dateExpiry}
+                      hasError={!!errors.dateExpire}
                       value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -805,7 +810,7 @@ export const PriceList = PriceListHoc(
                       }}
                     />
                   )}
-                  name='dateExpiry'
+                  name='dateExpire'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -818,7 +823,7 @@ export const PriceList = PriceListHoc(
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={priceListStore.priceList?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}

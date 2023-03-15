@@ -12,15 +12,6 @@ export class SalesTeamStore {
 
   constructor() {
     this.listSalesTeam = [];
-    this.salesTeam = new SalesTeam({
-      ...this.salesTeam,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-    });
     this.reset();
     makeObservable<SalesTeamStore, any>(this, {
       listSalesTeam: observable,

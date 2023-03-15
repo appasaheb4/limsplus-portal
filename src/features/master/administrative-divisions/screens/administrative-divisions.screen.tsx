@@ -37,6 +37,8 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
       'environment',
       administrativeDivisions.administrativeDiv?.environment,
     );
+    setValue('sbu', administrativeDivisions.administrativeDiv?.sbu);
+    setValue('zone', administrativeDivisions.administrativeDiv?.zone);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);

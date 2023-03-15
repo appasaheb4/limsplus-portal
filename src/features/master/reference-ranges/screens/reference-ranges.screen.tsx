@@ -21,6 +21,8 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetReferenceRange} from '../startup';
+import {ReferenceRanges as Model} from '../models';
 
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {
@@ -67,9 +69,12 @@ const ReferenceRanges = ReferenceRangesHoc(
                   Toast.success({
                     message: `😊 ${res.createReferenceRange.message}`,
                   });
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 2000);
+                  setHideAddLab(true);
+                  resetReferenceRange();
+                  refernceRangesStore.updateReferenceRanges({
+                    ...refernceRangesStore.referenceRanges,
+                    refRangesInputList: [],
+                  });
                 } else {
                   Toast.error({
                     message: `😔 ${res.createReferenceRange.message}`,

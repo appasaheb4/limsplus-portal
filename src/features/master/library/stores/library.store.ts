@@ -14,10 +14,6 @@ export class LibraryStore {
     this.listLibraryCopy = [];
     this.listLibraryCount = 0;
     this.checkExistsLabEnvCode = false;
-    this.library = {
-      ...this.library,
-      abNormal: false,
-    };
     this.reset();
     makeObservable<LibraryStore, any>(this, {
       library: observable,

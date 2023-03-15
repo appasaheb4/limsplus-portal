@@ -39,6 +39,14 @@ export const PossibleResults = PossibleResultHoc(
 
     setValue('environment', possibleResultsStore.possibleResults?.environment);
     setValue('status', possibleResultsStore.possibleResults?.status);
+    setValue('dateExpire', possibleResultsStore.possibleResults?.dateExpire);
+    setValue('version', possibleResultsStore.possibleResults?.version);
+    setValue(
+      'dateCreation',
+      possibleResultsStore.possibleResults?.dateCreation,
+    );
+    setValue('dateActive', possibleResultsStore.possibleResults?.dateActive);
+    setValue('analyteName', possibleResultsStore.possibleResults?.analyteName);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLookup, setHideAddLookup] = useState<boolean>(true);
@@ -435,7 +443,7 @@ export const PossibleResults = PossibleResultHoc(
                       label='Default Conclusion'
                     >
                       <select
-                        value={value}
+                        // value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.defaultLab
                             ? 'border-red-500'
@@ -449,7 +457,7 @@ export const PossibleResults = PossibleResultHoc(
                             abNormal: defaultConclusion.abNormal,
                             critical: defaultConclusion.critical,
                           };
-                          onChange(defaultConclusion);
+                          onChange(defaultConclusion?.result);
                           possibleResultsStore.updatePossibleResults({
                             ...possibleResultsStore.possibleResults,
                             defaultConclusion,
@@ -576,7 +584,7 @@ export const PossibleResults = PossibleResultHoc(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={possibleResultsStore.possibleResults?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -595,7 +603,7 @@ export const PossibleResults = PossibleResultHoc(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={possibleResultsStore.possibleResults?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -609,11 +617,11 @@ export const PossibleResults = PossibleResultHoc(
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
-                        errors.schedule
+                        errors.dateExpire
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={!!errors.schedule}
+                      hasError={!!errors.dateExpire}
                       value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -624,7 +632,7 @@ export const PossibleResults = PossibleResultHoc(
                       }}
                     />
                   )}
-                  name='schedule'
+                  name='dateExpire'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -637,7 +645,7 @@ export const PossibleResults = PossibleResultHoc(
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={possibleResultsStore.possibleResults?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}
