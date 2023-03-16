@@ -22,6 +22,7 @@ import {useStores} from '@/stores';
 import {PaymentList} from '../components';
 import {PaymentHoc} from '../hoc';
 import {resetPayment} from '../startup';
+import {Payment as Model} from '../models';
 
 const Payment = PaymentHoc(
   observer(() => {
@@ -64,6 +65,8 @@ const Payment = PaymentHoc(
       paymentStore.payment?.miscellaneousCharges,
     );
     setValue('amountPayable', paymentStore.payment?.amountPayable);
+    setValue('status', paymentStore.payment?.status);
+    setValue('balance', paymentStore.payment?.balance);
 
     useEffect(() => {
       paymentStore.updatePayment({
@@ -84,11 +87,13 @@ const Payment = PaymentHoc(
             Toast.success({
               message: `😊 ${res.createPayment.message}`,
             });
+            setIsInputView(true);
+            reset();
+            resetPayment();
+            setTotalReceivedAmount(0);
+            paymentStore.updatePayment(new Model({}));
           }
         });
-      setIsInputView(true);
-      reset();
-      resetPayment();
     };
 
     const getAmountPayable = payload => {
@@ -284,7 +289,7 @@ const Payment = PaymentHoc(
                       placeholder={'Invoice AC'}
                       hasError={!!errors.invoiceAC}
                       disabled={true}
-                      value={value?.toString() || ''}
+                      value={value}
                     />
                   )}
                   name='invoiceAC'
@@ -581,7 +586,7 @@ const Payment = PaymentHoc(
                       placeholder={'Received Amount'}
                       type='number'
                       hasError={!!errors.receivedAmount}
-                      value={value}
+                      // value={value}
                       onChange={receivedAmount => {
                         if (
                           paymentStore.payment?.amountPayable -
