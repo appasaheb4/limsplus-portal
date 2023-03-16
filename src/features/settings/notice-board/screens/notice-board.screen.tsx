@@ -59,7 +59,7 @@ const NoticeBoard = NoticeBoardHoc(
     const tableView = useMemo(
       () => (
         <NoticeBoardsList
-          data={noticeBoardStore.noticeBoardList}
+          data={noticeBoardStore.noticeBoardList || []}
           totalSize={noticeBoardStore.noticeBoardListCount}
           extraData={{
             listLabs: labStore.listLabs,
