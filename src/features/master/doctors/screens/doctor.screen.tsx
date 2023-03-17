@@ -1194,11 +1194,11 @@ const Doctors = DoctorsHoc(
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
-                        errors.dateActiveTo
+                        errors.dateExpire
                           ? 'Please Enter DateActiveTo'
                           : 'DateActiveTo'
                       }
-                      hasError={!!errors.dateActiveTo}
+                      hasError={!!errors.dateExpire}
                       value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
@@ -1209,7 +1209,7 @@ const Doctors = DoctorsHoc(
                       }}
                     />
                   )}
-                  name='dateActiveTo'
+                  name='dateExpire'
                   rules={{required: false}}
                   defaultValue=''
                 />

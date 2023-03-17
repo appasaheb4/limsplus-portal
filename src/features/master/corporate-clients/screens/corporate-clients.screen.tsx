@@ -80,6 +80,13 @@ const CorporateClients = CorporateClientsHoc(
       'deliveryMode',
       corporateClientsStore.corporateClients?.deliveryMode,
     );
+    setValue('dateExpire', corporateClientsStore.corporateClients?.dateExpire);
+    setValue('version', corporateClientsStore.corporateClients?.version);
+    setValue(
+      'dateCreation',
+      corporateClientsStore.corporateClients?.dateCreation,
+    );
+    setValue('dateActive', corporateClientsStore.corporateClients?.dateActive);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
@@ -1242,7 +1249,7 @@ const CorporateClients = CorporateClientsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -1251,9 +1258,7 @@ const CorporateClients = CorporateClientsHoc(
                           : 'Created By'
                       }
                       hasError={!!errors.dateCreation}
-                      value={
-                        corporateClientsStore.corporateClients?.dateCreation
-                      }
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1264,7 +1269,7 @@ const CorporateClients = CorporateClientsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       hasError={!!errors.dateActive}
@@ -1273,7 +1278,7 @@ const CorporateClients = CorporateClientsHoc(
                           ? 'Please Enter Date Active'
                           : 'Date Active'
                       }
-                      value={corporateClientsStore.corporateClients?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1284,7 +1289,7 @@ const CorporateClients = CorporateClientsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       hasError={!!errors.dateExpire}
@@ -1293,7 +1298,7 @@ const CorporateClients = CorporateClientsHoc(
                           ? 'Please Enter Date Expire'
                           : 'Date Expire'
                       }
-                      value={corporateClientsStore.corporateClients?.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         corporateClientsStore.updateCorporateClients({
                           ...corporateClientsStore.corporateClients,
