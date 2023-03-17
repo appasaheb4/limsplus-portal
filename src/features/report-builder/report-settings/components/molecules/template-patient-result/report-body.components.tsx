@@ -4,15 +4,17 @@ import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 
 interface ReportBodyComponentsProps {
+  displayValue?: string;
   onSelect: (item) => void;
 }
 
 export const ReportBodyComponents = observer(
-  ({onSelect}: ReportBodyComponentsProps) => {
+  ({onSelect, displayValue}: ReportBodyComponentsProps) => {
     const {loading, reportSettingStore} = useStores();
     return (
       <div>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+          displayValue={displayValue}
           loader={loading}
           placeholder='Report Body'
           data={{

@@ -798,7 +798,7 @@ const Lab = LabHoc(
                   )}
                   name='defaultLab'
                   rules={{required: true}}
-                  defaultValue={labStore.listLabs}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}

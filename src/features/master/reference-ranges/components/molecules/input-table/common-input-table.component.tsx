@@ -207,7 +207,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='analyte'
                 rules={{required: true}}
-                defaultValue={masterAnalyteStore.listMasterAnalyte}
+                defaultValue=''
               />
             </td>
             <td>
@@ -258,7 +258,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='department'
                 rules={{required: true}}
-                defaultValue={departmentStore.listDepartment}
+                defaultValue=''
               />
             </td>
             <td>
@@ -406,7 +406,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='lab'
                 rules={{required: !isDisableLab}}
-                defaultValue={labStore.listLabs || isDisableLab}
+                defaultValue=''
               />
             </td>
             <td>
@@ -451,10 +451,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='equipmentType'
                 rules={{required: !isDisableEquipmentType}}
-                defaultValue={
-                  interfaceManagerStore.listInterfaceManager ||
-                  isDisableEquipmentType
-                }
+                defaultValue=''
               />
             </td>
           </tr>

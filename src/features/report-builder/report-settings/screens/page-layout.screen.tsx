@@ -23,6 +23,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
 import {PdfTSTemp0001} from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
+import {resetReportBody} from '../startup';
 
 export const PageLayout = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
@@ -33,6 +34,7 @@ export const PageLayout = observer(() => {
     setValue,
     setError,
     clearErrors,
+    reset,
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
@@ -56,10 +58,10 @@ export const PageLayout = observer(() => {
           Toast.success({
             message: `😊 ${res.createTemplateSetting.message}`,
           });
+          setIsInputView(true);
+          reset();
+          resetReportBody();
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       });
   };
 
@@ -84,12 +86,12 @@ export const PageLayout = observer(() => {
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Layout Code'
                       placeholder='Layout code'
                       hasError={!!errors.tempCode}
-                      value={reportSettingStore.pageLayout?.tempCode}
+                      value={value}
                       onChange={tempCode => {
                         onChange(tempCode);
                         reportSettingStore.updatePageLayout({
@@ -132,12 +134,12 @@ export const PageLayout = observer(() => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Layout Name'
                       placeholder='Layout Name'
                       hasError={!!errors.tempName}
-                      value={reportSettingStore.pageLayout?.tempName}
+                      value={value}
                       onChange={tempName => {
                         onChange(tempName);
                         reportSettingStore.updatePageLayout({
@@ -181,11 +183,11 @@ export const PageLayout = observer(() => {
                 <Grid cols={2}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Show tool bar'
                         hasError={!!errors.isToolBar}
-                        value={reportSettingStore.pageLayout?.isToolbar}
+                        value={value}
                         onChange={isToolbar => {
                           onChange(isToolbar);
                           reportSettingStore.updatePageLayout({
@@ -201,11 +203,11 @@ export const PageLayout = observer(() => {
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Background Image Visible'
                         hasError={!!errors.isBackgroundImage}
-                        value={reportSettingStore.pageLayout?.isBackgroundImage}
+                        value={value}
                         onChange={isBackgroundImage => {
                           onChange(isBackgroundImage);
                           reportSettingStore.updatePageLayout({
@@ -222,11 +224,12 @@ export const PageLayout = observer(() => {
                 </Grid>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputFile
                       label='Background Image'
                       placeholder='Background Image'
                       hasError={!!errors.backgroundImage}
+                      value={value ? value.fileName : ''}
                       onChange={async e => {
                         const backgroundImage = e.target.files[0];
                         onChange(backgroundImage);
@@ -245,13 +248,13 @@ export const PageLayout = observer(() => {
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Page Size'
                       hasError={!!errors.pageSize}
                     >
                       <select
-                        value={reportSettingStore.pageLayout?.pageSize}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.pageSize
                             ? 'border-red-500  '
@@ -333,14 +336,14 @@ export const PageLayout = observer(() => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       label='Main Box CSS'
                       style={{color: '#ffffff', backgroundColor: '#000000'}}
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={reportSettingStore.pageLayout?.mainBoxCSS}
+                      value={value}
                       onChange={mainBoxCSS => {
                         reportSettingStore.updatePageLayout({
                           ...reportSettingStore.pageLayout,

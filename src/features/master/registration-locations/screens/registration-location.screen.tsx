@@ -1468,7 +1468,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder='Date Expire'
-                      hasError={!!errors.dateActiveTo}
+                      hasError={!!errors.dateExpire}
                       value={value}
                       onChange={dateExpire => {
                         registrationLocationsStore.updateRegistrationLocations({
@@ -1478,7 +1478,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       }}
                     />
                   )}
-                  name='dateActiveTo'
+                  name='dateExpire'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1489,10 +1489,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       label='Version'
                       placeholder='Version'
                       hasError={!!errors.version}
-                      value={
-                        registrationLocationsStore.registrationLocations
-                          ?.version
-                      }
+                      value={value}
                       disabled={true}
                     />
                   )}

@@ -296,7 +296,7 @@ export const SalesTeam = SalesTeamHoc(
                   )}
                   name='empCode'
                   rules={{required: true}}
-                  defaultValue={userStore.userList}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}

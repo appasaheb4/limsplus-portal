@@ -1821,7 +1821,7 @@ const MasterPanel = MasterPanelHoc(
                   )}
                   name='interpretation'
                   rules={{required: false}}
-                  defaultValue={libraryStore.listLibrary}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
