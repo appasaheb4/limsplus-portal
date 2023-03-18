@@ -5,9 +5,10 @@ import {
   TableBootstrap,
   sortCaret,
   textFilter,
-  Form,
+  customFilter,
   Tooltip,
   Icons,
+  NumberFilter,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
@@ -36,6 +37,7 @@ interface TransmittedMessageListProps {
   getAnalyteDetails?: (testCode: string) => void;
 }
 
+let labId;
 let instType;
 let instId;
 let protocol;
@@ -74,6 +76,22 @@ export const TransmittedMessageList = observer(
               text: 'Id',
               hidden: true,
               csvExport: false,
+            },
+            {
+              dataField: 'labId',
+              text: 'Lab Id',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              headerClasses: 'textHeader3',
+              filter: textFilter({
+                getFilter: filter => {
+                  labId = filter;
+                },
+              }),
             },
             {
               dataField: 'instType',
@@ -282,6 +300,7 @@ export const TransmittedMessageList = observer(
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
+            labId('');
             instType('');
             instId('');
             protocol('');

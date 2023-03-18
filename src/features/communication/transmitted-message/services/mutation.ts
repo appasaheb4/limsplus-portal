@@ -10,6 +10,7 @@ export const LIST = gql`
       message
       data {
         _id
+        labId
         instType
         instId
         protocol
@@ -79,6 +80,7 @@ export const FILTER = gql`
       message
       data {
         _id
+        labId
         instType
         instId
         protocol
@@ -103,6 +105,7 @@ export const FIND_BY_FIELDS = gql`
       message
       data {
         _id
+        labId
         index
         key
         pLab
