@@ -18,6 +18,8 @@ import {dashboardRouter as dashboardRoutes} from '@/routes';
 const router = dashboardRoutes;
 import {DocumentSettingHoc} from '../hoc';
 import {useStores} from '@/stores';
+import {resetLookup} from '../startup';
+import {LocalInput} from '../models';
 
 interface NewFieldProps {
   onModalConfirm?: (item: any) => void;
@@ -31,6 +33,7 @@ export const DocumentSettings = DocumentSettingHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('environment', lookupStore.lookup?.environment);
@@ -46,9 +49,9 @@ export const DocumentSettings = DocumentSettingHoc(
             Toast.success({
               message: `😊 ${res.createLookup.message}`,
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            reset();
+            resetLookup();
+            lookupStore.updateLocalInput(new LocalInput({}));
           }
         });
       } else {
@@ -64,7 +67,7 @@ export const DocumentSettings = DocumentSettingHoc(
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.InputWrapper
                   hasError={!!errors.documentName}
                   label='Document Name'
@@ -72,6 +75,7 @@ export const DocumentSettings = DocumentSettingHoc(
                   <AutocompleteGroupBy
                     hasError={!!errors.documentName}
                     data={router}
+                    displayValue={value}
                     onChange={async (item: any, children: any) => {
                       const documentName = {
                         name: item.name,
@@ -79,7 +83,7 @@ export const DocumentSettings = DocumentSettingHoc(
                         path: item.path,
                         children,
                       };
-                      onChange(documentName);
+                      onChange(documentName.name);
                       lookupStore.updateLookup({
                         ...lookupStore.lookup,
                         documentName,
@@ -94,12 +98,12 @@ export const DocumentSettings = DocumentSettingHoc(
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.Input
                   label='Field Name'
                   placeholder='Field Name'
                   hasError={!!errors.fieldName}
-                  value={lookupStore.lookup?.fieldName}
+                  value={value}
                   onChange={fieldName => {
                     onChange(fieldName.toUpperCase());
                     lookupStore.updateLookup({
@@ -117,10 +121,10 @@ export const DocumentSettings = DocumentSettingHoc(
               <Grid cols={3}>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       placeholder='Code'
-                      value={lookupStore.localInput.code}
+                      value={value}
                       onChange={code => {
                         onChange(code.toUpperCase());
                         lookupStore.updateLocalInput({
@@ -139,7 +143,7 @@ export const DocumentSettings = DocumentSettingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       placeholder='Value'
                       value={lookupStore.localInput.value || ''}
@@ -243,12 +247,13 @@ export const DocumentSettings = DocumentSettingHoc(
             </Form.InputWrapper>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.InputWrapper
                   hasError={!!errors.defaulItem}
                   label='Default Item'
                 >
                   <select
+                    // value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.defaultLab ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}
@@ -286,13 +291,13 @@ export const DocumentSettings = DocumentSettingHoc(
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.MultilineInput
                   rows={4}
                   label='Description'
                   name='txtDescription'
                   placeholder='Description'
-                  value={lookupStore.lookup?.description}
+                  value={value}
                   onChange={description => {
                     onChange(description);
                     lookupStore.updateLookup({
@@ -309,10 +314,10 @@ export const DocumentSettings = DocumentSettingHoc(
 
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.InputWrapper label='Environment'>
                   <select
-                    value={lookupStore.lookup?.environment}
+                    // value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.environment ? 'border-red-500' : 'border-gray-300'
                     } rounded-md`}

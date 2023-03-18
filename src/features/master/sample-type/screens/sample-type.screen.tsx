@@ -20,6 +20,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetSampleType} from '../startup';
 
 const SampleType = SampleTypeHoc(
   observer(() => {
@@ -29,6 +30,7 @@ const SampleType = SampleTypeHoc(
       formState: {errors},
       handleSubmit,
       setValue,
+      reset,
     } = useForm();
 
     setValue('environment', sampleTypeStore.sampleType?.environment);
@@ -45,7 +47,9 @@ const SampleType = SampleTypeHoc(
               Toast.success({
                 message: `😊 ${res.createSampleType.message}`,
               });
-              sampleTypeStore.fetchSampleTypeList();
+              setHideAddLab(true);
+              reset();
+              resetSampleType();
             }
           });
       } else {
@@ -80,7 +84,7 @@ const SampleType = SampleTypeHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Sample Code'
                       hasError={!!errors.sampleCode}
@@ -89,7 +93,7 @@ const SampleType = SampleTypeHoc(
                           ? 'Please Enter Sample Code'
                           : 'Sample Code'
                       }
-                      value={sampleTypeStore.sampleType?.sampleCode}
+                      value={value}
                       onChange={sampleCode => {
                         onChange(sampleCode);
                         sampleTypeStore.updateSampleType({
@@ -127,7 +131,7 @@ const SampleType = SampleTypeHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Sample Type'
                       hasError={!!errors.sampleType}
@@ -136,7 +140,7 @@ const SampleType = SampleTypeHoc(
                           ? 'Please Enter Sample Type'
                           : 'Sample Type'
                       }
-                      value={sampleTypeStore.sampleType?.sampleType}
+                      value={value}
                       onChange={sampleType => {
                         onChange(sampleType);
                         sampleTypeStore.updateSampleType({
@@ -152,7 +156,7 @@ const SampleType = SampleTypeHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Sample Group'
                       placeholder={
@@ -161,7 +165,7 @@ const SampleType = SampleTypeHoc(
                           : 'Sample Group'
                       }
                       hasError={!!errors.sampleGroup}
-                      value={sampleTypeStore.sampleType?.sampleGroup}
+                      value={value}
                       onChange={sampleGroup => {
                         onChange(sampleGroup);
                         sampleTypeStore.updateSampleType({
@@ -179,7 +183,7 @@ const SampleType = SampleTypeHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={5}
                       label='Descriptions'
@@ -189,7 +193,7 @@ const SampleType = SampleTypeHoc(
                           : 'Descriptions'
                       }
                       hasError={!!errors.descriptions}
-                      value={sampleTypeStore.sampleType?.descriptions}
+                      value={value}
                       onChange={descriptions => {
                         onChange(descriptions);
                         sampleTypeStore.updateSampleType({
@@ -205,10 +209,10 @@ const SampleType = SampleTypeHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={sampleTypeStore.sampleType?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

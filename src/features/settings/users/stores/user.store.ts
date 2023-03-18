@@ -20,6 +20,36 @@ export class UserStore {
     this.userListCopy = [];
     this.changePassword = new ChangePassword({});
     this.selectedItems = new SelectedItems({});
+
+    this.reset();
+    makeObservable<UserStore, any>(this, {
+      user: observable,
+      userList: observable,
+      userListCopy: observable,
+      userListCount: observable,
+      changePassword: observable,
+      checkExitsUserId: observable,
+      checkExistsEmpCode: observable,
+      selectedItems: observable,
+
+      UsersService: computed,
+      loadUser: action,
+      updateUserList: action,
+      updateUser: action,
+      updateChangePassword: action,
+      setExitsUserId: action,
+      setExistsEmpCodeStatus: action,
+      updateUserFilterList: action,
+      filterUserList: action,
+      updateSelectedItems: action,
+      reset: action,
+    });
+  }
+
+  reset() {
+    this.user = new Users({});
+    this.userList = [];
+    this.userListCount = 0;
     this.user = {
       ...this.user,
       exipreDate: new Date(
@@ -45,30 +75,8 @@ export class UserStore {
       validationLevel: 0,
       version: 1,
     };
-
-    makeObservable<UserStore, any>(this, {
-      user: observable,
-      userList: observable,
-      userListCopy: observable,
-      userListCount: observable,
-      changePassword: observable,
-      checkExitsUserId: observable,
-      checkExistsEmpCode: observable,
-      selectedItems: observable,
-
-      UsersService: computed,
-      loadUser: action,
-      updateUserList: action,
-      updateUser: action,
-      updateChangePassword: action,
-      setExitsUserId: action,
-      setExistsEmpCodeStatus: action,
-      updateUserFilterList: action,
-      filterUserList: action,
-      updateSelectedItems: action,
-    });
+    this.selectedItems = new SelectedItems({});
   }
-
   get UsersService() {
     return new UserService();
   }

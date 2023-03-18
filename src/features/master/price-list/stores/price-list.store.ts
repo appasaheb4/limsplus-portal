@@ -28,7 +28,7 @@ export class PriceListStore {
       maxDis: 100,
       version: 1,
     };
-
+    this.reset();
     makeObservable<PriceListStore, any>(this, {
       priceList: observable,
       listPriceList: observable,
@@ -41,7 +41,27 @@ export class PriceListStore {
       updatePriceListRecords: action,
       updatePriceList: action,
       updateExitsPriceGEnvLabCode: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.priceList = new PriceList({});
+    this.listPriceList = [];
+    this.listPriceListCount = 0;
+    this.priceList = {
+      ...this.priceList,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      fixedPrice: false,
+      minSp: 0,
+      maxSp: 0,
+      maxDis: 100,
+      version: 1,
+    };
   }
 
   get priceListService() {

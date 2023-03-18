@@ -31,7 +31,7 @@ export class CorporateClientsStore {
       isBalanceCheck: true,
     };
     this.selectedItems = new SelectedItems({});
-
+    this.reset();
     makeObservable<CorporateClientsStore, any>(this, {
       corporateClients: observable,
       listCoporateClientsCount: observable,
@@ -41,6 +41,7 @@ export class CorporateClientsStore {
 
       corporateClientsService: computed,
       fetchCorporateClients: action,
+      reset: action,
       updateCorporateClientsList: action,
       updateCorporateClients: action,
       updateExistsEnvCode: action,
@@ -54,6 +55,28 @@ export class CorporateClientsStore {
 
   fetchCorporateClients(page?, limit?) {
     this.corporateClientsService.listCorporateClients(page, limit);
+  }
+
+  reset() {
+    this.corporateClients = new CorporateClients({});
+    this.listCorporateClients = [];
+    this.listCoporateClientsCount = 0;
+    this.corporateClients = {
+      ...this.corporateClients,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
+      confidential: false,
+      urgent: false,
+      priceList: [{id: 0, maxDis: 0}],
+      isEmployeeCode: false,
+      specificFormat: false,
+      isBalanceCheck: true,
+      deliveryMode: [],
+    };
   }
 
   updateCorporateClientsList(res: any) {

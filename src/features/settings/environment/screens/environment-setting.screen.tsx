@@ -20,6 +20,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetEnvironmentSettings} from '../startup';
 
 interface EnvironmentSettingsProps {
   onModalConfirm?: (item: any) => void;
@@ -41,6 +42,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue('environment', loginStore.login.environment);
 
@@ -59,9 +61,9 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
             Toast.success({
               message: `😊 ${res.createEnviroment.message}`,
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            setHideInputView(true);
+            reset();
+            resetEnvironmentSettings();
           }
         });
       }
@@ -165,8 +167,9 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <AutoCompleteFilterSingleSelect
+                      displayValue={value}
                       loader={loading}
                       placeholder='Search by variable'
                       data={{
@@ -251,7 +254,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   labStore.listLabs) && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Labs'
                         id='labs'
@@ -261,9 +264,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           <Form.Toggle
                             label='All'
                             disabled={!environmentStore.permission?.allLabs}
-                            value={
-                              environmentStore.environmentSettings?.allLabs
-                            }
+                            value={value}
                             onChange={allLabs => {
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
@@ -344,7 +345,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   userStore.userList) && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Users'
                         id='user'
@@ -354,9 +355,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           <Form.Toggle
                             label='All'
                             disabled={!environmentStore.permission?.allUsers}
-                            value={
-                              environmentStore.environmentSettings?.allUsers
-                            }
+                            value={value}
                             onChange={allUsers => {
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
@@ -436,7 +435,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   departmentStore.listDepartment) && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Department'
                         id='department'
@@ -448,10 +447,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                             disabled={
                               !environmentStore.permission?.allDepartment
                             }
-                            value={
-                              environmentStore.environmentSettings
-                                ?.allDepartment
-                            }
+                            value={value}
                             onChange={allDepartment => {
                               environmentStore.updateEnvironmentSettings({
                                 ...environmentStore.environmentSettings,
@@ -531,11 +527,11 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Value'
                       hasError={!!errors.value}
-                      value={environmentStore.environmentSettings?.value}
+                      value={value}
                       placeholder={
                         errors.value ? 'Please Enter Value' : 'Value'
                       }
@@ -556,7 +552,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               <List direction='col' justify='stretch' fill space={4}>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={3}
                       label='Description'
@@ -567,7 +563,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           : 'Description'
                       }
                       hasError={!!errors.descriptions}
-                      value={environmentStore.environmentSettings?.descriptions}
+                      value={value}
                       onChange={descriptions => {
                         onChange(descriptions);
                         environmentStore.updateEnvironmentSettings({
@@ -583,12 +579,10 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          environmentStore.environmentSettings?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

@@ -21,12 +21,12 @@ export const PageBrandingHeader = observer(() => {
     <>
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.Input
             label='Title'
             placeholder='Tile'
             hasError={!!errors.title}
-            value={reportSettingStore.pageBranding?.header?.title}
+            value={value}
             onChange={title => {
               onChange(title);
               reportSettingStore.updatePageBranding({
@@ -45,12 +45,12 @@ export const PageBrandingHeader = observer(() => {
       />
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.MultilineInput
             label='Title CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-            value={reportSettingStore.pageBranding?.header?.titleCSS}
+            value={value}
             onChange={titleCSS => {
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
@@ -68,11 +68,12 @@ export const PageBrandingHeader = observer(() => {
       />
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.InputFile
             label='Logo'
             placeholder={'Select Logo'}
             hasError={!!errors.headerLogo}
+            value={value ? value.fileName : ''}
             onChange={async e => {
               const logo = e.target.files[0];
               onChange(logo);
@@ -92,12 +93,12 @@ export const PageBrandingHeader = observer(() => {
       />
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.MultilineInput
             label='Logo CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={'Like borderRadius:25,width:50'}
-            value={reportSettingStore.pageBranding?.header?.logoCSS}
+            value={value}
             onChange={logoCSS => {
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
@@ -115,11 +116,12 @@ export const PageBrandingHeader = observer(() => {
       />
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.InputFile
             label='Background Image'
             placeholder='Background Image'
             hasError={!!errors.backgroundImage}
+            value={value ? value.fileName : ''}
             onChange={async e => {
               const backgroundImage = e.target.files[0];
               onChange(backgroundImage);
@@ -142,12 +144,12 @@ export const PageBrandingHeader = observer(() => {
       />
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.MultilineInput
             label='Main Box CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={"Like backgroundColor:'#000000'"}
-            value={reportSettingStore.pageBranding?.header?.mainBoxCSS}
+            value={value}
             onChange={mainBoxCSS => {
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,

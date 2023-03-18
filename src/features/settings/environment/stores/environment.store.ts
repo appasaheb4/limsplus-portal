@@ -52,7 +52,8 @@ export class EnvironmentStore {
       allDepartment: false,
       isModify: true,
     };
-
+    this.resetEnvironmentSetting();
+    this.resetEnvironmentVariable();
     makeObservable<EnvironmentStore, any>(this, {
       environmentSettings: observable,
       checkExistsEnvSettingsRecord: observable,
@@ -78,7 +79,37 @@ export class EnvironmentStore {
       updateSelectedItems: action,
       filterEnvVariableList: action,
       filterEnvSettingsList: action,
+      resetEnvironmentSetting: action,
+      resetEnvironmentVariable: action,
     });
+  }
+
+  resetEnvironmentSetting() {
+    this.environmentSettings = new EnvironmentSettings({});
+    this.environmentSettingsList = [];
+    this.environmentSettingsListCount = 0;
+    this.environmentSettings = {
+      ...this.environmentSettings,
+      allLabs: false,
+      allDepartment: false,
+      allUsers: false,
+      lab: [],
+      user: [],
+      department: [],
+    };
+  }
+
+  resetEnvironmentVariable() {
+    this.environmentVariable = new EnvironmentVariable({});
+    this.environmentVariableList = [];
+    this.environmentSettingsListCount = 0;
+    this.environmentVariable = {
+      ...this.environmentVariable,
+      allLabs: false,
+      allUsers: false,
+      allDepartment: false,
+      isModify: true,
+    };
   }
 
   get EnvironmentService() {
