@@ -19,6 +19,7 @@ import {RolesHoc} from '../hoc';
 import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {resetRole} from '../startup';
 
 const Role = RolesHoc(
   observer(() => {
@@ -28,6 +29,7 @@ const Role = RolesHoc(
       formState: {errors},
       handleSubmit,
       setValue,
+      reset,
     } = useForm();
     setValue('environment', roleStore.role?.environment);
 
@@ -43,10 +45,9 @@ const Role = RolesHoc(
                 message: `😊 ${res.createRole.message}`,
               });
             }
-            setTimeout(() => {
-              // roleStore.fetchListRole()
-              window.location.reload();
-            }, 2000);
+            setHideAddRole(true);
+            reset();
+            resetRole();
           },
         );
       } else {
@@ -79,13 +80,13 @@ const Role = RolesHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Code'
                       id='code'
                       hasError={!!errors.code}
                       placeholder={errors.code ? 'Please Enter Code ' : 'Code'}
-                      value={roleStore.role?.code}
+                      value={value}
                       onChange={code => {
                         onChange(code);
                         roleStore.updateRole({
@@ -121,7 +122,7 @@ const Role = RolesHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Description'
                       name='description'
@@ -131,7 +132,7 @@ const Role = RolesHoc(
                           ? 'Please Enter Description'
                           : 'Description'
                       }
-                      value={roleStore.role?.description}
+                      value={value}
                       onChange={description => {
                         onChange(description);
                         roleStore.updateRole({
@@ -147,10 +148,10 @@ const Role = RolesHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={roleStore.role?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

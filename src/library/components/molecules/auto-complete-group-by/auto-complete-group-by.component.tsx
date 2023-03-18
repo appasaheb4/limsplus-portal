@@ -8,13 +8,14 @@ interface AutocompleteGroupByProps {
   data?: any[];
   onChange?: (item: any, children: any) => void;
   hasError?: boolean;
+  displayValue?: string;
   onClose?: () => void;
 }
 
 export const AutocompleteGroupBy = observer(
   (props: AutocompleteGroupByProps) => {
     //const [userRouter, setUserRouter] = useState<any>()
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(props.displayValue!);
     const [data, setData] = useState<any[]>();
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -45,6 +46,10 @@ export const AutocompleteGroupBy = observer(
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
+
+    useEffect(() => {
+      setValue(props.displayValue!);
+    }, [props.displayValue]);
 
     useEffect(() => {
       setData(props.data);
@@ -116,7 +121,7 @@ export const AutocompleteGroupBy = observer(
           >
             <input
               placeholder='Search...'
-              value={value}
+              value={!isListOpen ? value : value}
               className='w-full focus:outline-none'
               onKeyUp={onKeyUp}
               onChange={onChange}

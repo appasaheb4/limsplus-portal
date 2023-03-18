@@ -8,6 +8,7 @@ interface AutoCompleteFilterSingleSelectPanelCodeProps {
   hasError?: boolean;
   posstion?: string;
   lab?: string;
+  displayValue?: string;
   onSelect: (item: any) => void;
 }
 
@@ -16,10 +17,11 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
     posstion = 'absolute',
     hasError,
     lab,
+    displayValue,
     onSelect,
   }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
     const {loading, masterPanelStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(displayValue!);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -45,6 +47,10 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
+
+    useEffect(() => {
+      setValue(displayValue!);
+    }, [displayValue]);
 
     useEffect(() => {
       setOptions(

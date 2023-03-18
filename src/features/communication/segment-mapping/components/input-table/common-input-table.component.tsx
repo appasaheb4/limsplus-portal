@@ -25,9 +25,7 @@ export const CommonInputTable = observer(
       control,
       handleSubmit,
       formState: {errors},
-      setValue,
-      clearErrors,
-      setError,
+      reset,
     } = useForm({mode: 'all'});
     const [input, setInput] = useState<any>({
       instType: '',
@@ -36,6 +34,7 @@ export const CommonInputTable = observer(
     });
 
     const addItem = () => {
+      reset();
       const segmentMapping = segmentMappingStore.segmentMapping;
       segmentMapping?.push({
         index: segmentMapping?.length + 1,
@@ -80,8 +79,9 @@ export const CommonInputTable = observer(
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <select
+                      value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.instType ? 'border-red-500  ' : 'border-gray-300'
                       } rounded-md`}
@@ -112,8 +112,9 @@ export const CommonInputTable = observer(
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <select
+                      value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.dataFlow ? 'border-red-500  ' : 'border-gray-300'
                       } rounded-md`}
@@ -144,8 +145,9 @@ export const CommonInputTable = observer(
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <select
+                      value={value || 'Selected'}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.protocol ? 'border-red-500  ' : 'border-gray-300'
                       } rounded-md`}
@@ -170,7 +172,7 @@ export const CommonInputTable = observer(
                   )}
                   name='protocol'
                   rules={{required: true}}
-                  defaultValue={extraData?.arrInstType}
+                  defaultValue=''
                 />
               </td>
             </tr>

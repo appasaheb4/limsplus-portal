@@ -23,6 +23,8 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetTestSampleMapping} from '../startup';
+import {LocalInput} from '../models';
 
 const TestSampleMapping = TestSampleMappingHoc(
   observer(() => {
@@ -41,10 +43,23 @@ const TestSampleMapping = TestSampleMappingHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue(
       'environment',
       testSampleMappingStore.testSampleMapping?.environment,
+    );
+    setValue(
+      'minDrawVolUnit',
+      testSampleMappingStore.testSampleMapping?.minDrawVolUnit,
+    );
+    setValue(
+      'minTestVolUnit',
+      testSampleMappingStore.testSampleMapping?.minTestVolUnit,
+    );
+    setValue(
+      'repentionUnits',
+      testSampleMappingStore.testSampleMapping?.repentionUnits,
     );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -60,10 +75,11 @@ const TestSampleMapping = TestSampleMappingHoc(
               Toast.success({
                 message: `😊 ${res.createTestSampleMapping.message}`,
               });
+              setHideAddLab(true);
+              reset();
+              resetTestSampleMapping();
+              testSampleMappingStore.updateLocalInput(new LocalInput({}));
             }
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
           });
       } else {
         Toast.warning({
@@ -164,7 +180,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 {testMasterStore.listTestMaster && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Test Code'
                         hasError={!!errors.testCode}
@@ -173,8 +189,8 @@ const TestSampleMapping = TestSampleMappingHoc(
                           loader={loading}
                           placeholder='Search by code or name'
                           displayValue={
-                            testSampleMappingStore.testSampleMapping?.testCode
-                              ? `${testSampleMappingStore.testSampleMapping?.testCode} - ${testSampleMappingStore.testSampleMapping?.testName}`
+                            value?.testCode
+                              ? `${value?.testCode} - ${value?.testName}`
                               : ''
                           }
                           data={{
@@ -246,7 +262,7 @@ const TestSampleMapping = TestSampleMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Sample Code'
                       hasError={!!errors.sampleCode}
@@ -259,6 +275,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           displayKey: ['sampleCode', 'sampleType'],
                         }}
                         hasError={!!errors.sampleCode}
+                        displayValue={value}
                         onFilter={(value: string) => {
                           sampleTypeStore.sampleTypeService.filterByFields({
                             input: {
@@ -292,7 +309,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 {sampleTypeStore.listSampleType && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.InputWrapper
                         label='Sample Group'
                         hasError={!!errors.sampleGroup}
@@ -307,6 +324,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             displayKey: 'sampleGroup',
                             findKey: 'sampleGroup',
                           }}
+                          displayValue={value}
                           hasError={!!errors.sampleGroup}
                           onFilter={(value: string) => {
                             sampleTypeStore.sampleTypeService.filter({
@@ -340,7 +358,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Coll Container'
                       hasError={!!errors.collContainerCode}
@@ -352,6 +370,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           list: sampleContainerStore.listSampleContainer,
                           displayKey: ['containerCode', 'containerName'],
                         }}
+                        displayValue={value}
                         hasError={!!errors.collContainerCode}
                         onFilter={(value: string) => {
                           sampleContainerStore.sampleContainerService.filterByFields(
@@ -388,7 +407,7 @@ const TestSampleMapping = TestSampleMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Test Container'
                       hasError={!!errors.testContainerCode}
@@ -400,6 +419,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           list: sampleContainerStore.listSampleContainer,
                           displayKey: ['containerCode', 'containerName'],
                         }}
+                        displayValue={value}
                         hasError={!!errors.name}
                         onFilter={(value: string) => {
                           sampleContainerStore.sampleContainerService.filterByFields(
@@ -435,7 +455,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Min Draw Vol'
                       placeholder={
@@ -444,9 +464,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           : 'Min Draw Vol'
                       }
                       hasError={!!errors.minDrawVol}
-                      value={
-                        testSampleMappingStore.testSampleMapping?.minDrawVol
-                      }
+                      value={value}
                       onChange={minDrawVol => {
                         onChange(minDrawVol);
                         testSampleMappingStore.updateSampleType({
@@ -462,16 +480,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Min Draw Vol Unit'
                       hasError={!!errors.minDrawVolUnit}
                     >
                       <select
-                        value={
-                          testSampleMappingStore.testSampleMapping
-                            ?.minDrawVolUnit
-                        }
+                        value={value}
                         className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                         onChange={e => {
                           const minDrawVolUnit = e.target.value as string;
@@ -500,7 +515,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Min Test Vol'
                       placeholder={
@@ -509,9 +524,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           : 'Min Test Vol'
                       }
                       hasError={!!errors.minTestVol}
-                      value={
-                        testSampleMappingStore.testSampleMapping?.minTestVol
-                      }
+                      value={value}
                       onChange={minTestVol => {
                         onChange(minTestVol);
                         testSampleMappingStore.updateSampleType({
@@ -527,16 +540,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Min Test Vol Unit'
                       hasError={!!errors.minTestVolUnit}
                     >
                       <select
-                        value={
-                          testSampleMappingStore.testSampleMapping
-                            ?.minTestVolUnit
-                        }
+                        value={value}
                         className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                         onChange={e => {
                           const minTestVolUnit = e.target.value as string;
@@ -569,7 +579,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       <div className='mt-1'>
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({field: {onChange, value}}) => (
                             <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                               loader={loading}
                               placeholder='Search by code or name'
@@ -614,7 +624,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </div>
                       <Controller
                         control={control}
-                        render={({field: {onChange}}) => (
+                        render={({field: {onChange, value}}) => (
                           <Form.Input
                             placeholder='Prefrence'
                             type='number'
@@ -637,7 +647,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange}}) => (
+                        render={({field: {onChange, value}}) => (
                           <Form.Input
                             placeholder='TAT IN MIN'
                             type='number'
@@ -758,13 +768,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Shared Sample'
                         hasError={!!errors.sharedSample}
-                        value={
-                          testSampleMappingStore.testSampleMapping?.sharedSample
-                        }
+                        value={value}
                         onChange={sharedSample => {
                           onChange(sharedSample);
                           testSampleMappingStore.updateSampleType({
@@ -802,14 +810,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Primary Container'
                         hasError={!!errors.primaryContainer}
-                        value={
-                          testSampleMappingStore.testSampleMapping
-                            ?.primaryContainer
-                        }
+                        value={value}
                         onChange={primaryContainer => {
                           onChange(primaryContainer);
                           testSampleMappingStore.updateSampleType({
@@ -825,14 +830,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Unique Container'
                         hasError={!!errors.uniqueContainer}
-                        value={
-                          testSampleMappingStore.testSampleMapping
-                            ?.uniqueContainer
-                        }
+                        value={value}
                         onChange={uniqueContainer => {
                           onChange(uniqueContainer);
                           testSampleMappingStore.updateSampleType({
@@ -860,13 +862,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Centrifue'
                         hasError={!!errors.centerIfuge}
-                        value={
-                          testSampleMappingStore.testSampleMapping?.centerIfuge
-                        }
+                        value={value}
                         onChange={centerIfuge => {
                           onChange(centerIfuge);
                           testSampleMappingStore.updateSampleType({
@@ -885,7 +885,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Condition'
                       placeholder={
@@ -894,9 +894,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           : 'Condition'
                       }
                       hasError={!!errors.condition}
-                      value={
-                        testSampleMappingStore.testSampleMapping?.condition
-                      }
+                      value={value}
                       onChange={condition => {
                         onChange(condition);
                         testSampleMappingStore.updateSampleType({
@@ -912,7 +910,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Retention Period'
                       placeholder={
@@ -921,10 +919,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           : 'Retention Period'
                       }
                       hasError={!!errors.repentionPeriod}
-                      value={
-                        testSampleMappingStore.testSampleMapping
-                          ?.repentionPeriod
-                      }
+                      value={value}
                       onChange={repentionPeriod => {
                         onChange(repentionPeriod);
                         testSampleMappingStore.updateSampleType({
@@ -940,16 +935,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Repention Units'
                       hasError={!!errors.repentionUnits}
                     >
                       <select
-                        value={
-                          testSampleMappingStore.testSampleMapping
-                            ?.repentionUnits
-                        }
+                        value={value}
                         className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                         onChange={e => {
                           const repentionUnits = e.target.value as string;
@@ -978,7 +970,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Label Inst'
                       placeholder={
@@ -987,9 +979,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           : 'Label Inst'
                       }
                       hasError={!!errors.labelInst}
-                      value={
-                        testSampleMappingStore.testSampleMapping?.labelInst
-                      }
+                      value={value}
                       onChange={labelInst => {
                         onChange(labelInst);
                         testSampleMappingStore.updateSampleType({
@@ -1005,12 +995,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Info'
                       placeholder={errors.info ? 'Please Enter info' : 'Info'}
                       hasError={!!errors.info}
-                      value={testSampleMappingStore.testSampleMapping?.info}
+                      value={value}
                       onChange={info => {
                         onChange(info);
                         testSampleMappingStore.updateSampleType({
@@ -1026,12 +1016,10 @@ const TestSampleMapping = TestSampleMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          testSampleMappingStore.testSampleMapping?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '
@@ -1101,13 +1089,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Lab Specfic'
                         hasError={!!errors.labSpecfic}
-                        value={
-                          testSampleMappingStore.testSampleMapping?.labSpecfic
-                        }
+                        value={value}
                         onChange={labSpecfic => {
                           onChange(labSpecfic);
                           testSampleMappingStore.updateSampleType({
@@ -1123,14 +1109,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Department Specfic'
                         hasError={!!errors.departmentSpecfic}
-                        value={
-                          testSampleMappingStore.testSampleMapping
-                            ?.departmentSpecfic
-                        }
+                        value={value}
                         onChange={departmentSpecfic => {
                           onChange(departmentSpecfic);
                           testSampleMappingStore.updateSampleType({
@@ -1146,13 +1129,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Aliquot'
                         hasError={!!errors.aliquot}
-                        value={
-                          testSampleMappingStore.testSampleMapping?.aliquot
-                        }
+                        value={value}
                         onChange={aliquot => {
                           onChange(aliquot);
                           testSampleMappingStore.updateSampleType({
@@ -1168,13 +1149,11 @@ const TestSampleMapping = TestSampleMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Label'
                         hasError={!!errors.printLabels}
-                        value={
-                          testSampleMappingStore.testSampleMapping?.printLabels
-                        }
+                        value={value}
                         onChange={printLabels => {
                           onChange(printLabels);
                           testSampleMappingStore.updateSampleType({

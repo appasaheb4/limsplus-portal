@@ -9,6 +9,7 @@ export class PaymentStore {
   constructor() {
     this.payment = new Payment({});
     this.paymentList = [];
+    this.reset();
     makeObservable<PaymentStore, any>(this, {
       payment: observable,
       paymentList: observable,
@@ -18,7 +19,14 @@ export class PaymentStore {
 
       updatePayment: action,
       updatePaymentList: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.payment = new Payment({});
+    this.paymentList = [];
+    this.paymentListCount = 0;
   }
 
   get paymentService() {

@@ -25,6 +25,7 @@ import {InputResult} from '@/core-components';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetMasterAnalyte} from '../startup';
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -45,12 +46,21 @@ const MasterAnalyte = MasterAnalyteHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
       clearErrors,
     } = useForm();
 
     setValue('lab', loginStore.login.lab);
     setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
     setValue('status', masterAnalyteStore.masterAnalyte?.status);
+    setValue('resultType', masterAnalyteStore.masterAnalyte?.resultType);
+    setValue('reportable', masterAnalyteStore.masterAnalyte?.reportable);
+    setValue('analyteType', masterAnalyteStore.masterAnalyte?.analyteType);
+    setValue('usage', masterAnalyteStore.masterAnalyte?.usage);
+    setValue('dateExpire', masterAnalyteStore.masterAnalyte?.dateExpire);
+    setValue('version', masterAnalyteStore.masterAnalyte?.version);
+    setValue('dateCreation', masterAnalyteStore.masterAnalyte?.dateCreation);
+    setValue('dateActive', masterAnalyteStore.masterAnalyte?.dateActive);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
@@ -73,6 +83,9 @@ const MasterAnalyte = MasterAnalyteHoc(
                 Toast.success({
                   message: `😊 ${res.createAnalyteMaster.message}`,
                 });
+                setIsInputView(true);
+                reset();
+                resetMasterAnalyte();
               }
             });
         } else if (
@@ -114,9 +127,6 @@ const MasterAnalyte = MasterAnalyteHoc(
               }
             });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -260,7 +270,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -336,7 +346,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Analyte Code'
                       name='txtAnalyteCode'
@@ -346,7 +356,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ? 'Please Enter Analyte Code'
                           : 'Analyte Code'
                       }
-                      value={masterAnalyteStore.masterAnalyte?.analyteCode}
+                      value={value}
                       onChange={analyteCode => {
                         onChange(analyteCode);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -423,13 +433,13 @@ const MasterAnalyte = MasterAnalyteHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Analyte Name'
                       name='txtAnalyteName'
                       placeholder='Analyte Name'
                       hasError={!!errors.analyteName}
-                      value={masterAnalyteStore.masterAnalyte?.analyteName}
+                      value={value}
                       disabled={
                         masterAnalyteStore.masterAnalyteActivity
                           ?.disableAnalyteName
@@ -449,7 +459,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={3}
                       label='Description'
@@ -460,7 +470,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           : 'Description'
                       }
                       hasError={!!errors.description}
-                      value={masterAnalyteStore.masterAnalyte?.description}
+                      value={value}
                       onChange={description => {
                         onChange(description);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -476,7 +486,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Analyte Method'
                       hasError={!!errors.analyteMethod}
@@ -489,6 +499,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           displayKey: ['methodsCode', 'methodsName'],
                         }}
                         disable={!masterAnalyteStore.masterAnalyte?.method}
+                        displayValue={value}
                         hasError={!!errors.analyteMethod}
                         onFilter={(value: string) => {
                           methodsStore.methodsService.filterByFields({
@@ -526,7 +537,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Short Name'
                       name='txtShortName'
@@ -536,7 +547,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           : 'Short Name'
                       }
                       hasError={!!errors.shortName}
-                      value={masterAnalyteStore.masterAnalyte?.shortName}
+                      value={value}
                       onChange={shortName => {
                         onChange(shortName);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -552,7 +563,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Price'
                       name='txtPrice'
@@ -561,7 +572,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }
                       type='number'
                       hasError={!!errors.price}
-                      value={masterAnalyteStore.masterAnalyte?.price}
+                      value={value}
                       onChange={price => {
                         onChange(price);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -577,10 +588,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Range Set On'>
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.rangeSetOn}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.rangeSetOn
                             ? 'border-red-500  '
@@ -614,7 +625,7 @@ const MasterAnalyte = MasterAnalyteHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Department'>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -628,6 +639,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ),
                           displayKey: ['code', 'name'],
                         }}
+                        displayValue={value}
                         onFilter={(value: string) => {
                           departmentStore.DepartmentService.filterByFields({
                             input: {
@@ -659,14 +671,14 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Picture'
                       id='optionPicture'
                       hasError={!!errors.picture}
                     >
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.picture}
+                        value={value}
                         disabled={
                           masterAnalyteStore.masterAnalyte?.resultType === 'V'
                             ? false
@@ -709,13 +721,13 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Result Type'
                       hasError={!!errors.resultType}
                     >
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.resultType}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.resultType
                             ? 'border-red-500  '
@@ -752,7 +764,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => <>{defaultResult}</>}
+                  render={({field: {onChange, value}}) => <>{defaultResult}</>}
                   name='defaultResult'
                   rules={{required: false}}
                   defaultValue=''
@@ -760,12 +772,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Method'
                         id='modeMethod'
                         hasError={!!errors.method}
-                        value={masterAnalyteStore.masterAnalyte?.method}
+                        value={value}
                         onChange={method => {
                           onChange(method);
                           masterAnalyteStore.updateMasterAnalyte({
@@ -787,12 +799,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
                         hasError={!!errors.bill}
-                        value={masterAnalyteStore.masterAnalyte?.bill}
+                        value={value}
                         onChange={bill => {
                           onChange(bill);
                           masterAnalyteStore.updateMasterAnalyte({
@@ -808,12 +820,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Reportable'
                         id='modeDisplay'
                         hasError={!!errors.reportable}
-                        value={masterAnalyteStore.masterAnalyte?.reportable}
+                        value={value}
                         onChange={reportable => {
                           onChange(reportable);
                           masterAnalyteStore.updateMasterAnalyte({
@@ -829,14 +841,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Calculation Flag'
                         id='modeCalculationFlag'
                         hasError={!!errors.calculationFlag}
-                        value={
-                          masterAnalyteStore.masterAnalyte?.calculationFlag
-                        }
+                        value={value}
                         onChange={calculationFlag => {
                           onChange(calculationFlag);
                           masterAnalyteStore.updateMasterAnalyte({
@@ -859,13 +869,13 @@ const MasterAnalyte = MasterAnalyteHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Analyte Type'
                       hasError={!!errors.analyteType}
                     >
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.analyteType}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.analyteType
                             ? 'border-red-500  '
@@ -898,10 +908,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Units' hasError={!!errors.units}>
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.units}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.units ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -931,10 +941,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Usage' hasError={!!errors.usage}>
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.usage}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.usage ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -1043,7 +1053,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               </Form.InputWrapper> */}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Calcy Name'
                       name='txtCalcyName'
@@ -1056,7 +1066,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         !masterAnalyteStore.masterAnalyte?.calculationFlag
                       }
                       hasError={!!errors.calcyName}
-                      value={masterAnalyteStore.masterAnalyte?.calcyName}
+                      value={value}
                       onChange={calcyName => {
                         onChange(calcyName);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -1077,7 +1087,7 @@ const MasterAnalyte = MasterAnalyteHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='CPT Code'
                       name='txtCPTCode'
@@ -1085,7 +1095,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         errors.cptCode ? 'Please Enter CPT Code' : 'CPT Code'
                       }
                       hasError={!!errors.cptCode}
-                      value={masterAnalyteStore.masterAnalyte?.cptCode}
+                      value={value}
                       onChange={cptCode => {
                         onChange(cptCode);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -1101,13 +1111,13 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -1138,13 +1148,13 @@ const MasterAnalyte = MasterAnalyteHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={2}
                       label='Internal Comments'
                       placeholder='Internal Comments'
                       hasError={!!errors.internalComments}
-                      value={masterAnalyteStore.masterAnalyte?.internalComments}
+                      value={value}
                       onChange={internalComments => {
                         onChange(internalComments);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -1162,13 +1172,13 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={2}
                       label='External Comments'
                       placeholder='External Comments'
                       hasError={!!errors.externalComments}
-                      value={masterAnalyteStore.masterAnalyte?.externalComments}
+                      value={value}
                       onChange={externalComments => {
                         onChange(externalComments);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -1187,7 +1197,7 @@ const MasterAnalyte = MasterAnalyteHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Analyte Bottom Marker'
                       hasError={!!errors.analyteBottomMarker}
@@ -1199,6 +1209,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           list: libraryStore.listLibrary,
                           displayKey: ['code', 'details'],
                         }}
+                        displayValue={value}
                         hasError={!!errors.analyteBottomMarker}
                         onFilter={(value: string) => {
                           libraryStore.libraryService.filterByFields({
@@ -1237,15 +1248,13 @@ const MasterAnalyte = MasterAnalyteHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={2}
                       label='Analyte Right Marker'
                       placeholder='Analyte Right Marker'
                       hasError={!!errors.analyteRightMarker}
-                      value={
-                        masterAnalyteStore.masterAnalyte?.analyteRightMarker
-                      }
+                      value={value}
                       onChange={analyteRightMarker => {
                         onChange(analyteRightMarker);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -1264,12 +1273,12 @@ const MasterAnalyte = MasterAnalyteHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Reagent Code'
                       placeholder='Reagent Code'
                       hasError={!!errors.reagentCode}
-                      value={masterAnalyteStore.masterAnalyte?.reagentCode}
+                      value={value}
                       onChange={reagentCode => {
                         onChange(reagentCode);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -1287,12 +1296,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                 <Grid cols={3}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='InstantResult'
                         id='modeInstantResult'
                         hasError={!!errors.instantResult}
-                        value={masterAnalyteStore.masterAnalyte?.instantResult}
+                        value={value}
                         onChange={instantResult => {
                           onChange(instantResult);
                           masterAnalyteStore.updateMasterAnalyte({
@@ -1308,12 +1317,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Repitation'
                         id='modeRepitation'
                         hasError={!!errors.repetition}
-                        value={masterAnalyteStore.masterAnalyte?.repetition}
+                        value={value}
                         onChange={repetition => {
                           onChange(repetition);
                           masterAnalyteStore.updateMasterAnalyte({
@@ -1339,9 +1348,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={
-                        masterAnalyteStore.masterAnalyte?.abnormalHighlighterCSS
-                      }
+                      // value={value}
                       onChange={abnormalHighlighterCSS => {
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
@@ -1363,9 +1370,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       placeholder={
                         "Like fontSize: 12,backgroundColor:'#000000'"
                       }
-                      value={
-                        masterAnalyteStore.masterAnalyte?.criticalHighlighterCSS
-                      }
+                      // value={value}
                       onChange={criticalHighlighterCSS => {
                         masterAnalyteStore.updateMasterAnalyte({
                           ...masterAnalyteStore.masterAnalyte,
@@ -1380,7 +1385,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -1397,7 +1402,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -1406,7 +1411,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={masterAnalyteStore.masterAnalyte?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1416,7 +1421,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -1425,7 +1430,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={masterAnalyteStore.masterAnalyte?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1435,16 +1440,16 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
-                        errors.schedule
+                        errors.dateExpire
                           ? 'Please Enter schedule'
                           : 'Date Expire'
                       }
-                      hasError={!!errors.schedule}
-                      value={masterAnalyteStore.masterAnalyte?.dateExpire}
+                      hasError={!!errors.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         masterAnalyteStore.updateMasterAnalyte({
@@ -1454,20 +1459,20 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                     />
                   )}
-                  name='schedule'
+                  name='dateExpire'
                   rules={{required: false}}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={masterAnalyteStore.masterAnalyte?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1477,12 +1482,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Min Reportable'
                       placeholder='Min reportable'
                       hasError={!!errors.minReportable}
-                      value={masterAnalyteStore.masterAnalyte?.minReportable}
+                      value={value}
                       onChange={minReportable => {
                         const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
                         if (regex.test(minReportable)) {
@@ -1509,12 +1514,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Max Reportable'
                       placeholder='Max reportable'
                       hasError={!!errors.maxReportable}
-                      value={masterAnalyteStore.masterAnalyte?.maxReportable}
+                      value={value}
                       onChange={maxReportable => {
                         const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
                         if (regex.test(maxReportable)) {
@@ -1541,7 +1546,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Interpretation'>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -1553,6 +1558,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ),
                           displayKey: ['code'],
                         }}
+                        displayValue={value}
                         onFilter={(value: string) => {
                           libraryStore.libraryService.filterByFields({
                             input: {
@@ -1584,13 +1590,13 @@ const MasterAnalyte = MasterAnalyteHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
                     >
                       <select
-                        value={masterAnalyteStore.masterAnalyte?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

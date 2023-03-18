@@ -23,6 +23,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {FormHelper} from '@/helper';
+import {resetDepartment} from '../startup';
 
 export const Department = DeginisationHoc(
   observer(() => {
@@ -49,10 +50,6 @@ export const Department = DeginisationHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true);
 
-    useEffect(() => {
-      reset();
-    }, [labStore.listLabs, reset]);
-
     const onSubmitDepartment = () => {
       if (!departmentStore.checkExitsCode) {
         departmentStore.DepartmentService.adddepartment({
@@ -66,10 +63,9 @@ export const Department = DeginisationHoc(
             });
           }
         });
-        setTimeout(() => {
-          // departmentStore.fetchListDepartment()
-          window.location.reload();
-        }, 2000);
+        setHideAddDepartment(true);
+        reset();
+        resetDepartment();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code!',
@@ -159,7 +155,7 @@ export const Department = DeginisationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Lab'
                       id='lab'
@@ -174,7 +170,7 @@ export const Department = DeginisationHoc(
                             ? true
                             : false
                         }
-                        displayValue={departmentStore.department?.lab}
+                        displayValue={value}
                         data={{
                           list: labStore.listLabs,
                           displayKey: 'name',
@@ -227,7 +223,7 @@ export const Department = DeginisationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Code'
                       id='code'
@@ -235,7 +231,7 @@ export const Department = DeginisationHoc(
                       placeholder={
                         errors.labCode ? 'Please Enter Code' : 'Code'
                       }
-                      value={departmentStore.department?.code}
+                      value={value}
                       onChange={code => {
                         onChange(code);
                         departmentStore.updateDepartment({
@@ -274,7 +270,7 @@ export const Department = DeginisationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Name'
                       name='name'
@@ -282,7 +278,7 @@ export const Department = DeginisationHoc(
                       placeholder={
                         errors.labName ? 'Please Enter Name' : 'Name'
                       }
-                      value={departmentStore.department?.name}
+                      value={value}
                       onChange={name => {
                         onChange(name);
                         departmentStore.updateDepartment({
@@ -299,7 +295,7 @@ export const Department = DeginisationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Short Name'
                       placeholder={
@@ -308,7 +304,7 @@ export const Department = DeginisationHoc(
                           : 'Short Name'
                       }
                       hasError={!!errors.shortName}
-                      value={departmentStore.department?.shortName}
+                      value={value}
                       onChange={shortName => {
                         onChange(shortName);
                         departmentStore.updateDepartment({
@@ -324,7 +320,7 @@ export const Department = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='HOD' hasError={!!errors.hod}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -334,6 +330,7 @@ export const Department = DeginisationHoc(
                           displayKey: 'fullName',
                           findKey: 'fullName',
                         }}
+                        displayValue={value}
                         hasError={!!errors.fullName}
                         onFilter={(value: string) => {
                           userStore.UsersService.filter({
@@ -375,7 +372,7 @@ export const Department = DeginisationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Authorized Signatory'
                       hasError={!!errors.authorizedSignatory}
@@ -400,7 +397,7 @@ export const Department = DeginisationHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Report Order'
                       placeholder={
@@ -410,7 +407,7 @@ export const Department = DeginisationHoc(
                       }
                       type='number'
                       hasError={!!errors.reportOrder}
-                      value={departmentStore.department?.reportOrder}
+                      value={value}
                       onChange={reportOrder => {
                         onChange(reportOrder);
                         departmentStore.updateDepartment({
@@ -431,7 +428,7 @@ export const Department = DeginisationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Mobile No'
                       placeholder={
@@ -440,7 +437,7 @@ export const Department = DeginisationHoc(
                       type='number'
                       hasError={!!errors.mobileNo}
                       pattern={FormHelper.patterns.mobileNo}
-                      value={departmentStore.department?.mobileNo}
+                      value={value}
                       onChange={mobileNo => {
                         onChange(mobileNo);
                         departmentStore.updateDepartment({
@@ -459,7 +456,7 @@ export const Department = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Contact No'
                       placeholder={
@@ -470,7 +467,7 @@ export const Department = DeginisationHoc(
                       type='number'
                       pattern={FormHelper.patterns.mobileNo}
                       hasError={!!errors.contactNo}
-                      value={departmentStore.department?.contactNo}
+                      value={value}
                       onChange={contactNo => {
                         onChange(contactNo);
                         departmentStore.updateDepartment({
@@ -489,11 +486,11 @@ export const Department = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Opening Time'
                       hasError={!!errors.openingTime}
-                      value={departmentStore.department?.openingTime}
+                      value={value}
                       onChange={openingTime => {
                         onChange(openingTime);
                         departmentStore.updateDepartment({
@@ -509,11 +506,11 @@ export const Department = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Clock
                       label='Closing Time'
                       hasError={!!errors.closingTime}
-                      value={departmentStore.department?.closingTime}
+                      value={value}
                       onChange={closingTime => {
                         onChange(closingTime);
                         departmentStore.updateDepartment({
@@ -530,11 +527,11 @@ export const Department = DeginisationHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Auto Release'
                         hasError={!!errors.autoRelease}
-                        value={departmentStore.department?.autoRelease}
+                        value={value}
                         onChange={autoRelease => {
                           onChange(autoRelease);
                           departmentStore.updateDepartment({
@@ -551,11 +548,11 @@ export const Department = DeginisationHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Require receving in Lab'
                         hasError={!!errors.requireReceveInLab}
-                        value={departmentStore.department?.requireReceveInLab}
+                        value={value}
                         onChange={requireReceveInLab => {
                           onChange(requireReceveInLab);
                           departmentStore.updateDepartment({
@@ -571,11 +568,11 @@ export const Department = DeginisationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Require Scain In'
                         hasError={!!errors.requireScainIn}
-                        value={departmentStore.department?.requireScainIn}
+                        value={value}
                         onChange={requireScainIn => {
                           onChange(requireScainIn);
                           departmentStore.updateDepartment({
@@ -591,11 +588,11 @@ export const Department = DeginisationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Routing Dept'
                         hasError={!!errors.routingDept}
-                        value={departmentStore.department?.routingDept}
+                        value={value}
                         onChange={routingDept => {
                           onChange(routingDept);
                           departmentStore.updateDepartment({
@@ -614,7 +611,7 @@ export const Department = DeginisationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={2}
                       label='FYI line'
@@ -622,7 +619,7 @@ export const Department = DeginisationHoc(
                         errors.fyiLine ? 'Please Enter fyiLine' : 'fyiLine'
                       }
                       hasError={!!errors.fyiLine}
-                      value={departmentStore.department?.fyiLine}
+                      value={value}
                       onChange={fyiLine => {
                         onChange(fyiLine);
                         departmentStore.updateDepartment({
@@ -638,7 +635,7 @@ export const Department = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={2}
                       label='Work line'
@@ -646,7 +643,7 @@ export const Department = DeginisationHoc(
                         errors.workLine ? 'Please Enter workLine' : 'workLine'
                       }
                       hasError={!!errors.workLine}
-                      value={departmentStore.department?.workLine}
+                      value={value}
                       onChange={workLine => {
                         onChange(workLine);
                         departmentStore.updateDepartment({
@@ -662,13 +659,13 @@ export const Department = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={departmentStore.department?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -698,10 +695,10 @@ export const Department = DeginisationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={departmentStore.department?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

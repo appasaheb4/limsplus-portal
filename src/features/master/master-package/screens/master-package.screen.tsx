@@ -31,6 +31,8 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetMasterPackage} from '../startup';
+import {SelectedItems} from '../models';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -56,11 +58,30 @@ const MasterPackage = MasterPackageHOC(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('lab', loginStore.login.lab);
     setValue('status', masterPackageStore.masterPackage?.status);
     setValue('environment', masterPackageStore.masterPackage?.environment);
+    setValue('dateCreation', masterPackageStore.masterPackage?.dateCreation);
+    setValue('dateExpire', masterPackageStore.masterPackage?.dateExpire);
+    setValue('version', masterPackageStore.masterPackage?.version);
+    setValue('dateActive', masterPackageStore.masterPackage?.dateActive);
+    setValue(
+      'printPanelName',
+      masterPackageStore.masterPackage?.printPanelName,
+    );
+    setValue(
+      'packageInterpretation',
+      masterPackageStore.masterPackage?.packageInterpretation,
+    );
+    setValue(
+      'panelInterpretation',
+      masterPackageStore.masterPackage?.panelInterpretation,
+    );
+    setValue('panelName', masterPackageStore.masterPackage?.panelName);
+    setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);
@@ -93,6 +114,10 @@ const MasterPackage = MasterPackageHOC(
                 Toast.success({
                   message: `😊 ${res.createPackageMaster.message}`,
                 });
+                setIsInputView(true);
+                reset();
+                resetMasterPackage();
+                masterPackageStore.updateSelectedItems(new SelectedItems({}));
               }
             });
         } else if (
@@ -134,9 +159,6 @@ const MasterPackage = MasterPackageHOC(
               }
             });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -269,7 +291,7 @@ const MasterPackage = MasterPackageHOC(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         placeholder='Search by name'
@@ -285,7 +307,7 @@ const MasterPackage = MasterPackageHOC(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
-                        displayValue={masterPackageStore.masterPackage?.lab}
+                        displayValue={value}
                         hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
@@ -349,13 +371,13 @@ const MasterPackage = MasterPackageHOC(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Service Type'
                       hasError={!!errors.serviceType}
                     >
                       <select
-                        value={masterPackageStore.masterPackage?.serviceType}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.serviceType
                             ? 'border-red-500'
@@ -414,12 +436,13 @@ const MasterPackage = MasterPackageHOC(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Package Code'
                       hasError={!!errors.packageCode}
                     >
                       <select
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.packageCode
                             ? 'border-red-500'
@@ -499,9 +522,9 @@ const MasterPackage = MasterPackageHOC(
                 </label>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
-                      value={masterPackageStore.masterPackage?.packageName}
+                      value={value}
                       label='Package Name'
                       placeholder='Package Name'
                       disabled={true}
@@ -514,7 +537,7 @@ const MasterPackage = MasterPackageHOC(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
                       hasError={!!errors.panelCode}
@@ -634,12 +657,13 @@ const MasterPackage = MasterPackageHOC(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Panel Name'
                       hasError={!!errors.panelName}
                     >
                       <select
+                        value={value}
                         disabled={true}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.panelName
@@ -661,13 +685,13 @@ const MasterPackage = MasterPackageHOC(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={masterPackageStore.masterPackage?.status}
+                        // value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -697,7 +721,7 @@ const MasterPackage = MasterPackageHOC(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -716,7 +740,7 @@ const MasterPackage = MasterPackageHOC(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -725,7 +749,7 @@ const MasterPackage = MasterPackageHOC(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={masterPackageStore.masterPackage?.dateCreation}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -737,12 +761,12 @@ const MasterPackage = MasterPackageHOC(
                 <Grid cols={3}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
                         hasError={!!errors.bill}
-                        value={masterPackageStore.masterPackage?.bill}
+                        value={value}
                         onChange={bill => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -757,14 +781,12 @@ const MasterPackage = MasterPackageHOC(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Package Name'
                         id='printPackageName'
                         hasError={!!errors.printPackageName}
-                        value={
-                          masterPackageStore.masterPackage?.printPackageName
-                        }
+                        value={value}
                         onChange={printPackageName => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -780,12 +802,12 @@ const MasterPackage = MasterPackageHOC(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Panel Name'
                         id='printPanelName'
                         hasError={!!errors.printPanelName}
-                        value={masterPackageStore.masterPackage?.printPanelName}
+                        value={value}
                         onChange={printPanelName => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -801,12 +823,12 @@ const MasterPackage = MasterPackageHOC(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Panel Name'
                         id='printPanelName'
                         hasError={!!errors.printPanelName}
-                        value={masterPackageStore.masterPackage?.printPanelName}
+                        value={value}
                         onChange={printPanelName => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -822,14 +844,11 @@ const MasterPackage = MasterPackageHOC(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Package Interpretation'
                         hasError={!!errors.packageInterpretation}
-                        value={
-                          masterPackageStore.masterPackage
-                            ?.packageInterpretation
-                        }
+                        value={value}
                         onChange={packageInterpretation => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -844,13 +863,11 @@ const MasterPackage = MasterPackageHOC(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Panel Interpretation'
                         hasError={!!errors.panelInterpretation}
-                        value={
-                          masterPackageStore.masterPackage?.panelInterpretation
-                        }
+                        value={value}
                         onChange={panelInterpretation => {
                           masterPackageStore.updateMasterPackage({
                             ...masterPackageStore.masterPackage,
@@ -975,7 +992,7 @@ const MasterPackage = MasterPackageHOC(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -984,7 +1001,7 @@ const MasterPackage = MasterPackageHOC(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={masterPackageStore.masterPackage?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -995,7 +1012,7 @@ const MasterPackage = MasterPackageHOC(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
@@ -1004,7 +1021,7 @@ const MasterPackage = MasterPackageHOC(
                           : 'Date Expire'
                       }
                       hasError={!!errors.dateExpire}
-                      value={masterPackageStore.masterPackage?.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         masterPackageStore.updateMasterPackage({
@@ -1020,14 +1037,14 @@ const MasterPackage = MasterPackageHOC(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
                         errors.version ? 'Please Enter Version ' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={masterPackageStore.masterPackage?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1037,13 +1054,13 @@ const MasterPackage = MasterPackageHOC(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
                     >
                       <select
-                        value={masterPackageStore.masterPackage?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

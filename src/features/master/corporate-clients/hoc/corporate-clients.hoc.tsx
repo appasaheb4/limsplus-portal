@@ -9,6 +9,15 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
     const {loginStore, corporateClientsStore, routerStore} = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
+      const deliveryMode = [
+        {
+          code: getDefaultLookupItem(
+            routerStore.lookupItems,
+            'DELIVERY_METHOD',
+          ),
+          selected: true,
+        },
+      ];
       corporateClientsStore.updateCorporateClients({
         ...corporateClientsStore.corporateClients,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
@@ -36,6 +45,7 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'BILLING_FREQUENCY',
         ),
+        deliveryMode,
       });
       if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
         corporateClientsStore.updateCorporateClients({

@@ -11,6 +11,7 @@ import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
+import {ReferenceRanges} from '../../../models';
 interface CommonInputTableProps {
   data?: any;
 }
@@ -33,6 +34,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     setValue,
     clearErrors,
     setError,
+    reset,
   } = useForm({mode: 'all'});
   setValue('species', refernceRangesStore.referenceRanges?.species);
   setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
@@ -86,6 +88,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
   }, [refernceRangesStore.referenceRanges?.rangeSetOn]);
 
   const addItem = () => {
+    reset();
     const refRangesInputList =
       refernceRangesStore.referenceRanges?.refRangesInputList;
     refRangesInputList.push({
@@ -118,6 +121,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       ...refernceRangesStore.referenceRanges,
       refRangesInputList,
     });
+    // reset();
   };
 
   return (
@@ -153,11 +157,12 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     hasError={!!errors.analyte}
                     placeholder='Search by code or name'
+                    displayValue={value}
                     data={{
                       list: masterAnalyteStore.listMasterAnalyte,
                       displayKey: ['analyteCode', 'analyteName'],
@@ -202,16 +207,17 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='analyte'
                 rules={{required: true}}
-                defaultValue={masterAnalyteStore.listMasterAnalyte}
+                defaultValue=''
               />
             </td>
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     hasError={!!errors.department}
+                    displayValue={value}
                     placeholder='Search by code or name'
                     data={{
                       list: departmentStore.listDepartment.filter(item =>
@@ -239,7 +245,6 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       });
                     }}
                     onSelect={item => {
-                      console.log({item});
                       onChange(item.code);
                       refernceRangesStore.updateReferenceRanges({
                         ...refernceRangesStore.referenceRanges,
@@ -253,15 +258,15 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='department'
                 rules={{required: true}}
-                defaultValue={departmentStore.listDepartment}
+                defaultValue=''
               />
             </td>
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <select
-                    value={refernceRangesStore.referenceRanges?.species}
+                    value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.species ? 'border-red-500  ' : 'border-gray-300'
                     } rounded-md`}
@@ -292,9 +297,9 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <select
-                    value={refernceRangesStore.referenceRanges?.sex}
+                    value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.sex ? 'border-red-500  ' : 'border-gray-300'
                     } rounded-md`}
@@ -325,9 +330,9 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <select
-                    value={refernceRangesStore.referenceRanges?.rangeSetOn}
+                    value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.rangeSetOn ? 'border-red-500  ' : 'border-gray-300'
                     } rounded-md`}
@@ -366,7 +371,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder='Search by code or name'
@@ -375,7 +380,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       list: labStore.listLabs,
                       displayKey: ['code', 'name'],
                     }}
-                    displayValue={refernceRangesStore.referenceRanges?.lab}
+                    displayValue={value}
                     disable={isDisableLab}
                     onFilter={(value: string) => {
                       labStore.LabService.filterByFields({
@@ -401,13 +406,13 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='lab'
                 rules={{required: !isDisableLab}}
-                defaultValue={labStore.listLabs || isDisableLab}
+                defaultValue=''
               />
             </td>
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                     loader={loading}
                     placeholder='Search by inst type'
@@ -417,7 +422,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       list: interfaceManagerStore.listInterfaceManager,
                       displayKey: ['instrumentType'],
                     }}
-                    displayValue={refernceRangesStore.referenceRanges?.instType}
+                    displayValue={value}
                     onFilter={(value: string) => {
                       interfaceManagerStore.interfaceManagerService.filterByFields(
                         {
@@ -446,10 +451,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                 )}
                 name='equipmentType'
                 rules={{required: !isDisableEquipmentType}}
-                defaultValue={
-                  interfaceManagerStore.listInterfaceManager ||
-                  isDisableEquipmentType
-                }
+                defaultValue=''
               />
             </td>
           </tr>

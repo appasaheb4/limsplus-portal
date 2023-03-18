@@ -59,6 +59,18 @@ export const PatientManager = PatientManagerHoc(
       'isPatientMobileNo',
       patientManagerStore.patientManger?.isPatientMobileNo,
     );
+    setValue(
+      'postalCode',
+      patientManagerStore.patientManger?.extraData?.postcode,
+    );
+    setValue('country', patientManagerStore.patientManger?.extraData?.country);
+    setValue('state', patientManagerStore.patientManger?.extraData?.state);
+    setValue(
+      'district',
+      patientManagerStore.patientManger?.extraData?.district,
+    );
+    setValue('city', patientManagerStore.patientManger?.extraData?.city);
+    setValue('area', patientManagerStore.patientManger?.extraData?.area);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
@@ -872,6 +884,7 @@ export const PatientManager = PatientManagerHoc(
                                 'Pincode',
                               ],
                             }}
+                            // displayValue={value ?? ''}
                             hasError={!!errors.postalCode}
                             onFilter={(value: string) => {
                               if (value?.length == 6) {

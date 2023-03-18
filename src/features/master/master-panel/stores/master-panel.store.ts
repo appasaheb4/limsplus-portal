@@ -20,6 +20,32 @@ export class MasterPanelStore {
     this.sectionListByDeptCode = [];
     this.checkExitsLabEnvCode = false;
     this.masterPanelActivity = new MasterPanelActivity({});
+    this.reset();
+    makeObservable<MasterPanelStore, any>(this, {
+      masterPanel: observable,
+      listMasterPanel: observable,
+      listMasterPanelCount: observable,
+      checkExitsLabEnvCode: observable,
+      sectionListByDeptCode: observable,
+      masterPanelActivity: observable,
+
+      masterPanelService: computed,
+      fetchPanelMaster: action,
+      updatePanelMasterList: action,
+      findSectionListByDeptCode: action,
+      updateSectionListByDeptCode: action,
+      updateMasterPanel: action,
+      updateExistsLabEnvCode: action,
+      filterPanelMasterList: action,
+      updateMasterPanelActivity: action,
+      reset: action,
+    });
+  }
+
+  reset() {
+    this.masterPanel = new MasterPanel({});
+    this.listMasterPanel = [];
+    this.listMasterPanelCount = 0;
     this.masterPanel = {
       ...this.masterPanel,
       dateCreation: new Date(),
@@ -41,24 +67,6 @@ export class MasterPanelStore {
       pageBreak: false,
       validationLevel: 0,
     };
-    makeObservable<MasterPanelStore, any>(this, {
-      masterPanel: observable,
-      listMasterPanel: observable,
-      listMasterPanelCount: observable,
-      checkExitsLabEnvCode: observable,
-      sectionListByDeptCode: observable,
-      masterPanelActivity: observable,
-
-      masterPanelService: computed,
-      fetchPanelMaster: action,
-      updatePanelMasterList: action,
-      findSectionListByDeptCode: action,
-      updateSectionListByDeptCode: action,
-      updateMasterPanel: action,
-      updateExistsLabEnvCode: action,
-      filterPanelMasterList: action,
-      updateMasterPanelActivity: action,
-    });
   }
 
   get masterPanelService() {

@@ -15,6 +15,27 @@ export class TestPanelMappingStore {
     this.selectedItems = new SelectedItems({});
     this.listTestPanelMappingCount = 0;
     this.checkExitsLabEnvCode = false;
+    this.reset();
+    makeObservable<TestPanelMappingStore, any>(this, {
+      testPanelMapping: observable,
+      listTestPanelMapping: observable,
+      listTestPanelMappingCount: observable,
+      checkExitsLabEnvCode: observable,
+      selectedItems: observable,
+
+      testPanelMappingService: computed,
+      fetchTestPanelMapping: action,
+      updateTestPanelMappingList: action,
+      updateTestPanelMapping: action,
+      updateExistsLabEnvCode: action,
+      filterTestPanelMappingList: action,
+    });
+  }
+
+  reset() {
+    this.testPanelMapping = new TestPanelMapping({});
+    this.listTestPanelMapping = [];
+    this.listTestPanelMappingCount = 0;
     this.testPanelMapping = {
       ...this.testPanelMapping,
       dateCreation: new Date(),
@@ -33,20 +54,6 @@ export class TestPanelMappingStore {
       testInterpretation: false,
       analyteInterpretation: true,
     };
-    makeObservable<TestPanelMappingStore, any>(this, {
-      testPanelMapping: observable,
-      listTestPanelMapping: observable,
-      listTestPanelMappingCount: observable,
-      checkExitsLabEnvCode: observable,
-      selectedItems: observable,
-
-      testPanelMappingService: computed,
-      fetchTestPanelMapping: action,
-      updateTestPanelMappingList: action,
-      updateTestPanelMapping: action,
-      updateExistsLabEnvCode: action,
-      filterTestPanelMappingList: action,
-    });
   }
 
   get testPanelMappingService() {

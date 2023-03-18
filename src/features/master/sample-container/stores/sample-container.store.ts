@@ -14,6 +14,7 @@ export class SampleContainerStore {
     this.checkExitsEnvCode = false;
     this.sampleContainer = new SampleContainer({});
     this.listSampleContainerCount = 0;
+    this.reset();
 
     makeObservable<SampleContainerStore, any>(this, {
       sampleContainer: observable,
@@ -26,7 +27,14 @@ export class SampleContainerStore {
       updateSampleContainerList: action,
       updateSampleContainer: action,
       updateExitsEnvCode: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.sampleContainer = new SampleContainer({});
+    this.listSampleContainer = [];
+    this.listSampleContainerCount = 0;
   }
 
   get sampleContainerService() {
