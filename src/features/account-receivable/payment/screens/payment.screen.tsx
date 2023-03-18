@@ -21,6 +21,8 @@ import {lookupItems, lookupValue} from '@/library/utils';
 import {useStores} from '@/stores';
 import {PaymentList} from '../components';
 import {PaymentHoc} from '../hoc';
+import {resetPayment} from '../startup';
+import {Payment as Model} from '../models';
 
 const Payment = PaymentHoc(
   observer(() => {
@@ -39,12 +41,32 @@ const Payment = PaymentHoc(
       setValue,
       clearErrors,
       setError,
+      reset,
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
 
     setValue('modeOfPayment', paymentStore.payment?.modeOfPayment);
+    setValue('invoiceAc', paymentStore.payment?.invoiceAC);
+    setValue('rLab', paymentStore.payment?.rLab);
+    setValue('customerName', paymentStore.payment?.customerName);
+    setValue('customerGroup', paymentStore.payment?.customerGroup);
+    setValue('acClass', paymentStore.payment?.acClass);
+    setValue('acType', paymentStore.payment?.acType);
+    setValue('otherCharges', paymentStore.payment?.discountCharges);
+    setValue('invoiceDate', paymentStore.payment?.invoiceDate);
+    setValue('grossAmount', paymentStore.payment?.grossAmount);
+    setValue('netAmount', paymentStore.payment?.netAmount);
+    setValue('discountAmount', paymentStore.payment?.discountAmount);
+    setValue('discountPer', paymentStore.payment?.discountPer);
+    setValue(
+      'miscellaneousCharges',
+      paymentStore.payment?.miscellaneousCharges,
+    );
+    setValue('amountPayable', paymentStore.payment?.amountPayable);
+    setValue('status', paymentStore.payment?.status);
+    setValue('balance', paymentStore.payment?.balance);
 
     useEffect(() => {
       paymentStore.updatePayment({
@@ -65,11 +87,13 @@ const Payment = PaymentHoc(
             Toast.success({
               message: `😊 ${res.createPayment.message}`,
             });
+            setIsInputView(true);
+            reset();
+            resetPayment();
+            setTotalReceivedAmount(0);
+            paymentStore.updatePayment(new Model({}));
           }
         });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
     };
 
     const getAmountPayable = payload => {
@@ -141,7 +165,7 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='PId' hasError={!!errors.pId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -156,7 +180,7 @@ const Payment = PaymentHoc(
                           displayKey: ['pId', 'customerName'],
                         }}
                         disable={false}
-                        displayValue={paymentStore.payment?.pId?.toString()}
+                        displayValue={value?.toString()}
                         hasError={!!errors.pId}
                         onFilter={(value: string) => {
                           // methodsStore.methodsService.filterByFields({
@@ -192,7 +216,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -207,7 +231,7 @@ const Payment = PaymentHoc(
                           displayKey: ['labId', 'customerName'],
                         }}
                         disable={false}
-                        displayValue={paymentStore.payment?.labId?.toString()}
+                        displayValue={value?.toString()}
                         hasError={!!errors.labId}
                         onFilter={(value: string) => {
                           // methodsStore.methodsService.filterByFields({
@@ -243,29 +267,29 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='RLab'
                       placeholder={'RLab'}
                       hasError={!!errors.rLab}
                       disabled={true}
-                      value={paymentStore.payment?.rLab}
+                      value={value}
                     />
                   )}
                   name='rLab'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.rLab}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Invoice AC'
                       placeholder={'Invoice AC'}
                       hasError={!!errors.invoiceAC}
                       disabled={true}
-                      value={paymentStore.payment?.invoiceAC?.toString() || ''}
+                      value={value}
                     />
                   )}
                   name='invoiceAC'
@@ -275,176 +299,176 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Customer Name'
                       placeholder={'Customer Name'}
                       hasError={!!errors.customerName}
                       disabled={true}
-                      value={paymentStore.payment?.customerName}
+                      value={value}
                     />
                   )}
                   name='customerName'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.customerName}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Customer Group'
                       placeholder={'Customer Group'}
                       hasError={!!errors.customerGroup}
                       disabled={true}
-                      value={paymentStore.payment?.customerGroup}
+                      value={value}
                     />
                   )}
                   name='customerGroup'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.customerGroup}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='AC Class'
                       placeholder={'AC Class'}
                       hasError={!!errors.acClass}
                       disabled={true}
-                      value={paymentStore.payment?.acClass}
+                      value={value}
                     />
                   )}
                   name='acClass'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.acClass}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Ac Type'
                       placeholder={'Ac Type'}
                       hasError={!!errors.acType}
                       disabled={true}
-                      value={paymentStore.payment?.acType}
+                      value={value}
                     />
                   )}
                   name='acType'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.acType}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Other Charges'
                       placeholder={'Other Charges'}
                       hasError={!!errors.discountCharges}
                       disabled={true}
-                      value={paymentStore.payment?.discountCharges}
+                      value={value}
                     />
                   )}
                   name='discountCharges'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.discountCharges}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Invoice Date'
                       placeholder={'Invoice Date'}
                       hasError={!!errors.invoiceDate}
                       disabled={true}
-                      value={paymentStore.payment?.invoiceDate}
+                      value={value}
                     />
                   )}
                   name='invoiceDate'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.invoiceDate}
+                  defaultValue=''
                 />
               </List>
 
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Gross Amount'
                       placeholder={'Gross Amount'}
                       hasError={!!errors.grossAmount}
                       disabled={true}
-                      value={paymentStore.payment?.grossAmount?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='grossAmount'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.grossAmount}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Net Amount'
                       placeholder={'Net Amount'}
                       hasError={!!errors.netAmount}
                       disabled={true}
-                      value={paymentStore.payment?.netAmount?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='netAmount'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.netAmount}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Discount Amount'
                       placeholder={'Discount Amount'}
                       hasError={!!errors.discountAmount}
                       disabled={true}
-                      value={paymentStore.payment?.discountAmount?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='discountAmount'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.discountAmount}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Discount Per'
                       placeholder={'Discount Per'}
                       hasError={!!errors.discountPer}
                       disabled={true}
-                      value={paymentStore.payment?.discountPer?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='discountPer'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.discountPer}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Miscellaneous Charges'
                       placeholder={'Miscellaneous Charges'}
                       hasError={!!errors.miscellaneousCharges}
                       disabled={true}
-                      value={paymentStore.payment?.miscellaneousCharges?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='miscellaneousCharges'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.miscellaneousCharges}
+                  defaultValue=''
                 />
                 <Table striped bordered>
                   <thead>
@@ -481,10 +505,10 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Mode of payment'>
                       <select
-                        value={paymentStore.payment?.modeOfPayment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.modeOfPayment
                             ? 'border-red-500  '
@@ -518,12 +542,12 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       label='Payment Remark'
                       placeholder='Payment Remark'
                       hasError={!!errors.paymentRemark}
-                      value={paymentStore.payment?.paymentRemark}
+                      value={value}
                       onChange={paymentRemark => {
                         onChange(paymentRemark);
                         paymentStore.updatePayment({
@@ -535,34 +559,34 @@ const Payment = PaymentHoc(
                   )}
                   name='paymentRemark'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.paymentRemark}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Amount Payable'
                       placeholder={'Amount Payable'}
                       hasError={!!errors.amountPayable}
                       disabled={true}
-                      value={paymentStore.payment?.amountPayable?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='amountPayable'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.amountPayable}
+                  defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Received Amount'
                       placeholder={'Received Amount'}
                       type='number'
                       hasError={!!errors.receivedAmount}
-                      value={paymentStore.payment?.receivedAmount}
+                      // value={value}
                       onChange={receivedAmount => {
                         if (
                           paymentStore.payment?.amountPayable -
@@ -606,37 +630,37 @@ const Payment = PaymentHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Balance'
                       placeholder={'Balance'}
                       type='number'
                       hasError={!!errors.balance}
-                      value={paymentStore.payment?.balance?.toString()}
+                      value={value?.toString()}
                     />
                   )}
                   name='balance'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.balance}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Status'
                       placeholder={'Status'}
                       hasError={!!errors.status}
-                      value={paymentStore.payment?.status}
+                      value={value}
                       disabled={true}
                     />
                   )}
                   name='status'
                   rules={{required: false}}
-                  defaultValue={paymentStore.payment?.status}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={'Entered By'}

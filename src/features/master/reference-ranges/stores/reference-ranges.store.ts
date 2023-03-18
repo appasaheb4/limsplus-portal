@@ -12,12 +12,7 @@ export class RefernceRangesStore {
     this.listReferenceRanges = [];
     this.listReferenceRangesCount = 0;
     this.checkExitsRecord = false;
-
-    this.referenceRanges = {
-      ...this.referenceRanges,
-      refRangesInputList: [],
-    };
-
+    this.reset();
     makeObservable<RefernceRangesStore, any>(this, {
       referenceRanges: observable,
       listReferenceRanges: observable,
@@ -29,7 +24,18 @@ export class RefernceRangesStore {
       updateReferenceRangesList: action,
       updateReferenceRanges: action,
       updateExistsRecord: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    // this.referenceRanges = new ReferenceRanges({});
+    this.listReferenceRanges = [];
+    this.listReferenceRangesCount = 0;
+    this.referenceRanges = {
+      ...this.referenceRanges,
+      refRangesInputList: [],
+    };
   }
   get referenceRangesService() {
     return new ReferenceRangesService();

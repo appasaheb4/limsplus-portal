@@ -20,6 +20,7 @@ import {MethodsHoc} from '../hoc';
 import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {resetMethod} from '../startup';
 
 const Methods = MethodsHoc(
   observer(() => {
@@ -29,6 +30,7 @@ const Methods = MethodsHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue('status', methodsStore.methods?.status);
     setValue('environment', methodsStore.methods?.environment);
@@ -43,10 +45,10 @@ const Methods = MethodsHoc(
               Toast.success({
                 message: `😊 ${res.createMethod.message}`,
               });
+              setHideAddSection(true);
+              reset();
+              resetMethod();
             }
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
           });
       } else {
         Toast.warning({
@@ -78,7 +80,7 @@ const Methods = MethodsHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Method Code'
                       placeholder={
@@ -87,7 +89,7 @@ const Methods = MethodsHoc(
                           : 'Method Code'
                       }
                       hasError={!!errors.methodsCode}
-                      value={methodsStore.methods?.methodsCode}
+                      value={value}
                       onChange={methodsCode => {
                         onChange(methodsCode);
                         methodsStore.updateMethods({
@@ -125,7 +127,7 @@ const Methods = MethodsHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Method Name'
                       placeholder={
@@ -134,7 +136,7 @@ const Methods = MethodsHoc(
                           : 'Methods Name'
                       }
                       hasError={!!errors.methodName}
-                      value={methodsStore.methods?.methodsName}
+                      value={value}
                       onChange={methodsName => {
                         onChange(methodsName);
                         methodsStore.updateMethods({
@@ -151,7 +153,7 @@ const Methods = MethodsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={4}
                       label='Description'
@@ -161,7 +163,7 @@ const Methods = MethodsHoc(
                           : 'Description'
                       }
                       hasError={!!errors.description}
-                      value={methodsStore.methods?.description}
+                      value={value}
                       onChange={description => {
                         onChange(description);
                         methodsStore.updateMethods({
@@ -179,13 +181,13 @@ const Methods = MethodsHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={methodsStore && methodsStore.methods?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -215,10 +217,10 @@ const Methods = MethodsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={methodsStore.methods?.environment}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

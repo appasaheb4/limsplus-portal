@@ -18,6 +18,30 @@ export class TestMasterStore {
     this.sectionListByDeptCode = [];
     this.checkExitsLabEnvCode = false;
     this.listTestMasterCount = 0;
+    this.reset();
+    makeObservable<TestMasterStore, any>(this, {
+      testMaster: observable,
+      listTestMaster: observable,
+      listTestMasterCount: observable,
+      checkExitsLabEnvCode: observable,
+      sectionListByDeptCode: observable,
+
+      testMasterService: computed,
+      fetchTestMaster: action,
+      updateTestMasterList: action,
+      findSectionListByDeptCode: action,
+      updateSectionListByDeptCode: action,
+      updateTestMaster: action,
+      updateExistsLabEnvCode: action,
+      filterTestMasterList: action,
+      reset: action,
+    });
+  }
+
+  reset() {
+    this.testMaster = new TestMaster({});
+    this.listTestMaster = [];
+    this.listTestMasterCount = 0;
     this.testMaster = {
       ...this.testMaster,
       dateCreation: new Date(),
@@ -44,22 +68,6 @@ export class TestMasterStore {
       allowPartial: false,
       validationLevel: 0,
     };
-    makeObservable<TestMasterStore, any>(this, {
-      testMaster: observable,
-      listTestMaster: observable,
-      listTestMasterCount: observable,
-      checkExitsLabEnvCode: observable,
-      sectionListByDeptCode: observable,
-
-      testMasterService: computed,
-      fetchTestMaster: action,
-      updateTestMasterList: action,
-      findSectionListByDeptCode: action,
-      updateSectionListByDeptCode: action,
-      updateTestMaster: action,
-      updateExistsLabEnvCode: action,
-      filterTestMasterList: action,
-    });
   }
 
   get testMasterService() {

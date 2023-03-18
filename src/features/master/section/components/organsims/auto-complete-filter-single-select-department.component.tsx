@@ -5,13 +5,14 @@ import {useStores} from '@/stores';
 import {Icons} from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
+  displayValue?: string;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectDepartment = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectDepartmentProps) => {
+  ({displayValue, onSelect}: AutoCompleteFilterSingleSelectDepartmentProps) => {
     const {loading, departmentStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(displayValue!);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -37,6 +38,10 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
+
+    useEffect(() => {
+      setValue(displayValue!);
+    }, [displayValue]);
 
     useEffect(() => {
       setOptions(departmentStore.listDepartment);

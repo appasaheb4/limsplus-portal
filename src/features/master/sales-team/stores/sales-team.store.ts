@@ -12,15 +12,7 @@ export class SalesTeamStore {
 
   constructor() {
     this.listSalesTeam = [];
-    this.salesTeam = new SalesTeam({
-      ...this.salesTeam,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-    });
+    this.reset();
     makeObservable<SalesTeamStore, any>(this, {
       listSalesTeam: observable,
       salesTeam: observable,
@@ -33,6 +25,22 @@ export class SalesTeamStore {
       updateSalesTeam: action,
       updateExistsRecord: action,
       filterSalesTeamList: action,
+      reset: action,
+    });
+  }
+
+  reset() {
+    this.salesTeam = new SalesTeam({});
+    this.listSalesTeam = [];
+    this.listSalesTeamCount = 0;
+    this.salesTeam = new SalesTeam({
+      ...this.salesTeam,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
     });
   }
 

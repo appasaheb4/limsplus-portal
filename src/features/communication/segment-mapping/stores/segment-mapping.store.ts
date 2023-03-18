@@ -45,6 +45,13 @@ export class SegmentMappingStore {
     });
   }
 
+  reset() {
+    this.segmentMapping = [];
+    this.listSegmentMapping = [];
+    this.listSegmentMappingCount = 0;
+    this.selectedItems = [];
+  }
+
   get segmentMappingService() {
     return new SegmentMappingService();
   }

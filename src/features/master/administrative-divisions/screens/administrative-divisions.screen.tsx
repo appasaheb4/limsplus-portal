@@ -21,6 +21,7 @@ import {AdministrativeDivisionsHoc} from '../hoc';
 import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {resetBanner} from '../../banner/startup';
 
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
@@ -30,11 +31,14 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue(
       'environment',
       administrativeDivisions.administrativeDiv?.environment,
     );
+    setValue('sbu', administrativeDivisions.administrativeDiv?.sbu);
+    setValue('zone', administrativeDivisions.administrativeDiv?.zone);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
@@ -54,11 +58,11 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               Toast.success({
                 message: `😊 ${res.createAdministrativeDivision.message}`,
               });
+              setHideAddSection(true);
+              reset();
+              resetBanner();
             }
           });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       } else {
         Toast.warning({
           message: '😔 Please enter all information!',
@@ -89,14 +93,14 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Country'
                       placeholder={
                         errors.country ? 'Please Enter Country ' : 'Country'
                       }
                       hasError={!!errors.country}
-                      value={administrativeDivisions.administrativeDiv?.country}
+                      value={value}
                       onChange={country => {
                         onChange(country);
                         administrativeDivisions.updateAdministrativeDiv({
@@ -114,15 +118,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 <Form.InputWrapper label='State' hasError={!!errors.state}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Input
                         placeholder={
                           errors.state ? 'Please Enter state' : 'State'
                         }
                         hasError={!!errors.state}
-                        value={
-                          administrativeDivisions.administrativeDiv?.state || ''
-                        }
+                        value={value}
                         onChange={state => {
                           onChange(state);
                           administrativeDivisions.updateAdministrativeDiv({
@@ -144,16 +146,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 >
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Input
                         placeholder={
                           errors.district ? 'Please Enter District' : 'District'
                         }
                         hasError={!!errors.district}
-                        value={
-                          administrativeDivisions.administrativeDiv?.district ||
-                          ''
-                        }
+                        value={value}
                         onChange={district => {
                           onChange(district);
                           administrativeDivisions.updateAdministrativeDiv({
@@ -172,15 +171,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 <Form.InputWrapper label='City'>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Input
                         hasError={!!errors.city}
                         placeholder={
                           !!errors.city ? 'Please Enter City' : 'City'
                         }
-                        value={
-                          administrativeDivisions.administrativeDiv?.city || ''
-                        }
+                        value={value}
                         onChange={city => {
                           onChange(city);
                           administrativeDivisions.updateAdministrativeDiv({
@@ -199,15 +196,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 <Form.InputWrapper label='Area'>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Input
                         placeholder={
                           !!errors.area ? 'Please Enter Area' : 'Area'
                         }
                         hasError={!!errors.area}
-                        value={
-                          administrativeDivisions.administrativeDiv?.area || ''
-                        }
+                        value={value}
                         onChange={area => {
                           onChange(area);
                           administrativeDivisions.updateAdministrativeDiv({
@@ -228,7 +223,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   <div className='flex flex-row'>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({field: {onChange, value}}) => (
                         <Form.Input
                           type='number'
                           placeholder={
@@ -237,9 +232,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                               : 'PostalCode'
                           }
                           hasError={!!errors.postalCode}
-                          value={
-                            administrativeDivisions.localState?.postalCode || ''
-                          }
+                          value={value}
                           onChange={postalCode => {
                             onChange(postalCode);
                             administrativeDivisions.updateLocalPostalCode({
@@ -325,10 +318,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='SBU' hasError={!!errors.sbu}>
                       <select
-                        value={administrativeDivisions.administrativeDiv?.sbu}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sbu ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -359,10 +352,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='ZONE' hasError={!!errors.zone}>
                       <select
-                        value={administrativeDivisions.administrativeDiv?.zone}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.zone ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -392,15 +385,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
                     >
                       <select
-                        value={
-                          administrativeDivisions.administrativeDiv?.environment
-                        }
+                        value={value}
                         disabled={
                           loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'

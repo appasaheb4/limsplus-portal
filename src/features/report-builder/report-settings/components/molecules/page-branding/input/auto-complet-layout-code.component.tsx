@@ -5,11 +5,12 @@ import {useStores} from '@/stores';
 
 interface AutoCompleteLayoutCodeProps {
   hasError?: boolean;
+  displayValue?: string;
   onSelect: (item) => void;
 }
 
 export const AutoCompleteLayoutCode = observer(
-  ({hasError = false, onSelect}: AutoCompleteLayoutCodeProps) => {
+  ({hasError = false, onSelect, displayValue}: AutoCompleteLayoutCodeProps) => {
     const {loading, routerStore, reportSettingStore} = useStores();
     return (
       <>
@@ -17,6 +18,7 @@ export const AutoCompleteLayoutCode = observer(
           loader={loading}
           placeholder='Layout Code'
           hasError={hasError}
+          displayValue={displayValue}
           data={{
             list: reportSettingStore.pageLayoutList,
             displayKey: ['tempCode', 'tempName'],

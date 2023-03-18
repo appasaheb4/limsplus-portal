@@ -7,13 +7,19 @@ import {Icons} from '@/library/components';
 interface AutoCompleteFilterSingleSelectTestNameProps {
   lab?: string;
   hasError?: boolean;
+  displayValue: string;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectTestName = observer(
-  ({lab, hasError, onSelect}: AutoCompleteFilterSingleSelectTestNameProps) => {
+  ({
+    lab,
+    hasError,
+    displayValue,
+    onSelect,
+  }: AutoCompleteFilterSingleSelectTestNameProps) => {
     const {loading, testMasterStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -39,6 +45,10 @@ export const AutoCompleteFilterSingleSelectTestName = observer(
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
+
+    useEffect(() => {
+      setValue(displayValue);
+    }, [displayValue]);
 
     useEffect(() => {
       setOptions(

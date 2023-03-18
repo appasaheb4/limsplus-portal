@@ -20,6 +20,7 @@ import {SampleContainerHoc} from '../hoc';
 import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
+import {resetSampleContainer} from '../startup';
 
 const SampleContainer = SampleContainerHoc(
   observer(() => {
@@ -29,6 +30,7 @@ const SampleContainer = SampleContainerHoc(
       formState: {errors},
       handleSubmit,
       setValue,
+      reset,
     } = useForm();
 
     setValue('environment', sampleContainerStore.sampleContainer?.environment);
@@ -46,9 +48,9 @@ const SampleContainer = SampleContainerHoc(
               Toast.success({
                 message: `😊 ${res.createSampleContainer.message}`,
               });
-              setTimeout(() => {
-                window.location.reload();
-              }, 2000);
+              setHideAddBanner(true);
+              reset();
+              resetSampleContainer();
             }
           });
       } else {
@@ -80,7 +82,7 @@ const SampleContainer = SampleContainerHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Container Code'
                       hasError={!!errors.containerCode}
@@ -89,9 +91,7 @@ const SampleContainer = SampleContainerHoc(
                           ? 'Please Enter Container Code '
                           : 'Conatiner Code'
                       }
-                      value={
-                        sampleContainerStore.sampleContainer?.containerCode
-                      }
+                      value={value}
                       onChange={containerCode => {
                         onChange(containerCode);
                         sampleContainerStore.updateSampleContainer({
@@ -131,7 +131,7 @@ const SampleContainer = SampleContainerHoc(
                 )}
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Container Name'
                       hasError={!!errors.containerName}
@@ -140,9 +140,7 @@ const SampleContainer = SampleContainerHoc(
                           ? 'Please Enter Container Name'
                           : 'Container Name'
                       }
-                      value={
-                        sampleContainerStore.sampleContainer?.containerName
-                      }
+                      value={value}
                       onChange={containerName => {
                         onChange(containerName);
                         sampleContainerStore.updateSampleContainer({
@@ -158,12 +156,13 @@ const SampleContainer = SampleContainerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputFile
                       label='Image'
                       placeholder={
                         errors.image ? 'Please Insert Image' : 'Image'
                       }
+                      value={value ? value?.fileName : ''}
                       hasError={!!errors.image}
                       onChange={e => {
                         const image = e.target.files[0];
@@ -184,7 +183,7 @@ const SampleContainer = SampleContainerHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={5}
                       label='Description'
@@ -194,7 +193,7 @@ const SampleContainer = SampleContainerHoc(
                           ? 'Please Enter Description'
                           : 'Description'
                       }
-                      value={sampleContainerStore.sampleContainer?.description}
+                      value={value}
                       onChange={description => {
                         onChange(description);
                         sampleContainerStore.updateSampleContainer({
@@ -210,12 +209,10 @@ const SampleContainer = SampleContainerHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          sampleContainerStore.sampleContainer?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '
