@@ -94,8 +94,6 @@ export class TransmittedMessageService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
-
           if (!response.data.filterTransmittedMessage.success)
             return this.listTransmittedMessage();
           stores.transmittedMessageStore.updateTransmittedMessageList({
