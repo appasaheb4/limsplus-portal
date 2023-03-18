@@ -32,6 +32,8 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetTestPanelMapping} from '../startup';
+import {SelectedItems} from '../models';
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -49,6 +51,7 @@ const TestPanelMapping = TestPanelMappingHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue('lab', loginStore.login.lab);
@@ -57,9 +60,25 @@ const TestPanelMapping = TestPanelMappingHoc(
       'environment',
       testPanelMappingStore.testPanelMapping?.environment,
     );
+    setValue(
+      'dateCreation',
+      testPanelMappingStore.testPanelMapping?.dateCreation,
+    );
+    setValue('dateExpire', testPanelMappingStore.testPanelMapping?.dateExpire);
+    setValue('version', testPanelMappingStore.testPanelMapping?.version);
+    setValue('dateActive', testPanelMappingStore.testPanelMapping?.dateActive);
+    setValue(
+      'printPanelName',
+      testPanelMappingStore.testPanelMapping?.printPanelName,
+    );
+    setValue(
+      'analyteInterpretation',
+      testPanelMappingStore.testPanelMapping?.analyteInterpretation,
+    );
+    setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
 
     const [masterFlag, setMasgterFlag] = useState<any>([
@@ -97,6 +116,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                 Toast.success({
                   message: `😊 ${res.createTestPanelMapping.message}`,
                 });
+                setIsInputView(true);
+                reset();
+                resetTestPanelMapping();
+                testPanelMappingStore.updateSelectedItems(
+                  new SelectedItems({}),
+                );
               }
             });
         } else if (
@@ -138,9 +163,6 @@ const TestPanelMapping = TestPanelMappingHoc(
               }
             });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -270,7 +292,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <AutoCompleteFilterSingleSelect
                         loader={loading}
@@ -286,9 +308,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
-                        displayValue={
-                          testPanelMappingStore.testPanelMapping?.lab
-                        }
+                        displayValue={value}
                         hasError={!!errors.lab}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
@@ -353,13 +373,14 @@ const TestPanelMapping = TestPanelMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Panel Code'
                       hasError={!!errors.panelCode}
                     >
                       <AutoCompleteFilterSingleSelectPanelCode
                         hasError={!!errors.panelCode}
+                        displayValue={value}
                         lab={testPanelMappingStore.testPanelMapping?.lab}
                         onSelect={item => {
                           onChange(item.panelName);
@@ -419,7 +440,7 @@ const TestPanelMapping = TestPanelMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Test Code'
                       placeholder={
@@ -427,7 +448,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       }
                       hasError={!!errors.testCode}
                       disabled={true}
-                      value={testPanelMappingStore.testPanelMapping?.testCode}
+                      value={value}
                       onChange={testCode => {
                         onChange(testCode);
                         testPanelMappingStore.updateTestPanelMapping({
@@ -443,7 +464,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Test Name'
                       hasError={!!errors.testName}
@@ -561,13 +582,13 @@ const TestPanelMapping = TestPanelMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
                     >
                       <select
-                        value={testPanelMappingStore.testPanelMapping?.status}
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? 'border-red-500  ' : 'border-gray-300'
                         } rounded-md`}
@@ -597,7 +618,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={
@@ -620,7 +641,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Creation'
                       placeholder={
@@ -629,9 +650,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           : 'Date Creation'
                       }
                       hasError={!!errors.dateCreation}
-                      value={
-                        testPanelMappingStore.testPanelMapping?.dateCreation
-                      }
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -643,12 +662,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                 <Grid cols={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Bill'
                         id='modeBill'
                         hasError={!!errors.bill}
-                        value={testPanelMappingStore.testPanelMapping?.bill}
+                        value={value}
                         onChange={bill => {
                           onChange(bill);
                           testPanelMappingStore.updateTestPanelMapping({
@@ -664,13 +683,11 @@ const TestPanelMapping = TestPanelMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Test Name'
                         hasError={!!errors.printTestName}
-                        value={
-                          testPanelMappingStore.testPanelMapping?.printTestName
-                        }
+                        value={value}
                         onChange={printTestName => {
                           onChange(printTestName);
                           testPanelMappingStore.updateTestPanelMapping({
@@ -686,14 +703,11 @@ const TestPanelMapping = TestPanelMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Analyte Name'
                         hasError={!!errors.printAnalyteName}
-                        value={
-                          testPanelMappingStore.testPanelMapping
-                            ?.printAnalyteName
-                        }
+                        value={value}
                         onChange={printAnalyteName => {
                           onChange(printAnalyteName);
                           testPanelMappingStore.updateTestPanelMapping({
@@ -709,13 +723,11 @@ const TestPanelMapping = TestPanelMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Print Panel Name'
                         hasError={!!errors.printPanelName}
-                        value={
-                          testPanelMappingStore.testPanelMapping?.printPanelName
-                        }
+                        value={value}
                         onChange={printPanelName => {
                           onChange(printPanelName);
                           testPanelMappingStore.updateTestPanelMapping({
@@ -777,14 +789,11 @@ const TestPanelMapping = TestPanelMappingHoc(
                 <Grid cols={3}>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Panel Interpretation'
                         hasError={!!errors.panelInterpretation}
-                        value={
-                          testPanelMappingStore.testPanelMapping
-                            ?.panelInterpretation
-                        }
+                        value={value}
                         onChange={panelInterpretation => {
                           onChange(panelInterpretation);
                           testPanelMappingStore.updateTestPanelMapping({
@@ -800,14 +809,11 @@ const TestPanelMapping = TestPanelMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Test Interpretation'
                         hasError={!!errors.testInterpretation}
-                        value={
-                          testPanelMappingStore.testPanelMapping
-                            ?.testInterpretation
-                        }
+                        value={value}
                         onChange={testInterpretation => {
                           onChange(testInterpretation);
                           testPanelMappingStore.updateTestPanelMapping({
@@ -823,14 +829,11 @@ const TestPanelMapping = TestPanelMappingHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Form.Toggle
                         label='Analyte Interpretation'
                         hasError={!!errors.analyteInterpretation}
-                        value={
-                          testPanelMappingStore.testPanelMapping
-                            ?.analyteInterpretation
-                        }
+                        value={value}
                         onChange={analyteInterpretation => {
                           onChange(analyteInterpretation);
                           testPanelMappingStore.updateTestPanelMapping({
@@ -960,7 +963,7 @@ const TestPanelMapping = TestPanelMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Active'
                       placeholder={
@@ -969,7 +972,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           : 'Date Active'
                       }
                       hasError={!!errors.dateActive}
-                      value={testPanelMappingStore.testPanelMapping?.dateActive}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -979,7 +982,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputDateTime
                       label='Date Expire'
                       placeholder={
@@ -988,7 +991,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           : 'Date Expire'
                       }
                       hasError={!!errors.dateExpire}
-                      value={testPanelMappingStore.testPanelMapping?.dateExpire}
+                      value={value}
                       onChange={dateExpire => {
                         onChange(dateExpire);
                         testPanelMappingStore.updateTestPanelMapping({
@@ -1004,14 +1007,14 @@ const TestPanelMapping = TestPanelMappingHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       label='Version'
                       placeholder={
                         errors.version ? 'Please Enter version' : 'Version'
                       }
                       hasError={!!errors.version}
-                      value={testPanelMappingStore.testPanelMapping?.version}
+                      value={value}
                       disabled={true}
                     />
                   )}
@@ -1022,15 +1025,13 @@ const TestPanelMapping = TestPanelMappingHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
                     >
                       <select
-                        value={
-                          testPanelMappingStore.testPanelMapping?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

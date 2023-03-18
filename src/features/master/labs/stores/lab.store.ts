@@ -14,18 +14,8 @@ export class LabStore {
 
   constructor() {
     this.listLabs = [];
-    this.labs = {
-      ...this.labs,
-      openingTime: dayjs().format('hh:mm a'),
-      closingTime: dayjs().format('hh:mm a'),
-      reportFormat: true,
-      printLable: false,
-      abnFlag: false,
-      critical: false,
-      priceList: [{id: 0, maxDis: 0}],
-      specificFormat: true,
-    };
     this.selectedItems = new SelectedItems({});
+    this.reset();
     makeObservable<LabStore, any>(this, {
       listLabs: observable,
       listLabsCount: observable,
@@ -42,7 +32,25 @@ export class LabStore {
       updateLabs: action,
       updateSelectedItems: action,
       updateAddressDetails: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.labs = new Labs({});
+    this.listLabs = [];
+    this.listLabsCount = 0;
+    this.labs = {
+      ...this.labs,
+      openingTime: dayjs().format('hh:mm a'),
+      closingTime: dayjs().format('hh:mm a'),
+      reportFormat: true,
+      printLable: false,
+      abnFlag: false,
+      critical: false,
+      priceList: [{id: 0, maxDis: 0}],
+      specificFormat: true,
+    };
   }
 
   get LabService() {

@@ -11,6 +11,7 @@ export class RoleStore {
 
   constructor() {
     this.role = new Role({});
+    this.reset();
     makeObservable<RoleStore, any>(this, {
       listRole: observable,
       listRoleCopy: observable,
@@ -23,7 +24,14 @@ export class RoleStore {
       updateRoleList: action,
       setExitsCode: action,
       updateRole: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.role = new Role({});
+    this.listRole = [];
+    this.listRoleCount = 0;
   }
 
   get RoleService() {

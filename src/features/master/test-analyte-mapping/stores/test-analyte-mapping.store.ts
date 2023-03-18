@@ -14,19 +14,8 @@ export class TestAnalyteMappingStore {
   constructor() {
     this.listTestAnalyteMapping = [];
     this.listTestAnalyteMappingCopy = [];
-    this.testAnalyteMapping = {
-      ...this.testAnalyteMapping,
-      dateCreation: new Date(),
-      dateActive: new Date(),
-      dateExpire: new Date(
-        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-      ),
-      version: 1,
-      bill: false,
-      testMethod: true,
-      analyteMethod: false,
-    };
     this.selectedItems = new SelectedItems({});
+    this.reset();
     makeObservable<TestAnalyteMappingStore, any>(this, {
       testAnalyteMapping: observable,
       listTestAnalyteMapping: observable,
@@ -41,7 +30,26 @@ export class TestAnalyteMappingStore {
       updateTestAnalyteMapping: action,
       updateExistsLabEnvCode: action,
       filterTestAnalyteMappingList: action,
+      reset: action,
     });
+  }
+  reset() {
+    this.testAnalyteMapping = new TestAnalyteMapping({});
+    this.listTestAnalyteMapping = [];
+    this.listTestAnalyteMappingCount = 0;
+    this.selectedItems = new SelectedItems({});
+    this.testAnalyteMapping = {
+      ...this.testAnalyteMapping,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+      version: 1,
+      bill: false,
+      testMethod: true,
+      analyteMethod: false,
+    };
   }
   get testAnalyteMappingService() {
     return new TestAnalyteMappingService();

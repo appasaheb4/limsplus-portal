@@ -21,6 +21,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetDataConversation} from '../startup';
 
 const DataConversation = DataConversationHoc(
   observer(() => {
@@ -30,6 +31,7 @@ const DataConversation = DataConversationHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
 
     setValue(
@@ -51,9 +53,9 @@ const DataConversation = DataConversationHoc(
               Toast.success({
                 message: `😊 ${res.createDataConversation.message}`,
               });
-              setTimeout(() => {
-                window.location.reload();
-              }, 2000);
+              setHideAddDataConversation(true);
+              reset();
+              resetDataConversation();
             }
           });
       } else {
@@ -90,7 +92,7 @@ const DataConversation = DataConversationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       type='text'
                       label='Hexa Decimal'
@@ -102,9 +104,7 @@ const DataConversation = DataConversationHoc(
                           : 'Hexa Decimal'
                       }
                       hasError={!!errors.hexadecimal}
-                      value={
-                        dataConversationStore.dataConversation?.hexadecimal
-                      }
+                      value={value}
                       onChange={hexadecimal => {
                         onChange(hexadecimal);
                         dataConversationStore.updateDataConversation({
@@ -120,7 +120,7 @@ const DataConversation = DataConversationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       type='text'
                       label='Binary'
@@ -130,7 +130,7 @@ const DataConversation = DataConversationHoc(
                         errors.binary ? 'Please Enter Binary' : 'Binary'
                       }
                       hasError={!!errors.binary}
-                      value={dataConversationStore.dataConversation?.binary}
+                      value={value}
                       onChange={binary => {
                         onChange(binary);
                         dataConversationStore.updateDataConversation({
@@ -146,7 +146,7 @@ const DataConversation = DataConversationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.Input
                       type='text'
                       label='ASCII'
@@ -156,7 +156,7 @@ const DataConversation = DataConversationHoc(
                         errors.ascii ? 'Please Enter ascii' : 'ASCII'
                       }
                       hasError={!!errors.ascii}
-                      value={dataConversationStore.dataConversation?.ascii}
+                      value={value}
                       onChange={ascii => {
                         onChange(ascii);
                         dataConversationStore.updateDataConversation({
@@ -172,12 +172,10 @@ const DataConversation = DataConversationHoc(
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper label='Environment'>
                       <select
-                        value={
-                          dataConversationStore.dataConversation?.environment
-                        }
+                        value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
                             ? 'border-red-500  '

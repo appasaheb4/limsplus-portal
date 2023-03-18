@@ -21,6 +21,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {resetNoticeBoard} from '../startup';
 
 const NoticeBoard = NoticeBoardHoc(
   observer(() => {
@@ -31,6 +32,7 @@ const NoticeBoard = NoticeBoardHoc(
       handleSubmit,
       formState: {errors},
       setValue,
+      reset,
     } = useForm();
     setValue('lab', loginStore.login.lab);
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -44,9 +46,8 @@ const NoticeBoard = NoticeBoardHoc(
           Toast.success({
             message: `😊 ${res.createNoticeBoard.message}`,
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          reset();
+          resetNoticeBoard();
         } else {
           Toast.warning({
             message: '😔 Notice not create.Please try again',
@@ -58,7 +59,7 @@ const NoticeBoard = NoticeBoardHoc(
     const tableView = useMemo(
       () => (
         <NoticeBoardsList
-          data={noticeBoardStore.noticeBoardList}
+          data={noticeBoardStore.noticeBoardList || []}
           totalSize={noticeBoardStore.noticeBoardListCount}
           extraData={{
             listLabs: labStore.listLabs,
@@ -118,7 +119,7 @@ const NoticeBoard = NoticeBoardHoc(
               {labStore.listLabs && (
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Lab'
                       id='labs'
@@ -138,6 +139,7 @@ const NoticeBoard = NoticeBoardHoc(
                           displayKey: 'name',
                           findKey: 'name',
                         }}
+                        // displayValue={value}
                         hasError={!!errors.name}
                         onFilter={(value: string) => {
                           labStore.LabService.filter({
@@ -170,7 +172,7 @@ const NoticeBoard = NoticeBoardHoc(
 
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.Input
                     label='Header'
                     name='lblHeader'
@@ -178,7 +180,7 @@ const NoticeBoard = NoticeBoardHoc(
                       errors.header ? 'Please Enter Header' : 'Header'
                     }
                     hasError={!!errors.header}
-                    //value={userStore.user.password}
+                    value={value}
                     onChange={header => {
                       onChange(header);
                       noticeBoardStore.updateNoticeBoard({
@@ -194,7 +196,7 @@ const NoticeBoard = NoticeBoardHoc(
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.InputWrapper
                     label='Action'
                     id='lblAction'
@@ -202,6 +204,7 @@ const NoticeBoard = NoticeBoardHoc(
                   >
                     <select
                       name='action'
+                      value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.action ? 'border-red-500' : 'border-gray-300'
                       } rounded-md`}
@@ -231,7 +234,7 @@ const NoticeBoard = NoticeBoardHoc(
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.MultilineInput
                     rows={7}
                     label='Message'
@@ -240,7 +243,7 @@ const NoticeBoard = NoticeBoardHoc(
                     placeholder={
                       errors.message ? 'Please Enter Message' : 'Message'
                     }
-                    //value={userStore.user.password}
+                    value={value}
                     onChange={message => {
                       onChange(message);
                       noticeBoardStore.updateNoticeBoard({

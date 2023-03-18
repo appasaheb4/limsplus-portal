@@ -33,6 +33,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
 import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
+import {resetReportBody} from '../startup';
 
 const width = '100%';
 const height = window.innerHeight / 1.3;
@@ -46,6 +47,7 @@ export const PageBranding = observer(() => {
     setValue,
     setError,
     clearErrors,
+    reset,
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
@@ -77,10 +79,13 @@ export const PageBranding = observer(() => {
           Toast.success({
             message: `😊 ${res.createPageBranding.message}`,
           });
+          setIsInputView(false);
+          reset();
+          resetReportBody();
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
       });
   };
 
@@ -138,8 +143,9 @@ export const PageBranding = observer(() => {
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <AutoCompleteLayoutCode
+                  displayValue={value || ''}
                   hasError={!!errors.layoutCode}
                   onSelect={item => {
                     onChange(item.tempCode);
@@ -200,12 +206,12 @@ export const PageBranding = observer(() => {
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Form.Input
                   label='Branding Title'
                   placeholder='Branding Title'
                   hasError={!!errors.brandingTitle}
-                  value={reportSettingStore.pageBranding?.brandingTitle?.toUpperCase()}
+                  value={value?.toUpperCase()}
                   onChange={brandingTitle => {
                     onChange(brandingTitle);
                     reportSettingStore.updatePageBranding({
@@ -250,11 +256,11 @@ export const PageBranding = observer(() => {
             <Grid cols={4}>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.Toggle
                     label='Header Visible'
                     hasError={!!errors.headerVisible}
-                    value={reportSettingStore.pageBranding?.isHeader}
+                    value={value?.isHeader}
                     onChange={isHeader => {
                       onChange(isHeader);
                       reportSettingStore.updatePageBranding({
@@ -270,7 +276,7 @@ export const PageBranding = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.Toggle
                     label='Sub Header Visible'
                     hasError={!!errors.subHeaderVisible}
@@ -290,11 +296,11 @@ export const PageBranding = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.Toggle
                     label='Footer Visible'
                     hasError={!!errors.footerVisible}
-                    value={reportSettingStore.pageBranding?.isFooter}
+                    value={value?.isFooter}
                     onChange={isFooter => {
                       onChange(isFooter);
                       reportSettingStore.updatePageBranding({
@@ -310,11 +316,11 @@ export const PageBranding = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.Toggle
                     label='Page Number'
                     hasError={!!errors.pageNumber}
-                    value={reportSettingStore.pageBranding?.isPdfPageNumber}
+                    value={value?.isPdfPageNumber}
                     onChange={isPdfPageNumber => {
                       onChange(isPdfPageNumber);
                       reportSettingStore.updatePageBranding({

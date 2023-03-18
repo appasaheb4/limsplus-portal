@@ -29,6 +29,8 @@ import '@/library/assets/css/accordion.css';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
+import {resetReportBody} from '../startup';
+import {SelectedItemsTemplatePatientResult} from '../models/template-patient-result.model';
 
 export const TemplatePatientResult = observer(() => {
   const {loading, routerStore, reportSettingStore, libraryStore} = useStores();
@@ -39,6 +41,7 @@ export const TemplatePatientResult = observer(() => {
     setValue,
     setError,
     clearErrors,
+    reset,
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
@@ -60,10 +63,13 @@ export const TemplatePatientResult = observer(() => {
           Toast.success({
             message: `😊 ${res.createTemplatePatientResult.message}`,
           });
+          setIsInputView(true);
+          reset();
+          resetReportBody();
+          reportSettingStore.updateSelectedItemTemplatePatientResult(
+            new SelectedItemsTemplatePatientResult({}),
+          );
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       });
   };
 
@@ -102,16 +108,13 @@ export const TemplatePatientResult = observer(() => {
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.InputWrapper
                     label='Report Template Type'
                     hasError={!!errors.reportTemplateType}
                   >
                     <select
-                      value={
-                        reportSettingStore.templatePatientResult
-                          ?.reportTemplateType
-                      }
+                      value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.reportTemplateType
                           ? 'border-red-500  '
@@ -173,13 +176,15 @@ export const TemplatePatientResult = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.InputWrapper
                     label='Report Body'
                     hasError={!!errors.reportBody}
                   >
                     <ReportBodyComponents
+                      displayValue={value}
                       onSelect={item => {
+                        onChange(item?.reportName);
                         reportSettingStore.updateTemplatePatientResult({
                           ...reportSettingStore.templatePatientResult,
                           reportBody: {
@@ -198,12 +203,12 @@ export const TemplatePatientResult = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.Input
                     label='Template Code'
                     placeholder='Template Code'
                     hasError={!!errors.templateCode}
-                    value={reportSettingStore.templatePatientResult?.templateCode?.toUpperCase()}
+                    value={value?.toUpperCase()}
                     onChange={templateCode => {
                       onChange(templateCode);
                       reportSettingStore.updateTemplatePatientResult({
@@ -251,12 +256,12 @@ export const TemplatePatientResult = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.Input
                     label='Template Title'
                     placeholder='Template Title'
                     hasError={!!errors.templateTitle}
-                    value={reportSettingStore.templatePatientResult?.templateTitle?.toUpperCase()}
+                    value={value?.toUpperCase()}
                     onChange={templateTitle => {
                       onChange(templateTitle);
                       reportSettingStore.updateTemplatePatientResult({
@@ -307,7 +312,7 @@ export const TemplatePatientResult = observer(() => {
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.InputWrapper
                     label='End Of Page'
                     hasError={!!errors.endOfPage}
@@ -332,7 +337,7 @@ export const TemplatePatientResult = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Form.InputWrapper
                     label='End Of Report'
                     hasError={!!errors.endOfReport}

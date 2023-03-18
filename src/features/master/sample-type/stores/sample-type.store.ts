@@ -14,7 +14,7 @@ export class SampleTypeStore {
     this.sampleType = new SampleType({});
     this.checkExitsEnvCode = false;
     this.listSampleTypeCount = 0;
-
+    this.reset();
     makeObservable<SampleTypeStore, any>(this, {
       listSampleType: observable,
       listSampleTypeCount: observable,
@@ -27,7 +27,14 @@ export class SampleTypeStore {
       updateSampleType: action,
       updateExitsEnvCode: action,
       filterSampleTypeList: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.sampleType = new SampleType({});
+    this.listSampleType = [];
+    this.listSampleTypeCount = 0;
   }
 
   get sampleTypeService() {

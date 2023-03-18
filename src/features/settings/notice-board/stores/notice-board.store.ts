@@ -11,6 +11,7 @@ export class NoticeBoardStore {
     this.noticeBoardList = [];
     this.noticeBoardListCount = 0;
     this.noticeBoard = new NoticeBoard({});
+    this.reset();
     makeObservable<NoticeBoardStore, any>(this, {
       noticeBoard: observable,
       noticeBoardList: observable,
@@ -20,7 +21,14 @@ export class NoticeBoardStore {
       fetchNoticeBoards: action,
       updateNoticeBoardsList: action,
       updateNoticeBoard: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.noticeBoard = new NoticeBoard({});
+    this.noticeBoardList = [];
+    this.noticeBoardListCount = 0;
   }
 
   get NoticeBoardService() {

@@ -57,6 +57,10 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
     };
 
     useEffect(() => {
+      setValue(displayValue!);
+    }, [displayValue]);
+
+    useEffect(() => {
       getAnalyteList();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

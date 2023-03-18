@@ -21,6 +21,7 @@ export class InterfaceManagerStore {
     this.listInterfaceManagerCount = 0;
     this.interfaceManager = new InterfaceManager({});
     this.updateItem = {};
+    this.reset();
     makeObservable<InterfaceManagerStore, any>(this, {
       interfaceManager: observable,
       listInterfaceManager: observable,
@@ -33,9 +34,15 @@ export class InterfaceManagerStore {
       updateInterfaceManagerList: action,
       updateInterfaceManager: action,
       changeUpdateItem: action,
+      reset: action,
     });
   }
 
+  reset() {
+    this.interfaceManager = new InterfaceManager({});
+    this.listInterfaceManager = [];
+    this.listInterfaceManagerCount = 0;
+  }
   get interfaceManagerService() {
     return new InterfaceManagerService();
   }

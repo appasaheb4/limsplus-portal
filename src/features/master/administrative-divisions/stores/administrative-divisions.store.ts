@@ -20,6 +20,7 @@ export class AdministrativeDivisionsStore {
     this.listAdministrativeDiv = [];
     this.listAdministrativeDivCopy = [];
     this.localState = {};
+    this.reset();
     makeObservable<AdministrativeDivisionsStore, any>(this, {
       administrativeDiv: observable,
       listAdministrativeDivCount: observable,
@@ -47,6 +48,12 @@ export class AdministrativeDivisionsStore {
       page,
       limit,
     );
+  }
+
+  reset() {
+    this.administrativeDiv = new AdministrativeDivisions({});
+    this.listAdministrativeDiv = [];
+    this.listAdministrativeDivCount = 0;
   }
 
   updateAdministrativeDivList(res: any) {
