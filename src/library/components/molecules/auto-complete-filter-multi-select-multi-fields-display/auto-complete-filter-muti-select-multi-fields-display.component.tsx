@@ -10,6 +10,7 @@ interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
   data: any;
   hasError?: boolean;
   disable?: boolean;
+  isUpperCase?: boolean;
   onFilter?: (value: string) => void;
   onUpdate: (item: any) => void;
   onSelect: (item: any) => any;
@@ -22,6 +23,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   data,
   hasError = false,
   disable = false,
+  isUpperCase = false,
   onFilter,
   onUpdate,
   onSelect,
@@ -74,8 +76,6 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   };
 
   useEffect(() => {
-    console.log({selected: data.selected});
-
     setOriginalOptions(getSelectedItem(data.selected, data.list));
     setOptions(getSelectedItem(data.selected, data.list));
   }, [data, data.selected]);
@@ -108,6 +108,8 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
             value={
               !isListOpen
                 ? `${(data.selected && data.selected.length) || 0} Items`
+                : isUpperCase
+                ? value?.toUpperCase()
                 : value
             }
             className={`w-full focus:outline-none bg-none`}

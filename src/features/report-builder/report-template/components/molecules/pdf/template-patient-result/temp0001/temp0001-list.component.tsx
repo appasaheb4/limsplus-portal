@@ -101,7 +101,7 @@ export const PdfTPRTemp0001List = ({
                   tpmTestMethod: testItem?.testHeader?.tpmTestMethod,
                 },
                 patientResultList: {
-                  testName: testItem?.testName,
+                  analyte: testItem?.analyte,
                   result: testItem?.result,
                   units: testItem?.units,
                   bioRefInterval: testItem?.bioRefInterval,
@@ -275,12 +275,12 @@ export const PdfTPRTemp0001List = ({
                                   {_item[1]?.analyteDescription}
                                 </PdfSmall>
 
-                                {_item[1]?.tpmAnalyteMethod ? (
+                                {_item[1]?.analyteMethod ? (
                                   <PdfSmall style={{marginLeft: 10}}>
                                     {_item[1]?.analyteMethodDescription}
                                   </PdfSmall>
                                 ) : null}
-                                {_item[1]?.tpmAnalyteInterpretation ? (
+                                {_item[1]?.analyteInterpretation ? (
                                   <PdfSmall style={{marginLeft: 10}}>
                                     {_item[1]?.analyteMasterInterpretation}
                                   </PdfSmall>

@@ -387,12 +387,10 @@ const DeliveryQueue = observer(() => {
                           );
                         return Object.assign(item, {reportSettings});
                       });
-
                       const grouped = _.groupBy(
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-
                       if (_.isEmpty(grouped)) {
                         return Toast.error({
                           message: '😌 Report template not found.',

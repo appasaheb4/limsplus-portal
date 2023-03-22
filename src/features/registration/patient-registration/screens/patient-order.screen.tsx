@@ -243,6 +243,7 @@ export const PatientOrder = PatientOrderHoc(
                         <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder='Search by code or name'
+                          isUpperCase={true}
                           data={{
                             list: masterPanelStore.listMasterPanel.filter(
                               item =>
