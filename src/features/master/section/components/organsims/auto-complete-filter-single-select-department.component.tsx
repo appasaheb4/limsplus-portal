@@ -12,7 +12,7 @@ interface AutoCompleteFilterSingleSelectDepartmentProps {
 export const AutoCompleteFilterSingleSelectDepartment = observer(
   ({displayValue, onSelect}: AutoCompleteFilterSingleSelectDepartmentProps) => {
     const {loading, departmentStore} = useStores();
-    const [value, setValue] = useState<string>(displayValue!);
+    const [value, setValue] = useState<string | undefined>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -40,7 +40,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
     useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      setValue(displayValue!);
+      setValue(displayValue);
     }, [displayValue]);
 
     useEffect(() => {
