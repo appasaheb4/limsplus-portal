@@ -21,7 +21,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
     onSelect,
   }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
     const {loading, masterPanelStore} = useStores();
-    const [value, setValue] = useState<string>(displayValue!);
+    const [value, setValue] = useState<string | undefined>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -49,7 +49,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
     useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      setValue(displayValue!);
+      setValue(displayValue);
     }, [displayValue]);
 
     useEffect(() => {

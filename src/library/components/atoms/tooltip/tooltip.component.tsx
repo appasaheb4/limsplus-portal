@@ -38,6 +38,7 @@ export const Tooltip: React.FunctionComponent<TooltipProps> = ({
           getBoundingClientRect: () => {
             return new DOMRect(
               positionRef.current.x,
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               areaRef.current!.getBoundingClientRect().y + 22,
               0,
               0,
