@@ -78,7 +78,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
 
     const [masterFlag, setMasgterFlag] = useState<any>([
