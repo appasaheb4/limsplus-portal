@@ -35,8 +35,6 @@ export class PatientVisitService {
           variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
-          console.log({response});
-
           stores.patientVisitStore.updatePatientVisitList(response.data);
           resolve(response.data);
         })

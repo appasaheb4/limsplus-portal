@@ -49,8 +49,7 @@ export const PdfResultList = ({
   style,
   headerStyle,
 }: PdfResultListProps) => {
-  const [patientResultList, setPatientResultList] = useState<Array<any>>();
-  const [departmentFooter, setDepartmentFooter] = useState<Array<any>>([]);
+  const userInfo: Array<any> = [];
   const fields = [
     {
       title: 'Test Name',
@@ -97,8 +96,8 @@ export const PdfResultList = ({
                     testItem?.testHeader?.testMethodDescription,
                   testBottomMarker: testItem?.testHeader?.testBottomMarker,
                   testRightMarker: testItem?.testHeader?.testRightMarker,
-                  tpmPrintTestName: testItem?.testHeader?.tpmPrintTestName,
-                  tpmTestMethod: testItem?.testHeader?.tpmTestMethod,
+                  isPrintTestName: testItem?.testHeader?.isPrintTestName,
+                  isTestMethod: testItem?.testHeader?.isTestMethod,
                 },
                 patientResultList: {
                   analyte: testItem?.analyte,
@@ -125,12 +124,12 @@ export const PdfResultList = ({
               panelMethodDescription: panelItems?.find(
                 pItem => pItem?.panelHeader?.panelDescription == panelKey,
               )?.panelHeader?.panelMethodDescription,
-              tpmPrintPanelName: panelItems?.find(
+              isPrintPanelName: panelItems?.find(
                 pItem => pItem?.panelHeader?.panelDescription == panelKey,
-              )?.panelHeader?.tpmPrintPanelName,
-              tpmPanelMethod: panelItems?.find(
+              )?.panelHeader?.isPrintPanelName,
+              isPanelMethod: panelItems?.find(
                 pItem => pItem?.panelHeader?.panelDescription == panelKey,
-              )?.panelHeader?.tpmPanelMethod,
+              )?.panelHeader?.isPanelMethod,
             },
             panelFooter: {
               panelInterpretation: panelItems?.find(
@@ -155,106 +154,27 @@ export const PdfResultList = ({
           },
         });
       }
+      console.log({patientResultList});
       return patientResultList;
     }
+    return [];
   };
 
-  useEffect(() => {
-    if (data?.length > 0) {
-      const patientResultList: Array<any> = [];
-      const departmentList = _.groupBy(
-        data,
-        (o: any) => o?.departmentHeader?.departmentName,
-      );
-      for (const [deptKey, deptItems] of Object.entries(departmentList)) {
-        const panelList = _.groupBy(
-          deptItems,
-          (o: any) => o?.panelHeader?.panelDescription,
-        );
-        const panelHeader: Array<any> = [];
-        for (const [panelKey, panelItems] of Object.entries(panelList)) {
-          const testList = _.groupBy(
-            panelItems,
-            (o: any) => o?.testHeader?.testDescription,
-          );
-          const testHeader: Array<any> = [];
-          for (const [testKey, testItems] of Object.entries(testList)) {
-            testItems.filter(testItem => {
-              testHeader.push({
-                testHeader: {
-                  testDescription: testKey,
-                  testMethodDescription:
-                    testItem?.testHeader?.testMethodDescription,
-                  testBottomMarker: testItem?.testHeader?.testBottomMarker,
-                  testRightMarker: testItem?.testHeader?.testRightMarker,
-                  tpmPrintTestName: testItem?.testHeader?.tpmPrintTestName,
-                  tpmTestMethod: testItem?.testHeader?.tpmTestMethod,
-                },
-                patientResultList: {
-                  analyte: testItem?.analyte,
-                  result: testItem?.result,
-                  units: testItem?.units,
-                  bioRefInterval: testItem?.bioRefInterval,
-                },
-                testFooter: {
-                  testInterpretation: testItems?.find(
-                    testItem =>
-                      testItem?.testHeader?.testDescription == testKey,
-                  )?.testFooter?.testInterpretation,
-                  tpmTestInterpretation: testItems?.find(
-                    testItem =>
-                      testItem?.testHeader?.testDescription == testKey,
-                  )?.testFooter?.tpmTestInterpretation,
-                },
-              });
-            });
-          }
-          panelHeader.push({
-            panelHeader: {
-              panelDescription: panelKey,
-              panelMethodDescription: panelItems?.find(
-                pItem => pItem?.panelHeader?.panelDescription == panelKey,
-              )?.panelHeader?.panelMethodDescription,
-              tpmPrintPanelName: panelItems?.find(
-                pItem => pItem?.panelHeader?.panelDescription == panelKey,
-              )?.panelHeader?.tpmPrintPanelName,
-              tpmPanelMethod: panelItems?.find(
-                pItem => pItem?.panelHeader?.panelDescription == panelKey,
-              )?.panelHeader?.tpmPanelMethod,
-            },
-            panelFooter: {
-              panelInterpretation: panelItems?.find(
-                pItem => pItem?.panelHeader?.panelDescription == panelKey,
-              )?.panelFooter?.panelInterpretation,
-              tpmPanelInterpretation: panelItems?.find(
-                pItem => pItem?.panelHeader?.panelDescription == panelKey,
-              )?.panelFooter?.tpmPanelInterpretation,
-            },
-            testHeader,
-          });
-        }
-        patientResultList.push({
-          panelHeader,
-          departmentFooter: {
-            userInfo: deptItems?.find(
-              item => item?.departmentHeader?.departmentName == deptKey,
-            )?.departmentFooter?.userInfo,
-          },
-        });
-      }
-      const userInfo: Array<any> = [];
-      patientResultList.map(item => {
-        return item?.departmentFooter?.userInfo?.filter(e => {
+  const omitEmpty = value => {
+    if (value == 'undefined' || value == _.isEmpty(value)) return '';
+    else return value;
+  };
+
+  const getUserInfo = patientResultList => {
+    patientResultList.filter(item => {
+      if (item?.departmentFooter?.userInfo?.length > 0) {
+        item.departmentFooter?.userInfo?.filter(e => {
           userInfo.push(e);
         });
-      });
-      const departmentFooter = _.uniqBy(userInfo, function (e) {
-        return e?.userId;
-      });
-      setDepartmentFooter(departmentFooter);
-      setPatientResultList(patientResultList);
-    }
-  }, [data]);
+      }
+    });
+    return _.uniqBy(userInfo, 'userId' as any);
+  };
 
   return (
     <>
@@ -277,77 +197,8 @@ export const PdfResultList = ({
             </View>
           ))}
         </View>
-        {/* {getPatientResultList(data)?.map((deptItem, index) => (
-          <>
-            {deptItem.panelHeader.map((panelItem, index) => (
-              <>
-                {panelItem?.testHeader?.map((testItem, testIndex) => (
-                  <>
-                    <PdfView key={index} mh={0} p={0}>
-                      <View key={index} style={styles.tableRow}>
-                        {Object.entries(testItem?.patientResultList).map(
-                          (_item: any, _idx) => (
-                            <PdfBorderView
-                              key={_idx}
-                              style={{
-                                width: fields[_idx]?.width + '%',
-                              }}
-                              mh={0}
-                              mv={0}
-                              p={0}
-                              bw={0}
-                              borderColor='transparent'
-                            >
-                              {typeof _item[1] == 'object' ? (
-                                <>
-                                  <PdfSmall
-                                    style={{textAlign: 'left', marginLeft: 20}}
-                                  >
-                                    {_item[1]?.analyteDescription}
-                                  </PdfSmall>
 
-                                  {_item[1]?.analyteMethod ? (
-                                    <PdfSmall
-                                      style={{
-                                        textAlign: 'left',
-                                        marginLeft: 20,
-                                        fontSize: 6,
-                                      }}
-                                    >
-                                      {_item[1]?.analyteMethodDescription}
-                                    </PdfSmall>
-                                  ) : null}
-
-                                  {_item[1]?.analyteInterpretation ? (
-                                    <PdfSmall
-                                      style={{
-                                        textAlign: 'left',
-                                        marginLeft: 20,
-                                        fontSize: 6,
-                                      }}
-                                    >
-                                      {_item[1]?.analyteMasterInterpretation}
-                                    </PdfSmall>
-                                  ) : null}
-                                </>
-                              ) : (
-                                <PdfSmall style={{textAlign: 'center'}}>
-                                  {_item[1] || ''}
-                                </PdfSmall>
-                              )}
-                            </PdfBorderView>
-                          ),
-                        )}
-                      </View>
-                    </PdfView>
-                  </>
-                ))}
-              </>
-            ))}
-          </>
-        ))} */}
-
-        {patientResultList?.map((deptItem, index) => (
+        {getPatientResultList(data)?.map((deptItem, index) => (
           <>
             <PdfView key={index} mh={0} p={0}>
               {/* Panel Header */}
@@ -364,8 +215,8 @@ export const PdfResultList = ({
                     borderColor='transparent'
                   >
                     <PdfSmall style={{marginLeft: 10}}>
-                      {panelItem.panelHeader?.tpmPrintPanelName
-                        ? panelItem?.panelHeader?.panelDescription
+                      {panelItem.panelHeader?.isPrintPanelName
+                        ? omitEmpty(panelItem?.panelHeader?.panelDescription)
                         : ''}
                     </PdfSmall>
                     <PdfSmall
@@ -375,8 +226,10 @@ export const PdfResultList = ({
                         marginTop: -2,
                       }}
                     >
-                      {panelItem?.panelHeader?.tpmPanelMethod
-                        ? panelItem?.panelHeader?.panelMethodDescription
+                      {panelItem?.panelHeader?.isPanelMethod
+                        ? omitEmpty(
+                            panelItem?.panelHeader?.panelMethodDescription,
+                          )
                         : ''}
                     </PdfSmall>
                   </PdfBorderView>
@@ -393,10 +246,10 @@ export const PdfResultList = ({
                         bw={0}
                         borderColor='transparent'
                       >
-                        {testItem.testHeader?.tpmPrintTestName ? (
+                        {testItem.testHeader?.isPrintTestName ? (
                           <PdfSmall style={{marginLeft: 10}}>
-                            {testItem?.testHeader?.testDescription}{' '}
-                            {` ${testItem.testHeader?.testRightMarker}`}
+                            {testItem?.testHeader?.testDescription || ''}{' '}
+                            {` ${testItem.testHeader?.testRightMarker || ''}`}
                           </PdfSmall>
                         ) : null}
                         <PdfSmall
@@ -406,8 +259,10 @@ export const PdfResultList = ({
                             marginTop: -2,
                           }}
                         >
-                          {testItem?.testHeader?.tpmTestMethod
-                            ? testItem?.testHeader?.testMethodDescription
+                          {testItem?.testHeader?.isTestMethod
+                            ? omitEmpty(
+                                testItem?.testHeader?.testMethodDescription,
+                              )
                             : ''}
                         </PdfSmall>
                       </PdfBorderView>
@@ -430,11 +285,13 @@ export const PdfResultList = ({
                             >
                               {typeof _item[1] == 'object' ? (
                                 <>
-                                  <PdfSmall style={{marginLeft: 10}}>
-                                    {_item[1]?.analyteDescription}
-                                  </PdfSmall>
+                                  {_item[1]?.isPrintAnalyteName ? (
+                                    <PdfSmall style={{marginLeft: 10}}>
+                                      {_item[1]?.analyteDescription}
+                                    </PdfSmall>
+                                  ) : null}
 
-                                  {_item[1]?.analyteMethod ? (
+                                  {_item[1]?.isAnalyteMethod ? (
                                     <PdfSmall
                                       style={{marginLeft: 10, fontSize: 8}}
                                     >
@@ -450,7 +307,19 @@ export const PdfResultList = ({
                                   ) : null}
                                 </>
                               ) : (
-                                <PdfSmall style={{textAlign: 'center'}}>
+                                <PdfSmall
+                                  style={{
+                                    textAlign: 'center',
+                                    color:
+                                      _idx == 1
+                                        ? _item.analyte?.abnFlag
+                                          ? '#FFFF00'
+                                          : _item.analyte?.critical
+                                          ? '#FF0000'
+                                          : '#000000'
+                                        : '#000000',
+                                  }}
+                                >
                                   {_item[1] || ''}
                                 </PdfSmall>
                               )}
@@ -502,7 +371,7 @@ export const PdfResultList = ({
           </>
         ))}
         {/* Department Footer */}
-        {departmentFooter?.length > 0 && (
+        {getUserInfo(getPatientResultList(data))?.length > 0 && (
           <PdfBorderView
             style={{
               width: '100%',
@@ -514,10 +383,10 @@ export const PdfResultList = ({
             flexDirection='row'
             borderColor='transparent'
           >
-            {departmentFooter?.map(deptFooterItem => (
+            {getUserInfo(getPatientResultList(data))?.map(item => (
               <PdfView flexDirection='column' alignItems='center'>
                 <PdfImage
-                  src={deptFooterItem?.signature}
+                  src={item?.signature}
                   style={{
                     width: 80,
                     height: 60,
@@ -525,12 +394,10 @@ export const PdfResultList = ({
                     padding: 5,
                   }}
                 />
-                <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
+                <PdfSmall>{item?.fullName}</PdfSmall>
+                <PdfSmall style={{marginTop: -4}}>{item?.userDegree}</PdfSmall>
                 <PdfSmall style={{marginTop: -4}}>
-                  {deptFooterItem?.userDegree}
-                </PdfSmall>
-                <PdfSmall style={{marginTop: -4}}>
-                  {deptFooterItem?.deginisation}
+                  {item?.deginisation}
                 </PdfSmall>
               </PdfView>
             ))}
