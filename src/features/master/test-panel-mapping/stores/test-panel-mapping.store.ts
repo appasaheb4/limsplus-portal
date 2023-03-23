@@ -47,6 +47,7 @@ export class TestPanelMappingStore {
       bill: false,
       printTestName: false,
       printPanelName: true,
+      printAnalyteName: false,
       panelMethod: true,
       testMethod: false,
       analyteMethod: false,

@@ -63,8 +63,6 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
   };
 
   const getMasterFlags = row => {
-    console.log({row});
-
     return [
       {
         title: 'PM',
