@@ -1330,10 +1330,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   rules={{required: true}}
                   defaultValue=''
                 />
-
-                {/* <Grid cols={5}> */}
-
-                {/* </Grid> */}
               </List>
             </Grid>
             <br />
@@ -1369,8 +1365,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   testAnalyteMappingStore.testAnalyteMappingService
                     .deleteTestAnalyteMapping({input: {id: modalConfirm.id}})
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.removeTestAnalyteMapping.success) {
-                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removeTestAnalyteMapping.message}`,
                         });
@@ -1393,7 +1389,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         else testAnalyteMappingStore.fetchTestAnalyteMapping();
                       }
                     });
-
                   break;
                 }
                 case 'Update': {
@@ -1405,8 +1400,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updateTestAnalyteMapping.success) {
-                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
                         });
@@ -1441,8 +1436,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       },
                     })
                     .then((res: any) => {
+                      setModalConfirm({show: false});
                       if (res.updateTestAnalyteMapping.success) {
-                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
                         });
@@ -1465,10 +1460,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         else testAnalyteMappingStore.fetchTestAnalyteMapping();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
+                  setModalConfirm({show: false});
                   testAnalyteMappingStore.updateTestAnalyteMapping({
                     ...modalConfirm.data,
                     _id: undefined,
@@ -1483,10 +1478,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   setValue('analyteCode', 'default');
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
-
                   break;
                 }
                 case 'duplicate': {
+                  setModalConfirm({show: false});
                   testAnalyteMappingStore.updateTestAnalyteMapping({
                     ...modalConfirm.data,
                     _id: undefined,
@@ -1502,25 +1497,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   setValue('analyteCode', 'default');
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
-
                   break;
                 }
-                // No default
               }
             }}
             onClose={() => {
               setModalConfirm({show: false});
             }}
           />
-          {/* <ModalResultOrder
-            {...testAnalyteMappingStore.modalResultOrder}
-            onClick={() => {
-              testAnalyteMappingStore.updateModalResultOrder({ isVisible: false })
-            }}
-            onClose={() => {
-             // testAnalyteMappingStore.updateModalResultOrder({ isVisible: false })
-            }}
-          /> */}
         </div>
       </>
     );

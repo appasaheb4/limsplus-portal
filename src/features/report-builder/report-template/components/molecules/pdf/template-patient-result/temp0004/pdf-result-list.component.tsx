@@ -136,6 +136,12 @@ export const PdfResultList = ({
               isPanelMethod: panelItems?.find(
                 pItem => pItem?.panelHeader?.panelDescription == panelKey,
               )?.panelHeader?.isPanelMethod,
+              critical: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.critical,
+              abnFlag: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.abnFlag,
             },
             panelFooter: {
               panelInterpretation: panelItems?.find(
@@ -220,7 +226,14 @@ export const PdfResultList = ({
                     bw={0}
                     borderColor='transparent'
                   >
-                    <PdfSmall style={{marginLeft: 10}}>
+                    <PdfSmall
+                      style={{
+                        marginLeft: 10,
+                        color: panelItem.panelHeader?.critical
+                          ? '#FF0000'
+                          : '#000000',
+                      }}
+                    >
                       {panelItem.panelHeader?.isPrintPanelName &&
                       panelItem.panelHeader?.analyteType !== 'H'
                         ? omitEmpty(panelItem?.panelHeader?.panelDescription)
@@ -231,6 +244,9 @@ export const PdfResultList = ({
                         marginLeft: 10,
                         fontSize: 8,
                         marginTop: -2,
+                        color: panelItem.panelHeader?.critical
+                          ? '#FF0000'
+                          : '#000000',
                       }}
                     >
                       {panelItem?.panelHeader?.isPanelMethod &&
@@ -256,7 +272,14 @@ export const PdfResultList = ({
                       >
                         {testItem.testHeader?.isPrintTestName &&
                         panelItem.panelHeader?.analyteType !== 'H' ? (
-                          <PdfSmall style={{marginLeft: 10}}>
+                          <PdfSmall
+                            style={{
+                              marginLeft: 10,
+                              color: panelItem.panelHeader?.critical
+                                ? '#FF0000'
+                                : '#000000',
+                            }}
+                          >
                             {testItem?.testHeader?.testDescription || ''}{' '}
                             {` ${testItem.testHeader?.testRightMarker || ''}`}
                           </PdfSmall>
@@ -266,6 +289,9 @@ export const PdfResultList = ({
                             marginLeft: 10,
                             fontSize: 8,
                             marginTop: -2,
+                            color: panelItem.panelHeader?.critical
+                              ? '#FF0000'
+                              : '#000000',
                           }}
                         >
                           {testItem?.testHeader?.isTestMethod &&
@@ -305,7 +331,14 @@ export const PdfResultList = ({
                                     {typeof _item[1] == 'object' ? (
                                       <>
                                         {_item[1]?.isPrintAnalyteName ? (
-                                          <PdfSmall style={{marginLeft: 10}}>
+                                          <PdfSmall
+                                            style={{
+                                              marginLeft: 10,
+                                              color: _item[1]?.critical
+                                                ? '#FF0000'
+                                                : '#000000',
+                                            }}
+                                          >
                                             {_item[1]?.analyteDescription}
                                           </PdfSmall>
                                         ) : null}
@@ -315,6 +348,9 @@ export const PdfResultList = ({
                                             style={{
                                               marginLeft: 10,
                                               fontSize: 8,
+                                              color: _item[1]?.critical
+                                                ? '#FF0000'
+                                                : '#000000',
                                             }}
                                           >
                                             {_item[1]?.analyteMethodDescription}
@@ -325,6 +361,9 @@ export const PdfResultList = ({
                                             style={{
                                               marginLeft: 10,
                                               fontSize: 8,
+                                              color: _item[1]?.critical
+                                                ? '#FF0000'
+                                                : '#000000',
                                             }}
                                           >
                                             {
@@ -340,10 +379,10 @@ export const PdfResultList = ({
                                           textAlign: 'center',
                                           color:
                                             _idx == 1
-                                              ? JSON.parse(_item[1])?.critical
+                                              ? JSON.parse(_item[1])
+                                                  ?.critical ||
+                                                JSON.parse(_item[1])?.abnFlag
                                                 ? '#FF0000'
-                                                : JSON.parse(_item[1])?.abnFlag
-                                                ? '#FFFF00'
                                                 : '#000000'
                                               : '#000000',
                                         }}
@@ -354,9 +393,14 @@ export const PdfResultList = ({
                                       <PdfSmall
                                         style={{
                                           textAlign: 'center',
+                                          color: JSON.parse(_item[1])?.critical
+                                            ? '#FF0000'
+                                            : '#000000',
                                         }}
                                       >
-                                        {_item[1]}
+                                        {_idx == 2
+                                          ? JSON.parse(_item[1]).unit
+                                          : JSON.parse(_item[1]).range}
                                       </PdfSmall>
                                     )}
                                   </>
