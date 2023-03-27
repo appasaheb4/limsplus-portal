@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -16,6 +16,7 @@ import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
 import {patientRegistrationHoc} from '../hoc';
+import {startupPM, startupPV, startupPO} from '../startup';
 
 import {
   PatientManager,
@@ -45,10 +46,58 @@ const PatientRegistration = observer(() => {
     loading,
     loginStore,
     patientRegistrationStore,
+    patientManagerStore,
     patientVisitStore,
     patientOrderStore,
     patientResultStore,
+    masterPanelStore,
   } = useStores();
+
+  const accordionList = useMemo(
+    () => (
+      <>
+        <Accordion>
+          {patientRegistrationOptions.map(item => {
+            return (
+              <AccordionItem
+                title={`${item.title}`}
+                // expanded={item.title === "PATIENT MANAGER"}
+                onExpand={index => {
+                  switch (index) {
+                    case 0:
+                      startupPM();
+                      break;
+                    case 1:
+                      startupPV();
+                      break;
+                    case 2:
+                      startupPO();
+                      break;
+                    default:
+                      return;
+                  }
+                }}
+              >
+                {item.title === 'PATIENT MANAGER' && <PatientManager />}
+                {item.title === 'PATIENT VISIT' && <PatientVisit />}
+                {item.title === 'PATIENT ORDER' && <PatientOrder />}
+                {item.title === 'PATIENT TEST' && <PatientTest />}
+                {item.title === 'PATIENT RESULT' && <PatientResult />}
+                {item.title === 'PATIENT SAMPLE' && <PatientSample />}
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
+      </>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      // patientManagerStore.listPatientManger,
+      // patientVisitStore.listPatientVisit,
+      // masterPanelStore.listMasterPanel,
+    ],
+  );
+
   return (
     <>
       <Header>
@@ -115,25 +164,8 @@ const PatientRegistration = observer(() => {
 
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-      <div>
-        <Accordion>
-          {patientRegistrationOptions.map(item => {
-            return (
-              <AccordionItem
-                title={`${item.title}`}
-                // expanded={item.title === "PATIENT MANAGER"}
-              >
-                {item.title === 'PATIENT MANAGER' && <PatientManager />}
-                {item.title === 'PATIENT VISIT' && <PatientVisit />}
-                {item.title === 'PATIENT ORDER' && <PatientOrder />}
-                {item.title === 'PATIENT TEST' && <PatientTest />}
-                {item.title === 'PATIENT RESULT' && <PatientResult />}
-                {item.title === 'PATIENT SAMPLE' && <PatientSample />}
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
-      </div>
+
+      <div>{accordionList}</div>
 
       <div className='flex flex-col  -mt-10'>
         <h4 className='underline text-center'>Activity</h4>
