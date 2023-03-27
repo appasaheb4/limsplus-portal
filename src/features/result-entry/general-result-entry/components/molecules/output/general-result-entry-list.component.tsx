@@ -145,32 +145,38 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'result',
               text: 'Result',
               headerClasses: 'textHeader',
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.isResultEditor,
               formatter: (cellContent, row) => (
                 <>
-                  <DisplayResult
-                    row={row}
-                    onSelect={async result => {
-                      await props.onUpdateValue(result, row._id);
-                      const rows = {...row, ...result};
-                      if (_.isEmpty(row?.result)) {
-                        props.onSaveFields(
-                          {
-                            ...rows,
-                            resultStatus: getResultStatus(
-                              rows.resultType,
-                              rows,
-                            ),
-                            testStatus: getTestStatus(rows.resultType, rows),
-                            abnFlag: getAbnFlag(rows.resultType, rows),
-                            critical: getCretical(rows.resultType, rows),
-                            ...result,
-                          },
-                          rows._id,
-                          'directSave',
-                        );
-                      }
-                    }}
-                  />
+                  {row.isResultEditor ? (
+                    <DisplayResult
+                      row={row}
+                      onSelect={async result => {
+                        await props.onUpdateValue(result, row._id);
+                        const rows = {...row, ...result};
+                        if (_.isEmpty(row?.result)) {
+                          props.onSaveFields(
+                            {
+                              ...rows,
+                              resultStatus: getResultStatus(
+                                rows.resultType,
+                                rows,
+                              ),
+                              testStatus: getTestStatus(rows.resultType, rows),
+                              abnFlag: getAbnFlag(rows.resultType, rows),
+                              critical: getCretical(rows.resultType, rows),
+                              ...result,
+                            },
+                            rows._id,
+                            'directSave',
+                          );
+                        }
+                      }}
+                    />
+                  ) : (
+                    <span>{row.result}</span>
+                  )}
                 </>
               ),
               editorRenderer: (

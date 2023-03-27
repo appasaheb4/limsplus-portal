@@ -30,11 +30,6 @@ export const FilterInputTable = observer(() => {
     return itemList;
   };
 
-  // useEffect(() => {
-  //   console.log({generalResultEntryStore});
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   return (
     <div className='flex flex-row gap-2 items-center overflow-auto'>
       <Table striped bordered>

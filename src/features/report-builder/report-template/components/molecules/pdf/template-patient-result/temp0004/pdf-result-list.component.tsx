@@ -1,16 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from '@react-pdf/renderer';
-import _, {result} from 'lodash';
+import React from 'react';
+import {Text, View, StyleSheet, Font} from '@react-pdf/renderer';
+import _ from 'lodash';
 import {Style} from '@react-pdf/types';
-import {} from '@storybook/addons';
-import {
-  PdfSmall,
-  PdfBorderView,
-  PdfView,
-  PdfRegular,
-  PdfImage,
-} from '@/library/components';
-import {images} from '@/library/assets';
+import {PdfSmall, PdfBorderView, PdfView, PdfImage} from '@/library/components';
+
+Font.register({
+  family: 'arimaBold',
+  src: 'https://fonts.googleapis.com/css2?family=Arima:wght@500&display=swap',
+});
 
 const styles = StyleSheet.create({
   table: {
@@ -68,6 +65,7 @@ export const PdfResultList = ({
       width: '20',
     },
   ];
+
   const getPatientResultList = data => {
     if (data?.length > 0) {
       const patientResultList: Array<any> = [];
@@ -232,6 +230,7 @@ export const PdfResultList = ({
                         color: panelItem.panelHeader?.critical
                           ? '#FF0000'
                           : '#000000',
+                        fontFamily: 'Arima-Bold',
                       }}
                     >
                       {panelItem.panelHeader?.isPrintPanelName &&
@@ -243,6 +242,7 @@ export const PdfResultList = ({
                       style={{
                         marginLeft: 10,
                         fontSize: 8,
+                        fontFamily: 'Arima-Bold',
                         marginTop: -2,
                         color: panelItem.panelHeader?.critical
                           ? '#FF0000'
@@ -275,6 +275,7 @@ export const PdfResultList = ({
                           <PdfSmall
                             style={{
                               marginLeft: 10,
+                              fontFamily: 'Arima-Bold',
                               color: panelItem.panelHeader?.critical
                                 ? '#FF0000'
                                 : '#000000',
@@ -288,6 +289,7 @@ export const PdfResultList = ({
                           style={{
                             marginLeft: 10,
                             fontSize: 8,
+                            fontFamily: 'Arima-Bold',
                             marginTop: -2,
                             color: panelItem.panelHeader?.critical
                               ? '#FF0000'
@@ -304,7 +306,9 @@ export const PdfResultList = ({
                       </PdfBorderView>
                       {/* Patient Result List */}
                       {panelItem.panelHeader?.analyteType === 'H' ? (
-                        <PdfSmall style={{marginLeft: 10}}>
+                        <PdfSmall
+                          style={{marginLeft: 10, fontFamily: 'Arima-Bold'}}
+                        >
                           {panelItem.panelHeader?.analyteDescription}
                         </PdfSmall>
                       ) : (
@@ -501,22 +505,6 @@ export const PdfResultList = ({
             ' ---------------------- End of report ----------------------'
           }
         />
-        <PdfView alignItems='flex-end'>
-          <PdfImage
-            src={images.signAparajita}
-            style={{
-              width: 50,
-              height: 40,
-            }}
-          />
-          <PdfSmall style={{textAlign: 'center'}}>
-            {'Dr.Aparajita Sharma'}
-          </PdfSmall>
-          <PdfSmall style={{textAlign: 'center'}}>{'MBBS, MD'}</PdfSmall>
-          <PdfSmall style={{textAlign: 'center'}}>
-            {'CONSULTANT PATHOLOGIST'}
-          </PdfSmall>
-        </PdfView>
       </PdfView>
     </>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import {Table} from 'reactstrap';
@@ -32,7 +33,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import {resetPatientVisit} from '../startup';
+import {resetPatientVisit, startupByLabId} from '../startup';
 
 import {PatientVisitHoc} from '../hoc';
 import {useStores} from '@/stores';
@@ -106,6 +107,7 @@ export const PatientVisit = PatientVisitHoc(
                 ...patientRegistrationStore.defaultValues,
                 labId: res.createPatientVisit?.labId,
               });
+
               Toast.success({
                 message: `😊 ${res.createPatientVisit.message}`,
               });
@@ -113,6 +115,7 @@ export const PatientVisit = PatientVisitHoc(
             setHideInputView(true);
             reset();
             resetPatientVisit();
+            startupByLabId();
           });
       } else {
         Toast.warning({
@@ -192,6 +195,74 @@ export const PatientVisit = PatientVisitHoc(
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patientVisitStore.patientVisit?.labId]);
+
+    const patientVisitList = useMemo(
+      () => (
+        <PatientVisitList
+          data={patientVisitStore.listPatientVisit}
+          totalSize={patientVisitStore.listPatientVisitCount}
+          extraData={{
+            lookupItems: routerStore.lookupItems,
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Edit/Modify',
+          )}
+          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onSelectedRow={rows => {
+            setModalConfirm({
+              show: true,
+              type: 'delete',
+              id: rows.filter(item => item._id).map(item => item._id),
+              labId: rows.filter(item => item.labId).map(item => item.labId),
+              title: 'Are you sure?',
+              body: 'Delete selected items!',
+            });
+          }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'update',
+              data: {value, dataField, id},
+              title: 'Are you sure?',
+              body: 'Update recoard!',
+            });
+          }}
+          onUpdateFields={(fields: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              data: {fields, id},
+              title: 'Are you sure?',
+              body: 'Update records!',
+            });
+          }}
+          onPageSizeChange={(page, limit) => {
+            patientVisitStore.patientVisitService.listPatientVisit(
+              {documentType: 'patientVisit'},
+              page,
+              limit,
+            );
+            global.filter = {
+              mode: 'pagination',
+              page,
+              limit,
+            };
+          }}
+          onFilter={(type, filter, page, limit) => {
+            patientVisitStore.patientVisitService.filter({
+              input: {type, filter, page, limit},
+            });
+            global.filter = {mode: 'filter', type, filter, page, limit};
+          }}
+        />
+      ),
+      [patientVisitStore.listPatientVisit],
+    );
 
     return (
       <>
@@ -2069,68 +2140,7 @@ export const PatientVisit = PatientVisitHoc(
           className='p-1 rounded-lg shadow-xl overflow-scroll'
           style={{overflowX: 'scroll'}}
         >
-          <PatientVisitList
-            data={patientVisitStore.listPatientVisit}
-            totalSize={patientVisitStore.listPatientVisitCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Delete',
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Edit/Modify',
-            )}
-            onDelete={selectedItem => setModalConfirm(selectedItem)}
-            onSelectedRow={rows => {
-              setModalConfirm({
-                show: true,
-                type: 'delete',
-                id: rows.filter(item => item._id).map(item => item._id),
-                labId: rows.filter(item => item.labId).map(item => item.labId),
-                title: 'Are you sure?',
-                body: 'Delete selected items!',
-              });
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: 'update',
-                data: {value, dataField, id},
-                title: 'Are you sure?',
-                body: 'Update recoard!',
-              });
-            }}
-            onUpdateFields={(fields: any, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: 'updateFields',
-                data: {fields, id},
-                title: 'Are you sure?',
-                body: 'Update records!',
-              });
-            }}
-            onPageSizeChange={(page, limit) => {
-              patientVisitStore.patientVisitService.listPatientVisit(
-                {documentType: 'patientVisit'},
-                page,
-                limit,
-              );
-              global.filter = {
-                mode: 'pagination',
-                page,
-                limit,
-              };
-            }}
-            onFilter={(type, filter, page, limit) => {
-              patientVisitStore.patientVisitService.filter({
-                input: {type, filter, page, limit},
-              });
-              global.filter = {mode: 'filter', type, filter, page, limit};
-            }}
-          />
+          {patientVisitList}
         </div>
         <br />
         <div className='extra' style={{border: '1px solid yellow'}}>

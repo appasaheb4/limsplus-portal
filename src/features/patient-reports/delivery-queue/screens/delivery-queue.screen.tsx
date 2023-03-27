@@ -2,7 +2,6 @@ import React, {useState, useEffect, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
-  ModalConfirm,
   Header,
   PageHeading,
   PageHeadingLabDetails,
@@ -42,10 +41,6 @@ const DeliveryQueue = observer(() => {
 
   const getDeliveryList = () => {
     const loginDetails = loginStore.login;
-    // if (loginDetails?.role == 'SYSADMIN') {
-    //   deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
-    //   return;
-    // }
     if (loginDetails?.role == 'CORPORATE_PORTAL') {
       deliveryQueueStore.deliveryQueueService
         .findByFields({
@@ -71,10 +66,6 @@ const DeliveryQueue = observer(() => {
     } else {
       deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
       return;
-      // Toast.warning({
-      //   message:
-      //     "😞 You don't have access permission for delivery queue. Please contact to admin",
-      // });
     }
   };
 

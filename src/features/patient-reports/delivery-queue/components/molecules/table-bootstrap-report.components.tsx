@@ -264,12 +264,6 @@ export const TableBootstrapReport = ({
     </div>
   );
 
-  const rowEvents = {
-    onClick: (e, row, rowIndex) => {
-      onClickRow && onClickRow(row, rowIndex);
-    },
-  };
-
   const rowStyle = (row, rowIndex) => {
     if (row._id == selectedItem?._id) {
       return {backgroundColor: '#a9a9a9'};
@@ -352,7 +346,7 @@ export const TableBootstrapReport = ({
                   </Buttons.Button>
                 )}
                 <Tooltip
-                  tooltipText='All records delivery status update'
+                  tooltipText='All generate report update'
                   position='top'
                 >
                   <Buttons.Button
@@ -386,22 +380,10 @@ export const TableBootstrapReport = ({
                   filter={filterFactory()}
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
-                  rowEvents={rowEvents}
                   rowStyle={rowStyle}
                 />
               </div>
-              {/* <div className='flex items-center gap-2 mt-2 flex-wrap'>
-                <SizePerPageDropdownStandalone
-                  {...Object.assign(
-                    {},
-                    {...paginationProps, hideSizePerPage: false},
-                  )}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <PaginationTotalStandalone {...paginationProps} />
-              </div> */}
+
               <div className='flex items-center gap-2 mt-2'>
                 <Icons.IconContext
                   color='#fff'

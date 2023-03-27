@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -124,6 +124,55 @@ export const PatientOrder = PatientOrderHoc(
       }
     };
 
+    const patientOrderList = useMemo(
+      () => (
+        <PatientOrderList
+          data={patientOrderStore.listPatientOrder}
+          totalSize={patientOrderStore.listPatientOrderCount}
+          extraData={{
+            lookupItems: routerStore.lookupItems,
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Edit/Modify',
+          )}
+          onDelete={selectedUser => setModalConfirm(selectedUser)}
+          onSelectedRow={rows => {
+            setModalConfirm({
+              show: true,
+              type: 'delete',
+              id: rows,
+              title: 'Are you sure?',
+              body: 'Delete selected items!',
+            });
+          }}
+          onPageSizeChange={(page, limit) => {
+            patientOrderStore.patientOrderService.listPatientOrder(
+              {documentType: 'patientOrder'},
+              page,
+              limit,
+            );
+            global.filter = {mode: 'pagination', page, limit};
+          }}
+          onFilter={(type, filter, page, limit) => {
+            patientOrderStore.patientOrderService.filter({
+              input: {type, filter, page, limit},
+            });
+            global.filter = {mode: 'filter', type, filter, page, limit};
+          }}
+          onBarcode={(item: any) => {
+            setModalBarcodeLab({visible: true, data: {value: item.labId}});
+          }}
+        />
+      ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [patientOrderStore.listPatientOrder],
+    );
+
     return (
       <>
         {patientOrderStore.patientOrder?.labId && (
@@ -229,123 +278,116 @@ export const PatientOrder = PatientOrderHoc(
                     Lab Id already exits. Please use other lab id.
                   </span>
                 )}
-                {((patientOrderStore.selectedItems &&
-                  patientOrderStore.selectedItems?.panels &&
-                  patientOrderStore.selectedItems?.panels.length > 0) ||
-                  masterPanelStore.listMasterPanel) && (
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Form.InputWrapper
-                        label='Panel'
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Panel' hasError={!!errors.panel}>
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by code or name'
+                        isUpperCase={true}
+                        data={{
+                          list: masterPanelStore.listMasterPanel.filter(
+                            item =>
+                              item.rLab ===
+                                patientOrderStore.patientOrder?.rLab &&
+                              item.status == 'A',
+                          ),
+                          selected: patientOrderStore.selectedItems?.panels,
+                          displayKey: ['panelCode', 'panelName'],
+                        }}
+                        disable={!patientOrderStore.patientOrder?.rLab}
                         hasError={!!errors.panel}
-                      >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder='Search by code or name'
-                          isUpperCase={true}
-                          data={{
-                            list: masterPanelStore.listMasterPanel.filter(
-                              item =>
-                                item.rLab ===
-                                  patientOrderStore.patientOrder?.rLab &&
-                                item.status == 'A',
+                        onUpdate={item => {
+                          const panels =
+                            patientOrderStore.selectedItems?.panels;
+                          onChange(panels);
+                          patientOrderStore.updatePatientOrder({
+                            ...patientOrderStore.patientOrder,
+                            panelCode: _.map(panels, o =>
+                              _.pick(o, [
+                                'panelCode',
+                                'panelName',
+                                'serviceType',
+                                'confidential',
+                                'reportTemplate',
+                                'bill',
+                                'externalPanelCode',
+                              ]),
                             ),
-                            selected: patientOrderStore.selectedItems?.panels,
-                            displayKey: ['panelCode', 'panelName'],
-                          }}
-                          disable={!patientOrderStore.patientOrder?.rLab}
-                          hasError={!!errors.panel}
-                          onUpdate={item => {
-                            const panels =
-                              patientOrderStore.selectedItems?.panels;
-                            onChange(panels);
-                            patientOrderStore.updatePatientOrder({
-                              ...patientOrderStore.patientOrder,
-                              panelCode: _.map(panels, o =>
-                                _.pick(o, [
-                                  'panelCode',
-                                  'panelName',
-                                  'serviceType',
-                                  'confidential',
-                                  'reportTemplate',
-                                  'bill',
-                                  'externalPanelCode',
-                                ]),
-                              ),
-                            });
-                            masterPanelStore.updatePanelMasterList(
-                              masterPanelStore.listMasterPanelCopy,
-                            );
-                            //get packages list
-                            if (panels?.length > 0)
-                              patientOrderStore.patientOrderService.getPackageList(
-                                {
-                                  input: {
-                                    filter: {
-                                      panel: _.map(panels, o =>
-                                        _.pick(o, [
-                                          '_id',
-                                          'department',
-                                          'section',
-                                          'bill',
-                                          'rLab',
-                                          'pLab',
-                                          'panelCode',
-                                          'panelName',
-                                          'serviceType',
-                                          'confidential',
-                                          'externalPanelCode',
-                                          'schedule',
-                                        ]),
-                                      ),
-                                      visitId:
-                                        patientOrderStore.patientOrder?.visitId,
-                                    },
+                          });
+                          masterPanelStore.updatePanelMasterList(
+                            masterPanelStore.listMasterPanelCopy,
+                          );
+                          //get packages list
+                          if (panels?.length > 0)
+                            patientOrderStore.patientOrderService.getPackageList(
+                              {
+                                input: {
+                                  filter: {
+                                    panel: _.map(panels, o =>
+                                      _.pick(o, [
+                                        '_id',
+                                        'department',
+                                        'section',
+                                        'bill',
+                                        'rLab',
+                                        'pLab',
+                                        'panelCode',
+                                        'panelName',
+                                        'serviceType',
+                                        'confidential',
+                                        'externalPanelCode',
+                                        'schedule',
+                                      ]),
+                                    ),
+                                    visitId:
+                                      patientOrderStore.patientOrder?.visitId,
                                   },
                                 },
-                              );
-                          }}
-                          onFilter={(value: string) => {
-                            masterPanelStore.masterPanelService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ['panelCode', 'panelName'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
                               },
+                            );
+                        }}
+                        onFilter={(value: string) => {
+                          masterPanelStore.masterPanelService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['panelCode', 'panelName'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          let panels = patientOrderStore.selectedItems?.panels;
+                          if (!item.selected) {
+                            if (panels && panels.length > 0) {
+                              panels.push(item);
+                            } else panels = [item];
+                          } else {
+                            panels = panels.filter(items => {
+                              return items._id !== item._id;
                             });
-                          }}
-                          onSelect={item => {
-                            let panels =
-                              patientOrderStore.selectedItems?.panels;
-                            if (!item.selected) {
-                              if (panels && panels.length > 0) {
-                                panels.push(item);
-                              } else panels = [item];
-                            } else {
-                              panels = panels.filter(items => {
-                                return items._id !== item._id;
-                              });
-                            }
-                            patientOrderStore.updateSelectedItems({
-                              ...patientOrderStore.selectedItems,
-                              panels,
-                              serviceTypes: _.union(
-                                _.map(panels, 'serviceType'),
-                              ),
-                            });
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='panel'
-                    rules={{required: true}}
-                    defaultValue=''
-                  />
-                )}
+                          }
+                          patientOrderStore.updateSelectedItems({
+                            ...patientOrderStore.selectedItems,
+                            panels,
+                            serviceTypes: _.union(_.map(panels, 'serviceType')),
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='panel'
+                  rules={{required: true}}
+                  defaultValue={
+                    patientOrderStore.selectedItems?.panels ||
+                    masterPanelStore.listMasterPanel
+                  }
+                />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
@@ -476,48 +518,7 @@ export const PatientOrder = PatientOrderHoc(
           className='p-2 rounded-lg shadow-xl overflow-scroll'
           style={{overflowX: 'scroll'}}
         >
-          <PatientOrderList
-            data={patientOrderStore.listPatientOrder}
-            totalSize={patientOrderStore.listPatientOrderCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Delete',
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Edit/Modify',
-            )}
-            onDelete={selectedUser => setModalConfirm(selectedUser)}
-            onSelectedRow={rows => {
-              setModalConfirm({
-                show: true,
-                type: 'delete',
-                id: rows,
-                title: 'Are you sure?',
-                body: 'Delete selected items!',
-              });
-            }}
-            onPageSizeChange={(page, limit) => {
-              patientOrderStore.patientOrderService.listPatientOrder(
-                {documentType: 'patientOrder'},
-                page,
-                limit,
-              );
-              global.filter = {mode: 'pagination', page, limit};
-            }}
-            onFilter={(type, filter, page, limit) => {
-              patientOrderStore.patientOrderService.filter({
-                input: {type, filter, page, limit},
-              });
-              global.filter = {mode: 'filter', type, filter, page, limit};
-            }}
-            onBarcode={(item: any) => {
-              setModalBarcodeLab({visible: true, data: {value: item.labId}});
-            }}
-          />
+          {patientOrderList}
         </div>
         <ModalConfirm
           {...modalConfirm}

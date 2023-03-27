@@ -1,19 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import {
-  PdfHeading,
-  PdfRegular,
-  PdfMedium,
-  PdfPageNumber,
-  PdfHeader,
-  PdfSubHeader,
-  PdfView,
-  PdfBorderView,
-  PdfFooterView,
-  PdfGrid,
-  PdfSmall,
-} from '@components';
+import {PdfView, PdfBorderView, PdfGrid, PdfSmall} from '@components';
 import {observer} from 'mobx-react';
 import {getAgeUnits, getSex} from '@/core-utils';
 

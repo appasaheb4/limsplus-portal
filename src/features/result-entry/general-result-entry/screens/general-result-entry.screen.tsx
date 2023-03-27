@@ -36,8 +36,8 @@ const GeneralResultEntry = observer(() => {
     () => (
       <>
         <GeneralResultEntryList
-          data={patientResultStore.patientResultList || []}
-          totalSize={patientResultStore.patientResultListCount}
+          data={patientResultStore.patientResultListNotAutoUpdate || []}
+          totalSize={patientResultStore.patientResultListNotAutoUpdateCount}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
             'Delete',
@@ -47,24 +47,25 @@ const GeneralResultEntry = observer(() => {
             'Edit/Modify',
           )}
           onUpdateValue={(item, id) => {
-            const updated = patientResultStore.patientResultList?.map(
-              (e: any) => {
-                if (e._id === id)
-                  return {
-                    ...e,
-                    ...item,
-                    flagUpdate: true,
-                    refRangesList: e.refRangesList?.map(item => {
-                      return {
-                        ...item,
-                        updateDate: new Date(),
-                      };
-                    }),
-                  };
-                else return e;
-              },
-            );
-            patientResultStore.updatePatientResult(updated);
+            const updated =
+              patientResultStore.patientResultListNotAutoUpdate?.map(
+                (e: any) => {
+                  if (e._id === id)
+                    return {
+                      ...e,
+                      ...item,
+                      flagUpdate: true,
+                      refRangesList: e.refRangesList?.map(item => {
+                        return {
+                          ...item,
+                          updateDate: new Date(),
+                        };
+                      }),
+                    };
+                  else return e;
+                },
+              );
+            patientResultStore.updatePatientResultNotAutoUpdate(updated);
           }}
           onSaveFields={async (updatedRecords, id, type) => {
             if (type == 'directSave') {
@@ -81,7 +82,7 @@ const GeneralResultEntry = observer(() => {
             }
           }}
           onPageSizeChange={(page, limit) => {
-            patientResultStore.patientResultService.listPatientResult(
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
               page,
               limit,
             );

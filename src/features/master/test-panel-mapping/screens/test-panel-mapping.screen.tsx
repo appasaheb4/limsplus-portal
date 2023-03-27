@@ -67,9 +67,18 @@ const TestPanelMapping = TestPanelMappingHoc(
     setValue('dateExpire', testPanelMappingStore.testPanelMapping?.dateExpire);
     setValue('version', testPanelMappingStore.testPanelMapping?.version);
     setValue('dateActive', testPanelMappingStore.testPanelMapping?.dateActive);
+
     setValue(
       'printPanelName',
       testPanelMappingStore.testPanelMapping?.printPanelName,
+    );
+    setValue(
+      'printTestName',
+      testPanelMappingStore.testPanelMapping?.printTestName,
+    );
+    setValue(
+      'printAnalyteName',
+      testPanelMappingStore.testPanelMapping?.printAnalyteName,
     );
     setValue(
       'analyteInterpretation',
@@ -84,7 +93,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     const [masterFlag, setMasgterFlag] = useState<any>([
       {
         title: 'PM',
-        isSelected: true,
+        isSelected: false,
         icon: 'Icons.IconFa.FaSolarPanel',
       },
       {
@@ -93,7 +102,7 @@ const TestPanelMapping = TestPanelMappingHoc(
       },
       {
         title: 'AM',
-        isSelected: false,
+        isSelected: true,
       },
     ]);
     const MasterIcon = icon => Icons.getIcons(icon);
