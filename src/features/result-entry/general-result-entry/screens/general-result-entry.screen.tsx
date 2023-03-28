@@ -90,7 +90,7 @@ const GeneralResultEntry = observer(() => {
         />
       </>
     ),
-    [patientResultStore.patientResultList, tableReaload],
+    [patientResultStore.patientResultListNotAutoUpdate, tableReaload],
   );
 
   const updateRecords = (id, data) => {
