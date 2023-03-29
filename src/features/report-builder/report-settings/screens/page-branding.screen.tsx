@@ -34,7 +34,7 @@ import '@/library/assets/css/accordion.css';
 
 import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
 import {resetReportBody} from '../startup';
-
+import {PageBranding as Model} from '../models/page-branding.model';
 const width = '100%';
 const height = window.innerHeight / 1.3;
 
@@ -83,9 +83,6 @@ export const PageBranding = observer(() => {
           reset();
           resetReportBody();
         }
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1000);
       });
   };
 
@@ -93,7 +90,7 @@ export const PageBranding = observer(() => {
     if (tempCode)
       return (
         <PDFViewer
-          style={{width, height}}
+          style={{width: '100%', height: '500px'}}
           showToolbar={reportSettingStore.pageLayout?.isToolbar}
         >
           <Document title='Page Branding'>
