@@ -88,6 +88,7 @@ export const client = new ApolloClient({
   link: authLink.concat(from([errorLink, UploadLink])),
   cache: new InMemoryCache(),
 });
+
 export const clientLocal = new ApolloClient({
   link: authLink.concat(from([errorLink, UploadLinkLocal])),
   cache: new InMemoryCache(),

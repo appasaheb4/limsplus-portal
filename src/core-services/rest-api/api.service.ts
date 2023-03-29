@@ -160,3 +160,4 @@ export class Service {
   }
 }
 export const service = new Service('');
+export const serviceLocal = new Service('http://localhost:8080/api/');
