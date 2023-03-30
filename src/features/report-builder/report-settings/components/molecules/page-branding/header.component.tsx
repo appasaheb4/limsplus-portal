@@ -1,14 +1,10 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
 import {resizeFile} from '@/library/utils';
-
-interface PageBrandingHeaderProps {
-  resetFuntion: () => void;
-}
 
 export const PageBrandingHeader = observer(() => {
   const {reportSettingStore} = useStores();
@@ -55,8 +51,9 @@ export const PageBrandingHeader = observer(() => {
             label='Title CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-            // value={value}
+            value={value}
             onChange={titleCSS => {
+              onChange(titleCSS);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 header: {
@@ -103,8 +100,9 @@ export const PageBrandingHeader = observer(() => {
             label='Logo CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={'Like borderRadius:25,width:50'}
-            // value={value}
+            value={value}
             onChange={logoCSS => {
+              onChange(logoCSS);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 header: {
@@ -154,8 +152,9 @@ export const PageBrandingHeader = observer(() => {
             label='Main Box CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={"Like backgroundColor:'#000000'"}
-            // value={value}
+            value={value}
             onChange={mainBoxCSS => {
+              onChange(mainBoxCSS);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 header: {
