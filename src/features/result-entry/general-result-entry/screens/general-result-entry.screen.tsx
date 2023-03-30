@@ -81,6 +81,16 @@ const GeneralResultEntry = observer(() => {
               });
             }
           }}
+          onUpdateFields={(fields, id) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              id: id,
+              data: fields,
+              title: 'Are you sure?',
+              body: `Update records!`,
+            });
+          }}
           onPageSizeChange={(page, limit) => {
             patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
               page,
@@ -151,6 +161,42 @@ const GeneralResultEntry = observer(() => {
           setModalConfirm({show: false});
           if (type === 'save') {
             updateRecords(modalConfirm.id, modalConfirm.data);
+          }
+          if (type == 'updateFields') {
+            patientResultStore.patientResultService
+              .updateByFields({
+                input: {
+                  fields: modalConfirm.data,
+                  condition: {_id: modalConfirm.id},
+                },
+              })
+              .then(res => {
+                if (res.updateByFieldsPatientResult.success) {
+                  Toast.success({
+                    message: `😊 ${res.updateByFieldsPatientResult.message}`,
+                    timer: 2000,
+                  });
+                  if (!generalResultEntryStore.filterGeneralResEntry)
+                    patientResultStore.patientResultService.listPatientResult({
+                      pLab: loginStore.login?.lab,
+                      resultStatus: 'P',
+                      testStatus: 'P',
+                    });
+                  else
+                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                      {
+                        input: {
+                          filter: {
+                            ...generalResultEntryStore.filterGeneralResEntry,
+                            panelStatus: 'P',
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      },
+                    );
+                }
+              });
           }
         }}
         onClose={() => {

@@ -110,6 +110,15 @@ export const UPDATE_RECORD = gql`
   }
 `;
 
+export const UPDATE_BY_FIELDS_RECORD = gql`
+  mutation ($input: PatientResultInput!) {
+    updateByFieldsPatientResult(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
 export const RELOAD_RECORD = gql`
   mutation ($input: PatientResultInput!) {
     reloadPatientResult(input: $input) {
