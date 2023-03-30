@@ -16,6 +16,7 @@ import {
   PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
   GET_PATIENT_RESULT_DISTINCT,
   UPDATE_RECORD,
+  UPDATE_BY_FIELDS_RECORD,
   RELOAD_RECORD,
   LIST_PATIENT_RESULT_NOT_AUTO_UPDATE,
 } from './mutation-pr';
@@ -224,6 +225,21 @@ export class PatientResultService {
       client
         .mutate({
           mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_BY_FIELDS_RECORD,
           variables,
         })
         .then((response: any) => {
