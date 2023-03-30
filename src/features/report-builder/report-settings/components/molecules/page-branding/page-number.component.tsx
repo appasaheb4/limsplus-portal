@@ -20,15 +20,16 @@ export const PageNumber = observer(() => {
     <>
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.MultilineInput
             label='Page Number CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={
               "Like  position: 'absolute',bottom: bottom,right: 5,fontSize: 12,color: 'grey',"
             }
-            value={reportSettingStore.pageBranding?.pageNumber?.pageNumberCSS}
+            value={value}
             onChange={pageNumberCSS => {
+              onChange(pageNumberCSS);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 pageNumber: {

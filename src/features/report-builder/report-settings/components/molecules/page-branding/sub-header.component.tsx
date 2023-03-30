@@ -20,12 +20,12 @@ export const PageBrandingSubHeader = observer(() => {
     <>
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.Input
             label='Title'
             placeholder='Title'
             hasError={!!errors.title}
-            value={reportSettingStore.pageBranding?.subHeader?.title}
+            value={value}
             onChange={title => {
               onChange(title);
               reportSettingStore.updatePageBranding({
@@ -45,13 +45,14 @@ export const PageBrandingSubHeader = observer(() => {
 
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.MultilineInput
             label='Title CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-            value={reportSettingStore.pageBranding?.subHeader?.titleCSS}
+            value={value}
             onChange={titleCSS => {
+              onChange(titleCSS);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 subHeader: {
@@ -69,12 +70,12 @@ export const PageBrandingSubHeader = observer(() => {
 
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.Input
             label='Sub Title'
             placeholder='Sub Title'
             hasError={!!errors.subTitle}
-            value={reportSettingStore.pageBranding?.subHeader?.subTitle}
+            value={value}
             onChange={subTitle => {
               onChange(subTitle);
               reportSettingStore.updatePageBranding({
@@ -94,13 +95,14 @@ export const PageBrandingSubHeader = observer(() => {
 
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.MultilineInput
             label='Sub Title CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-            value={reportSettingStore.pageBranding?.subHeader?.subTitleCSS}
+            value={value}
             onChange={subTitleCSS => {
+              onChange(subTitleCSS);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 subHeader: {
@@ -118,13 +120,14 @@ export const PageBrandingSubHeader = observer(() => {
 
       <Controller
         control={control}
-        render={({field: {onChange}}) => (
+        render={({field: {onChange, value}}) => (
           <Form.MultilineInput
             label='Main Box CSS'
             style={{color: '#ffffff', backgroundColor: '#000000'}}
             placeholder={"Like backgroundColor:'#000000'"}
-            value={reportSettingStore.pageBranding?.subHeader?.mainBoxCSS}
+            value={value}
             onChange={mainBoxCSS => {
+              onChange(mainBoxCSS);
               reportSettingStore.updatePageBranding({
                 ...reportSettingStore.pageBranding,
                 subHeader: {
