@@ -124,325 +124,330 @@ export const PageBranding = observer(() => {
 
   return (
     <>
-      {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+      {/* {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
           style={{bottom: 50}}
           show={isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
-      )}
-      <div
-        className={
-          'rounded-lg shadow-xl p-2 ' + (isInputView ? 'hidden' : 'shown')
-        }
-      >
-        <Grid cols={2}>
-          <List direction='col' space={4} justify='stretch' fill>
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <AutoCompleteLayoutCode
-                  displayValue={value || ''}
-                  hasError={!!errors.layoutCode}
-                  onSelect={item => {
-                    onChange(item.tempCode);
-                    reportSettingStore.updatePageBranding({
-                      ...reportSettingStore.pageBranding,
-                      layoutCode: item.tempCode,
-                    });
-                  }}
-                />
-              )}
-              name='layoutCode'
-              rules={{required: true}}
-              defaultValue={reportSettingStore.pageLayoutList}
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Form.Input
-                  label='Branding Code'
-                  placeholder='Branding Code'
-                  hasError={!!errors.brandingCode}
-                  value={value?.toUpperCase()}
-                  onChange={tempCode => {
-                    onChange(tempCode);
-                    reportSettingStore.updatePageBranding({
-                      ...reportSettingStore.pageBranding,
-                      tempCode: tempCode?.toUpperCase(),
-                    });
-                  }}
-                  onBlur={tempCode => {
-                    reportSettingStore.pageBrandingService
-                      .findByFields({
-                        input: {
-                          filter: {
-                            tempCode,
+      )} */}
+      <div className='mx-auto flex-wrap'>
+        <div className={'rounded-lg shadow-xl p-2 '}>
+          <Grid cols={2}>
+            <List direction='col' space={4} justify='stretch' fill>
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <AutoCompleteLayoutCode
+                    displayValue={value || ''}
+                    hasError={!!errors.layoutCode}
+                    onSelect={item => {
+                      onChange(item.tempCode);
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        layoutCode: item.tempCode,
+                      });
+                    }}
+                  />
+                )}
+                name='layoutCode'
+                rules={{required: true}}
+                defaultValue={reportSettingStore.pageLayoutList}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <Form.Input
+                    label='Branding Code'
+                    placeholder='Branding Code'
+                    hasError={!!errors.brandingCode}
+                    value={value?.toUpperCase()}
+                    onChange={tempCode => {
+                      onChange(tempCode);
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        tempCode: tempCode?.toUpperCase(),
+                      });
+                    }}
+                    onBlur={tempCode => {
+                      reportSettingStore.pageBrandingService
+                        .findByFields({
+                          input: {
+                            filter: {
+                              tempCode,
+                            },
                           },
-                        },
-                      })
-                      .then(res => {
-                        if (res.findByFieldsPageBranding.success) {
-                          setError('tempCode', {type: 'onBlur'});
-                          Toast.error({
-                            message:
-                              '😔 Already exists temp code. Please select diff.',
-                          });
-                          return setIsExistsTempCode(true);
-                        } else {
-                          clearErrors('tempCode');
-                          return setIsExistsTempCode(false);
-                        }
+                        })
+                        .then(res => {
+                          if (res.findByFieldsPageBranding.success) {
+                            setError('tempCode', {type: 'onBlur'});
+                            Toast.error({
+                              message:
+                                '😔 Already exists temp code. Please select diff.',
+                            });
+                            return setIsExistsTempCode(true);
+                          } else {
+                            clearErrors('tempCode');
+                            return setIsExistsTempCode(false);
+                          }
+                        });
+                    }}
+                  />
+                )}
+                name='brandingCode'
+                rules={{required: true}}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <Form.Input
+                    label='Branding Title'
+                    placeholder='Branding Title'
+                    hasError={!!errors.brandingTitle}
+                    value={value?.toUpperCase()}
+                    onChange={brandingTitle => {
+                      onChange(brandingTitle);
+                      reportSettingStore.updatePageBranding({
+                        ...reportSettingStore.pageBranding,
+                        brandingTitle: brandingTitle?.toUpperCase(),
                       });
-                  }}
-                />
-              )}
-              name='brandingCode'
-              rules={{required: true}}
-              defaultValue=''
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Form.Input
-                  label='Branding Title'
-                  placeholder='Branding Title'
-                  hasError={!!errors.brandingTitle}
-                  value={value?.toUpperCase()}
-                  onChange={brandingTitle => {
-                    onChange(brandingTitle);
-                    reportSettingStore.updatePageBranding({
-                      ...reportSettingStore.pageBranding,
-                      brandingTitle: brandingTitle?.toUpperCase(),
-                    });
-                  }}
-                  // onBlur={brandingTitle => {
-                  //   reportSettingStore.pageBrandingService
-                  //     .findByFields({
-                  //       input: {
-                  //         filter: {
-                  //           tempCode:
-                  //             reportSettingStore.pageBranding?.tempCode || '',
-                  //           brandingTitle: brandingTitle?.toUpperCase(),
-                  //         },
-                  //       },
-                  //     })
-                  //     .then(res => {
-                  //       if (res.findByFieldsPageBranding.success) {
-                  //         setError('tempCode', {type: 'onBlur'});
-                  //         setError('brandingTitle', {type: 'onBlur'});
-                  //         Toast.error({
-                  //           message:
-                  //             '😔 Already exists temp code. Please select diff.',
-                  //         });
-                  //         return setIsExistsTempCode(true);
-                  //       } else {
-                  //         clearErrors('tempCode');
-                  //         clearErrors('brandingTitle');
-                  //         return setIsExistsTempCode(false);
-                  //       }
-                  //     });
-                  // }}
-                />
-              )}
-              name='brandingTitle'
-              rules={{required: true}}
-              defaultValue=''
-            />
+                    }}
+                    // onBlur={brandingTitle => {
+                    //   reportSettingStore.pageBrandingService
+                    //     .findByFields({
+                    //       input: {
+                    //         filter: {
+                    //           tempCode:
+                    //             reportSettingStore.pageBranding?.tempCode || '',
+                    //           brandingTitle: brandingTitle?.toUpperCase(),
+                    //         },
+                    //       },
+                    //     })
+                    //     .then(res => {
+                    //       if (res.findByFieldsPageBranding.success) {
+                    //         setError('tempCode', {type: 'onBlur'});
+                    //         setError('brandingTitle', {type: 'onBlur'});
+                    //         Toast.error({
+                    //           message:
+                    //             '😔 Already exists temp code. Please select diff.',
+                    //         });
+                    //         return setIsExistsTempCode(true);
+                    //       } else {
+                    //         clearErrors('tempCode');
+                    //         clearErrors('brandingTitle');
+                    //         return setIsExistsTempCode(false);
+                    //       }
+                    //     });
+                    // }}
+                  />
+                )}
+                name='brandingTitle'
+                rules={{required: true}}
+                defaultValue=''
+              />
 
-            <Grid cols={4}>
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Form.Toggle
-                    label='Header Visible'
-                    hasError={!!errors.headerVisible}
-                    value={value?.isHeader}
-                    onChange={isHeader => {
-                      onChange(isHeader);
-                      reportSettingStore.updatePageBranding({
-                        ...reportSettingStore.pageBranding,
-                        isHeader,
-                      });
-                    }}
-                  />
-                )}
-                name='headerVisible'
-                rules={{required: false}}
-                defaultValue=''
-              />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Form.Toggle
-                    label='Sub Header Visible'
-                    hasError={!!errors.subHeaderVisible}
-                    value={reportSettingStore.pageBranding?.isSubHeader}
-                    onChange={isSubHeader => {
-                      onChange(isSubHeader);
-                      reportSettingStore.updatePageBranding({
-                        ...reportSettingStore.pageBranding,
-                        isSubHeader,
-                      });
-                    }}
-                  />
-                )}
-                name='subHeaderVisible'
-                rules={{required: false}}
-                defaultValue=''
-              />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Form.Toggle
-                    label='Footer Visible'
-                    hasError={!!errors.footerVisible}
-                    value={value?.isFooter}
-                    onChange={isFooter => {
-                      onChange(isFooter);
-                      reportSettingStore.updatePageBranding({
-                        ...reportSettingStore.pageBranding,
-                        isFooter,
-                      });
-                    }}
-                  />
-                )}
-                name='footerVisible'
-                rules={{required: false}}
-                defaultValue=''
-              />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Form.Toggle
-                    label='Page Number'
-                    hasError={!!errors.pageNumber}
-                    value={value?.isPdfPageNumber}
-                    onChange={isPdfPageNumber => {
-                      onChange(isPdfPageNumber);
-                      reportSettingStore.updatePageBranding({
-                        ...reportSettingStore.pageBranding,
-                        isPdfPageNumber,
-                      });
-                    }}
-                  />
-                )}
-                name='pageNumber'
-                rules={{required: false}}
-                defaultValue=''
-              />
-            </Grid>
-            <Accordion>
-              {getAccordionItem(reportSettingStore?.pageBranding).map(item => {
-                return (
-                  <AccordionItem
-                    title={`${item.title}`}
-                    // expanded={item.title === 'Header'}
-                  >
-                    {item.title === 'Header' && <PageBrandingHeader />}
-                    {item.title === 'Sub Header' && <PageBrandingSubHeader />}
-                    {item.title === 'Footer' && <PageBrandingFooter />}
-                    {item.title === 'Page Number' && <PageNumber />}
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
-          </List>
-          <List direction='col' space={4} justify='stretch' fill>
-            {getTemplate(
-              reportSettingStore.pageBranding?.layoutCode,
-              reportSettingStore.pageBranding,
-            )}
-          </List>
-        </Grid>
-        <br />
-        <List direction='row' space={3} align='center'>
-          <Buttons.Button
-            size='medium'
-            type='solid'
-            icon={Svg.Save}
-            onClick={handleSubmit(onSave)}
-          >
-            Save
-          </Buttons.Button>
-          <Buttons.Button
-            size='medium'
-            type='outline'
-            icon={Svg.Remove}
-            onClick={() => {
-              window.location.reload();
-            }}
-          >
-            Clear
-          </Buttons.Button>
-        </List>
-      </div>
-      <div className='rounded-lg shadow-xl overflow-auto p-2'>
-        <PageBrandingList
-          data={reportSettingStore.pageBrandingList}
-          totalSize={reportSettingStore.pageBrandingListCount}
-          isDelete={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Delete',
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Edit/Modify',
-          )}
-          onDelete={selectedItem => setModalConfirm(selectedItem)}
-          onSelectedRow={rows => {
-            setModalConfirm({
-              show: true,
-              type: 'delete',
-              id: rows,
-              title: 'Are you sure?',
-              body: 'Delete selected items!',
-            });
-          }}
-          onUpdateItem={(fields: any, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: 'update',
-              data: {fields, id},
-              title: 'Are you sure?',
-              body: 'Update banner!',
-            });
-          }}
-          onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
-          }}
-          onFilter={(type, filter, page, limit) => {
-            // bannerStore.BannerService.filter({
-            //   input: {type, filter, page, limit},
-            // });
-          }}
-          onPdfPreview={item => {
-            reportSettingStore.pageLayoutService
-              .findByFields({
-                input: {
-                  filter: {
-                    tempCode: item?.tempCode,
+              <Grid cols={4}>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.Toggle
+                      label='Header Visible'
+                      hasError={!!errors.headerVisible}
+                      value={value?.isHeader}
+                      onChange={isHeader => {
+                        onChange(isHeader);
+                        reportSettingStore.updatePageBranding({
+                          ...reportSettingStore.pageBranding,
+                          isHeader,
+                        });
+                      }}
+                    />
+                  )}
+                  name='headerVisible'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.Toggle
+                      label='Sub Header Visible'
+                      hasError={!!errors.subHeaderVisible}
+                      value={reportSettingStore.pageBranding?.isSubHeader}
+                      onChange={isSubHeader => {
+                        onChange(isSubHeader);
+                        reportSettingStore.updatePageBranding({
+                          ...reportSettingStore.pageBranding,
+                          isSubHeader,
+                        });
+                      }}
+                    />
+                  )}
+                  name='subHeaderVisible'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.Toggle
+                      label='Footer Visible'
+                      hasError={!!errors.footerVisible}
+                      value={value?.isFooter}
+                      onChange={isFooter => {
+                        onChange(isFooter);
+                        reportSettingStore.updatePageBranding({
+                          ...reportSettingStore.pageBranding,
+                          isFooter,
+                        });
+                      }}
+                    />
+                  )}
+                  name='footerVisible'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.Toggle
+                      label='Page Number'
+                      hasError={!!errors.pageNumber}
+                      value={value?.isPdfPageNumber}
+                      onChange={isPdfPageNumber => {
+                        onChange(isPdfPageNumber);
+                        reportSettingStore.updatePageBranding({
+                          ...reportSettingStore.pageBranding,
+                          isPdfPageNumber,
+                        });
+                      }}
+                    />
+                  )}
+                  name='pageNumber'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+              </Grid>
+              <Accordion>
+                {getAccordionItem(reportSettingStore?.pageBranding).map(
+                  item => {
+                    return (
+                      <AccordionItem
+                        title={`${item.title}`}
+                        // expanded={item.title === 'Header'}
+                      >
+                        {item.title === 'Header' && <PageBrandingHeader />}
+                        {item.title === 'Sub Header' && (
+                          <PageBrandingSubHeader />
+                        )}
+                        {item.title === 'Footer' && <PageBrandingFooter />}
+                        {item.title === 'Page Number' && <PageNumber />}
+                      </AccordionItem>
+                    );
                   },
-                },
-              })
-              .then(res => {
-                if (res.findByFieldsTemplateSetting.success) {
-                  setModalView({
-                    visible: true,
-                    children: (
-                      <>
-                        {getTemplate(item.tempCode, {
-                          ...item,
-                          templateSettings:
-                            res.findByFieldsTemplateSetting.data[0],
-                        })}
-                      </>
-                    ),
-                  });
-                }
+                )}
+              </Accordion>
+            </List>
+            <List direction='col' space={4} justify='stretch' fill>
+              {getTemplate(
+                reportSettingStore.pageBranding?.layoutCode,
+                reportSettingStore.pageBranding,
+              )}
+            </List>
+          </Grid>
+          <br />
+          <List direction='row' space={3} align='center'>
+            <Buttons.Button
+              size='medium'
+              type='solid'
+              icon={Svg.Save}
+              onClick={handleSubmit(onSave)}
+            >
+              Save
+            </Buttons.Button>
+            <Buttons.Button
+              size='medium'
+              type='outline'
+              icon={Svg.Remove}
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Clear
+            </Buttons.Button>
+          </List>
+        </div>
+        <div
+          className='rounded-lg shadow-xl overflow-auto p-2'
+          style={{overflowX: 'scroll'}}
+        >
+          <PageBrandingList
+            data={reportSettingStore.pageBrandingList}
+            totalSize={reportSettingStore.pageBrandingListCount}
+            isDelete={RouterFlow.checkPermission(
+              routerStore.userPermission,
+              'Delete',
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              routerStore.userPermission,
+              'Edit/Modify',
+            )}
+            onDelete={selectedItem => setModalConfirm(selectedItem)}
+            onSelectedRow={rows => {
+              setModalConfirm({
+                show: true,
+                type: 'delete',
+                id: rows,
+                title: 'Are you sure?',
+                body: 'Delete selected items!',
               });
-          }}
-        />
+            }}
+            onUpdateItem={(fields: any, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: 'update',
+                data: {fields, id},
+                title: 'Are you sure?',
+                body: 'Update banner!',
+              });
+            }}
+            onPageSizeChange={(page, limit) => {
+              // bannerStore.fetchListBanner(page, limit);
+            }}
+            onFilter={(type, filter, page, limit) => {
+              // bannerStore.BannerService.filter({
+              //   input: {type, filter, page, limit},
+              // });
+            }}
+            onPdfPreview={item => {
+              reportSettingStore.pageLayoutService
+                .findByFields({
+                  input: {
+                    filter: {
+                      tempCode: item?.tempCode,
+                    },
+                  },
+                })
+                .then(res => {
+                  if (res.findByFieldsTemplateSetting.success) {
+                    setModalView({
+                      visible: true,
+                      children: (
+                        <>
+                          {getTemplate(item.tempCode, {
+                            ...item,
+                            templateSettings:
+                              res.findByFieldsTemplateSetting.data[0],
+                          })}
+                        </>
+                      ),
+                    });
+                  }
+                });
+            }}
+          />
+        </div>
       </div>
       <ModalConfirm
         {...modalConfirm}
