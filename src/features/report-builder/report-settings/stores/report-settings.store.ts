@@ -63,6 +63,8 @@ export class ReportSettingStore {
     this.selectedItemTemplatePatientResult =
       new SelectedItemsTemplatePatientResult({});
 
+    this.reset();
+
     makeObservable<ReportSettingStore, any>(this, {
       pageLayout: observable,
       pageLayoutList: observable,
@@ -100,7 +102,12 @@ export class ReportSettingStore {
       updateTemplatePatientResult: action,
       updateTemplatePatientResultList: action,
       updateSelectedItemTemplatePatientResult: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.reportBody = new ReportBody({});
   }
 
   get pageLayoutService() {
