@@ -1,16 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from '@react-pdf/renderer';
-import _, {result} from 'lodash';
+import React from 'react';
+import {StyleSheet} from '@react-pdf/renderer';
+import _ from 'lodash';
 import {Style} from '@react-pdf/types';
 import {} from '@storybook/addons';
-import {
-  PdfSmall,
-  PdfBorderView,
-  PdfView,
-  PdfRegular,
-  PdfImage,
-} from '@/library/components';
-import {getAgeUnits, getSex} from '@/core-utils';
+import {PdfSmall, PdfBorderView, PdfView} from '@/library/components';
+
 const styles = StyleSheet.create({
   table: {
     marginHorizontal: 10,

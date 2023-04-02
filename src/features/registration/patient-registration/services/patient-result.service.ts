@@ -16,7 +16,9 @@ import {
   PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
   GET_PATIENT_RESULT_DISTINCT,
   UPDATE_RECORD,
+  UPDATE_BY_FIELDS_RECORD,
   RELOAD_RECORD,
+  LIST_PATIENT_RESULT_NOT_AUTO_UPDATE,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -53,6 +55,27 @@ export class PatientResultService {
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResult(response.data);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  listPatientResultNotAutoUpdate = (filter, page = 0, limit = 10) =>
+    new Promise<any>((resolve, reject) => {
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      client
+        .mutate({
+          mutation: LIST_PATIENT_RESULT_NOT_AUTO_UPDATE,
+          variables: {input: {filter, page, limit, env, role}},
+        })
+        .then((response: any) => {
+          stores.patientResultStore.updatePatientResultNotAutoUpdate(
+            response.data,
+          );
           resolve(response.data);
         })
         .catch(error =>
@@ -158,7 +181,7 @@ export class PatientResultService {
         })
         .then((response: any) => {
           if (!response.data.patientResultListForGenResEntry.success)
-            return this.listPatientResult({
+            return this.listPatientResultNotAutoUpdate({
               pLab: stores.loginStore.login?.lab,
               resultStatus: 'P',
               testStatus: 'P',
@@ -202,6 +225,21 @@ export class PatientResultService {
       client
         .mutate({
           mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_BY_FIELDS_RECORD,
           variables,
         })
         .then((response: any) => {

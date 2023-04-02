@@ -5,6 +5,8 @@ import {PatientResult} from '../models';
 export class PatientResultStore {
   patientResultList: PatientResult[] = [];
   patientResultListCount!: number;
+  patientResultListNotAutoUpdate: PatientResult[] = [];
+  patientResultListNotAutoUpdateCount!: number;
   patientResultListWithLabId: PatientResult[] = [];
   patientResultTestCount!: number;
   distinctPatientResult!: any;
@@ -12,15 +14,19 @@ export class PatientResultStore {
 
   constructor() {
     this.patientResultList = [];
+    this.patientResultListCount = 0;
+    this.patientResultListNotAutoUpdate = [];
+    this.patientResultListNotAutoUpdateCount = 0;
     this.patientResultListWithLabId = [];
     this.patientResultTestCount = 0;
-    this.patientResultListCount = 0;
     this.distinctPatientResult = undefined;
     this.distinctPatientResultCopy = undefined;
 
     makeObservable<PatientResultStore, any>(this, {
       patientResultList: observable,
       patientResultListCount: observable,
+      patientResultListNotAutoUpdate: observable,
+      patientResultListNotAutoUpdateCount: observable,
       patientResultListWithLabId: observable,
       patientResultTestCount: observable,
       distinctPatientResult: observable,
@@ -31,6 +37,7 @@ export class PatientResultStore {
       filterPatientResultListWithLabid: action,
 
       updatePatientResult: action,
+      updatePatientResultNotAutoUpdate: action,
       filterPatientResultList: action,
       patientResultListForGeneralResEntry: action,
       updateDistinctPatientResult: action,
@@ -48,6 +55,19 @@ export class PatientResultStore {
       this.patientResultListCount = res.patientResults.paginatorInfo.count;
     } else {
       this.patientResultList = res;
+    }
+  }
+
+  updatePatientResultNotAutoUpdate(res: any) {
+    if (!Array.isArray(res)) {
+      if (!res.patientResultsNotAutoUpdate.success)
+        return alert(res.patientResultsNotAutoUpdate.message);
+      this.patientResultListNotAutoUpdate =
+        res.patientResultsNotAutoUpdate.patientResultList;
+      this.patientResultListNotAutoUpdateCount =
+        res.patientResultsNotAutoUpdate.paginatorInfo.count;
+    } else {
+      this.patientResultListNotAutoUpdate = res;
     }
   }
 
@@ -75,9 +95,9 @@ export class PatientResultStore {
   }
 
   patientResultListForGeneralResEntry(res: any) {
-    this.patientResultList =
+    this.patientResultListNotAutoUpdate =
       res.patientResultListForGenResEntry.patientResultList;
-    this.patientResultListCount =
+    this.patientResultListNotAutoUpdateCount =
       res.patientResultListForGenResEntry.paginatorInfo.count;
   }
 

@@ -622,7 +622,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                       </Icons.IconContext>
                     </Tooltip>
 
-                    <Tooltip tooltipText='Delivery Status'>
+                    <Tooltip tooltipText='Generate Report'>
                       <Icons.IconContext
                         color='#ffffff'
                         size='20'

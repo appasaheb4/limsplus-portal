@@ -39,7 +39,18 @@ export const PANEL_APPROVAL_LIST = gql`
         abnFlag
         critical
         units
-        refRanges
+        refRangesList
+        conclusion
+        loNor
+        hiNor
+        resultType
+        rangeType
+        panelCode
+        testCode
+        testName
+        analyteName
+        analyteCode
+        resultDate
         remarks
         deltaFlag
         deltaValue
@@ -109,7 +120,18 @@ export const FILTER = gql`
         abnFlag
         critical
         units
-        refRanges
+        refRangesList
+        conclusion
+        loNor
+        hiNor
+        resultType
+        rangeType
+        panelCode
+        testCode
+        testName
+        analyteName
+        analyteCode
+        resultDate
         remarks
         deltaFlag
         deltaValue

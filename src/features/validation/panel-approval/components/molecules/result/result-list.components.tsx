@@ -9,9 +9,19 @@ import {
   customFilter,
 } from '@/library/components';
 import dayjs from 'dayjs';
+import _ from 'lodash';
 
 import {TableBootstrap} from './table-bootstrap.components';
 import {RefRanges} from './ref-ranges.component';
+import {InputResult} from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
+
+import {
+  getStatus,
+  getResultStatus,
+  getTestStatus,
+  getAbnFlag,
+  getCretical,
+} from '../../../../../result-entry/general-result-entry/utils';
 
 interface ResultListProps {
   data: any;
@@ -22,6 +32,7 @@ interface ResultListProps {
   selectedItems?: any;
   onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateFields?: (fields: any, id: string) => void;
+  onUpdateResult?: (fields: any, id: string) => void;
   onExpand?: (items: any) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
@@ -109,8 +120,39 @@ export const ResultList = (props: ResultListProps) => {
               dataField: 'result',
               text: 'Result',
               sort: true,
-              editable: false,
               headerClasses: 'textHeaderl',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <InputResult
+                    row={row}
+                    onSelect={async result => {
+                      const rows = {...row, ...result};
+                      props.onUpdateResult &&
+                        props.onUpdateResult(
+                          {
+                            ...rows,
+                            resultStatus: getResultStatus(
+                              rows.resultType,
+                              rows,
+                            ),
+                            testStatus: getTestStatus(rows.resultType, rows),
+                            abnFlag: getAbnFlag(rows.resultType, rows),
+                            critical: getCretical(rows.resultType, rows),
+                            ...result,
+                          },
+                          rows.patientResultId,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'final',
@@ -152,7 +194,7 @@ export const ResultList = (props: ResultListProps) => {
               editable: false,
             },
             {
-              dataField: 'refRanges',
+              dataField: 'refRangesList',
               text: 'Ref Ranges',
               sort: true,
               editable: false,
@@ -160,7 +202,7 @@ export const ResultList = (props: ResultListProps) => {
               formatter: (cell, row) => {
                 return (
                   <div className='flex flex-col'>
-                    {row.refRanges?.length > 0 && (
+                    {row.refRangesList?.length > 0 && (
                       <Tooltip
                         tooltipText={
                           row._id != selectedRowId ? 'Expand' : 'Collapse'
@@ -186,8 +228,8 @@ export const ResultList = (props: ResultListProps) => {
                     {selectedRowId == row._id ? (
                       <RefRanges
                         id='_id'
-                        data={row?.refRanges || []}
-                        totalSize={row?.refRanges?.length || 0}
+                        data={row?.refRangesList || []}
+                        totalSize={row?.refRangesList?.length || 0}
                         columns={[
                           {
                             dataField: 'result',
@@ -235,6 +277,31 @@ export const ResultList = (props: ResultListProps) => {
                   </div>
                 );
               },
+            },
+            {
+              dataField: 'conclusion',
+              text: 'Conclusion',
+              headerClasses: 'textHeader',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.MultilineInput
+                    rows={3}
+                    placeholder='Conclusion'
+                    onBlur={conclusion => {
+                      props.onUpdateFields &&
+                        props.onUpdateFields({conclusion}, row._id);
+                    }}
+                    defaultValue={row?.conclusion}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'remarks',
