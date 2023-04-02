@@ -8,6 +8,14 @@ import {DisplayResult} from './display-result.components';
 
 import {GeneralResultEntryExpand} from './general-result-entry-expand.component';
 
+import {
+  getStatus,
+  getResultStatus,
+  getTestStatus,
+  getAbnFlag,
+  getCretical,
+} from '../../../utils';
+
 interface GeneralResultEntryListProps {
   data: any;
   totalSize: number;
@@ -15,6 +23,7 @@ interface GeneralResultEntryListProps {
   isEditModify?: boolean;
   onUpdateValue: (item: any, id: string) => void;
   onSaveFields: (fileds: any, id: string, type: string) => void;
+  onUpdateFields?: (fields: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -30,101 +39,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     return row.status !== 'I' ? true : false;
   };
 
-  const getStatus = (
-    status: string,
-    type: string,
-    result: number,
-    lo: number,
-    hi: number,
-  ) => {
-    if (status === 'resultStatus' && type === 'V') {
-      if (result >= lo && result <= hi) return 'N';
-      else if (result < lo) return 'L';
-      else if (result > hi) return 'H';
-      return 'N';
-    } else if (status === 'testStatus' && type === 'V') {
-      if (result >= lo && result <= hi) return 'N';
-      else if (result < lo) return 'A';
-      else if (result > hi) return 'A';
-      return 'N';
-    }
-    return 'N';
-  };
-
-  const getResultStatus = (type: string, row: any) => {
-    switch (type) {
-      case 'V':
-        if (!row?.loNor && !row?.hiNor) return 'N';
-        const numberResult = Number.parseFloat(row?.result);
-        const numberLo = Number.parseFloat(row?.loNor || 0);
-        const numberHi = Number.parseFloat(row?.hiNor || 0);
-        return getStatus(
-          'resultStatus',
-          type,
-          numberResult,
-          numberLo,
-          numberHi,
-        );
-        break;
-      default:
-        return row?.abnFlag ? 'A' : 'N';
-        break;
-    }
-  };
-
-  const getTestStatus = (type: string, row: any) => {
-    switch (type) {
-      case 'V':
-        if (!row?.loNor && !row?.hiNor) return 'N';
-        // eslint-disable-next-line no-case-declarations
-        const numberResult = Number.parseFloat(row?.result);
-        const numberLo = Number.parseFloat(row?.loNor || 0);
-        const numberHi = Number.parseFloat(row?.hiNor || 0);
-        return getStatus('testStatus', type, numberResult, numberLo, numberHi);
-        break;
-      default:
-        if (!row?.loNor && !row?.hiNor) return 'A';
-        return row?.abnFlag ? 'A' : 'N';
-        break;
-    }
-  };
-
-  const getAbnFlag = (type: string, row: any) => {
-    switch (type) {
-      case 'V':
-        return getResultStatus(row.resultType, row) === 'L' ||
-          getResultStatus(row.resultType, row) === 'H'
-          ? true
-          : false;
-        break;
-      default:
-        return row?.abnFlag;
-        break;
-    }
-  };
-
-  const getCretical = (type: string, row: any) => {
-    switch (type) {
-      case 'V':
-        const numberResult = Number.parseFloat(row?.result);
-        const numberLo = Number.parseFloat(
-          row?.refRangesList?.find(item => item.rangeType === 'C')?.low,
-        );
-        const numberHi = Number.parseFloat(
-          row?.refRangesList?.find(item => item.rangeType === 'C')?.high,
-        );
-        if (!numberLo && !numberHi) return false;
-        if (numberResult >= numberLo && numberResult <= numberHi) return false;
-        return true;
-        break;
-      default:
-        return row?.critical;
-        break;
-    }
-  };
-
   useEffect(() => {
     setData(props.data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data]);
 
   return (
@@ -145,32 +62,38 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'result',
               text: 'Result',
               headerClasses: 'textHeader',
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.isResultEditor,
               formatter: (cellContent, row) => (
                 <>
-                  <DisplayResult
-                    row={row}
-                    onSelect={async result => {
-                      await props.onUpdateValue(result, row._id);
-                      const rows = {...row, ...result};
-                      if (_.isEmpty(row?.result)) {
-                        props.onSaveFields(
-                          {
-                            ...rows,
-                            resultStatus: getResultStatus(
-                              rows.resultType,
-                              rows,
-                            ),
-                            testStatus: getTestStatus(rows.resultType, rows),
-                            abnFlag: getAbnFlag(rows.resultType, rows),
-                            critical: getCretical(rows.resultType, rows),
-                            ...result,
-                          },
-                          rows._id,
-                          'directSave',
-                        );
-                      }
-                    }}
-                  />
+                  {row.isResultEditor ? (
+                    <DisplayResult
+                      row={row}
+                      onSelect={async result => {
+                        await props.onUpdateValue(result, row._id);
+                        const rows = {...row, ...result};
+                        if (_.isEmpty(row?.result)) {
+                          props.onSaveFields(
+                            {
+                              ...rows,
+                              resultStatus: getResultStatus(
+                                rows.resultType,
+                                rows,
+                              ),
+                              testStatus: getTestStatus(rows.resultType, rows),
+                              abnFlag: getAbnFlag(rows.resultType, rows),
+                              critical: getCretical(rows.resultType, rows),
+                              ...result,
+                            },
+                            rows._id,
+                            'directSave',
+                          );
+                        }
+                      }}
+                    />
+                  ) : (
+                    <span>{row.result}</span>
+                  )}
                 </>
               ),
               editorRenderer: (
@@ -403,11 +326,14 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.Input
+                  <Form.MultilineInput
+                    rows={3}
                     placeholder='Conclusion'
                     onBlur={conclusion => {
-                      props.onUpdateValue({conclusion}, row._id);
+                      props.onUpdateFields &&
+                        props.onUpdateFields({conclusion}, row._id);
                     }}
+                    defaultValue={row?.conclusion}
                   />
                 </>
               ),

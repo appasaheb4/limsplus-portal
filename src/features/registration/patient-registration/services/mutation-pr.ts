@@ -13,6 +13,19 @@ export const LIST_PATIENT_RESULT = gql`
   }
 `;
 
+export const LIST_PATIENT_RESULT_NOT_AUTO_UPDATE = gql`
+  mutation ($input: PatientResultInput!) {
+    patientResultsNotAutoUpdate(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      patientResultList
+    }
+  }
+`;
+
 export const LIST_PATIENT_RESULT_WITH_LABID = gql`
   mutation ($input: PatientResultInput!) {
     patientResultsWithLabId(input: $input) {
@@ -91,6 +104,15 @@ export const GET_PATIENT_RESULT_DISTINCT = gql`
 export const UPDATE_RECORD = gql`
   mutation ($input: UpdatePatientResultInput!) {
     updatePatientResult(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
+export const UPDATE_BY_FIELDS_RECORD = gql`
+  mutation ($input: PatientResultInput!) {
+    updateByFieldsPatientResult(input: $input) {
       success
       message
     }

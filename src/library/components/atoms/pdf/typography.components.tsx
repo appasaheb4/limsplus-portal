@@ -2,26 +2,27 @@ import React from 'react';
 import {Text, Font} from '@react-pdf/renderer';
 import {Style} from '@react-pdf/types';
 
-// import InterRegular from '../../../assets/fonts/inter/InterRegular.ttf';
-// import InterSemiBold from '../../../assets/fonts/inter/InterSemiBold.ttf';
-
 // export const registerFont = () => {
 //   Font.register({
-//     family: 'Inter',
+//     family: 'arimaBold',
 //     fonts: [
 //       {
-//         // src: 'https://assets.recurrency.com/fonts/Inter/Inter-Regular.ttf',
-//         src: InterRegular,
+//         src: 'https://fonts.googleapis.com/css2?family=Arima:wght@500&display=swap',
 //         fontWeight: 400,
-//       },
-//       {
-//         // src: 'https://assets.recurrency.com/fonts/Inter/Inter-SemiBold.ttf',
-//         src: InterSemiBold,
-//         fontWeight: 600,
 //       },
 //     ],
 //   });
 // };
+
+Font.register({
+  family: 'Arima-Bold',
+  fonts: [
+    {
+      src: 'https://limsplussolutions.blob.core.windows.net/assets/fonts/arima-bold.ttf',
+      fontWeight: 600,
+    },
+  ],
+});
 
 interface PdfTextProps {
   fontWeight?: 'bold' | 'medium' | 'normal';

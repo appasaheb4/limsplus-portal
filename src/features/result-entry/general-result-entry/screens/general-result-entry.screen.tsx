@@ -36,8 +36,8 @@ const GeneralResultEntry = observer(() => {
     () => (
       <>
         <GeneralResultEntryList
-          data={patientResultStore.patientResultList || []}
-          totalSize={patientResultStore.patientResultListCount}
+          data={patientResultStore.patientResultListNotAutoUpdate || []}
+          totalSize={patientResultStore.patientResultListNotAutoUpdateCount}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
             'Delete',
@@ -47,24 +47,25 @@ const GeneralResultEntry = observer(() => {
             'Edit/Modify',
           )}
           onUpdateValue={(item, id) => {
-            const updated = patientResultStore.patientResultList?.map(
-              (e: any) => {
-                if (e._id === id)
-                  return {
-                    ...e,
-                    ...item,
-                    flagUpdate: true,
-                    refRangesList: e.refRangesList?.map(item => {
-                      return {
-                        ...item,
-                        updateDate: new Date(),
-                      };
-                    }),
-                  };
-                else return e;
-              },
-            );
-            patientResultStore.updatePatientResult(updated);
+            const updated =
+              patientResultStore.patientResultListNotAutoUpdate?.map(
+                (e: any) => {
+                  if (e._id === id)
+                    return {
+                      ...e,
+                      ...item,
+                      flagUpdate: true,
+                      refRangesList: e.refRangesList?.map(item => {
+                        return {
+                          ...item,
+                          updateDate: new Date(),
+                        };
+                      }),
+                    };
+                  else return e;
+                },
+              );
+            patientResultStore.updatePatientResultNotAutoUpdate(updated);
           }}
           onSaveFields={async (updatedRecords, id, type) => {
             if (type == 'directSave') {
@@ -80,8 +81,18 @@ const GeneralResultEntry = observer(() => {
               });
             }
           }}
+          onUpdateFields={(fields, id) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              id: id,
+              data: fields,
+              title: 'Are you sure?',
+              body: `Update records!`,
+            });
+          }}
           onPageSizeChange={(page, limit) => {
-            patientResultStore.patientResultService.listPatientResult(
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
               page,
               limit,
             );
@@ -89,7 +100,7 @@ const GeneralResultEntry = observer(() => {
         />
       </>
     ),
-    [patientResultStore.patientResultList, tableReaload],
+    [patientResultStore.patientResultListNotAutoUpdate, tableReaload],
   );
 
   const updateRecords = (id, data) => {
@@ -150,6 +161,42 @@ const GeneralResultEntry = observer(() => {
           setModalConfirm({show: false});
           if (type === 'save') {
             updateRecords(modalConfirm.id, modalConfirm.data);
+          }
+          if (type == 'updateFields') {
+            patientResultStore.patientResultService
+              .updateByFields({
+                input: {
+                  fields: modalConfirm.data,
+                  condition: {_id: modalConfirm.id},
+                },
+              })
+              .then(res => {
+                if (res.updateByFieldsPatientResult.success) {
+                  Toast.success({
+                    message: `😊 ${res.updateByFieldsPatientResult.message}`,
+                    timer: 2000,
+                  });
+                  if (!generalResultEntryStore.filterGeneralResEntry)
+                    patientResultStore.patientResultService.listPatientResult({
+                      pLab: loginStore.login?.lab,
+                      resultStatus: 'P',
+                      testStatus: 'P',
+                    });
+                  else
+                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                      {
+                        input: {
+                          filter: {
+                            ...generalResultEntryStore.filterGeneralResEntry,
+                            panelStatus: 'P',
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      },
+                    );
+                }
+              });
           }
         }}
         onClose={() => {

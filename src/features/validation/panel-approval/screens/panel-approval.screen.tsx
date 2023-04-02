@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -26,6 +26,7 @@ const PanelApproval = observer(() => {
     transactionDetailsStore,
     routerStore,
     loginStore,
+    patientResultStore,
     receiptStore,
   } = useStores();
 
@@ -38,6 +39,7 @@ const PanelApproval = observer(() => {
   //const [modalConfirm, setModalConfirm] = useState<any>();
   const [receiptPath, setReceiptPath] = useState<string>();
   const [expandItem, setExpandItem] = useState<any>([]);
+  const [tableReaload, setTableReload] = useState<boolean>(false);
 
   const updateRecords = payload => {
     const {type, data} = payload;
@@ -83,6 +85,111 @@ const PanelApproval = observer(() => {
     }
   };
 
+  const updateResultRecords = (id, payload) => {
+    patientResultStore.patientResultService
+      .updateSingleFiled({
+        input: {
+          result: payload?.result,
+          resultType: payload?.resultType,
+          file: payload?.file,
+          labId: payload?.labId,
+          analyteCode: payload?.analyteCode,
+          analyteName: payload?.analyteName,
+          testStatus: payload?.testStatus,
+          rangeType: payload?.rangeType,
+          critical: payload?.critical,
+          abnFlag: payload?.abnFlag,
+          refRangesList: payload?.refRangesList,
+          testCode: payload?.testCode,
+          testName: payload?.testName,
+          panelCode: payload?.panelCode,
+          resultDate: payload?.resultDate,
+          reportPriority: payload?.reportPriority,
+          deliveryMode: payload?.deliveryMode,
+          units: payload?.units,
+          conclusion: payload?.conclusion,
+          loNor: payload?.loNor,
+          hiNor: payload?.hiNor,
+          resultStatus: payload?.resultStatus,
+          panelStatus: payload?.panelStatus,
+          enteredBy: loginStore.login?.userId,
+          _id: id,
+          __v: undefined,
+          flagUpdate: undefined,
+        },
+      })
+      .then(res => {
+        if (res.updatePatientResult.success) {
+          Toast.success({
+            message: `😊 ${res.updatePatientResult.message}`,
+            timer: 2000,
+          });
+          panelApprovalStore.panelApprovalService.listPanelApproval();
+        }
+      });
+    setTableReload(!tableReaload);
+  };
+
+  const resultTable = useMemo(
+    () => (
+      <ResultList
+        data={panelApprovalStore.panelApprovalList || []}
+        totalSize={panelApprovalStore.panelApprovalListCount}
+        selectedId={
+          expandItem?.map(item => {
+            return item._id;
+          })[0]
+        }
+        isDelete={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Delete',
+        )}
+        isEditModify={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Edit/Modify',
+        )}
+        onSelectedRow={(rows, type) => {
+          updateRecords({
+            show: true,
+            type: 'updateMany',
+            data: {rows, type},
+            title: 'Are you sure?',
+            body: 'Update items!',
+          });
+        }}
+        onUpdateFields={(fields: any, id: string) => {
+          updateRecords({
+            show: true,
+            type: 'update',
+            data: {fields, id},
+            title: 'Are you sure?',
+            body: 'Update items!',
+          });
+        }}
+        onUpdateResult={(fields: any, id: string) => {
+          updateResultRecords(id, fields);
+        }}
+        onExpand={items => {
+          if (typeof items == 'object') setExpandItem([items]);
+          else setExpandItem([]);
+        }}
+        onPageSizeChange={(page, limit) => {
+          panelApprovalStore.panelApprovalService.listPanelApproval(
+            page,
+            limit,
+          );
+        }}
+        onFilter={(type, filter, page, limit) => {
+          panelApprovalStore.panelApprovalService.filter({
+            input: {type, filter, page, limit},
+          });
+        }}
+      />
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [panelApprovalStore.panelApprovalList, tableReaload],
+  );
+
   return (
     <>
       <Header>
@@ -91,56 +198,7 @@ const PanelApproval = observer(() => {
       </Header>
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Result</span>
-        <ResultList
-          data={panelApprovalStore.panelApprovalList || []}
-          totalSize={panelApprovalStore.panelApprovalListCount}
-          selectedId={
-            expandItem?.map(item => {
-              return item._id;
-            })[0]
-          }
-          isDelete={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Delete',
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            routerStore.userPermission,
-            'Edit/Modify',
-          )}
-          onSelectedRow={(rows, type) => {
-            updateRecords({
-              show: true,
-              type: 'updateMany',
-              data: {rows, type},
-              title: 'Are you sure?',
-              body: 'Update items!',
-            });
-          }}
-          onUpdateFields={(fields: any, id: string) => {
-            updateRecords({
-              show: true,
-              type: 'update',
-              data: {fields, id},
-              title: 'Are you sure?',
-              body: 'Update items!',
-            });
-          }}
-          onExpand={items => {
-            if (typeof items == 'object') setExpandItem([items]);
-            else setExpandItem([]);
-          }}
-          onPageSizeChange={(page, limit) => {
-            panelApprovalStore.panelApprovalService.listPanelApproval(
-              page,
-              limit,
-            );
-          }}
-          onFilter={(type, filter, page, limit) => {
-            panelApprovalStore.panelApprovalService.filter({
-              input: {type, filter, page, limit},
-            });
-          }}
-        />
+        {resultTable}
         <span className='text-red'>
           Note: Report Priority= Daily single-single update.
         </span>
