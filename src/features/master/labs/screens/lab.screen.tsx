@@ -12,7 +12,6 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelect,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {LabList, PriceListTable} from '../components';

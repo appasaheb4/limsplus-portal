@@ -2,15 +2,9 @@ import React, {useState, useEffect} from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {
-  PdfHeading,
   PdfRegular,
-  PdfMedium,
-  PdfPageNumber,
-  PdfHeader,
-  PdfSubHeader,
   PdfView,
   PdfBorderView,
-  PdfFooterView,
   PdfGrid,
   PdfSmall,
 } from '@components';

@@ -9,7 +9,6 @@ import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {PATIENT_REPORT_LIST} from './mutation-generate-reports';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import {stores} from '@/stores';
 dayjs.extend(utc);
 
 export class GenerateReportsService {

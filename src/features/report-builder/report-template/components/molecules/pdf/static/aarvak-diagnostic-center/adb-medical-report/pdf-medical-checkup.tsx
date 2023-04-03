@@ -1,16 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from '@react-pdf/renderer';
-import _, {result} from 'lodash';
+import React from 'react';
+import { StyleSheet} from '@react-pdf/renderer';
 import {Style} from '@react-pdf/types';
 import {} from '@storybook/addons';
 import {
   PdfSmall,
   PdfBorderView,
   PdfView,
-  PdfRegular,
-  PdfImage,
 } from '@/library/components';
-import {images} from '@/library/assets';
 
 const styles = StyleSheet.create({
   table: {

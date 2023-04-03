@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet} from '@react-pdf/renderer';
-import _ from 'lodash';
 import {Style} from '@react-pdf/types';
 import {} from '@storybook/addons';
 import {PdfSmall, PdfBorderView, PdfView} from '@/library/components';

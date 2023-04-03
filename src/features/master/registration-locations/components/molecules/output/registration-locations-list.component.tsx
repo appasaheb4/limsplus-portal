@@ -1,6 +1,5 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import _ from 'lodash';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
   NumberFilter,
@@ -18,14 +17,8 @@ import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
 import {Confirm} from '@/library/models';
 import {
-  AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectCorparateCode,
-  AutoCompleteFilterSingleSelectArea,
-  AutoCompleteFilterSingleSelectCity,
-  AutoCompleteFilterSingleSelectCountry,
-  AutoCompleteFilterSingleSelectDistrict,
   AutoCompleteFilterSingleSelectPostalCode,
-  AutoCompleteFilterSingleSelectState,
   AutoCompleteSalesTerritory,
   PriceListTableForRegLocationsList,
 } from '../..';

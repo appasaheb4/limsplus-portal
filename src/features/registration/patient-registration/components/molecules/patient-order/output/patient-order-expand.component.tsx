@@ -19,7 +19,6 @@ import '@/library/components/organisms/style.css';
 import {Buttons, Icons, Form} from '@/library/components';
 import {Confirm} from '@/library/models';
 
-import * as Config from '@/config';
 import {PatientOrderExpandPackageList} from './patient-order-expand-package-list.component';
 import {debounce} from '@/core-utils';
 

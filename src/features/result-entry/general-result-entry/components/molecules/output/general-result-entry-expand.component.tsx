@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -16,10 +16,9 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons, Form} from '@/library/components';
+import {Buttons, Icons} from '@/library/components';
 import {Confirm} from '@/library/models';
 
-import * as Config from '@/config';
 import {RefRangesExpandList} from './ref-ranges-expand-list.component';
 import {debounce} from '@/core-utils';
 
