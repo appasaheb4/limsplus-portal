@@ -34,7 +34,6 @@ import '@/library/assets/css/accordion.css';
 
 import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
 import {resetReportBody} from '../startup';
-import {PageBranding as Model} from '../models/page-branding.model';
 const width = '100%';
 const height = window.innerHeight / 1.3;
 
@@ -54,7 +53,9 @@ export const PageBranding = observer(() => {
   const [modalView, setModalView] = useState<ModalViewProps>();
   const [isInputView, setIsInputView] = useState<boolean>(false);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
-
+  const [isClearReset, setClearReset] = useState<boolean>(false);
+  setValue('subHeaderVisible', reportSettingStore.pageBranding?.isSubHeader);
+  6;
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({
@@ -79,6 +80,7 @@ export const PageBranding = observer(() => {
           Toast.success({
             message: `😊 ${res.createPageBranding.message}`,
           });
+          setClearReset(true);
           setIsInputView(false);
           reset();
           resetReportBody();
@@ -94,7 +96,7 @@ export const PageBranding = observer(() => {
     if (tempCode)
       return (
         <PDFViewer
-          style={{width, height}}
+          style={{width: '100%', height: '100%'}}
           showToolbar={reportSettingStore.pageLayout?.isToolbar}
         >
           <Document title='Page Branding'>
@@ -143,7 +145,7 @@ export const PageBranding = observer(() => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <AutoCompleteLayoutCode
-                    displayValue={value || ''}
+                    displayValue={value ?? ''}
                     hasError={!!errors.layoutCode}
                     onSelect={item => {
                       onChange(item.tempCode);
@@ -339,14 +341,20 @@ export const PageBranding = observer(() => {
                     return (
                       <AccordionItem
                         title={`${item.title}`}
-                        expanded={item.title === 'Page Number'}
+                        expanded={item.title === 'Header'}
                       >
-                        {item.title === 'Header' && <PageBrandingHeader />}
-                        {item.title === 'Sub Header' && (
-                          <PageBrandingSubHeader />
+                        {item.title === 'Header' && (
+                          <PageBrandingHeader isClearReset={isClearReset} />
                         )}
-                        {item.title === 'Footer' && <PageBrandingFooter />}
-                        {item.title === 'Page Number' && <PageNumber />}
+                        {item.title === 'Sub Header' && (
+                          <PageBrandingSubHeader isClearReset={isClearReset} />
+                        )}
+                        {item.title === 'Footer' && (
+                          <PageBrandingFooter isClearReset={isClearReset} />
+                        )}
+                        {item.title === 'Page Number' && (
+                          <PageNumber isClearReset={isClearReset} />
+                        )}
                       </AccordionItem>
                     );
                   },

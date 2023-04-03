@@ -24,7 +24,7 @@ import '@/library/assets/css/accordion.css';
 
 import {PdfTSTemp0001} from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
 import {resetReportBody} from '../startup';
-
+import {PageLayout as Model} from '../models/page-layout.model';
 export const PageLayout = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
   const {
@@ -61,19 +61,27 @@ export const PageLayout = observer(() => {
           setIsInputView(true);
           reset();
           resetReportBody();
+          reportSettingStore.updatePageLayout({
+            ...reportSettingStore.pageLayout,
+            isToolbar: false,
+            isBackgroundImage: false,
+            backgroundImage: '',
+            mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '120pt',",
+            pageSize: '',
+          });
         }
       });
   };
 
   return (
     <>
-      {/* {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+      {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
           style={{bottom: 40}}
           show={isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
-      )} */}{' '}
+      )}
       <div className='mx-auto flex-wrap'>
         <div className={'p-2 rounded-lg shadow-xl '}>
           <Grid cols={2}>
@@ -373,7 +381,7 @@ export const PageLayout = observer(() => {
             </List>
             <List direction='col' space={2} justify='stretch' fill>
               <PDFViewer
-                style={{width: '100%', height: '500px'}}
+                style={{width, height}}
                 showToolbar={reportSettingStore.pageLayout?.isToolbar}
               >
                 <Document title='Template Setting'>
