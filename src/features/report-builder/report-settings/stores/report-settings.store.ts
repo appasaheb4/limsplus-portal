@@ -36,24 +36,11 @@ export class ReportSettingStore {
   selectedItemTemplatePatientResult!: SelectedItemsTemplatePatientResult;
 
   constructor() {
-    this.pageLayout = new PageLayout({
-      isToolbar: false,
-      isBackgroundImage: false,
-      pageSize: 'A4',
-      mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '120pt',",
-    });
     this.pageLayoutList = [];
 
-    this.pageBranding = new PageBranding({
-      ...this.pageBranding,
-      isHeader: true,
-      isSubHeader: true,
-      isFooter: true,
-      isPdfPageNumber: true,
-    });
     this.pageBrandingList = [];
     this.pageBrandingListCopy = [];
-
+    this.pageLayout = new PageLayout({});
     this.reportBody = new ReportBody({});
     this.reportBodyList = [];
     this.reportBodyListCopy = [];
@@ -62,6 +49,8 @@ export class ReportSettingStore {
     this.templatePatientResultList = [];
     this.selectedItemTemplatePatientResult =
       new SelectedItemsTemplatePatientResult({});
+
+    this.reset();
 
     makeObservable<ReportSettingStore, any>(this, {
       pageLayout: observable,
@@ -100,7 +89,29 @@ export class ReportSettingStore {
       updateTemplatePatientResult: action,
       updateTemplatePatientResultList: action,
       updateSelectedItemTemplatePatientResult: action,
+      reset: action,
     });
+  }
+
+  reset() {
+    this.pageBranding = new PageBranding({});
+    this.pageLayout = new PageLayout({
+      isToolbar: false,
+      isBackgroundImage: false,
+      pageSize: 'A4',
+      mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '120pt',",
+    });
+    this.pageBranding = new PageBranding({
+      ...this.pageBranding,
+      isHeader: true,
+      isSubHeader: true,
+      isFooter: true,
+      isPdfPageNumber: true,
+      header: {},
+    });
+    this.pageBrandingList = [];
+    // this.pageLayout = new PageLayout({});
+    this.pageLayoutList = [];
   }
 
   get pageLayoutService() {
