@@ -7,7 +7,7 @@
 
 import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
-import {PAYMENT_LIST, CREATE_PAYMENT, UPDATE_PAYMENT} from './mutation-payment';
+import {PAYMENT_LIST, CREATE_PAYMENT} from './mutation-payment';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);

@@ -22,7 +22,6 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetReferenceRange} from '../startup';
-import {ReferenceRanges as Model} from '../models';
 
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {

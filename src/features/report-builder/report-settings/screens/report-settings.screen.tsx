@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {Header, PageHeading, PageHeadingLabDetails} from '@/library/components';
 import {useForm} from 'react-hook-form';
 

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
-import _ from 'lodash';
 import {
   NumberFilter,
   DateFilter,

@@ -10,7 +10,6 @@ import {
   clientLocal,
   ServiceResponse,
 } from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
 import {CONNECT, CREATE_TRANSMITTED_MESSAGE} from './mutation';
 export class HostCommunicationService {
   connectHostCommunication = (variables: any) =>

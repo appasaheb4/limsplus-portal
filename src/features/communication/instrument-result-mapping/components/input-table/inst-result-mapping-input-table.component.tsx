@@ -4,7 +4,6 @@ import {lookupItems, lookupValue} from '@/library/utils';
 import _ from 'lodash';
 import {TableBootstrap} from './TableBootstrap';
 import {toJS} from 'mobx';
-import {async} from 'validate.js';
 
 interface InstResultMappingInputTableProps {
   data: any;

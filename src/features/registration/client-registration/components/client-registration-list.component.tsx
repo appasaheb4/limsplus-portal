@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
@@ -15,10 +15,7 @@ import {
   sortCaret,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {useStores} from '@/stores';
 import {lookupItems, lookupValue} from '@/library/utils';
-import printjs from 'print-js';
-import {pdf} from '@react-pdf/renderer';
 import {SocialIcon} from 'react-social-icons';
 
 let countryName;

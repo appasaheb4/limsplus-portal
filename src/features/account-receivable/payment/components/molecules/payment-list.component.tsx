@@ -1,6 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {textFilter, Tooltip, Icons, sortCaret} from '@/library/components';
+import {textFilter, sortCaret} from '@/library/components';
 import {Confirm} from '@/library/models';
 import {TableBootstrap} from './table-bootstrap.components';
 

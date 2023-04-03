@@ -1,11 +1,9 @@
 import React, {useRef} from 'react';
 import {
   Page,
-  Document,
   StyleSheet,
   Font,
   Text,
-  PDFViewer,
 } from '@react-pdf/renderer';
 import {PdfSmall, PdfView, PdfFooterView} from '@components';
 import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';

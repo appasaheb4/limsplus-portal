@@ -1,29 +1,13 @@
 import React, {useRef} from 'react';
 import {
-  Page,
-  Text,
-  View,
-  Image,
-  Document,
-  StyleSheet,
   Font,
-  PDFViewer,
 } from '@react-pdf/renderer';
 import {
-  PdfHeading,
-  PdfRegular,
-  PdfPageNumber,
-  PdfHeader,
-  PdfSubHeader,
   PdfView,
-  PdfBorderView,
   PdfFooterView,
-  PdfSmall,
-  PdfTable,
 } from '@components';
 import {observer} from 'mobx-react';
 import {PdfTSTemp0001} from '../../page-layout/temp0001/temp0001.component';
-import {PageBranding} from '@features/report-builder/report-settings/models/page-branding.model';
 
 import {PdfTemp0001Header} from './temp0001-header.component';
 import {PdfTemp0001SubHeader} from './temp0001-sub-header.component';

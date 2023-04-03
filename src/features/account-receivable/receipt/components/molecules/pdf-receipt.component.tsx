@@ -1,16 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {
-  PdfHeading,
   PdfRegular,
-  PdfMedium,
-  PdfPageNumber,
-  PdfHeader,
-  PdfSubHeader,
   PdfView,
   PdfBorderView,
-  PdfFooterView,
   PdfGrid,
   PdfSmall,
   PdfImage,

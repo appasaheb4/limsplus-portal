@@ -1,6 +1,5 @@
 import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   Toast,
   Header,

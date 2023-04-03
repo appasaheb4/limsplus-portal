@@ -4,7 +4,6 @@ import _ from 'lodash';
 import {Style} from '@react-pdf/types';
 import {} from '@storybook/addons';
 import {PdfSmall, PdfBorderView, PdfImage, PdfView} from '@/library/components';
-import {decompressString} from '@/library/utils';
 
 const styles = StyleSheet.create({
   table: {

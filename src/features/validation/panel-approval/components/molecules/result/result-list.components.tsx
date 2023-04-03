@@ -5,18 +5,15 @@ import {
   Icons,
   NumberFilter,
   sortCaret,
-  textFilter,
   customFilter,
 } from '@/library/components';
 import dayjs from 'dayjs';
-import _ from 'lodash';
 
 import {TableBootstrap} from './table-bootstrap.components';
 import {RefRanges} from './ref-ranges.component';
 import {InputResult} from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
 
 import {
-  getStatus,
   getResultStatus,
   getTestStatus,
   getAbnFlag,

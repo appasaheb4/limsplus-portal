@@ -1,6 +1,5 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, { useEffect} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {useStores} from '@/stores';
 import {getDefaultLookupItem} from '@/library/utils';
 

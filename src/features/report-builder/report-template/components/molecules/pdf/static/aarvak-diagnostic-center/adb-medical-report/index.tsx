@@ -4,8 +4,6 @@ import {
   Document,
   StyleSheet,
   Font,
-  Text,
-  PDFViewer,
 } from '@react-pdf/renderer';
 import {PdfSmall} from '@components';
 import {Header} from '../../../common/aarvak-diagnostic-center/pdf-header.component';

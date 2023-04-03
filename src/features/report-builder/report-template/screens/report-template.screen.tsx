@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   Tooltip,
   Icons,
@@ -18,7 +17,6 @@ import {logos} from '@/library/assets';
 
 import {
   ADCPdf,
-  ADCWithoutHeaderFooterPdf,
   ADCMedicalReportPdf,
 } from '../components';
 

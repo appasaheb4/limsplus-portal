@@ -15,7 +15,7 @@ import {
 import * as XLSX from 'xlsx';
 import {Styles} from '@/config';
 import {ClientRegistrationList} from '../components';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';

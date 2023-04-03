@@ -28,6 +28,7 @@ module.exports = {
     '@typescript-eslint',
     'prettier',
     'folders',
+    'unused-imports',
   ],
   rules: {
     indent: [0, 'tab', {SwitchCase: 1, VariableDeclarator: 1}],
@@ -119,5 +120,6 @@ module.exports = {
     ],
     'no-extra-boolean-cast': 'off',
     'react/no-children-prop': 'off',
+    'unused-imports/no-unused-imports': 'error',
   },
 };

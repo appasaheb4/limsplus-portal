@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {Table} from 'reactstrap';
 import {
-  ModalConfirm,
   Header,
   PageHeading,
   PageHeadingLabDetails,

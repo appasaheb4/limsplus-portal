@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
+import {render} from '@testing-library/react';
 import {AutoCompleteCheckMultiFilterKeys} from './auto-complete-check-multi-filter-keys.component';
 
 describe('AutoCompleteCheckMultiFilterKeys component', () => {
