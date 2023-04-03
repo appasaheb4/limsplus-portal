@@ -44,13 +44,6 @@ export class ReportSettingStore {
     });
     this.pageLayoutList = [];
 
-    this.pageBranding = new PageBranding({
-      ...this.pageBranding,
-      isHeader: true,
-      isSubHeader: true,
-      isFooter: true,
-      isPdfPageNumber: true,
-    });
     this.pageBrandingList = [];
     this.pageBrandingListCopy = [];
 
@@ -108,6 +101,15 @@ export class ReportSettingStore {
 
   reset() {
     this.reportBody = new ReportBody({});
+    this.pageBranding = new PageBranding({});
+    this.pageBranding = new PageBranding({
+      ...this.pageBranding,
+      isHeader: true,
+      isSubHeader: true,
+      isFooter: true,
+      isPdfPageNumber: true,
+    });
+    this.pageBrandingList = [];
   }
 
   get pageLayoutService() {

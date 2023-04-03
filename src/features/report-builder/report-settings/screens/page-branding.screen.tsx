@@ -82,6 +82,10 @@ export const PageBranding = observer(() => {
           setIsInputView(false);
           reset();
           resetReportBody();
+          reportSettingStore.updatePageBranding({
+            ...reportSettingStore.pageBranding,
+            layoutCode: '',
+          });
         }
       });
   };
@@ -90,7 +94,7 @@ export const PageBranding = observer(() => {
     if (tempCode)
       return (
         <PDFViewer
-          style={{width: '100%', height: '500px'}}
+          style={{width, height}}
           showToolbar={reportSettingStore.pageLayout?.isToolbar}
         >
           <Document title='Page Branding'>
@@ -124,13 +128,13 @@ export const PageBranding = observer(() => {
 
   return (
     <>
-      {/* {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+      {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
           style={{bottom: 50}}
           show={isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
-      )} */}
+      )}
       <div className='mx-auto flex-wrap'>
         <div className={'rounded-lg shadow-xl p-2 '}>
           <Grid cols={2}>
@@ -254,7 +258,7 @@ export const PageBranding = observer(() => {
                     <Form.Toggle
                       label='Header Visible'
                       hasError={!!errors.headerVisible}
-                      value={value?.isHeader}
+                      value={value}
                       onChange={isHeader => {
                         onChange(isHeader);
                         reportSettingStore.updatePageBranding({
@@ -274,7 +278,7 @@ export const PageBranding = observer(() => {
                     <Form.Toggle
                       label='Sub Header Visible'
                       hasError={!!errors.subHeaderVisible}
-                      value={reportSettingStore.pageBranding?.isSubHeader}
+                      value={value}
                       onChange={isSubHeader => {
                         onChange(isSubHeader);
                         reportSettingStore.updatePageBranding({
@@ -294,7 +298,7 @@ export const PageBranding = observer(() => {
                     <Form.Toggle
                       label='Footer Visible'
                       hasError={!!errors.footerVisible}
-                      value={value?.isFooter}
+                      value={value}
                       onChange={isFooter => {
                         onChange(isFooter);
                         reportSettingStore.updatePageBranding({
@@ -314,7 +318,7 @@ export const PageBranding = observer(() => {
                     <Form.Toggle
                       label='Page Number'
                       hasError={!!errors.pageNumber}
-                      value={value?.isPdfPageNumber}
+                      value={value}
                       onChange={isPdfPageNumber => {
                         onChange(isPdfPageNumber);
                         reportSettingStore.updatePageBranding({
@@ -335,7 +339,7 @@ export const PageBranding = observer(() => {
                     return (
                       <AccordionItem
                         title={`${item.title}`}
-                        // expanded={item.title === 'Header'}
+                        expanded={item.title === 'Page Number'}
                       >
                         {item.title === 'Header' && <PageBrandingHeader />}
                         {item.title === 'Sub Header' && (
