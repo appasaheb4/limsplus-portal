@@ -36,17 +36,11 @@ export class ReportSettingStore {
   selectedItemTemplatePatientResult!: SelectedItemsTemplatePatientResult;
 
   constructor() {
-    this.pageLayout = new PageLayout({
-      isToolbar: false,
-      isBackgroundImage: false,
-      pageSize: 'A4',
-      mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '120pt',",
-    });
     this.pageLayoutList = [];
 
     this.pageBrandingList = [];
     this.pageBrandingListCopy = [];
-
+    this.pageLayout = new PageLayout({});
     this.reportBody = new ReportBody({});
     this.reportBodyList = [];
     this.reportBodyListCopy = [];
@@ -100,16 +94,24 @@ export class ReportSettingStore {
   }
 
   reset() {
-    this.reportBody = new ReportBody({});
     this.pageBranding = new PageBranding({});
+    this.pageLayout = new PageLayout({
+      isToolbar: false,
+      isBackgroundImage: false,
+      pageSize: 'A4',
+      mainBoxCSS: "backgroundColor: '#ffffff',paddingBottom: '120pt',",
+    });
     this.pageBranding = new PageBranding({
       ...this.pageBranding,
       isHeader: true,
       isSubHeader: true,
       isFooter: true,
       isPdfPageNumber: true,
+      header: {},
     });
     this.pageBrandingList = [];
+    // this.pageLayout = new PageLayout({});
+    this.pageLayoutList = [];
   }
 
   get pageLayoutService() {

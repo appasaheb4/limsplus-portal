@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
 
-export const PageNumber = observer(() => {
+interface PageNumberComponentProps {
+  isClearReset: boolean;
+}
+
+export const PageNumber = observer((props: PageNumberComponentProps) => {
   const {reportSettingStore} = useStores();
   const {
     control,
@@ -14,8 +18,15 @@ export const PageNumber = observer(() => {
     setValue,
     setError,
     clearErrors,
+    reset,
   } = useForm();
 
+  useEffect(() => {
+    if (props.isClearReset) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.isClearReset]);
   return (
     <>
       <Controller

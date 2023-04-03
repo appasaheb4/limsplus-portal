@@ -1,4 +1,4 @@
-import React, {forwardRef} from 'react';
+import React, {forwardRef, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {Form, Grid} from '@/library/components';
@@ -6,7 +6,11 @@ import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';
 import {resizeFile} from '@/library/utils';
 
-export const PageBrandingHeader = observer(() => {
+interface HeaderComponentProps {
+  isClearReset: boolean;
+}
+
+export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
   const {reportSettingStore} = useStores();
   const {
     control,
@@ -18,6 +22,12 @@ export const PageBrandingHeader = observer(() => {
     reset,
   } = useForm();
 
+  useEffect(() => {
+    if (props.isClearReset) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.isClearReset]);
   return (
     <>
       <Grid cols={1}>
