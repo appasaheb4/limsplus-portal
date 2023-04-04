@@ -137,7 +137,11 @@ export const PageBranding = observer(() => {
         />
       )}
       <div className='mx-auto flex-wrap'>
-        <div className={'rounded-lg shadow-xl p-2 '}>
+        <div
+          className={
+            'rounded-lg shadow-xl p-2 ' + (!isInputView ? 'hidden' : 'shown')
+          }
+        >
           <Grid cols={2}>
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
