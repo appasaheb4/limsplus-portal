@@ -72,6 +72,7 @@ export const ReportBody = observer(() => {
           Toast.success({
             message: `😊 ${res.createReportBody.message}`,
           });
+          reportSettingStore.reportBodyService.listReportBody();
         }
         setIsInputView(false);
         reset();
@@ -126,6 +127,7 @@ export const ReportBody = observer(() => {
                 <AutoCompletePageBrandingCode
                   hasError={!!errors.pageBrandingCode}
                   onSelect={item => {
+                    onChange(item.tempCode);
                     reportSettingStore.updateReportBody({
                       ...reportSettingStore.reportBody,
                       pageBrandingCode: item.tempCode,
