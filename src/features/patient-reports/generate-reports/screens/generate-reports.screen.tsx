@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
-  Toast,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Header,
   PageHeading,
@@ -13,7 +12,7 @@ import {useForm} from 'react-hook-form';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {PDFViewer, PDFDownloadLink} from '@react-pdf/renderer';
+import { PDFDownloadLink} from '@react-pdf/renderer';
 
 const GenerateReport = observer(() => {
   const {

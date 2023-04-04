@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
+import {render} from '@testing-library/react';
 import {ModalTokenExpire} from './modal-token-expire.component';
 
 describe('ModalTokenExpire component', () => {

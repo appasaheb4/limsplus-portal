@@ -9,7 +9,6 @@ import {DisplayResult} from './display-result.components';
 import {GeneralResultEntryExpand} from './general-result-entry-expand.component';
 
 import {
-  getStatus,
   getResultStatus,
   getTestStatus,
   getAbnFlag,

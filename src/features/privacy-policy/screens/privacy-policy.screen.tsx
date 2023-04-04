@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {Toast} from '@/library/components';
-import _ from 'lodash';
 import {useStores} from '@/stores';
 import Parser from 'html-react-parser';
 

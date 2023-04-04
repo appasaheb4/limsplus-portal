@@ -13,7 +13,6 @@ import {
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
-import _ from 'lodash';
 import {
   AutoCompletePriceList,
   AutoCompleteFilterSingleSelectPanelCode,

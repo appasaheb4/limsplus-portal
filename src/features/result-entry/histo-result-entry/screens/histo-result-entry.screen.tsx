@@ -1,21 +1,11 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
-  Buttons,
-  List,
-  Grid,
-  Svg,
-  Toast,
-  Form,
-  AutoCompleteFilterSingleSelect,
   Header,
   PageHeading,
   PageHeadingLabDetails,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import {useForm} from 'react-hook-form';
 
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';

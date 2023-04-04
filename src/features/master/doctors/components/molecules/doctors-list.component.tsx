@@ -18,12 +18,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {
   AutoCompleteRegistrationLocation,
   AutoCompleteSalesTerritory,
-  AutoCompleteFilterSingleSelectArea,
-  AutoCompleteFilterSingleSelectCountry,
-  AutoCompleteFilterSingleSelectDistrict,
   AutoCompleteFilterSingleSelectPostalCode,
-  AutoCompleteFilterSingleSelectState,
-  AutoCompleteFilterSingleSelectCity,
 } from '../index';
 import {AutoCompleteFilterDeliveryMode} from '@/core-components';
 let dateCreation;

@@ -10,7 +10,6 @@ import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
 import {
   LIST,
-  CREATE_RECORD,
   REMOVE_RECORD,
   UPDATE_RECORD,
   IMPORT_RECORDS,

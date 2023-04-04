@@ -1,17 +1,9 @@
 export {};
-import React, {useRef} from 'react';
+import React from 'react';
 import {
-  PdfHeading,
   PdfRegular,
-  PdfPageNumber,
-  PdfHeader,
-  PdfSubHeader,
-  PdfView,
-  PdfBorderView,
   PdfFooterView,
   PdfSmall,
-  PdfTable,
-  PdfMedium,
 } from '@components';
 
 interface FooterProps {

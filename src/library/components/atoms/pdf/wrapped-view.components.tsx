@@ -1,12 +1,6 @@
 import React from 'react';
 import {
-  Page,
-  Text,
   View,
-  Image,
-  Document,
-  StyleSheet,
-  Font,
 } from '@react-pdf/renderer';
 import {Style} from '@react-pdf/types';
 interface PdfViewProps {

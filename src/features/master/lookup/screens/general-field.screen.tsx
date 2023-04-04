@@ -1,7 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {useForm, Controller} from 'react-hook-form';
-import _ from 'lodash';
 
 import {
   Toast,

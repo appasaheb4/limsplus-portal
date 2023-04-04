@@ -9,9 +9,7 @@ import {
 import {lookupItems, getDefaultLookupItem, lookupValue} from '@/library/utils';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
-import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
-import {ReferenceRanges} from '../../../models';
 interface CommonInputTableProps {
   data?: any;
 }

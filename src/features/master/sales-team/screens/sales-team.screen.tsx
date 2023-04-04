@@ -11,7 +11,6 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  Icons,
 } from '@/library/components';
 import {SalesTeamList, SalesHierarchyTable, TargetsTable} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';

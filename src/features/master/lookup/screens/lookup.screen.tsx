@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {Accordion, AccordionItem} from 'react-sanfona';
 
-import {useForm, Controller} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {
   Header,
   PageHeading,

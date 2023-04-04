@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {Form} from '@/library/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useStores} from '@/stores';

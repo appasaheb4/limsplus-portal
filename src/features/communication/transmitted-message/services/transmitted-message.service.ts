@@ -15,7 +15,6 @@ import {
   UPDATE_RECORD,
   FILTER,
   FIND_BY_FIELDS,
-  FETCH_KEYS_VALUE,
 } from './mutation';
 
 export class TransmittedMessageService {

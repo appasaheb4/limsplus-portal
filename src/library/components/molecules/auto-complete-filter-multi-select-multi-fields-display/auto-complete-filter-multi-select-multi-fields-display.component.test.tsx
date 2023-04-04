@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
+import {render} from '@testing-library/react';
 import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from './auto-complete-filter-muti-select-multi-fields-display.component';
 
 describe('AutoCompleteFilterMutiSelectMultiFieldsDisplay component', () => {
