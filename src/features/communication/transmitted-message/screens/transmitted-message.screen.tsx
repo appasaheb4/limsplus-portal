@@ -1,24 +1,14 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   Toast,
   Header,
   PageHeading,
   PageHeadingLabDetails,
-  Buttons,
   ModalConfirm,
-  List,
-  Svg,
-  ModalImportFile,
-  Icons,
 } from '@/library/components';
-import * as XLSX from 'xlsx';
-import {Styles} from '@/config';
 import {TransmittedMessageList} from '../components';
-import {useForm} from 'react-hook-form';
 import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
 
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';

@@ -1,13 +1,9 @@
-import React, {useState, useRef} from 'react';
+import React, { useRef} from 'react';
 import {
   Page,
-  Text,
   Document,
   StyleSheet,
   Font,
-  PDFViewer,
-  Image,
-  View,
 } from '@react-pdf/renderer';
 import {PdfPageNumber} from '@components';
 import {PdfPatientDetails} from './pdf-patient-details.component';

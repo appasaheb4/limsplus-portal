@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Ref} from 'react';
-import {List, ModalClock} from '../..';
+import { ModalClock} from '../..';
 import dayjs from 'dayjs';
 import '../css/toggle.css';
 import classNames from 'classnames';

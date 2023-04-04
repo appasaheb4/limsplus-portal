@@ -18,7 +18,6 @@ import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectAnalayteMethod,
   AutoCompleteDepartment,
-  AutoCompleteEquipmentType,
   AutoCompleteInterpretation,
   AutoCompleteAnalyteBottomMarker,
 } from '../index';

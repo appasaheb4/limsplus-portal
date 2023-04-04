@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {PDFViewer, Document} from '@react-pdf/renderer';
 import {
   Toast,
@@ -24,7 +23,6 @@ import '@/library/assets/css/accordion.css';
 
 import {PdfTSTemp0001} from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
 import {resetReportBody} from '../startup';
-import {PageLayout as Model} from '../models/page-layout.model';
 export const PageLayout = observer(() => {
   const {loading, routerStore, reportSettingStore} = useStores();
   const {

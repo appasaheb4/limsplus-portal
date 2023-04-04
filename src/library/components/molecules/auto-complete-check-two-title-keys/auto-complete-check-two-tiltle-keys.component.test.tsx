@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
+import {render} from '@testing-library/react';
 import {AutoCompleteCheckTwoTitleKeys} from './auto-complete-check-two-title-keys.component';
 
 describe('AutoCompleteCheckTwoTitleKeys component', () => {

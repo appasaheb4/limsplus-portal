@@ -8,7 +8,6 @@ import {
   PdfGrid,
   PdfSmall,
 } from '@components';
-import {Page, StyleSheet, Font} from '@react-pdf/renderer';
 import {observer} from 'mobx-react';
 import {PdfPBTemp0001} from '../../page-branding/temp0001/temp0001.component';
 import {PdfTPRTemp0003List} from './temp0003-list.component';

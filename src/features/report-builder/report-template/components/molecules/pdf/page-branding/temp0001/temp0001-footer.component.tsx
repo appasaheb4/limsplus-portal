@@ -1,15 +1,7 @@
 import React, {useRef} from 'react';
 import {
-  PdfHeading,
-  PdfRegular,
-  PdfPageNumber,
-  PdfHeader,
-  PdfSubHeader,
-  PdfView,
-  PdfBorderView,
   PdfFooterView,
   PdfSmall,
-  PdfTable,
 } from '@components';
 import {Image, View} from '@react-pdf/renderer';
 

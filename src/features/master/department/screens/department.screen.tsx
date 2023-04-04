@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   Toast,
   Header,
@@ -13,7 +12,6 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {DepartmentList, AutoCompleteAuthorizedSignatory} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';

@@ -1,18 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  Icons,
-  Buttons,
   Form,
-  Toast,
 } from '@/library/components';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
-import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
-import {toJS} from 'mobx';
-import {lookupItems, lookupValue} from '@/library/utils';
 
 interface SalesHierarchyTableProps {
   list: any;

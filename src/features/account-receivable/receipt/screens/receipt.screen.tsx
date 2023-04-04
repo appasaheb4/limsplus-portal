@@ -1,22 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 
 import {
-  ModalConfirm,
   Header,
   PageHeading,
   PageHeadingLabDetails,
   Toast,
 } from '@/library/components';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
 import {ReceiptList} from '../components';
 import {ModalReceiptShare} from '../../components';
 import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import axios from 'axios';
 
 const Receipt = observer(() => {
   const {receiptStore, routerStore, loginStore} = useStores();

@@ -5,15 +5,10 @@ import ToolkitProvider, {
   Search,
   CSVExport,
 } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import cellEditFactory from 'react-bootstrap-table2-editor';
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
-  PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator';
 import filterFactory from 'react-bootstrap-table2-filter';
-import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 import {PatientTestExpandExtraData} from './patient-test-expand-extra-data.component';
 

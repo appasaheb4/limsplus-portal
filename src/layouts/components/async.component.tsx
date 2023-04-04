@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Loader from './loader.component';
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Props = {};

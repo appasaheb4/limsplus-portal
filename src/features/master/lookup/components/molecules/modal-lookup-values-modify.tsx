@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import _ from 'lodash';
 import {Container} from 'reactstrap';
 import {observer} from 'mobx-react';
-import {useForm, Controller} from 'react-hook-form';
-import {Form, List, Buttons, Icons, Svg} from '@/library/components';
+import {Form, Buttons, Icons, Svg} from '@/library/components';
 
 interface ModalLookupValuesModifyProps {
   show?: boolean;

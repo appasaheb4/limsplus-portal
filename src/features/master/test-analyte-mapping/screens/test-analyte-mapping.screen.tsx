@@ -31,7 +31,7 @@ import {
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetTestAnalyteMapping} from '../startup';
-import {SelectedItems, TestAnalyteMapping as Model} from '../models';
+import {SelectedItems} from '../models';
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {

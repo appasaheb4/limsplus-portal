@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -10,7 +10,6 @@ import {
   Icons,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import {useStores} from '@/stores';
 import {lookupItems, lookupValue} from '@/library/utils';
 
 interface InstResultMappingListProps {

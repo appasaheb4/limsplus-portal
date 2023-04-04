@@ -1,19 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
 import {
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,
   Buttons,
   Form,
-  Toast,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupValue} from '@/library/utils';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
-import _ from 'lodash';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
 
 export const PriceListTable = observer(() => {
   const {loading, labStore, priceListStore, corporateClientsStore} =

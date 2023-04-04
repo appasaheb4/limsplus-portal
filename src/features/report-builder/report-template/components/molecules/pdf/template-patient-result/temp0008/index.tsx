@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Font, View, Page} from '@react-pdf/renderer';
+import {StyleSheet, Font, Page} from '@react-pdf/renderer';
 import {Document, pdfjs, Page as PdfPage} from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';

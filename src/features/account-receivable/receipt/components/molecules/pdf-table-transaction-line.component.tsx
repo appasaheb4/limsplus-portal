@@ -1,15 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from '@react-pdf/renderer';
-import _ from 'lodash';
+import React from 'react';
+import { View, StyleSheet} from '@react-pdf/renderer';
 import {Style} from '@react-pdf/types';
 import {} from '@storybook/addons';
 import {
   PdfSmall,
   PdfBorderView,
-  PdfImage,
-  PdfView,
-  PdfMedium,
-  PdfRegular,
 } from '@/library/components';
 
 const styles = StyleSheet.create({

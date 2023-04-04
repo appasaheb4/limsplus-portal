@@ -1,5 +1,4 @@
 import {stores} from '@/stores';
-import _ from 'lodash';
 
 class PatientRegistrationHoc {
   labIdChanged = async (labId?: number) => {

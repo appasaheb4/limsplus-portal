@@ -1,5 +1,4 @@
 import {makeObservable, action, observable, computed} from 'mobx';
-import _ from 'lodash';
 import {PatientVisitService} from '../services';
 import {PatientVisit, SelectedPatientVisitItems} from '../models';
 

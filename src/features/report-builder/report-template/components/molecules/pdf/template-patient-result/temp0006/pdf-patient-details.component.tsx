@@ -1,6 +1,5 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import _ from 'lodash';
 import {PdfView, PdfBorderView, PdfGrid, PdfSmall} from '@components';
 import {observer} from 'mobx-react';
 import {getAgeUnits, getSex} from '@/core-utils';

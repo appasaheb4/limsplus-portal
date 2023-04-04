@@ -1,7 +1,6 @@
 import React from 'react';
 import {Stores} from '../../../stores';
 import {lookupItems, lookupValue} from '@/library/utils';
-import _ from 'lodash';
 import {
   textFilter,
   TableBootstrap,
@@ -13,11 +12,6 @@ import {
 import {Confirm} from '@/library/models';
 import {useStores} from '@/stores';
 import {
-  AutoCompleteFilterSingleSelectCountry,
-  AutoCompleteFilterSingleSelectState,
-  AutoCompleteFilterSingleSelectDistrict,
-  AutoCompleteFilterSingleSelectCity,
-  AutoCompleteFilterSingleSelectArea,
   AutoCompleteFilterSingleSelectPostalCode,
   PriceListTableForLabList,
   AutoCompleteDefaultLab,

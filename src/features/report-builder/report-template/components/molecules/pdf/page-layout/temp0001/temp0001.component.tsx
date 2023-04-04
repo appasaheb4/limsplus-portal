@@ -1,11 +1,8 @@
 import React, {useRef} from 'react';
 import {
   Page,
-  Text,
-  Document,
   StyleSheet,
   Font,
-  PDFViewer,
   Image,
   View,
 } from '@react-pdf/renderer';

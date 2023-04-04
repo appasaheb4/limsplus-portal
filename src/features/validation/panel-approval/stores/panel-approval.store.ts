@@ -1,7 +1,6 @@
 import {makeObservable, action, observable, computed} from 'mobx';
 import {PendingPanelApproval} from '../models';
 import {PanelApprovalService} from '../services';
-import _ from 'lodash';
 
 export class PanelApprovalStore {
   panelApprovalList!: Array<PendingPanelApproval>;
