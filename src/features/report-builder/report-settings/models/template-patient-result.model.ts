@@ -4,6 +4,7 @@ export class TemplatePatientResult {
   reportBody: object;
   templateCode: string;
   templateTitle: string;
+  reportOrder: number;
   endOfPage: any[];
   endOfReport: any[];
   departmentHeader: {
@@ -38,6 +39,7 @@ export class TemplatePatientResult {
     this.reportBody = rawData.reportBody;
     this.templateCode = rawData.templateCode;
     this.templateTitle = rawData.templateName;
+    this.reportOrder = rawData.reportOrder;
     this.endOfPage = rawData.endOfPage;
     this.endOfReport = rawData.endOfReport;
     this.departmentHeader = rawData.departmentHeader;

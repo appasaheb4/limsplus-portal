@@ -1415,13 +1415,26 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   <AutoCompleteFilterSingleSelectReportTemplate
                     onSelect={item => {
                       props.onUpdateFileds &&
-                        props.onUpdateFileds({reportTemplate: item}, row._id);
+                        props.onUpdateFileds(
+                          {
+                            reportTemplate: item?.reportTemplate,
+                            reportTemplateOrder: item?.reportOrder,
+                          },
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
-
+            {
+              dataField: 'reportTemplateOrder',
+              text: 'Report Template Order',
+              headerClasses: 'textHeader4',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+            },
             {
               dataField: 'labelInstruction',
               text: 'Label Instruction',

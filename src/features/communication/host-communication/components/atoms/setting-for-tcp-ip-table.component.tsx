@@ -6,12 +6,14 @@ interface SettingForTCP_IPTableProps {
   hostDetails: any;
   isConnect?: boolean;
   onConnect: (details: any) => void;
+  onDisConnect: (details: any) => void;
   onChange: (details: any) => void;
 }
 
 export const SettingForTCP_IPTable = ({
   hostDetails,
   isConnect = false,
+  onDisConnect,
   onConnect,
   onChange,
 }: SettingForTCP_IPTableProps) => {
@@ -116,10 +118,12 @@ export const SettingForTCP_IPTable = ({
                   backgroundColor: isConnect ? 'green' : null,
                 }}
                 onClick={() => {
-                  onConnect && onConnect(hostDetails);
+                  isConnect
+                    ? onDisConnect && onDisConnect(hostDetails)
+                    : onConnect && onConnect(hostDetails);
                 }}
               >
-                {isConnect ? 'Connected' : 'Connect'}
+                {isConnect ? 'Disconnect' : 'Connect'}
               </Buttons.Button>
               <span className='text-red mt-4'>
                 Note: Please run limsplus.exe file then communication machine to

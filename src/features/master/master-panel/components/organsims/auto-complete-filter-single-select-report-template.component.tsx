@@ -32,7 +32,10 @@ export const AutoCompleteFilterSingleSelectReportTemplate = observer(
             });
           }}
           onSelect={element => {
-            onSelect(`${element.templateCode} - ${element.templateTitle}`);
+            onSelect({
+              reportTemplate: `${element.templateCode} - ${element.templateTitle}`,
+              reportOrder: element?.reportOrder,
+            });
             reportSettingStore.updatePageBrandingList(
               reportSettingStore.pageBrandingListCopy,
             );

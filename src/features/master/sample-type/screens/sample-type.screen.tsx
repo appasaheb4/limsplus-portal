@@ -365,7 +365,7 @@ const SampleType = SampleTypeHoc(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           sampleTypeStore.sampleTypeService.filter({
                             input: {
                               type: global?.filter?.type,

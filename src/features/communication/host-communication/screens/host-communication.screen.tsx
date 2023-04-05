@@ -140,8 +140,7 @@ const HostCommunication = HostCommunicationHoc(
                     <label>
                       Connection Estabilished :{' '}
                       {`${
-                        hostCommunicationStore.hostCommuication
-                          ?.manualAutomaticMode
+                        hostCommunicationStore.hostCommuication.connectStatus
                           ? 'On'
                           : 'Off'
                       }`}
@@ -345,6 +344,7 @@ const HostCommunication = HostCommunicationHoc(
                               hostCommunicationStore.hostCommuication.instType,
                             pushToken: loginStore.login.webPushTokenFcm,
                             type: 'tcpIP',
+                            isConnect: false,
                           },
                         })
                         .then(res => {
@@ -354,6 +354,27 @@ const HostCommunication = HostCommunicationHoc(
                               res.connectHostCommunication?.message,
                             connectStatus:
                               res.connectHostCommunication?.success,
+                          });
+                        });
+                    }}
+                    onDisConnect={details => {
+                      hostCommunicationStore.hostCommunicationService
+                        .connectHostCommunication({
+                          input: {
+                            ...details,
+                            instType:
+                              hostCommunicationStore.hostCommuication.instType,
+                            pushToken: loginStore.login.webPushTokenFcm,
+                            type: 'tcpIP',
+                            isConnect: true,
+                          },
+                        })
+                        .then(res => {
+                          console.log({res});
+                          hostCommunicationStore.updateHostCommuication({
+                            ...hostCommunicationStore.hostCommuication,
+                            connectMessage: 'Connection established closed.',
+                            connectStatus: false,
                           });
                         });
                     }}

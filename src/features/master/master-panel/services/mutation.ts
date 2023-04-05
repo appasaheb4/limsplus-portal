@@ -58,6 +58,7 @@ export const LIST = gql`
         workflow
         cumulative
         reportTemplate
+        reportTemplateOrder
         sampleType
         specalInstructions
         interpretation
@@ -187,6 +188,7 @@ export const FILTER = gql`
         workflow
         cumulative
         reportTemplate
+        reportTemplateOrder
         sampleType
         specalInstructions
         interpretation
@@ -262,6 +264,7 @@ export const FILTER_BY_FIELDS = gql`
         workflow
         cumulative
         reportTemplate
+        reportTemplateOrder
         sampleType
         specalInstructions
         interpretation
@@ -334,6 +337,7 @@ export const FIND_BY_FIELDS = gql`
         workflow
         cumulative
         reportTemplate
+        reportTemplateOrder
         sampleType
         specalInstructions
         interpretation

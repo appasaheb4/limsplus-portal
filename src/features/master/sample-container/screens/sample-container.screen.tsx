@@ -408,7 +408,7 @@ const SampleContainer = SampleContainerHoc(
                           global?.filter?.page,
                           global?.filter?.limit,
                         );
-                      else if (global.filter.mode == 'filter')
+                      else if (global?.filter?.mode == 'filter')
                         sampleContainerStore.sampleContainerService.filter({
                           input: {
                             type: global?.filter?.type,
@@ -438,7 +438,7 @@ const SampleContainer = SampleContainerHoc(
                           global?.filter?.page,
                           global?.filter?.limit,
                         );
-                      else if (global.filter.mode == 'filter')
+                      else if (global?.filter?.mode == 'filter')
                         sampleContainerStore.sampleContainerService.filter({
                           input: {
                             type: global?.filter?.type,

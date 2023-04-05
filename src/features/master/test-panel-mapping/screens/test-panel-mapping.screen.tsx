@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {Table} from 'reactstrap';
@@ -15,7 +15,6 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-  Icons,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {TestPanelMappingList} from '../components';
@@ -54,37 +53,46 @@ const TestPanelMapping = TestPanelMappingHoc(
       reset,
     } = useForm();
 
-    setValue('lab', loginStore.login.lab);
-    setValue('status', testPanelMappingStore.testPanelMapping?.status);
-    setValue(
-      'environment',
-      testPanelMappingStore.testPanelMapping?.environment,
-    );
-    setValue(
-      'dateCreation',
-      testPanelMappingStore.testPanelMapping?.dateCreation,
-    );
-    setValue('dateExpire', testPanelMappingStore.testPanelMapping?.dateExpire);
-    setValue('version', testPanelMappingStore.testPanelMapping?.version);
-    setValue('dateActive', testPanelMappingStore.testPanelMapping?.dateActive);
+    useEffect(() => {
+      setValue('lab', loginStore.login.lab);
+      setValue('status', testPanelMappingStore.testPanelMapping?.status);
+      setValue(
+        'environment',
+        testPanelMappingStore.testPanelMapping?.environment,
+      );
+      setValue(
+        'dateCreation',
+        testPanelMappingStore.testPanelMapping?.dateCreation,
+      );
+      setValue(
+        'dateExpire',
+        testPanelMappingStore.testPanelMapping?.dateExpire,
+      );
+      setValue('version', testPanelMappingStore.testPanelMapping?.version);
+      setValue(
+        'dateActive',
+        testPanelMappingStore.testPanelMapping?.dateActive,
+      );
 
-    setValue(
-      'printPanelName',
-      testPanelMappingStore.testPanelMapping?.printPanelName,
-    );
-    setValue(
-      'printTestName',
-      testPanelMappingStore.testPanelMapping?.printTestName,
-    );
-    setValue(
-      'printAnalyteName',
-      testPanelMappingStore.testPanelMapping?.printAnalyteName,
-    );
-    setValue(
-      'analyteInterpretation',
-      testPanelMappingStore.testPanelMapping?.analyteInterpretation,
-    );
-    setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
+      setValue(
+        'printPanelName',
+        testPanelMappingStore.testPanelMapping?.printPanelName,
+      );
+      setValue(
+        'printTestName',
+        testPanelMappingStore.testPanelMapping?.printTestName,
+      );
+      setValue(
+        'printAnalyteName',
+        testPanelMappingStore.testPanelMapping?.printAnalyteName,
+      );
+      setValue(
+        'analyteInterpretation',
+        testPanelMappingStore.testPanelMapping?.analyteInterpretation,
+      );
+      setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);
@@ -105,7 +113,6 @@ const TestPanelMapping = TestPanelMappingHoc(
         isSelected: true,
       },
     ]);
-    const MasterIcon = icon => Icons.getIcons(icon);
 
     const onSubmitTestPanelMapping = () => {
       if (!testPanelMappingStore.checkExitsLabEnvCode) {
@@ -332,7 +339,8 @@ const TestPanelMapping = TestPanelMappingHoc(
                           });
                         }}
                         onSelect={item => {
-                          onChange(item.name);
+                          console.log(item);
+                          onChange(item.code);
                           testPanelMappingStore.updateTestPanelMapping({
                             ...testPanelMappingStore.testPanelMapping,
                             lab: item.code,
