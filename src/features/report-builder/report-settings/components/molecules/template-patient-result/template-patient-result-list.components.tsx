@@ -1,11 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {
-  Type,
-  TableBootstrap,
-  Tooltip,
-  Icons,
-} from '@/library/components';
+import {Type, TableBootstrap, Tooltip, Icons, Form} from '@/library/components';
 import {ReportBodyComponents} from './report-body.components';
 import {EndOfPageComponents} from './end-of-page.components';
 import {EndOfReportComponents} from './end-of-report.components';
@@ -134,6 +129,35 @@ export const TemplatePatientResultList = observer(
                 editor: {
                   type: Type.TEXTAREA,
                 },
+              },
+              {
+                dataField: 'reportOrder',
+                text: 'Report Order',
+                headerClasses: 'textHeader',
+                sort: true,
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex,
+                ) => (
+                  <>
+                    <Form.Input
+                      type='number'
+                      onBlur={reportOrder => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {
+                              reportOrder: Number.parseInt(reportOrder),
+                            },
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: 'endOfPage',

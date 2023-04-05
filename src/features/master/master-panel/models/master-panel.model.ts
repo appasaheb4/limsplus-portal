@@ -49,6 +49,7 @@ export class MasterPanel {
   workflow: string;
   cumulative: boolean;
   reportTemplate: string;
+  reportTemplateOrder: number;
   sampleType: string;
   specalInstructions: string;
   interpretation: string;
@@ -113,6 +114,7 @@ export class MasterPanel {
     this.workflow = rawData.workflow;
     this.cumulative = rawData.cumulative;
     this.reportTemplate = rawData.reportTemplate;
+    this.reportTemplateOrder = rawData.reportTemplateOrder;
     this.sampleType = rawData.sampleType;
     this.specalInstructions = rawData.specalInstructions;
     this.internalComments = rawData.internalComments;

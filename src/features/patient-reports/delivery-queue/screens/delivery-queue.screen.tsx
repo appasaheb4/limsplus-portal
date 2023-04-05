@@ -382,6 +382,8 @@ const DeliveryQueue = observer(() => {
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
+                      console.log({grouped});
+
                       if (_.isEmpty(grouped)) {
                         return Toast.error({
                           message: '😌 Report template not found.',

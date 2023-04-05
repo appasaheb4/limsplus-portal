@@ -1309,11 +1309,12 @@ const MasterPanel = MasterPanelHoc(
                       hasError={!!errors.reportTemplate}
                     >
                       <AutoCompleteFilterSingleSelectReportTemplate
-                        onSelect={reportTemplate => {
-                          onChange(reportTemplate);
+                        onSelect={item => {
+                          onChange(item?.reportTemplate);
                           masterPanelStore.updateMasterPanel({
                             ...masterPanelStore.masterPanel,
-                            reportTemplate,
+                            reportTemplate: item?.reportTemplate,
+                            reportTemplateOrder: item?.reportOrder,
                           });
                         }}
                       />
@@ -1983,7 +1984,7 @@ const MasterPanel = MasterPanelHoc(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           masterPanelStore.masterPanelService.filter({
                             input: {
                               type: global?.filter?.type,
@@ -2017,7 +2018,7 @@ const MasterPanel = MasterPanelHoc(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           masterPanelStore.masterPanelService.filter({
                             input: {
                               type: global?.filter?.type,
@@ -2051,7 +2052,7 @@ const MasterPanel = MasterPanelHoc(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        if (global?.filter?.mode == 'filter')
                           masterPanelStore.masterPanelService.filter({
                             input: {
                               type: global?.filter?.type,

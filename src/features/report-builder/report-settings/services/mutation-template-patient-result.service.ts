@@ -14,6 +14,7 @@ export const TEMPLATE_PATIENT_RESULT_LIST = gql`
         reportBody
         templateCode
         templateTitle
+        reportOrder
         endOfPage
         endOfReport
         departmentHeader
@@ -72,6 +73,7 @@ export const FILTER_BY_FIELDS = gql`
         reportBody
         templateCode
         templateTitle
+        reportOrder
         endOfPage
         endOfReport
         departmentHeader
@@ -100,6 +102,7 @@ export const FIND_BY_FIELDS = gql`
         reportBody
         templateCode
         templateTitle
+        reportOrder
         endOfPage
         endOfReport
         departmentHeader

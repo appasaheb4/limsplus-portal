@@ -303,6 +303,32 @@ export const TemplatePatientResult = observer(() => {
                 rules={{required: true}}
                 defaultValue=''
               />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <Form.Input
+                    label='Report Order'
+                    type='number'
+                    placeholder={
+                      errors.reportOrder
+                        ? 'Please Enter ReportOrder'
+                        : 'Report Order'
+                    }
+                    hasError={!!errors.reportOrder}
+                    value={value}
+                    onChange={reportOrder => {
+                      onChange(reportOrder);
+                      reportSettingStore.updateTemplatePatientResult({
+                        ...reportSettingStore.templatePatientResult,
+                        reportOrder: Number.parseInt(reportOrder),
+                      });
+                    }}
+                  />
+                )}
+                name='reportOrder'
+                rules={{required: false}}
+                defaultValue=''
+              />
             </List>
 
             <List direction='col' space={4} justify='stretch' fill>
@@ -409,7 +435,7 @@ export const TemplatePatientResult = observer(() => {
               type: 'update',
               data: {fields, id},
               title: 'Are you sure?',
-              body: 'Update banner!',
+              body: 'Update item!',
             });
           }}
           onPageSizeChange={(page, limit) => {

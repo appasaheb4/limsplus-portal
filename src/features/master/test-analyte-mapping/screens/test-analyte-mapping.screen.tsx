@@ -1375,7 +1375,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           testAnalyteMappingStore.testAnalyteMappingService.filter(
                             {
                               input: {
@@ -1410,7 +1410,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           testAnalyteMappingStore.testAnalyteMappingService.filter(
                             {
                               input: {
@@ -1446,7 +1446,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           testAnalyteMappingStore.testAnalyteMappingService.filter(
                             {
                               input: {

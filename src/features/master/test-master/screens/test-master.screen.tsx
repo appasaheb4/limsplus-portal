@@ -2026,7 +2026,7 @@ const TestMater = TestMasterHOC(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           testMasterStore.testMasterService.filter({
                             input: {
                               type: global?.filter?.type,
@@ -2060,7 +2060,7 @@ const TestMater = TestMasterHOC(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           testMasterStore.testMasterService.filter({
                             input: {
                               type: global?.filter?.type,
@@ -2094,7 +2094,7 @@ const TestMater = TestMasterHOC(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global.filter.mode == 'filter')
+                        else if (global?.filter?.mode == 'filter')
                           testMasterStore.testMasterService.filter({
                             input: {
                               type: global?.filter?.type,
