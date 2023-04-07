@@ -225,10 +225,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   <AutoCompleteFilterSingleSelectDepartment
                     lab={row.pLab}
                     onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.code,
-                          column.dataField,
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            department: item.code,
+                            reportGroup: Number.parseInt(item.reportOrder),
+                          },
                           row._id,
                         );
                     }}
@@ -236,44 +238,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 </>
               ),
             },
-            // {
-            //   dataField: "section",
-            //   text: "Section",
-            //   sort: true,
-            //   filter: textFilter(),
-            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            //   formatter: (cell, row) => {
-            //     return <>{row.section}</>
-            //   },
-            //   editorRenderer: (
-            //     editorProps,
-            //     value,
-            //     row,
-            //     column,
-            //     rowIndex,
-            //     columnIndex
-            //   ) => (
-            //     <>
-            //
-            //         <select
-            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-            //           onChange={(e) => {
-            //             const section = e.target.value as string
-            //             props.onUpdateItem &&
-            //               props.onUpdateItem(section, column.dataField, row._id)
-            //           }}
-            //         >
-            //           <option selected>Select</option>
-            //           {["Section 1"].map((item: any, index: number) => (
-            //             <option key={index} value={item}>
-            //               {item}
-            //             </option>
-            //           ))}
-            //         </select>
-            //
-            //     </>
-            //   ),
-            // },
             {
               dataField: 'serviceType',
               text: 'Service Type',
@@ -498,10 +462,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
-              //style : {textTransform : "uppercase"},
-              // editorStyle: {
-              //   textTransform: 'uppercase'
-              // }
             },
             {
               dataField: 'price',
@@ -673,6 +633,23 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               ),
             },
             {
+              dataField: 'reportGroup',
+              text: 'Report Group',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  reportGroup = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
               dataField: 'reportOrder',
               text: 'Report Order',
               headerClasses: 'textHeader2',
@@ -689,6 +666,28 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    type='number'
+                    onBlur={reportOrder => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          Number.parseInt(reportOrder),
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'processing',
@@ -1019,28 +1018,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                     />
                   </>
                 );
-              },
-            },
-            {
-              dataField: 'reportGroup',
-              text: 'Report Group',
-              headerClasses: 'textHeader2',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  reportGroup = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              style: {textTransform: 'uppercase'},
-              editorStyle: {
-                textTransform: 'uppercase',
               },
             },
             {

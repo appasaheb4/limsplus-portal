@@ -78,14 +78,15 @@ export const PdfResultList = ({
           deptItems,
           (o: any) => o?.panelHeader?.panelDescription,
         );
-        const panelHeader: Array<any> = [];
+        let panelHeader: Array<any> = [];
         for (const [panelKey, panelItems] of Object.entries(panelList)) {
           const testList = _.groupBy(
             panelItems,
             (o: any) => o?.testHeader?.testDescription,
           );
-          const testHeader: Array<any> = [];
+          let testHeader: Array<any> = [];
           for (const [testKey, testItems] of Object.entries(testList)) {
+            // eslint-disable-next-line @typescript-eslint/no-loop-func
             testItems.filter(testItem => {
               testHeader.push({
                 testHeader: {
@@ -113,9 +114,12 @@ export const PdfResultList = ({
                       testItem?.testHeader?.testDescription == testKey,
                   )?.testFooter?.tpmTestInterpretation,
                 },
+                reportOrder: testItem?.testReportOrder,
               });
             });
           }
+          testHeader = _.orderBy(testHeader, 'reportOrder', 'asc');
+
           panelHeader.push({
             panelHeader: {
               analyteType: panelItems?.find(
@@ -149,9 +153,13 @@ export const PdfResultList = ({
                 pItem => pItem?.panelHeader?.panelDescription == panelKey,
               )?.panelFooter?.tpmPanelInterpretation,
             },
+            reportOrder: panelItems?.find(
+              pItem => pItem?.panelHeader?.panelDescription == panelKey,
+            )?.panelReportOrder,
             testHeader,
           });
         }
+        panelHeader = _.orderBy(panelHeader, 'reportOrder', 'asc');
         patientResultList.push({
           departmentHeader: {
             departmentName: deptKey,
@@ -164,7 +172,6 @@ export const PdfResultList = ({
           },
         });
       }
-      //console.log({patientResultList});
       return patientResultList;
     }
     return [];

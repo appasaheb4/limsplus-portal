@@ -383,6 +383,10 @@ const MasterPanel = MasterPanelHoc(
                             departmentStore.listDepartmentCopy,
                           );
                           masterPanelStore.findSectionListByDeptCode(item.code);
+                          setValue(
+                            'reportGroup',
+                            Number.parseFloat(item?.reportOrder),
+                          );
                         }}
                       />
                     </Form.InputWrapper>
@@ -1975,7 +1979,6 @@ const MasterPanel = MasterPanelHoc(
                     .then((res: any) => {
                       setModalConfirm({show: false});
                       if (res.removePanelMaster.success) {
-                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.removePanelMaster.message}`,
                         });
@@ -2009,7 +2012,6 @@ const MasterPanel = MasterPanelHoc(
                     .then((res: any) => {
                       setModalConfirm({show: false});
                       if (res.updatePanelMaster.success) {
-                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
                         });
@@ -2043,7 +2045,6 @@ const MasterPanel = MasterPanelHoc(
                     .then((res: any) => {
                       setModalConfirm({show: false});
                       if (res.updatePanelMaster.success) {
-                        setModalConfirm({show: false});
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
                         });
@@ -2110,7 +2111,6 @@ const MasterPanel = MasterPanelHoc(
                   setModalConfirm({show: false});
                   break;
                 }
-                // No default
               }
             }}
             onClose={() => {
