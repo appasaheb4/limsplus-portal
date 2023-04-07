@@ -378,11 +378,11 @@ const DeliveryQueue = observer(() => {
                           );
                         return Object.assign(item, {reportSettings});
                       });
+
                       const grouped = _.groupBy(
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-                      console.log({grouped});
 
                       if (_.isEmpty(grouped)) {
                         return Toast.error({
