@@ -85,39 +85,64 @@ export const PdfResultList = ({
             (o: any) => o?.testHeader?.testDescription,
           );
           let testHeader: Array<any> = [];
+          let patientResultList: any = [];
           for (const [testKey, testItems] of Object.entries(testList)) {
-            // eslint-disable-next-line @typescript-eslint/no-loop-func
-            testItems.filter(testItem => {
-              testHeader.push({
-                testHeader: {
-                  testDescription: testKey,
-                  testMethodDescription:
-                    testItem?.testHeader?.testMethodDescription,
-                  testBottomMarker: testItem?.testHeader?.testBottomMarker,
-                  testRightMarker: testItem?.testHeader?.testRightMarker,
-                  isPrintTestName: testItem?.testHeader?.isPrintTestName,
-                  isTestMethod: testItem?.testHeader?.isTestMethod,
+            const analyteList = _.groupBy(
+              testItems,
+              (o: any) => o.analyte?.analyteDescription,
+            );
+            for (const [analyteKey, analyteItems] of Object.entries(
+              analyteList,
+            )) {
+              patientResultList.push({
+                analyteName: analyteKey,
+                value: {
+                  ...analyteItems[0],
+                  analyteType: analyteItems[0]?.panelHeader?.analyteType,
+                  ...analyteItems[0]?.analyte,
                 },
-                patientResultList: {
-                  analyte: testItem?.analyte,
-                  result: testItem?.result,
-                  units: testItem?.units,
-                  bioRefInterval: testItem?.bioRefInterval,
-                },
-                testFooter: {
-                  testInterpretation: testItems?.find(
-                    testItem =>
-                      testItem?.testHeader?.testDescription == testKey,
-                  )?.testFooter?.testInterpretation,
-                  tpmTestInterpretation: testItems?.find(
-                    testItem =>
-                      testItem?.testHeader?.testDescription == testKey,
-                  )?.testFooter?.tpmTestInterpretation,
-                },
-                reportOrder: testItem?.testReportOrder,
+                reportOrder: analyteItems[0]?.analyteReportOrder || 0,
               });
+            }
+            patientResultList = _.orderBy(
+              patientResultList,
+              'reportOrder',
+              'asc',
+            );
+            testHeader.push({
+              testHeader: {
+                testDescription: testKey,
+                testMethodDescription: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.testMethodDescription,
+                testBottomMarker: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.testBottomMarker,
+                testRightMarker: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.testRightMarker,
+                isPrintTestName: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.isPrintTestName,
+                isTestMethod: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.isTestMethod,
+              },
+              testFooter: {
+                testInterpretation: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testFooter?.testInterpretation,
+                tpmTestInterpretation: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testFooter?.tpmTestInterpretation,
+              },
+              reportOrder: testItems?.find(
+                testItem => testItem?.testHeader?.testDescription == testKey,
+              )?.testReportOrder,
+              patientResultList,
             });
           }
+
           testHeader = _.orderBy(testHeader, 'reportOrder', 'asc');
 
           panelHeader.push({
@@ -319,13 +344,14 @@ export const PdfResultList = ({
                           {panelItem.panelHeader?.analyteDescription}
                         </PdfSmall>
                       ) : (
-                        <View key={testIndex} style={styles.tableRow}>
-                          {Object.entries(testItem?.patientResultList).map(
-                            (_item: any, _idx) => (
+                        <View key={testIndex}>
+                          {testItem.patientResultList?.map(
+                            ({value: _item}: any, _idx) => (
                               <PdfBorderView
-                                key={testIndex}
+                                key={_idx}
                                 style={{
-                                  width: fields[_idx]?.width + '%',
+                                  width: '100%',
+                                  flexDirection: 'row',
                                 }}
                                 mh={0}
                                 mv={0}
@@ -333,87 +359,146 @@ export const PdfResultList = ({
                                 bw={0}
                                 borderColor='transparent'
                               >
-                                {_item[1]?.analyteType === 'H' ? (
-                                  <PdfSmall style={{marginLeft: 10}}>
-                                    {_item[1]?.analyteDescription}
-                                  </PdfSmall>
+                                {_item?.analyteType === 'H' ? (
+                                  <PdfBorderView
+                                    key={_idx}
+                                    style={{
+                                      width: '100%',
+                                    }}
+                                    mh={0}
+                                    mv={0}
+                                    p={0}
+                                    bw={0}
+                                    borderColor='transparent'
+                                  >
+                                    <PdfSmall style={{marginLeft: 10}}>
+                                      {_item?.analyteDescription}
+                                    </PdfSmall>
+                                  </PdfBorderView>
                                 ) : (
                                   <>
-                                    {typeof _item[1] == 'object' ? (
-                                      <>
-                                        {_item[1]?.isPrintAnalyteName ? (
-                                          <PdfSmall
-                                            style={{
-                                              marginLeft: 10,
-                                              color: _item[1]?.critical
-                                                ? '#FF0000'
-                                                : '#000000',
-                                            }}
-                                          >
-                                            {_item[1]?.analyteDescription}
-                                          </PdfSmall>
-                                        ) : null}
+                                    <PdfBorderView
+                                      style={{
+                                        width: '40%',
+                                      }}
+                                      mh={0}
+                                      mv={0}
+                                      p={0}
+                                      bw={0}
+                                      borderColor='transparent'
+                                    >
+                                      {_item.isPrintAnalyteName ? (
+                                        <PdfSmall
+                                          style={{
+                                            marginLeft: 10,
+                                            color: _item?.critical
+                                              ? '#FF0000'
+                                              : '#000000',
+                                          }}
+                                        >
+                                          {_item?.analyteDescription}
+                                        </PdfSmall>
+                                      ) : null}
 
-                                        {_item[1]?.isAnalyteMethod ? (
-                                          <PdfSmall
-                                            style={{
-                                              marginLeft: 10,
-                                              fontSize: 8,
-                                              color: _item[1]?.critical
-                                                ? '#FF0000'
-                                                : '#000000',
-                                            }}
-                                          >
-                                            {_item[1]?.analyteMethodDescription}
-                                          </PdfSmall>
-                                        ) : null}
-                                        {_item[1]?.analyteInterpretation ? (
-                                          <PdfSmall
-                                            style={{
-                                              marginLeft: 10,
-                                              fontSize: 8,
-                                              color: _item[1]?.critical
-                                                ? '#FF0000'
-                                                : '#000000',
-                                            }}
-                                          >
-                                            {
-                                              _item[1]
-                                                ?.analyteMasterInterpretation
-                                            }
-                                          </PdfSmall>
-                                        ) : null}
-                                      </>
-                                    ) : _idx == 1 ? (
+                                      {_item?.isAnalyteMethod ? (
+                                        <PdfSmall
+                                          style={{
+                                            marginLeft: 10,
+                                            fontSize: 8,
+                                            color: _item?.critical
+                                              ? '#FF0000'
+                                              : '#000000',
+                                          }}
+                                        >
+                                          {_item?.analyteMethodDescription}
+                                        </PdfSmall>
+                                      ) : null}
+                                      {_item?.analyteInterpretation ? (
+                                        <PdfSmall
+                                          style={{
+                                            marginLeft: 10,
+                                            fontSize: 8,
+                                            color: _item?.critical
+                                              ? '#FF0000'
+                                              : '#000000',
+                                          }}
+                                        >
+                                          {_item?.analyteMasterInterpretation}
+                                        </PdfSmall>
+                                      ) : null}
+                                    </PdfBorderView>
+
+                                    <PdfBorderView
+                                      style={{
+                                        width: '20%',
+                                      }}
+                                      mh={0}
+                                      mv={0}
+                                      p={0}
+                                      bw={0}
+                                      borderColor='transparent'
+                                    >
                                       <PdfSmall
                                         style={{
                                           textAlign: 'center',
                                           color:
                                             _idx == 1
-                                              ? JSON.parse(_item[1])
-                                                  ?.critical ||
-                                                JSON.parse(_item[1])?.abnFlag
+                                              ? _item?.critical ||
+                                                _item?.abnFlag
                                                 ? '#FF0000'
                                                 : '#000000'
                                               : '#000000',
                                         }}
                                       >
-                                        {JSON.parse(_item[1]).result}
+                                        {JSON.parse(_item?.result)?.result}
                                       </PdfSmall>
-                                    ) : (
+                                    </PdfBorderView>
+
+                                    <PdfBorderView
+                                      style={{
+                                        width: '20%',
+                                      }}
+                                      mh={0}
+                                      mv={0}
+                                      p={0}
+                                      bw={0}
+                                      borderColor='transparent'
+                                    >
                                       <PdfSmall
                                         style={{
                                           textAlign: 'center',
-                                          color: JSON.parse(_item[1])?.critical
+                                          color: _item?.critical
                                             ? '#FF0000'
                                             : '#000000',
                                         }}
                                       >
-                                        {_idx == 2
-                                          ? JSON.parse(_item[1]).unit
-                                          : JSON.parse(_item[1]).range}
+                                        {JSON.parse(_item?.units)?.unit}
                                       </PdfSmall>
-                                    )}
+                                    </PdfBorderView>
+                                    <PdfBorderView
+                                      style={{
+                                        width: '20%',
+                                      }}
+                                      mh={0}
+                                      mv={0}
+                                      p={0}
+                                      bw={0}
+                                      borderColor='transparent'
+                                    >
+                                      <PdfSmall
+                                        style={{
+                                          textAlign: 'center',
+                                          color: _item?.critical
+                                            ? '#FF0000'
+                                            : '#000000',
+                                        }}
+                                      >
+                                        {
+                                          JSON.parse(_item?.bioRefInterval)
+                                            ?.range
+                                        }
+                                      </PdfSmall>
+                                    </PdfBorderView>
                                   </>
                                 )}
                               </PdfBorderView>
