@@ -84,13 +84,14 @@ export const PdfResultList = ({
             panelItems,
             (o: any) => o?.testHeader?.testDescription,
           );
-          let testHeader: Array<any> = [];
-          let patientResultList: any = [];
+          const testHeader: Array<any> = [];
+
           for (const [testKey, testItems] of Object.entries(testList)) {
             const analyteList = _.groupBy(
               testItems,
               (o: any) => o.analyte?.analyteDescription,
             );
+            let patientResultList: any = [];
             for (const [analyteKey, analyteItems] of Object.entries(
               analyteList,
             )) {
@@ -143,7 +144,7 @@ export const PdfResultList = ({
             });
           }
 
-          testHeader = _.orderBy(testHeader, 'reportOrder', 'asc');
+          //testHeader = _.orderBy(testHeader, 'reportOrder', 'asc');
 
           panelHeader.push({
             panelHeader: {
@@ -197,6 +198,8 @@ export const PdfResultList = ({
           },
         });
       }
+      console.log({patientResultList});
+
       return patientResultList;
     }
     return [];
@@ -259,9 +262,7 @@ export const PdfResultList = ({
                     <PdfSmall
                       style={{
                         marginLeft: 10,
-                        color: panelItem.panelHeader?.critical
-                          ? '#FF0000'
-                          : '#000000',
+                        marginTop: 3,
                         fontFamily: 'Arima-Bold',
                       }}
                     >
@@ -273,12 +274,9 @@ export const PdfResultList = ({
                     <PdfSmall
                       style={{
                         marginLeft: 10,
-                        fontSize: 8,
+                        fontSize: 9,
                         fontFamily: 'Arima-Bold',
                         marginTop: -2,
-                        color: panelItem.panelHeader?.critical
-                          ? '#FF0000'
-                          : '#000000',
                       }}
                     >
                       {panelItem?.panelHeader?.isPanelMethod &&
@@ -308,9 +306,7 @@ export const PdfResultList = ({
                             style={{
                               marginLeft: 10,
                               fontFamily: 'Arima-Bold',
-                              color: panelItem.panelHeader?.critical
-                                ? '#FF0000'
-                                : '#000000',
+                              marginTop: 2,
                             }}
                           >
                             {testItem?.testHeader?.testDescription || ''}{' '}
@@ -323,9 +319,6 @@ export const PdfResultList = ({
                             fontSize: 8,
                             fontFamily: 'Arima-Bold',
                             marginTop: -2,
-                            color: panelItem.panelHeader?.critical
-                              ? '#FF0000'
-                              : '#000000',
                           }}
                         >
                           {testItem?.testHeader?.isTestMethod &&
@@ -347,39 +340,14 @@ export const PdfResultList = ({
                         <View key={testIndex}>
                           {testItem.patientResultList?.map(
                             ({value: _item}: any, _idx) => (
-                              <PdfBorderView
-                                key={_idx}
-                                style={{
-                                  width: '100%',
-                                  flexDirection: 'row',
-                                }}
-                                mh={0}
-                                mv={0}
-                                p={0}
-                                bw={0}
-                                borderColor='transparent'
-                              >
-                                {_item?.analyteType === 'H' ? (
-                                  <PdfBorderView
-                                    key={_idx}
-                                    style={{
-                                      width: '100%',
-                                    }}
-                                    mh={0}
-                                    mv={0}
-                                    p={0}
-                                    bw={0}
-                                    borderColor='transparent'
-                                  >
-                                    <PdfSmall style={{marginLeft: 10}}>
-                                      {_item?.analyteDescription}
-                                    </PdfSmall>
-                                  </PdfBorderView>
-                                ) : (
+                              <>
+                                {_item?.reportable ? (
                                   <>
                                     <PdfBorderView
+                                      key={_idx}
                                       style={{
-                                        width: '40%',
+                                        width: '100%',
+                                        flexDirection: 'row',
                                       }}
                                       mh={0}
                                       mv={0}
@@ -387,121 +355,160 @@ export const PdfResultList = ({
                                       bw={0}
                                       borderColor='transparent'
                                     >
-                                      {_item.isPrintAnalyteName ? (
-                                        <PdfSmall
+                                      {_item?.analyteType === 'H' ? (
+                                        <PdfBorderView
                                           style={{
-                                            marginLeft: 10,
-                                            color: _item?.critical
-                                              ? '#FF0000'
-                                              : '#000000',
+                                            width: '100%',
                                           }}
+                                          mh={0}
+                                          mv={0}
+                                          p={0}
+                                          bw={0}
+                                          borderColor='transparent'
                                         >
-                                          {_item?.analyteDescription}
-                                        </PdfSmall>
-                                      ) : null}
+                                          <PdfSmall
+                                            style={{
+                                              marginLeft: 10,
+                                              marginVertical: 2,
+                                            }}
+                                          >
+                                            {_item?.analyteDescription}
+                                          </PdfSmall>
+                                        </PdfBorderView>
+                                      ) : (
+                                        <>
+                                          <PdfBorderView
+                                            style={{
+                                              width: '40%',
+                                            }}
+                                            mh={0}
+                                            mv={0}
+                                            p={0}
+                                            bw={0}
+                                            borderColor='transparent'
+                                          >
+                                            {_item.isPrintAnalyteName ? (
+                                              <PdfSmall
+                                                style={{
+                                                  marginLeft: 10,
+                                                  color: _item?.critical
+                                                    ? '#FF0000'
+                                                    : '#000000',
+                                                }}
+                                              >
+                                                {_item?.analyteDescription}
+                                              </PdfSmall>
+                                            ) : null}
 
-                                      {_item?.isAnalyteMethod ? (
-                                        <PdfSmall
-                                          style={{
-                                            marginLeft: 10,
-                                            fontSize: 8,
-                                            color: _item?.critical
-                                              ? '#FF0000'
-                                              : '#000000',
-                                          }}
-                                        >
-                                          {_item?.analyteMethodDescription}
-                                        </PdfSmall>
-                                      ) : null}
-                                      {_item?.analyteInterpretation ? (
-                                        <PdfSmall
-                                          style={{
-                                            marginLeft: 10,
-                                            fontSize: 8,
-                                            color: _item?.critical
-                                              ? '#FF0000'
-                                              : '#000000',
-                                          }}
-                                        >
-                                          {_item?.analyteMasterInterpretation}
-                                        </PdfSmall>
-                                      ) : null}
-                                    </PdfBorderView>
+                                            {_item?.isAnalyteMethod ? (
+                                              <PdfSmall
+                                                style={{
+                                                  marginLeft: 10,
+                                                  fontSize: 8,
+                                                }}
+                                              >
+                                                {
+                                                  _item?.analyteMethodDescription
+                                                }
+                                              </PdfSmall>
+                                            ) : null}
+                                            {_item?.analyteInterpretation ? (
+                                              <PdfSmall
+                                                style={{
+                                                  marginLeft: 10,
+                                                  fontSize: 8,
+                                                }}
+                                              >
+                                                {
+                                                  _item?.analyteMasterInterpretation
+                                                }
+                                              </PdfSmall>
+                                            ) : null}
+                                          </PdfBorderView>
 
-                                    <PdfBorderView
-                                      style={{
-                                        width: '20%',
-                                      }}
-                                      mh={0}
-                                      mv={0}
-                                      p={0}
-                                      bw={0}
-                                      borderColor='transparent'
-                                    >
-                                      <PdfSmall
-                                        style={{
-                                          textAlign: 'center',
-                                          color:
-                                            _idx == 1
-                                              ? _item?.critical ||
-                                                _item?.abnFlag
-                                                ? '#FF0000'
-                                                : '#000000'
-                                              : '#000000',
-                                        }}
-                                      >
-                                        {JSON.parse(_item?.result)?.result}
-                                      </PdfSmall>
-                                    </PdfBorderView>
+                                          <PdfBorderView
+                                            style={{
+                                              width: '20%',
+                                            }}
+                                            mh={0}
+                                            mv={0}
+                                            p={0}
+                                            bw={0}
+                                            borderColor='transparent'
+                                          >
+                                            <PdfSmall
+                                              style={{
+                                                textAlign: 'center',
+                                                color:
+                                                  _item?.critical ||
+                                                  _item?.abnFlag
+                                                    ? '#FF0000'
+                                                    : '#000000',
+                                              }}
+                                            >
+                                              {
+                                                JSON.parse(_item?.result)
+                                                  ?.result
+                                              }
+                                            </PdfSmall>
+                                          </PdfBorderView>
 
-                                    <PdfBorderView
-                                      style={{
-                                        width: '20%',
-                                      }}
-                                      mh={0}
-                                      mv={0}
-                                      p={0}
-                                      bw={0}
-                                      borderColor='transparent'
-                                    >
-                                      <PdfSmall
-                                        style={{
-                                          textAlign: 'center',
-                                          color: _item?.critical
-                                            ? '#FF0000'
-                                            : '#000000',
-                                        }}
-                                      >
-                                        {JSON.parse(_item?.units)?.unit}
-                                      </PdfSmall>
-                                    </PdfBorderView>
-                                    <PdfBorderView
-                                      style={{
-                                        width: '20%',
-                                      }}
-                                      mh={0}
-                                      mv={0}
-                                      p={0}
-                                      bw={0}
-                                      borderColor='transparent'
-                                    >
-                                      <PdfSmall
-                                        style={{
-                                          textAlign: 'center',
-                                          color: _item?.critical
-                                            ? '#FF0000'
-                                            : '#000000',
-                                        }}
-                                      >
-                                        {
-                                          JSON.parse(_item?.bioRefInterval)
-                                            ?.range
-                                        }
-                                      </PdfSmall>
+                                          <PdfBorderView
+                                            style={{
+                                              width: '20%',
+                                            }}
+                                            mh={0}
+                                            mv={0}
+                                            p={0}
+                                            bw={0}
+                                            borderColor='transparent'
+                                          >
+                                            <PdfSmall
+                                              style={{
+                                                textAlign: 'center',
+                                                color: _item?.critical
+                                                  ? '#FF0000'
+                                                  : '#000000',
+                                              }}
+                                            >
+                                              {JSON.parse(_item?.units)?.unit}
+                                            </PdfSmall>
+                                          </PdfBorderView>
+                                          {_item?.showRanges && (
+                                            <PdfBorderView
+                                              style={{
+                                                width: '20%',
+                                              }}
+                                              mh={0}
+                                              mv={0}
+                                              p={0}
+                                              bw={0}
+                                              borderColor='transparent'
+                                            >
+                                              <PdfSmall
+                                                style={{
+                                                  textAlign: 'center',
+                                                  color: _item?.critical
+                                                    ? '#FF0000'
+                                                    : '#000000',
+                                                }}
+                                              >
+                                                {
+                                                  JSON.parse(
+                                                    _item?.bioRefInterval,
+                                                  )?.range
+                                                }
+                                              </PdfSmall>
+                                            </PdfBorderView>
+                                          )}
+                                        </>
+                                      )}
                                     </PdfBorderView>
                                   </>
+                                ) : (
+                                  <></>
                                 )}
-                              </PdfBorderView>
+                              </>
                             ),
                           )}
                         </View>
