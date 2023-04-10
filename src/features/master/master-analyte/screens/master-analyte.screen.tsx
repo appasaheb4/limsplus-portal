@@ -1557,7 +1557,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ),
                           displayKey: ['code'],
                         }}
-                        displayValue={value}
+                        displayValue={value ?? ''}
                         onFilter={(value: string) => {
                           libraryStore.libraryService.filterByFields({
                             input: {
