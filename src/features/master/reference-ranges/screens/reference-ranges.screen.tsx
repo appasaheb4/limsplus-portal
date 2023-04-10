@@ -248,7 +248,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'shown' : 'shown')
             }
           >
-            <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+            <div className='p-2 rounded-lg shadow-xl '>
               <CommonInputTable />
               {refRangesInputTable}
             </div>
