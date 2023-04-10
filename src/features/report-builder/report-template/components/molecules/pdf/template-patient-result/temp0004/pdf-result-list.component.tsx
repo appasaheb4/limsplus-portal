@@ -84,7 +84,7 @@ export const PdfResultList = ({
             panelItems,
             (o: any) => o?.testHeader?.testDescription,
           );
-          const testHeader: Array<any> = [];
+          let testHeader: Array<any> = [];
 
           for (const [testKey, testItems] of Object.entries(testList)) {
             const analyteList = _.groupBy(
@@ -144,7 +144,7 @@ export const PdfResultList = ({
             });
           }
 
-          //testHeader = _.orderBy(testHeader, 'reportOrder', 'asc');
+          testHeader = _.orderBy(testHeader, 'reportOrder', 'asc');
 
           panelHeader.push({
             panelHeader: {
@@ -185,7 +185,9 @@ export const PdfResultList = ({
             testHeader,
           });
         }
+
         panelHeader = _.orderBy(panelHeader, 'reportOrder', 'asc');
+
         patientResultList.push({
           departmentHeader: {
             departmentName: deptKey,
@@ -199,7 +201,6 @@ export const PdfResultList = ({
         });
       }
       console.log({patientResultList});
-
       return patientResultList;
     }
     return [];
