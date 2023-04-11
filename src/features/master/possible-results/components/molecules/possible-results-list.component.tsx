@@ -8,7 +8,6 @@ import {
   Form,
   List,
   Buttons,
-  Grid,
   Svg,
   NumberFilter,
   DateFilter,
@@ -146,8 +145,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               },
             }),
             formatter: (cellContent, row) => (
-              <>
-                <List space={2} direction='row' justify='center'>
+              <div className='flex flex-wrap max-w-2xl overflow-scroll'>
+                <List space={2} justify='center'>
                   {row.conclusionResult.map(item => (
                     <div className='mb-2'>
                       <Buttons.Button
@@ -163,7 +162,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     </div>
                   ))}
                 </List>
-              </>
+              </div>
             ),
             editorRenderer: (
               editorProps,
@@ -174,7 +173,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               columnIndex,
             ) => (
               <>
-                <Grid cols={5}>
+                <div className='flex flex-row gap-4'>
                   <Form.Input
                     placeholder='Result'
                     value={
@@ -280,7 +279,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     </Buttons.Button>
                   </div>
                   <div className='clearfix'></div>
-                </Grid>
+                </div>
                 <List space={2} direction='row' justify='center'>
                   <div>
                     {row.conclusionResult?.map((item, index) => (
