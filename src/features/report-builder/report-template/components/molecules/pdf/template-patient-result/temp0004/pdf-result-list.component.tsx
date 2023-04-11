@@ -182,6 +182,9 @@ export const PdfResultList = ({
             reportOrder: panelItems?.find(
               pItem => pItem?.panelHeader?.panelDescription == panelKey,
             )?.panelReportOrder,
+            isPMPageBreak: panelItems?.find(
+              pItem => pItem?.panelHeader?.panelDescription == panelKey,
+            )?.panelHeader?.isPMPageBreak,
             testHeader,
           });
         }
@@ -251,6 +254,7 @@ export const PdfResultList = ({
               {deptItem.panelHeader.map((panelItem, index) => (
                 <>
                   <PdfBorderView
+                    isBreak={panelItem?.isPMPageBreak}
                     style={{
                       width: '100%',
                     }}

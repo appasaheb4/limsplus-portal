@@ -245,7 +245,7 @@ export const PossibleResults = PossibleResultHoc(
                 />
 
                 <Form.InputWrapper label='Conclusion Value'>
-                  <Grid cols={5}>
+                  <div className='flex flex-row gap-4'>
                     <Controller
                       control={control}
                       render={({field: {onChange, value}}) => (
@@ -385,6 +385,10 @@ export const PossibleResults = PossibleResultHoc(
                               abNormal: false,
                               critical: false,
                             });
+                            setValue('result', '');
+                            setValue('possibleValue', '');
+                            setValue('abNormal', false);
+                            setValue('critical', false);
                           }
                         }}
                       >
@@ -393,7 +397,7 @@ export const PossibleResults = PossibleResultHoc(
                       </Buttons.Button>
                     </div>
                     <div className='clearfix'></div>
-                  </Grid>
+                  </div>
                   <List space={2} direction='row' justify='center'>
                     <div>
                       {possibleResultsStore.possibleResults?.conclusionResult?.map(
