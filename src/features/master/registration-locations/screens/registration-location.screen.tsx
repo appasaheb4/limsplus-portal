@@ -568,7 +568,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.acClass ? 'border-red ' : 'border-gray-300'
+                          !!errors.acClass ? 'border-red ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const acClass = e.target.value;
@@ -606,7 +606,9 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.accountType ? 'border-red ' : 'border-gray-300'
+                          !!errors.accountType
+                            ? 'border-red '
+                            : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const accountType = e.target.value;
@@ -1170,9 +1172,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Delivery Mode'
-                      hasError={!!errors.panelCode}
+                      hasError={!!errors.deliveryMode}
                     >
                       <AutoCompleteFilterDeliveryMode
+                        hasError={!!errors.deliveryMode}
                         onSelect={deliveryMode => {
                           onChange(deliveryMode);
                           registrationLocationsStore.updateRegistrationLocations(
@@ -1517,7 +1520,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red  ' : 'border-gray-300'
+                          !!errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -1555,7 +1558,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
+                          !!errors.environment
                             ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
