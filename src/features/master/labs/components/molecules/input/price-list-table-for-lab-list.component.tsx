@@ -1,10 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {Table} from 'reactstrap';
-import {
-  Icons,
-  Buttons,
-  Form,
-} from '@/library/components';
+import {Icons, Buttons, Form} from '@/library/components';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import {useForm, Controller} from 'react-hook-form';
@@ -14,7 +10,7 @@ import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
-import { lookupValue} from '@/library/utils';
+import {lookupValue} from '@/library/utils';
 
 interface PriceListTableForLabListProps {
   data?: any;
@@ -147,7 +143,7 @@ export const PriceListTableForLabList = observer(
                           value={item?.priceGroup}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceGroup
-                              ? 'border-red-500  '
+                              ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
@@ -182,7 +178,7 @@ export const PriceListTableForLabList = observer(
                           value={item?.priceList || ''}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceList
-                              ? 'border-red-500  '
+                              ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {

@@ -394,7 +394,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         errors.testCode ? 'Please Enter TestCode' : 'Test Code'
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.testCode ? 'border-red-500  ' : 'border-gray-300'
+                        errors.testCode ? 'border-red  ' : 'border-gray-300'
                       } rounded-md`}
                       hasError={!!errors.testCode}
                       disabled={true}
@@ -736,7 +736,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -1259,7 +1259,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={
