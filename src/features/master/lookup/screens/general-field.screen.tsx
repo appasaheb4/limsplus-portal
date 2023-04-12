@@ -262,7 +262,7 @@ export const GeneralField = GeneralFieldHoc(
                   <select
                     value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.defaultLab ? 'border-red-500' : 'border-gray-300'
+                      errors.defaultLab ? 'border-red' : 'border-gray-300'
                     } rounded-md`}
                     onChange={e => {
                       let defaultItem = JSON.parse(e.target.value);
@@ -331,7 +331,7 @@ export const GeneralField = GeneralFieldHoc(
                   <select
                     value={value}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.environment ? 'border-red-500' : 'border-gray-300'
+                      errors.environment ? 'border-red' : 'border-gray-300'
                     } rounded-md`}
                     disabled={
                       loginStore.login && loginStore.login.role !== 'SYSADMIN'

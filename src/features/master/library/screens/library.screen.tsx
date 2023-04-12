@@ -1,4 +1,4 @@
-import React, { useState, useMemo} from 'react';
+import React, {useState, useMemo} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -266,9 +266,7 @@ export const Library = LibraryHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.usageType
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.usageType ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const usageType = e.target.value;
@@ -305,7 +303,7 @@ export const Library = LibraryHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.libraryType
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -344,7 +342,7 @@ export const Library = LibraryHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.commentType
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -467,7 +465,7 @@ export const Library = LibraryHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.commentsTarget
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -531,9 +529,7 @@ export const Library = LibraryHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.parameter
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.parameter ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const parameter = e.target.value;
@@ -569,7 +565,7 @@ export const Library = LibraryHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.action ? 'border-red-500  ' : 'border-gray-300'
+                          errors.action ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const action = e.target.value;
@@ -605,9 +601,7 @@ export const Library = LibraryHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.results
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.results ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const results = e.target.value;
@@ -739,7 +733,7 @@ export const Library = LibraryHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -890,7 +884,7 @@ export const Library = LibraryHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? 'border-red-500  ' : 'border-gray-300'
+                          errors.sex ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const sex = e.target.value;
@@ -926,9 +920,7 @@ export const Library = LibraryHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sexAction
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.sexAction ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const sexAction = e.target.value;
@@ -965,7 +957,7 @@ export const Library = LibraryHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

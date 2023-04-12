@@ -448,9 +448,7 @@ export const PossibleResults = PossibleResultHoc(
                       <select
                         // value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.defaultLab
-                            ? 'border-red-500'
-                            : 'border-gray-300'
+                          errors.defaultLab ? 'border-red' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           let defaultConclusion = JSON.parse(e.target.value);
@@ -499,7 +497,7 @@ export const PossibleResults = PossibleResultHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={
@@ -666,7 +664,7 @@ export const PossibleResults = PossibleResultHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;

@@ -251,7 +251,7 @@ const Doctors = DoctorsHoc(
                       <select
                         // value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.title ? 'border-red-500  ' : 'border-gray-300'
+                          errors.title ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const title = e.target.value;
@@ -389,7 +389,7 @@ const Doctors = DoctorsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? 'border-red-500  ' : 'border-gray-300'
+                          errors.sex ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const sex = e.target.value;
@@ -426,9 +426,7 @@ const Doctors = DoctorsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.doctorType
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.doctorType ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const doctorType = e.target.value;
@@ -465,9 +463,7 @@ const Doctors = DoctorsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.speciality
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.speciality ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const speciality = e.target.value;
@@ -503,9 +499,7 @@ const Doctors = DoctorsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.category
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.category ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const category = e.target.value;
@@ -886,7 +880,7 @@ const Doctors = DoctorsHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.reportPriority
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -991,7 +985,7 @@ const Doctors = DoctorsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.lab ? 'border-red-500  ' : 'border-gray-300'
+                          errors.lab ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const lab = e.target.value;
@@ -1258,7 +1252,7 @@ const Doctors = DoctorsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -1295,7 +1289,7 @@ const Doctors = DoctorsHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

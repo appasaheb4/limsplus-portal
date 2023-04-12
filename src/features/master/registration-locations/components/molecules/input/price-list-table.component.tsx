@@ -1,15 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Table} from 'reactstrap';
-import {
-  Icons,
-  Buttons,
-  Form,
-} from '@/library/components';
+import {Icons, Buttons, Form} from '@/library/components';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import {useForm, Controller} from 'react-hook-form';
 import {RouterFlow} from '@/flows';
-import { lookupValue} from '@/library/utils';
+import {lookupValue} from '@/library/utils';
 
 export const PriceListTable = observer(() => {
   const {
@@ -129,9 +125,7 @@ export const PriceListTable = observer(() => {
                       <select
                         value={item?.priceGroup}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.priceGroup
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.priceGroup ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const priceGroup = e.target.value as string;
@@ -167,9 +161,7 @@ export const PriceListTable = observer(() => {
                       <select
                         value={item?.priceList || ''}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.priceList
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.priceList ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const priceItem = JSON.parse(e.target.value);

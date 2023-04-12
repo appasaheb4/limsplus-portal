@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Ref} from 'react';
-import { ModalClock} from '../..';
+import {ModalClock} from '../..';
 import dayjs from 'dayjs';
 import '../css/toggle.css';
 import classNames from 'classnames';
@@ -110,7 +110,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         className={`${
           props.className
         } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
-          props.hasError ? 'border-red-500 ' : 'border-gray-300'
+          props.hasError ? 'border-red ' : 'border-gray-300'
         } rounded-md`}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
         onKeyDown={props.onKeyDown}
@@ -132,7 +132,7 @@ export const MultilineInput = (props: InputProps) => (
       onChange={e => props.onChange && props.onChange(e.target.value)}
       onBlur={e => props.onBlur && props.onBlur(e.target.value)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-        props.hasError ? 'border-red-500 ' : 'border-gray-300'
+        props.hasError ? 'border-red ' : 'border-gray-300'
       } rounded-md`}
       defaultValue={props.defaultValue}
     />
@@ -211,7 +211,7 @@ export const InputDate = ({
       value={value}
       onChange={e => onChange && onChange(e)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-        hasError ? 'border-red-500 ' : 'border-gray-300'
+        hasError ? 'border-red ' : 'border-gray-300'
       } rounded-md`}
     />
   </InputWrapper>
@@ -254,7 +254,7 @@ export const InputDateTime = ({
             amPmAriaLabel='AM/PM'
             format={format || 'dd-MM-yyyy hh:mm:ss a'}
             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-              hasError ? 'border-red-500 ' : 'border-gray-300'
+              hasError ? 'border-red ' : 'border-gray-300'
             } rounded-md relative z-2`}
           />
         ) : (
@@ -271,7 +271,7 @@ export const InputDateTime = ({
               if (value !== date) onFocusRemove && onFocusRemove(date);
             }}
             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-              hasError ? 'border-red-500 ' : 'border-gray-300'
+              hasError ? 'border-red ' : 'border-gray-300'
             } rounded-md relative z-2`}
             calendarClassName='h-96 z-50 absolute'
           />
@@ -317,7 +317,7 @@ export const DatePicker = ({
           amPmAriaLabel='AM/PM'
           format={format || 'dd-MM-yyyy'}
           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-            hasError ? 'border-red-500 ' : 'border-gray-300'
+            hasError ? 'border-red ' : 'border-gray-300'
           } rounded-md relative z-2`}
         />
       </div>
@@ -390,7 +390,7 @@ export const InputFile = (props: InputFileProps) => (
       value={props.value}
       onChange={e => props.onChange && props.onChange(e)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-        props.hasError ? 'border-red-500 ' : 'border-gray-300'
+        props.hasError ? 'border-red ' : 'border-gray-300'
       } rounded-md`}
       multiple={props.multiple}
     />

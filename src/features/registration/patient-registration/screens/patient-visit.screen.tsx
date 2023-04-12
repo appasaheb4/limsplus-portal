@@ -380,7 +380,7 @@ export const PatientVisit = PatientVisitHoc(
                         value={value}
                         disabled={true}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.rLab ? 'border-red-500  ' : 'border-gray-300'
+                          errors.rLab ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const rLab = JSON.parse(e.target.value) as any;
@@ -737,9 +737,7 @@ export const PatientVisit = PatientVisitHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.acClass
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.acClass ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const acClass = e.target.value;
@@ -1036,7 +1034,7 @@ export const PatientVisit = PatientVisitHoc(
                           <select
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.discountCharges
-                                ? 'border-red-500  '
+                                ? 'border-red  '
                                 : 'border-gray-300'
                             } rounded-md`}
                             onChange={e => {
@@ -1109,7 +1107,7 @@ export const PatientVisit = PatientVisitHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.reportPriority
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -1240,9 +1238,7 @@ export const PatientVisit = PatientVisitHoc(
                           value={value}
                           disabled={true}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.status
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
+                            errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
                             const status = e.target.value;
@@ -1373,7 +1369,7 @@ export const PatientVisit = PatientVisitHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.billingMethod
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1442,7 +1438,7 @@ export const PatientVisit = PatientVisitHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.methodCollection
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1652,7 +1648,7 @@ export const PatientVisit = PatientVisitHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.approvalStatus
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1692,7 +1688,7 @@ export const PatientVisit = PatientVisitHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.reportStatus
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1841,7 +1837,7 @@ export const PatientVisit = PatientVisitHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.archieve
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1884,7 +1880,7 @@ export const PatientVisit = PatientVisitHoc(
                                 disabled={true}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.loginInterface
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1926,7 +1922,7 @@ export const PatientVisit = PatientVisitHoc(
                                 disabled={true}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.registrationInterface
-                                    ? 'border-red-500 '
+                                    ? 'border-red '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -2027,7 +2023,7 @@ export const PatientVisit = PatientVisitHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.accountType
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -2074,7 +2070,7 @@ export const PatientVisit = PatientVisitHoc(
                                 }
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.environment
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
