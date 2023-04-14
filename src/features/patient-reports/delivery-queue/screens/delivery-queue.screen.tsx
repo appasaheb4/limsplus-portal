@@ -38,6 +38,7 @@ const DeliveryQueue = observer(() => {
   //const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalGenerateReports, setModalGenerateReports] = useState<any>();
   const [selectId, setSelectId] = useState('');
+  const [reloadTable, setReloadTable] = useState<boolean>(false);
 
   const getDeliveryList = () => {
     const loginDetails = loginStore.login;
@@ -199,10 +200,10 @@ const DeliveryQueue = observer(() => {
         });
     });
 
-  const updateRecords = (payload: any) => {
+  const updateRecords = async (payload: any) => {
     const {type, id, visitId, ids} = payload;
     if (type == 'cancel' || type == 'hold' || type == 'done') {
-      deliveryQueueStore.deliveryQueueService
+      await deliveryQueueStore.deliveryQueueService
         .updateDeliveryQueue({
           input: {
             _id: id,
@@ -219,7 +220,7 @@ const DeliveryQueue = observer(() => {
           }
         });
     } else {
-      deliveryQueueStore.deliveryQueueService
+      await deliveryQueueStore.deliveryQueueService
         .updateDeliveryQueueByVisitIds({
           input: {
             filter: {
@@ -237,7 +238,6 @@ const DeliveryQueue = observer(() => {
           }
         });
     }
-
     if (global?.filter?.mode == 'pagination') {
       deliveryQueueStore.deliveryQueueService.listDeliveryQueue(
         global?.filter?.pageNo,
@@ -255,6 +255,7 @@ const DeliveryQueue = observer(() => {
     } else {
       deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
     }
+    setReloadTable(!reloadTable);
   };
 
   const reportDeliveryList = useMemo(
@@ -418,7 +419,7 @@ const DeliveryQueue = observer(() => {
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deliveryQueueStore.reportDeliveryList, selectId],
+    [deliveryQueueStore.reportDeliveryList, selectId, reloadTable],
   );
 
   return (

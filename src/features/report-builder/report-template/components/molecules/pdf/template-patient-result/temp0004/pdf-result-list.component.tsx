@@ -375,6 +375,7 @@ export const PdfResultList = ({
                                             style={{
                                               marginLeft: 10,
                                               marginVertical: 2,
+                                              fontFamily: 'Arima-Bold',
                                             }}
                                           >
                                             {_item?.analyteDescription}
