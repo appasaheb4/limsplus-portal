@@ -31,7 +31,10 @@ export const FilterInputTable = observer(() => {
   };
 
   return (
-    <div className='flex flex-row gap-2 items-center overflow-auto'>
+    <div
+      className='flex flex-row gap-2 items-center '
+      style={{minWidth: '500px'}}
+    >
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
