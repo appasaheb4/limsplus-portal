@@ -75,7 +75,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
 
   return (
     <>
-      <div ref={wrapperRef} className={`w-full relative`}>
+      <div ref={wrapperRef} className='w-full relative'>
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
             hasError ? 'border-red' : 'border-gray-300'
@@ -102,7 +102,8 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
         {options && isListOpen
           ? options.length > 0 && (
               <div
-                className={`mt-1 absolute z-2 w-full bg-gray-100 p-2 rounded-sm z-50`}
+                className={`mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm `}
+                style={{zIndex: 500}}
               >
                 <ul>
                   <PerfectScrollbar>

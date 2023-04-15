@@ -127,7 +127,10 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
 
         {options && isListOpen
           ? options?.length > 0 && (
-              <div className='mt-1  absolute bg-gray-100 p-2 rounded-sm z-50'>
+              <div
+                className='mt-1  absolute bg-gray-100 p-2 rounded-sm z-500'
+                style={{zIndex: 80}}
+              >
                 <ul>
                   {options?.map((item, index) => (
                     <>

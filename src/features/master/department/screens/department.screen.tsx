@@ -781,9 +781,7 @@ export const Department = DeginisationHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-            {tableView}
-          </div>
+          <div className='p-2 rounded-lg shadow-xl '>{tableView}</div>
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
