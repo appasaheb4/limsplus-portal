@@ -559,6 +559,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                                   );
                               });
                           }
+                          setValue('testCode', testCode.join(','));
                         }}
                         onFilter={(value: string) => {
                           testMasterStore.testMasterService.filterByFields({
