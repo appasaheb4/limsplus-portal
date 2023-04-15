@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -49,17 +49,20 @@ const MasterAnalyte = MasterAnalyteHoc(
       clearErrors,
     } = useForm();
 
-    setValue('lab', loginStore.login.lab);
-    setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
-    setValue('status', masterAnalyteStore.masterAnalyte?.status);
-    setValue('resultType', masterAnalyteStore.masterAnalyte?.resultType);
-    setValue('reportable', masterAnalyteStore.masterAnalyte?.reportable);
-    setValue('analyteType', masterAnalyteStore.masterAnalyte?.analyteType);
-    setValue('usage', masterAnalyteStore.masterAnalyte?.usage);
-    setValue('dateExpire', masterAnalyteStore.masterAnalyte?.dateExpire);
-    setValue('version', masterAnalyteStore.masterAnalyte?.version);
-    setValue('dateCreation', masterAnalyteStore.masterAnalyte?.dateCreation);
-    setValue('dateActive', masterAnalyteStore.masterAnalyte?.dateActive);
+    useEffect(() => {
+      setValue('lab', loginStore.login.lab);
+      setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
+      setValue('status', masterAnalyteStore.masterAnalyte?.status);
+      setValue('resultType', masterAnalyteStore.masterAnalyte?.resultType);
+      setValue('reportable', masterAnalyteStore.masterAnalyte?.reportable);
+      setValue('analyteType', masterAnalyteStore.masterAnalyte?.analyteType);
+      setValue('usage', masterAnalyteStore.masterAnalyte?.usage);
+      setValue('dateExpire', masterAnalyteStore.masterAnalyte?.dateExpire);
+      setValue('version', masterAnalyteStore.masterAnalyte?.version);
+      setValue('dateCreation', masterAnalyteStore.masterAnalyte?.dateCreation);
+      setValue('dateActive', masterAnalyteStore.masterAnalyte?.dateActive);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
