@@ -123,7 +123,10 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
   };
 
   return (
-    <div className='flex flex-row gap-2 items-center'>
+    <div
+      className='flex flex-row gap-2 items-center'
+      style={{minWidth: '500px'}}
+    >
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
@@ -133,13 +136,13 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <th className='text-white' style={{minWidth: '190px'}}>
               Department
             </th>
-            <th className='text-white' style={{minWidth: '190px'}}>
+            <th className='text-white' style={{minWidth: '150px'}}>
               Species
             </th>
-            <th className='text-white' style={{minWidth: '190px'}}>
+            <th className='text-white' style={{minWidth: '150px'}}>
               Sex
             </th>
-            <th className='text-white' style={{minWidth: '190px'}}>
+            <th className='text-white' style={{minWidth: '150px'}}>
               Range_Set_On
             </th>
             <th className='text-white' style={{minWidth: '190px'}}>

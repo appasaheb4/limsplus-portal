@@ -680,7 +680,7 @@ const CorporateClients = CorporateClientsHoc(
                   )}
                   name='country'
                   rules={{required: false}}
-                  defaultValue={administrativeDivisions.listAdministrativeDiv}
+                  defaultValue=''
                 />
 
                 <Controller

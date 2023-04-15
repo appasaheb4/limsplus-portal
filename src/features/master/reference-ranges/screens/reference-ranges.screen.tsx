@@ -248,12 +248,12 @@ const ReferenceRanges = ReferenceRangesHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'shown' : 'shown')
             }
           >
-            <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+            <div className='p-2 rounded-lg shadow-xl '>
               <CommonInputTable />
               {refRangesInputTable}
             </div>
             <br />
-            <List direction='row' space={3} align='center'>
+            <List direction='row' space={2} align='center'>
               <Buttons.Button
                 size='medium'
                 type='solid'
