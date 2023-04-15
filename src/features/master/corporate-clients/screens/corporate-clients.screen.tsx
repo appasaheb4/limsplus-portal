@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -44,49 +44,62 @@ const CorporateClients = CorporateClientsHoc(
       reset,
     } = useForm();
 
-    setValue('status', corporateClientsStore.corporateClients?.status);
-    setValue(
-      'environment',
-      corporateClientsStore.corporateClients?.environment,
-    );
-    setValue('invoiceAc', corporateClientsStore.corporateClients?.invoiceAc);
-    setValue('acType', corporateClientsStore.corporateClients?.acType);
-    setValue('acClass', corporateClientsStore.corporateClients?.acClass);
-    setValue('billingOn', corporateClientsStore.corporateClients?.billingOn);
-    setValue(
-      'billingFrequency',
-      corporateClientsStore.corporateClients?.billingFrequency,
-    );
-    setValue(
-      'customerGroup',
-      corporateClientsStore.corporateClients?.customerGroup,
-    );
-    setValue('category', corporateClientsStore.corporateClients?.category);
-    setValue('postalCode', corporateClientsStore.corporateClients?.postalCode);
-    setValue('country', corporateClientsStore.corporateClients?.country);
-    setValue('state', corporateClientsStore.corporateClients?.state);
-    setValue('district', corporateClientsStore.corporateClients?.district);
-    setValue('city', corporateClientsStore.corporateClients?.city);
-    setValue('area', corporateClientsStore.corporateClients?.area);
-    setValue(
-      'isBalanceCheck',
-      corporateClientsStore.corporateClients?.isBalanceCheck,
-    );
-    setValue(
-      'reportPriority',
-      corporateClientsStore.corporateClients?.reportPriority,
-    );
-    setValue(
-      'deliveryMode',
-      corporateClientsStore.corporateClients?.deliveryMode,
-    );
-    setValue('dateExpire', corporateClientsStore.corporateClients?.dateExpire);
-    setValue('version', corporateClientsStore.corporateClients?.version);
-    setValue(
-      'dateCreation',
-      corporateClientsStore.corporateClients?.dateCreation,
-    );
-    setValue('dateActive', corporateClientsStore.corporateClients?.dateActive);
+    useEffect(() => {
+      // Default value initialization
+      setValue('status', corporateClientsStore.corporateClients?.status);
+      setValue(
+        'environment',
+        corporateClientsStore.corporateClients?.environment,
+      );
+      setValue('invoiceAc', corporateClientsStore.corporateClients?.invoiceAc);
+      setValue('acType', corporateClientsStore.corporateClients?.acType);
+      setValue('acClass', corporateClientsStore.corporateClients?.acClass);
+      setValue('billingOn', corporateClientsStore.corporateClients?.billingOn);
+      setValue(
+        'billingFrequency',
+        corporateClientsStore.corporateClients?.billingFrequency,
+      );
+      setValue(
+        'customerGroup',
+        corporateClientsStore.corporateClients?.customerGroup,
+      );
+      setValue('category', corporateClientsStore.corporateClients?.category);
+      setValue(
+        'postalCode',
+        corporateClientsStore.corporateClients?.postalCode,
+      );
+      setValue('country', corporateClientsStore.corporateClients?.country);
+      setValue('state', corporateClientsStore.corporateClients?.state);
+      setValue('district', corporateClientsStore.corporateClients?.district);
+      setValue('city', corporateClientsStore.corporateClients?.city);
+      setValue('area', corporateClientsStore.corporateClients?.area);
+      setValue(
+        'isBalanceCheck',
+        corporateClientsStore.corporateClients?.isBalanceCheck,
+      );
+      setValue(
+        'reportPriority',
+        corporateClientsStore.corporateClients?.reportPriority,
+      );
+      setValue(
+        'deliveryMode',
+        corporateClientsStore.corporateClients?.deliveryMode,
+      );
+      setValue(
+        'dateExpire',
+        corporateClientsStore.corporateClients?.dateExpire,
+      );
+      setValue('version', corporateClientsStore.corporateClients?.version);
+      setValue(
+        'dateCreation',
+        corporateClientsStore.corporateClients?.dateCreation,
+      );
+      setValue(
+        'dateActive',
+        corporateClientsStore.corporateClients?.dateActive,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
