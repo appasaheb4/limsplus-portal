@@ -4,7 +4,7 @@ import {Spinner} from 'react-bootstrap';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
 import {Icons} from '@/library/components';
-
+import PerfectScrollbar from 'react-perfect-scrollbar';
 interface AutoCompleteFilterSingleSelectAnalyteCodeProps {
   hasError?: boolean;
   displayValue?: string;
@@ -101,7 +101,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
 
     return (
       <>
-        <div ref={wrapperRef}>
+        <div ref={wrapperRef} className='w-full relative'>
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
               hasError ? 'border-red-500' : 'border-gray-300'
@@ -127,28 +127,32 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
             ? options.length > 0 && (
                 <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
-                    {options?.map((item, index) => (
-                      <>
-                        <li
-                          key={index}
-                          className='text-gray-400 flex items-center'
-                          onClick={() => {
-                            setValue(item.analyteCode);
-                            setIsListOpen(false);
-                            masterAnalyteStore.updateMasterAnalyteList(
-                              masterAnalyteStore.listMasterAnalyteCopy,
-                            );
-                            onSelect(item);
-                          }}
-                        >
-                          {' '}
-                          <label className='ml-2 mt-1 text-black'>
-                            {' '}
-                            {item.analyteCode} - {item.analyteName}
-                          </label>
-                        </li>
-                      </>
-                    ))}
+                    <PerfectScrollbar>
+                      <div style={{height: 'auto', maxHeight: '350px'}}>
+                        {options?.map((item, index) => (
+                          <>
+                            <li
+                              key={index}
+                              className='text-gray-400 flex items-center'
+                              onClick={() => {
+                                setValue(item.analyteCode);
+                                setIsListOpen(false);
+                                masterAnalyteStore.updateMasterAnalyteList(
+                                  masterAnalyteStore.listMasterAnalyteCopy,
+                                );
+                                onSelect(item);
+                              }}
+                            >
+                              {' '}
+                              <label className='ml-2 mt-1 text-black'>
+                                {' '}
+                                {item.analyteCode} - {item.analyteName}
+                              </label>
+                            </li>
+                          </>
+                        ))}
+                      </div>
+                    </PerfectScrollbar>
                   </ul>
                 </div>
               )

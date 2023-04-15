@@ -1557,7 +1557,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           ),
                           displayKey: ['code'],
                         }}
-                        displayValue={value ?? ''}
+                        displayValue={value}
                         onFilter={(value: string) => {
                           libraryStore.libraryService.filterByFields({
                             input: {
@@ -1585,7 +1585,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                   )}
                   name='interpretation'
                   rules={{required: false}}
-                  defaultValue={libraryStore.listLibrary}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}
