@@ -88,6 +88,7 @@ export const PatientOrder = PatientOrderHoc(
           ...patientOrderStore.packageList.pacakgeListN,
           ...patientOrderStore.packageList.pacakgeListK,
         ];
+        console.log({packageList});
         patientOrderStore.patientOrderService
           .addPatientOrder({
             input: {
@@ -96,6 +97,9 @@ export const PatientOrder = PatientOrderHoc(
                 ...v,
                 orderStatus: 'P',
                 status: 'P',
+                $__: undefined,
+                $isNew: undefined,
+                _doc: undefined,
               })),
               documentType: 'patientOrder',
               enteredBy: loginStore.login.userId,
@@ -428,7 +432,7 @@ export const PatientOrder = PatientOrderHoc(
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {

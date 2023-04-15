@@ -7,6 +7,7 @@ import {lookupItems} from '@/library/utils';
 interface AutoCompleteFilterDeliveryModeProps {
   lookupField?: string;
   selectedItems?: any;
+  hasError?: boolean;
   onSelect: (items: any) => void;
 }
 
@@ -14,6 +15,7 @@ export const AutoCompleteFilterDeliveryMode = observer(
   ({
     lookupField = 'DELIVERY_METHOD',
     selectedItems = [],
+    hasError = false,
     onSelect,
   }: AutoCompleteFilterDeliveryModeProps) => {
     const {registrationLocationsStore, routerStore, loading} = useStores();
@@ -22,6 +24,7 @@ export const AutoCompleteFilterDeliveryMode = observer(
       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
         loader={loading}
         placeholder='Search by code or name'
+        hasError={hasError}
         data={{
           list: lookupItems(routerStore.lookupItems, lookupField) || [],
           selected:

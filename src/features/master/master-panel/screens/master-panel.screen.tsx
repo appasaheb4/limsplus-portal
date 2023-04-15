@@ -260,7 +260,7 @@ const MasterPanel = MasterPanelHoc(
                             : false
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.rLab ? 'border-red-500' : 'border-gray-300'
+                          errors.rLab ? 'border-red' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const rLab = e.target.value as string;
@@ -451,9 +451,7 @@ const MasterPanel = MasterPanelHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.serviceType
-                            ? 'border-red-500'
-                            : 'border-gray-300'
+                          errors.serviceType ? 'border-red' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const serviceType = e.target.value as string;
@@ -756,7 +754,7 @@ const MasterPanel = MasterPanelHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.validationLevel
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -955,9 +953,7 @@ const MasterPanel = MasterPanelHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.processing
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.processing ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const processing = e.target.value as string;
@@ -1016,9 +1012,7 @@ const MasterPanel = MasterPanelHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.category
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.category ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const category = e.target.value as string;
@@ -1054,9 +1048,7 @@ const MasterPanel = MasterPanelHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.panelType
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.panelType ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const panelType = e.target.value as string;
@@ -1094,9 +1086,7 @@ const MasterPanel = MasterPanelHoc(
                         value={value}
                         disabled={!masterPanelStore.masterPanel?.ageSexAction}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sexAction
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.sexAction ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const sexAction = e.target.value as string;
@@ -1130,7 +1120,7 @@ const MasterPanel = MasterPanelHoc(
                         value={value}
                         disabled={!masterPanelStore.masterPanel?.ageSexAction}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? 'border-red-500  ' : 'border-gray-300'
+                          errors.sex ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const sex = e.target.value as string;
@@ -1168,9 +1158,7 @@ const MasterPanel = MasterPanelHoc(
                         value={value}
                         disabled={!masterPanelStore.masterPanel?.ageSexAction}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.ageAction
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.ageAction ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const ageAction = e.target.value as string;
@@ -1656,7 +1644,7 @@ const MasterPanel = MasterPanelHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value as string;
@@ -1838,7 +1826,7 @@ const MasterPanel = MasterPanelHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

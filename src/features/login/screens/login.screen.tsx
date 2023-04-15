@@ -436,9 +436,7 @@ export const Login = observer(() => {
                               <select
                                 value={loginStore.inputLogin?.lab}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                  errors.lab
-                                    ? 'border-red-500'
-                                    : 'border-gray-300'
+                                  errors.lab ? 'border-red' : 'border-gray-300'
                                 } rounded-md cursor-pointer `}
                                 onChange={e => {
                                   const lab = e.target.value;
@@ -474,9 +472,7 @@ export const Login = observer(() => {
                               <select
                                 value={loginStore.inputLogin?.role}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                  errors.role
-                                    ? 'border-red-500'
-                                    : 'border-gray-300'
+                                  errors.role ? 'border-red' : 'border-gray-300'
                                 } rounded-md cursor-pointer`}
                                 onChange={e => {
                                   const role = e.target.value;

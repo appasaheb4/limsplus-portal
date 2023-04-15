@@ -260,9 +260,7 @@ export const PageLayout = observer(() => {
                         <select
                           value={value}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.pageSize
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
+                            errors.pageSize ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
                             const pageSize = e.target.value;

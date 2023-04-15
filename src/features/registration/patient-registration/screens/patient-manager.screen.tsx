@@ -467,7 +467,7 @@ export const PatientManager = PatientManagerHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.title ? 'border-red-500  ' : 'border-gray-300'
+                          errors.title ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const title = e.target.value;
@@ -662,7 +662,7 @@ export const PatientManager = PatientManagerHoc(
                     <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? 'border-red-500  ' : 'border-gray-300'
+                          errors.sex ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         value={value}
                         onChange={e => {
@@ -703,9 +703,7 @@ export const PatientManager = PatientManagerHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.species
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.species ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const species = e.target.value as string;
@@ -770,7 +768,7 @@ export const PatientManager = PatientManagerHoc(
                           value={value}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.usualDoctor
-                              ? 'border-red-500'
+                              ? 'border-red'
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
@@ -831,7 +829,7 @@ export const PatientManager = PatientManagerHoc(
                             value={value}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.disease
-                                ? 'border-red-500  '
+                                ? 'border-red  '
                                 : 'border-gray-300'
                             } rounded-md`}
                             onChange={e => {
@@ -1272,7 +1270,7 @@ export const PatientManager = PatientManagerHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.bloodGroup
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1475,7 +1473,7 @@ export const PatientManager = PatientManagerHoc(
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.status
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {
@@ -1522,7 +1520,7 @@ export const PatientManager = PatientManagerHoc(
                                 }
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.environment
-                                    ? 'border-red-500  '
+                                    ? 'border-red  '
                                     : 'border-gray-300'
                                 } rounded-md`}
                                 onChange={e => {

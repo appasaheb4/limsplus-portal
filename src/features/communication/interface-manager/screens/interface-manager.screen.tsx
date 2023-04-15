@@ -110,7 +110,7 @@ const InterfaceManager = InterfaceManagerHoc(
                         value={value}
                         className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
                           errors.interfaceType
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -196,9 +196,7 @@ const InterfaceManager = InterfaceManagerHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                          errors.protocol
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.protocol ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const protocol = e.target.value;
@@ -423,7 +421,7 @@ const InterfaceManager = InterfaceManagerHoc(
                         value={value}
                         className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

@@ -592,9 +592,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.rangeSetOn
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.rangeSetOn ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const rangeSetOn = e.target.value as string;
@@ -685,9 +683,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         }
                         name='optionPicture'
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.picture
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.picture ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const picture = e.target.value;
@@ -728,9 +724,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.resultType
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.resultType ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const resultType = e.target.value;
@@ -877,7 +871,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.analyteType
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -912,7 +906,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.units ? 'border-red-500  ' : 'border-gray-300'
+                          errors.units ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const units = e.target.value as string;
@@ -945,7 +939,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.usage ? 'border-red-500  ' : 'border-gray-300'
+                          errors.usage ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const usage = e.target.value;
@@ -1118,7 +1112,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -1598,7 +1592,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

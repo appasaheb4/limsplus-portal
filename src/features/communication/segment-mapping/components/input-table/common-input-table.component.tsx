@@ -1,9 +1,6 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {Table} from 'reactstrap';
-import {
-  Icons,
-  Buttons,
-} from '@/library/components';
+import {Icons, Buttons} from '@/library/components';
 import {lookupItems, getDefaultLookupItem, lookupValue} from '@/library/utils';
 import {observer} from 'mobx-react';
 import {useStores} from '@/stores';
@@ -81,7 +78,7 @@ export const CommonInputTable = observer(
                     <select
                       value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.instType ? 'border-red-500  ' : 'border-gray-300'
+                        errors.instType ? 'border-red  ' : 'border-gray-300'
                       } rounded-md`}
                       onChange={e => {
                         const instType = e.target.value as string;
@@ -114,7 +111,7 @@ export const CommonInputTable = observer(
                     <select
                       value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.dataFlow ? 'border-red-500  ' : 'border-gray-300'
+                        errors.dataFlow ? 'border-red  ' : 'border-gray-300'
                       } rounded-md`}
                       onChange={e => {
                         const dataFlow = e.target.value as string;
@@ -147,7 +144,7 @@ export const CommonInputTable = observer(
                     <select
                       value={value || 'Selected'}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.protocol ? 'border-red-500  ' : 'border-gray-300'
+                        errors.protocol ? 'border-red  ' : 'border-gray-300'
                       } rounded-md`}
                       onChange={e => {
                         const protocol = e.target.value as string;
