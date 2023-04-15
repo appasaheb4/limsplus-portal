@@ -253,7 +253,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               {refRangesInputTable}
             </div>
             <br />
-            <List direction='row' space={3} align='center'>
+            <List direction='row' space={2} align='center'>
               <Buttons.Button
                 size='medium'
                 type='solid'
