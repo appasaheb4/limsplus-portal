@@ -124,6 +124,8 @@ const RegistrationLocation = RegistrationLocationHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
 
     const onSubmitRegistrationLocation = () => {
+      console.log('insert');
+
       if (!registrationLocationsStore.checkExitsLabEnvCode) {
         if (
           !registrationLocationsStore.registrationLocations?.existsVersionId &&
@@ -305,7 +307,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.lab ? 'border-red-500  ' : 'border-gray-300'
+                          errors.lab ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const lab = e.target.value;
@@ -566,9 +568,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.acClass
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          !!errors.acClass ? 'border-red ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const acClass = e.target.value;
@@ -606,8 +606,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.accountType
-                            ? 'border-red-500  '
+                          !!errors.accountType
+                            ? 'border-red '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -647,7 +647,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.customerGroup
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -687,9 +687,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.methodColn
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.methodColn ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const methodColn = e.target.value;
@@ -728,9 +726,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.category
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.category ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const category = e.target.value;
@@ -1141,7 +1137,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.reportPriority
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -1176,10 +1172,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                   render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
                       label='Delivery Mode'
-                      hasError={!!errors.panelCode}
+                      hasError={!!errors.deliveryMode}
                     >
                       <AutoCompleteFilterDeliveryMode
+                        hasError={!!errors.deliveryMode}
                         onSelect={deliveryMode => {
+                          onChange(deliveryMode);
                           registrationLocationsStore.updateRegistrationLocations(
                             {
                               ...registrationLocationsStore.registrationLocations,
@@ -1522,7 +1520,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          !!errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -1560,8 +1558,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red-500  '
+                          !!errors.environment
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

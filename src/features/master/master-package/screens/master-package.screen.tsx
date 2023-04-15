@@ -379,9 +379,7 @@ const MasterPackage = MasterPackageHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.serviceType
-                            ? 'border-red-500'
-                            : 'border-gray-300'
+                          errors.serviceType ? 'border-red' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const serviceItem = JSON.parse(e.target.value);
@@ -444,9 +442,7 @@ const MasterPackage = MasterPackageHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.packageCode
-                            ? 'border-red-500'
-                            : 'border-gray-300'
+                          errors.packageCode ? 'border-red' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const packageItem = JSON.parse(e.target.value);
@@ -666,9 +662,7 @@ const MasterPackage = MasterPackageHOC(
                         value={value}
                         disabled={true}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.panelName
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.panelName ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                       >
                         <option selected>
@@ -693,7 +687,7 @@ const MasterPackage = MasterPackageHOC(
                       <select
                         // value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -1063,7 +1057,7 @@ const MasterPackage = MasterPackageHOC(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

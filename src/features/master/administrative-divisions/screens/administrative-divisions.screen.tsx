@@ -322,7 +322,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sbu ? 'border-red-500  ' : 'border-gray-300'
+                          errors.sbu ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const sbu = e.target.value;
@@ -356,7 +356,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.zone ? 'border-red-500  ' : 'border-gray-300'
+                          errors.zone ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const zone = e.target.value;
@@ -399,7 +399,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {

@@ -252,9 +252,7 @@ export const PriceList = PriceListHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.priceGroup
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.priceGroup ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const priceGroup = e.target.value as string;
@@ -413,7 +411,7 @@ export const PriceList = PriceListHoc(
                           value={value}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceList
-                              ? 'border-red-500  '
+                              ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
@@ -558,7 +556,7 @@ export const PriceList = PriceListHoc(
                           : 'Panel Name'
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelName ? 'border-red-500' : 'border-gray-300'
+                        errors.panelName ? 'border-red' : 'border-gray-300'
                       } rounded-md`}
                       hasError={!!errors.panelName}
                     />
@@ -682,7 +680,7 @@ export const PriceList = PriceListHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -841,7 +839,7 @@ export const PriceList = PriceListHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

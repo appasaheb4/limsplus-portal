@@ -245,7 +245,7 @@ export const PossibleResults = PossibleResultHoc(
                 />
 
                 <Form.InputWrapper label='Conclusion Value'>
-                  <Grid cols={5}>
+                  <div className='flex flex-row gap-4'>
                     <Controller
                       control={control}
                       render={({field: {onChange, value}}) => (
@@ -385,6 +385,10 @@ export const PossibleResults = PossibleResultHoc(
                               abNormal: false,
                               critical: false,
                             });
+                            setValue('result', '');
+                            setValue('possibleValue', '');
+                            setValue('abNormal', false);
+                            setValue('critical', false);
                           }
                         }}
                       >
@@ -393,7 +397,7 @@ export const PossibleResults = PossibleResultHoc(
                       </Buttons.Button>
                     </div>
                     <div className='clearfix'></div>
-                  </Grid>
+                  </div>
                   <List space={2} direction='row' justify='center'>
                     <div>
                       {possibleResultsStore.possibleResults?.conclusionResult?.map(
@@ -444,9 +448,7 @@ export const PossibleResults = PossibleResultHoc(
                       <select
                         // value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.defaultLab
-                            ? 'border-red-500'
-                            : 'border-gray-300'
+                          errors.defaultLab ? 'border-red' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           let defaultConclusion = JSON.parse(e.target.value);
@@ -495,7 +497,7 @@ export const PossibleResults = PossibleResultHoc(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={
@@ -662,7 +664,7 @@ export const PossibleResults = PossibleResultHoc(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;

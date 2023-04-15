@@ -262,7 +262,7 @@ const TestMater = TestMasterHOC(
                             : false
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.rLab ? 'border-red-500' : 'border-gray-300'
+                          errors.rLab ? 'border-red' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const rLab = e.target.value as string;
@@ -399,9 +399,7 @@ const TestMater = TestMasterHOC(
                         <select
                           value={value}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.section
-                              ? 'border-red-500  '
-                              : 'border-gray-300'
+                            errors.section ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
                             const section = JSON.parse(e.target.value) as any;
@@ -659,7 +657,7 @@ const TestMater = TestMasterHOC(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.validationLevel
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -697,9 +695,7 @@ const TestMater = TestMasterHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.processing
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.processing ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const processing = e.target.value;
@@ -808,7 +804,7 @@ const TestMater = TestMasterHOC(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.sampleRunOn
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -847,9 +843,7 @@ const TestMater = TestMasterHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.workflow
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.workflow ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const workflow = e.target.value as string;
@@ -1144,9 +1138,7 @@ const TestMater = TestMasterHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.testType
-                            ? 'border-red-500  '
-                            : 'border-gray-300'
+                          errors.testType ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const testType = e.target.value as string;
@@ -1184,7 +1176,7 @@ const TestMater = TestMasterHOC(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.workflowCode
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -1261,7 +1253,7 @@ const TestMater = TestMasterHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.prefix ? 'border-red-500  ' : 'border-gray-300'
+                          errors.prefix ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const prefix = e.target.value;
@@ -1306,7 +1298,7 @@ const TestMater = TestMasterHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sufix ? 'border-red-500  ' : 'border-gray-300'
+                          errors.sufix ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const sufix = e.target.value;
@@ -1589,7 +1581,7 @@ const TestMater = TestMasterHOC(
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red-500  ' : 'border-gray-300'
+                          errors.status ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
                           const status = e.target.value;
@@ -1791,7 +1783,7 @@ const TestMater = TestMasterHOC(
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? 'border-red-500  '
+                            ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         disabled={

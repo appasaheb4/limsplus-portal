@@ -1,11 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {
-  PdfView,
-  PdfBorderView,
-  PdfGrid,
-  PdfSmall,
-} from '@components';
+import {PdfView, PdfBorderView, PdfGrid, PdfSmall} from '@components';
 import {observer} from 'mobx-react';
 import {getAgeUnits, getSex} from '@/core-utils';
 
@@ -16,7 +11,7 @@ interface PdfPatientDetailsProps {
 export const PdfPatientDetails = observer(
   ({data: patientReports}: PdfPatientDetailsProps) => {
     return (
-      <PdfBorderView mv={10} fixed>
+      <PdfBorderView mv={16} fixed>
         <PdfView mh={10} p={0} flexDirection='row'>
           <PdfGrid cols={3} bg='transparent'>
             <PdfSmall>{`Name: ${patientReports?.title || ''} ${

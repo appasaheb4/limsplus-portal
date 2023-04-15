@@ -65,7 +65,7 @@ export const PdfTemp0004 = ({
         <PdfResultList data={patientReports?.patientResultList} />
         <PdfPageNumber
           style={{textAlign: 'center', right: '45%'}}
-          bottom={77}
+          bottom={80}
         />
         <PdfFooterView fixed bg='transparent' style={{height: 90}} p={0}>
           {isWithHeader && <Footer />}
