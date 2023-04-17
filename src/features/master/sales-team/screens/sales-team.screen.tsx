@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -40,15 +40,19 @@ export const SalesTeam = SalesTeamHoc(
       reset,
     } = useForm();
 
-    setValue('environment', salesTeamStore.salesTeam?.environment);
-    setValue('status', salesTeamStore.salesTeam?.status);
-    setValue('dateExpire', salesTeamStore.salesTeam?.dateExpire);
-    setValue('version', salesTeamStore.salesTeam?.version);
-    setValue('dateCreation', salesTeamStore.salesTeam?.dateCreation);
-    setValue('dateActive', salesTeamStore.salesTeam?.dateActive);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', salesTeamStore.salesTeam?.environment);
+      setValue('status', salesTeamStore.salesTeam?.status);
+      setValue('dateExpire', salesTeamStore.salesTeam?.dateExpire);
+      setValue('version', salesTeamStore.salesTeam?.version);
+      setValue('dateCreation', salesTeamStore.salesTeam?.dateCreation);
+      setValue('dateActive', salesTeamStore.salesTeam?.dateActive);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitSalesTeam = () => {
       if (!salesTeamStore.checkExistsRecord) {

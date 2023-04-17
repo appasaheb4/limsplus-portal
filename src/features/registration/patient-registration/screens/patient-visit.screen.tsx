@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import {Table} from 'reactstrap';
 import _ from 'lodash';
@@ -74,20 +74,23 @@ export const PatientVisit = PatientVisitHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
-    setValue('visitDate', patientVisitStore.patientVisit.visitDate);
-    setValue(
-      'registrationDate',
-      patientVisitStore.patientVisit.registrationDate,
-    );
-    setValue('dateReceived', patientVisitStore.patientVisit.collectionDate);
-    setValue('reportPriority', patientVisitStore.patientVisit.reportPriority);
-    setValue('visitId', patientVisitStore.patientVisit.visitId);
-    setValue('labId', patientVisitStore.patientVisit.labId);
-    setValue('status', patientVisitStore.patientVisit?.status);
-    setValue(
-      'environment',
-      patientVisitStore.patientVisit.extraData?.environment,
-    );
+    useEffect(() => {
+      // Default value initialization
+      setValue('visitDate', patientVisitStore.patientVisit.visitDate);
+      setValue(
+        'registrationDate',
+        patientVisitStore.patientVisit.registrationDate,
+      );
+      setValue('dateReceived', patientVisitStore.patientVisit.collectionDate);
+      setValue('reportPriority', patientVisitStore.patientVisit.reportPriority);
+      setValue('visitId', patientVisitStore.patientVisit.visitId);
+      setValue('labId', patientVisitStore.patientVisit.labId);
+      setValue('status', patientVisitStore.patientVisit?.status);
+      setValue(
+        'environment',
+        patientVisitStore.patientVisit.extraData?.environment,
+      );
+    }, []);
 
     const onSubmitPatientVisit = async () => {
       if (

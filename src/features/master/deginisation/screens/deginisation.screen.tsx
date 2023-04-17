@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -31,10 +31,15 @@ const Deginisation = DeginisationHoc(
       setValue,
       reset,
     } = useForm();
-    setValue('environment', deginisationStore.deginisation?.environment);
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDeginisation, setHideAddDeginisation] =
       useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', deginisationStore.deginisation?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitDesginiation = () => {
       if (!deginisationStore.checkExitsCode) {

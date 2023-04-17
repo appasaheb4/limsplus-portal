@@ -36,19 +36,29 @@ export const PossibleResults = PossibleResultHoc(
       reset,
     } = useForm();
 
-    setValue('environment', possibleResultsStore.possibleResults?.environment);
-    setValue('status', possibleResultsStore.possibleResults?.status);
-    setValue('dateExpire', possibleResultsStore.possibleResults?.dateExpire);
-    setValue('version', possibleResultsStore.possibleResults?.version);
-    setValue(
-      'dateCreation',
-      possibleResultsStore.possibleResults?.dateCreation,
-    );
-    setValue('dateActive', possibleResultsStore.possibleResults?.dateActive);
-    setValue('analyteName', possibleResultsStore.possibleResults?.analyteName);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLookup, setHideAddLookup] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'environment',
+        possibleResultsStore.possibleResults?.environment,
+      );
+      setValue('status', possibleResultsStore.possibleResults?.status);
+      setValue('dateExpire', possibleResultsStore.possibleResults?.dateExpire);
+      setValue('version', possibleResultsStore.possibleResults?.version);
+      setValue(
+        'dateCreation',
+        possibleResultsStore.possibleResults?.dateCreation,
+      );
+      setValue('dateActive', possibleResultsStore.possibleResults?.dateActive);
+      setValue(
+        'analyteName',
+        possibleResultsStore.possibleResults?.analyteName,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitPossibleResult = () => {
       if (!possibleResultsStore.checkExistsRecords) {
@@ -831,3 +841,6 @@ export const PossibleResults = PossibleResultHoc(
 );
 
 export default PossibleResults;
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}

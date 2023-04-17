@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -34,13 +34,17 @@ const DeliverySchedule = DeliveryScheduleHoc(
       reset,
     } = useForm();
 
-    setValue(
-      'environment',
-      deliveryScheduleStore.deliverySchedule?.environment,
-    );
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'environment',
+        deliveryScheduleStore.deliverySchedule?.environment,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitDeliverySchedule = () => {
       if (!deliveryScheduleStore.checkExistsEnvCode) {

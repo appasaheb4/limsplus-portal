@@ -54,6 +54,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     } = useForm();
 
     useEffect(() => {
+      // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', testPanelMappingStore.testPanelMapping?.status);
       setValue(

@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Header,
@@ -34,8 +34,13 @@ const NoticeBoard = NoticeBoardHoc(
       setValue,
       reset,
     } = useForm();
-    setValue('lab', loginStore.login.lab);
     const [modalConfirm, setModalConfirm] = useState<any>();
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('lab', loginStore.login.lab);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const onNoticeBoardSubmit = () => {
       noticeBoardStore.NoticeBoardService.addNoticeBoard({
         input: {

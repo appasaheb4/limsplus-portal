@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Tooltip,
@@ -15,10 +15,7 @@ import '@/library/assets/css/accordion.css';
 import {useStores} from '@/stores';
 import {logos} from '@/library/assets';
 
-import {
-  ADCPdf,
-  ADCMedicalReportPdf,
-} from '../components';
+import {ADCPdf, ADCMedicalReportPdf} from '../components';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 
@@ -38,7 +35,11 @@ const ReportTemplate = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  setValue('species', patientManagerStore.patientManger.species);
+  useEffect(() => {
+    // Default value initialization
+    setValue('species', patientManagerStore.patientManger.species);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const templates = [
     {

@@ -44,27 +44,30 @@ const Payment = PaymentHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
-
-    setValue('modeOfPayment', paymentStore.payment?.modeOfPayment);
-    setValue('invoiceAc', paymentStore.payment?.invoiceAC);
-    setValue('rLab', paymentStore.payment?.rLab);
-    setValue('customerName', paymentStore.payment?.customerName);
-    setValue('customerGroup', paymentStore.payment?.customerGroup);
-    setValue('acClass', paymentStore.payment?.acClass);
-    setValue('acType', paymentStore.payment?.acType);
-    setValue('otherCharges', paymentStore.payment?.discountCharges);
-    setValue('invoiceDate', paymentStore.payment?.invoiceDate);
-    setValue('grossAmount', paymentStore.payment?.grossAmount);
-    setValue('netAmount', paymentStore.payment?.netAmount);
-    setValue('discountAmount', paymentStore.payment?.discountAmount);
-    setValue('discountPer', paymentStore.payment?.discountPer);
-    setValue(
-      'miscellaneousCharges',
-      paymentStore.payment?.miscellaneousCharges,
-    );
-    setValue('amountPayable', paymentStore.payment?.amountPayable);
-    setValue('status', paymentStore.payment?.status);
-    setValue('balance', paymentStore.payment?.balance);
+    useEffect(() => {
+      // Default value initialization
+      setValue('modeOfPayment', paymentStore.payment?.modeOfPayment);
+      setValue('invoiceAc', paymentStore.payment?.invoiceAC);
+      setValue('rLab', paymentStore.payment?.rLab);
+      setValue('customerName', paymentStore.payment?.customerName);
+      setValue('customerGroup', paymentStore.payment?.customerGroup);
+      setValue('acClass', paymentStore.payment?.acClass);
+      setValue('acType', paymentStore.payment?.acType);
+      setValue('otherCharges', paymentStore.payment?.discountCharges);
+      setValue('invoiceDate', paymentStore.payment?.invoiceDate);
+      setValue('grossAmount', paymentStore.payment?.grossAmount);
+      setValue('netAmount', paymentStore.payment?.netAmount);
+      setValue('discountAmount', paymentStore.payment?.discountAmount);
+      setValue('discountPer', paymentStore.payment?.discountPer);
+      setValue(
+        'miscellaneousCharges',
+        paymentStore.payment?.miscellaneousCharges,
+      );
+      setValue('amountPayable', paymentStore.payment?.amountPayable);
+      setValue('status', paymentStore.payment?.status);
+      setValue('balance', paymentStore.payment?.balance);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
       paymentStore.updatePayment({

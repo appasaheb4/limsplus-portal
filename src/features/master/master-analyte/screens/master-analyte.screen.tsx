@@ -50,6 +50,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     } = useForm();
 
     useEffect(() => {
+      // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
       setValue('status', masterAnalyteStore.masterAnalyte?.status);

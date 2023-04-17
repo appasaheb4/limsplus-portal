@@ -47,18 +47,22 @@ export const PriceList = PriceListHoc(
       reset,
     } = useForm();
 
-    setValue('priceGroup', priceListStore.priceList?.priceGroup);
-    setValue('priceList', priceListStore.priceList?.priceList);
-    setValue('status', priceListStore.priceList?.status);
-    setValue('environment', priceListStore.priceList?.environment);
-    setValue('description', priceListStore.priceList?.description);
-    setValue('dateExpire', priceListStore.priceList?.dateExpire);
-    setValue('version', priceListStore.priceList?.version);
-    setValue('dateCreation', priceListStore.priceList?.dateCreation);
-    setValue('dateActive', priceListStore.priceList?.dateActive);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('priceGroup', priceListStore.priceList?.priceGroup);
+      setValue('priceList', priceListStore.priceList?.priceList);
+      setValue('status', priceListStore.priceList?.status);
+      setValue('environment', priceListStore.priceList?.environment);
+      setValue('description', priceListStore.priceList?.description);
+      setValue('dateExpire', priceListStore.priceList?.dateExpire);
+      setValue('version', priceListStore.priceList?.version);
+      setValue('dateCreation', priceListStore.priceList?.dateCreation);
+      setValue('dateActive', priceListStore.priceList?.dateActive);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitPriceList = async () => {
       if (!priceListStore.checkExitsPriceGEnvLabCode) {
@@ -1091,3 +1095,6 @@ export const PriceList = PriceListHoc(
   }),
 );
 export default PriceList;
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}

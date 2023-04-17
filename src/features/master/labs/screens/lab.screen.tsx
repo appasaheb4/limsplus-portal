@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -43,22 +43,26 @@ const Lab = LabHoc(
       reset,
     } = useForm();
 
-    setValue('environment', labStore.labs?.environment);
-    setValue('status', labStore.labs?.status);
-    setValue('country', labStore.labs?.country);
-    setValue('state', labStore.labs?.state);
-    setValue('district', labStore.labs?.district);
-    setValue('city', labStore.labs?.city);
-    setValue('area', labStore.labs?.area);
-    setValue('labType', labStore.labs?.labType);
-    setValue('openingTime', labStore.labs?.openingTime);
-    setValue('closingTime', labStore.labs?.closingTime);
-    setValue('reportFormat', labStore.labs?.reportFormat);
-    setValue('specificFormat', labStore.labs?.specificFormat);
-    setValue('priceList', labStore.labs?.priceList);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', labStore.labs?.environment);
+      setValue('status', labStore.labs?.status);
+      setValue('country', labStore.labs?.country);
+      setValue('state', labStore.labs?.state);
+      setValue('district', labStore.labs?.district);
+      setValue('city', labStore.labs?.city);
+      setValue('area', labStore.labs?.area);
+      setValue('labType', labStore.labs?.labType);
+      setValue('openingTime', labStore.labs?.openingTime);
+      setValue('closingTime', labStore.labs?.closingTime);
+      setValue('reportFormat', labStore.labs?.reportFormat);
+      setValue('specificFormat', labStore.labs?.specificFormat);
+      setValue('priceList', labStore.labs?.priceList);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitLab = () => {
       if (!labStore.checkExitsEnvCode) {

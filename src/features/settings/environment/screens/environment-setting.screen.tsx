@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -44,9 +44,14 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       setValue,
       reset,
     } = useForm();
-    setValue('environment', loginStore.login.environment);
 
     const [hideInputView, setHideInputView] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', loginStore.login.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitSessionManagement = () => {
       if (!environmentStore.checkExistsEnvSettingsRecord) {

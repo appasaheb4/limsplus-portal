@@ -31,10 +31,17 @@ const Methods = MethodsHoc(
       setValue,
       reset,
     } = useForm();
-    setValue('status', methodsStore.methods?.status);
-    setValue('environment', methodsStore.methods?.environment);
+
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('status', methodsStore.methods?.status);
+      setValue('environment', methodsStore.methods?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const onSubmitMethods = () => {
       if (!methodsStore.checkExitsEnvCode) {
         methodsStore.methodsService
@@ -422,3 +429,6 @@ const Methods = MethodsHoc(
 );
 
 export default Methods;
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}

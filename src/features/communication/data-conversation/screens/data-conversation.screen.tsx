@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -33,11 +33,14 @@ const DataConversation = DataConversationHoc(
       setValue,
       reset,
     } = useForm();
-
-    setValue(
-      'environment',
-      dataConversationStore.dataConversation?.environment,
-    );
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'environment',
+        dataConversationStore.dataConversation?.environment,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDataConversation, setHideAddDataConversation] =
       useState<boolean>(true);

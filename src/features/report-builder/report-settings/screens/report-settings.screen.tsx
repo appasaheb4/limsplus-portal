@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {Header, PageHeading, PageHeadingLabDetails} from '@/library/components';
 import {useForm} from 'react-hook-form';
@@ -29,8 +29,11 @@ const ReportSettings = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-
-  setValue('species', patientManagerStore.patientManger.species);
+  useEffect(() => {
+    // Default value initialization
+    setValue('species', patientManagerStore.patientManger.species);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

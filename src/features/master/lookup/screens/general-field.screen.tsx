@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useForm, Controller} from 'react-hook-form';
 
@@ -36,7 +36,6 @@ export const GeneralField = GeneralFieldHoc(
       setValue,
       reset,
     } = useForm();
-    setValue('environment', lookupStore.globalSettings?.environment);
     const onSubmitGeneralFiled = (data: any) => {
       lookupStore.LookupService.generalSettingsUpdate({
         input: {
@@ -53,6 +52,12 @@ export const GeneralField = GeneralFieldHoc(
         }
       });
     };
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', lookupStore.globalSettings?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
       <>

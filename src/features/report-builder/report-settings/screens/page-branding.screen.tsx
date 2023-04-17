@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -53,8 +53,12 @@ export const PageBranding = observer(() => {
   const [isInputView, setIsInputView] = useState<boolean>(false);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
   const [isClearReset, setClearReset] = useState<boolean>(false);
-  setValue('subHeaderVisible', reportSettingStore.pageBranding?.isSubHeader);
-  6;
+
+  useEffect(() => {
+    // Default value initialization
+    setValue('subHeaderVisible', reportSettingStore.pageBranding?.isSubHeader);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({
