@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -41,12 +41,16 @@ export const Department = DeginisationHoc(
       reset,
     } = useForm();
 
-    setValue('lab', loginStore.login.lab);
-    setValue('environment', departmentStore.department?.environment);
-    setValue('status', departmentStore.department?.status);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('lab', loginStore.login.lab);
+      setValue('environment', departmentStore.department?.environment);
+      setValue('status', departmentStore.department?.status);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitDepartment = () => {
       if (!departmentStore.checkExitsCode) {

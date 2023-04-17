@@ -61,31 +61,35 @@ const MasterPackage = MasterPackageHOC(
       reset,
     } = useForm();
 
-    setValue('lab', loginStore.login.lab);
-    setValue('status', masterPackageStore.masterPackage?.status);
-    setValue('environment', masterPackageStore.masterPackage?.environment);
-    setValue('dateCreation', masterPackageStore.masterPackage?.dateCreation);
-    setValue('dateExpire', masterPackageStore.masterPackage?.dateExpire);
-    setValue('version', masterPackageStore.masterPackage?.version);
-    setValue('dateActive', masterPackageStore.masterPackage?.dateActive);
-    setValue(
-      'printPanelName',
-      masterPackageStore.masterPackage?.printPanelName,
-    );
-    setValue(
-      'packageInterpretation',
-      masterPackageStore.masterPackage?.packageInterpretation,
-    );
-    setValue(
-      'panelInterpretation',
-      masterPackageStore.masterPackage?.panelInterpretation,
-    );
-    setValue('panelName', masterPackageStore.masterPackage?.panelName);
-    setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('lab', loginStore.login.lab);
+      setValue('status', masterPackageStore.masterPackage?.status);
+      setValue('environment', masterPackageStore.masterPackage?.environment);
+      setValue('dateCreation', masterPackageStore.masterPackage?.dateCreation);
+      setValue('dateExpire', masterPackageStore.masterPackage?.dateExpire);
+      setValue('version', masterPackageStore.masterPackage?.version);
+      setValue('dateActive', masterPackageStore.masterPackage?.dateActive);
+      setValue(
+        'printPanelName',
+        masterPackageStore.masterPackage?.printPanelName,
+      );
+      setValue(
+        'packageInterpretation',
+        masterPackageStore.masterPackage?.packageInterpretation,
+      );
+      setValue(
+        'panelInterpretation',
+        masterPackageStore.masterPackage?.panelInterpretation,
+      );
+      setValue('panelName', masterPackageStore.masterPackage?.panelName);
+      setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const getServiceTypes = (fileds: any) => {
       if (fileds) {
@@ -1301,3 +1305,6 @@ const MasterPackage = MasterPackageHOC(
 );
 
 export default MasterPackage;
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}

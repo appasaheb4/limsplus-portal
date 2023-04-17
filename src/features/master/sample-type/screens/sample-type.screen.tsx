@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -33,10 +33,14 @@ const SampleType = SampleTypeHoc(
       reset,
     } = useForm();
 
-    setValue('environment', sampleTypeStore.sampleType?.environment);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', sampleTypeStore.sampleType?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitSampleType = () => {
       if (!sampleTypeStore.checkExitsEnvCode) {

@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -47,24 +47,28 @@ const TestMater = TestMasterHOC(
       reset,
     } = useForm();
 
-    setValue('rLab', loginStore.login.lab);
-    setValue('status', testMasterStore.testMaster?.status);
-    setValue('environment', testMasterStore.testMaster?.environment);
-    setValue('validationLevel', testMasterStore.testMaster?.validationLevel);
-    setValue('processing', testMasterStore.testMaster?.processing);
-    setValue('workflow', testMasterStore.testMaster?.workflow);
-    setValue('disease', testMasterStore.testMaster?.disease);
-    setValue('category', testMasterStore.testMaster?.category);
-    setValue('testType', testMasterStore.testMaster?.testType);
-    setValue('prefix', testMasterStore.testMaster?.prefix);
-    setValue('sufix', testMasterStore.testMaster?.sufix);
-    setValue('dateCreation', testMasterStore.testMaster?.dateCreation);
-    setValue('dateExpire', testMasterStore.testMaster?.dateExpire);
-    setValue('version', testMasterStore.testMaster?.version);
-    setValue('dateActive', testMasterStore.testMaster?.dateActive);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('rLab', loginStore.login.lab);
+      setValue('status', testMasterStore.testMaster?.status);
+      setValue('environment', testMasterStore.testMaster?.environment);
+      setValue('validationLevel', testMasterStore.testMaster?.validationLevel);
+      setValue('processing', testMasterStore.testMaster?.processing);
+      setValue('workflow', testMasterStore.testMaster?.workflow);
+      setValue('disease', testMasterStore.testMaster?.disease);
+      setValue('category', testMasterStore.testMaster?.category);
+      setValue('testType', testMasterStore.testMaster?.testType);
+      setValue('prefix', testMasterStore.testMaster?.prefix);
+      setValue('sufix', testMasterStore.testMaster?.sufix);
+      setValue('dateCreation', testMasterStore.testMaster?.dateCreation);
+      setValue('dateExpire', testMasterStore.testMaster?.dateExpire);
+      setValue('version', testMasterStore.testMaster?.version);
+      setValue('dateActive', testMasterStore.testMaster?.dateActive);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const onSubmitTestMaster = () => {
       if (!testMasterStore.checkExitsLabEnvCode) {
         if (

@@ -36,7 +36,6 @@ export const DocumentSettings = DocumentSettingHoc(
       reset,
     } = useForm();
 
-    setValue('environment', lookupStore.lookup?.environment);
     const onSubmitNewField = (data: any) => {
       if (
         lookupStore.localInput.value === '' &&
@@ -60,6 +59,12 @@ export const DocumentSettings = DocumentSettingHoc(
         });
       }
     };
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', lookupStore.lookup?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
       <div className={'p-2 rounded-lg shadow-xl'}>
@@ -381,3 +386,6 @@ export const DocumentSettings = DocumentSettingHoc(
     );
   }),
 );
+function useEffect(arg0: () => void, arg1: never[]) {
+  throw new Error('Function not implemented.');
+}

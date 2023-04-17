@@ -34,12 +34,17 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     setError,
     reset,
   } = useForm({mode: 'all'});
-  setValue('species', refernceRangesStore.referenceRanges?.species);
-  setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
 
   const [isDisableLab, setIsDisableLab] = useState<boolean>(false);
   const [isDisableEquipmentType, setIsDisableEquipmentType] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    // Default value initialization
+    setValue('species', refernceRangesStore.referenceRanges?.species);
+    setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     switch (refernceRangesStore.referenceRanges?.rangeSetOn) {
       case 'I':

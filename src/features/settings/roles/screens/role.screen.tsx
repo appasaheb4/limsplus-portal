@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Header,
@@ -31,10 +31,15 @@ const Role = RolesHoc(
       setValue,
       reset,
     } = useForm();
-    setValue('environment', roleStore.role?.environment);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddRole, setHideAddRole] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', roleStore.role?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitRoles = () => {
       if (!roleStore.checkExitsCode) {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 
 import {
@@ -32,7 +32,11 @@ const Banner = BannerHoc(
       setValue,
       reset,
     } = useForm();
-    setValue('environment', bannerStore.banner?.environment);
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', bannerStore.banner?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);

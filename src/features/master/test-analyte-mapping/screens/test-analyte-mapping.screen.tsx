@@ -52,35 +52,39 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       reset,
     } = useForm();
 
-    setValue('lab', loginStore.login.lab);
-    setValue('status', testAnalyteMappingStore.testAnalyteMapping?.status);
-    setValue(
-      'environment',
-      testAnalyteMappingStore.testAnalyteMapping?.environment,
-    );
-    setValue(
-      'dateCreation',
-      testAnalyteMappingStore.testAnalyteMapping?.dateCreation,
-    );
-    setValue(
-      'dateActive',
-      testAnalyteMappingStore.testAnalyteMapping?.dateActive,
-    );
-    setValue('version', testAnalyteMappingStore.testAnalyteMapping?.version);
-    setValue(
-      'dateExpire',
-      testAnalyteMappingStore.testAnalyteMapping?.dateExpire,
-    );
-    setValue(
-      'testMethod',
-      testAnalyteMappingStore.testAnalyteMapping?.testMethod,
-    );
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
     const [instResultMappingRecords, setInstResultMappingRecords] =
       useState<any>();
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('lab', loginStore.login.lab);
+      setValue('status', testAnalyteMappingStore.testAnalyteMapping?.status);
+      setValue(
+        'environment',
+        testAnalyteMappingStore.testAnalyteMapping?.environment,
+      );
+      setValue(
+        'dateCreation',
+        testAnalyteMappingStore.testAnalyteMapping?.dateCreation,
+      );
+      setValue(
+        'dateActive',
+        testAnalyteMappingStore.testAnalyteMapping?.dateActive,
+      );
+      setValue('version', testAnalyteMappingStore.testAnalyteMapping?.version);
+      setValue(
+        'dateExpire',
+        testAnalyteMappingStore.testAnalyteMapping?.dateExpire,
+      );
+      setValue(
+        'testMethod',
+        testAnalyteMappingStore.testAnalyteMapping?.testMethod,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitTestAnalyteMapping = () => {
       if (!testAnalyteMappingStore.checkExitsLabEnvCode) {
