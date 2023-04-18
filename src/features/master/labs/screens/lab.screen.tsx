@@ -47,7 +47,6 @@ const Lab = LabHoc(
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
 
     useEffect(() => {
-      // Default value initialization
       setValue('environment', labStore.labs?.environment);
       setValue('status', labStore.labs?.status);
       setValue('country', labStore.labs?.country);

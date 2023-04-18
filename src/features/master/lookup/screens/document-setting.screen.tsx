@@ -60,11 +60,7 @@ export const DocumentSettings = DocumentSettingHoc(
       }
     };
 
-    useEffect(() => {
-      // Default value initialization
-      setValue('environment', lookupStore.lookup?.environment);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    setValue('environment', lookupStore.lookup?.environment);
 
     return (
       <div className={'p-2 rounded-lg shadow-xl'}>
