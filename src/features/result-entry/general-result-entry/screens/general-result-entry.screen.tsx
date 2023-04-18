@@ -106,6 +106,8 @@ const GeneralResultEntry = observer(() => {
           _id: id,
           __v: undefined,
           flagUpdate: undefined,
+          testReportOrder: undefined,
+          analyteReportOrder: undefined,
         },
       })
       .then(res => {
