@@ -1,4 +1,5 @@
 import {makeObservable, action, observable, computed} from 'mobx';
+import _ from 'lodash';
 import {PatientResultService} from '../services';
 import {PatientResult} from '../models';
 
@@ -60,24 +61,48 @@ export class PatientResultStore {
 
   updatePatientResultNotAutoUpdate(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.patientResultsNotAutoUpdate.success)
+      if (!res.patientResultsNotAutoUpdate.success) {
         return alert(res.patientResultsNotAutoUpdate.message);
-      this.patientResultListNotAutoUpdate =
-        res.patientResultsNotAutoUpdate.patientResultList;
-      this.patientResultListNotAutoUpdateCount =
-        res.patientResultsNotAutoUpdate.paginatorInfo.count;
+      } else {
+        let data: any = res.patientResultsNotAutoUpdate.patientResultList;
+        data = data.map(item => {
+          return {
+            ...item,
+            testReportOrder: item?.extraData?.testReportOrder,
+            analyteReportOrder: item?.extraData?.analyteReportOrder,
+          };
+        });
+        data = _.sortBy(data, [
+          'labId',
+          'testReportOrder',
+          'analyteReportOrder',
+        ]);
+        this.patientResultListNotAutoUpdate = data;
+        this.patientResultListNotAutoUpdateCount =
+          res.patientResultsNotAutoUpdate.paginatorInfo.count;
+      }
     } else {
       this.patientResultListNotAutoUpdate = res;
     }
   }
 
   updatePatientResultListWithLabId(res: any) {
-    if (!res.patientResultsWithLabId.success)
+    if (!res.patientResultsWithLabId.success) {
       return alert(res.patientResultsWithLabId.message);
-    this.patientResultListWithLabId =
-      res.patientResultsWithLabId.patientResultList;
-    this.patientResultTestCount =
-      res.patientResultsWithLabId.paginatorInfo.count;
+    } else {
+      let data: any = res.patientResultsWithLabId.patientResultList;
+      data = data.map(item => {
+        return {
+          ...item,
+          testReportOrder: item?.extraData?.testReportOrder,
+          analyteReportOrder: item?.extraData?.analyteReportOrder,
+        };
+      });
+      data = _.sortBy(data, ['labId', 'testReportOrder', 'analyteReportOrder']);
+      this.patientResultListWithLabId = data;
+      this.patientResultTestCount =
+        res.patientResultsWithLabId.paginatorInfo.count;
+    }
   }
 
   filterPatientResultListWithLabid(res: any) {

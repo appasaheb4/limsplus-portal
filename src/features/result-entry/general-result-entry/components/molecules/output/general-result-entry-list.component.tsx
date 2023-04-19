@@ -208,7 +208,16 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       disabled={!editorCell(row)}
                       value={row.reportable}
                       onChange={reportable => {
-                        props.onUpdateValue({reportable}, row._id);
+                        // props.onUpdateValue({reportable}, row._id);
+                        props.onSaveFields &&
+                          props.onSaveFields(
+                            {
+                              ...row,
+                              reportable,
+                            },
+                            row._id,
+                            'save',
+                          );
                       }}
                     />
                   </>
