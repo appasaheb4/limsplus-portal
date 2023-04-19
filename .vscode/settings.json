@@ -1,4 +1,5 @@
 {
   "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
-  "appService.deploySubpath": "."
+  "appService.deploySubpath": ".",
+  "cSpell.words": ["PLAB"]
 }

@@ -6,11 +6,7 @@ interface GridProps {
 }
 
 export const Grid: React.FunctionComponent<GridProps> = props => (
-  <div
-    className={`xl:grid sm:inline-block grid-cols-${
-      props.cols || 1
-    } gap-3 flex-1`}
-  >
+  <div className={`xl:grid sm:inline-block grid-cols-${props.cols || 1} gap-3`}>
     {props.children}
   </div>
 );

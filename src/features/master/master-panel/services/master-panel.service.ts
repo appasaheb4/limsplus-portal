@@ -20,6 +20,7 @@ import {
   FILTER,
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
+  FILTER_BY_FIELDS_SPECIFIC_PLAB,
 } from './mutation';
 
 export class MasterPanelService {
@@ -192,6 +193,35 @@ export class MasterPanelService {
               paginatorInfo: {
                 count:
                   response.data.filterByFieldsPanelMaster.paginatorInfo.count,
+              },
+            },
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByFieldsSpecificPLab = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS_SPECIFIC_PLAB,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsSpecificPLabPanelMaster.success)
+            return this.listPanelMaster();
+          stores.masterPanelStore.filterPanelMasterList({
+            filterPanelMaster: {
+              data: response.data.filterByFieldsSpecificPLabPanelMaster.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsSpecificPLabPanelMaster
+                    .paginatorInfo.count,
               },
             },
           });

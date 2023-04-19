@@ -282,6 +282,82 @@ export const FILTER_BY_FIELDS = gql`
   }
 `;
 
+export const FILTER_BY_FIELDS_SPECIFIC_PLAB = gql`
+  mutation ($input: PanelMasterInput!) {
+    filterByFieldsSpecificPLabPanelMaster(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        rLab
+        pLab
+        department
+        section
+        panelCode
+        panelName
+        description
+        shortName
+        bill
+        price
+        schedule
+        autoRelease
+        holdOOS
+        validationLevel
+        confidential
+        urgent
+        reportGroup
+        reportOrder
+        ageAction
+        hiAge
+        loAge
+        sexAction
+        sex
+        actionMessage
+        ageSexAction
+        processing
+        category
+        suffix
+        serviceType
+        panelType
+        repitation
+        tubeGroup
+        printLabel
+        labelInstruction
+        pageBreak
+        method
+        panelMethodCode
+        panelMethodName
+        workflow
+        cumulative
+        reportTemplate
+        reportTemplateOrder
+        sampleType
+        specalInstructions
+        interpretation
+        internalComments
+        externalComments
+        panelBottomMarker
+        panelRightMarker
+        externalPanelCode
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: PanelMasterInput!) {
     findByFieldsPanelMaster(input: $input) {
