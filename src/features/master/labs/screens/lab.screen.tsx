@@ -61,7 +61,7 @@ const Lab = LabHoc(
       setValue('specificFormat', labStore.labs?.specificFormat);
       setValue('priceList', labStore.labs?.priceList);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [labStore.labs]);
 
     const onSubmitLab = () => {
       if (!labStore.checkExitsEnvCode) {

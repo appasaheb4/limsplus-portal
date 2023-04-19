@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {
@@ -57,8 +57,8 @@ const MasterPanel = MasterPanelHoc(
     useEffect(() => {
       // Default value initialization
       setValue('status', masterPanelStore.masterPanel?.status);
-      setValue('rLab', loginStore.login.lab);
-      setValue('pLab', loginStore.login.lab);
+      setValue('rLab', loginStore.login?.lab);
+      setValue('pLab', loginStore.login?.lab);
       setValue('environment', masterPanelStore.masterPanel?.environment);
       setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
       setValue(
@@ -77,7 +77,7 @@ const MasterPanel = MasterPanelHoc(
       setValue('dateCreation', masterPanelStore.masterPanel?.dateCreation);
       setValue('version', masterPanelStore.masterPanel?.version);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [masterPanelStore.masterPanel]);
     const onSubmitMasterPanel = () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (
@@ -2119,6 +2119,3 @@ const MasterPanel = MasterPanelHoc(
 );
 
 export default MasterPanel;
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}

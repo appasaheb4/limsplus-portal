@@ -76,7 +76,7 @@ const SidebarCategory = withRouter(
             </Badge>
           ) : null}
         </span>
-        {isOpen && title === 'MASTER SETUP' && (
+        {isOpen && (
           <ul id='item' className={`sidebar-dropdown list-unstyled `}>
             <PerfectScrollbar>
               <div style={{height: 'auto', maxHeight: '350px'}}>{children}</div>

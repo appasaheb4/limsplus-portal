@@ -60,7 +60,7 @@ export const PatientTest = PatientOrderHoc(
       // Default value initialization
       setValue('environment', patientOrderStore.patientOrder?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [patientOrderStore.patientOrder]);
     const onSubmitPatientOrder = () => {
       patientTestStore.patientTestService
         .addPatientTest({

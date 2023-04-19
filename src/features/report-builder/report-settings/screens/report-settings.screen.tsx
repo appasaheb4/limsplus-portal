@@ -33,7 +33,7 @@ const ReportSettings = observer(() => {
     // Default value initialization
     setValue('species', patientManagerStore.patientManger.species);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [patientManagerStore.patientManger]);
 
   return (
     <>

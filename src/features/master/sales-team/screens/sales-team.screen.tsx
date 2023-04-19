@@ -52,7 +52,7 @@ export const SalesTeam = SalesTeamHoc(
       setValue('dateCreation', salesTeamStore.salesTeam?.dateCreation);
       setValue('dateActive', salesTeamStore.salesTeam?.dateActive);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [salesTeamStore.salesTeam]);
 
     const onSubmitSalesTeam = () => {
       if (!salesTeamStore.checkExistsRecord) {

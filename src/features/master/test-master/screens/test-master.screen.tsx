@@ -68,7 +68,7 @@ const TestMater = TestMasterHOC(
       setValue('version', testMasterStore.testMaster?.version);
       setValue('dateActive', testMasterStore.testMaster?.dateActive);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [testMasterStore.testMaster]);
     const onSubmitTestMaster = () => {
       if (!testMasterStore.checkExitsLabEnvCode) {
         if (

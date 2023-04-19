@@ -63,7 +63,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       setValue('dateCreation', masterAnalyteStore.masterAnalyte?.dateCreation);
       setValue('dateActive', masterAnalyteStore.masterAnalyte?.dateActive);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [masterAnalyteStore.masterAnalyte]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);

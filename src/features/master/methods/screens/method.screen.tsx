@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -40,7 +40,7 @@ const Methods = MethodsHoc(
       setValue('status', methodsStore.methods?.status);
       setValue('environment', methodsStore.methods?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [methodsStore.methods]);
 
     const onSubmitMethods = () => {
       if (!methodsStore.checkExitsEnvCode) {
@@ -429,6 +429,3 @@ const Methods = MethodsHoc(
 );
 
 export default Methods;
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}

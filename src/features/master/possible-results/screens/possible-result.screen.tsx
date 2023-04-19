@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -58,7 +58,7 @@ export const PossibleResults = PossibleResultHoc(
         possibleResultsStore.possibleResults?.analyteName,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [possibleResultsStore.possibleResults]);
 
     const onSubmitPossibleResult = () => {
       if (!possibleResultsStore.checkExistsRecords) {
@@ -841,6 +841,3 @@ export const PossibleResults = PossibleResultHoc(
 );
 
 export default PossibleResults;
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}

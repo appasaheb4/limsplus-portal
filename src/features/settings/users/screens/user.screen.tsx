@@ -71,7 +71,7 @@ export const Users = UsersHoc(
       setValue('dateOfBirth', userStore.user?.dateOfBirth);
       setValue('marriageAnniversary', userStore.user?.marriageAnniversary);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userStore.user]);
 
     const onSubmitUser = (data: any) => {
       if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {

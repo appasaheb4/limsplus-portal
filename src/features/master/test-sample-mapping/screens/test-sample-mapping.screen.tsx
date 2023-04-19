@@ -68,7 +68,7 @@ const TestSampleMapping = TestSampleMappingHoc(
         testSampleMappingStore.testSampleMapping?.repentionUnits,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [testSampleMappingStore.testSampleMapping]);
 
     const onSubmitTestSampleMapping = () => {
       if (!testSampleMappingStore.checkExitsTestSampleEnvCode) {

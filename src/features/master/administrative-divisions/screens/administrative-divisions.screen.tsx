@@ -42,7 +42,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
       setValue('sbu', administrativeDivisions.administrativeDiv?.sbu);
       setValue('zone', administrativeDivisions.administrativeDiv?.zone);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [administrativeDivisions?.administrativeDiv]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);

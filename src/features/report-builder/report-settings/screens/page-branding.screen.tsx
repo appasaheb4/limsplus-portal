@@ -58,7 +58,7 @@ export const PageBranding = observer(() => {
     // Default value initialization
     setValue('subHeaderVisible', reportSettingStore.pageBranding?.isSubHeader);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reportSettingStore.pageBranding]);
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({

@@ -40,7 +40,7 @@ const SampleType = SampleTypeHoc(
       // Default value initialization
       setValue('environment', sampleTypeStore.sampleType?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [sampleTypeStore.sampleType]);
 
     const onSubmitSampleType = () => {
       if (!sampleTypeStore.checkExitsEnvCode) {

@@ -67,7 +67,7 @@ const Payment = PaymentHoc(
       setValue('status', paymentStore.payment?.status);
       setValue('balance', paymentStore.payment?.balance);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [paymentStore.payment]);
 
     useEffect(() => {
       paymentStore.updatePayment({

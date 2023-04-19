@@ -84,7 +84,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         testAnalyteMappingStore.testAnalyteMapping?.testMethod,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [testAnalyteMappingStore.testAnalyteMapping]);
 
     const onSubmitTestAnalyteMapping = () => {
       if (!testAnalyteMappingStore.checkExitsLabEnvCode) {

@@ -90,7 +90,7 @@ export const PatientVisit = PatientVisitHoc(
         'environment',
         patientVisitStore.patientVisit.extraData?.environment,
       );
-    }, []);
+    }, [patientVisitStore.patientVisit]);
 
     const onSubmitPatientVisit = async () => {
       if (

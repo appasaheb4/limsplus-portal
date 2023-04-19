@@ -43,7 +43,7 @@ const Section = SectionHoc(
       setValue('environment', sectionStore.section?.environment);
       setValue('status', sectionStore.section?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [sectionStore.section]);
 
     const onSubmitSection = () => {
       if (!sectionStore.checkExitsEnvCode) {

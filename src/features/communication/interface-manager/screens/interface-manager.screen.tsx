@@ -44,7 +44,7 @@ const InterfaceManager = InterfaceManagerHoc(
       );
       setValue('protocol', interfaceManagerStore.interfaceManager?.protocol);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [interfaceManagerStore.interfaceManager]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddInterfaceManager, setHideAddInterfaceManager] =
