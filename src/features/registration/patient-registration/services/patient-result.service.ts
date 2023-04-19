@@ -180,23 +180,38 @@ export class PatientResultService {
           },
         })
         .then((response: any) => {
-          if (!response.data.patientResultListForGenResEntry.success)
+          if (!response.data.patientResultListForGenResEntry.success) {
             return this.listPatientResultNotAutoUpdate({
               pLab: stores.loginStore.login?.lab,
               resultStatus: 'P',
               testStatus: 'P',
             });
-          stores.patientResultStore.patientResultListForGeneralResEntry({
-            patientResultListForGenResEntry: {
-              patientResultList:
-                response.data.patientResultListForGenResEntry.patientResultList,
-              paginatorInfo: {
-                count:
-                  response.data.patientResultListForGenResEntry.paginatorInfo
-                    .count,
+          } else {
+            let data: any =
+              response.data.patientResultListForGenResEntry.patientResultList;
+            data = data.map(item => {
+              return {
+                ...item,
+                testReportOrder: item?.extraData?.testReportOrder,
+                analyteReportOrder: item?.extraData?.analyteReportOrder,
+              };
+            });
+            data = _.sortBy(data, [
+              'labId',
+              'testReportOrder',
+              'analyteReportOrder',
+            ]);
+            stores.patientResultStore.patientResultListForGeneralResEntry({
+              patientResultListForGenResEntry: {
+                patientResultList: data,
+                paginatorInfo: {
+                  count:
+                    response.data.patientResultListForGenResEntry.paginatorInfo
+                      .count,
+                },
               },
-            },
-          });
+            });
+          }
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

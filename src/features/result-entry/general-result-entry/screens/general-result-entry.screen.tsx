@@ -9,7 +9,6 @@ import {
   PageHeadingLabDetails,
   ModalConfirm,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
 import {FilterInputTable, GeneralResultEntryList} from '../components';
 
 import {RouterFlow} from '@/flows';
@@ -23,12 +22,6 @@ const GeneralResultEntry = observer(() => {
   const {loginStore, routerStore, patientResultStore, generalResultEntryStore} =
     useStores();
 
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-    setValue,
-  } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReaload, setTableReload] = useState<boolean>(false);
 
@@ -113,6 +106,8 @@ const GeneralResultEntry = observer(() => {
           _id: id,
           __v: undefined,
           flagUpdate: undefined,
+          testReportOrder: undefined,
+          analyteReportOrder: undefined,
         },
       })
       .then(res => {
@@ -206,5 +201,4 @@ const GeneralResultEntry = observer(() => {
     </>
   );
 });
-
 export default GeneralResultEntry;
