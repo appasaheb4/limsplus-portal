@@ -39,7 +39,7 @@ const Deginisation = DeginisationHoc(
       // Default value initialization
       setValue('environment', deginisationStore.deginisation?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [deginisationStore.deginisation]);
 
     const onSubmitDesginiation = () => {
       if (!deginisationStore.checkExitsCode) {

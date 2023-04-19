@@ -40,7 +40,7 @@ const NoticeBoard = NoticeBoardHoc(
       // Default value initialization
       setValue('lab', loginStore.login.lab);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loginStore.login]);
     const onNoticeBoardSubmit = () => {
       noticeBoardStore.NoticeBoardService.addNoticeBoard({
         input: {

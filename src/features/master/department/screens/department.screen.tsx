@@ -50,7 +50,7 @@ export const Department = DeginisationHoc(
       setValue('environment', departmentStore.department?.environment);
       setValue('status', departmentStore.department?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [departmentStore.department]);
 
     const onSubmitDepartment = () => {
       if (!departmentStore.checkExitsCode) {

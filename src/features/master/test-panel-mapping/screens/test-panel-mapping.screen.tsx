@@ -93,7 +93,7 @@ const TestPanelMapping = TestPanelMappingHoc(
       );
       setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [testPanelMappingStore.testPanelMapping]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);

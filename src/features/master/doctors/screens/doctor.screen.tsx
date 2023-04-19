@@ -65,7 +65,7 @@ const Doctors = DoctorsHoc(
       setValue('version', doctorsStore.doctors?.version);
       setValue('dateActive', doctorsStore.doctors?.dateActive);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [doctorsStore.doctors]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);

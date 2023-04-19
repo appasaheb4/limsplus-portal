@@ -79,7 +79,7 @@ export const PatientManager = PatientManagerHoc(
       setValue('city', patientManagerStore.patientManger?.extraData?.city);
       setValue('area', patientManagerStore.patientManger?.extraData?.area);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [patientManagerStore.patientManger]);
 
     const onSubmitPatientManager = () => {
       if (!patientManagerStore.checkExistsPatient) {

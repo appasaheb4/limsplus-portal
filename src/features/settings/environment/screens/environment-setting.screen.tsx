@@ -51,7 +51,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       // Default value initialization
       setValue('environment', loginStore.login.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loginStore.login]);
 
     const onSubmitSessionManagement = () => {
       if (!environmentStore.checkExistsEnvSettingsRecord) {

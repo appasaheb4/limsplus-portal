@@ -99,7 +99,7 @@ const CorporateClients = CorporateClientsHoc(
         corporateClientsStore.corporateClients?.dateActive,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [corporateClientsStore.corporateClients]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);

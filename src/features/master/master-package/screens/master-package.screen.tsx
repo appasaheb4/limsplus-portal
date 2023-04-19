@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {Table} from 'reactstrap';
 import {
@@ -66,7 +66,6 @@ const MasterPackage = MasterPackageHOC(
     const [txtDisable, setTxtDisable] = useState(true);
 
     useEffect(() => {
-      // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', masterPackageStore.masterPackage?.status);
       setValue('environment', masterPackageStore.masterPackage?.environment);
@@ -89,7 +88,7 @@ const MasterPackage = MasterPackageHOC(
       setValue('panelName', masterPackageStore.masterPackage?.panelName);
       setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [masterPackageStore.masterPackage]);
 
     const getServiceTypes = (fileds: any) => {
       if (fileds) {
@@ -1305,6 +1304,3 @@ const MasterPackage = MasterPackageHOC(
 );
 
 export default MasterPackage;
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}

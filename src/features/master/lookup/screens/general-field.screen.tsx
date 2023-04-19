@@ -57,7 +57,7 @@ export const GeneralField = GeneralFieldHoc(
       // Default value initialization
       setValue('environment', lookupStore.globalSettings?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [lookupStore.globalSettings]);
 
     return (
       <>

@@ -36,7 +36,7 @@ const Banner = BannerHoc(
       // Default value initialization
       setValue('environment', bannerStore.banner?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [bannerStore.banner]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);

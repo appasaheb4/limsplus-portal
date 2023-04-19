@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -129,7 +129,7 @@ const RegistrationLocation = RegistrationLocationHoc(
         registrationLocationsStore.registrationLocations?.reportPriority,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [registrationLocationsStore.registrationLocations]);
 
     const onSubmitRegistrationLocation = () => {
       console.log('insert');
@@ -1932,6 +1932,3 @@ const RegistrationLocation = RegistrationLocationHoc(
 );
 
 export default RegistrationLocation;
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}

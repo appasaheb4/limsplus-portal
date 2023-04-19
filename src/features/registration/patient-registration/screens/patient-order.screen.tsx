@@ -72,7 +72,7 @@ export const PatientOrder = PatientOrderHoc(
       setValue('orderId', patientOrderStore.patientOrder?.orderId);
       setValue('environment', patientOrderStore.patientOrder?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [patientOrderStore.patientOrder]);
 
     useEffect(() => {
       const barCodeLabId = localStorage.getItem('barCodeLabId');

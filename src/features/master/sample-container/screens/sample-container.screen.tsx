@@ -43,7 +43,7 @@ const SampleContainer = SampleContainerHoc(
         sampleContainerStore.sampleContainer?.environment,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [sampleContainerStore.sampleContainer]);
     const onSubmitSampleContainer = () => {
       if (!sampleContainerStore.checkExitsEnvCode) {
         sampleContainerStore.sampleContainerService

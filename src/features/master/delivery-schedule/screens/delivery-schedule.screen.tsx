@@ -44,7 +44,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
         deliveryScheduleStore.deliverySchedule?.environment,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [deliveryScheduleStore.deliverySchedule]);
 
     const onSubmitDeliverySchedule = () => {
       if (!deliveryScheduleStore.checkExistsEnvCode) {

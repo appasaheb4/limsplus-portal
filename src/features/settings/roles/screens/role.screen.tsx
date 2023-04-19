@@ -39,7 +39,7 @@ const Role = RolesHoc(
       // Default value initialization
       setValue('environment', roleStore.role?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [roleStore.role]);
 
     const onSubmitRoles = () => {
       if (!roleStore.checkExitsCode) {

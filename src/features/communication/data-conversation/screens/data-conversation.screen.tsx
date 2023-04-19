@@ -40,7 +40,7 @@ const DataConversation = DataConversationHoc(
         dataConversationStore.dataConversation?.environment,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dataConversationStore.dataConversation]);
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDataConversation, setHideAddDataConversation] =
       useState<boolean>(true);

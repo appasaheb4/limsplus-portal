@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -62,7 +62,7 @@ export const PriceList = PriceListHoc(
       setValue('dateCreation', priceListStore.priceList?.dateCreation);
       setValue('dateActive', priceListStore.priceList?.dateActive);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [priceListStore.priceList]);
 
     const onSubmitPriceList = async () => {
       if (!priceListStore.checkExitsPriceGEnvLabCode) {
@@ -1095,6 +1095,3 @@ export const PriceList = PriceListHoc(
   }),
 );
 export default PriceList;
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}

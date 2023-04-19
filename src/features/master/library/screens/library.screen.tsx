@@ -63,7 +63,7 @@ export const Library = LibraryHoc(
       setValue('sex', libraryStore.library?.sex);
       setValue('sexAction', libraryStore.library?.sexAction);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [libraryStore.library]);
 
     const onSubmitLibrary = data => {
       if (!libraryStore.checkExistsLabEnvCode) {
