@@ -13,6 +13,7 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {CorporateClient} from '../components';
 import {AutoCompleteFilterDeliveryMode} from '@/core-components';
@@ -35,6 +36,7 @@ const CorporateClients = CorporateClientsHoc(
       loading,
       administrativeDivisions,
       salesTeamStore,
+      masterPanelStore,
     } = useStores();
     const {
       control,
@@ -43,6 +45,9 @@ const CorporateClients = CorporateClientsHoc(
       setValue,
       reset,
     } = useForm();
+
+    const [modalConfirm, setModalConfirm] = useState<any>();
+    const [hideAddSection, setHideAddSection] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -101,8 +106,6 @@ const CorporateClients = CorporateClientsHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const onSubmitCoporateClients = () => {
       if (!corporateClientsStore.checkExistsEnvCode) {
         if (
@@ -1123,6 +1126,77 @@ const CorporateClients = CorporateClientsHoc(
                   defaultValue=''
                 />
 
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <Form.InputWrapper label='Panel List'>
+                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        loader={false}
+                        placeholder='Search by code'
+                        disable={
+                          !corporateClientsStore.corporateClients
+                            ?.isPredefinedPanel
+                        }
+                        data={{
+                          list:
+                            masterPanelStore.listMasterPanel?.slice(0, 10) ||
+                            [],
+                          selected:
+                            corporateClientsStore.selectedItems?.panelList,
+                          displayKey: ['panelCode', 'panelName'],
+                        }}
+                        hasError={!!errors.testName}
+                        onUpdate={item => {
+                          const panelList =
+                            corporateClientsStore.selectedItems?.panelList;
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            panelList,
+                          });
+                        }}
+                        onFilter={(value: string) => {
+                          masterPanelStore.masterPanelService.filterByFieldsSpecificPLab(
+                            {
+                              input: {
+                                filter: {
+                                  lab: loginStore.login?.lab,
+                                  fields: ['panelCode', 'panelName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            },
+                          );
+                        }}
+                        onSelect={item => {
+                          onChange(new Date());
+                          let panelList =
+                            corporateClientsStore.selectedItems?.panelList;
+                          if (!item.selected) {
+                            if (panelList && panelList.length > 0) {
+                              panelList.push(item);
+                            } else panelList = [item];
+                          } else {
+                            panelList = panelList?.filter(items => {
+                              return items._id !== item._id;
+                            });
+                          }
+                          corporateClientsStore.updateSelectedItems({
+                            ...corporateClientsStore.selectedItems,
+                            panelList,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='panelList'
+                  rules={{required: false}}
+                  defaultValue={
+                    corporateClientsStore.corporateClients?.isPredefinedPanel
+                  }
+                />
+
                 <Grid cols={4}>
                   <Controller
                     control={control}
@@ -1181,6 +1255,26 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='reportFormat'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Toggle
+                        label='Predefined Panel'
+                        hasError={!!errors.isPredefinedPanel}
+                        value={value}
+                        onChange={isPredefinedPanel => {
+                          onChange(isPredefinedPanel);
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            isPredefinedPanel,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isPredefinedPanel'
                     rules={{required: false}}
                     defaultValue=''
                   />

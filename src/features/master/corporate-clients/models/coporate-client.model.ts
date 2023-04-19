@@ -41,6 +41,10 @@ export class CorporateClients {
   isEmployeeCode: boolean;
   specificFormat: boolean;
   isBalanceCheck: boolean;
+  isPredefinedPanel: boolean;
+  panelList: Array<any>;
+  templateForImport: Array<any>;
+  templateForExport: Array<any>;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;
@@ -93,6 +97,10 @@ export class CorporateClients {
     this.isEmployeeCode = rawData.isEmployeeCode;
     this.specificFormat = rawData.specificFormat;
     this.isBalanceCheck = rawData.isBalanceCheck;
+    this.isPredefinedPanel = rawData.isPredefinedPanel;
+    this.panelList = rawData.panelList;
+    this.templateForImport = rawData.templateForImport;
+    this.templateForExport = rawData.templateForExport;
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;
     this.dateExpire = rawData.dateExpire;
@@ -107,7 +115,9 @@ export class CorporateClients {
 
 export class SelectedItems {
   deliveryMode: any[];
+  panelList: any[];
   constructor(rawData: {[key in string]: any}) {
     this.deliveryMode = rawData.deliveryMode;
+    this.panelList = rawData.panelList;
   }
 }

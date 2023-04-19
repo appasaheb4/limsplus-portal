@@ -29,6 +29,7 @@ export class CorporateClientsStore {
       isEmployeeCode: false,
       specificFormat: false,
       isBalanceCheck: true,
+      isPredefinedPanel: false,
     };
     this.selectedItems = new SelectedItems({});
     this.reset();
