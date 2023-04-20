@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -33,10 +33,17 @@ const SampleContainer = SampleContainerHoc(
       reset,
     } = useForm();
 
-    setValue('environment', sampleContainerStore.sampleContainer?.environment);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'environment',
+        sampleContainerStore.sampleContainer?.environment,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sampleContainerStore.sampleContainer]);
     const onSubmitSampleContainer = () => {
       if (!sampleContainerStore.checkExitsEnvCode) {
         sampleContainerStore.sampleContainerService

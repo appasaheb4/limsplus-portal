@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -36,19 +36,29 @@ export const PossibleResults = PossibleResultHoc(
       reset,
     } = useForm();
 
-    setValue('environment', possibleResultsStore.possibleResults?.environment);
-    setValue('status', possibleResultsStore.possibleResults?.status);
-    setValue('dateExpire', possibleResultsStore.possibleResults?.dateExpire);
-    setValue('version', possibleResultsStore.possibleResults?.version);
-    setValue(
-      'dateCreation',
-      possibleResultsStore.possibleResults?.dateCreation,
-    );
-    setValue('dateActive', possibleResultsStore.possibleResults?.dateActive);
-    setValue('analyteName', possibleResultsStore.possibleResults?.analyteName);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLookup, setHideAddLookup] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'environment',
+        possibleResultsStore.possibleResults?.environment,
+      );
+      setValue('status', possibleResultsStore.possibleResults?.status);
+      setValue('dateExpire', possibleResultsStore.possibleResults?.dateExpire);
+      setValue('version', possibleResultsStore.possibleResults?.version);
+      setValue(
+        'dateCreation',
+        possibleResultsStore.possibleResults?.dateCreation,
+      );
+      setValue('dateActive', possibleResultsStore.possibleResults?.dateActive);
+      setValue(
+        'analyteName',
+        possibleResultsStore.possibleResults?.analyteName,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [possibleResultsStore.possibleResults]);
 
     const onSubmitPossibleResult = () => {
       if (!possibleResultsStore.checkExistsRecords) {

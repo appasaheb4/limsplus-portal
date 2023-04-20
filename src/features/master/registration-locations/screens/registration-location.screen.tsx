@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -49,79 +49,87 @@ const RegistrationLocation = RegistrationLocationHoc(
       reset,
     } = useForm();
 
-    setValue(
-      'status',
-      registrationLocationsStore.registrationLocations?.status,
-    );
-    setValue(
-      'environment',
-      registrationLocationsStore.registrationLocations?.environment,
-    );
-    setValue(
-      'acClass',
-      registrationLocationsStore.registrationLocations?.acClass,
-    );
-    setValue(
-      'accountType',
-      registrationLocationsStore.registrationLocations?.accountType,
-    );
-    setValue(
-      'acClass',
-      registrationLocationsStore.registrationLocations?.acClass,
-    );
-    setValue(
-      'accountType',
-      registrationLocationsStore.registrationLocations?.accountType,
-    );
-    setValue(
-      'customerGroup',
-      registrationLocationsStore.registrationLocations?.customerGroup,
-    );
-    setValue(
-      'methodColn',
-      registrationLocationsStore.registrationLocations?.methodColn,
-    );
-    setValue(
-      'category',
-      registrationLocationsStore.registrationLocations?.category,
-    );
-    setValue(
-      'postalCode',
-      registrationLocationsStore.registrationLocations?.postalCode,
-    );
-    setValue(
-      'country',
-      registrationLocationsStore.registrationLocations?.country,
-    );
-    setValue('state', registrationLocationsStore.registrationLocations?.state);
-    setValue(
-      'district',
-      registrationLocationsStore.registrationLocations?.district,
-    );
-    setValue('city', registrationLocationsStore.registrationLocations?.city);
-    setValue('area', registrationLocationsStore.registrationLocations?.area);
-    setValue(
-      'dateExpire',
-      registrationLocationsStore.registrationLocations?.dateExpire,
-    );
-    setValue(
-      'version',
-      registrationLocationsStore.registrationLocations?.version,
-    );
-    setValue(
-      'dateCreation',
-      registrationLocationsStore.registrationLocations?.dateCreation,
-    );
-    setValue(
-      'dateActive',
-      registrationLocationsStore.registrationLocations?.dateActive,
-    );
-    setValue(
-      'reportPriority',
-      registrationLocationsStore.registrationLocations?.reportPriority,
-    );
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'status',
+        registrationLocationsStore.registrationLocations?.status,
+      );
+      setValue(
+        'environment',
+        registrationLocationsStore.registrationLocations?.environment,
+      );
+      setValue(
+        'acClass',
+        registrationLocationsStore.registrationLocations?.acClass,
+      );
+      setValue(
+        'accountType',
+        registrationLocationsStore.registrationLocations?.accountType,
+      );
+      setValue(
+        'acClass',
+        registrationLocationsStore.registrationLocations?.acClass,
+      );
+      setValue(
+        'accountType',
+        registrationLocationsStore.registrationLocations?.accountType,
+      );
+      setValue(
+        'customerGroup',
+        registrationLocationsStore.registrationLocations?.customerGroup,
+      );
+      setValue(
+        'methodColn',
+        registrationLocationsStore.registrationLocations?.methodColn,
+      );
+      setValue(
+        'category',
+        registrationLocationsStore.registrationLocations?.category,
+      );
+      setValue(
+        'postalCode',
+        registrationLocationsStore.registrationLocations?.postalCode,
+      );
+      setValue(
+        'country',
+        registrationLocationsStore.registrationLocations?.country,
+      );
+      setValue(
+        'state',
+        registrationLocationsStore.registrationLocations?.state,
+      );
+      setValue(
+        'district',
+        registrationLocationsStore.registrationLocations?.district,
+      );
+      setValue('city', registrationLocationsStore.registrationLocations?.city);
+      setValue('area', registrationLocationsStore.registrationLocations?.area);
+      setValue(
+        'dateExpire',
+        registrationLocationsStore.registrationLocations?.dateExpire,
+      );
+      setValue(
+        'version',
+        registrationLocationsStore.registrationLocations?.version,
+      );
+      setValue(
+        'dateCreation',
+        registrationLocationsStore.registrationLocations?.dateCreation,
+      );
+      setValue(
+        'dateActive',
+        registrationLocationsStore.registrationLocations?.dateActive,
+      );
+      setValue(
+        'reportPriority',
+        registrationLocationsStore.registrationLocations?.reportPriority,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [registrationLocationsStore.registrationLocations]);
 
     const onSubmitRegistrationLocation = () => {
       console.log('insert');
@@ -460,8 +468,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                       hasError={!!errors.locationName}
                       placeholder={
                         errors.locationName
-                          ? 'Please Enter Loaction Name'
-                          : 'Loaction Name'
+                          ? 'Please Enter Location Name'
+                          : 'Location Name'
                       }
                       value={value}
                       onChange={locationName => {

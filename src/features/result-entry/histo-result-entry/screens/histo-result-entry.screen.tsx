@@ -1,10 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
-import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-} from '@/library/components';
+import {Header, PageHeading, PageHeadingLabDetails} from '@/library/components';
 import {useForm} from 'react-hook-form';
 
 import '@/library/assets/css/accordion.css';
@@ -27,9 +23,14 @@ const HistoResultEntry = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  setValue('species', patientManagerStore.patientManger.species);
 
   const [hideInputView, setHideInputView] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Default value initialization
+    setValue('species', patientManagerStore.patientManger.species);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [patientManagerStore.patientManger]);
 
   const onSubmitPatientManager = () => {};
 

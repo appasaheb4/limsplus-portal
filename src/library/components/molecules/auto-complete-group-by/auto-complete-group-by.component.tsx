@@ -136,7 +136,7 @@ export const AutocompleteGroupBy = observer(
 
           {options && isListOpen
             ? options?.length > 0 && (
-                <div className='mt-1 absolute z-500 border-gray-500 rounded-md bg-gray-200'>
+                <div className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200'>
                   <ul className='p-2 rounded-sm'>
                     <PerfectScrollbar>
                       <div

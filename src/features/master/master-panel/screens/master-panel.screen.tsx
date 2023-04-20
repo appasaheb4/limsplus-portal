@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import dayjs from 'dayjs';
 import {
@@ -51,26 +51,33 @@ const MasterPanel = MasterPanelHoc(
       reset,
     } = useForm();
 
-    setValue('status', masterPanelStore.masterPanel?.status);
-    setValue('rLab', loginStore.login.lab);
-    setValue('pLab', loginStore.login.lab);
-    setValue('environment', masterPanelStore.masterPanel?.environment);
-    setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
-    setValue('validationLevel', masterPanelStore.masterPanel?.validationLevel);
-    setValue('processing', masterPanelStore.masterPanel?.processing);
-    setValue('category', masterPanelStore.masterPanel?.category);
-    setValue('panelType', masterPanelStore.masterPanel?.panelType);
-    setValue('sexAction', masterPanelStore.masterPanel?.sexAction);
-    setValue('ageAction', masterPanelStore.masterPanel?.ageAction);
-    setValue('sex', masterPanelStore.masterPanel?.sex);
-    setValue('bill', masterPanelStore.masterPanel?.bill);
-    setValue('dateExpire', masterPanelStore.masterPanel?.dateExpire);
-    setValue('dateActive', masterPanelStore.masterPanel?.dateActive);
-    setValue('dateCreation', masterPanelStore.masterPanel?.dateCreation);
-    setValue('version', masterPanelStore.masterPanel?.version);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('status', masterPanelStore.masterPanel?.status);
+      setValue('rLab', loginStore.login?.lab);
+      setValue('pLab', loginStore.login?.lab);
+      setValue('environment', masterPanelStore.masterPanel?.environment);
+      setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
+      setValue(
+        'validationLevel',
+        masterPanelStore.masterPanel?.validationLevel,
+      );
+      setValue('processing', masterPanelStore.masterPanel?.processing);
+      setValue('category', masterPanelStore.masterPanel?.category);
+      setValue('panelType', masterPanelStore.masterPanel?.panelType);
+      setValue('sexAction', masterPanelStore.masterPanel?.sexAction);
+      setValue('ageAction', masterPanelStore.masterPanel?.ageAction);
+      setValue('sex', masterPanelStore.masterPanel?.sex);
+      setValue('bill', masterPanelStore.masterPanel?.bill);
+      setValue('dateExpire', masterPanelStore.masterPanel?.dateExpire);
+      setValue('dateActive', masterPanelStore.masterPanel?.dateActive);
+      setValue('dateCreation', masterPanelStore.masterPanel?.dateCreation);
+      setValue('version', masterPanelStore.masterPanel?.version);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [masterPanelStore.masterPanel]);
     const onSubmitMasterPanel = () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (

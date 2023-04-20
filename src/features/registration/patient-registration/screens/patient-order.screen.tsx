@@ -61,14 +61,18 @@ export const PatientOrder = PatientOrderHoc(
       reset,
     } = useForm();
 
-    setValue('orderId', patientOrderStore.patientOrder?.orderId);
-    setValue('environment', patientOrderStore.patientOrder?.environment);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
     const [modalBarcodeLab, setModalBarcodeLab] = useState<any>();
     const [isPrintPrimaryBarcod, setIsPrintPrimaryBarcod] =
       useState<boolean>(false);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('orderId', patientOrderStore.patientOrder?.orderId);
+      setValue('environment', patientOrderStore.patientOrder?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [patientOrderStore.patientOrder]);
 
     useEffect(() => {
       const barCodeLabId = localStorage.getItem('barCodeLabId');

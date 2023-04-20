@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -48,18 +48,22 @@ export const Library = LibraryHoc(
       reset,
     } = useForm();
 
-    setValue('lab', loginStore.login.lab);
-    setValue('status', libraryStore.library?.status);
-    setValue('environment', libraryStore.library?.environment);
-    setValue('usageType', libraryStore.library?.usageType);
-    setValue('libraryType', libraryStore.library?.libraryType);
-    setValue('commentType', libraryStore.library?.commentType);
-    setValue('commentsTarget', libraryStore.library?.commentsTarget);
-    setValue('parameter', libraryStore.library?.parameter);
-    setValue('action', libraryStore.library?.action);
-    setValue('results', libraryStore.library?.results);
-    setValue('sex', libraryStore.library?.sex);
-    setValue('sexAction', libraryStore.library?.sexAction);
+    useEffect(() => {
+      // Default value initialization
+      setValue('lab', loginStore.login.lab);
+      setValue('status', libraryStore.library?.status);
+      setValue('environment', libraryStore.library?.environment);
+      setValue('usageType', libraryStore.library?.usageType);
+      setValue('libraryType', libraryStore.library?.libraryType);
+      setValue('commentType', libraryStore.library?.commentType);
+      setValue('commentsTarget', libraryStore.library?.commentsTarget);
+      setValue('parameter', libraryStore.library?.parameter);
+      setValue('action', libraryStore.library?.action);
+      setValue('results', libraryStore.library?.results);
+      setValue('sex', libraryStore.library?.sex);
+      setValue('sexAction', libraryStore.library?.sexAction);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [libraryStore.library]);
 
     const onSubmitLibrary = data => {
       if (!libraryStore.checkExistsLabEnvCode) {

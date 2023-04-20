@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {Table} from 'reactstrap';
 import {
@@ -61,31 +61,34 @@ const MasterPackage = MasterPackageHOC(
       reset,
     } = useForm();
 
-    setValue('lab', loginStore.login.lab);
-    setValue('status', masterPackageStore.masterPackage?.status);
-    setValue('environment', masterPackageStore.masterPackage?.environment);
-    setValue('dateCreation', masterPackageStore.masterPackage?.dateCreation);
-    setValue('dateExpire', masterPackageStore.masterPackage?.dateExpire);
-    setValue('version', masterPackageStore.masterPackage?.version);
-    setValue('dateActive', masterPackageStore.masterPackage?.dateActive);
-    setValue(
-      'printPanelName',
-      masterPackageStore.masterPackage?.printPanelName,
-    );
-    setValue(
-      'packageInterpretation',
-      masterPackageStore.masterPackage?.packageInterpretation,
-    );
-    setValue(
-      'panelInterpretation',
-      masterPackageStore.masterPackage?.panelInterpretation,
-    );
-    setValue('panelName', masterPackageStore.masterPackage?.panelName);
-    setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
+
+    useEffect(() => {
+      setValue('lab', loginStore.login.lab);
+      setValue('status', masterPackageStore.masterPackage?.status);
+      setValue('environment', masterPackageStore.masterPackage?.environment);
+      setValue('dateCreation', masterPackageStore.masterPackage?.dateCreation);
+      setValue('dateExpire', masterPackageStore.masterPackage?.dateExpire);
+      setValue('version', masterPackageStore.masterPackage?.version);
+      setValue('dateActive', masterPackageStore.masterPackage?.dateActive);
+      setValue(
+        'printPanelName',
+        masterPackageStore.masterPackage?.printPanelName,
+      );
+      setValue(
+        'packageInterpretation',
+        masterPackageStore.masterPackage?.packageInterpretation,
+      );
+      setValue(
+        'panelInterpretation',
+        masterPackageStore.masterPackage?.panelInterpretation,
+      );
+      setValue('panelName', masterPackageStore.masterPackage?.panelName);
+      setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [masterPackageStore.masterPackage]);
 
     const getServiceTypes = (fileds: any) => {
       if (fileds) {
