@@ -13,7 +13,10 @@ import {
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {AutoCompleteFilterSingleSelectPostalCode} from '../../index';
+import {
+  AutoCompleteFilterSingleSelectPostalCode,
+  AutoCompleteFilterMultiSelectPanelList,
+} from '../..';
 import dayjs from 'dayjs';
 import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
@@ -152,35 +155,6 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               },
             }),
           },
-          // {
-          //   dataField: 'priceList',
-          //   text: 'Price List',
-          //   headerClasses: 'textHeader5 z-10',
-          //   sort: true,
-          //   editable: false,
-          //   csvFormatter: col => (col ? col : ''),
-          //   filter: textFilter({
-          //     getFilter: filter => {
-          //       priceList = filter;
-          //     },
-          //   }),
-          //   formatter: (cell, row) => {
-          //     return (
-          //       <>
-          //         {row?.priceList ? (
-          //           <PriceListTableForCopClientList
-          //             data={row?.priceList}
-          //             invoiceAc={row.invoiceAc}
-          //             onUpdate={data => {
-          //               props.onUpdateItem &&
-          //                 props.onUpdateItem(data, 'priceList', row._id);
-          //             }}
-          //           />
-          //         ) : null}
-          //       </>
-          //     );
-          //   },
-          // },
           {
             dataField: 'acType',
             text: 'Ac Type',
@@ -1087,6 +1061,78 @@ export const CorporateClient = (props: CorporateClientListProps) => {
               );
             },
           },
+          {
+            dataField: 'isPredefinedPanel',
+            text: 'Predefined Panel',
+            sort: true,
+            editable: false,
+            csvFormatter: (col, row) =>
+              `${
+                row.isPredefinedPanel
+                  ? row.isPredefinedPanel
+                    ? 'Yes'
+                    : 'No'
+                  : 'No'
+              }`,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  <Form.Toggle
+                    disabled={!editorCell(row)}
+                    value={row.isPredefinedPanel}
+                    onChange={isPredefinedPanel => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          isPredefinedPanel,
+                          'isPredefinedPanel',
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              );
+            },
+          },
+
+          {
+            dataField: 'panelList',
+            text: 'Panel List',
+            headerClasses: 'textHeader5',
+            sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            formatter: (cell, row) => {
+              return (
+                <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
+                  {row.panelList?.map(item => (
+                    <span className='shadow-xl p-2 '>
+                      {item?.panelCode + ' - ' + item?.panelName}
+                    </span>
+                  ))}
+                </div>
+              );
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteFilterMultiSelectPanelList
+                  disable={row.isPredefinedPanel}
+                  selected={row.panelList}
+                  onSelect={panelList => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(panelList, column.dataField, row._id);
+                  }}
+                />
+              </>
+            ),
+          },
+
           {
             dataField: 'fyiLine',
             text: 'FYI Line',

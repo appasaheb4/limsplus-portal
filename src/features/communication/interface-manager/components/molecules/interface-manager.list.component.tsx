@@ -372,34 +372,32 @@ export const InterfaceManagerList = observer(
             }),
             formatter: (cellContent, row) => (
               <>
-                <List space={2} direction='row' justify='center'>
-                  <div>
-                    {row.fileds?.map((item, index) => (
-                      <div className='mb-2'>
-                        <Buttons.Button
-                          key={index}
-                          size='medium'
-                          type='solid'
-                          onClick={() => {}}
-                        >
-                          {`Filed:${item.filed} - Value:${
-                            item.value !== undefined
-                              ? item.value
-                                  .toString()
-                                  .replaceAll(/&amp;/g, '&')
-                                  .replaceAll(/&gt;/g, '>')
-                                  .replaceAll(/&lt;/g, '<')
-                                  .replaceAll(/&quot;/g, '"')
-                                  .replaceAll(/â/g, '’')
-                                  .replaceAll(/â¦/g, '…')
-                                  .toString()
-                              : undefined
-                          }`}
-                        </Buttons.Button>
-                      </div>
-                    ))}
-                  </div>
-                </List>
+                <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
+                  {row.fileds?.map((item, index) => (
+                    <div className='mb-2'>
+                      <Buttons.Button
+                        key={index}
+                        size='medium'
+                        type='solid'
+                        onClick={() => {}}
+                      >
+                        {`Filed:${item.filed} - Value:${
+                          item.value !== undefined
+                            ? item.value
+                                .toString()
+                                .replaceAll(/&amp;/g, '&')
+                                .replaceAll(/&gt;/g, '>')
+                                .replaceAll(/&lt;/g, '<')
+                                .replaceAll(/&quot;/g, '"')
+                                .replaceAll(/â/g, '’')
+                                .replaceAll(/â¦/g, '…')
+                                .toString()
+                            : undefined
+                        }`}
+                      </Buttons.Button>
+                    </div>
+                  ))}
+                </div>
               </>
             ),
             editorRenderer: (

@@ -48,7 +48,7 @@ const CorporateClients = CorporateClientsHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddSection, setHideAddSection] = useState<boolean>(false);
+    const [hideAddSection, setHideAddSection] = useState<boolean>(true);
 
     useEffect(() => {
       // Default value initialization
@@ -1155,7 +1155,9 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.selectedItems?.panelList;
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            panelList,
+                            panelList: _.map(panelList, o =>
+                              _.pick(o, ['_id', 'panelCode', 'panelName']),
+                            ),
                           });
                         }}
                         onFilter={(value: string) => {
