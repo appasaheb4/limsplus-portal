@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -32,15 +32,19 @@ const InterfaceManager = InterfaceManagerHoc(
       setValue,
       reset,
     } = useForm();
-    setValue(
-      'interfaceType',
-      interfaceManagerStore.interfaceManager?.interfaceType,
-    );
-    setValue(
-      'environment',
-      interfaceManagerStore.interfaceManager?.environment,
-    );
-    setValue('protocol', interfaceManagerStore.interfaceManager?.protocol);
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'interfaceType',
+        interfaceManagerStore.interfaceManager?.interfaceType,
+      );
+      setValue(
+        'environment',
+        interfaceManagerStore.interfaceManager?.environment,
+      );
+      setValue('protocol', interfaceManagerStore.interfaceManager?.protocol);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [interfaceManagerStore.interfaceManager]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddInterfaceManager, setHideAddInterfaceManager] =

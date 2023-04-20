@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -45,23 +45,27 @@ const Doctors = DoctorsHoc(
       reset,
     } = useForm();
 
-    setValue('status', doctorsStore.doctors?.status);
-    setValue('environment', doctorsStore.doctors?.environment);
-    setValue('title', doctorsStore.doctors?.title);
-    setValue('doctorType', doctorsStore.doctors?.doctorType);
-    setValue('speciality', doctorsStore.doctors?.speciality);
-    setValue('category', doctorsStore.doctors?.category);
-    setValue('postalCode', doctorsStore.doctors?.postalCode);
-    setValue('country', doctorsStore.doctors?.country);
-    setValue('state', doctorsStore.doctors?.state);
-    setValue('district', doctorsStore.doctors?.district);
-    setValue('city', doctorsStore.doctors?.city);
-    setValue('area', doctorsStore.doctors?.area);
-    setValue('reportPriority', doctorsStore.doctors?.reportPriority);
-    setValue('dateCreation', doctorsStore.doctors?.dateCreation);
-    setValue('dateExpire', doctorsStore.doctors?.dateExpire);
-    setValue('version', doctorsStore.doctors?.version);
-    setValue('dateActive', doctorsStore.doctors?.dateActive);
+    useEffect(() => {
+      // Default value initialization
+      setValue('status', doctorsStore.doctors?.status);
+      setValue('environment', doctorsStore.doctors?.environment);
+      setValue('title', doctorsStore.doctors?.title);
+      setValue('doctorType', doctorsStore.doctors?.doctorType);
+      setValue('speciality', doctorsStore.doctors?.speciality);
+      setValue('category', doctorsStore.doctors?.category);
+      setValue('postalCode', doctorsStore.doctors?.postalCode);
+      setValue('country', doctorsStore.doctors?.country);
+      setValue('state', doctorsStore.doctors?.state);
+      setValue('district', doctorsStore.doctors?.district);
+      setValue('city', doctorsStore.doctors?.city);
+      setValue('area', doctorsStore.doctors?.area);
+      setValue('reportPriority', doctorsStore.doctors?.reportPriority);
+      setValue('dateCreation', doctorsStore.doctors?.dateCreation);
+      setValue('dateExpire', doctorsStore.doctors?.dateExpire);
+      setValue('version', doctorsStore.doctors?.version);
+      setValue('dateActive', doctorsStore.doctors?.dateActive);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [doctorsStore.doctors]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);

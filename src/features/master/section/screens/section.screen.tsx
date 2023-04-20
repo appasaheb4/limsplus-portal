@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -36,10 +36,14 @@ const Section = SectionHoc(
       reset,
     } = useForm();
 
-    setValue('environment', sectionStore.section?.environment);
-    setValue('status', sectionStore.section?.status);
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+
+    useEffect(() => {
+      setValue('environment', sectionStore.section?.environment);
+      setValue('status', sectionStore.section?.status);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sectionStore.section]);
 
     const onSubmitSection = () => {
       if (!sectionStore.checkExitsEnvCode) {

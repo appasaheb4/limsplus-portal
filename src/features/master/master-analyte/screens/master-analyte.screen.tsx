@@ -50,6 +50,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     } = useForm();
 
     useEffect(() => {
+      // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
       setValue('status', masterAnalyteStore.masterAnalyte?.status);
@@ -62,7 +63,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       setValue('dateCreation', masterAnalyteStore.masterAnalyte?.dateCreation);
       setValue('dateActive', masterAnalyteStore.masterAnalyte?.dateActive);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [masterAnalyteStore.masterAnalyte]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);

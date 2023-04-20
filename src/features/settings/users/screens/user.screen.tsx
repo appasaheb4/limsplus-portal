@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -59,15 +59,19 @@ export const Users = UsersHoc(
       reset,
     } = useForm();
 
-    setValue('status', userStore.user?.status);
-    setValue('environment', userStore.user?.environment);
-    setValue('userGroup', userStore.user?.userGroup);
-    setValue('userModule', userStore.user?.userModule);
-    setValue('dateCreation', userStore.user?.dateCreation);
-    setValue('dateActive', userStore.user?.dateActive);
-    setValue('exipreDate', userStore.user?.exipreDate);
-    setValue('dateOfBirth', userStore.user?.dateOfBirth);
-    setValue('marriageAnniversary', userStore.user?.marriageAnniversary);
+    useEffect(() => {
+      // Default value initialization
+      setValue('status', userStore.user?.status);
+      setValue('environment', userStore.user?.environment);
+      setValue('userGroup', userStore.user?.userGroup);
+      setValue('userModule', userStore.user?.userModule);
+      setValue('dateCreation', userStore.user?.dateCreation);
+      setValue('dateActive', userStore.user?.dateActive);
+      setValue('exipreDate', userStore.user?.exipreDate);
+      setValue('dateOfBirth', userStore.user?.dateOfBirth);
+      setValue('marriageAnniversary', userStore.user?.marriageAnniversary);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userStore.user]);
 
     const onSubmitUser = (data: any) => {
       if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {

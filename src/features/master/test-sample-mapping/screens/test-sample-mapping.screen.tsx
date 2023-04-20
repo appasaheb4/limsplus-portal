@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
@@ -45,25 +45,31 @@ const TestSampleMapping = TestSampleMappingHoc(
       setValue,
       reset,
     } = useForm();
-    setValue(
-      'environment',
-      testSampleMappingStore.testSampleMapping?.environment,
-    );
-    setValue(
-      'minDrawVolUnit',
-      testSampleMappingStore.testSampleMapping?.minDrawVolUnit,
-    );
-    setValue(
-      'minTestVolUnit',
-      testSampleMappingStore.testSampleMapping?.minTestVolUnit,
-    );
-    setValue(
-      'repentionUnits',
-      testSampleMappingStore.testSampleMapping?.repentionUnits,
-    );
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue(
+        'environment',
+        testSampleMappingStore.testSampleMapping?.environment,
+      );
+      setValue(
+        'minDrawVolUnit',
+        testSampleMappingStore.testSampleMapping?.minDrawVolUnit,
+      );
+      setValue(
+        'minTestVolUnit',
+        testSampleMappingStore.testSampleMapping?.minTestVolUnit,
+      );
+      setValue(
+        'repentionUnits',
+        testSampleMappingStore.testSampleMapping?.repentionUnits,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [testSampleMappingStore.testSampleMapping]);
+
     const onSubmitTestSampleMapping = () => {
       if (!testSampleMappingStore.checkExitsTestSampleEnvCode) {
         testSampleMappingStore.testSampleMappingService

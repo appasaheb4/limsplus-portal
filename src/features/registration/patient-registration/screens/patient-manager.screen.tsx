@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {
   Buttons,
@@ -52,27 +52,34 @@ export const PatientManager = PatientManagerHoc(
       reset,
     } = useForm();
 
-    setValue('species', patientManagerStore.patientManger.species);
-    setValue('pId', patientManagerStore.patientManger?.pId);
-    setValue(
-      'isPatientMobileNo',
-      patientManagerStore.patientManger?.isPatientMobileNo,
-    );
-    setValue(
-      'postalCode',
-      patientManagerStore.patientManger?.extraData?.postcode,
-    );
-    setValue('country', patientManagerStore.patientManger?.extraData?.country);
-    setValue('state', patientManagerStore.patientManger?.extraData?.state);
-    setValue(
-      'district',
-      patientManagerStore.patientManger?.extraData?.district,
-    );
-    setValue('city', patientManagerStore.patientManger?.extraData?.city);
-    setValue('area', patientManagerStore.patientManger?.extraData?.area);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
+
+    useEffect(() => {
+      // Default value initialization
+      setValue('species', patientManagerStore.patientManger.species);
+      setValue('pId', patientManagerStore.patientManger?.pId);
+      setValue(
+        'isPatientMobileNo',
+        patientManagerStore.patientManger?.isPatientMobileNo,
+      );
+      setValue(
+        'postalCode',
+        patientManagerStore.patientManger?.extraData?.postcode,
+      );
+      setValue(
+        'country',
+        patientManagerStore.patientManger?.extraData?.country,
+      );
+      setValue('state', patientManagerStore.patientManger?.extraData?.state);
+      setValue(
+        'district',
+        patientManagerStore.patientManger?.extraData?.district,
+      );
+      setValue('city', patientManagerStore.patientManger?.extraData?.city);
+      setValue('area', patientManagerStore.patientManger?.extraData?.area);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [patientManagerStore.patientManger]);
 
     const onSubmitPatientManager = () => {
       if (!patientManagerStore.checkExistsPatient) {

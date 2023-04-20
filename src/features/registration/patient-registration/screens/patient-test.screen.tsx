@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -54,10 +54,13 @@ export const PatientTest = PatientOrderHoc(
       setValue,
     } = useForm();
 
-    setValue('environment', patientOrderStore.patientOrder?.environment);
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
+    useEffect(() => {
+      // Default value initialization
+      setValue('environment', patientOrderStore.patientOrder?.environment);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [patientOrderStore.patientOrder]);
     const onSubmitPatientOrder = () => {
       patientTestStore.patientTestService
         .addPatientTest({

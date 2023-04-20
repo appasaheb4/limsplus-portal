@@ -105,7 +105,7 @@ const CorporateClients = CorporateClientsHoc(
         corporateClientsStore.corporateClients?.dateActive,
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [corporateClientsStore.corporateClients]);
 
     const onSubmitCoporateClients = () => {
       if (!corporateClientsStore.checkExistsEnvCode) {

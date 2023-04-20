@@ -36,7 +36,6 @@ export const DocumentSettings = DocumentSettingHoc(
       reset,
     } = useForm();
 
-    setValue('environment', lookupStore.lookup?.environment);
     const onSubmitNewField = (data: any) => {
       if (
         lookupStore.localInput.value === '' &&
@@ -60,6 +59,8 @@ export const DocumentSettings = DocumentSettingHoc(
         });
       }
     };
+
+    setValue('environment', lookupStore.lookup?.environment);
 
     return (
       <div className={'p-2 rounded-lg shadow-xl'}>
