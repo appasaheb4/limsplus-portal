@@ -182,7 +182,7 @@ export const LookupList = (props: LookupListProps) => {
             editable: false,
             formatter: (cellContent, row) => (
               <>
-                <List space={2} direction='row' justify='center'>
+                <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
                   {row.arrValue.map(item => (
                     <div className='mb-2'>
                       <Buttons.Button
@@ -201,7 +201,7 @@ export const LookupList = (props: LookupListProps) => {
                       </Buttons.Button>
                     </div>
                   ))}
-                </List>
+                </div>
               </>
             ),
           },
