@@ -55,6 +55,10 @@ export const LIST = gql`
         isEmployeeCode
         specificFormat
         isBalanceCheck
+        isPredefinedPanel
+        panelList
+        templateForImport
+        templateForExport
         status
         environment
         dateOfEntry
@@ -173,6 +177,10 @@ export const FILTER = gql`
         isEmployeeCode
         specificFormat
         isBalanceCheck
+        isPredefinedPanel
+        panelList
+        templateForImport
+        templateForExport
         status
         environment
         dateOfEntry
@@ -236,6 +244,10 @@ export const FILTER_BY_FIELDS = gql`
         isEmployeeCode
         specificFormat
         isBalanceCheck
+        isPredefinedPanel
+        panelList
+        templateForImport
+        templateForExport
         status
         environment
         dateOfEntry

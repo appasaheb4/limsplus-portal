@@ -44,6 +44,7 @@ const CorporateClients = CorporateClientsHoc(
       formState: {errors},
       setValue,
       reset,
+      resetField,
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -1129,7 +1130,10 @@ const CorporateClients = CorporateClientsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange}}) => (
-                    <Form.InputWrapper label='Panel List'>
+                    <Form.InputWrapper
+                      label='Panel List'
+                      hasError={!!errors.panelList}
+                    >
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={false}
                         placeholder='Search by code'
@@ -1145,7 +1149,7 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.selectedItems?.panelList,
                           displayKey: ['panelCode', 'panelName'],
                         }}
-                        hasError={!!errors.testName}
+                        hasError={!!errors.panelList}
                         onUpdate={item => {
                           const panelList =
                             corporateClientsStore.selectedItems?.panelList;
@@ -1191,10 +1195,11 @@ const CorporateClients = CorporateClientsHoc(
                     </Form.InputWrapper>
                   )}
                   name='panelList'
-                  rules={{required: false}}
-                  defaultValue={
-                    corporateClientsStore.corporateClients?.isPredefinedPanel
-                  }
+                  rules={{
+                    required:
+                      corporateClientsStore.corporateClients?.isPredefinedPanel,
+                  }}
+                  defaultValue={masterPanelStore.listMasterPanel}
                 />
 
                 <Grid cols={4}>
@@ -1270,7 +1275,13 @@ const CorporateClients = CorporateClientsHoc(
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
                             isPredefinedPanel,
+                            priceList: [],
                           });
+                          corporateClientsStore.updateSelectedItems({
+                            ...corporateClientsStore.selectedItems,
+                            panelList: [],
+                          });
+                          resetField('panelList');
                         }}
                       />
                     )}
