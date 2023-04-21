@@ -132,6 +132,8 @@ export const getIcons = (icon: string): any => {
   if (icon === 'Icons.Iconvsc.VscOutput') return Icons.Iconvsc.VscOutput;
   if (icon === 'Icons.Iconai.AiOutlineMessage')
     return Icons.Iconai.AiOutlineMessage;
+  if (icon === 'Icons.Iconmd.MdImportExport')
+    return Icons.Iconmd.MdImportExport;
 
   //settings
   if (icon === 'Icons.IconRi.RiSettings5Fill')
