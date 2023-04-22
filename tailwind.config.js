@@ -23,6 +23,7 @@ module.exports = {
         orange: '#ffae1a',
         mono: '#754c00',
         'border-red': '#ff0000',
+        bgGrey: '#808080',
       },
       fontFamily: {
         arimaRegular: ['Arima Regular'],

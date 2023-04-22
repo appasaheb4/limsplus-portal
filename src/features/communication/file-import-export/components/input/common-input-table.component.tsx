@@ -87,13 +87,14 @@ export const CommonFileImportExportInputTable = observer(
                       }}
                     >
                       <option selected>Select</option>
-                      {lookupItems(routerStore.lookupItems, 'ENVIRONMENT').map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ),
-                      )}
+                      {lookupItems(
+                        routerStore.lookupItems,
+                        'TRANSFER_TYPE',
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
                     </select>
                   )}
                   name='analyte'

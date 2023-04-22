@@ -241,6 +241,58 @@ const SegmentMapping = SegmentMappingHoc(
       [JSON.parse(JSON.stringify(segmentMappingStore.segmentMapping))],
     );
 
+    const segmentListTable = useMemo(
+      () => (
+        <SegmentMappingList
+          data={segmentMappingStore.listSegmentMapping || []}
+          totalSize={segmentMappingStore.listSegmentMappingCount}
+          extraData={{
+            lookupItems: routerStore.lookupItems,
+            arrInstType,
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Delete',
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(routerStore.userPermission),
+            'Edit/Modify',
+          )}
+          onDelete={selectedItem => setModalConfirm(selectedItem)}
+          onSelectedRow={rows => {
+            setModalConfirm({
+              show: true,
+              type: 'delete',
+              id: rows,
+              title: 'Are you sure?',
+              body: 'Delete selected items!',
+            });
+          }}
+          onUpdateFields={(fields: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'updateFields',
+              data: {fields, id},
+              title: 'Are you sure?',
+              body: 'Update records',
+            });
+          }}
+          onPageSizeChange={(page, limit) => {
+            segmentMappingStore.fetchListSegmentMapping(page, limit);
+            global.filter = {mode: 'pagination', page, limit};
+          }}
+          onFilter={(type, filter, page, limit) => {
+            segmentMappingStore.segmentMappingService.filter({
+              input: {type, filter, page, limit},
+            });
+            global.filter = {mode: 'filter', type, filter, page, limit};
+          }}
+        />
+      ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [segmentMappingStore.listSegmentMapping],
+    );
+
     return (
       <>
         <Header>
@@ -264,7 +316,7 @@ const SegmentMapping = SegmentMappingHoc(
               (hideAddSegmentMapping ? 'hidden' : 'shown')
             }
           >
-            <CommonInputTable extraData={{arrInstType}} />
+            <CommonInputTable />
             {inputTable}
             <br />
             <List direction='row' space={3} align='center'>
@@ -310,51 +362,7 @@ const SegmentMapping = SegmentMappingHoc(
         </div>
 
         <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
-          <SegmentMappingList
-            data={segmentMappingStore.listSegmentMapping || []}
-            totalSize={segmentMappingStore.listSegmentMappingCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              arrInstType,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Delete',
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Edit/Modify',
-            )}
-            onDelete={selectedItem => setModalConfirm(selectedItem)}
-            onSelectedRow={rows => {
-              setModalConfirm({
-                show: true,
-                type: 'delete',
-                id: rows,
-                title: 'Are you sure?',
-                body: 'Delete selected items!',
-              });
-            }}
-            onUpdateFields={(fields: any, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: 'updateFields',
-                data: {fields, id},
-                title: 'Are you sure?',
-                body: 'Update records',
-              });
-            }}
-            onPageSizeChange={(page, limit) => {
-              segmentMappingStore.fetchListSegmentMapping(page, limit);
-              global.filter = {mode: 'pagination', page, limit};
-            }}
-            onFilter={(type, filter, page, limit) => {
-              segmentMappingStore.segmentMappingService.filter({
-                input: {type, filter, page, limit},
-              });
-              global.filter = {mode: 'filter', type, filter, page, limit};
-            }}
-          />
+          {segmentListTable}
         </div>
         <ModalImportFile
           accept='.csv,.xlsx,.xls'
