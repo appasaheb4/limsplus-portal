@@ -43,8 +43,8 @@ export class CorporateClients {
   isBalanceCheck: boolean;
   isPredefinedPanel: boolean;
   panelList: Array<any>;
-  templateForImport: Array<any>;
-  templateForExport: Array<any>;
+  templateForImport: string;
+  templateForExport: string;
   dateCreation: Date;
   dateActive: Date;
   dateExpire: Date;

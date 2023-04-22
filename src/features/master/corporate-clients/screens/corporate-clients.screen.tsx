@@ -37,6 +37,7 @@ const CorporateClients = CorporateClientsHoc(
       administrativeDivisions,
       salesTeamStore,
       masterPanelStore,
+      interfaceManagerStore,
     } = useStores();
     const {
       control,
@@ -49,6 +50,7 @@ const CorporateClients = CorporateClientsHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+    const [interfaceManagerList, setInterfaceManagerList] = useState([]);
 
     useEffect(() => {
       // Default value initialization
@@ -177,6 +179,22 @@ const CorporateClients = CorporateClientsHoc(
           message: '😔 Please enter diff code',
         });
       }
+    };
+
+    const getTemplateForImportList = (interfaceType: string) => {
+      interfaceManagerStore.interfaceManagerService
+        .findByFields({
+          input: {
+            filter: {
+              interfaceType,
+            },
+          },
+        })
+        .then(res => {
+          if (res.findByFieldsInterfaceManager.success) {
+            setInterfaceManagerList(res.findByFieldsInterfaceManager.data);
+          }
+        });
     };
 
     const tableView = useMemo(
@@ -1108,21 +1126,83 @@ const CorporateClients = CorporateClientsHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Info'
-                      placeholder={errors.info ? 'Please Enter INFO' : 'INFO'}
-                      hasError={!!errors.info}
-                      value={value}
-                      onChange={info => {
-                        onChange(info);
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          info,
-                        });
-                      }}
-                    />
+                    <Form.InputWrapper
+                      label='Template for Import'
+                      hasError={!!errors.templateForImport}
+                    >
+                      <select
+                        value={value}
+                        onFocus={() => getTemplateForImportList('IMPORT_FILE')}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.templateForImport
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const templateForImport = e.target.value;
+                          onChange(templateForImport);
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            templateForImport,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {interfaceManagerList.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.instrumentType}>
+                              {item?.instrumentType +
+                                ' - ' +
+                                item?.instrumentName}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
                   )}
-                  name='info'
+                  name='templateForImport'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Template for Export'
+                      hasError={!!errors.templateForExport}
+                    >
+                      <select
+                        value={value}
+                        onFocus={() => getTemplateForImportList('EXPORT_FILE')}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.templateForExport
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const templateForExport = e.target.value;
+                          onChange(templateForExport);
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            templateForExport,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {interfaceManagerList.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.instrumentType}>
+                              {item?.instrumentType +
+                                ' - ' +
+                                item?.instrumentName}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='templateForExport'
                   rules={{required: false}}
                   defaultValue=''
                 />
@@ -1203,7 +1283,27 @@ const CorporateClients = CorporateClientsHoc(
                   }}
                   defaultValue={masterPanelStore.listMasterPanel}
                 />
-
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.Input
+                      label='Info'
+                      placeholder={errors.info ? 'Please Enter INFO' : 'INFO'}
+                      hasError={!!errors.info}
+                      value={value}
+                      onChange={info => {
+                        onChange(info);
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
+                          info,
+                        });
+                      }}
+                    />
+                  )}
+                  name='info'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
                 <Grid cols={4}>
                   <Controller
                     control={control}

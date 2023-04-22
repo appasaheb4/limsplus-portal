@@ -14,6 +14,7 @@ export class InterfaceManagerStore {
   listInterfaceManagerCopy: InterfaceManager[];
   listInterfaceManagerCount: number;
   updateItem!: Partial<UpdateItem>;
+  instTypeList: Array<any>;
 
   constructor() {
     this.listInterfaceManager = [];
@@ -22,12 +23,14 @@ export class InterfaceManagerStore {
     this.interfaceManager = new InterfaceManager({});
     this.updateItem = {};
     this.reset();
+    this.instTypeList = [];
     makeObservable<InterfaceManagerStore, any>(this, {
       interfaceManager: observable,
       listInterfaceManager: observable,
       listInterfaceManagerCopy: observable,
       listInterfaceManagerCount: observable,
       updateItem: observable,
+      instTypeList: observable,
 
       interfaceManagerService: computed,
       fetchEncodeCharacter: action,
@@ -35,6 +38,7 @@ export class InterfaceManagerStore {
       updateInterfaceManager: action,
       changeUpdateItem: action,
       reset: action,
+      updateInstTypeList: action,
     });
   }
 
@@ -76,4 +80,8 @@ export class InterfaceManagerStore {
   changeUpdateItem = (item: UpdateItem) => {
     this.updateItem = item;
   };
+
+  updateInstTypeList(list) {
+    this.instTypeList = list;
+  }
 }

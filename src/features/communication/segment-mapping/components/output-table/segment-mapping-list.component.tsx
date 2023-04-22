@@ -12,6 +12,7 @@ import {
 import {Confirm} from '@/library/models';
 import {useStores} from '@/stores';
 import {lookupItems, lookupValue} from '@/library/utils';
+import {InstTypeList} from './inst-type.component';
 
 let instType;
 let dataFlow;
@@ -56,7 +57,7 @@ interface SegmentMappingListProps {
 }
 
 export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
-  const {segmentMappingStore} = useStores();
+  const {segmentMappingStore, interfaceManagerStore} = useStores();
   const [collection, setCollection] = useState<any>([]);
 
   const getCollection = () => {
@@ -75,7 +76,6 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const headerSortingStyle = {backgroundColor: '#c8e6c9', fontSize: 20};
   return (
     <>
       <TableBootstrap
@@ -88,55 +88,6 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             text: 'Id',
             hidden: true,
             csvExport: false,
-          },
-          {
-            dataField: 'instType',
-            text: 'Inst Type',
-            headerClasses: 'textHeader',
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            sort: true,
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                instType = filter;
-              },
-            }),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row?.instType}
-                  name='equipmentType'
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const instType = e.target.value;
-                    props.onUpdateFields &&
-                      props.onUpdateFields({instType}, row._id);
-                  }}
-                >
-                  <option selected>Select</option>
-                  {props?.extraData?.arrInstType.map(
-                    (item: any, index: number) => (
-                      <option
-                        key={item.instrumentType}
-                        value={item.instrumentType}
-                      >
-                        {item.instrumentType}
-                      </option>
-                    ),
-                  )}
-                </select>
-              </>
-            ),
           },
           {
             dataField: 'dataFlow',
@@ -185,6 +136,42 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             ),
           },
           {
+            dataField: 'instType',
+            text: 'Inst Type',
+            headerClasses: 'textHeader',
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            sort: true,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                instType = filter;
+              },
+            }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <InstTypeList
+                  type='instType'
+                  dataFlow={row.dataFlow}
+                  onSelect={instType => {
+                    props.onUpdateFields &&
+                      props.onUpdateFields({instType}, row._id);
+                  }}
+                />
+              </>
+            ),
+          },
+
+          {
             dataField: 'protocol',
             text: 'Protocol',
             headerClasses: 'textHeader',
@@ -208,28 +195,14 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               columnIndex,
             ) => (
               <>
-                <select
-                  name='data_type'
-                  value={row?.protocol}
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const protocol = e.target.value;
+                <InstTypeList
+                  type='protocol'
+                  dataFlow={row.dataFlow}
+                  onSelect={protocol => {
                     props.onUpdateFields &&
                       props.onUpdateFields({protocol}, row._id);
                   }}
-                >
-                  <option selected>Select</option>
-                  {props?.extraData?.arrInstType.map(
-                    (item: any, index: number) => (
-                      <option
-                        key={item.communicationProtocol}
-                        value={item.communicationProtocol}
-                      >
-                        {item.communicationProtocol}
-                      </option>
-                    ),
-                  )}
-                </select>
+                />
               </>
             ),
           },
