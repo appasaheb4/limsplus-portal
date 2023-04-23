@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
-import dayjs from 'dayjs';
 import {
   Toast,
   Header,
@@ -11,15 +10,17 @@ import {
   ModalImportFile,
   Icons,
   ModalConfirm,
+  Form,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
 import {Styles} from '@/config';
 import {FileImportExportList} from '../components';
-import {useForm} from 'react-hook-form';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-import {CommonFileImportExportInputTable} from '../components';
+import {useForm, Controller} from 'react-hook-form';
+import {lookupItems, lookupValue} from '@/library/utils';
+import {PreviewImportTable} from '../components';
 
 const FileImportExport = observer(() => {
   const {
@@ -38,6 +39,24 @@ const FileImportExport = observer(() => {
   const [hideAddSegmentMapping, setHideAddSegmentMapping] =
     useState<boolean>(true);
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [segmentMappingList, setSegmentMappingList] = useState<any>([]);
+  const [previewRecords, setPreviewRecords] = useState<Array<any>>([]);
+
+  const getSegmentMappingList = (dataFlow: string) => {
+    segmentMappingStore.segmentMappingService
+      .findByFields({
+        input: {
+          filter: {
+            dataFlow,
+          },
+        },
+      })
+      .then(res => {
+        if (res.findByFieldsSegmentMapping.success) {
+          setSegmentMappingList(res.findByFieldsSegmentMapping.data);
+        }
+      });
+  };
 
   const handleFileUpload = (file: any) => {
     const reader = new FileReader();
@@ -49,100 +68,35 @@ const FileImportExport = observer(() => {
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_json(ws, {header: 1});
-      const defaultHeader: string[] = [
-        'Country Name',
-        'Lab ID',
-        'Registration Date',
-        'Client Code',
-        'Client Name',
-        'Patient Name',
-        'Age',
-        'Age Units',
-        'Sex',
-        'Test Name',
-        'Test Code',
-        'Sample',
-        'Due Date',
-        'Report Date',
-        'Status',
-        'PDF Report',
-      ];
-      const headers: any = [];
-      const object: any = [];
-      let fileImaport: boolean = false;
-      // eslint-disable-next-line unicorn/no-array-for-each
-      data.forEach((item: any, index: number) => {
-        if (index === 0) {
-          headers.push(item);
-          if (JSON.stringify(headers[0]) !== JSON.stringify(defaultHeader))
-            return alert('Please select correct file. Match all fields!');
-        } else {
-          if (JSON.stringify(headers[0]) === JSON.stringify(defaultHeader)) {
-            if (item?.length > 0) {
-              object.push({
-                countryName: item[0],
-                labId: Number.parseInt(item[1]),
-                registrationDate: item[2]
-                  ? new Date(
-                      dayjs(
-                        item[2].match(' - ')
-                          ? item[2].split(' - ')[0]
-                          : item[2],
-                      ).format('YYYY-MM-DD'),
-                    )
-                  : new Date(),
-                clientCode: item[3],
-                clientName: item[4],
-                patientName: item[5],
-                age: Number.parseInt(item[6]),
-                ageUnits: item[7],
-                sex: item[8],
-                testName: item[9],
-                testCode: item[10],
-                sample: item[11],
-                dueDate: item[12]
-                  ? new Date(
-                      dayjs(
-                        item[12].match(' - ')
-                          ? item[12].split(' - ')[0]
-                          : item[12],
-                      ).format('YYYY-MM-DD'),
-                    )
-                  : new Date(),
-                reportDate: item[13]
-                  ? new Date(
-                      dayjs(
-                        item[13].match(' - ')
-                          ? item[13].split(' - ')[0]
-                          : item[13],
-                      ).format('YYYY-MM-DD'),
-                    )
-                  : new Date(),
-                status: item[14] || 'Reported',
-                pdfReport: item[15],
-              });
-            }
-            fileImaport = true;
-          }
-        }
+      const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+      const segmentMappings = segmentMappingList?.map(item => {
+        return {
+          elementName: item.elementName,
+          elementSequence: item.elementSequence,
+        };
       });
-      if (fileImaport && object.length > 0) {
-        clientRegistrationStore.clientRegistrationService
-          .import({input: {filter: {object}}})
-          .then(res => {
-            if (res.importFileImportExport.success) {
-              Toast.success({
-                message: `😊 ${res.importFileImportExport.message}`,
-              });
-              setTimeout(() => {
-                window.location.reload();
-              }, 1000);
-            }
+      const list: any[] = [];
+      data.map(item => {
+        const record = {};
+        for (const [key, value] of Object.entries(item as any)) {
+          const segmentDetails = segmentMappings.find(
+            item => item.elementName == key,
+          );
+          Object.assign(record, {
+            [key]: value,
+            elementSequence: segmentDetails?.elementSequence,
           });
-      }
+          list.push();
+        }
+        list.push(record);
+      });
+      setPreviewRecords(list);
     });
     reader.readAsBinaryString(file);
+  };
+
+  const upload = async (data: any) => {
+    console.log({data});
   };
 
   return (
@@ -158,29 +112,79 @@ const FileImportExport = observer(() => {
         />
       )}
 
-      <div className=' mx-auto flex-wrap'>
-        <div className={'p-2 rounded-lg shadow-xl shown'}>
-          <CommonFileImportExportInputTable />
-          <List direction='row' space={3} align='center'>
-            <Buttons.Button
+      <div
+        className={
+          'flex flex-col items-center justify-center p-2 rounded-lg shadow-xl'
+        }
+      >
+        <List direction='col' space={3} align='center'>
+          <Form.InputWrapper
+            label='Transfer Type'
+            hasError={!!errors.transferType}
+          >
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <select
+                  value={value}
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.transferType ? 'border-red  ' : 'border-gray-300'
+                  } rounded-md`}
+                  onChange={e => {
+                    const transferType = e.target.value;
+                    onChange(transferType);
+                    getSegmentMappingList(transferType);
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems(routerStore.lookupItems, 'TRANSFER_TYPE')?.map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ),
+                  )}
+                </select>
+              )}
+              name='transferType'
+              rules={{required: true}}
+              defaultValue=''
+            />
+          </Form.InputWrapper>
+          <Buttons.Button
+            size='medium'
+            type='outline'
+            onClick={() => {
+              if (segmentMappingList?.length == 0)
+                return alert('Please select transfer type');
+              setModalImportFile({
+                show: true,
+                title: 'Import excel file!',
+              });
+            }}
+          >
+            <Icons.EvaIcon
+              icon='arrowhead-down-outline'
               size='medium'
-              type='outline'
-              onClick={() => {
-                setModalImportFile({
-                  show: true,
-                  title: 'Import excel file!',
-                });
-              }}
-            >
-              <Icons.EvaIcon
-                icon='arrowhead-down-outline'
-                size='medium'
-                color={Styles.COLORS.BLACK}
-              />
-              Import File
-            </Buttons.Button>
-          </List>
-        </div>
+              color={Styles.COLORS.BLACK}
+            />
+            Import File
+          </Buttons.Button>
+
+          <Buttons.Button
+            size='medium'
+            type='solid'
+            onClick={handleSubmit(upload)}
+          >
+            <Icons.EvaIcon icon='plus-circle-outline' />
+            {'Upload'}
+          </Buttons.Button>
+        </List>
+        {previewRecords?.length > 0 && (
+          <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
+            <PreviewImportTable data={previewRecords} />
+          </div>
+        )}
       </div>
 
       <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
