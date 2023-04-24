@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
 import {Table} from 'react-bootstrap';
 import _ from 'lodash';
+import {Buttons, Icons} from '@/library/components';
 interface PreviewImportTableProps {
   data?: any;
+  onUpload: (list: any) => void;
 }
 
-export const PreviewImportTable = ({data}: PreviewImportTableProps) => {
+export const PreviewImportTable = ({
+  data,
+  onUpload,
+}: PreviewImportTableProps) => {
   const [keys, setKeys] = useState<Array<any>>([]);
   let arrKeys: any = [];
   data.map(function (item) {
@@ -16,33 +21,52 @@ export const PreviewImportTable = ({data}: PreviewImportTableProps) => {
     arrKeys.push(...localKeys);
   });
   arrKeys = _.uniq(arrKeys);
-  console.log({data, arrKeys});
+  arrKeys = _.remove(arrKeys, item => {
+    return item != 'elementSequence';
+  });
+  const finalOutput: any = [];
   data.map(function (item) {
-    const records = {};
+    const list: any = [];
     arrKeys.map(key => {
-      Object.assign(records, {[key]: item[key]});
+      list.push({field: key, value: item[key]});
     });
-    console.log({records});
+    finalOutput.push(list);
   });
 
   return (
-    <Table striped bordered>
-      <thead>
-        <tr className='p-0 text-xs'>
-          {arrKeys?.map(item => (
-            <th className='text-white'>{item}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className='text-xs'>
-        {data?.map(item => (
-          <tr>
-            <td>
-              <span></span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <>
+      <div className='flex flex-wrap  overflow-scroll'>
+        <Table striped bordered>
+          <thead>
+            <tr>
+              {arrKeys?.map(item => (
+                <th className='text-white'>{item}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {finalOutput?.map((item, index) => (
+              <tr>
+                {arrKeys?.map((keys, keysIndex) => (
+                  <td>
+                    <span>{item[keysIndex].value}</span>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      <div className='flex items-center justify-center mt-2'>
+        <Buttons.Button
+          size='medium'
+          type='solid'
+          onClick={() => onUpload(finalOutput)}
+        >
+          <Icons.EvaIcon icon='plus-circle-outline' />
+          {'Upload'}
+        </Buttons.Button>
+      </div>
+    </>
   );
 };

@@ -1,6 +1,6 @@
 import {stores} from '@/stores';
 const startup = async () => {
-  stores.clientRegistrationStore.clientRegistrationService.list();
+  stores.fileImportExportStore.fileImportExportService.listFileImportExport();
 };
 
 export default startup;
