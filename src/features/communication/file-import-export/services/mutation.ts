@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation ($input: ClientRegistrationInput!) {
-    clientRegistrationList(input: $input) {
+  mutation ($input: FileImportExportInput!) {
+    fileImportExports(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,22 +10,8 @@ export const LIST = gql`
       message
       data {
         _id
-        countryName
-        labId
-        registrationDate
-        clientCode
-        clientName
-        patientName
-        age
-        ageUnits
-        sex
-        testName
-        testCode
-        sample
-        dueDate
-        reportDate
-        status
-        pdfReport
+        transferType
+        records
         dateOfEntry
         lastUpdated
       }
@@ -34,8 +20,8 @@ export const LIST = gql`
 `;
 
 export const REMOVE_RECORD = gql`
-  mutation ($input: RemoveClientRegistrationInput!) {
-    removeClientRegistration(input: $input) {
+  mutation ($input: FileImportExportRemoveInput!) {
+    removeFileImportExport(input: $input) {
       success
       message
     }
@@ -43,8 +29,8 @@ export const REMOVE_RECORD = gql`
 `;
 
 export const CREATE_RECORD = gql`
-  mutation ($input: CreateSegmentMappingInput!) {
-    createSegmentMapping(input: $input) {
+  mutation ($input: CreateFileImportExportInput!) {
+    createFileImportExport(input: $input) {
       success
       message
     }

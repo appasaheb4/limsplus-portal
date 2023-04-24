@@ -3,22 +3,36 @@ import {FileImportExport} from '../models';
 import {FileImportExportService} from '../services';
 
 export class FileImportExportStore {
-  inputFileImportExportList!: FileImportExport[];
+  fileImportExport!: FileImportExport;
   fileImportExportList!: FileImportExport[];
   fileImportExportListCount: number;
+  defaultValue: {
+    transferType: string;
+    page: number;
+    limit: number;
+  };
+  y;
 
   constructor() {
-    this.inputFileImportExportList = [];
+    this.fileImportExport = new FileImportExport({transferType: 'IMPORT_FILE'});
     this.fileImportExportList = [];
     this.fileImportExportListCount = 0;
+    this.defaultValue = {
+      transferType: 'IMPORT_FILE',
+      page: 0,
+      limit: 10,
+    };
 
     makeObservable<FileImportExportStore, any>(this, {
-      inputFileImportExportList: observable,
+      fileImportExport: observable,
       fileImportExportList: observable,
       fileImportExportListCount: observable,
+      defaultValue: observable,
 
       fileImportExportService: computed,
+      updateFileImpExport: action,
       updateFileImportExportList: action,
+      updateDefaultValue: action,
     });
   }
 
@@ -26,13 +40,15 @@ export class FileImportExportStore {
     return new FileImportExportService();
   }
 
-  updateInputFileImpExport(data) {
-    this.inputFileImportExportList = data;
+  updateFileImpExport(data) {
+    this.fileImportExport = data;
   }
 
   updateFileImportExportList(res) {
-    this.fileImportExportList = res.clientRegistrationList.data;
-    this.fileImportExportListCount =
-      res.clientRegistrationList.paginatorInfo.count;
+    this.fileImportExportList = res.fileImportExports.data;
+    this.fileImportExportListCount = res.fileImportExports.paginatorInfo.count;
+  }
+  updateDefaultValue(payload) {
+    this.defaultValue = payload;
   }
 }

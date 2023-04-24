@@ -43,6 +43,7 @@ import {HostCommunicationStore} from '@/features/communication/host-communicatio
 import {SegmentMappingStore} from '@/features/communication/segment-mapping/stores/segment-mapping.store';
 import {InstResultMappingStore} from '@/features/communication/instrument-result-mapping/stores/inst-result-mapping.store';
 import {TransmittedMessageStore} from '@/features/communication/transmitted-message/stores/transmitted-message.store';
+import {FileImportExportStore} from '@/features/communication/file-import-export/stores/file-import-export.store';
 
 // setting
 import {RoleStore} from '@/features/settings/roles/stores/role.store';
@@ -122,6 +123,7 @@ export class Stores extends Store {
   segmentMappingStore!: SegmentMappingStore;
   instResultMappingStore!: InstResultMappingStore;
   transmittedMessageStore!: TransmittedMessageStore;
+  fileImportExportStore!: FileImportExportStore;
 
   // settings
   userStore!: UserStore;
@@ -201,6 +203,7 @@ export class Stores extends Store {
     this.segmentMappingStore = new SegmentMappingStore();
     this.instResultMappingStore = new InstResultMappingStore();
     this.transmittedMessageStore = new TransmittedMessageStore();
+    this.fileImportExportStore = new FileImportExportStore();
 
     // settings
     this.userStore = new UserStore();
