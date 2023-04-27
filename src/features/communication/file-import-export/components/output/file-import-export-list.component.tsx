@@ -6,7 +6,7 @@ import {Buttons, Icons} from '@/library/components';
 
 interface FileImportExportListProps {
   data: any;
-  totalSize: number;
+  totalSize: any;
   onSend: (record: any) => void;
   onDelete: (ids: [string]) => void;
   onPagination: (type: string) => void;
@@ -76,7 +76,12 @@ export const FileImportExportList = observer(
           </Table>
         </div>
         <div className='flex items-center gap-2 mt-2'>
-          <span>Total Records: {totalSize}</span>
+          {/* <span>Total Records: {totalSize}</span> */}
+          <span>
+            Showing {totalSize?.page * 10} to{' '}
+            {totalSize?.limit + totalSize?.page * 10} of {totalSize?.count}{' '}
+            Results
+          </span>
           <Icons.IconContext
             color='#fff'
             size='25'

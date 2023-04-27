@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import _ from 'lodash';
 import {Buttons, Icons} from '@/library/components';
+import {ModalModifyDetails} from '../molecules/modal-modify-details.component';
 interface PreviewImportTableProps {
   data?: any;
   onUpload: (list: any) => void;
@@ -11,27 +12,36 @@ export const PreviewImportTable = ({
   data,
   onUpload,
 }: PreviewImportTableProps) => {
-  const [keys, setKeys] = useState<Array<any>>([]);
-  let arrKeys: any = [];
-  data.map(function (item) {
-    const localKeys: any = [];
-    for (const [key, value] of Object.entries(item as any)) {
-      localKeys.push(key);
-    }
-    arrKeys.push(...localKeys);
-  });
-  arrKeys = _.uniq(arrKeys);
-  arrKeys = _.remove(arrKeys, item => {
-    return item != 'elementSequence';
-  });
-  const finalOutput: any = [];
-  data.map(function (item) {
-    const list: any = [];
-    arrKeys.map(key => {
-      list.push({field: key, value: item[key]});
+  const [reload, setReload] = useState(false);
+  const [modalModifyDetails, setModalModifyDetails] = useState<any>({});
+  const [finalOutput, setFinalOutput] = useState<any>([]);
+  const [arrKeys, setArrKeys] = useState([]);
+
+  useEffect(() => {
+    let localArrKeys: any = [];
+    const localFinalOutput: any = [];
+    data.map(function (item) {
+      const localKeys: any = [];
+      for (const [key, value] of Object.entries(item as any)) {
+        localKeys.push(key);
+      }
+      localArrKeys.push(...localKeys);
     });
-    finalOutput.push(list);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    localArrKeys = _.uniq(localArrKeys);
+    localArrKeys = _.remove(localArrKeys, item => {
+      return item != 'elementSequence';
+    });
+    setArrKeys(localArrKeys);
+    data.map(function (item) {
+      const list: any = [];
+      localArrKeys.map(key => {
+        list.push({field: key, value: item[key]});
+      });
+      localFinalOutput.push(list);
+    });
+    setFinalOutput(localFinalOutput);
+  }, [data]);
 
   return (
     <>
@@ -45,10 +55,19 @@ export const PreviewImportTable = ({
             </tr>
           </thead>
           <tbody>
-            {finalOutput?.map((item, index) => (
+            {finalOutput?.map((item, itemIndex) => (
               <tr>
                 {arrKeys?.map((keys, keysIndex) => (
-                  <td>
+                  <td
+                    onDoubleClick={() => {
+                      setModalModifyDetails({
+                        show: true,
+                        keys,
+                        itemIndex,
+                        keysIndex,
+                      });
+                    }}
+                  >
                     <span>{item[keysIndex].value}</span>
                   </td>
                 ))}
@@ -67,6 +86,28 @@ export const PreviewImportTable = ({
           {'Upload'}
         </Buttons.Button>
       </div>
+      <ModalModifyDetails
+        {...modalModifyDetails}
+        onClose={() => {
+          setModalModifyDetails({
+            show: false,
+          });
+        }}
+        onUpdate={(value, keys, itemIndex, keysIndex, isUpdateAll) => {
+          setModalModifyDetails({
+            show: false,
+          });
+          if (!isUpdateAll) {
+            finalOutput[itemIndex][keysIndex].value = value;
+            setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
+          } else {
+            finalOutput.map((item, index) => {
+              finalOutput[index][keysIndex].value = value;
+            });
+            setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
+          }
+        }}
+      />
     </>
   );
 };

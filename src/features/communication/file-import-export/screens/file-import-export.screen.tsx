@@ -74,11 +74,13 @@ const FileImportExport = observer(() => {
       /* Parse data */
       const bstr = evt.target.result;
       const wb = XLSX.read(bstr, {type: 'binary'});
+
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+
       const segmentMappings = segmentMappingList?.map(item => {
         return {
           elementName: item.elementName,
@@ -103,6 +105,39 @@ const FileImportExport = observer(() => {
       setPreviewRecords(list);
     });
     reader.readAsBinaryString(file);
+
+    // const wb = XLSX.readFile(URL.createObjectURL(file), {
+    //   type: 'binary',
+    //   cellDates: true,
+    // });
+    // console.log({wb});
+    // /* Get first worksheet */
+    // const wsname = wb.SheetNames[0];
+    // const ws = wb.Sheets[wsname];
+    // /* Convert array of arrays */
+    // const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+    // const segmentMappings = segmentMappingList?.map(item => {
+    //   return {
+    //     elementName: item.elementName,
+    //     elementSequence: item.elementSequence,
+    //   };
+    // });
+    // const list: any[] = [];
+    // data.map(item => {
+    //   const record = {};
+    //   for (const [key, value] of Object.entries(item as any)) {
+    //     const segmentDetails = segmentMappings.find(
+    //       item => item.elementName == key,
+    //     );
+    //     Object.assign(record, {
+    //       [key]: value,
+    //       elementSequence: segmentDetails?.elementSequence,
+    //     });
+    //     list.push();
+    //   }
+    //   list.push(record);
+    // });
+    // setPreviewRecords(list);
   };
 
   const onUpload = () => {
@@ -227,7 +262,10 @@ const FileImportExport = observer(() => {
       <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
         <FileImportExportList
           data={fileImportExportStore.fileImportExportList || []}
-          totalSize={fileImportExportStore.fileImportExportListCount}
+          totalSize={{
+            ...fileImportExportStore.defaultValue,
+            count: fileImportExportStore.fileImportExportListCount,
+          }}
           onSend={record => {
             console.log(record);
           }}
