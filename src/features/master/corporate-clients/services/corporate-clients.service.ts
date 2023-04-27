@@ -19,6 +19,7 @@ import {
   FILTER,
   FILTER_BY_FIELDS,
   COUNTER_CORPORATE_CLIENTS_INVOICEAC,
+  FIND_BY_ARR_ITEMS,
 } from './mutation';
 
 export class CorporateClientsService {
@@ -210,6 +211,21 @@ export class CorporateClientsService {
             ...stores.corporateClientsStore.corporateClients,
             invoiceAc: response.data.counter.data[0]?.seq + 1 || 1_000_001,
           });
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByArrayItems = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_ARR_ITEMS,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>
