@@ -10,8 +10,8 @@ export class FileImportExportStore {
     transferType: string;
     page: number;
     limit: number;
+    count?: number;
   };
-  y;
 
   constructor() {
     this.fileImportExport = new FileImportExport({transferType: 'IMPORT_FILE'});
@@ -52,3 +52,4 @@ export class FileImportExportStore {
     this.defaultValue = payload;
   }
 }
+const store = new FileImportExportStore();

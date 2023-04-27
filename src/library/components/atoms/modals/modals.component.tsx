@@ -165,7 +165,9 @@ export const ModalImportFile = (props: ModalImportFileProps) => {
                     id='file'
                     accept={props.accept}
                     placeholder='Import File'
-                    onChange={(e: any) => setFile(e.target.files[0])}
+                    onChange={(e: any) => {
+                      setFile(e.target.files[0]);
+                    }}
                   />
                 </div>
                 {/*footer*/}

@@ -27,7 +27,6 @@ export class FileImportExportService {
           variables: {input: {page, limit, transferType}},
         })
         .then((res: any) => {
-          console.log({res});
           stores.fileImportExportStore.updateFileImportExportList(res.data);
           resolve(res.data);
         })
