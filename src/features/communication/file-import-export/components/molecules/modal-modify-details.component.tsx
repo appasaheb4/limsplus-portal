@@ -19,7 +19,14 @@ interface ModalModifyDetailsProps {
   itemIndex: number;
   keysIndex: number;
   onClose?: () => void;
-  onUpdate: (value, keys, itemIndex, keysIndex, isUpdateAll) => void;
+  onUpdate: (
+    value,
+    inputFormat,
+    keys,
+    itemIndex,
+    keysIndex,
+    isUpdateAll,
+  ) => void;
 }
 
 export const ModalModifyDetails = observer(
@@ -125,7 +132,14 @@ export const ModalModifyDetails = observer(
                 size='medium'
                 type='solid'
                 onClick={() =>
-                  onUpdate(value, keys, itemIndex, keysIndex, isUpdateAll)
+                  onUpdate(
+                    value,
+                    inputFormat,
+                    keys,
+                    itemIndex,
+                    keysIndex,
+                    isUpdateAll,
+                  )
                 }
               >
                 <Icons.EvaIcon icon='plus-circle-outline' />

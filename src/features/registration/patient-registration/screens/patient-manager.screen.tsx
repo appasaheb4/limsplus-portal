@@ -29,7 +29,8 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
-import {dateAvailableUnits, getDiffByDate, getAgeByAgeObject} from '../utils';
+import {dateAvailableUnits} from '../utils';
+import {getAgeByAgeObject, getDiffByDate} from '@/core-utils';
 import {resetPatientManager} from '../startup';
 
 export const PatientManager = PatientManagerHoc(

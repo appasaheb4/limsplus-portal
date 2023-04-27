@@ -305,3 +305,63 @@ export const FIND_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_ARR_ITEMS = gql`
+  mutation ($input: DoctorInput!) {
+    findByArrayItemsDoctor(input: $input) {
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        doctorCode
+        doctorName
+        sex
+        title
+        firstName
+        middleName
+        lastName
+        reportName
+        address
+        city
+        state
+        district
+        country
+        postalCode
+        doctorType
+        speciality
+        category
+        confidential
+        salesTerritoRy
+        area
+        sbu
+        zone
+        telephone
+        mobileNo
+        email
+        reportPriority
+        deliveryMode
+        urgent
+        registrationLocation
+        lab
+        reportFormat
+        info
+        fyiLine
+        workLine
+        openingTime
+        closingTime
+        specificFormat
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
