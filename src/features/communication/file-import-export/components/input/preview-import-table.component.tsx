@@ -22,7 +22,6 @@ export const PreviewImportTable = observer(
     useEffect(() => {
       let localArrKeys: any = [];
       const localFinalOutput: any = [];
-
       const loadAsync = async () => {
         data.map(function (item) {
           const localKeys: any = [];
@@ -72,8 +71,6 @@ export const PreviewImportTable = observer(
             .then(res => {
               return res.findByArrayItemsCorporateCode?.data;
             });
-        console.log({corporateCodeList});
-
         data.map(function (item) {
           const list: any = [];
           localArrKeys.map(key => {
@@ -83,9 +80,16 @@ export const PreviewImportTable = observer(
                 o => o?.doctorCode == item['Doctor Id'],
               );
               if (key === 'Doctor Name') {
+                list.map(o => o.field).includes('Doctor Name') &&
+                  list.splice(list.map(o => o.field).indexOf('Doctor Name'), 1);
                 list.push({field: key, value: dockerDetails?.doctorName});
               }
               if (key === 'Doctor Mobile Number') {
+                list.map(o => o.field).indexOf('Doctor Mobile Number') &&
+                  list.splice(
+                    list.map(o => o.field).indexOf('Doctor Mobile Number'),
+                    1,
+                  );
                 list.push({field: key, value: dockerDetails?.mobileNo});
               } else {
                 list.push({field: key, value: item[key]});
@@ -96,6 +100,7 @@ export const PreviewImportTable = observer(
                 o => o.corporateCode == item['Corporate Code'],
               );
               if (key === 'Panel Code') {
+                list.splice(list.map(o => o.field).indexOf('Panel Code'), 1);
                 const ccPanelList = corporateCodeDetails?.panelList
                   ?.map(o => o?.panelCode)
                   .join(',');
@@ -103,7 +108,6 @@ export const PreviewImportTable = observer(
                   field: key,
                   value: ccPanelList,
                 });
-                console.log({list});
               }
             } else {
               list.push({field: key, value: item[key]});
@@ -142,7 +146,7 @@ export const PreviewImportTable = observer(
                         });
                       }}
                     >
-                      <span>{item[keysIndex]?.value}</span>
+                      <span>{item[keysIndex]?.value?.toString()}</span>
                     </td>
                   ))}
                 </tr>
