@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import _ from 'lodash';
 import {observer} from 'mobx-react';
 import {Table} from 'react-bootstrap';
-import {Buttons, Icons} from '@/library/components';
+import {Buttons, Icons, Form} from '@/library/components';
+import {IoMdCheckmarkCircle} from 'react-icons/io';
+import {debounce} from '@/core-utils';
 
 interface FileImportExportListProps {
   data: any;
   totalSize: any;
   onSend: (record: any) => void;
   onDelete: (ids: [string]) => void;
+  onFilter?: (details: any) => void;
   onPagination: (type: string) => void;
 }
 
@@ -18,17 +21,20 @@ export const FileImportExportList = observer(
     totalSize,
     onSend,
     onDelete,
+    onFilter,
     onPagination,
   }: FileImportExportListProps) => {
     const finalOutput: any = [];
     let arrKeys: any = [];
+    const [value, setValue] = useState({value: '', index: 0});
+
     data?.map(item => {
       const list: any[] = [];
       item.records?.filter((e: any) => {
         list.push(e);
         arrKeys.push(e.field);
       });
-      finalOutput.push({_id: item._id, ...list});
+      finalOutput.push({_id: item._id, list});
     });
     arrKeys = _.uniq(arrKeys);
 
@@ -38,9 +44,26 @@ export const FileImportExportList = observer(
           <Table striped bordered>
             <thead>
               <tr>
-                {arrKeys?.map(item => (
-                  <th className='text-white'>{item}</th>
+                {arrKeys?.map((item, index) => (
+                  <th className='text-white'>
+                    {item}
+                    <Form.Input
+                      value={
+                        value.index == index ? value.value?.toString() : ''
+                      }
+                      key={index}
+                      placeholder={item}
+                      style={{minWidth: 100, fontSize: 14, color: '#000000'}}
+                      onChange={value => {
+                        setValue({value, index});
+                        debounce(() => {
+                          onFilter && onFilter({filed: item, value});
+                        });
+                      }}
+                    />
+                  </th>
                 ))}
+                <th className='text-white'>Status</th>
                 <th className='text-white'>Action</th>
               </tr>
             </thead>
@@ -49,9 +72,14 @@ export const FileImportExportList = observer(
                 <tr>
                   {arrKeys?.map((keys, keysIndex) => (
                     <td>
-                      <span>{item[keysIndex].value}</span>
+                      <span>
+                        {item.list?.find(item => item?.field == keys).value}
+                      </span>
                     </td>
                   ))}
+                  <td>
+                    <IoMdCheckmarkCircle color='green' size={20} />
+                  </td>
                   <td className='flex flex-row gap-2'>
                     <Buttons.Button
                       size='medium'

@@ -261,6 +261,13 @@ const FileImportExport = observer(() => {
               body: 'Record delete permanently',
             });
           }}
+          onFilter={filter => {
+            fileImportExportStore.fileImportExportService
+              .filterByFields({input: {filter}})
+              .then(res => {
+                console.log(res);
+              });
+          }}
         />
       </div>
       <ModalImportFile

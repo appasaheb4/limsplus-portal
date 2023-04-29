@@ -97,6 +97,25 @@ export const FILTER = gql`
   }
 `;
 
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: FileImportExportInput!) {
+    filterByFieldsFileImportExport(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        transferType
+        records
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: SegmentMappingInput!) {
     findByFieldsSegmentMapping(input: $input) {
