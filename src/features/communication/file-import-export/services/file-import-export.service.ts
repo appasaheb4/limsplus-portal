@@ -16,6 +16,7 @@ import {
   FILTER,
   FIND_BY_FIELDS,
   CREATE_RECORD,
+  FILTER_BY_FIELDS,
 } from './mutation';
 
 export class FileImportExportService {
@@ -109,6 +110,35 @@ export class FileImportExportService {
           stores.clientRegistrationStore.filterClientRegistrationList(
             response.data,
           );
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsFileImportExport.success)
+            return this.listFileImportExport();
+          stores.fileImportExportStore.updateFileImportExportList({
+            fileImportExports: {
+              data: response.data.filterByFieldsFileImportExport.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsFileImportExport.paginatorInfo
+                    .count,
+              },
+            },
+          });
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

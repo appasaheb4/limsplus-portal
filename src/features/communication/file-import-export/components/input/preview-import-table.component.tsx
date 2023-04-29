@@ -82,7 +82,10 @@ export const PreviewImportTable = observer(
               if (key === 'Doctor Name') {
                 list.map(o => o.field).includes('Doctor Name') &&
                   list.splice(list.map(o => o.field).indexOf('Doctor Name'), 1);
-                list.push({field: key, value: dockerDetails?.doctorName});
+                list.push({
+                  field: key,
+                  value: dockerDetails?.doctorName?.toString(),
+                });
               }
               if (key === 'Doctor Mobile Number') {
                 list.map(o => o.field).indexOf('Doctor Mobile Number') &&
@@ -90,9 +93,12 @@ export const PreviewImportTable = observer(
                     list.map(o => o.field).indexOf('Doctor Mobile Number'),
                     1,
                   );
-                list.push({field: key, value: dockerDetails?.mobileNo});
+                list.push({
+                  field: key,
+                  value: dockerDetails?.mobileNo?.toString(),
+                });
               } else {
-                list.push({field: key, value: item[key]});
+                list.push({field: key, value: item[key]?.toString()});
               }
             }
             if (item.Predefined_Panel == 'Y') {
@@ -106,11 +112,11 @@ export const PreviewImportTable = observer(
                   .join(',');
                 list.push({
                   field: key,
-                  value: ccPanelList,
+                  value: ccPanelList?.toString(),
                 });
               }
             } else {
-              list.push({field: key, value: item[key]});
+              list.push({field: key, value: item[key]?.toString()});
             }
           });
           localFinalOutput.push(list);
