@@ -268,6 +268,9 @@ const FileImportExport = observer(() => {
                 console.log(res);
               });
           }}
+          onClearFilter={() => {
+            fileImportExportStore.fileImportExportService.listFileImportExport();
+          }}
         />
       </div>
       <ModalImportFile

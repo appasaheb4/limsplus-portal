@@ -327,7 +327,7 @@ export const DatePicker = ({
 
 export const CheckBox = props => {
   return (
-    <li>
+    <div>
       <input
         key={props.id}
         onClick={props.handleCheckChieldElement}
@@ -336,7 +336,7 @@ export const CheckBox = props => {
         value={props.value}
       />{' '}
       {props.value}
-    </li>
+    </div>
   );
 };
 
