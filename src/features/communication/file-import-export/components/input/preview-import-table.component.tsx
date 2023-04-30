@@ -7,6 +7,8 @@ import {Buttons, Icons} from '@/library/components';
 import {ModalModifyDetails} from '../molecules/modal-modify-details.component';
 import {getAgeByAgeObject, getDiffByDate1} from '@/core-utils';
 import {useStores} from '@/stores';
+import {IoMdCheckmarkCircle} from 'react-icons/io';
+
 interface PreviewImportTableProps {
   data?: any;
   onUpload: (list: any) => void;
@@ -136,6 +138,7 @@ export const PreviewImportTable = observer(
                 {arrKeys?.map(item => (
                   <th className='text-white'>{item}</th>
                 ))}
+                <th className='text-white'>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -143,6 +146,7 @@ export const PreviewImportTable = observer(
                 <tr>
                   {arrKeys?.map((keys, keysIndex) => (
                     <td
+                      className='p-2'
                       onDoubleClick={() => {
                         setModalModifyDetails({
                           show: true,
@@ -155,6 +159,9 @@ export const PreviewImportTable = observer(
                       <span>{item[keysIndex]?.value?.toString()}</span>
                     </td>
                   ))}
+                  <td>
+                    <IoMdCheckmarkCircle color='green' size={20} />
+                  </td>
                 </tr>
               ))}
             </tbody>
