@@ -36,7 +36,7 @@ const FileImportExport = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  const [isInputView, setInputView] = useState<boolean>(false);
+  const [isInputView, setInputView] = useState<boolean>(true);
   const [modalImportFile, setModalImportFile] = useState({});
 
   const [modalConfirm, setModalConfirm] = useState<any>();
@@ -98,7 +98,6 @@ const FileImportExport = observer(() => {
             [key]: value,
             elementSequence: segmentDetails?.elementSequence,
           });
-          list.push();
         }
         list.push(record);
       });
@@ -213,8 +212,10 @@ const FileImportExport = observer(() => {
         {previewRecords?.length > 0 && (
           <div className='w-3/4'>
             <PreviewImportTable
-              data={previewRecords}
+              arrData={previewRecords}
               onUpload={records => {
+                console.log({records});
+
                 fileImportExportStore.updateFileImpExport({
                   ...fileImportExportStore.fileImportExport,
                   records,

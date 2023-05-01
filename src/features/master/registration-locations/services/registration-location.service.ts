@@ -16,6 +16,7 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
+  FIND_BY_ARRAY_ITEMS,
 } from './mutation';
 import * as Model from '../models';
 
@@ -189,6 +190,25 @@ export class RegistrationLocationsService {
           });
           stores.uploadLoadingFlag(true);
           resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByArrayItem = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FIND_BY_ARRAY_ITEMS,
+          variables,
+        })
+        .then((response: any) => {
+          if (response.data.findByArrayItemsRegistrationLocations.success) {
+            stores.uploadLoadingFlag(true);
+            resolve(response.data);
+          }
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),
