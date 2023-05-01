@@ -3,131 +3,202 @@ import {observer} from 'mobx-react';
 import {Table} from 'react-bootstrap';
 import _ from 'lodash';
 import dayjs from 'dayjs';
-import {Buttons, Icons} from '@/library/components';
+import {Buttons, Icons, Tooltip} from '@/library/components';
 import {ModalModifyDetails} from '../molecules/modal-modify-details.component';
 import {getAgeByAgeObject, getDiffByDate1} from '@/core-utils';
 import {useStores} from '@/stores';
-import {IoMdCheckmarkCircle} from 'react-icons/io';
+import {IoMdCheckmarkCircle, IoIosCloseCircleOutline} from 'react-icons/io';
 
 interface PreviewImportTableProps {
-  data?: any;
+  arrData?: any;
   onUpload: (list: any) => void;
 }
 
 export const PreviewImportTable = observer(
-  ({data, onUpload}: PreviewImportTableProps) => {
-    const {doctorsStore, corporateClientsStore} = useStores();
+  ({arrData, onUpload}: PreviewImportTableProps) => {
+    const {
+      doctorsStore,
+      corporateClientsStore,
+      registrationLocationsStore,
+      loginStore,
+    } = useStores();
     const [modalModifyDetails, setModalModifyDetails] = useState<any>({});
     const [finalOutput, setFinalOutput] = useState<any>([]);
     const [arrKeys, setArrKeys] = useState<Array<string>>([]);
 
-    useEffect(() => {
+    const loadAsync = async data => {
+      console.log({data});
       let localArrKeys: any = [];
       const localFinalOutput: any = [];
-      const loadAsync = async () => {
-        data.map(function (item) {
-          const localKeys: any = [];
-          for (const [key, value] of Object.entries(item as any)) {
-            localKeys.push(key);
-          }
-          localArrKeys.push(...localKeys);
+      data.map(function (item) {
+        const localKeys: any = [];
+        for (const [key, value] of Object.entries(item as any)) {
+          localKeys.push(key);
+        }
+        localArrKeys.push(...localKeys);
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      localArrKeys = _.uniq(localArrKeys);
+      localArrKeys = _.remove(localArrKeys, item => {
+        return item != 'elementSequence';
+      });
+      setArrKeys(localArrKeys);
+      let dockerIds = data.map(item => {
+        return item['Doctor Id'];
+      });
+      dockerIds = _.uniq(dockerIds);
+      dockerIds = _.compact(dockerIds);
+      const dockerList = await doctorsStore.doctorsService
+        .findByArrayItems({
+          input: {
+            filter: {
+              field: 'doctorCode',
+              arrItems: dockerIds,
+            },
+          },
+        })
+        .then(res => {
+          return res.findByArrayItemsDoctor?.data;
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        localArrKeys = _.uniq(localArrKeys);
-        localArrKeys = _.remove(localArrKeys, item => {
-          return item != 'elementSequence';
-        });
-        setArrKeys(localArrKeys);
-        let dockerIds = data.map(item => {
-          return item['Doctor Id'];
-        });
-        dockerIds = _.uniq(dockerIds);
-        dockerIds = _.compact(dockerIds);
-        const dockerList = await doctorsStore.doctorsService
+      let corporateCode = data.map(item => {
+        if (item.Predefined_Panel == 'Y') return item['Corporate Code'];
+      });
+      corporateCode = _.uniq(corporateCode);
+      corporateCode = _.compact(corporateCode);
+      const corporateCodeList =
+        await corporateClientsStore.corporateClientsService
           .findByArrayItems({
             input: {
               filter: {
-                field: 'doctorCode',
-                arrItems: dockerIds,
+                field: 'corporateCode',
+                arrItems: corporateCode,
               },
             },
           })
           .then(res => {
-            return res.findByArrayItemsDoctor?.data;
+            return res.findByArrayItemsCorporateCode?.data;
           });
-        let corporateCode = data.map(item => {
-          if (item.Predefined_Panel == 'Y') return item['Corporate Code'];
-        });
-        corporateCode = _.uniq(corporateCode);
-        corporateCode = _.compact(corporateCode);
-        const corporateCodeList =
-          await corporateClientsStore.corporateClientsService
-            .findByArrayItems({
-              input: {
-                filter: {
-                  field: 'corporateCode',
-                  arrItems: corporateCode,
-                },
+      let collectionCenter = data.map(item => {
+        return item['Collection Center'];
+      });
+      collectionCenter = _.uniq(collectionCenter);
+      collectionCenter = _.compact(collectionCenter);
+      const collectionCenterList =
+        await registrationLocationsStore.registrationLocationsService
+          .findByArrayItem({
+            input: {
+              filter: {
+                field: 'locationCode',
+                arrItems: collectionCenter,
               },
-            })
-            .then(res => {
-              return res.findByArrayItemsCorporateCode?.data;
-            });
-        data.map(function (item) {
-          const list: any = [];
-          localArrKeys.map(key => {
-            // docker details fetch
-            if (item['Doctor Id']) {
-              const dockerDetails = dockerList?.find(
-                o => o?.doctorCode == item['Doctor Id'],
-              );
-              if (key === 'Doctor Name') {
-                list.map(o => o.field).includes('Doctor Name') &&
-                  list.splice(list.map(o => o.field).indexOf('Doctor Name'), 1);
-                list.push({
-                  field: key,
-                  value: dockerDetails?.doctorName?.toString(),
-                });
-              }
-              if (key === 'Doctor Mobile Number') {
-                list.map(o => o.field).indexOf('Doctor Mobile Number') &&
-                  list.splice(
-                    list.map(o => o.field).indexOf('Doctor Mobile Number'),
-                    1,
-                  );
-                list.push({
-                  field: key,
-                  value: dockerDetails?.mobileNo?.toString(),
-                });
-              } else {
-                list.push({field: key, value: item[key]?.toString()});
-              }
+            },
+          })
+          .then(res => {
+            return res.findByArrayItemsRegistrationLocations?.data;
+          });
+      let isError = false;
+      let errorMsg: any[] = [];
+      data.map(function (item) {
+        const list: any = [];
+        localArrKeys.map(key => {
+          // docker details fetch
+          if (item['Doctor Id']) {
+            const dockerDetails = dockerList?.find(
+              o => o?.doctorCode == item['Doctor Id'],
+            );
+            if (key === 'Doctor Name') {
+              list.map(o => o.field).includes('Doctor Name') &&
+                list.splice(list.map(o => o.field).indexOf('Doctor Name'), 1);
+              list.push({
+                field: key,
+                value: dockerDetails?.doctorName?.toString(),
+              });
             }
-            if (item.Predefined_Panel == 'Y') {
-              const corporateCodeDetails = corporateCodeList.find(
-                o => o.corporateCode == item['Corporate Code'],
-              );
-              if (key === 'Panel Code') {
-                list.splice(list.map(o => o.field).indexOf('Panel Code'), 1);
-                const ccPanelList = corporateCodeDetails?.panelList
-                  ?.map(o => o?.panelCode)
-                  .join(',');
-                list.push({
-                  field: key,
-                  value: ccPanelList?.toString(),
-                });
-              }
+            if (key === 'Doctor Mobile Number') {
+              list.map(o => o.field).indexOf('Doctor Mobile Number') &&
+                list.splice(
+                  list.map(o => o.field).indexOf('Doctor Mobile Number'),
+                  1,
+                );
+              list.push({
+                field: key,
+                value: dockerDetails?.mobileNo?.toString(),
+              });
             } else {
               list.push({field: key, value: item[key]?.toString()});
             }
-          });
-          localFinalOutput.push(list);
+          }
+          if (item.Predefined_Panel == 'Y') {
+            const corporateCodeDetails = corporateCodeList.find(
+              o => o.corporateCode == item['Corporate Code'],
+            );
+            if (!corporateCodeDetails?.isPredefinedPanel) {
+              isError = true;
+              errorMsg.push('Predefined panel not enable.');
+            }
+            if (key === 'Panel Code') {
+              list.splice(list.map(o => o.field).indexOf('Panel Code'), 1);
+              const ccPanelList =
+                corporateCodeDetails?.panelList?.map(o => o?.panelCode) || [];
+              if (ccPanelList.length == 0) {
+                isError = true;
+                errorMsg.push('Panel list not found.');
+              }
+              list.push({
+                field: key,
+                value: ccPanelList?.join(',')?.toString(),
+              });
+            }
+          } else {
+            list.push({field: key, value: item[key]?.toString()});
+          }
         });
-        setFinalOutput(localFinalOutput);
-      };
-      loadAsync();
+        if (
+          item['Doctor Id'] &&
+          !dockerList.some(oe => oe?.doctorCode == item['Doctor Id'])
+        ) {
+          isError = true;
+          errorMsg.push('Doctor Id not found.');
+        }
+        if (
+          item['Corporate Code'] &&
+          !corporateCodeList.some(
+            oe => oe?.corporateCode == item['Corporate Code'],
+          )
+        ) {
+          isError = true;
+          errorMsg.push('Corporate Code not found.');
+        }
+        if (item.RLAB && item.RLAB != loginStore.login.lab) {
+          isError = true;
+          errorMsg.push('RLAB not found.');
+        }
+        if (
+          item['Collection Center'] &&
+          !collectionCenterList?.some(
+            oe => oe?.locationCode == item['Collection Center'],
+          )
+        ) {
+          isError = true;
+          errorMsg.push('Collection center not found');
+        }
+
+        errorMsg = _.uniq(errorMsg);
+        localFinalOutput.push({
+          ...list,
+          isError: isError,
+          errorMsg: errorMsg?.join(''),
+        });
+        isError = false;
+        errorMsg = [''];
+      });
+      setFinalOutput(localFinalOutput);
+    };
+
+    useEffect(() => {
+      loadAsync(arrData);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
+    }, [arrData]);
 
     return (
       <>
@@ -135,15 +206,26 @@ export const PreviewImportTable = observer(
           <Table striped bordered>
             <thead>
               <tr>
+                <th className='text-white'>Status</th>
                 {arrKeys?.map(item => (
                   <th className='text-white'>{item}</th>
                 ))}
-                <th className='text-white'>Status</th>
               </tr>
             </thead>
             <tbody>
               {finalOutput?.map((item, itemIndex) => (
                 <tr>
+                  <td>
+                    <>
+                      {item?.isError ? (
+                        <Tooltip tooltipText={item.errorMsg}>
+                          <IoIosCloseCircleOutline color='red' size={20} />
+                        </Tooltip>
+                      ) : (
+                        <IoMdCheckmarkCircle color='green' size={20} />
+                      )}{' '}
+                    </>
+                  </td>
                   {arrKeys?.map((keys, keysIndex) => (
                     <td
                       className='p-2'
@@ -159,9 +241,6 @@ export const PreviewImportTable = observer(
                       <span>{item[keysIndex]?.value?.toString()}</span>
                     </td>
                   ))}
-                  <td>
-                    <IoMdCheckmarkCircle color='green' size={20} />
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -171,7 +250,9 @@ export const PreviewImportTable = observer(
           <Buttons.Button
             size='medium'
             type='solid'
-            onClick={() => onUpload(finalOutput)}
+            onClick={() => {
+              onUpload(finalOutput?.filter(item => item.isError == false));
+            }}
           >
             <Icons.EvaIcon icon='plus-circle-outline' />
             {'Upload'}
@@ -192,8 +273,6 @@ export const PreviewImportTable = observer(
             keysIndex,
             isUpdateAll,
           ) => {
-            console.log({inputFormat, keys});
-
             setModalModifyDetails({
               show: false,
             });
@@ -212,7 +291,18 @@ export const PreviewImportTable = observer(
                 finalOutput[itemIndex][arrKeys.indexOf('Age Unit')].value =
                   getAgeByAgeObject(getDiffByDate1(value)).ageUnit || 0;
               }
-              setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
+              const list: any[] = [];
+              finalOutput.map(item => {
+                const record = {};
+                Object.entries(item).map((e: any) => {
+                  Object.assign(record, {
+                    [e[1]?.field]: e[1]?.value,
+                  });
+                });
+                list.push(record);
+              });
+              loadAsync(list);
+              //setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
             } else {
               finalOutput.map((item, index) => {
                 finalOutput[index][keysIndex].value = value;
@@ -221,7 +311,18 @@ export const PreviewImportTable = observer(
                 finalOutput[index][arrKeys.indexOf('Age Unit')].value =
                   getAgeByAgeObject(getDiffByDate1(value)).ageUnit || 0;
               });
-              setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
+              const list: any[] = [];
+              finalOutput.map(item => {
+                const record = {};
+                Object.entries(item).map((e: any) => {
+                  Object.assign(record, {
+                    [e[1]?.field]: e[1]?.value,
+                  });
+                });
+                list.push(record);
+              });
+              loadAsync(list);
+              //setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
             }
           }}
         />

@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import _ from 'lodash';
 import {observer} from 'mobx-react';
 import {Table} from 'react-bootstrap';
-import {Buttons, Icons, Form} from '@/library/components';
-import {IoMdCheckmarkCircle} from 'react-icons/io';
+import {Buttons, Icons, Form, Tooltip} from '@/library/components';
+import {IoMdCheckmarkCircle, IoIosCloseCircleOutline} from 'react-icons/io';
 import {debounce} from '@/core-utils';
 import {BsArrowDown, BsArrowUp} from 'react-icons/bs';
 import {AiOutlineCloseCircle} from 'react-icons/ai';
@@ -37,11 +37,15 @@ export const FileImportExportList = observer(
     useEffect(() => {
       const localFinalOutput: any = [];
       let localArrKeys: any = [];
+      console.log({data});
+
       data?.map(item => {
         const list: any[] = [];
-        item.records?.filter((e: any) => {
-          list.push(e);
-          localArrKeys.push(e.field);
+        Object.entries(item.records)?.filter((e: any) => {
+          if (e[1]?.field && e[1]?.field !== 'undefined') {
+            list.push(e[1]);
+            localArrKeys.push(e[1]?.field);
+          }
         });
         localFinalOutput.push({_id: item._id, select: false, list});
       });
@@ -96,6 +100,7 @@ export const FileImportExportList = observer(
                     }}
                   />
                 </th>
+                <th className='text-white'>Status</th>
                 {arrKeys?.map((item, index) => (
                   <th className='text-white p-2'>
                     <div
@@ -116,7 +121,7 @@ export const FileImportExportList = observer(
                       <div className='flex items-center gap-2'>
                         <Form.Input
                           value={
-                            value.index == index ? value.value?.toString() : ''
+                            value.index == index ? value?.value?.toString() : ''
                           }
                           key={index}
                           placeholder={item}
@@ -136,7 +141,7 @@ export const FileImportExportList = observer(
                     )}
                   </th>
                 ))}
-                <th className='text-white'>Status</th>
+
                 <th className='text-white'>Action</th>
               </tr>
             </thead>
@@ -163,16 +168,25 @@ export const FileImportExportList = observer(
                       }}
                     />
                   </th>
+                  <td>
+                    <>
+                      {item?.isError ? (
+                        <Tooltip tooltipText={item.errorMsg}>
+                          <IoIosCloseCircleOutline color='red' size={20} />
+                        </Tooltip>
+                      ) : (
+                        <IoMdCheckmarkCircle color='green' size={20} />
+                      )}{' '}
+                    </>
+                  </td>
                   {arrKeys?.map((keys, keysIndex) => (
                     <td>
                       <span>
-                        {item.list?.find(item => item?.field == keys).value}
+                        {item.list?.find(item => item?.field == keys)?.value}
                       </span>
                     </td>
                   ))}
-                  <td>
-                    <IoMdCheckmarkCircle color='green' size={20} />
-                  </td>
+
                   <td className='flex flex-row gap-2 p-1'>
                     <Buttons.Button
                       size='small'
