@@ -246,6 +246,17 @@ export const PreviewImportTable = observer(
             </tbody>
           </Table>
         </div>
+        <div className='flex flex-col'>
+          <span className='text-red'>{'Note:'}</span>
+          <span className='text-red ml-4'>
+            {'1. All records add date correctly.'}
+          </span>{' '}
+          <span className='text-red ml-4'>
+            {
+              '2.If any issue in record then not uploading on server. More details for check status'
+            }
+          </span>
+        </div>
         <div className='flex items-center justify-center mt-2'>
           <Buttons.Button
             size='medium'
