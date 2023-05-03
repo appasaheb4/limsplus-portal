@@ -37,14 +37,12 @@ export const FileImportExportList = observer(
     useEffect(() => {
       const localFinalOutput: any = [];
       let localArrKeys: any = [];
-      console.log({data});
-
       data?.map(item => {
         const list: any[] = [];
-        Object.entries(item.records)?.filter((e: any) => {
-          if (e[1]?.field && e[1]?.field !== 'undefined') {
-            list.push(e[1]);
-            localArrKeys.push(e[1]?.field);
+        item.records?.filter((e: any) => {
+          if (e?.field && e?.field !== 'undefined') {
+            list.push(e);
+            localArrKeys.push(e?.field);
           }
         });
         localFinalOutput.push({_id: item._id, select: false, list});

@@ -36,7 +36,7 @@ const FileImportExport = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  const [isInputView, setInputView] = useState<boolean>(true);
+  const [isInputView, setInputView] = useState<boolean>(false);
   const [modalImportFile, setModalImportFile] = useState({});
 
   const [modalConfirm, setModalConfirm] = useState<any>();
