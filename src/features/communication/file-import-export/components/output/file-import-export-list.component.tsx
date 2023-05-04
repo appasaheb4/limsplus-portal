@@ -54,6 +54,28 @@ export const FileImportExportList = observer(
       setAllSelected(false);
     }, [data]);
 
+    const getFields = (input, field) => {
+      const output: any[] = [];
+      for (let i = 0; i < input.length; ++i) output.push(input[i][field]);
+      return output;
+    };
+
+    const getSortData = (field: string, type: 'desc' | 'asc') => {
+      //const result = finalOutput
+      const arrList: any[] = [];
+      finalOutput.filter((item, index) => {
+        arrList.push({
+          ...item,
+          [field]: item.list?.find(e => e.field == field)?.value,
+          _id: item._id,
+          itemIndex: index,
+          listIndex: item.list?.findIndex(e => e.field == field),
+        });
+      });
+      const result = _.orderBy(arrList, field, type);
+      setFinalOutput(result);
+    };
+
     return (
       <>
         <div className='flex flex-wrap  overflow-scroll'>
@@ -107,10 +129,10 @@ export const FileImportExportList = observer(
                     >
                       <span className=' inline-flex'> {item}</span>
                       <div className='flex gap-1'>
-                        <span>
+                        <span onClick={() => getSortData(item, 'desc')}>
                           <BsArrowDown size={14} />
                         </span>
-                        <span>
+                        <span onClick={() => getSortData(item, 'asc')}>
                           <BsArrowUp size={14} />
                         </span>
                       </div>
