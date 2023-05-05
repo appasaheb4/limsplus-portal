@@ -11,6 +11,8 @@ export const LIST = gql`
       data {
         _id
         transferType
+        isError
+        errorMsg
         records
         dateOfEntry
         lastUpdated
@@ -108,6 +110,8 @@ export const FILTER_BY_FIELDS = gql`
       data {
         _id
         transferType
+        isError
+        errorMsg
         records
         dateOfEntry
         lastUpdated

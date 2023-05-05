@@ -45,7 +45,7 @@ export const FileImportExportList = observer(
             localArrKeys.push(e?.field);
           }
         });
-        localFinalOutput.push({_id: item._id, select: false, list});
+        localFinalOutput.push({...item, select: false, list});
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
       localArrKeys = _.uniq(localArrKeys);
@@ -96,6 +96,8 @@ export const FileImportExportList = observer(
               onClick={() => {
                 setValue({value: '', index: 0});
                 onClearFilter && onClearFilter();
+                const ele: any = document.getElementsByName('bordered-radio');
+                for (let i = 0; i < ele.length; i++) ele[i].checked = false;
               }}
             >
               <AiOutlineCloseCircle size={24} />
@@ -104,7 +106,7 @@ export const FileImportExportList = observer(
           <Table striped bordered>
             <thead>
               <tr>
-                <th className='bg-white'>
+                <th className='bg-white sticky-col left-0 z-50'>
                   <input
                     type='checkbox'
                     className='mt-2'
@@ -120,7 +122,41 @@ export const FileImportExportList = observer(
                     }}
                   />
                 </th>
-                <th className='text-white'>Status</th>
+                <th className='sticky-col left-5  bg-gray-500 text-white z-50'>
+                  Status
+                  {isFilter && (
+                    <>
+                      <div className='flex items-center bg-white rounded-md justify-center p-1'>
+                        <input
+                          type='radio'
+                          name='bordered-radio'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300   dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                          onChange={() => {
+                            debounce(() => {
+                              onFilter &&
+                                onFilter({filed: 'isError', value: false});
+                            });
+                          }}
+                        />
+                        <IoMdCheckmarkCircle color='green' size={20} />
+                      </div>
+                      <div className='flex items-center bg-white rounded-md justify-center p-1 my-1'>
+                        <input
+                          type='radio'
+                          name='bordered-radio'
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                          onChange={() => {
+                            debounce(() => {
+                              onFilter &&
+                                onFilter({filed: 'isError', value: true});
+                            });
+                          }}
+                        />
+                        <IoIosCloseCircleOutline color='red' size={20} />
+                      </div>
+                    </>
+                  )}
+                </th>
                 {arrKeys?.map((item, index) => (
                   <th className='text-white p-2'>
                     <div
@@ -162,17 +198,17 @@ export const FileImportExportList = observer(
                   </th>
                 ))}
 
-                <th className='text-white'>Action</th>
+                <th className='text-white sticky-col right-0 z-50'>Action</th>
               </tr>
             </thead>
             <tbody>
               {finalOutput?.map((item, index) => (
                 <tr>
-                  <th className='items-center bg-white'>
+                  <td className='items-center bg-white sticky-col left-0 z-50'>
                     <input
                       key={index}
                       type='checkbox'
-                      className='flex mt-3'
+                      className='flex '
                       checked={item.select}
                       onChange={e => {
                         const arr = [
@@ -187,8 +223,8 @@ export const FileImportExportList = observer(
                         setFinalOutput(arr);
                       }}
                     />
-                  </th>
-                  <td>
+                  </td>
+                  <td className='sticky-col bg-white left-5 z-50'>
                     <>
                       {item?.isError ? (
                         <Tooltip tooltipText={item.errorMsg}>
@@ -207,7 +243,7 @@ export const FileImportExportList = observer(
                     </td>
                   ))}
 
-                  <td className='flex flex-row gap-2 p-1'>
+                  <td className='flex flex-row gap-2 p-1 bg-white sticky-col right-0 z-50'>
                     <Buttons.Button
                       size='small'
                       type='outline'
