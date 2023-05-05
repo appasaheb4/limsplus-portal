@@ -262,7 +262,8 @@ export const PreviewImportTable = observer(
             size='medium'
             type='solid'
             onClick={() => {
-              onUpload(finalOutput?.filter(item => item.isError == false));
+              //onUpload(finalOutput?.filter(item => item.isError == false));
+              onUpload(finalOutput);
             }}
           >
             <Icons.EvaIcon icon='plus-circle-outline' />
