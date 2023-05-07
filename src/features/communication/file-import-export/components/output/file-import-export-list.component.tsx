@@ -11,7 +11,7 @@ import './table.css';
 interface FileImportExportListProps {
   data: any;
   totalSize: any;
-  onSend: (record: any) => void;
+  onSend: (records: any) => void;
   onDelete: (ids: [string]) => void;
   onFilter?: (details: any) => void;
   onClearFilter?: () => void;
@@ -38,14 +38,14 @@ export const FileImportExportList = observer(
       const localFinalOutput: any = [];
       let localArrKeys: any = [];
       data?.map(item => {
-        const list: any[] = [];
+        const records: any[] = [];
         item.records?.filter((e: any) => {
           if (e?.field && e?.field !== 'undefined') {
-            list.push(e);
+            records.push(e);
             localArrKeys.push(e?.field);
           }
         });
-        localFinalOutput.push({...item, select: false, list});
+        localFinalOutput.push({...item, select: false, records});
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
       localArrKeys = _.uniq(localArrKeys);
@@ -66,10 +66,10 @@ export const FileImportExportList = observer(
       finalOutput.filter((item, index) => {
         arrList.push({
           ...item,
-          [field]: item.list?.find(e => e.field == field)?.value,
+          [field]: item.records?.find(e => e.field == field)?.value,
           _id: item._id,
           itemIndex: index,
-          listIndex: item.list?.findIndex(e => e.field == field),
+          listIndex: item.records?.findIndex(e => e.field == field),
         });
       });
       const result = _.orderBy(arrList, field, type);
@@ -122,7 +122,7 @@ export const FileImportExportList = observer(
                     }}
                   />
                 </th>
-                <th className='sticky-col left-5  bg-gray-500 text-white z-50'>
+                <th className='sticky-col left-8  bg-gray-500 text-white z-50'>
                   Status
                   {isFilter && (
                     <>
@@ -224,7 +224,7 @@ export const FileImportExportList = observer(
                       }}
                     />
                   </td>
-                  <td className='sticky-col bg-white left-5 z-50'>
+                  <td className='sticky-col bg-white left-8 z-50'>
                     <>
                       {item?.isError ? (
                         <Tooltip tooltipText={item.errorMsg}>
@@ -238,7 +238,7 @@ export const FileImportExportList = observer(
                   {arrKeys?.map((keys, keysIndex) => (
                     <td>
                       <span>
-                        {item.list?.find(item => item?.field == keys)?.value}
+                        {item.records?.find(item => item?.field == keys)?.value}
                       </span>
                     </td>
                   ))}
@@ -252,9 +252,10 @@ export const FileImportExportList = observer(
                       <Icons.EvaIcon icon='trash-2-outline' color='#000000' />
                     </Buttons.Button>
                     <Buttons.Button
+                      disabled={item.isError ? true : false}
                       size='small'
                       type='solid'
-                      onClick={() => onSend(item)}
+                      onClick={() => onSend([item])}
                     >
                       <Icons.EvaIcon icon='upload-outline' />
                     </Buttons.Button>
@@ -298,7 +299,10 @@ export const FileImportExportList = observer(
             color='#fff'
             size='25'
             style={{
-              backgroundColor: '#808080',
+              backgroundColor:
+                totalSize?.page * 10 <= totalSize?.count
+                  ? '#4F46E5'
+                  : '#A5A5A5',
               width: 32,
               height: 32,
               borderRadius: 16,
@@ -306,7 +310,8 @@ export const FileImportExportList = observer(
               padding: 4,
             }}
             onClick={async () => {
-              onPagination && onPagination('next');
+              if (totalSize?.page * 10 <= totalSize?.count)
+                onPagination && onPagination('next');
             }}
           >
             <Icons.IconBi.BiSkipNext />
@@ -315,7 +320,7 @@ export const FileImportExportList = observer(
             color='#fff'
             size='25'
             style={{
-              backgroundColor: '#808080',
+              backgroundColor: totalSize?.page != 0 ? '#4F46E5' : '#A5A5A5',
               width: 32,
               height: 32,
               borderRadius: 16,
@@ -323,7 +328,7 @@ export const FileImportExportList = observer(
               padding: 4,
             }}
             onClick={async () => {
-              onPagination && onPagination('prev');
+              if (totalSize?.page != 0) onPagination && onPagination('prev');
             }}
           >
             <Icons.IconBi.BiSkipPrevious />

@@ -11,11 +11,12 @@ import {
   LIST_PATIENT_MANAGER,
   REMOVE_PATIENT_MANAGER,
   UPDATE_PATIENT_MANAGER,
-  CREATE_PATIENT_MANAGER,
   FILTER_PATIENT_MANAGER,
   COUNTER_PATIENT_MANAGER_PID,
   CHECK_EXISTS_PATIENT,
   FILTER_BY_FIELDS_PATIENT_MANAGER,
+  CREATE_PATIENT_MANAGER,
+  CREATE_BY_FILE_IMPORT_EXPORT,
 } from './mutation-pm';
 
 export class PatientManagerService {
@@ -43,6 +44,21 @@ export class PatientManagerService {
       client
         .mutate({
           mutation: CREATE_PATIENT_MANAGER,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  createPatientManagerByFileImportExport = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CREATE_BY_FILE_IMPORT_EXPORT,
           variables,
         })
         .then((response: any) => {

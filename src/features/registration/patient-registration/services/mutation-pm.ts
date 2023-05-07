@@ -73,6 +73,15 @@ export const CREATE_PATIENT_MANAGER = gql`
   }
 `;
 
+export const CREATE_BY_FILE_IMPORT_EXPORT = gql`
+  mutation ($input: PatientManagerInput!) {
+    createByFileImportExportPatientManager(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
 export const REMOVE_PATIENT_MANAGER = gql`
   mutation ($input: PatientManagerRemoveInput!) {
     removePatientManager(input: $input) {

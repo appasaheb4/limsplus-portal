@@ -27,7 +27,6 @@ export const PreviewImportTable = observer(
     const [arrKeys, setArrKeys] = useState<Array<string>>([]);
 
     const loadAsync = async data => {
-      console.log({data});
       let localArrKeys: any = [];
       const localFinalOutput: any = [];
       data.map(function (item) {
@@ -182,6 +181,24 @@ export const PreviewImportTable = observer(
           isError = true;
           errorMsg.push('Collection center not found');
         }
+        if (item['Collection Center']) {
+          list?.push({
+            field: 'Ac Class',
+            value: collectionCenterList?.find(
+              oe => oe?.locationCode == item['Collection Center'],
+            )?.acClass,
+          });
+          list?.push({
+            field: 'Collection Center Name',
+            value: collectionCenterList?.find(
+              oe => oe?.locationCode == item['Collection Center'],
+            )?.locationName,
+          });
+        }
+
+        console.log({
+          list,
+        });
 
         errorMsg = _.uniq(errorMsg);
         localFinalOutput.push({
@@ -262,8 +279,8 @@ export const PreviewImportTable = observer(
             size='medium'
             type='solid'
             onClick={() => {
-              //onUpload(finalOutput?.filter(item => item.isError == false));
-              onUpload(finalOutput);
+              onUpload(finalOutput?.filter(item => item.isError == false));
+              //onUpload(finalOutput);
             }}
           >
             <Icons.EvaIcon icon='plus-circle-outline' />

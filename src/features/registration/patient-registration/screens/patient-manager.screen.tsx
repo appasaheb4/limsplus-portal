@@ -201,7 +201,7 @@ export const PatientManager = PatientManagerHoc(
           <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={2}>
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.Input
@@ -223,7 +223,7 @@ export const PatientManager = PatientManagerHoc(
                   name='pId'
                   rules={{required: false}}
                   defaultValue=''
-                />
+                /> */}
                 <div className='flex flex-row gap-4'>
                   <Controller
                     control={control}
@@ -326,7 +326,7 @@ export const PatientManager = PatientManagerHoc(
                       {patientManagerStore.patientManger
                         .isBirthdateAvailabe && (
                         <Form.DatePicker
-                          label='Birthrate'
+                          label='Birthdate'
                           placeholder={
                             errors.birthDate
                               ? 'Please Enter BirthDate'

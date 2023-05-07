@@ -4,7 +4,7 @@ import {eventEmitter} from '@/core-utils';
 
 export const startupPM = async () => {
   // patient manager
-  stores.patientManagerStore.patientManagerService.sequencingPid();
+  //stores.patientManagerStore.patientManagerService.sequencingPid();
   stores.patientManagerStore.patientManagerService.listPatientManager({
     documentType: 'patientManager',
   });
@@ -19,7 +19,7 @@ export const startupPV = async () => {
   stores.patientVisitStore.patientVisitService.listPatientVisit({
     documentType: 'patientVisit',
   });
-  stores.patientVisitStore.patientVisitService.sequencingVisitId();
+  //stores.patientVisitStore.patientVisitService.sequencingVisitId();
   stores.patientVisitStore.patientVisitService.sequencingLabId();
   startupByLabId();
 };

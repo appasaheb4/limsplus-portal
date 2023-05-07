@@ -29,6 +29,7 @@ const FileImportExport = observer(() => {
     segmentMappingStore,
     routerStore,
     fileImportExportStore,
+    patientManagerStore,
   } = useStores();
   const {
     control,
@@ -214,8 +215,6 @@ const FileImportExport = observer(() => {
             <PreviewImportTable
               arrData={previewRecords}
               onUpload={records => {
-                console.log({records});
-
                 fileImportExportStore.updateFileImpExport({
                   ...fileImportExportStore.fileImportExport,
                   records,
@@ -233,9 +232,6 @@ const FileImportExport = observer(() => {
           totalSize={{
             ...fileImportExportStore.defaultValue,
             count: fileImportExportStore.fileImportExportListCount,
-          }}
-          onSend={record => {
-            console.log(record);
           }}
           onPagination={type => {
             let page = fileImportExportStore.defaultValue.page;
@@ -271,6 +267,32 @@ const FileImportExport = observer(() => {
           }}
           onClearFilter={() => {
             fileImportExportStore.fileImportExportService.listFileImportExport();
+          }}
+          onSend={records => {
+            patientManagerStore.patientManagerService
+              .createPatientManagerByFileImportExport({
+                input: {
+                  filter: records?.map(e => {
+                    return {...e, enteredBy: loginStore.login?.userId};
+                  }),
+                },
+              })
+              .then(res => {
+                if (res.createByFileImportExportPatientManager.success) {
+                  Toast.success({
+                    message: `😊 ${res.createByFileImportExportPatientManager.message}`,
+                  });
+                } else {
+                  Toast.error({
+                    message: '😌 Please enter correctly data like birthrate',
+                  });
+                }
+              })
+              .catch(error => {
+                Toast.error({
+                  message: '😌 Please enter correctly data like birthrate',
+                });
+              });
           }}
         />
       </div>
