@@ -289,7 +289,7 @@ export const PatientVisit = PatientVisitHoc(
           <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.Input
@@ -312,7 +312,7 @@ export const PatientVisit = PatientVisitHoc(
                   name='visitId'
                   rules={{required: false}}
                   defaultValue=''
-                />
+                /> */}
                 {labId}
                 <Controller
                   control={control}

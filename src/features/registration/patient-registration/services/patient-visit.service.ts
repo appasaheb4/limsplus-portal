@@ -44,6 +44,7 @@ export class PatientVisitService {
 
   addPatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
       client
         .mutate({
           mutation: CREATE_PATIENT_VISIT,
