@@ -28,7 +28,7 @@ module.exports = {
     '@typescript-eslint',
     'prettier',
     'folders',
-    // 'unused-imports',
+    'unused-imports',
   ],
   rules: {
     indent: [0, 'tab', {SwitchCase: 1, VariableDeclarator: 1}],
