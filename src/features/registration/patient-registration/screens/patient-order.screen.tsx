@@ -92,7 +92,6 @@ export const PatientOrder = PatientOrderHoc(
           ...patientOrderStore.packageList.pacakgeListN,
           ...patientOrderStore.packageList.pacakgeListK,
         ];
-        console.log({packageList});
         patientOrderStore.patientOrderService
           .addPatientOrder({
             input: {
@@ -398,7 +397,7 @@ export const PatientOrder = PatientOrderHoc(
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.Input
@@ -421,7 +420,7 @@ export const PatientOrder = PatientOrderHoc(
                   name='orderId'
                   rules={{required: false}}
                   defaultValue=''
-                />
+                /> */}
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
