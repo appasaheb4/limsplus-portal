@@ -285,7 +285,13 @@ export const FileImportExportList = observer(
             <Buttons.Button
               size='small'
               type='solid'
-              onClick={() => onSend([])}
+              onClick={() =>
+                onSend(
+                  finalOutput.map(item => {
+                    if (item.select) return item;
+                  }),
+                )
+              }
             >
               <Icons.EvaIcon icon='upload-outline' />
             </Buttons.Button>

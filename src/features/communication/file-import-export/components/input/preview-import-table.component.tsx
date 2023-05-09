@@ -196,10 +196,6 @@ export const PreviewImportTable = observer(
           });
         }
 
-        console.log({
-          list,
-        });
-
         errorMsg = _.uniq(errorMsg);
         localFinalOutput.push({
           ...list,
