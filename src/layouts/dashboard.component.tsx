@@ -261,7 +261,6 @@ const Dashboard = observer(({children}) => {
       if (pathname === '/communication/file-import-export') {
         await FileImportExport.startup();
       }
-
       // registration
       if (pathname === '/registration/patient') {
         await PatientRegistration.startup();

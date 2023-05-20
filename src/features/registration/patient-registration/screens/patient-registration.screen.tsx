@@ -46,11 +46,9 @@ const PatientRegistration = observer(() => {
     loading,
     loginStore,
     patientRegistrationStore,
-    patientManagerStore,
     patientVisitStore,
     patientOrderStore,
     patientResultStore,
-    masterPanelStore,
   } = useStores();
 
   const accordionList = useMemo(

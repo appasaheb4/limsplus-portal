@@ -5,48 +5,55 @@ import {eventEmitter} from '@/core-utils';
 export const startupPM = async () => {
   // patient manager
   // stores.patientManagerStore.patientManagerService.sequencingPid();
-  stores.patientManagerStore.patientManagerService.listPatientManager({
+  await stores.patientManagerStore.patientManagerService.listPatientManager({
     documentType: 'patientManager',
   });
 };
 
 export const startupPV = async () => {
   // patient manager
-  stores.patientManagerStore.patientManagerService.listPatientManager({
-    documentType: 'patientManager',
-  });
+  await startupPM();
   // patient visit
-  stores.patientVisitStore.patientVisitService.listPatientVisit({
+  await stores.patientVisitStore.patientVisitService.listPatientVisit({
     documentType: 'patientVisit',
   });
   // stores.patientVisitStore.patientVisitService.sequencingVisitId();
-  stores.patientVisitStore.patientVisitService.sequencingLabId();
-  startupByLabId();
+  await stores.patientVisitStore.patientVisitService.sequencingLabId();
+  await startupByLabId();
 };
 
 export const startupPO = async () => {
   // patient visit
-  stores.patientVisitStore.patientVisitService.listPatientVisit({
+  await stores.patientVisitStore.patientVisitService.listPatientVisit({
     documentType: 'patientVisit',
   });
   // patient order
-  stores.patientOrderStore.patientOrderService.listPatientOrder({
+  await stores.patientOrderStore.patientOrderService.listPatientOrder({
     documentType: 'patientOrder',
   });
   //stores.patientOrderStore.patientOrderService.sequencingOrderId();
-  startupByLabId();
+  await startupByLabId();
 };
 
 export const startupByLabId = async () => {
   const labId = stores.patientRegistrationStore.defaultValues?.labId;
-  if (labId && labId !== '*')
-    patientRegistrationHoc.labIdChanged(labId as number);
+  if (labId && labId !== '*') {
+    await patientRegistrationHoc.labIdChanged(labId as number);
+  }
 };
 
 const startup = async () => {
-  stores.patientVisitStore.patientVisitService.filterByLabId({
-    input: {filter: {labId: '*'}},
+  const labId = stores.patientRegistrationStore.defaultValues?.labId;
+  await stores.patientVisitStore.patientVisitService.filterByLabId({
+    input: {
+      filter: {
+        labId: '*',
+      },
+    },
   });
+  if (labId && labId !== '*') {
+    await patientRegistrationHoc.labIdChanged(labId as number);
+  }
 };
 
 export const resetPatientManager = () => {

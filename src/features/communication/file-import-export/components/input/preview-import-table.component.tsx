@@ -60,10 +60,12 @@ export const PreviewImportTable = observer(
           return res.findByArrayItemsDoctor?.data;
         });
       let corporateCode = data.map(item => {
-        if (item.Predefined_Panel == 'Y') return item['Corporate Code'];
+        return item['Corporate Code'];
       });
       corporateCode = _.uniq(corporateCode);
       corporateCode = _.compact(corporateCode);
+      console.log({corporateCode});
+
       const corporateCodeList =
         await corporateClientsStore.corporateClientsService
           .findByArrayItems({
