@@ -5,7 +5,11 @@ import _ from 'lodash';
 import dayjs from 'dayjs';
 import {Buttons, Icons, Tooltip} from '@/library/components';
 import {ModalModifyDetails} from '../molecules/modal-modify-details.component';
-import {getAgeByAgeObject, getDiffByDate1} from '@/core-utils';
+import {
+  getAgeByAgeObject,
+  getDiffByDate1,
+  dateAvailableUnits,
+} from '@/core-utils';
 import {useStores} from '@/stores';
 import {IoMdCheckmarkCircle, IoIosCloseCircleOutline} from 'react-icons/io';
 
@@ -197,6 +201,15 @@ export const PreviewImportTable = observer(
             )?.locationName,
           });
         }
+        if (item.Age && item['Age Unit']) {
+          list.splice(list.map(o => o.field).indexOf('Birthdate'), 1);
+          list.push({
+            field: 'Birthdate',
+            value: dayjs()
+              .add(-item.Age, dateAvailableUnits(item['Age Unit']))
+              .format('DD-MM-YYYY'),
+          });
+        }
 
         errorMsg = _.uniq(errorMsg);
         localFinalOutput.push({
@@ -207,6 +220,25 @@ export const PreviewImportTable = observer(
         isError = false;
         errorMsg = [''];
       });
+
+      let localArrKeys1: any[] = [];
+      localFinalOutput.map(function (item1) {
+        const localKeys1: any = [];
+        for (const [key, value] of Object.entries(item1 as any)) {
+          localKeys1.push((value as any)?.field);
+        }
+        localArrKeys1.push(...localKeys1);
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      localArrKeys1 = _.uniq(localArrKeys1);
+      localArrKeys1 = _.remove(localArrKeys1, oe => {
+        if (oe == 'elementSequence' || oe == 'undefined') {
+          return;
+        } else {
+          return oe;
+        }
+      });
+      setArrKeys(localArrKeys1);
       setFinalOutput(localFinalOutput);
     };
 
@@ -228,7 +260,7 @@ export const PreviewImportTable = observer(
               </tr>
             </thead>
             <tbody>
-              {finalOutput?.map((item, itemIndex) => (
+              {finalOutput?.map((item: any, itemIndex) => (
                 <tr>
                   <td>
                     <>
@@ -253,7 +285,17 @@ export const PreviewImportTable = observer(
                         });
                       }}
                     >
-                      <span>{item[keysIndex]?.value?.toString()}</span>
+                      <span>
+                        {/* {JSON.stringify(Object.values(item))} */}
+                        {/* {item[keysIndex]?.value?.toString()} */}
+                        {
+                          (
+                            Object.values(item)?.find(
+                              (e: any) => e?.field == keys,
+                            ) as any
+                          )?.value
+                        }
+                      </span>
                     </td>
                   ))}
                 </tr>
@@ -328,6 +370,7 @@ export const PreviewImportTable = observer(
                 });
                 list.push(record);
               });
+              console.log({list});
               loadAsync(list);
               //setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
             } else {

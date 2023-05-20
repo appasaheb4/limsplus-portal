@@ -16,11 +16,8 @@ import {
 import {Confirm} from '@/library/models';
 import {FormHelper} from '@/helper';
 import {useForm, Controller} from 'react-hook-form';
-import {
-  dateAvailableUnits,
-  getDiffByDate,
-  getAgeByAgeObject,
-} from '../../../utils';
+import {getDiffByDate, getAgeByAgeObject} from '../../../utils';
+import {dateAvailableUnits} from '@/core-utils';
 
 interface PatientMangerProps {
   data: any;
