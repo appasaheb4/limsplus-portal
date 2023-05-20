@@ -200,3 +200,18 @@ export const getAgeByAgeObject = ageObject => {
   if (ageObject.days >= 1) return {age: ageObject.days, ageUnit: 'D'};
   else return {age: ageObject.hours, ageUnit: 'H'};
 };
+
+export const dateAvailableUnits = (unit: string) => {
+  switch (unit) {
+    case 'Y':
+      return 'year';
+    case 'M':
+      return 'month';
+    case 'W':
+      return 'week';
+    case 'D':
+      return 'day';
+    default:
+      return 'hour';
+  }
+};
