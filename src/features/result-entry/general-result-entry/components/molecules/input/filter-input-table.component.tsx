@@ -53,9 +53,9 @@ export const FilterInputTable = observer(() => {
             <th className='text-white' style={{minWidth: 190}}>
               Test Code / Name
             </th>
-            <th className='text-white' style={{minWidth: 190}}>
+            {/* <th className='text-white' style={{minWidth: 190}}>
               Analyte Code / Name
-            </th>
+            </th> */}
             <th className='text-white' style={{minWidth: 190}}>
               LabId
             </th>
@@ -617,7 +617,7 @@ export const FilterInputTable = observer(() => {
                 </Icons.IconContext>
               </div>
             </td>
-            <td>
+            {/* <td>
               <div className='flex flex-row items-center gap-2'>
                 <Controller
                   control={control}
@@ -727,7 +727,7 @@ export const FilterInputTable = observer(() => {
                   <Icons.Iconai.AiFillCloseCircle />
                 </Icons.IconContext>
               </div>
-            </td>
+            </td> */}
             <td>
               <div className='flex flex-row items-center gap-2'>
                 <Controller
