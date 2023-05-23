@@ -103,10 +103,14 @@ export const PatientManager = PatientManagerHoc(
               Toast.success({
                 message: `😊 ${res.createPatientManager.message}`,
               });
+              setHideInputView(true);
+              reset();
+              resetPatientManager();
+            } else {
+              Toast.error({
+                message: `😔 ${res.createPatientManager.message}`,
+              });
             }
-            setHideInputView(true);
-            reset();
-            resetPatientManager();
           });
       } else {
         Toast.warning({
