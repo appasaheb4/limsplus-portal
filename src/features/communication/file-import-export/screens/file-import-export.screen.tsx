@@ -285,7 +285,7 @@ const FileImportExport = observer(() => {
                   fileImportExportStore.fileImportExportService.listFileImportExport();
                 } else {
                   Toast.error({
-                    message: '😌 Please enter correctly data like birthrate',
+                    message: `😌 ${res.createByFileImportExportPatientManager.message}`,
                   });
                 }
               })
