@@ -176,7 +176,7 @@ const TransactionDetails = observer(() => {
             //     }
             //   });
           }}
-          onClose={() => {
+          close={() => {
             setModalConfirm({show: false});
           }}
         />

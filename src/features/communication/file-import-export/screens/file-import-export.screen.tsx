@@ -366,7 +366,7 @@ const FileImportExport = observer(() => {
             }
           }
         }}
-        onClose={() => {
+        close={() => {
           setModalConfirm({show: false});
         }}
       />

@@ -353,7 +353,7 @@ const DataConversation = DataConversationHoc(
                   });
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            close={() => setModalConfirm({show: false})}
           />
         </div>
       </>

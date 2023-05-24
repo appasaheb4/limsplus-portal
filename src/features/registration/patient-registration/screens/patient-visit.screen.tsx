@@ -114,11 +114,15 @@ export const PatientVisit = PatientVisitHoc(
               Toast.success({
                 message: `😊 ${res.createPatientVisit.message}`,
               });
+              setHideInputView(true);
+              reset();
+              resetPatientVisit();
+              startupByLabId();
+            } else {
+              Toast.error({
+                message: `😔 ${res.createPatientVisit.message}`,
+              });
             }
-            setHideInputView(true);
-            reset();
-            resetPatientVisit();
-            startupByLabId();
           });
       } else {
         Toast.warning({
@@ -2328,7 +2332,7 @@ export const PatientVisit = PatientVisitHoc(
               }
             }
           }}
-          onClose={() => setModalConfirm({show: false})}
+          close={() => setModalConfirm({show: false})}
         />
       </>
     );

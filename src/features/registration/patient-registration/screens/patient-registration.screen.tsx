@@ -159,13 +159,10 @@ const PatientRegistration = observer(() => {
             )}
           </Buttons.Button>
         </div>
-
         <PageHeadingLabDetails store={loginStore} />
       </Header>
-
       <div>{accordionList}</div>
-
-      <div className='flex flex-col  -mt-10'>
+      <div className='flex flex-col -mt-10'>
         <h4 className='underline text-center'>Activity</h4>
         <Grid cols={3}>
           <div className='p-3 border border-gray-800  relative mt-2'>
@@ -197,7 +194,6 @@ const PatientRegistration = observer(() => {
                 }}
                 onSelect={item => {
                   setReloadPatientResult([item]);
-                  console.log({item});
                 }}
               />
 

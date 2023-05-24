@@ -515,7 +515,7 @@ const InstResultMapping = observer(() => {
               });
           }
         }}
-        onClose={() => setModalConfirm({show: false})}
+        close={() => setModalConfirm({show: false})}
       />
     </>
   );

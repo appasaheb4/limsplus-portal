@@ -91,7 +91,7 @@ const TransmittedMessage = observer(() => {
                 });
             }
           }}
-          onClose={() => setModalConfirm({show: false})}
+          close={() => setModalConfirm({show: false})}
         />
       </div>
     </>

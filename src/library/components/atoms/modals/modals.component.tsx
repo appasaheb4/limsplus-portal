@@ -9,6 +9,7 @@ interface ModalProps {
   body?: string;
   click?: (type?: string) => void;
   close: () => void;
+  onClose?: () => void;
   autoClose?: boolean;
   children?: React.ReactNode;
 }
@@ -92,6 +93,8 @@ export const ModalConfirm = (props: ModalProps) => {
                     type='button'
                     style={{transition: 'all .15s ease'}}
                     onClick={() => {
+                      props.close && props.close();
+                      props.onClose && props.onClose();
                       setShowModal(false);
                     }}
                   >
