@@ -149,6 +149,9 @@ const Default = observer(() => {
             });
           }
         }}
+        close={() => {
+          setModalConfirm({show: false});
+        }}
       />
     </>
   );

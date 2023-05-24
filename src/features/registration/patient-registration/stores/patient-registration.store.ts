@@ -7,6 +7,7 @@ export class PatientRegistrationStore {
   constructor() {
     this.defaultValues = {
       ...this.defaultValues,
+      labId: '*',
       labIdLock: false,
     };
     makeObservable<PatientRegistrationStore, any>(this, {

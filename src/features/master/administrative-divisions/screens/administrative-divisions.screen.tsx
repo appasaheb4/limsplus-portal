@@ -600,7 +600,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 }
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            close={() => setModalConfirm({show: false})}
           />
         </div>
       </>

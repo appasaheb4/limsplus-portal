@@ -13,37 +13,23 @@ export const startupPM = async () => {
 export const startupPV = async () => {
   // patient manager
   await startupPM();
-  // patient visit
-  await stores.patientVisitStore.patientVisitService.listPatientVisit({
-    documentType: 'patientVisit',
-  });
   // stores.patientVisitStore.patientVisitService.sequencingVisitId();
   await stores.patientVisitStore.patientVisitService.sequencingLabId();
   await startupByLabId();
 };
 
 export const startupPO = async () => {
-  // patient visit
-  await stores.patientVisitStore.patientVisitService.listPatientVisit({
-    documentType: 'patientVisit',
-  });
-  // patient order
-  await stores.patientOrderStore.patientOrderService.listPatientOrder({
-    documentType: 'patientOrder',
-  });
   //stores.patientOrderStore.patientOrderService.sequencingOrderId();
   await startupByLabId();
 };
 
 export const startupByLabId = async () => {
   const labId = stores.patientRegistrationStore.defaultValues?.labId;
-  if (labId && labId !== '*') {
-    await patientRegistrationHoc.labIdChanged(labId as number);
-  }
+  await patientRegistrationHoc.labIdChanged(labId as number);
 };
 
 const startup = async () => {
-  const labId = stores.patientRegistrationStore.defaultValues?.labId;
+  //const labId = stores.patientRegistrationStore.defaultValues?.labId;
   await stores.patientVisitStore.patientVisitService.filterByLabId({
     input: {
       filter: {
@@ -51,9 +37,7 @@ const startup = async () => {
       },
     },
   });
-  if (labId && labId !== '*') {
-    await patientRegistrationHoc.labIdChanged(labId as number);
-  }
+  //await patientRegistrationHoc.labIdChanged(labId as number);
 };
 
 export const resetPatientManager = () => {

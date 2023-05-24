@@ -602,7 +602,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   });
               }
             }}
-            onClose={() => {
+            close={() => {
               setModalConfirm({show: false});
             }}
           />
