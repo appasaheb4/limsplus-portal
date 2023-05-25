@@ -6,7 +6,7 @@ import {Form, Buttons} from '@/library/components';
 import {DisplayResult} from './display-result.components';
 
 import {GeneralResultEntryExpand} from './general-result-entry-expand.component';
-
+import {InputResult} from './input-result.components';
 import {
   getResultStatus,
   getTestStatus,
@@ -23,6 +23,7 @@ interface GeneralResultEntryListProps {
   onSaveFields: (fileds: any, id: string, type: string) => void;
   onUpdateFields?: (fields: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
+  onFinishResult?: (updateRecordIds: Array<string>) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -94,59 +95,59 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   )}
                 </>
               ),
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <InputResult
-              //       row={row}
-              //       onSelect={async result => {
-              //         await props.onUpdateValue(result, row._id);
-              //         const rows = {...row, ...result};
-              //         if (_.isEmpty(row?.result)) {
-              //           props.onSaveFields(
-              //             {
-              //               ...rows,
-              //               resultStatus: getResultStatus(
-              //                 rows.resultType,
-              //                 rows,
-              //               ),
-              //               testStatus: getTestStatus(rows.resultType, rows),
-              //               abnFlag: getAbnFlag(rows.resultType, rows),
-              //               critical: getCretical(rows.resultType, rows),
-              //               ...result,
-              //             },
-              //             rows._id,
-              //             'directSave',
-              //           );
-              //         }
-              //         if (!_.isEmpty(row?.result) && row.resultType == 'FR') {
-              //           console.log('upload');
-              //           props.onSaveFields(
-              //             {
-              //               ...rows,
-              //               resultStatus: getResultStatus(
-              //                 rows.resultType,
-              //                 rows,
-              //               ),
-              //               testStatus: getTestStatus(rows.resultType, rows),
-              //               abnFlag: getAbnFlag(rows.resultType, rows),
-              //               critical: getCretical(rows.resultType, rows),
-              //               ...result,
-              //             },
-              //             rows._id,
-              //             'directSave',
-              //           );
-              //         }
-              //       }}
-              //     />
-              //   </>
-              // ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <InputResult
+                    row={row}
+                    onSelect={async result => {
+                      await props.onUpdateValue(result, row._id);
+                      const rows = {...row, ...result};
+                      if (_.isEmpty(row?.result)) {
+                        props.onSaveFields(
+                          {
+                            ...rows,
+                            resultStatus: getResultStatus(
+                              rows.resultType,
+                              rows,
+                            ),
+                            testStatus: getTestStatus(rows.resultType, rows),
+                            abnFlag: getAbnFlag(rows.resultType, rows),
+                            critical: getCretical(rows.resultType, rows),
+                            ...result,
+                          },
+                          rows._id,
+                          'directSave',
+                        );
+                      }
+                      if (!_.isEmpty(row?.result) && row.resultType == 'FR') {
+                        console.log('upload');
+                        props.onSaveFields(
+                          {
+                            ...rows,
+                            resultStatus: getResultStatus(
+                              rows.resultType,
+                              rows,
+                            ),
+                            testStatus: getTestStatus(rows.resultType, rows),
+                            abnFlag: getAbnFlag(rows.resultType, rows),
+                            critical: getCretical(rows.resultType, rows),
+                            ...result,
+                          },
+                          rows._id,
+                          'directSave',
+                        );
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'normalRange',
@@ -433,6 +434,19 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {}}
+          onFinishResult={() => {
+            props.onFinishResult &&
+              props.onFinishResult(
+                props.data?.map(item => {
+                  if (
+                    item?.panelStatus != 'P' &&
+                    item?.testStatus != 'P' &&
+                    item?.resultStatus != 'P'
+                  )
+                    return item?._id;
+                }),
+              );
+          }}
         />
       </div>
     </>

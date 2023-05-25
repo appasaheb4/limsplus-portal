@@ -74,51 +74,58 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
 
   return (
     <div className='relative w-full'>
-      {row?.resultType == 'V' && (
-        <Form.Input
-          label=''
-          type='text'
-          placeholder='Result'
-          defaultValue={row?.result}
-          maxLength={50}
-          pattern={FormHelper.patterns.decimalPatterm}
-          className={
-            'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
-          }
-          onBlur={result => {
-            if (result) {
-              onSelect &&
-                onSelect({
-                  result: Number.parseFloat(result).toFixed(row?.picture || 0),
-                  numeric: result,
-                });
+      {row?.resultType == 'V' ? (
+        !row?.result ? (
+          <Form.Input
+            label=''
+            type='text'
+            placeholder='Result'
+            defaultValue={row?.result}
+            maxLength={50}
+            pattern={FormHelper.patterns.decimalPatterm}
+            className={
+              'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
             }
-          }}
-        />
-      )}
+            onBlur={result => {
+              if (result) {
+                onSelect &&
+                  onSelect({
+                    result: Number.parseFloat(result).toFixed(
+                      row?.picture || 0,
+                    ),
+                    numeric: result,
+                  });
+              }
+            }}
+          />
+        ) : (
+          <span>{row?.result?.toString()}</span>
+        )
+      ) : null}
 
-      {row.resultType === 'D' && (
-        <select
-          className={
-            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-          }
-          onChange={e => {
-            const defaultItem = JSON.parse(e.target.value);
-            if (defaultItem) {
-              onSelect &&
-                onSelect({
-                  result: defaultItem.possibleValue,
-                  alpha: defaultItem.result,
-                  abnFlag: defaultItem.abNormal,
-                  critical: defaultItem.critical,
-                });
+      {row.resultType === 'D' ? (
+        !row?.result ? (
+          <select
+            className={
+              'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
             }
-          }}
-        >
-          <option selected>Select</option>
-          {conclusionResult?.map((item: any, index: number) => (
-            <option key={index} value={JSON.stringify(item)}>
-              {`Result: ${item.result} ,
+            onChange={e => {
+              const defaultItem = JSON.parse(e.target.value);
+              if (defaultItem) {
+                onSelect &&
+                  onSelect({
+                    result: defaultItem.possibleValue,
+                    alpha: defaultItem.result,
+                    abnFlag: defaultItem.abNormal,
+                    critical: defaultItem.critical,
+                  });
+              }
+            }}
+          >
+            <option selected>Select</option>
+            {conclusionResult?.map((item: any, index: number) => (
+              <option key={index} value={JSON.stringify(item)}>
+                {`Result: ${item.result} ,
                PossibleValue: ${item.possibleValue} ,
                Ab Normal: ${
                  item.abNormal ? (item.abNormal ? 'Yes' : 'No') : 'No'
@@ -126,107 +133,136 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
                Critical: ${
                  item.critical ? (item.critical ? 'Yes' : 'No') : 'No'
                }`}
-            </option>
-          ))}
-        </select>
-      )}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span>
+            {row?.result?.split('\n').map((str, index) => (
+              <p key={index}>{str}</p>
+            ))}
+          </span>
+        )
+      ) : null}
 
-      {row.resultType === 'L' && (
-        <select
-          className={
-            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-          }
-          onChange={e => {
-            const item = JSON.parse(e.target.value);
-            if (item) {
-              onSelect &&
-                onSelect({
-                  result: item.description,
-                  alpha: item?.code,
-                  abnFlag: item?.abNormal || false,
-                  critical: item?.critical || false,
-                });
+      {row.resultType === 'L' ? (
+        !row?.result ? (
+          <select
+            className={
+              'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
             }
-          }}
-        >
-          <option selected>Select</option>
-          {libraryList?.map((item: any, index: number) => (
-            <option key={index} value={JSON.stringify(item)}>
-              {`${item.code} - ${item.description}`}
-            </option>
-          ))}
-        </select>
-      )}
+            onChange={e => {
+              const item = JSON.parse(e.target.value);
+              if (item) {
+                onSelect &&
+                  onSelect({
+                    result: item.description,
+                    alpha: item?.code,
+                    abnFlag: item?.abNormal || false,
+                    critical: item?.critical || false,
+                  });
+              }
+            }}
+          >
+            <option selected>Select</option>
+            {libraryList?.map((item: any, index: number) => (
+              <option key={index} value={JSON.stringify(item)}>
+                {`${item.code} - ${item.description}`}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span>
+            {row?.result?.split('\n').map((str, index) => (
+              <p key={index}>{str}</p>
+            ))}
+          </span>
+        )
+      ) : null}
 
-      {row.resultType === 'F' && (
-        <Form.MultilineInput
-          rows={2}
-          label=''
-          placeholder='Result'
-          defaultValue={row?.result}
-          onBlur={result => {
-            if (result) {
-              onSelect &&
-                onSelect({
-                  result,
-                  alpha: `F - ${row._id}`,
-                });
-            }
-          }}
-        />
-      )}
+      {row.resultType === 'F' ? (
+        !row?.result ? (
+          <Form.MultilineInput
+            rows={2}
+            label=''
+            placeholder='Result'
+            defaultValue={row?.result}
+            onBlur={result => {
+              if (result) {
+                onSelect &&
+                  onSelect({
+                    result,
+                    alpha: `F - ${row._id}`,
+                  });
+              }
+            }}
+          />
+        ) : (
+          <span>{row?.result}</span>
+        )
+      ) : null}
 
-      {row.resultType === 'M' && (
-        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-          loader={false}
-          placeholder='Search by code'
-          data={{
-            list: libraryList || [],
-            selected: generalResultEntryStore.selectedItems?.library,
-            displayKey: ['code', 'description'],
-          }}
-          onUpdate={item => {
-            const items = generalResultEntryStore.selectedItems?.library;
-            if (items) {
-              onSelect &&
-                onSelect({
-                  result: JSON.stringify(
-                    _.map(items, o => _.pick(o, ['code'])),
-                  ),
-                  alpha: `M - ${row._id}`,
+      {row.resultType === 'M' ? (
+        !row?.result ? (
+          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+            loader={false}
+            placeholder='Search by code'
+            data={{
+              list: libraryList || [],
+              selected: generalResultEntryStore.selectedItems?.library,
+              displayKey: ['code', 'description'],
+            }}
+            onUpdate={item => {
+              const items = generalResultEntryStore.selectedItems?.library;
+              if (items) {
+                onSelect &&
+                  onSelect({
+                    result: JSON.stringify(
+                      _.map(items, o => _.pick(o, ['code'])),
+                    ),
+                    alpha: `M - ${row._id}`,
+                  });
+              }
+            }}
+            onFilter={(value: string) => {
+              // masterPanelStore.masterPanelService.filterByFields({
+              //   input: {
+              //     filter: {
+              //       fields: ['panelCode', 'panelName'],
+              //       srText: value,
+              //     },
+              //     page: 0,
+              //     limit: 10,
+              //   },
+              // });
+            }}
+            onSelect={item => {
+              let library = generalResultEntryStore.selectedItems?.library;
+              if (!item.selected) {
+                if (library && library.length > 0) {
+                  library.push(item);
+                } else library = [item];
+              } else {
+                library = library?.filter(items => {
+                  return items._id !== item._id;
                 });
-            }
-          }}
-          onFilter={(value: string) => {
-            // masterPanelStore.masterPanelService.filterByFields({
-            //   input: {
-            //     filter: {
-            //       fields: ['panelCode', 'panelName'],
-            //       srText: value,
-            //     },
-            //     page: 0,
-            //     limit: 10,
-            //   },
-            // });
-          }}
-          onSelect={item => {
-            let library = generalResultEntryStore.selectedItems?.library;
-            if (!item.selected) {
-              if (library && library.length > 0) {
-                library.push(item);
-              } else library = [item];
-            } else {
-              library = library?.filter(items => {
-                return items._id !== item._id;
+              }
+              generalResultEntryStore.updateSelectedItems({
+                ...generalResultEntryStore.selectedItems,
+                library,
               });
-            }
-            generalResultEntryStore.updateSelectedItems({
-              ...generalResultEntryStore.selectedItems,
-              library,
-            });
-          }}
-        />
-      )}
+            }}
+          />
+        ) : (
+          <ul>
+            {row?.result
+              ? JSON.parse(row?.result)?.map((item: any, index: number) => (
+                  <li key={index}>{item?.code}</li>
+                ))
+              : null}
+          </ul>
+        )
+      ) : null}
 
       {/* {row?.resultType !== 'M' &&
         row?.resultType !== 'V' &&

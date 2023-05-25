@@ -1231,28 +1231,28 @@ export const TestMasterList = (props: TestMasterProps) => {
                 );
               },
             },
-            {
-              dataField: 'oosHold',
-              text: 'OOS Hold',
-              sort: true,
-              csvFormatter: (col, row) =>
-                `${row.oosHold ? (row.oosHold ? 'Yes' : 'No') : 'No'}`,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.oosHold}
-                      onChange={oosHold => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(oosHold, 'oosHold', row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
+            // {
+            //   dataField: 'oosHold',
+            //   text: 'OOS Hold',
+            //   sort: true,
+            //   csvFormatter: (col, row) =>
+            //     `${row.oosHold ? (row.oosHold ? 'Yes' : 'No') : 'No'}`,
+            //   editable: false,
+            //   formatter: (cell, row) => {
+            //     return (
+            //       <>
+            //         <Form.Toggle
+            //           disabled={!editorCell(row)}
+            //           value={row.oosHold}
+            //           onChange={oosHold => {
+            //             props.onUpdateItem &&
+            //               props.onUpdateItem(oosHold, 'oosHold', row._id);
+            //           }}
+            //         />
+            //       </>
+            //     );
+            //   },
+            // },
             {
               dataField: 'deltaHold',
               text: 'Delta Hold',

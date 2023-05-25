@@ -90,6 +90,28 @@ const GeneralResultEntry = observer(() => {
               limit,
             );
           }}
+          onFinishResult={async ids => {
+            await patientResultStore.patientResultService
+              .updateFinishResultStatus({
+                input: {filter: {ids, fields: {finishResult: 'D'}}},
+              })
+              .then(res => {
+                if (res.updateFieldsByIdsPatientResult?.success) {
+                  Toast.success({
+                    message: `😊 ${res.updateFieldsByIdsPatientResult.message}`,
+                  });
+                  setTimeout(() => {
+                    patientResultStore.patientResultService.listPatientResult({
+                      pLab: loginStore.login?.lab,
+                      // resultStatus: 'P',
+                      // testStatus: 'P',
+                      finishResult: 'P',
+                    });
+                    setTableReload(!tableReaload);
+                  }, 1000);
+                }
+              });
+          }}
         />
       </>
     ),
@@ -119,8 +141,9 @@ const GeneralResultEntry = observer(() => {
           if (!generalResultEntryStore.filterGeneralResEntry)
             patientResultStore.patientResultService.listPatientResult({
               pLab: loginStore.login?.lab,
-              resultStatus: 'P',
-              testStatus: 'P',
+              // resultStatus: 'P',
+              // testStatus: 'P',
+              finishResult: 'P',
             });
           else
             patientResultStore.patientResultService.patientListForGeneralResultEntry(
@@ -128,7 +151,8 @@ const GeneralResultEntry = observer(() => {
                 input: {
                   filter: {
                     ...generalResultEntryStore.filterGeneralResEntry,
-                    panelStatus: 'P',
+                    // panelStatus: 'P',
+                    finishResult: 'P',
                   },
                   page: 0,
                   limit: 10,
@@ -174,8 +198,9 @@ const GeneralResultEntry = observer(() => {
                   if (!generalResultEntryStore.filterGeneralResEntry)
                     patientResultStore.patientResultService.listPatientResult({
                       pLab: loginStore.login?.lab,
-                      resultStatus: 'P',
-                      testStatus: 'P',
+                      // resultStatus: 'P',
+                      // testStatus: 'P',
+                      finishResult: 'P',
                     });
                   else
                     patientResultStore.patientResultService.patientListForGeneralResultEntry(
@@ -183,7 +208,8 @@ const GeneralResultEntry = observer(() => {
                         input: {
                           filter: {
                             ...generalResultEntryStore.filterGeneralResEntry,
-                            panelStatus: 'P',
+                            // panelStatus: 'P',
+                            finishResult: 'P',
                           },
                           page: 0,
                           limit: 10,
