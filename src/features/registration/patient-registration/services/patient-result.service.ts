@@ -19,6 +19,7 @@ import {
   UPDATE_BY_FIELDS_RECORD,
   RELOAD_RECORD,
   LIST_PATIENT_RESULT_NOT_AUTO_UPDATE,
+  UPDATE_FIELDS_BY_IDS,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -119,8 +120,9 @@ export class PatientResultService {
           if (!response.data.filterPatientResultWithLabId.success)
             return this.listPatientResult({
               pLab: stores.loginStore.login?.lab,
-              resultStatus: 'P',
-              testStatus: 'P',
+              // resultStatus: 'P',
+              // testStatus: 'P',
+              finishResult: 'P',
             });
           stores.patientResultStore.filterPatientResultList(response.data);
           stores.uploadLoadingFlag(true);
@@ -143,8 +145,9 @@ export class PatientResultService {
           if (!response.data.filterByFieldsPatientResult.success)
             return this.listPatientResult({
               pLab: stores.loginStore.login?.lab,
-              resultStatus: 'P',
-              testStatus: 'P',
+              // resultStatus: 'P',
+              // testStatus: 'P',
+              finishResult: 'P',
             });
           stores.patientResultStore.filterPatientResultList({
             filterPatientResult: {
@@ -183,8 +186,9 @@ export class PatientResultService {
           if (!response.data.patientResultListForGenResEntry.success) {
             return this.listPatientResultNotAutoUpdate({
               pLab: stores.loginStore.login?.lab,
-              resultStatus: 'P',
-              testStatus: 'P',
+              // resultStatus: 'P',
+              // testStatus: 'P',
+              finishResult: 'P',
             });
           } else {
             let data: any =
@@ -270,6 +274,21 @@ export class PatientResultService {
       client
         .mutate({
           mutation: RELOAD_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateFinishResultStatus = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_FIELDS_BY_IDS,
           variables,
         })
         .then((response: any) => {

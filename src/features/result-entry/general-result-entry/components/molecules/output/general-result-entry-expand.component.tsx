@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -47,6 +47,7 @@ interface GeneralResultEntryExpandProps {
     page: number,
     totalSize: number,
   ) => void;
+  onFinishResult?: () => void;
   clearAllFilter?: () => void;
 }
 export const GeneralResultEntryExpand = ({
@@ -64,6 +65,7 @@ export const GeneralResultEntryExpand = ({
   onUpdateItem,
   onPageSizeChange,
   onFilter,
+  onFinishResult,
   clearAllFilter,
 }: GeneralResultEntryExpandProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
@@ -363,25 +365,6 @@ export const GeneralResultEntryExpand = ({
           {props => (
             <div>
               <div className='flex items-center flex-wrap'>
-                {/* <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={value => {}}
-                />
-                <ClearSearchButton
-                  className={
-                    'inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
-                  }
-                  {...props.searchProps}
-                />
-                <button
-                  className={
-                    'ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white'
-                  }
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button> */}
                 <ExportCSVButton
                   className={
                     'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
@@ -411,6 +394,14 @@ export const GeneralResultEntryExpand = ({
                     <Icons.IconFa.FaChevronDown />
                   </Buttons.Button>
                 )}
+                <button
+                  className={
+                    'ml-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white'
+                  }
+                  onClick={onFinishResult}
+                >
+                  Finish Result
+                </button>
               </div>
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>
