@@ -59,6 +59,9 @@ export const FilterInputTable = observer(() => {
             <th className='text-white' style={{minWidth: 190}}>
               LabId
             </th>
+            <th className='text-white' style={{minWidth: 190}}>
+              Finish Result
+            </th>
           </tr>
         </thead>
         <tbody className='text-xs'>
@@ -836,6 +839,105 @@ export const FilterInputTable = observer(() => {
                 </Icons.IconContext>
               </div>
             </td>
+
+            <td>
+              <div className='flex flex-row items-center gap-2'>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <select
+                      value={value}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                      }
+                      onChange={e => {
+                        const finishResult = e.target.value;
+                        onChange(finishResult);
+                        generalResultEntryStore.updateFilterGeneralResEntry({
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          finishResult,
+                        });
+                        const input = _.pickBy(
+                          {
+                            ...generalResultEntryStore.filterGeneralResEntry,
+                            finishResult,
+                          },
+                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                          function (value, key) {
+                            return !(
+                              value === undefined ||
+                              value === null ||
+                              value === ''
+                            );
+                          },
+                        );
+                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                          {
+                            input: {
+                              filter: {
+                                ...input,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          },
+                        );
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {[
+                        {code: 'P', value: 'Pending'},
+                        {code: 'D', value: 'Done'},
+                      ].map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.value}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  name='finishResult'
+                  rules={{required: false}}
+                  defaultValue={''}
+                />
+                <Icons.IconContext
+                  color='#000000'
+                  size='30'
+                  onClick={() => {
+                    const input = _.pickBy(
+                      {
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        labId: '',
+                      },
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                      function (value, key) {
+                        return !(
+                          value === undefined ||
+                          value === null ||
+                          value === ''
+                        );
+                      },
+                    );
+                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                      {
+                        input: {
+                          filter: {
+                            ...input,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      },
+                    );
+                    generalResultEntryStore.updateFilterGeneralResEntry({
+                      ...generalResultEntryStore.filterGeneralResEntry,
+                      labId: '',
+                    });
+                  }}
+                >
+                  <Icons.Iconai.AiFillCloseCircle />
+                </Icons.IconContext>
+              </div>
+            </td>
           </tr>
         </tbody>
       </Table>
@@ -852,12 +954,19 @@ export const FilterInputTable = observer(() => {
             testCode: '',
             analyteCode: '',
             labId: '',
+            finishResult: '',
           });
-          patientResultStore.patientResultService.listPatientResult({
-            pLab: loginStore.login?.lab,
-            resultStatus: 'P',
-            testStatus: 'P',
-          });
+          // patientResultStore.patientResultService.listPatientResult({
+          //   pLab: loginStore.login?.lab,
+          //   resultStatus: 'P',
+          //   testStatus: 'P',
+          // });
+          patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+            {
+              pLab: loginStore.login?.lab,
+              finishResult: 'P',
+            },
+          );
         }}
       >
         {'Clear Filter'}
