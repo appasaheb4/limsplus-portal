@@ -21,10 +21,8 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 const GeneralResultEntry = observer(() => {
   const {loginStore, routerStore, patientResultStore, generalResultEntryStore} =
     useStores();
-
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReaload, setTableReload] = useState<boolean>(false);
-
   const tableView = useMemo(
     () => (
       <>
@@ -100,15 +98,15 @@ const GeneralResultEntry = observer(() => {
                   Toast.success({
                     message: `😊 ${res.updateFieldsByIdsPatientResult.message}`,
                   });
-                  setTimeout(() => {
-                    patientResultStore.patientResultService.listPatientResult({
+                  patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+                    {
                       pLab: loginStore.login?.lab,
                       // resultStatus: 'P',
                       // testStatus: 'P',
                       finishResult: 'P',
-                    });
-                    setTableReload(!tableReaload);
-                  }, 1000);
+                    },
+                  );
+                  setTableReload(!tableReaload);
                 }
               });
           }}
@@ -138,6 +136,11 @@ const GeneralResultEntry = observer(() => {
             message: `😊 ${res.updatePatientResult.message}`,
             timer: 2000,
           });
+          console.log({
+            data: generalResultEntryStore.filterGeneralResEntry,
+            loginStore,
+          });
+
           if (!generalResultEntryStore.filterGeneralResEntry)
             patientResultStore.patientResultService.listPatientResult({
               pLab: loginStore.login?.lab,

@@ -6,6 +6,7 @@ export class FilterGeneralResEntryList {
   testCode: string;
   analyteCode: string;
   labId: number | string;
+  finishResult: string;
 
   constructor(rawData: {[key in string]: any}) {
     this.pLab = rawData.pLab;
@@ -15,6 +16,7 @@ export class FilterGeneralResEntryList {
     this.testCode = rawData.testCode;
     this.analyteCode = rawData.analyteCode;
     this.labId = rawData.labId;
+    this.finishResult = rawData.finishResult;
   }
 }
 

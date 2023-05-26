@@ -68,8 +68,6 @@ export const PreviewImportTable = observer(
       });
       corporateCode = _.uniq(corporateCode);
       corporateCode = _.compact(corporateCode);
-      console.log({corporateCode});
-
       const corporateCodeList =
         await corporateClientsStore.corporateClientsService
           .findByArrayItems({
