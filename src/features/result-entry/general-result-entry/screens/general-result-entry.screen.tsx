@@ -23,6 +23,7 @@ const GeneralResultEntry = observer(() => {
     useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReaload, setTableReload] = useState<boolean>(false);
+
   const tableView = useMemo(
     () => (
       <>
@@ -136,11 +137,6 @@ const GeneralResultEntry = observer(() => {
             message: `😊 ${res.updatePatientResult.message}`,
             timer: 2000,
           });
-          console.log({
-            data: generalResultEntryStore.filterGeneralResEntry,
-            loginStore,
-          });
-
           if (!generalResultEntryStore.filterGeneralResEntry)
             patientResultStore.patientResultService.listPatientResult({
               pLab: loginStore.login?.lab,
