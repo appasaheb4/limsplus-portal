@@ -61,8 +61,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'result',
               text: 'Result',
               headerClasses: 'textHeader',
+              // editable: (content, row, rowIndex, columnIndex) =>
+              //   row.isResultEditor,
               editable: (content, row, rowIndex, columnIndex) =>
-                row.isResultEditor,
+                row.approvalStatus == 'P' ? true : false,
               formatter: (cellContent, row) => (
                 <>
                   {row.isResultEditor ? (

@@ -45,6 +45,9 @@ export const PreviewImportTable = observer(
       localArrKeys = _.remove(localArrKeys, item => {
         return item != 'elementSequence';
       });
+      localArrKeys = _.remove(localArrKeys, item => {
+        return item != 'undefined';
+      });
       setArrKeys(localArrKeys);
       let dockerIds = data.map(item => {
         return item['Doctor Id'];
@@ -102,7 +105,7 @@ export const PreviewImportTable = observer(
       let isError = false;
       let errorMsg: any[] = [];
       data.map(function (item) {
-        const list: any = [];
+        let list: any = [];
         localArrKeys.map(key => {
           // docker details fetch
           if (item['Doctor Id']) {
@@ -137,7 +140,7 @@ export const PreviewImportTable = observer(
             );
             if (!corporateCodeDetails?.isPredefinedPanel) {
               isError = true;
-              errorMsg.push('Predefined panel not enable.');
+              errorMsg.push('Predefined panel not enable. ');
             }
             if (key === 'Panel Code') {
               list.splice(list.map(o => o.field).indexOf('Panel Code'), 1);
@@ -145,7 +148,7 @@ export const PreviewImportTable = observer(
                 corporateCodeDetails?.panelList?.map(o => o?.panelCode) || [];
               if (ccPanelList.length == 0) {
                 isError = true;
-                errorMsg.push('Panel list not found.');
+                errorMsg.push('Panel list not found. ');
               }
               list.push({
                 field: key,
@@ -153,6 +156,7 @@ export const PreviewImportTable = observer(
               });
             }
           } else {
+            // console.log({key, items: item[key]});
             list.push({field: key, value: item[key]?.toString()});
           }
         });
@@ -161,7 +165,7 @@ export const PreviewImportTable = observer(
           !dockerList.some(oe => oe?.doctorCode == item['Doctor Id'])
         ) {
           isError = true;
-          errorMsg.push('Doctor Id not found.');
+          errorMsg.push('Doctor Id not found. ');
         }
         if (
           item['Corporate Code'] &&
@@ -170,11 +174,15 @@ export const PreviewImportTable = observer(
           )
         ) {
           isError = true;
-          errorMsg.push('Corporate Code not found.');
+          errorMsg.push('Corporate Code not found. ');
         }
         if (item.RLAB && item.RLAB != loginStore.login.lab) {
           isError = true;
-          errorMsg.push('RLAB not found.');
+          errorMsg.push('RLAB not found. ');
+        }
+        if (_.isEmpty(item['Mobile No']?.toString())) {
+          isError = true;
+          errorMsg.push('Mobile number not found. ');
         }
         if (
           item['Collection Center'] &&
@@ -183,7 +191,7 @@ export const PreviewImportTable = observer(
           )
         ) {
           isError = true;
-          errorMsg.push('Collection center not found');
+          errorMsg.push('Collection center not found. ');
         }
         if (item['Collection Center']) {
           list?.push({
@@ -210,6 +218,12 @@ export const PreviewImportTable = observer(
         }
 
         errorMsg = _.uniq(errorMsg);
+
+        // same object keys removes
+        list = _.uniqBy(list, function (e: any) {
+          return e.field;
+        });
+
         localFinalOutput.push({
           ...list,
           isError: isError,
@@ -237,6 +251,7 @@ export const PreviewImportTable = observer(
         }
       });
       setArrKeys(localArrKeys1);
+
       setFinalOutput(localFinalOutput);
     };
 
@@ -317,7 +332,8 @@ export const PreviewImportTable = observer(
             size='medium'
             type='solid'
             onClick={() => {
-              onUpload(finalOutput?.filter(item => item.isError == false));
+              //onUpload(finalOutput?.filter(item => item.isError == false));
+              onUpload(finalOutput);
               //onUpload(finalOutput);
             }}
           >
@@ -358,6 +374,10 @@ export const PreviewImportTable = observer(
                 finalOutput[itemIndex][arrKeys.indexOf('Age Unit')].value =
                   getAgeByAgeObject(getDiffByDate1(value)).ageUnit || 0;
               }
+              if (keys === 'Panel Code') {
+                finalOutput[itemIndex][arrKeys.indexOf('Panel Code')].value =
+                  value;
+              }
               const list: any[] = [];
               finalOutput.map(item => {
                 const record = {};
@@ -368,7 +388,6 @@ export const PreviewImportTable = observer(
                 });
                 list.push(record);
               });
-              console.log({list});
               loadAsync(list);
               //setFinalOutput(JSON.parse(JSON.stringify(finalOutput)));
             } else {

@@ -8,6 +8,9 @@ import {debounce} from '@/core-utils';
 import {BsArrowDown, BsArrowUp} from 'react-icons/bs';
 import {AiOutlineCloseCircle} from 'react-icons/ai';
 import './table.css';
+import {useStores} from '@/stores';
+import dayjs from 'dayjs';
+import {dateAvailableUnits} from '@/core-utils';
 interface FileImportExportListProps {
   data: any;
   totalSize: any;
@@ -28,15 +31,255 @@ export const FileImportExportList = observer(
     onClearFilter,
     onPagination,
   }: FileImportExportListProps) => {
+    const {
+      doctorsStore,
+      corporateClientsStore,
+      registrationLocationsStore,
+      loginStore,
+    } = useStores();
     const [value, setValue] = useState({value: '', index: 0});
     const [isFilter, setIsFilter] = useState(false);
     const [finalOutput, setFinalOutput] = useState<any>([]);
     const [arrKeys, setArrKeys] = useState<Array<string>>([]);
     const [isAllSelected, setAllSelected] = useState(false);
 
+    const loadAsync = async data => {
+      let localArrKeys: any = [];
+      const localFinalOutput: any = [];
+      data.map(function (item) {
+        const localKeys: any = [];
+        for (const [key, value] of Object.entries(item?.records as any)) {
+          localKeys.push((value as any)?.field);
+        }
+        localArrKeys.push(...localKeys);
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      localArrKeys = _.uniq(localArrKeys);
+      localArrKeys = _.remove(localArrKeys, item => {
+        return item != 'elementSequence';
+      });
+      localArrKeys = _.remove(localArrKeys, item => {
+        return item != 'undefined';
+      });
+      setArrKeys(localArrKeys);
+      let dockerIds: any = [];
+      data.map(de => {
+        const values = de?.records?.map(e => {
+          if (e?.field == 'Doctor Id') {
+            return e?.value;
+          }
+        });
+        values?.filter((ee: any) => {
+          if (typeof ee == 'string') {
+            dockerIds.push(ee);
+          }
+        });
+      });
+      dockerIds = _.uniq(dockerIds);
+      dockerIds = _.compact(dockerIds);
+      const dockerList = await doctorsStore.doctorsService
+        .findByArrayItems({
+          input: {
+            filter: {
+              field: 'doctorCode',
+              arrItems: dockerIds,
+            },
+          },
+        })
+        .then(res => {
+          return res.findByArrayItemsDoctor?.data;
+        });
+      let corporateCode = data.map(item => {
+        return item['Corporate Code'];
+      });
+      corporateCode = _.uniq(corporateCode);
+      corporateCode = _.compact(corporateCode);
+      const corporateCodeList =
+        await corporateClientsStore.corporateClientsService
+          .findByArrayItems({
+            input: {
+              filter: {
+                field: 'corporateCode',
+                arrItems: corporateCode,
+              },
+            },
+          })
+          .then(res => {
+            return res.findByArrayItemsCorporateCode?.data;
+          });
+      let collectionCenter = data.map(item => {
+        return item['Collection Center'];
+      });
+      collectionCenter = _.uniq(collectionCenter);
+      collectionCenter = _.compact(collectionCenter);
+      const collectionCenterList =
+        await registrationLocationsStore.registrationLocationsService
+          .findByArrayItem({
+            input: {
+              filter: {
+                field: 'locationCode',
+                arrItems: collectionCenter,
+              },
+            },
+          })
+          .then(res => {
+            return res.findByArrayItemsRegistrationLocations?.data;
+          });
+      let isError = false;
+      let errorMsg: any[] = [];
+      data.map(function (item) {
+        let list: any = [];
+        localArrKeys.map(key => {
+          // docker details fetch
+          if (item['Doctor Id']) {
+            const dockerDetails = dockerList?.find(
+              o => o?.doctorCode == item['Doctor Id'],
+            );
+            if (key === 'Doctor Name') {
+              list.map(o => o.field).includes('Doctor Name') &&
+                list.splice(list.map(o => o.field).indexOf('Doctor Name'), 1);
+              list.push({
+                field: key,
+                value: dockerDetails?.doctorName?.toString(),
+              });
+            }
+            if (key === 'Doctor Mobile Number') {
+              list.map(o => o.field).indexOf('Doctor Mobile Number') &&
+                list.splice(
+                  list.map(o => o.field).indexOf('Doctor Mobile Number'),
+                  1,
+                );
+              list.push({
+                field: key,
+                value: dockerDetails?.mobileNo?.toString(),
+              });
+            } else {
+              list.push({field: key, value: item[key]?.toString()});
+            }
+          }
+          if (item.Predefined_Panel == 'Y') {
+            const corporateCodeDetails = corporateCodeList.find(
+              o => o.corporateCode == item['Corporate Code'],
+            );
+            if (!corporateCodeDetails?.isPredefinedPanel) {
+              isError = true;
+              errorMsg.push('Predefined panel not enable. ');
+            }
+            if (key === 'Panel Code') {
+              list.splice(list.map(o => o.field).indexOf('Panel Code'), 1);
+              const ccPanelList =
+                corporateCodeDetails?.panelList?.map(o => o?.panelCode) || [];
+              if (ccPanelList.length == 0) {
+                isError = true;
+                errorMsg.push('Panel list not found. ');
+              }
+              list.push({
+                field: key,
+                value: ccPanelList?.join(',')?.toString(),
+              });
+            }
+          } else {
+            // console.log({key, items: item[key]});
+            list.push({field: key, value: item[key]?.toString()});
+          }
+        });
+        if (
+          item['Doctor Id'] &&
+          !dockerList.some(oe => oe?.doctorCode == item['Doctor Id'])
+        ) {
+          isError = true;
+          errorMsg.push('Doctor Id not found. ');
+        }
+        if (
+          item['Corporate Code'] &&
+          !corporateCodeList.some(
+            oe => oe?.corporateCode == item['Corporate Code'],
+          )
+        ) {
+          isError = true;
+          errorMsg.push('Corporate Code not found. ');
+        }
+        if (item.RLAB && item.RLAB != loginStore.login.lab) {
+          isError = true;
+          errorMsg.push('RLAB not found. ');
+        }
+        if (_.isEmpty(item['Mobile No']?.toString())) {
+          isError = true;
+          errorMsg.push('Mobile number not found. ');
+        }
+        if (
+          item['Collection Center'] &&
+          !collectionCenterList?.some(
+            oe => oe?.locationCode == item['Collection Center'],
+          )
+        ) {
+          isError = true;
+          errorMsg.push('Collection center not found. ');
+        }
+        if (item['Collection Center']) {
+          list?.push({
+            field: 'Ac Class',
+            value: collectionCenterList?.find(
+              oe => oe?.locationCode == item['Collection Center'],
+            )?.acClass,
+          });
+          list?.push({
+            field: 'Collection Center Name',
+            value: collectionCenterList?.find(
+              oe => oe?.locationCode == item['Collection Center'],
+            )?.locationName,
+          });
+        }
+        if (item.Age && item['Age Unit']) {
+          list.splice(list.map(o => o.field).indexOf('Birthdate'), 1);
+          list.push({
+            field: 'Birthdate',
+            value: dayjs()
+              .add(-item.Age, dateAvailableUnits(item['Age Unit']))
+              .format('DD-MM-YYYY'),
+          });
+        }
+
+        errorMsg = _.uniq(errorMsg);
+
+        // same object keys removes
+        list = _.uniqBy(list, function (e: any) {
+          return e.field;
+        });
+
+        localFinalOutput.push({
+          ...list,
+          isError: isError,
+          errorMsg: errorMsg?.join(''),
+        });
+        isError = false;
+        errorMsg = [''];
+      });
+
+      let localArrKeys1: any[] = [];
+      localFinalOutput.map(function (item1) {
+        const localKeys1: any = [];
+        for (const [key, value] of Object.entries(item1 as any)) {
+          localKeys1.push((value as any)?.field);
+        }
+        localArrKeys1.push(...localKeys1);
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      localArrKeys1 = _.uniq(localArrKeys1);
+      localArrKeys1 = _.remove(localArrKeys1, oe => {
+        if (oe == 'elementSequence' || oe == 'undefined') {
+          return;
+        } else {
+          return oe;
+        }
+      });
+      setArrKeys(localArrKeys1);
+      setFinalOutput(localFinalOutput);
+    };
+
     useEffect(() => {
       const localFinalOutput: any = [];
-      let localArrKeys: any = [];
+      const localArrKeys: any = [];
       data?.map(item => {
         const records: any[] = [];
         item.records?.filter((e: any) => {
@@ -48,17 +291,13 @@ export const FileImportExportList = observer(
         localFinalOutput.push({...item, select: false, records});
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      localArrKeys = _.uniq(localArrKeys);
-      setFinalOutput(localFinalOutput);
-      setArrKeys(localArrKeys);
-      setAllSelected(false);
-    }, [data]);
 
-    const getFields = (input, field) => {
-      const output: any[] = [];
-      for (let i = 0; i < input.length; ++i) output.push(input[i][field]);
-      return output;
-    };
+      loadAsync(localFinalOutput);
+      // setFinalOutput(localFinalOutput);
+      // setArrKeys(localArrKeys);
+      setAllSelected(false);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
 
     const getSortData = (field: string, type: 'desc' | 'asc') => {
       //const result = finalOutput
@@ -237,8 +476,19 @@ export const FileImportExportList = observer(
                   </td>
                   {arrKeys?.map((keys, keysIndex) => (
                     <td>
-                      <span>
+                      {/* <span>
                         {item.records?.find(item => item?.field == keys)?.value}
+                      </span> */}
+                      <span>
+                        {/* {JSON.stringify(Object.values(item))} */}
+                        {/* {item[keysIndex]?.value?.toString()} */}
+                        {
+                          (
+                            Object.values(item)?.find(
+                              (e: any) => e?.field == keys,
+                            ) as any
+                          )?.value
+                        }
                       </span>
                     </td>
                   ))}
