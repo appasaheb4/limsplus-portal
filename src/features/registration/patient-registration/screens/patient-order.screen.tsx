@@ -188,7 +188,7 @@ export const PatientOrder = PatientOrderHoc(
           />
         )}
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') &&
-          !patientRegistrationStore.defaultValues?.labIdLock && (
+          !patientRegistrationStore.defaultValues?.filterLock && (
             <Buttons.ButtonCircleAddRemoveBottom
               style={{bottom: 60}}
               show={hideInputView}
