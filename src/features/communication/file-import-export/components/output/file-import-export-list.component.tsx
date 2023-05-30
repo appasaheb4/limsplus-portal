@@ -10,7 +10,12 @@ import {AiOutlineCloseCircle} from 'react-icons/ai';
 import './table.css';
 import {useStores} from '@/stores';
 import dayjs from 'dayjs';
-import {dateAvailableUnits} from '@/core-utils';
+import {
+  getAgeByAgeObject,
+  getDiffByDate1,
+  dateAvailableUnits,
+} from '@/core-utils';
+import {ModalModifyDetails} from '../molecules/modal-modify-details.component';
 interface FileImportExportListProps {
   data: any;
   totalSize: any;
@@ -42,14 +47,21 @@ export const FileImportExportList = observer(
     const [finalOutput, setFinalOutput] = useState<any>([]);
     const [arrKeys, setArrKeys] = useState<Array<string>>([]);
     const [isAllSelected, setAllSelected] = useState(false);
+    const [modalModifyDetails, setModalModifyDetails] = useState<any>({});
 
-    const loadAsync = async data => {
+    const loadAsync = async recordsList => {
       let localArrKeys: any = [];
       const localFinalOutput: any = [];
+      const data = recordsList?.map(item => {
+        return {
+          ...item?.records?.reduce((a, v) => ({...a, [v.field]: v.value}), {}),
+          _id: item?._id,
+        };
+      });
       data.map(function (item) {
         const localKeys: any = [];
-        for (const [key, value] of Object.entries(item?.records as any)) {
-          localKeys.push((value as any)?.field);
+        for (const [key, value] of Object.entries(item as any)) {
+          localKeys.push(key);
         }
         localArrKeys.push(...localKeys);
       });
@@ -62,18 +74,8 @@ export const FileImportExportList = observer(
         return item != 'undefined';
       });
       setArrKeys(localArrKeys);
-      let dockerIds: any = [];
-      data.map(de => {
-        const values = de?.records?.map(e => {
-          if (e?.field == 'Doctor Id') {
-            return e?.value;
-          }
-        });
-        values?.filter((ee: any) => {
-          if (typeof ee == 'string') {
-            dockerIds.push(ee);
-          }
-        });
+      let dockerIds = data.map(item => {
+        return item['Doctor Id'];
       });
       dockerIds = _.uniq(dockerIds);
       dockerIds = _.compact(dockerIds);
@@ -179,7 +181,6 @@ export const FileImportExportList = observer(
               });
             }
           } else {
-            // console.log({key, items: item[key]});
             list.push({field: key, value: item[key]?.toString()});
           }
         });
@@ -247,10 +248,20 @@ export const FileImportExportList = observer(
           return e.field;
         });
 
+        list = list.map(li => {
+          if (li.field == 'isError' || li.field == 'select') {
+            return {field: li.field, value: item[li.field]};
+          } else {
+            return {field: li.field, value: item[li.field]?.toString()};
+          }
+        });
+
         localFinalOutput.push({
           ...list,
           isError: isError,
           errorMsg: errorMsg?.join(''),
+          select: false,
+          _id: item?._id,
         });
         isError = false;
         errorMsg = [''];
@@ -267,7 +278,7 @@ export const FileImportExportList = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       localArrKeys1 = _.uniq(localArrKeys1);
       localArrKeys1 = _.remove(localArrKeys1, oe => {
-        if (oe == 'elementSequence' || oe == 'undefined') {
+        if (oe == 'elementSequence' || oe == 'undefined' || oe == '_id') {
           return;
         } else {
           return oe;
@@ -441,11 +452,11 @@ export const FileImportExportList = observer(
               </tr>
             </thead>
             <tbody>
-              {finalOutput?.map((item, index) => (
+              {finalOutput?.map((item, itemIndex) => (
                 <tr>
                   <td className='items-center bg-white sticky-col left-0 z-50'>
                     <input
-                      key={index}
+                      key={itemIndex}
                       type='checkbox'
                       className='flex '
                       checked={item.select}
@@ -475,13 +486,18 @@ export const FileImportExportList = observer(
                     </>
                   </td>
                   {arrKeys?.map((keys, keysIndex) => (
-                    <td>
-                      {/* <span>
-                        {item.records?.find(item => item?.field == keys)?.value}
-                      </span> */}
+                    <td
+                      className='p-2'
+                      onDoubleClick={() => {
+                        setModalModifyDetails({
+                          show: true,
+                          keys,
+                          itemIndex,
+                          keysIndex,
+                        });
+                      }}
+                    >
                       <span>
-                        {/* {JSON.stringify(Object.values(item))} */}
-                        {/* {item[keysIndex]?.value?.toString()} */}
                         {
                           (
                             Object.values(item)?.find(
@@ -589,6 +605,95 @@ export const FileImportExportList = observer(
           >
             <Icons.IconBi.BiSkipPrevious />
           </Icons.IconContext>
+          <ModalModifyDetails
+            {...modalModifyDetails}
+            onClose={() => {
+              setModalModifyDetails({
+                show: false,
+              });
+            }}
+            onUpdate={(
+              value,
+              inputFormat,
+              keys,
+              itemIndex,
+              keysIndex,
+              isUpdateAll,
+            ) => {
+              setModalModifyDetails({
+                show: false,
+              });
+              if (!isUpdateAll) {
+                finalOutput[itemIndex][keysIndex].value = value;
+                // birthday to age and age unit update
+                if (inputFormat === 'radio' && keys === 'Birthdate') {
+                  if (
+                    dayjs(new Date()).diff(
+                      dayjs(value, 'DD-MM-YYYY'),
+                      'hour',
+                    ) <= 0
+                  ) {
+                    return alert('Please select correct birth date!!');
+                  }
+                  finalOutput[itemIndex][arrKeys.indexOf('Age')].value =
+                    getAgeByAgeObject(getDiffByDate1(value)).age || 0;
+                  finalOutput[itemIndex][arrKeys.indexOf('Age Unit')].value =
+                    getAgeByAgeObject(getDiffByDate1(value)).ageUnit || 0;
+                }
+                if (keys === 'Panel Code') {
+                  finalOutput[itemIndex][arrKeys.indexOf('Panel Code')].value =
+                    value;
+                }
+                const list: any[] = [];
+                finalOutput.map(item => {
+                  const record = {};
+                  Object.entries(item).map((e: any) => {
+                    Object.assign(record, {
+                      [e[1]?.field]: e[1]?.value,
+                    });
+                  });
+                  list.push(record);
+                });
+
+                const finalList: any = [];
+                list.filter(item => {
+                  const records: any = [];
+                  Object.entries(item).map((e: any) => {
+                    records.push({field: e[0], value: e[1]});
+                  });
+                  finalList.push({records, _id: item?._id});
+                });
+                loadAsync(finalList);
+              } else {
+                finalOutput.map((item, index) => {
+                  finalOutput[index][keysIndex].value = value;
+                  finalOutput[index][arrKeys.indexOf('Age')].value =
+                    getAgeByAgeObject(getDiffByDate1(value)).age || 0;
+                  finalOutput[index][arrKeys.indexOf('Age Unit')].value =
+                    getAgeByAgeObject(getDiffByDate1(value)).ageUnit || 0;
+                });
+                const list: any[] = [];
+                finalOutput.map(item => {
+                  const record = {};
+                  Object.entries(item).map((e: any) => {
+                    Object.assign(record, {
+                      [e[1]?.field]: e[1]?.value,
+                    });
+                  });
+                  list.push(record);
+                });
+                const finalList: any = [];
+                list.filter(item => {
+                  const records: any = [];
+                  Object.entries(item).map((e: any) => {
+                    records.push({field: e[0], value: e[1]});
+                  });
+                  finalList.push({records, _id: item?._id});
+                });
+                loadAsync(finalList);
+              }
+            }}
+          />
         </div>
       </>
     );

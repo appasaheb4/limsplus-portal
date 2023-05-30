@@ -269,10 +269,11 @@ const FileImportExport = observer(() => {
             fileImportExportStore.fileImportExportService.listFileImportExport();
           }}
           onSend={records => {
+            const list = records.filter(n => n);
             patientManagerStore.patientManagerService
               .createPatientManagerByFileImportExport({
                 input: {
-                  filter: records?.map(e => {
+                  filter: list?.map(e => {
                     return {...e, enteredBy: loginStore.login?.userId};
                   }),
                 },

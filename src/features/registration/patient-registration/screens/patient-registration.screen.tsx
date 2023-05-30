@@ -103,61 +103,140 @@ const PatientRegistration = observer(() => {
           <PageHeading
             title={stores.routerStore.selectedComponents?.title || ''}
           />
-          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-            loader={loading}
-            placeholder='Lab Id'
-            className='h-4'
-            data={{
-              list: [{labId: '*'}].concat(
-                _.uniqBy(
-                  patientVisitStore.labIdList?.filter(
-                    item => item.labId !== undefined,
+          <div className='flex mx-20 items-center gap-2'>
+            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              loader={loading}
+              placeholder='PId'
+              className='h-4'
+              data={{
+                list: [{pId: '*'}].concat(
+                  _.uniqBy(
+                    patientVisitStore.labIdList?.filter(
+                      item => item.pId !== undefined,
+                    ),
+                    'labId',
                   ),
-                  'labId',
                 ),
-              ),
-              displayKey: ['labId'],
-            }}
-            disable={patientRegistrationStore.defaultValues?.labIdLock}
-            displayValue={
-              patientRegistrationStore.defaultValues?.labId?.toString() || '*'
-            }
-            onFilter={(labId: string) => {
-              patientVisitStore.patientVisitService.filterByLabId({
-                input: {
-                  filter: {labId},
-                },
-              });
-            }}
-            onSelect={item => {
-              patientRegistrationStore.updateDefaultValue({
-                ...patientRegistrationStore.defaultValues,
-                labId: item.labId !== '*' ? Number.parseInt(item.labId) : '*',
-                labIdLock: true,
-              });
-              item.labId !== '*'
-                ? patientRegistrationHoc.labIdChanged(
-                    Number.parseInt(item.labId),
-                  )
-                : patientRegistrationHoc.labIdChanged();
-            }}
-          />
-          <Buttons.Button
-            size='medium'
-            type='outline'
-            onClick={() => {
-              patientRegistrationStore.updateDefaultValue({
-                ...patientRegistrationStore.defaultValues,
-                labIdLock: !patientRegistrationStore.defaultValues?.labIdLock,
-              });
-            }}
-          >
-            {patientRegistrationStore.defaultValues?.labIdLock ? (
-              <Icons.IconBs.BsFillLockFill />
-            ) : (
-              <Icons.IconBs.BsFillUnlockFill />
-            )}
-          </Buttons.Button>
+                displayKey: ['pId'],
+              }}
+              disable={patientRegistrationStore.defaultValues?.filterLock}
+              displayValue={patientRegistrationStore.defaultValues?.labId?.toString()}
+              onFilter={(labId: string) => {
+                patientVisitStore.patientVisitService.filterByLabId({
+                  input: {
+                    filter: {labId},
+                  },
+                });
+              }}
+              onSelect={item => {
+                patientRegistrationStore.updateDefaultValue({
+                  ...patientRegistrationStore.defaultValues,
+                  pId: item.pId !== '*' ? Number.parseInt(item.pId) : '*',
+                  filterLock: true,
+                });
+                item.labId !== '*'
+                  ? patientRegistrationHoc.labIdChanged(
+                      Number.parseInt(item.labId),
+                    )
+                  : patientRegistrationHoc.labIdChanged();
+              }}
+            />
+            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              loader={loading}
+              placeholder='Lab Id'
+              className='h-4'
+              data={{
+                list: [{labId: '*'}].concat(
+                  _.uniqBy(
+                    patientVisitStore.labIdList?.filter(
+                      item => item.labId !== undefined,
+                    ),
+                    'labId',
+                  ),
+                ),
+                displayKey: ['labId'],
+              }}
+              disable={patientRegistrationStore.defaultValues?.filterLock}
+              displayValue={
+                patientRegistrationStore.defaultValues?.labId?.toString() || '*'
+              }
+              onFilter={(labId: string) => {
+                patientVisitStore.patientVisitService.filterByLabId({
+                  input: {
+                    filter: {labId},
+                  },
+                });
+              }}
+              onSelect={item => {
+                patientRegistrationStore.updateDefaultValue({
+                  ...patientRegistrationStore.defaultValues,
+                  labId: item.labId !== '*' ? Number.parseInt(item.labId) : '*',
+                  filterLock: true,
+                });
+                item.labId !== '*'
+                  ? patientRegistrationHoc.labIdChanged(
+                      Number.parseInt(item.labId),
+                    )
+                  : patientRegistrationHoc.labIdChanged();
+              }}
+            />
+            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              loader={loading}
+              placeholder='Mobile Number'
+              className='h-4'
+              data={{
+                list: [{mobileNo: '*'}].concat(
+                  _.uniqBy(
+                    patientVisitStore.labIdList?.filter(
+                      item => item.labId !== undefined,
+                    ),
+                    'mobileNo',
+                  ),
+                ),
+                displayKey: ['mobileNo'],
+              }}
+              disable={patientRegistrationStore.defaultValues?.filterLock}
+              displayValue={
+                patientRegistrationStore.defaultValues?.labId?.toString() || '*'
+              }
+              onFilter={(mobileNo: string) => {
+                patientVisitStore.patientVisitService.filterByLabId({
+                  input: {
+                    filter: {mobileNo},
+                  },
+                });
+              }}
+              onSelect={item => {
+                patientRegistrationStore.updateDefaultValue({
+                  ...patientRegistrationStore.defaultValues,
+                  mobileNo: item.mobileNo !== '*' ? item?.mobileNo : '*',
+                  filterLock: true,
+                });
+                item.labId !== '*'
+                  ? patientRegistrationHoc.labIdChanged(
+                      Number.parseInt(item.labId),
+                    )
+                  : patientRegistrationHoc.labIdChanged();
+              }}
+            />
+            <Buttons.Button
+              size='medium'
+              type='outline'
+              onClick={() => {
+                patientRegistrationStore.updateDefaultValue({
+                  ...patientRegistrationStore.defaultValues,
+                  filterLock:
+                    !patientRegistrationStore.defaultValues?.filterLock,
+                });
+              }}
+            >
+              {patientRegistrationStore.defaultValues?.filterLock ? (
+                <Icons.IconBs.BsFillLockFill />
+              ) : (
+                <Icons.IconBs.BsFillUnlockFill />
+              )}
+            </Buttons.Button>
+          </div>
         </div>
         <PageHeadingLabDetails store={loginStore} />
       </Header>
