@@ -29,15 +29,26 @@ export const startupByLabId = async () => {
 };
 
 const startup = async () => {
-  //const labId = stores.patientRegistrationStore.defaultValues?.labId;
-  await stores.patientVisitStore.patientVisitService.filterByLabId({
-    input: {
-      filter: {
-        labId: '*',
+  // await stores.patientVisitStore.patientVisitService.filterByLabId({
+  //   input: {
+  //     filter: {
+  //       labId: '*',
+  //     },
+  //   },
+  // });
+  await stores.patientManagerStore.patientManagerService
+    .getFilterOptionList({
+      input: {
+        filter: {
+          pId: '*',
+          labId: '*',
+          mobileNo: '*',
+        },
       },
-    },
-  });
-  //await patientRegistrationHoc.labIdChanged(labId as number);
+    })
+    .then(res => {
+      //console.log({res});
+    });
 };
 
 export const resetPatientManager = () => {

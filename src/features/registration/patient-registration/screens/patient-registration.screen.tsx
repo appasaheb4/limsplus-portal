@@ -15,7 +15,6 @@ import {
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
-import {patientRegistrationHoc} from '../hoc';
 import {startupPM, startupPV, startupPO} from '../startup';
 
 import {
@@ -45,6 +44,7 @@ const PatientRegistration = observer(() => {
   const {
     loading,
     loginStore,
+    patientManagerStore,
     patientRegistrationStore,
     patientVisitStore,
     patientOrderStore,
@@ -111,20 +111,25 @@ const PatientRegistration = observer(() => {
               data={{
                 list: [{pId: '*'}].concat(
                   _.uniqBy(
-                    patientVisitStore.labIdList?.filter(
-                      item => item.pId !== undefined,
+                    patientRegistrationStore.filterOptionList?.pIds?.map(
+                      item => {
+                        return {pId: item};
+                      },
                     ),
-                    'labId',
+                    'pId',
                   ),
                 ),
                 displayKey: ['pId'],
               }}
               disable={patientRegistrationStore.defaultValues?.filterLock}
-              displayValue={patientRegistrationStore.defaultValues?.labId?.toString()}
-              onFilter={(labId: string) => {
-                patientVisitStore.patientVisitService.filterByLabId({
+              displayValue={patientRegistrationStore.defaultValues?.pId?.toString()}
+              onFilter={(pId: string) => {
+                patientManagerStore.patientManagerService.getFilterOptionList({
                   input: {
-                    filter: {labId},
+                    filter: {
+                      type: 'pId',
+                      pId,
+                    },
                   },
                 });
               }}
@@ -134,11 +139,11 @@ const PatientRegistration = observer(() => {
                   pId: item.pId !== '*' ? Number.parseInt(item.pId) : '*',
                   filterLock: true,
                 });
-                item.labId !== '*'
-                  ? patientRegistrationHoc.labIdChanged(
-                      Number.parseInt(item.labId),
-                    )
-                  : patientRegistrationHoc.labIdChanged();
+                // item.labId !== '*'
+                //   ? patientRegistrationHoc.labIdChanged(
+                //       Number.parseInt(item.labId),
+                //     )
+                //   : patientRegistrationHoc.labIdChanged();
               }}
             />
             <AutoCompleteFilterSingleSelectMultiFieldsDisplay
@@ -148,8 +153,10 @@ const PatientRegistration = observer(() => {
               data={{
                 list: [{labId: '*'}].concat(
                   _.uniqBy(
-                    patientVisitStore.labIdList?.filter(
-                      item => item.labId !== undefined,
+                    patientRegistrationStore.filterOptionList?.labIds?.map(
+                      item => {
+                        return {labId: item};
+                      },
                     ),
                     'labId',
                   ),
@@ -161,9 +168,12 @@ const PatientRegistration = observer(() => {
                 patientRegistrationStore.defaultValues?.labId?.toString() || '*'
               }
               onFilter={(labId: string) => {
-                patientVisitStore.patientVisitService.filterByLabId({
+                patientManagerStore.patientManagerService.getFilterOptionList({
                   input: {
-                    filter: {labId},
+                    filter: {
+                      type: 'labId',
+                      labId,
+                    },
                   },
                 });
               }}
@@ -173,11 +183,11 @@ const PatientRegistration = observer(() => {
                   labId: item.labId !== '*' ? Number.parseInt(item.labId) : '*',
                   filterLock: true,
                 });
-                item.labId !== '*'
-                  ? patientRegistrationHoc.labIdChanged(
-                      Number.parseInt(item.labId),
-                    )
-                  : patientRegistrationHoc.labIdChanged();
+                // item.labId !== '*'
+                //   ? patientRegistrationHoc.labIdChanged(
+                //       Number.parseInt(item.labId),
+                //     )
+                //   : patientRegistrationHoc.labIdChanged();
               }}
             />
             <AutoCompleteFilterSingleSelectMultiFieldsDisplay
@@ -187,8 +197,10 @@ const PatientRegistration = observer(() => {
               data={{
                 list: [{mobileNo: '*'}].concat(
                   _.uniqBy(
-                    patientVisitStore.labIdList?.filter(
-                      item => item.labId !== undefined,
+                    patientRegistrationStore.filterOptionList.mobileNos.map(
+                      item => {
+                        return {mobileNo: item};
+                      },
                     ),
                     'mobileNo',
                   ),
@@ -197,12 +209,16 @@ const PatientRegistration = observer(() => {
               }}
               disable={patientRegistrationStore.defaultValues?.filterLock}
               displayValue={
-                patientRegistrationStore.defaultValues?.labId?.toString() || '*'
+                patientRegistrationStore.defaultValues?.mobileNo?.toString() ||
+                '*'
               }
               onFilter={(mobileNo: string) => {
-                patientVisitStore.patientVisitService.filterByLabId({
+                patientManagerStore.patientManagerService.getFilterOptionList({
                   input: {
-                    filter: {mobileNo},
+                    filter: {
+                      type: 'mobileNo',
+                      mobileNo,
+                    },
                   },
                 });
               }}
@@ -212,11 +228,11 @@ const PatientRegistration = observer(() => {
                   mobileNo: item.mobileNo !== '*' ? item?.mobileNo : '*',
                   filterLock: true,
                 });
-                item.labId !== '*'
-                  ? patientRegistrationHoc.labIdChanged(
-                      Number.parseInt(item.labId),
-                    )
-                  : patientRegistrationHoc.labIdChanged();
+                // item.labId !== '*'
+                //   ? patientRegistrationHoc.labIdChanged(
+                //       Number.parseInt(item.labId),
+                //     )
+                //   : patientRegistrationHoc.labIdChanged();
               }}
             />
             <Buttons.Button

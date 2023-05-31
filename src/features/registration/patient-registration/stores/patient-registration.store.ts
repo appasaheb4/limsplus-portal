@@ -13,7 +13,11 @@ export class PatientRegistrationStore {
       mobileNo: '*',
       filterLock: false,
     };
-    this.filterOptionList = {pIds: [], labIds: [], mobileNos: []};
+    this.filterOptionList = {
+      pIds: [],
+      labIds: [],
+      mobileNos: [],
+    };
     makeObservable<PatientRegistrationStore, any>(this, {
       defaultValues: observable,
       filterOptionList: observable,
@@ -27,7 +31,9 @@ export class PatientRegistrationStore {
     this.defaultValues = new DefaultValues(values);
   }
 
-  updateFilterOptionList(list: FilterOptionList) {
-    this.filterOptionList = list;
+  updateFilterOptionList(res: any) {
+    if (res.getFilterOptionListPatientManager.success)
+      this.filterOptionList =
+        res.getFilterOptionListPatientManager.filterRecordList;
   }
 }

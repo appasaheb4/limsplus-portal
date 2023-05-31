@@ -246,3 +246,14 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
     }
   }
 `;
+
+export const FILTER_OPTION_LIST = gql`
+  mutation ($input: PatientManagerInput!) {
+    getFilterOptionListPatientManager(input: $input) {
+      success
+      statusCode
+      message
+      filterRecordList
+    }
+  }
+`;

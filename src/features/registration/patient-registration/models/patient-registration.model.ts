@@ -12,9 +12,9 @@ export class DefaultValues {
 }
 
 export class FilterOptionList {
-  pIds: Array<number>;
-  labIds: Array<number>;
-  mobileNos: Array<string>;
+  pIds: Array<any>;
+  labIds: Array<any>;
+  mobileNos: Array<any>;
   constructor(rawData: {[key in string]: any}) {
     this.pIds = rawData.pIds;
     this.labIds = rawData.labIds;
