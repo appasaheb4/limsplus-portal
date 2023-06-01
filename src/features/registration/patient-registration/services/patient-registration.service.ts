@@ -43,6 +43,7 @@ export class PatientRegistrationService {
           reject({error});
         });
     });
+
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       http
