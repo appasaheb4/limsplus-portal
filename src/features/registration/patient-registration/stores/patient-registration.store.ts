@@ -33,7 +33,6 @@ export class PatientRegistrationStore {
 
   updateFilterOptionList(res: any) {
     if (res.getFilterOptionListPatientManager.success)
-      this.filterOptionList =
-        res.getFilterOptionListPatientManager.filterRecordList;
+      this.filterOptionList = res.getFilterOptionListPatientManager.records;
   }
 }

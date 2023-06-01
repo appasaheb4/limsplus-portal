@@ -18,6 +18,7 @@ import {
   CREATE_PATIENT_MANAGER,
   CREATE_BY_FILE_IMPORT_EXPORT,
   FILTER_OPTION_LIST,
+  GET_PATIENT_REG_RECORDS,
 } from './mutation-pm';
 
 export class PatientManagerService {
@@ -213,9 +214,24 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
-
           stores.patientRegistrationStore.updateFilterOptionList(response.data);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getPatientRegRecords = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: GET_PATIENT_REG_RECORDS,
+          variables,
+        })
+        .then((response: any) => {
+          console.log({response});
+          //stores.patientRegistrationStore.updateFilterOptionList(response.data);
           resolve(response.data);
         })
         .catch(error =>

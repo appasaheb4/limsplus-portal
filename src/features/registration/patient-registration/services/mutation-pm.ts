@@ -253,7 +253,18 @@ export const FILTER_OPTION_LIST = gql`
       success
       statusCode
       message
-      filterRecordList
+      records
+    }
+  }
+`;
+
+export const GET_PATIENT_REG_RECORDS = gql`
+  mutation ($input: PatientManagerInput!) {
+    getPatientRegRecords(input: $input) {
+      success
+      statusCode
+      message
+      records
     }
   }
 `;

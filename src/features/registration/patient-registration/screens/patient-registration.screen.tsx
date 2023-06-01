@@ -137,7 +137,12 @@ const PatientRegistration = observer(() => {
                 patientRegistrationStore.updateDefaultValue({
                   ...patientRegistrationStore.defaultValues,
                   pId: item.pId !== '*' ? Number.parseInt(item.pId) : '*',
+                  labId: '*',
+                  mobileNo: '*',
                   filterLock: true,
+                });
+                patientManagerStore.patientManagerService.getPatientRegRecords({
+                  input: {filter: {type: 'pId', pId: item?.pId?.toString()}},
                 });
                 // item.labId !== '*'
                 //   ? patientRegistrationHoc.labIdChanged(
@@ -181,6 +186,8 @@ const PatientRegistration = observer(() => {
                 patientRegistrationStore.updateDefaultValue({
                   ...patientRegistrationStore.defaultValues,
                   labId: item.labId !== '*' ? Number.parseInt(item.labId) : '*',
+                  pId: '*',
+                  mobileNo: '*',
                   filterLock: true,
                 });
                 // item.labId !== '*'
@@ -226,6 +233,8 @@ const PatientRegistration = observer(() => {
                 patientRegistrationStore.updateDefaultValue({
                   ...patientRegistrationStore.defaultValues,
                   mobileNo: item.mobileNo !== '*' ? item?.mobileNo : '*',
+                  pId: '*',
+                  labId: '*',
                   filterLock: true,
                 });
                 // item.labId !== '*'
