@@ -46,8 +46,6 @@ export class PatientManagerStore {
 
   updatePatientManagerList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.patientManagers.success)
-        return alert(res.patientManagers.message);
       this.listPatientManger = res.patientManagers.data;
       this.listPatientMangerCopy = res.patientManagers.data;
       this.listPatientMangerCount = res.patientManagers.paginatorInfo.count;

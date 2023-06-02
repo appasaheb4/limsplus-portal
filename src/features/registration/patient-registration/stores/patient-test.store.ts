@@ -42,8 +42,7 @@ export class PatientTestStore {
   }
 
   updateTestList(res: any) {
-    if (!res.patientTests.success) return alert(res.patientTests.message);
-    this.patientListTest = res.patientTests.panelTestList;
+    this.patientListTest = res.patientTests.data;
     this.patientListTestCount = res.patientTests.paginatorInfo.count;
   }
 

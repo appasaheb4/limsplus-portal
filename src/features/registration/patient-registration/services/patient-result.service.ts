@@ -34,9 +34,9 @@ export class PatientResultService {
           variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
-          stores.patientResultStore.updatePatientResultListWithLabId(
-            response.data,
-          );
+          // stores.patientResultStore.updatePatientResultListWithLabId(
+          //   response.data,
+          // );
           resolve(response.data);
         })
         .catch(error =>
