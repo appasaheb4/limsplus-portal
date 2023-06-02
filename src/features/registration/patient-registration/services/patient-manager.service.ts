@@ -229,10 +229,66 @@ export class PatientManagerService {
           mutation: GET_PATIENT_REG_RECORDS,
           variables,
         })
-        .then((response: any) => {
-          console.log({response});
-          //stores.patientRegistrationStore.updateFilterOptionList(response.data);
-          resolve(response.data);
+        .then((res: any) => {
+          if (res.data.getPatientRegRecords?.success) {
+            const {records} = res.data.getPatientRegRecords;
+            console.log({records});
+            // patient manager
+            stores.patientManagerStore.updatePatientManagerList({
+              patientManagers: {
+                data: records?.patientManager,
+                paginatorInfo: {
+                  count: records?.patientManager?.length,
+                },
+              },
+            });
+            // patient visit
+            stores.patientVisitStore.updatePatientVisitList({
+              patientVisits: {
+                data: records?.patientVisit,
+                paginatorInfo: {
+                  count: records?.patientVisit?.length,
+                },
+              },
+            });
+            // patient order
+            stores.patientOrderStore.updatePatientOrderList({
+              patientOrders: {
+                data: records?.patientOrder,
+                paginatorInfo: {
+                  count: records?.patientOrder?.length,
+                },
+              },
+            });
+            // patient test
+            stores.patientTestStore.updateTestList({
+              patientTests: {
+                data: records?.patientTest,
+                paginatorInfo: {
+                  count: records?.patientTest?.length,
+                },
+              },
+            });
+            // patient result
+            stores.patientResultStore.updatePatientResultByLabId({
+              patientResult: {
+                data: records?.patientResult,
+                paginatorInfo: {
+                  count: records?.patientResult?.length,
+                },
+              },
+            });
+            // patient sample
+            stores.patientSampleStore.updatePatientSampleList({
+              patientSamples: {
+                data: records?.patientSample,
+                paginatorInfo: {
+                  count: records?.patientSample?.length,
+                },
+              },
+            });
+          }
+          resolve(res.data);
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),

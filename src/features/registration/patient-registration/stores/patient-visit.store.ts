@@ -55,7 +55,6 @@ export class PatientVisitStore {
 
   updatePatientVisitList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.patientVisits.success) return alert(res.patientVisits.message);
       this.listPatientVisit = res.patientVisits.data;
       this.listPatientVisitCopy = res.patientVisits.data;
       this.listPatientVisitCount = res.patientVisits.paginatorInfo.count;

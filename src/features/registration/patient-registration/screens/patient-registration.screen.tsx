@@ -10,12 +10,11 @@ import {
   Icons,
   Grid,
   Toast,
+  Tooltip,
 } from '@/library/components';
 
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
-
-import {startupPM, startupPV, startupPO} from '../startup';
 
 import {
   PatientManager,
@@ -60,21 +59,21 @@ const PatientRegistration = observer(() => {
               <AccordionItem
                 title={`${item.title}`}
                 // expanded={item.title === "PATIENT MANAGER"}
-                onExpand={index => {
-                  switch (index) {
-                    case 0:
-                      startupPM();
-                      break;
-                    case 1:
-                      startupPV();
-                      break;
-                    case 2:
-                      startupPO();
-                      break;
-                    default:
-                      return;
-                  }
-                }}
+                // onExpand={index => {
+                //   switch (index) {
+                //     case 0:
+                //       startupPM();
+                //       break;
+                //     case 1:
+                //       startupPV();
+                //       break;
+                //     case 2:
+                //       startupPO();
+                //       break;
+                //     default:
+                //       return;
+                //   }
+                // }}
               >
                 {item.title === 'PATIENT MANAGER' && <PatientManager />}
                 {item.title === 'PATIENT VISIT' && <PatientVisit />}
@@ -99,171 +98,270 @@ const PatientRegistration = observer(() => {
   return (
     <>
       <Header>
-        <div className='flex flex-row gap-2 items-center'>
-          <PageHeading
-            title={stores.routerStore.selectedComponents?.title || ''}
-          />
-          <div className='flex mx-20 items-center gap-2'>
-            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-              loader={loading}
-              placeholder='PId'
-              className='h-4'
-              data={{
-                list: [{pId: '*'}].concat(
-                  _.uniqBy(
-                    patientRegistrationStore.filterOptionList?.pIds?.map(
-                      item => {
-                        return {pId: item};
-                      },
-                    ),
-                    'pId',
-                  ),
-                ),
-                displayKey: ['pId'],
-              }}
-              disable={patientRegistrationStore.defaultValues?.filterLock}
-              displayValue={patientRegistrationStore.defaultValues?.pId?.toString()}
-              onFilter={(pId: string) => {
-                patientManagerStore.patientManagerService.getFilterOptionList({
-                  input: {
-                    filter: {
-                      type: 'pId',
-                      pId,
-                    },
-                  },
-                });
-              }}
-              onSelect={item => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  pId: item.pId !== '*' ? Number.parseInt(item.pId) : '*',
-                  labId: '*',
-                  mobileNo: '*',
-                  filterLock: true,
-                });
-                patientManagerStore.patientManagerService.getPatientRegRecords({
-                  input: {filter: {type: 'pId', pId: item?.pId?.toString()}},
-                });
-                // item.labId !== '*'
-                //   ? patientRegistrationHoc.labIdChanged(
-                //       Number.parseInt(item.labId),
-                //     )
-                //   : patientRegistrationHoc.labIdChanged();
-              }}
+        <div className='flex flex-col'>
+          <div className='flex flex-row gap-2 items-center'>
+            <PageHeading
+              title={stores.routerStore.selectedComponents?.title || ''}
             />
-            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-              loader={loading}
-              placeholder='Lab Id'
-              className='h-4'
-              data={{
-                list: [{labId: '*'}].concat(
-                  _.uniqBy(
-                    patientRegistrationStore.filterOptionList?.labIds?.map(
-                      item => {
-                        return {labId: item};
-                      },
+            <div className='flex mx-20 items-center gap-2'>
+              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                loader={loading}
+                placeholder='PId'
+                className='h-4'
+                data={{
+                  list: [{pId: '*'}].concat(
+                    _.uniqBy(
+                      patientRegistrationStore.filterOptionList?.pIds?.map(
+                        item => {
+                          return {pId: item};
+                        },
+                      ),
+                      'pId',
                     ),
-                    'labId',
                   ),
-                ),
-                displayKey: ['labId'],
-              }}
-              disable={patientRegistrationStore.defaultValues?.filterLock}
-              displayValue={
-                patientRegistrationStore.defaultValues?.labId?.toString() || '*'
-              }
-              onFilter={(labId: string) => {
-                patientManagerStore.patientManagerService.getFilterOptionList({
-                  input: {
-                    filter: {
-                      type: 'labId',
-                      labId,
-                    },
-                  },
-                });
-              }}
-              onSelect={item => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  labId: item.labId !== '*' ? Number.parseInt(item.labId) : '*',
-                  pId: '*',
-                  mobileNo: '*',
-                  filterLock: true,
-                });
-                // item.labId !== '*'
-                //   ? patientRegistrationHoc.labIdChanged(
-                //       Number.parseInt(item.labId),
-                //     )
-                //   : patientRegistrationHoc.labIdChanged();
-              }}
-            />
-            <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-              loader={loading}
-              placeholder='Mobile Number'
-              className='h-4'
-              data={{
-                list: [{mobileNo: '*'}].concat(
-                  _.uniqBy(
-                    patientRegistrationStore.filterOptionList.mobileNos.map(
-                      item => {
-                        return {mobileNo: item};
+                  displayKey: ['pId'],
+                }}
+                disable={patientRegistrationStore.defaultValues?.filterLock}
+                displayValue={patientRegistrationStore.defaultValues?.pId?.toString()}
+                onFilter={(pId: string) => {
+                  patientManagerStore.patientManagerService.getFilterOptionList(
+                    {
+                      input: {
+                        filter: {
+                          type: 'pId',
+                          pId,
+                        },
                       },
-                    ),
-                    'mobileNo',
-                  ),
-                ),
-                displayKey: ['mobileNo'],
-              }}
-              disable={patientRegistrationStore.defaultValues?.filterLock}
-              displayValue={
-                patientRegistrationStore.defaultValues?.mobileNo?.toString() ||
-                '*'
-              }
-              onFilter={(mobileNo: string) => {
-                patientManagerStore.patientManagerService.getFilterOptionList({
-                  input: {
-                    filter: {
-                      type: 'mobileNo',
-                      mobileNo,
                     },
-                  },
-                });
-              }}
-              onSelect={item => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  mobileNo: item.mobileNo !== '*' ? item?.mobileNo : '*',
-                  pId: '*',
-                  labId: '*',
-                  filterLock: true,
-                });
-                // item.labId !== '*'
-                //   ? patientRegistrationHoc.labIdChanged(
-                //       Number.parseInt(item.labId),
-                //     )
-                //   : patientRegistrationHoc.labIdChanged();
-              }}
-            />
-            <Buttons.Button
-              size='medium'
-              type='outline'
-              onClick={() => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  filterLock:
-                    !patientRegistrationStore.defaultValues?.filterLock,
-                });
-              }}
-            >
-              {patientRegistrationStore.defaultValues?.filterLock ? (
-                <Icons.IconBs.BsFillLockFill />
-              ) : (
-                <Icons.IconBs.BsFillUnlockFill />
-              )}
-            </Buttons.Button>
+                  );
+                }}
+                onSelect={item => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    pId: item.pId !== '*' ? Number.parseInt(item.pId) : '*',
+                    labId: '*',
+                    mobileNo: '*',
+                    filterLock: true,
+                  });
+                  patientManagerStore.patientManagerService.getPatientRegRecords(
+                    {
+                      input: {
+                        filter: {type: 'pId', pId: item?.pId?.toString()},
+                      },
+                    },
+                  );
+                  patientManagerStore.patientManagerService.getFilterOptionList(
+                    {
+                      input: {
+                        filter: {
+                          type: 'pId',
+                          pId: item.pId.toString(),
+                        },
+                      },
+                    },
+                  );
+                }}
+              />
+              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                loader={loading}
+                placeholder='Lab Id'
+                className='h-4'
+                data={{
+                  list: [{labId: '*'}].concat(
+                    _.uniqBy(
+                      patientRegistrationStore.filterOptionList?.labIds?.map(
+                        item => {
+                          return {labId: item};
+                        },
+                      ),
+                      'labId',
+                    ),
+                  ),
+                  displayKey: ['labId'],
+                }}
+                disable={patientRegistrationStore.defaultValues?.filterLock}
+                displayValue={
+                  patientRegistrationStore.defaultValues?.labId?.toString() ||
+                  '*'
+                }
+                onFilter={(labId: string) => {
+                  patientManagerStore.patientManagerService.getFilterOptionList(
+                    {
+                      input: {
+                        filter: {
+                          type: 'labId',
+                          labId,
+                        },
+                      },
+                    },
+                  );
+                }}
+                onSelect={item => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    labId:
+                      item.labId !== '*' ? Number.parseInt(item.labId) : '*',
+                    pId: '*',
+                    mobileNo: '*',
+                    filterLock: true,
+                  });
+                  patientManagerStore.patientManagerService.getPatientRegRecords(
+                    {
+                      input: {
+                        filter: {type: 'labId', labId: item.labId?.toString()},
+                      },
+                    },
+                  );
+                  patientManagerStore.patientManagerService.getFilterOptionList(
+                    {
+                      input: {
+                        filter: {
+                          type: 'labId',
+                          labId: item.labId?.toString(),
+                        },
+                      },
+                    },
+                  );
+                }}
+              />
+              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                loader={loading}
+                placeholder='Mobile Number'
+                className='h-4'
+                data={{
+                  list: [{mobileNo: '*'}].concat(
+                    _.uniqBy(
+                      patientRegistrationStore.filterOptionList.mobileNos.map(
+                        item => {
+                          return {mobileNo: item};
+                        },
+                      ),
+                      'mobileNo',
+                    ),
+                  ),
+                  displayKey: ['mobileNo'],
+                }}
+                disable={patientRegistrationStore.defaultValues?.filterLock}
+                displayValue={
+                  patientRegistrationStore.defaultValues?.mobileNo?.toString() ||
+                  '*'
+                }
+                onFilter={(mobileNo: string) => {
+                  patientManagerStore.patientManagerService.getFilterOptionList(
+                    {
+                      input: {
+                        filter: {
+                          type: 'mobileNo',
+                          mobileNo,
+                        },
+                      },
+                    },
+                  );
+                }}
+                onSelect={item => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    mobileNo: item.mobileNo !== '*' ? item?.mobileNo : '*',
+                    pId: '*',
+                    labId: '*',
+                    filterLock: true,
+                  });
+                  patientManagerStore.patientManagerService.getPatientRegRecords(
+                    {
+                      input: {
+                        filter: {
+                          type: 'mobileNo',
+                          mobileNo: item.mobileNo?.toString(),
+                        },
+                      },
+                    },
+                  );
+                  patientManagerStore.patientManagerService.getFilterOptionList(
+                    {
+                      input: {
+                        filter: {
+                          type: 'mobileNo',
+                          mobileNo: item.mobileNo?.toString(),
+                        },
+                      },
+                    },
+                  );
+                }}
+              />
+
+              <Tooltip tooltipText='Lock'>
+                <Buttons.Button
+                  size='medium'
+                  type='outline'
+                  onClick={() => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      filterLock:
+                        !patientRegistrationStore.defaultValues?.filterLock,
+                    });
+                  }}
+                >
+                  {patientRegistrationStore.defaultValues?.filterLock ? (
+                    <Icons.IconBs.BsFillLockFill />
+                  ) : (
+                    <Icons.IconBs.BsFillUnlockFill />
+                  )}
+                </Buttons.Button>
+              </Tooltip>
+              <Tooltip tooltipText='Remove Filter'>
+                <div
+                  className='p-2 shadow-md rounded-md border border-gray-400'
+                  onClick={() => {
+                    patientManagerStore.patientManagerService.getFilterOptionList(
+                      {
+                        input: {
+                          filter: {
+                            pId: '*',
+                            labId: '*',
+                            mobileNo: '*',
+                          },
+                        },
+                      },
+                    );
+                    patientManagerStore.patientManagerService.getPatientRegRecords(
+                      {
+                        input: {},
+                      },
+                    );
+                  }}
+                >
+                  <Icons.RIcon nameIcon='FaFilter' />
+                </div>
+              </Tooltip>
+            </div>
+            <PageHeadingLabDetails store={loginStore} />
+          </div>
+
+          <div className='flex items-center justify-center  mt-2 gap-2'>
+            {patientManagerStore.listPatientManger?.length == 1 && (
+              <>
+                <span>
+                  {'Name:'}
+                  {patientManagerStore.listPatientManger[0]?.firstName +
+                    ' ' +
+                    patientManagerStore.listPatientManger[0]?.middleName +
+                    ' ' +
+                    patientManagerStore.listPatientManger[0]?.lastName}
+                </span>
+                <span>
+                  {' Age:'}
+                  {patientManagerStore.listPatientManger[0]?.age +
+                    ' ' +
+                    patientManagerStore.listPatientManger[0]?.ageUnit}
+                </span>
+                <span>
+                  {'  Mobile No:'}
+                  {patientManagerStore.listPatientManger[0]?.mobileNo}
+                </span>
+              </>
+            )}
           </div>
         </div>
-        <PageHeadingLabDetails store={loginStore} />
       </Header>
       <div>{accordionList}</div>
       <div className='flex flex-col -mt-10'>

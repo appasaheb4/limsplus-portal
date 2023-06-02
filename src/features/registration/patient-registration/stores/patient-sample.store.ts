@@ -25,8 +25,7 @@ export class PatientSampleStore {
   }
 
   updatePatientSampleList(res: any) {
-    if (!res.patientSamples.success) return alert(res.patientSamples.message);
-    this.patientSampleList = res.patientSamples.patientSampleList;
+    this.patientSampleList = res.patientSamples.data;
     this.patientSampleListCount = res.patientSamples.paginatorInfo.count;
   }
 

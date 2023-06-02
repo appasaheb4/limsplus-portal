@@ -34,7 +34,7 @@ export class PatientResultStore {
       distinctPatientResultCopy: observable,
 
       patientResultService: computed,
-      updatePatientResultListWithLabId: action,
+      updatePatientResultByLabId: action,
       filterPatientResultListWithLabid: action,
 
       updatePatientResult: action,
@@ -86,23 +86,18 @@ export class PatientResultStore {
     }
   }
 
-  updatePatientResultListWithLabId(res: any) {
-    if (!res.patientResultsWithLabId.success) {
-      return alert(res.patientResultsWithLabId.message);
-    } else {
-      let data: any = res.patientResultsWithLabId.patientResultList;
-      data = data.map(item => {
-        return {
-          ...item,
-          testReportOrder: item?.extraData?.testReportOrder,
-          analyteReportOrder: item?.extraData?.analyteReportOrder,
-        };
-      });
-      data = _.sortBy(data, ['labId', 'testReportOrder', 'analyteReportOrder']);
-      this.patientResultListWithLabId = data;
-      this.patientResultTestCount =
-        res.patientResultsWithLabId.paginatorInfo.count;
-    }
+  updatePatientResultByLabId(res: any) {
+    let {data} = res.patientResult;
+    data = data.map(item => {
+      return {
+        ...item,
+        testReportOrder: item?.extraData?.testReportOrder,
+        analyteReportOrder: item?.extraData?.analyteReportOrder,
+      };
+    });
+    data = _.sortBy(data, ['labId', 'testReportOrder', 'analyteReportOrder']);
+    this.patientResultListWithLabId = data;
+    this.patientResultTestCount = res.patientResult.paginatorInfo.count;
   }
 
   filterPatientResultListWithLabid(res: any) {
