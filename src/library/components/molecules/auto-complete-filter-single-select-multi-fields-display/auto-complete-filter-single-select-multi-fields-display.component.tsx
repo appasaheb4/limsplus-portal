@@ -14,7 +14,8 @@ interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   className?: string;
   posstion?: string;
   onFilter: (item: any) => void;
-  onSelect: (item: any) => any;
+  onSelect?: (item: any) => any;
+  onBlur?: (item: any) => any;
 }
 
 export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
@@ -28,6 +29,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   posstion = 'absolute',
   onFilter,
   onSelect,
+  onBlur,
 }: AutoCompleteFilterSingleSelectMultiFieldsDisplayProps) => {
   const [value, setValue] = useState<string>(displayValue);
   const [options, setOptions] = useState<any[]>(data.list);
@@ -38,7 +40,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
           setIsListOpen(false);
-          setValue('');
+          //setValue('');
         }
       }
       document.addEventListener('mousedown', handleClickOutside);
@@ -90,6 +92,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
             onClick={() => setIsListOpen(true)}
             disabled={disable}
             onMouseDown={() => setValue('')}
+            onBlur={e => onBlur && onBlur(e)}
           />
           {loader && <Spinner animation='border' className='mr-2 h-4 w-4' />}
           {isListOpen ? (
@@ -124,7 +127,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                                 .join(' - '),
                             );
                             setIsListOpen(false);
-                            onSelect(item);
+                            onSelect && onSelect(item);
                           }}
                         >
                           {' '}

@@ -19,10 +19,11 @@ const customFetch = async (uri, options): Promise<any> => {
       if (response.status >= 500) {
         return Promise.reject(response.status);
       }
-      if (response)
-        setTimeout(() => {
-          stores.setLoading(false);
-        }, 1000);
+      // if (response)
+      //   setTimeout(() => {
+      //     stores.setLoading(false);
+      //   }, 1000);
+      stores.setLoading(false);
       return response;
     });
     return response;

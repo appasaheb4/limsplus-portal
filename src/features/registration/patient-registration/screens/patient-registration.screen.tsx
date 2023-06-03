@@ -338,28 +338,29 @@ const PatientRegistration = observer(() => {
           </div>
 
           <div className='flex items-center justify-center  mt-2 gap-2'>
-            {patientManagerStore.listPatientManger?.length == 1 && (
-              <>
-                <span>
-                  {'Name:'}
-                  {patientManagerStore.listPatientManger[0]?.firstName +
-                    ' ' +
-                    patientManagerStore.listPatientManger[0]?.middleName +
-                    ' ' +
-                    patientManagerStore.listPatientManger[0]?.lastName}
-                </span>
-                <span>
-                  {' Age:'}
-                  {patientManagerStore.listPatientManger[0]?.age +
-                    ' ' +
-                    patientManagerStore.listPatientManger[0]?.ageUnit}
-                </span>
-                <span>
-                  {'  Mobile No:'}
-                  {patientManagerStore.listPatientManger[0]?.mobileNo}
-                </span>
-              </>
-            )}
+            {patientManagerStore.listPatientManger?.length == 1 &&
+              patientRegistrationStore.defaultValues?.filterLock && (
+                <>
+                  <span>
+                    {'Name:'}
+                    {patientManagerStore.listPatientManger[0]?.firstName +
+                      ' ' +
+                      patientManagerStore.listPatientManger[0]?.middleName +
+                      ' ' +
+                      patientManagerStore.listPatientManger[0]?.lastName}
+                  </span>
+                  <span>
+                    {' Age:'}
+                    {patientManagerStore.listPatientManger[0]?.age +
+                      ' ' +
+                      patientManagerStore.listPatientManger[0]?.ageUnit}
+                  </span>
+                  <span>
+                    {'  Mobile No:'}
+                    {patientManagerStore.listPatientManger[0]?.mobileNo}
+                  </span>
+                </>
+              )}
           </div>
         </div>
       </Header>

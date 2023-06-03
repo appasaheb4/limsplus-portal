@@ -3,6 +3,8 @@ import React, {useEffect} from 'react';
 import {Container} from 'reactstrap';
 import {Icons, Buttons} from '../../..';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 interface ModalProps {
   show?: boolean;
@@ -64,9 +66,11 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                             <h6>City: {item.systemInfo?.ipInfo?.city}</h6>
                           )}
                           <h6>
-                            {dayjs(item.dateOfEntry).format(
-                              'YYYY-MM-DD HH:mm A',
-                            )}
+                            {dayjs(
+                              dayjs(item.dateOfEntry).format(
+                                'YYYY-MM-DD h:mm:ss a',
+                              ),
+                            ).fromNow()}
                           </h6>
                           {/* <h6> {item?.dateOfEntry}</h6> */}
                         </div>

@@ -12,7 +12,8 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import {useStores} from '@/stores';
-// import { DateFilter } from "@/library/components/Organisms"
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 let userId;
 let systemInfo;
@@ -22,6 +23,7 @@ const LoginActivity = observer(() => {
   const {loginStore, loginActivityStore, routerStore} = useStores();
   useEffect(() => {
     loginActivityStore.fetchLoginActivity();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -162,9 +164,9 @@ const LoginActivity = observer(() => {
                     <DateFilter onFilter={onFilter} column={column} />
                   ),
                   formatter: (cell, row) => {
-                    return dayjs(row.dateOfEntry).format(
-                      'YYYY-MM-DD h:mm:ss a',
-                    );
+                    return dayjs(
+                      dayjs(row.dateOfEntry).format('YYYY-MM-DD h:mm:ss a'),
+                    ).fromNow();
                   },
                 },
                 {
@@ -185,9 +187,15 @@ const LoginActivity = observer(() => {
                     <DateFilter onFilter={onFilter} column={column} />
                   ),
                   formatter: (cell, row) => {
-                    return row.lastUpdated
-                      ? dayjs(row.lastUpdated).format('YYYY-MM-DD h:mm:ss a')
-                      : 'Active User';
+                    return row.lastUpdated ? (
+                      <>
+                        {dayjs(
+                          dayjs(row.lastUpdated).format('YYYY-MM-DD h:mm:ss a'),
+                        ).fromNow()}
+                      </>
+                    ) : (
+                      'Active User'
+                    );
                   },
                 },
               ]}

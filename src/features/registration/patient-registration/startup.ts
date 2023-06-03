@@ -29,13 +29,7 @@ export const startupByLabId = async () => {
 };
 
 const startup = async () => {
-  // await stores.patientVisitStore.patientVisitService.filterByLabId({
-  //   input: {
-  //     filter: {
-  //       labId: '*',
-  //     },
-  //   },
-  // });
+  await stores.patientRegistrationStore.reload();
   await stores.patientManagerStore.patientManagerService.getFilterOptionList({
     input: {
       filter: {

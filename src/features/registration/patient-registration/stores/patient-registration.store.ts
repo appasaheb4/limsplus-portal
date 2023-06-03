@@ -6,6 +6,17 @@ export class PatientRegistrationStore {
   defaultValues!: DefaultValues;
   filterOptionList!: FilterOptionList;
   constructor() {
+    this.reload();
+    makeObservable<PatientRegistrationStore, any>(this, {
+      defaultValues: observable,
+      filterOptionList: observable,
+
+      updateDefaultValue: action,
+      updateFilterOptionList: action,
+    });
+  }
+
+  reload() {
     this.defaultValues = {
       ...this.defaultValues,
       pId: '*',
@@ -18,13 +29,6 @@ export class PatientRegistrationStore {
       labIds: [],
       mobileNos: [],
     };
-    makeObservable<PatientRegistrationStore, any>(this, {
-      defaultValues: observable,
-      filterOptionList: observable,
-
-      updateDefaultValue: action,
-      updateFilterOptionList: action,
-    });
   }
 
   updateDefaultValue(values: DefaultValues) {

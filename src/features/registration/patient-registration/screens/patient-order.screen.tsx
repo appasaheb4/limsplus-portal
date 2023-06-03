@@ -23,7 +23,6 @@ import {
   TableExtraDataPackages,
 } from '../components';
 import {PatientOrderHoc} from '../hoc';
-import {resetPatientOrder} from '../startup';
 
 import {useStores} from '@/stores';
 
@@ -122,7 +121,7 @@ export const PatientOrder = PatientOrderHoc(
             }
             setHideInputView(true);
             reset();
-            resetPatientOrder();
+            //resetPatientOrder();
           });
       } else {
         Toast.warning({

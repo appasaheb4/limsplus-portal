@@ -11,9 +11,11 @@ interface AutoCompleteFilterMutiSelectMultiFieldsDisplayProps {
   hasError?: boolean;
   disable?: boolean;
   isUpperCase?: boolean;
+  name?: string;
   onFilter?: (value: string) => void;
   onUpdate: (item: any) => void;
   onSelect: (item: any) => any;
+  onBlur?: (e: any) => void;
 }
 
 export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
@@ -24,9 +26,11 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   hasError = false,
   disable = false,
   isUpperCase = false,
+  name,
   onFilter,
   onUpdate,
   onSelect,
+  onBlur,
 }: AutoCompleteFilterMutiSelectMultiFieldsDisplayProps) => {
   const [value, setValue] = useState<string>('');
   const [options, setOptions] = useState<any[]>();
@@ -105,6 +109,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
           <input
             placeholder={placeholder}
             disabled={disable}
+            name={name}
             value={
               !isListOpen
                 ? `${(data.selected && data.selected.length) || 0} Items`
@@ -116,6 +121,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
+            onBlur={e => onBlur && onBlur(e)}
           />
           {loader && <Spinner animation='border' className='mr-2 h-4 w-4' />}
           {isListOpen ? (
