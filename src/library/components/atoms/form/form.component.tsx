@@ -68,6 +68,7 @@ interface InputProps extends InputWrapperProps {
   hasError?: boolean;
   pattern?: any;
   maxLength?: number;
+  isAutoFocus?: boolean;
   onChange?: (e: any) => void;
   onBlur?: (e: any) => void;
   onKeyDown?: (e: any) => void;
@@ -96,6 +97,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         id={props.id}
         ref={props.inputRef}
         data-testid='INPT'
+        autoFocus={props?.isAutoFocus || false}
         name={props.name}
         style={props.style}
         defaultValue={props.defaultValue}
@@ -119,6 +121,52 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
   );
 });
 
+export const Input1 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
+  const handleKeyPress = e => {
+    const key = e.key;
+    const regex = props.pattern;
+    if (regex && !regex?.test(key)) {
+      e.preventDefault();
+    }
+  };
+
+  return (
+    <InputWrapper
+      label={props.label}
+      id={props.id}
+      hasError={props.hasError}
+      style={props.wrapperStyle}
+      className={props.labelClassName}
+    >
+      <input
+        type={props.type || 'text'}
+        id={props.id}
+        ref={props.inputRef}
+        data-testid='INPT'
+        autoFocus={props?.isAutoFocus || false}
+        name={props.name}
+        style={props.style}
+        defaultValue={props.defaultValue}
+        placeholder={props.placeholder}
+        required={props.required || false}
+        disabled={props.disabled || false}
+        autoComplete='given-name'
+        maxLength={props.maxLength}
+        value={props.value}
+        onChange={e => props.onChange && props.onChange(e.target.value)}
+        onKeyPress={e => handleKeyPress(e)}
+        className={`${
+          props.className
+        } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+          props.hasError ? 'border-red ' : 'border-gray-300'
+        } rounded-md`}
+        onBlur={e => props.onBlur && props.onBlur(e)}
+        onKeyDown={props.onKeyDown}
+      />
+    </InputWrapper>
+  );
+});
+
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id} className={props.className}>
     <textarea
@@ -131,6 +179,26 @@ export const MultilineInput = (props: InputProps) => (
       placeholder={props.placeholder}
       onChange={e => props.onChange && props.onChange(e.target.value)}
       onBlur={e => props.onBlur && props.onBlur(e.target.value)}
+      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+        props.hasError ? 'border-red ' : 'border-gray-300'
+      } rounded-md`}
+      defaultValue={props.defaultValue}
+    />
+  </InputWrapper>
+);
+
+export const MultilineInput1 = (props: InputProps) => (
+  <InputWrapper label={props.label} id={props.id} className={props.className}>
+    <textarea
+      id={props.id}
+      autoComplete='given-name'
+      value={props.value}
+      disabled={props.disabled}
+      style={props.style}
+      rows={props.rows}
+      placeholder={props.placeholder}
+      onChange={e => props.onChange && props.onChange(e.target.value)}
+      onBlur={e => props.onBlur && props.onBlur(e)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
         props.hasError ? 'border-red ' : 'border-gray-300'
       } rounded-md`}

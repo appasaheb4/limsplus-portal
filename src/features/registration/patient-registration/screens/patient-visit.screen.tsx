@@ -33,8 +33,6 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import {resetPatientVisit, startupByLabId} from '../startup';
-
 import {PatientVisitHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {toJS} from 'mobx';
@@ -59,6 +57,7 @@ export const PatientVisit = PatientVisitHoc(
       registrationLocationsStore,
       doctorsStore,
       patientRegistrationStore,
+      patientManagerStore,
     } = useStores();
 
     const {
@@ -111,13 +110,31 @@ export const PatientVisit = PatientVisitHoc(
                 labId: res.createPatientVisit?.labId,
               });
 
+              //filter pr records
+              patientManagerStore.patientManagerService.getPatientRegRecords({
+                input: {
+                  filter: {
+                    type: 'labId',
+                    labId: res.createPatientVisit?.labId?.toString(),
+                  },
+                },
+              });
+              patientManagerStore.patientManagerService.getFilterOptionList({
+                input: {
+                  filter: {
+                    type: 'labId',
+                    labId: res.createPatientVisit?.labId?.toString(),
+                  },
+                },
+              });
+
               Toast.success({
                 message: `😊 ${res.createPatientVisit.message}`,
               });
               setHideInputView(true);
               reset();
-              resetPatientVisit();
-              startupByLabId();
+              // resetPatientVisit();
+              // startupByLabId();
             } else {
               Toast.error({
                 message: `😔 ${res.createPatientVisit.message}`,

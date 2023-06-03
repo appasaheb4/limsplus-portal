@@ -211,7 +211,7 @@ const FileImportExport = observer(() => {
           </Buttons.Button>
         </List>
         {previewRecords?.length > 0 && (
-          <div className='w-3/4'>
+          <div className='w-full'>
             <PreviewImportTable
               arrData={previewRecords}
               onUpload={records => {

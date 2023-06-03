@@ -34,7 +34,6 @@ import {
   getDiffByDate,
   dateAvailableUnits,
 } from '@/core-utils';
-import {resetPatientManager} from '../startup';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
@@ -46,6 +45,7 @@ export const PatientManager = PatientManagerHoc(
       administrativeDivisions,
       doctorsStore,
       labStore,
+      patientRegistrationStore,
     } = useStores();
 
     const {
@@ -105,7 +105,21 @@ export const PatientManager = PatientManagerHoc(
               });
               setHideInputView(true);
               reset();
-              resetPatientManager();
+              //resetPatientManager();
+              // reload all
+              patientRegistrationStore.reload();
+              patientManagerStore.patientManagerService.getFilterOptionList({
+                input: {
+                  filter: {
+                    pId: '*',
+                    labId: '*',
+                    mobileNo: '*',
+                  },
+                },
+              });
+              patientManagerStore.patientManagerService.getPatientRegRecords({
+                input: {},
+              });
             } else {
               Toast.error({
                 message: `😔 ${res.createPatientManager.message}`,

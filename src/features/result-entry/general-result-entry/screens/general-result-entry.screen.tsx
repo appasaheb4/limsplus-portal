@@ -28,7 +28,13 @@ const GeneralResultEntry = observer(() => {
     () => (
       <>
         <GeneralResultEntryList
-          data={patientResultStore.patientResultListNotAutoUpdate || []}
+          data={
+            patientResultStore.patientResultListNotAutoUpdate?.map(
+              (item, index) => {
+                return {...item, index: index + 1};
+              },
+            ) || []
+          }
           totalSize={patientResultStore.patientResultListNotAutoUpdateCount}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),

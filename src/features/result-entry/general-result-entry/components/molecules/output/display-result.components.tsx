@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import _ from 'lodash';
 import {
   Form,
@@ -10,16 +10,23 @@ import {
 import {observer} from 'mobx-react';
 import {FormHelper} from '@/helper';
 import {useStores} from '@/stores';
+import {useForm} from 'react-hook-form';
 interface DisplayResultProps {
   row: any;
   onSelect?: (item) => void;
 }
 
 export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
-  const {possibleResultsStore, libraryStore, generalResultEntryStore} =
-    useStores();
+  const {
+    patientResultStore,
+    possibleResultsStore,
+    libraryStore,
+    generalResultEntryStore,
+  } = useStores();
+  const {control} = useForm();
   const [conclusionResult, setConclusionResult] = useState<Array<any>>();
   const [libraryList, setLibraryList] = useState<Array<any>>();
+  const resultRef = useRef<any>();
 
   useEffect(() => {
     switch (row?.resultType) {
@@ -76,8 +83,21 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
     <div className='relative w-full'>
       {row?.resultType == 'V' ? (
         !row?.result ? (
-          <Form.Input
+          <Form.Input1
+            key={row?._id}
             label=''
+            name={`field-${row.index}`}
+            isAutoFocus={
+              (
+                patientResultStore?.patientResultListNotAutoUpdate?.filter(
+                  (item: any) => {
+                    return item?.resultType == 'V' && item.panelStatus == 'P';
+                  },
+                )[0] as any
+              )?._id == row?._id
+                ? true
+                : false
+            }
             type='text'
             placeholder='Result'
             defaultValue={row?.result}
@@ -86,7 +106,18 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
             className={
               'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
             }
-            onBlur={result => {
+            onBlur={e => {
+              const {name} = e.target;
+              const [fieldName, fieldIndex] = name.split('-');
+              const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+              const nextfield: any = document.querySelector(
+                `[name=field-${fieldIntIndex + 1}]`,
+              );
+              if (nextfield !== null) {
+                nextfield.focus();
+              }
+
+              const result = e.target.value;
               if (result) {
                 onSelect &&
                   onSelect({
@@ -106,10 +137,19 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
       {row.resultType === 'D' ? (
         !row?.result ? (
           <select
+            name={`field-${row.index}`}
             className={
               'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
             }
             onChange={e => {
+              const [fieldName, fieldIndex] = e.target.name.split('-');
+              const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+              const nextfield: any = document.querySelector(
+                `[name=field-${fieldIntIndex + 1}]`,
+              );
+              if (nextfield !== null) {
+                nextfield.focus();
+              }
               const defaultItem = JSON.parse(e.target.value);
               if (defaultItem) {
                 onSelect &&
@@ -148,10 +188,19 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
       {row.resultType === 'L' ? (
         !row?.result ? (
           <select
+            name={`field-${row.index}`}
             className={
               'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
             }
             onChange={e => {
+              const [fieldName, fieldIndex] = e.target.name.split('-');
+              const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+              const nextfield: any = document.querySelector(
+                `[name=field-${fieldIntIndex + 1}]`,
+              );
+              if (nextfield !== null) {
+                nextfield.focus();
+              }
               const item = JSON.parse(e.target.value);
               if (item) {
                 onSelect &&
@@ -182,12 +231,22 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
 
       {row.resultType === 'F' ? (
         !row?.result ? (
-          <Form.MultilineInput
+          <Form.MultilineInput1
+            name={`field-${row.index}`}
             rows={2}
             label=''
             placeholder='Result'
             defaultValue={row?.result}
-            onBlur={result => {
+            onBlur={e => {
+              const [fieldName, fieldIndex] = e.target.name.split('-');
+              const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+              const nextfield: any = document.querySelector(
+                `[name=field-${fieldIntIndex + 1}]`,
+              );
+              if (nextfield !== null) {
+                nextfield.focus();
+              }
+              const result = e.target.value;
               if (result) {
                 onSelect &&
                   onSelect({
@@ -206,6 +265,7 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
         !row?.result ? (
           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
             loader={false}
+            name={`field-${row.index}`}
             placeholder='Search by code'
             data={{
               list: libraryList || [],
@@ -222,6 +282,16 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
                     ),
                     alpha: `M - ${row._id}`,
                   });
+              }
+            }}
+            onBlur={e => {
+              const [fieldName, fieldIndex] = e.target.name.split('-');
+              const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+              const nextfield: any = document.querySelector(
+                `[name=field-${fieldIntIndex + 1}]`,
+              );
+              if (nextfield !== null) {
+                nextfield.focus();
               }
             }}
             onFilter={(value: string) => {
@@ -264,32 +334,21 @@ export const DisplayResult = observer(({row, onSelect}: DisplayResultProps) => {
         )
       ) : null}
 
-      {/* {row?.resultType !== 'M' &&
-        row?.resultType !== 'V' &&
-        row?.resultType !== 'FR' &&
-        row?.resultType !== 'BO'  && (
-          <span>
-            {row.result?.split('\n').map((str, index) => (
-              <p key={index}>{str}</p>
-            ))}
-          </span>
-        )} */}
-      {/* {row?.resultType === 'M' && row?.resultType !== 'V' && row.result && (
-        <>
-          <ul>
-            {JSON.parse(row.result)?.map((item: any, index: number) => (
-              <li key={index}>{item?.code}</li>
-            ))}
-          </ul>
-        </>
-      )} */}
-
       {(row?.resultType == 'FR' || row?.resultType == 'BO') && !row.result && (
         <Form.InputFile
           label='File'
+          name={`field-${row.index}`}
           placeholder={'File'}
           accept='application/pdf'
           onChange={e => {
+            const [fieldName, fieldIndex] = e.target.name.split('-');
+            const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+            const nextfield: any = document.querySelector(
+              `[name=field-${fieldIntIndex + 1}]`,
+            );
+            if (nextfield !== null) {
+              nextfield.focus();
+            }
             const file = e.target.files[0];
             if (file) {
               onSelect &&

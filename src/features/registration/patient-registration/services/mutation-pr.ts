@@ -130,7 +130,7 @@ export const RELOAD_RECORD = gql`
 
 export const UPDATE_FIELDS_BY_IDS = gql`
   mutation ($input: PatientResultInput!) {
-    updateFieldsByIdsPatientResult(input: $input) {
+    updateFinishResultFieldsByIdsPatientResult(input: $input) {
       success
       message
     }
