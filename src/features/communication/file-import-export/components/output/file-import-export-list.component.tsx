@@ -16,6 +16,7 @@ import {
   dateAvailableUnits,
 } from '@/core-utils';
 import {ModalModifyDetails} from '../molecules/modal-modify-details.component';
+
 interface FileImportExportListProps {
   data: any;
   totalSize: any;
@@ -285,6 +286,8 @@ export const FileImportExportList = observer(
         }
       });
       setArrKeys(localArrKeys1);
+      console.log({localFinalOutput});
+
       setFinalOutput(localFinalOutput);
     };
 
@@ -302,10 +305,7 @@ export const FileImportExportList = observer(
         localFinalOutput.push({...item, select: false, records});
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-
       loadAsync(localFinalOutput);
-      // setFinalOutput(localFinalOutput);
-      // setArrKeys(localArrKeys);
       setAllSelected(false);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
@@ -537,6 +537,13 @@ export const FileImportExportList = observer(
             <Buttons.Button
               size='small'
               type='outline'
+              disabled={
+                finalOutput.filter(item => {
+                  if (item.select == true) return item;
+                })?.length > 0
+                  ? false
+                  : true
+              }
               onClick={() => {
                 let arrDeleteIds = finalOutput.map(item => {
                   if (item.select) return item._id;
@@ -548,20 +555,30 @@ export const FileImportExportList = observer(
             >
               <Icons.EvaIcon icon='trash-2-outline' color='#000000' />
             </Buttons.Button>
+
             <Buttons.Button
               size='small'
               type='solid'
-              onClick={() =>
-                onSend(
-                  finalOutput.map(item => {
-                    if (item.select) return item;
-                  }),
-                )
+              disabled={
+                finalOutput.filter(item => {
+                  if (item.select == true && item.isError == false) return item;
+                })?.length > 0
+                  ? false
+                  : true
               }
+              onClick={() => {
+                onSend(
+                  finalOutput.filter(item => {
+                    if (item.select == true && item.isError == false)
+                      return item;
+                  }),
+                );
+              }}
             >
               <Icons.EvaIcon icon='upload-outline' />
             </Buttons.Button>
           </div>
+          {/* pagination */}
           <span>
             Showing {totalSize?.page * 10} to{' '}
             {totalSize?.limit + totalSize?.page * 10} of {totalSize?.count}{' '}

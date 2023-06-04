@@ -14,14 +14,7 @@ export class PatientResultStore {
   distinctPatientResultCopy!: any;
 
   constructor() {
-    this.patientResultList = [];
-    this.patientResultListCount = 0;
-    this.patientResultListNotAutoUpdate = [];
-    this.patientResultListNotAutoUpdateCount = 0;
-    this.patientResultListWithLabId = [];
-    this.patientResultTestCount = 0;
-    this.distinctPatientResult = undefined;
-    this.distinctPatientResultCopy = undefined;
+    this.reset();
 
     makeObservable<PatientResultStore, any>(this, {
       patientResultList: observable,
@@ -43,6 +36,17 @@ export class PatientResultStore {
       patientResultListForGeneralResEntry: action,
       updateDistinctPatientResult: action,
     });
+  }
+
+  reset() {
+    this.patientResultList = [];
+    this.patientResultListCount = 0;
+    this.patientResultListNotAutoUpdate = [];
+    this.patientResultListNotAutoUpdateCount = 0;
+    this.patientResultListWithLabId = [];
+    this.patientResultTestCount = 0;
+    this.distinctPatientResult = undefined;
+    this.distinctPatientResultCopy = undefined;
   }
 
   get patientResultService() {
@@ -88,7 +92,7 @@ export class PatientResultStore {
 
   updatePatientResultByLabId(res: any) {
     let {data} = res.patientResult;
-    data = data.map(item => {
+    data = data?.map(item => {
       return {
         ...item,
         testReportOrder: item?.extraData?.testReportOrder,

@@ -299,8 +299,6 @@ export const PreviewImportTable = observer(
                       }}
                     >
                       <span>
-                        {/* {JSON.stringify(Object.values(item))} */}
-                        {/* {item[keysIndex]?.value?.toString()} */}
                         {
                           (
                             Object.values(item)?.find(
@@ -334,7 +332,6 @@ export const PreviewImportTable = observer(
             onClick={() => {
               //onUpload(finalOutput?.filter(item => item.isError == false));
               onUpload(finalOutput);
-              //onUpload(finalOutput);
             }}
           >
             <Icons.EvaIcon icon='plus-circle-outline' />

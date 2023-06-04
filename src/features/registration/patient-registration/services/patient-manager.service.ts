@@ -214,6 +214,7 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
+          console.log({response});
           stores.patientRegistrationStore.updateFilterOptionList(response.data);
           resolve(response.data);
         })

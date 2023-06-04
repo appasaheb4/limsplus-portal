@@ -7,34 +7,25 @@ export class PatientTestStore {
   patientListTest: PatientTest[] = [];
   patientListTestCount!: number;
 
-  //   checkExistsOrderId!: boolean
-  //   selectedItems!: SelectedItems
-  //   packageList!: any
-
   constructor() {
-    this.patientListTest = [];
-    this.patientTest = new PatientTest({});
-    //this.packageList = []
-    this.patientListTestCount = 0;
-    // this.checkExistsOrderId = false
-    // this.patientTest = {
-    //   ...this.patientTest,
-    // }
+    this.reset();
 
     makeObservable<PatientTestStore, any>(this, {
       patientTest: observable,
       patientListTest: observable,
-      //   patientListTestCount: observable,
-      //   selectedItems: observable,
-      //   packageList: observable,
+      patientListTestCount: observable,
 
       patientTestService: computed,
       updateTestList: action,
       filterTestList: action,
       updateTest: action,
-      //   updateSelectedItems: action,
-      //   updatePackageList: action,
     });
+  }
+
+  reset() {
+    this.patientTest = new PatientTest({});
+    this.patientListTest = [];
+    this.patientListTestCount = 0;
   }
 
   get patientTestService() {
@@ -54,16 +45,4 @@ export class PatientTestStore {
   updateTest(input: PatientTest) {
     this.patientTest = input;
   }
-
-  //   updateExistsOrderId(flag: boolean) {
-  //     this.checkExistsOrderId = flag
-  //   }
-
-  //   updateSelectedItems(res: SelectedItems) {
-  //     this.selectedItems = res
-  //   }
-
-  //   updatePackageList(patientList: any[]) {
-  //     this.packageList = patientList
-  //   }
 }
