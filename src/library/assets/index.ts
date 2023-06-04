@@ -18,3 +18,8 @@ export const images = {
 export const logos = {
   aarvakDiagnosticCenter: require('./logos/aarvak-diagnostic-center.png'),
 };
+
+export const icons = {
+  male: require('./icons/male.png'),
+  female: require('./icons/female.png'),
+};

@@ -7,9 +7,7 @@ export class PatientSampleStore {
   patientSampleListCount!: number;
 
   constructor() {
-    this.patientSampleList = [];
-    this.patientSampleListCount = 0;
-
+    this.reset();
     makeObservable<PatientSampleStore, any>(this, {
       patientSampleList: observable,
       patientSampleListCount: observable,
@@ -18,6 +16,11 @@ export class PatientSampleStore {
       updatePatientSampleList: action,
       filterPatientSampleList: action,
     });
+  }
+
+  reset() {
+    this.patientSampleList = [];
+    this.patientSampleListCount = 0;
   }
 
   get patientSampleService() {

@@ -223,7 +223,7 @@ export const PatientVisit = PatientVisitHoc(
     const patientVisitList = useMemo(
       () => (
         <PatientVisitList
-          data={patientVisitStore.listPatientVisit}
+          data={patientVisitStore.listPatientVisit || []}
           totalSize={patientVisitStore.listPatientVisitCount}
           extraData={{
             lookupItems: routerStore.lookupItems,
@@ -2176,7 +2176,7 @@ export const PatientVisit = PatientVisitHoc(
                     style={{overflowX: 'scroll'}}
                   >
                     <ExtraDataPatientVisitList
-                      data={patientVisitStore.listPatientVisit}
+                      data={patientVisitStore.listPatientVisit || []}
                       totalSize={patientVisitStore.listPatientVisitCount}
                       extraData={{
                         lookupItems: routerStore.lookupItems,

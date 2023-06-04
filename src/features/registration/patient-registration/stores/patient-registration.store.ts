@@ -19,9 +19,9 @@ export class PatientRegistrationStore {
   reload() {
     this.defaultValues = {
       ...this.defaultValues,
-      pId: '*',
-      labId: '*',
-      mobileNo: '*',
+      pId: '',
+      labId: '',
+      mobileNo: '',
       filterLock: false,
     };
     this.filterOptionList = {

@@ -1,20 +1,16 @@
 import React, {useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   Header,
   PageHeading,
   PageHeadingLabDetails,
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  Buttons,
   Icons,
-  Grid,
-  Toast,
   Tooltip,
+  Form,
 } from '@/library/components';
-
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
+import {icons} from '@/library/assets';
 
 import {
   PatientManager,
@@ -47,7 +43,9 @@ const PatientRegistration = observer(() => {
     patientRegistrationStore,
     patientVisitStore,
     patientOrderStore,
+    patientTestStore,
     patientResultStore,
+    patientSampleStore,
   } = useStores();
 
   const accordionList = useMemo(
@@ -104,7 +102,48 @@ const PatientRegistration = observer(() => {
               title={stores.routerStore.selectedComponents?.title || ''}
             />
             <div className='flex mx-20 items-center gap-2'>
-              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              <Form.Input
+                placeholder='PId'
+                className='w-40'
+                type='number'
+                value={patientRegistrationStore.defaultValues?.pId}
+                onChange={pId => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    pId,
+                  });
+                }}
+                onKeyDown={() => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    labId: '',
+                    mobileNo: '',
+                    filterLock: false,
+                  });
+                }}
+                onBlur={pId => {
+                  if (pId?.length > 0) {
+                    patientManagerStore.patientManagerService.getFilterOptionList(
+                      {
+                        input: {
+                          filter: {
+                            type: 'pId',
+                            pId: pId?.toString(),
+                          },
+                        },
+                      },
+                    );
+                    patientManagerStore.patientManagerService.getPatientRegRecords(
+                      {
+                        input: {
+                          filter: {type: 'pId', pId: pId?.toString()},
+                        },
+                      },
+                    );
+                  }
+                }}
+              />
+              {/* <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                 loader={loading}
                 placeholder='PId'
                 className='h-4'
@@ -143,13 +182,6 @@ const PatientRegistration = observer(() => {
                     mobileNo: '*',
                     filterLock: true,
                   });
-                  patientManagerStore.patientManagerService.getPatientRegRecords(
-                    {
-                      input: {
-                        filter: {type: 'pId', pId: item?.pId?.toString()},
-                      },
-                    },
-                  );
                   patientManagerStore.patientManagerService.getFilterOptionList(
                     {
                       input: {
@@ -160,9 +192,78 @@ const PatientRegistration = observer(() => {
                       },
                     },
                   );
+                  patientManagerStore.patientManagerService.getPatientRegRecords(
+                    {
+                      input: {
+                        filter: {type: 'pId', pId: item?.pId?.toString()},
+                      },
+                    },
+                  );
                 }}
-              />
-              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              /> */}
+
+              {patientRegistrationStore.filterOptionList.labIds?.length > 1 ? (
+                <select
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block mt-1 h-11 shadow-sm sm:text-base border-2 border-gray-300 rounded-md w-40'
+                  }
+                  onChange={e => {
+                    const modeOfPayment = e.target.value;
+                  }}
+                >
+                  <option selected>{'Select LabId'}</option>
+                  {patientRegistrationStore.filterOptionList.labIds?.map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item.toString()}
+                      </option>
+                    ),
+                  )}
+                </select>
+              ) : (
+                <Form.Input
+                  placeholder='Lab Id'
+                  className='w-40'
+                  value={patientRegistrationStore.defaultValues?.labId}
+                  onChange={labId => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      labId,
+                    });
+                  }}
+                  onKeyDown={() => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      pId: '',
+                      mobileNo: '',
+                      filterLock: false,
+                    });
+                  }}
+                  onBlur={labId => {
+                    if (labId?.length > 0) {
+                      patientManagerStore.patientManagerService.getFilterOptionList(
+                        {
+                          input: {
+                            filter: {
+                              type: 'labId',
+                              labId: labId?.toString(),
+                            },
+                          },
+                        },
+                      );
+                      patientManagerStore.patientManagerService.getPatientRegRecords(
+                        {
+                          input: {
+                            filter: {type: 'labId', labId: labId?.toString()},
+                          },
+                        },
+                      );
+                    }
+                  }}
+                />
+              )}
+
+              {/* <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                 loader={loading}
                 placeholder='Lab Id'
                 className='h-4'
@@ -223,8 +324,51 @@ const PatientRegistration = observer(() => {
                     },
                   );
                 }}
+              /> */}
+              <Form.Input
+                placeholder='Mobile No'
+                className='w-40'
+                value={patientRegistrationStore.defaultValues?.mobileNo}
+                onChange={mobileNo => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    mobileNo,
+                  });
+                }}
+                onKeyDown={() => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    pId: '',
+                    labId: '',
+                    filterLock: false,
+                  });
+                }}
+                onBlur={mobileNo => {
+                  if (mobileNo?.length > 0) {
+                    patientManagerStore.patientManagerService.getFilterOptionList(
+                      {
+                        input: {
+                          filter: {
+                            type: 'mobileNo',
+                            mobileNo: mobileNo?.toString(),
+                          },
+                        },
+                      },
+                    );
+                    patientManagerStore.patientManagerService.getPatientRegRecords(
+                      {
+                        input: {
+                          filter: {
+                            type: 'mobileNo',
+                            mobileNo: mobileNo?.toString(),
+                          },
+                        },
+                      },
+                    );
+                  }
+                }}
               />
-              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+              {/* <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                 loader={loading}
                 placeholder='Mobile Number'
                 className='h-4'
@@ -287,9 +431,9 @@ const PatientRegistration = observer(() => {
                     },
                   );
                 }}
-              />
+              /> */}
 
-              <Tooltip tooltipText='Lock'>
+              {/* <Tooltip tooltipText='Lock'>
                 <Buttons.Button
                   size='medium'
                   type='outline'
@@ -307,65 +451,75 @@ const PatientRegistration = observer(() => {
                     <Icons.IconBs.BsFillUnlockFill />
                   )}
                 </Buttons.Button>
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip tooltipText='Remove Filter'>
                 <div
-                  className='p-2 shadow-md rounded-md border border-gray-400'
+                  className='p-1 shadow-md rounded-md border border-gray-400'
                   onClick={() => {
-                    patientManagerStore.patientManagerService.getFilterOptionList(
-                      {
-                        input: {
-                          filter: {
-                            pId: '*',
-                            labId: '*',
-                            mobileNo: '*',
-                          },
-                        },
-                      },
-                    );
-                    patientManagerStore.patientManagerService.getPatientRegRecords(
-                      {
-                        input: {},
-                      },
-                    );
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      pId: '',
+                      labId: '',
+                      mobileNo: '',
+                      filterLock: false,
+                    });
+                    patientManagerStore.reset();
+                    patientVisitStore.reset();
+                    patientOrderStore.reset();
+                    patientTestStore.reset();
+                    patientResultStore.reset();
+                    patientSampleStore.reset();
                   }}
                 >
-                  <Icons.RIcon nameIcon='FaFilter' />
+                  <Icons.RIcon
+                    nameIcon='AiFillCloseCircle'
+                    propsIcon={{size: 24}}
+                  />
                 </div>
               </Tooltip>
             </div>
             <PageHeadingLabDetails store={loginStore} />
           </div>
 
-          <div className='flex items-center justify-center  mt-2 gap-2'>
-            {patientManagerStore.listPatientManger?.length == 1 &&
-              patientRegistrationStore.defaultValues?.filterLock && (
-                <>
-                  <span>
-                    {'Name:'}
-                    {patientManagerStore.listPatientManger[0]?.firstName +
-                      ' ' +
-                      patientManagerStore.listPatientManger[0]?.middleName +
-                      ' ' +
-                      patientManagerStore.listPatientManger[0]?.lastName}
-                  </span>
-                  <span>
-                    {' Age:'}
-                    {patientManagerStore.listPatientManger[0]?.age +
-                      ' ' +
-                      patientManagerStore.listPatientManger[0]?.ageUnit}
-                  </span>
-                  <span>
-                    {'  Mobile No:'}
-                    {patientManagerStore.listPatientManger[0]?.mobileNo}
-                  </span>
-                </>
-              )}
+          <div className='flex items-center justify-center  mt-2 gap-2 just'>
+            {patientManagerStore.listPatientManger?.map(item => (
+              <>
+                <div className='flex rounded-md shadow-md p-2 gap-1 items-center'>
+                  <div>
+                    <img
+                      src={item.sex == 'M' ? icons.male : icons.female}
+                      style={{width: 40, height: 40}}
+                      alt='male'
+                    />
+                  </div>
+                  <div className='flex flex-col'>
+                    <span className='text-sm font-bold'>
+                      {patientManagerStore.listPatientManger[0]?.firstName +
+                        ' ' +
+                        patientManagerStore.listPatientManger[0]?.middleName +
+                        ' ' +
+                        patientManagerStore.listPatientManger[0]?.lastName}
+                    </span>
+                    <span>
+                      {item.sex} |{' '}
+                      <span>
+                        {patientManagerStore.listPatientManger[0]?.age +
+                          ' ' +
+                          patientManagerStore.listPatientManger[0]?.ageUnit}
+                      </span>
+                    </span>
+                    <span>
+                      {patientManagerStore.listPatientManger[0]?.mobileNo}
+                    </span>
+                  </div>
+                </div>
+              </>
+            ))}
           </div>
         </div>
       </Header>
       <div>{accordionList}</div>
-      <div className='flex flex-col -mt-10'>
+      {/* <div className='flex flex-col -mt-10'>
         <h4 className='underline text-center'>Activity</h4>
         <Grid cols={3}>
           <div className='p-3 border border-gray-800  relative mt-2'>
@@ -424,7 +578,7 @@ const PatientRegistration = observer(() => {
             </div>
           </div>
         </Grid>
-      </div>
+      </div> */}
     </>
   );
 });
