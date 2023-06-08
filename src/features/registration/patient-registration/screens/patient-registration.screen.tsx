@@ -56,7 +56,10 @@ const PatientRegistration = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                // expanded={item.title === "PATIENT MANAGER"}
+                expanded={
+                  item.title ===
+                  patientRegistrationStore.defaultValues?.accordionExpandItem
+                }
                 // onExpand={index => {
                 //   switch (index) {
                 //     case 0:
@@ -90,6 +93,7 @@ const PatientRegistration = observer(() => {
       // patientManagerStore.listPatientManger,
       // patientVisitStore.listPatientVisit,
       // masterPanelStore.listMasterPanel,
+      patientRegistrationStore.defaultValues?.accordionExpandItem,
     ],
   );
 

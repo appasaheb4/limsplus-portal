@@ -100,25 +100,29 @@ export const PatientManager = PatientManagerHoc(
           })
           .then(res => {
             if (res.createPatientManager.success) {
+              const {result} = res.createPatientManager;
               Toast.success({
                 message: `😊 ${res.createPatientManager.message}`,
               });
               setHideInputView(true);
               reset();
-              //resetPatientManager();
-              // reload all
-              patientRegistrationStore.reload();
+              patientRegistrationStore.updateDefaultValue({
+                ...patientRegistrationStore.defaultValues,
+                pId: result?.pId?.toString(),
+                accordionExpandItem: 'PATIENT VISIT',
+              });
               patientManagerStore.patientManagerService.getFilterOptionList({
                 input: {
                   filter: {
-                    pId: '*',
-                    labId: '*',
-                    mobileNo: '*',
+                    type: 'pId',
+                    pId: result?.pId?.toString(),
                   },
                 },
               });
               patientManagerStore.patientManagerService.getPatientRegRecords({
-                input: {},
+                input: {
+                  filter: {type: 'pId', pId: result?.pId?.toString()},
+                },
               });
             } else {
               Toast.error({
