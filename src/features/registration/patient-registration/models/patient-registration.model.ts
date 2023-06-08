@@ -3,11 +3,13 @@ export class DefaultValues {
   labId?: number | string;
   mobileNo?: string;
   filterLock?: boolean;
+  accordionExpandItem?: string;
   constructor(rawData: {[key in string]: any}) {
     this.pId = rawData.pId;
     this.labId = rawData.labId;
     this.mobileNo = rawData.mobileNo;
     this.filterLock = rawData.filterLock;
+    this.accordionExpandItem = rawData.accordionExpandItem;
   }
 }
 

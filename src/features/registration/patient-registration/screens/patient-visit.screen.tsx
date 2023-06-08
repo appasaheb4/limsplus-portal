@@ -105,36 +105,30 @@ export const PatientVisit = PatientVisitHoc(
           })
           .then(async res => {
             if (res.createPatientVisit.success) {
-              patientRegistrationStore.updateDefaultValue({
-                ...patientRegistrationStore.defaultValues,
-                labId: res.createPatientVisit?.labId,
-              });
-
-              //filter pr records
-              patientManagerStore.patientManagerService.getPatientRegRecords({
-                input: {
-                  filter: {
-                    type: 'labId',
-                    labId: res.createPatientVisit?.labId?.toString(),
-                  },
-                },
-              });
-              patientManagerStore.patientManagerService.getFilterOptionList({
-                input: {
-                  filter: {
-                    type: 'labId',
-                    labId: res.createPatientVisit?.labId?.toString(),
-                  },
-                },
-              });
-
+              const {result} = res.createPatientVisit;
               Toast.success({
                 message: `😊 ${res.createPatientVisit.message}`,
               });
               setHideInputView(true);
               reset();
-              // resetPatientVisit();
-              // startupByLabId();
+              patientRegistrationStore.updateDefaultValue({
+                ...patientRegistrationStore.defaultValues,
+                labId: result?.labId?.toString(),
+                accordionExpandItem: 'PATIENT ORDER',
+              });
+              patientManagerStore.patientManagerService.getFilterOptionList({
+                input: {
+                  filter: {
+                    type: 'labId',
+                    labId: result?.labId?.toString(),
+                  },
+                },
+              });
+              patientManagerStore.patientManagerService.getPatientRegRecords({
+                input: {
+                  filter: {type: 'labId', labId: result?.labId?.toString()},
+                },
+              });
             } else {
               Toast.error({
                 message: `😔 ${res.createPatientVisit.message}`,

@@ -69,6 +69,7 @@ export const CREATE_PATIENT_MANAGER = gql`
     createPatientManager(input: $input) {
       success
       message
+      result
     }
   }
 `;

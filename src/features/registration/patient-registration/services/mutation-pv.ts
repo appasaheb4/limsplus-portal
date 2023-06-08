@@ -96,6 +96,7 @@ export const CREATE_PATIENT_VISIT = gql`
       success
       message
       labId
+      result
     }
   }
 `;
