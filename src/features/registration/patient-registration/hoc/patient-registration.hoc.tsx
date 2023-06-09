@@ -1,36 +1,27 @@
-import {stores} from '@/stores';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React from 'react';
+import {observer} from 'mobx-react';
+import {useStores} from '@/stores';
+export const PatientRegistrationHoc = (Component: React.FC<any>) => {
+  return observer((props: any): JSX.Element => {
+    const {loginStore, patientManagerStore, routerStore, environmentStore} =
+      useStores();
 
-class PatientRegistrationHoc {
-  labIdChanged = async (labId?: number | string) => {
-    if (labId != '*') {
-      await stores.patientVisitStore.patientVisitService.listPatientVisit({
-        documentType: 'patientVisit',
-        labId,
-      });
-      await stores.patientOrderStore.patientOrderService.listPatientOrder({
-        documentType: 'patientOrder',
-        labId,
-      });
-      await stores.patientTestStore.patientTestService.listPatientTest({
-        labId,
-      });
-      await stores.patientResultStore.patientResultService.listPatientResultWithLabId(
-        {
-          labId,
+    const getPatientRegRecords = (type: string, value: string) => {
+      patientManagerStore.patientManagerService.getFilterOptionList({
+        input: {
+          filter: {
+            type,
+            [type]: value,
+          },
         },
-      );
-      await stores.patientSampleStore.patientSampleService.listPatientSample({
-        labId,
       });
-    } else {
-      await stores.patientVisitStore.patientVisitService.listPatientVisit({
-        documentType: 'patientVisit',
+      patientManagerStore.patientManagerService.getPatientRegRecords({
+        input: {
+          filter: {type, [type]: value},
+        },
       });
-      // patient order
-      await stores.patientOrderStore.patientOrderService.listPatientOrder({
-        documentType: 'patientOrder',
-      });
-    }
-  };
-}
-export const patientRegistrationHoc = new PatientRegistrationHoc();
+    };
+    return <Component {...props} />;
+  });
+};

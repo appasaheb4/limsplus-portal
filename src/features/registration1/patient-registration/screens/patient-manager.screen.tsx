@@ -1,6 +1,5 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   Buttons,
   List,
@@ -112,10 +111,19 @@ export const PatientManager = PatientManagerHoc(
                 pId: result?.pId?.toString(),
                 accordionExpandItem: 'PATIENT VISIT',
               });
-              patientRegistrationStore.getPatientRegRecords(
-                'pId',
-                result?.pId?.toString(),
-              );
+              patientManagerStore.patientManagerService.getFilterOptionList({
+                input: {
+                  filter: {
+                    type: 'pId',
+                    pId: result?.pId?.toString(),
+                  },
+                },
+              });
+              patientManagerStore.patientManagerService.getPatientRegRecords({
+                input: {
+                  filter: {type: 'pId', pId: result?.pId?.toString()},
+                },
+              });
             } else {
               Toast.error({
                 message: `😔 ${res.createPatientManager.message}`,
@@ -1796,16 +1804,29 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.removePatientManager.message}`,
                       });
-                      for (const [key, value] of Object.entries(
-                        patientRegistrationStore.defaultValues,
-                      )) {
-                        if (typeof value === 'string' && !_.isEmpty(value)) {
-                          patientRegistrationStore.getPatientRegRecords(
-                            key,
-                            value,
-                          );
-                        }
-                      }
+                      if (global?.filter?.mode == 'pagination')
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientManagerStore.patientManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                        );
                     }
                   });
 
@@ -1824,16 +1845,29 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientManager.message}`,
                       });
-                      for (const [key, value] of Object.entries(
-                        patientRegistrationStore.defaultValues,
-                      )) {
-                        if (typeof value === 'string' && !_.isEmpty(value)) {
-                          patientRegistrationStore.getPatientRegRecords(
-                            key,
-                            value,
-                          );
-                        }
-                      }
+                      if (global?.filter?.mode == 'pagination')
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientManagerStore.patientManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                        );
                     }
                   });
                 break;
@@ -1851,16 +1885,29 @@ export const PatientManager = PatientManagerHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientManager.message}`,
                       });
-                      for (const [key, value] of Object.entries(
-                        patientRegistrationStore.defaultValues,
-                      )) {
-                        if (typeof value === 'string' && !_.isEmpty(value)) {
-                          patientRegistrationStore.getPatientRegRecords(
-                            key,
-                            value,
-                          );
-                        }
-                      }
+                      if (global?.filter?.mode == 'pagination')
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                          global?.filter?.page,
+                          global?.filter?.limit,
+                        );
+                      else if (global?.filter?.mode == 'filter')
+                        patientManagerStore.patientManagerService.filter({
+                          input: {
+                            type: global?.filter?.type,
+                            filter: global?.filter?.filter,
+                            page: global?.filter?.page,
+                            limit: global?.filter?.limit,
+                          },
+                        });
+                      else
+                        patientManagerStore.patientManagerService.listPatientManager(
+                          {
+                            documentType: 'patientManager',
+                          },
+                        );
                     }
                   });
 
