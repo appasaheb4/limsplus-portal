@@ -214,6 +214,7 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
+          console.log({response});
           stores.patientRegistrationStore.updateFilterOptionList(response.data);
           resolve(response.data);
         })
@@ -232,8 +233,6 @@ export class PatientManagerService {
         .then((res: any) => {
           if (res.data.getPatientRegRecords?.success) {
             const {records} = res.data.getPatientRegRecords;
-            console.log({records});
-
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({
               patientManagers: {

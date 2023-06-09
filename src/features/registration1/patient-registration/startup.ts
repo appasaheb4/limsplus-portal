@@ -1,5 +1,5 @@
 import {stores} from '@/stores';
-// import {patientRegistrationHoc} from './hoc';
+import {patientRegistrationHoc} from './hoc';
 import {eventEmitter} from '@/core-utils';
 
 export const startupPM = async () => {
@@ -25,7 +25,7 @@ export const startupPO = async () => {
 
 export const startupByLabId = async () => {
   const labId = stores.patientRegistrationStore.defaultValues?.labId;
-  //await patientRegistrationHoc.labIdChanged(labId as number);
+  await patientRegistrationHoc.labIdChanged(labId as number);
 };
 
 const startup = async () => {

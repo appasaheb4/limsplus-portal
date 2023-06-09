@@ -286,8 +286,6 @@ export const FileImportExportList = observer(
         }
       });
       setArrKeys(localArrKeys1);
-      console.log({localFinalOutput});
-
       setFinalOutput(localFinalOutput);
     };
 
