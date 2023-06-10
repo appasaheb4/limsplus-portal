@@ -9,7 +9,6 @@ import {
   Toast,
   ModalConfirm,
   Form,
-  Heading,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
@@ -21,6 +20,7 @@ import {
   ModalBarcodeLab,
   TablePackagesList,
   TableExtraDataPackages,
+  ModalAddPanel,
 } from '../components';
 import {PatientOrderHoc} from '../hoc';
 
@@ -65,6 +65,7 @@ export const PatientOrder = PatientOrderHoc(
     const [modalBarcodeLab, setModalBarcodeLab] = useState<any>();
     const [isPrintPrimaryBarcod, setIsPrintPrimaryBarcod] =
       useState<boolean>(false);
+    const [modalAddPanel, setModalAddPanel] = useState({});
 
     useEffect(() => {
       // Default value initialization
@@ -121,7 +122,13 @@ export const PatientOrder = PatientOrderHoc(
             }
             setHideInputView(true);
             reset();
-            //resetPatientOrder();
+            for (const [key, value] of Object.entries(
+              patientRegistrationStore.defaultValues,
+            )) {
+              if (typeof value === 'string' && !_.isEmpty(value)) {
+                patientRegistrationStore.getPatientRegRecords(key, value);
+              }
+            }
           });
       } else {
         Toast.warning({
@@ -173,6 +180,9 @@ export const PatientOrder = PatientOrderHoc(
           onBarcode={(item: any) => {
             setModalBarcodeLab({visible: true, data: {value: item.labId}});
           }}
+          onAddPanels={data => {
+            setModalAddPanel({visible: true, data});
+          }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -181,17 +191,55 @@ export const PatientOrder = PatientOrderHoc(
 
     return (
       <>
-        {patientOrderStore.patientOrder?.labId && (
-          <Heading
-            title={`${patientOrderStore.patientOrder.labId} - ${patientOrderStore.patientOrder.patientName}`}
-          />
-        )}
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') &&
           !patientRegistrationStore.defaultValues?.filterLock && (
             <Buttons.ButtonCircleAddRemoveBottom
               style={{bottom: 60}}
               show={hideInputView}
-              onClick={() => setHideInputView(!hideInputView)}
+              onClick={() => {
+                setHideInputView(!hideInputView);
+                if (
+                  hideInputView &&
+                  patientVisitStore.listPatientVisit?.length == 1
+                ) {
+                  const item = patientVisitStore.listPatientVisit[0];
+                  setIsPrintPrimaryBarcod(item?.isPrintPrimaryBarcod || false);
+                  setValue('labId', item?.labId + ' - ' + item.patientName);
+                  patientOrderStore.updatePatientOrder({
+                    ...patientOrderStore.patientOrder,
+                    pId: item?.pId,
+                    visitId: item.visitId,
+                    labId: item.labId as any,
+                    rLab: item.rLab,
+                    patientName: item.patientName,
+                    age: item?.age,
+                    ageUnits: item?.ageUnits,
+                  });
+                  patientVisitStore.updatePatientVisitList(
+                    patientVisitStore.listPatientVisitCopy,
+                  );
+                  if (item.labId)
+                    patientOrderStore.patientOrderService
+                      .checkExistsRecords({
+                        input: {
+                          filter: {
+                            fildes: {
+                              labId: item.labId,
+                              documentType: 'patientOrder',
+                            },
+                          },
+                        },
+                      })
+                      .then(res => {
+                        if (res.checkExistsRecordsPatientOrder.success) {
+                          patientOrderStore.updateExistsRecords(true);
+                          Toast.error({
+                            message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
+                          });
+                        } else patientOrderStore.updateExistsRecords(false);
+                      });
+                }
+              }}
             />
           )}
         <div
@@ -205,10 +253,7 @@ export const PatientOrder = PatientOrderHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Lab Id'
-                      hasError={!!errors.visitId}
-                    >
+                    <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by lab id, visit id or name'
@@ -216,7 +261,7 @@ export const PatientOrder = PatientOrderHoc(
                           list: patientVisitStore.listPatientVisit,
                           displayKey: ['labId', 'patientName'],
                         }}
-                        hasError={!!errors.visitId}
+                        hasError={!!errors.labId}
                         onFilter={(value: string) => {
                           patientVisitStore.patientVisitService.filterByFields({
                             input: {
@@ -275,7 +320,7 @@ export const PatientOrder = PatientOrderHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name='visitId'
+                  name='labId'
                   rules={{required: true}}
                   defaultValue=''
                 />
@@ -396,30 +441,6 @@ export const PatientOrder = PatientOrderHoc(
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                {/* <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Order Id'
-                      placeholder={
-                        errors.orderId ? 'Please Enter order id' : 'Order Id'
-                      }
-                      hasError={!!errors.orderId}
-                      disabled={true}
-                      value={value}
-                      onChange={orderId => {
-                        onChange(orderId);
-                        patientOrderStore.updatePatientOrder({
-                          ...patientOrderStore.patientOrder,
-                          orderId,
-                        });
-                      }}
-                    />
-                  )}
-                  name='orderId'
-                  rules={{required: false}}
-                  defaultValue=''
-                /> */}
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
@@ -538,25 +559,16 @@ export const PatientOrder = PatientOrderHoc(
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
                     });
-                    if (global?.filter?.mode == 'pagination')
-                      patientOrderStore.patientOrderService.listPatientOrder(
-                        {documentType: 'patientOrder'},
-                        global?.filter?.page,
-                        global?.filter?.limit,
-                      );
-                    else if (global?.filter?.mode == 'filter')
-                      patientOrderStore.patientOrderService.filter({
-                        input: {
-                          type: global?.filter?.type,
-                          filter: global?.filter?.filter,
-                          page: global?.filter?.page,
-                          limit: global?.filter?.limit,
-                        },
-                      });
-                    else
-                      patientOrderStore.patientOrderService.listPatientOrder({
-                        documentType: 'patientOrder',
-                      });
+                    for (const [key, value] of Object.entries(
+                      patientRegistrationStore.defaultValues,
+                    )) {
+                      if (typeof value === 'string' && !_.isEmpty(value)) {
+                        patientRegistrationStore.getPatientRegRecords(
+                          key,
+                          value,
+                        );
+                      }
+                    }
                   }
                 });
             }
@@ -568,6 +580,15 @@ export const PatientOrder = PatientOrderHoc(
           onClose={() => {
             setModalBarcodeLab({visible: false});
             localStorage.setItem('barCodeLabId', '');
+          }}
+        />
+        <ModalAddPanel
+          {...modalAddPanel}
+          onClose={() => {
+            setModalAddPanel({visible: false});
+          }}
+          onClick={items => {
+            console.log({items});
           }}
         />
       </>

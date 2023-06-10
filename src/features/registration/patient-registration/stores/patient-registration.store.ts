@@ -25,6 +25,7 @@ export class PatientRegistrationStore {
       pId: '',
       labId: '',
       mobileNo: '',
+      accordionExpandItem: '',
       filterLock: false,
     };
     this.filterOptionList = {

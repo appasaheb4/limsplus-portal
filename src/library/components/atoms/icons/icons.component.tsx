@@ -200,6 +200,9 @@ export const getIcons = (icon: string): any => {
   if (icon === 'Icons.Iconmd.MdOutlineApproval')
     return Icons.Iconmd.MdOutlineApproval;
 
+  // global use
+  if (icon === 'Icons.Iconio5.IoAddCircle') return Icons.Iconio5.IoAddCircle;
+
   return Icons.IconBs.BsList;
 };
 

@@ -35,6 +35,7 @@ interface TableBootstrapProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   isSelectRow?: boolean;
+  isPagination?: boolean;
   onDelete?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -97,6 +98,7 @@ export const TableBootstrap = ({
   fileName,
   isEditModify,
   isSelectRow,
+  isPagination = true,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
@@ -122,11 +124,11 @@ export const TableBootstrap = ({
     currSizePerPage,
     onSizePerPageChange,
   }) => (
-    <div className='btn-group items-center flex flex-wrap ' role='group'>
+    <div className='btn-group items-center flex flex-wrap' role='group'>
       <div className='flex flex-wrap gap-4'>
         {isSelectRow && (
           <Buttons.Button
-            style={{height: 10, width: 200}}
+            style={{height: 40, width: 200}}
             size='small'
             type='solid'
             onClick={() => {
@@ -146,32 +148,37 @@ export const TableBootstrap = ({
             {`Remove Selected`}
           </Buttons.Button>
         )}
-
-        <input
-          type='number'
-          min='0'
-          placeholder='No'
-          onChange={(e: any) => {
-            if (e.target.value) {
-              onSizePerPageChange(e.target.value);
-            }
-          }}
-          className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
-        />
-        <div className='flex '>
-          {options.map(option => (
-            <button
-              key={option.text}
-              type='button'
-              onClick={() => onSizePerPageChange(option.page)}
-              className={`btn  ${
-                currSizePerPage === `${option.page}` ? 'bg-primary' : 'bg-grey'
-              }`}
-            >
-              {option.text}
-            </button>
-          ))}
-        </div>
+        {isPagination && (
+          <>
+            <input
+              type='number'
+              min='0'
+              placeholder='No'
+              onChange={(e: any) => {
+                if (e.target.value) {
+                  onSizePerPageChange(e.target.value);
+                }
+              }}
+              className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
+            />
+            <div className='flex'>
+              {options.map(option => (
+                <button
+                  key={option.text}
+                  type='button'
+                  onClick={() => onSizePerPageChange(option.page)}
+                  className={`btn  ${
+                    currSizePerPage === `${option.page}`
+                      ? 'bg-primary'
+                      : 'bg-grey'
+                  }`}
+                >
+                  {option.text}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -454,18 +461,24 @@ export const TableBootstrap = ({
                   onTableChange={handleTableChange}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2 flex-wrap'>
+              <div>
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
                     {...paginationProps, hideSizePerPage: false},
                   )}
                 />
-                <PaginationListStandalone {...paginationProps} />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <PaginationTotalStandalone {...paginationProps} />
-              </div>
+              {isPagination && (
+                <>
+                  <div className='flex items-center gap-2 mt-2 flex-wrap'>
+                    <PaginationListStandalone {...paginationProps} />
+                  </div>
+                  <div className='flex items-center gap-2 mt-2'>
+                    <PaginationTotalStandalone {...paginationProps} />
+                  </div>
+                </>
+              )}
             </div>
           )}
         </ToolkitProvider>
