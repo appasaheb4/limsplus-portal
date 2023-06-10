@@ -6,24 +6,29 @@ import {
   ApolloClient,
   InMemoryCache,
   from,
+  concat,
+  ApolloLink,
 } from '@apollo/client';
 import {onError} from '@apollo/client/link/error';
 import {stores} from '@/stores';
 import {setContext} from '@apollo/client/link/context';
 import {createUploadLink} from 'apollo-upload-client';
 
+let apiCount = 0;
 const customFetch = async (uri, options): Promise<any> => {
   try {
+    apiCount++;
     if (!stores.loading) stores.setLoading(true);
     const response = await fetch(uri, options).then(response => {
       if (response.status >= 500) {
+        apiCount--;
         return Promise.reject(response.status);
       }
-      // if (response)
-      //   setTimeout(() => {
-      //     stores.setLoading(false);
-      //   }, 1000);
-      stores.setLoading(false);
+      if (response) {
+        apiCount--;
+        if (apiCount == 0) stores.setLoading(false);
+      }
+      // stores.setLoading(false);
       return response;
     });
     return response;
@@ -51,6 +56,18 @@ const authLink = setContext(async (_, {headers}) => {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   };
+});
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext(({headers = {}}) => ({
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  }));
+
+  return forward(operation);
 });
 
 const UploadLink = createUploadLink({
@@ -86,7 +103,8 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 });
 
 export const client = new ApolloClient({
-  link: authLink.concat(from([errorLink, UploadLink])),
+  //link: authLink.concat(from([errorLink, UploadLink])),
+  link: concat(authMiddleware, UploadLinkLocal),
   cache: new InMemoryCache(),
 });
 

@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Header,
@@ -47,6 +47,12 @@ const PatientRegistration = observer(() => {
     patientResultStore,
     patientSampleStore,
   } = useStores();
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    setReload(!reload);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [patientRegistrationStore.defaultValues?.accordionExpandItem]);
 
   const accordionList = useMemo(
     () => (
@@ -121,6 +127,13 @@ const PatientRegistration = observer(() => {
                   }
                   onChange={e => {
                     const labId = e.target.value;
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      pId: '',
+                      labId,
+                      mobileNo: '',
+                      filterLock: false,
+                    });
                     patientRegistrationStore.getPatientRegRecords(
                       'labId',
                       labId?.toString(),

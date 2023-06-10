@@ -42,6 +42,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
+          isPagination={false}
           columns={[
             {
               dataField: '_id',

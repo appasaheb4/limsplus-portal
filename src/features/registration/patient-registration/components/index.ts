@@ -7,6 +7,7 @@ export * from './molecules/patient-order/input/table-packages-list.component';
 export * from './molecules/patient-order/input/table-extra-data-package.component';
 export * from './molecules/patient-result/patient-result-list.component';
 export * from './molecules/patient-order/output/patient-order-list.component';
+export * from './molecules/patient-order/output/modal-add-panel.component';
 export * from './molecules/information-group-list.component';
 export * from './molecules/special-result-list.component';
 export * from './molecules/patient-test/input/panel-list-table.component';

@@ -1,5 +1,4 @@
 import {action, computed, makeObservable, observable} from 'mobx';
-import _ from 'lodash';
 
 export class Store {
   private isLoading: boolean;
@@ -21,7 +20,7 @@ export class Store {
   }
 
   setLoading(flag: boolean): void {
-    this.isLoading = _.isNil(flag) || flag;
+    this.isLoading = flag || false;
   }
 
   uploadLoadingFlag(loading: boolean) {

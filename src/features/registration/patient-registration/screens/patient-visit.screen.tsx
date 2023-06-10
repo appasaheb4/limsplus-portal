@@ -111,29 +111,23 @@ export const PatientVisit = PatientVisitHoc(
               });
               setHideInputView(true);
               reset();
-              patientRegistrationStore.updateDefaultValue({
-                ...patientRegistrationStore.defaultValues,
-                labId: result?.labId?.toString(),
-                accordionExpandItem: 'PATIENT ORDER',
-              });
-              patientManagerStore.patientManagerService.getFilterOptionList({
-                input: {
-                  filter: {
-                    type: 'labId',
-                    labId: result?.labId?.toString(),
-                  },
-                },
-              });
-              patientManagerStore.patientManagerService.getPatientRegRecords({
-                input: {
-                  filter: {type: 'labId', labId: result?.labId?.toString()},
-                },
-              });
+              await patientRegistrationStore.getPatientRegRecords(
+                'labId',
+                result?.labId?.toString(),
+              );
+              return Promise.resolve(result);
             } else {
               Toast.error({
                 message: `😔 ${res.createPatientVisit.message}`,
               });
             }
+          })
+          .then((result: any) => {
+            patientRegistrationStore.updateDefaultValue({
+              ...patientRegistrationStore.defaultValues,
+              labId: result?.labId?.toString(),
+              accordionExpandItem: 'PATIENT ORDER',
+            });
           });
       } else {
         Toast.warning({
@@ -2244,25 +2238,16 @@ export const PatientVisit = PatientVisitHoc(
                       Toast.success({
                         message: `😊 ${res.removePatientVisit.message}`,
                       });
-                      if (global?.filter?.mode == 'pagination')
-                        patientVisitStore.patientVisitService.listPatientVisit(
-                          {documentType: 'patientVisit'},
-                          global?.filter?.page,
-                          global?.filter?.limit,
-                        );
-                      else if (global?.filter?.mode == 'filter')
-                        patientVisitStore.patientVisitService.filter({
-                          input: {
-                            type: global?.filter?.type,
-                            filter: global?.filter?.filter,
-                            page: global?.filter?.page,
-                            limit: global?.filter?.limit,
-                          },
-                        });
-                      else
-                        patientVisitStore.patientVisitService.listPatientVisit({
-                          documentType: 'patientVisit',
-                        });
+                      for (const [key, value] of Object.entries(
+                        patientRegistrationStore.defaultValues,
+                      )) {
+                        if (typeof value === 'string' && !_.isEmpty(value)) {
+                          patientRegistrationStore.getPatientRegRecords(
+                            key,
+                            value,
+                          );
+                        }
+                      }
                     }
                   });
 
@@ -2281,25 +2266,16 @@ export const PatientVisit = PatientVisitHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientVisit.message}`,
                       });
-                      if (global?.filter?.mode == 'pagination')
-                        patientVisitStore.patientVisitService.listPatientVisit(
-                          {documentType: 'patientVisit'},
-                          global?.filter?.page,
-                          global?.filter?.limit,
-                        );
-                      else if (global?.filter?.mode == 'filter')
-                        patientVisitStore.patientVisitService.filter({
-                          input: {
-                            type: global?.filter?.type,
-                            filter: global?.filter?.filter,
-                            page: global?.filter?.page,
-                            limit: global?.filter?.limit,
-                          },
-                        });
-                      else
-                        patientVisitStore.patientVisitService.listPatientVisit({
-                          documentType: 'patientVisit',
-                        });
+                      for (const [key, value] of Object.entries(
+                        patientRegistrationStore.defaultValues,
+                      )) {
+                        if (typeof value === 'string' && !_.isEmpty(value)) {
+                          patientRegistrationStore.getPatientRegRecords(
+                            key,
+                            value,
+                          );
+                        }
+                      }
                     }
                   });
 
@@ -2318,25 +2294,16 @@ export const PatientVisit = PatientVisitHoc(
                       Toast.success({
                         message: `😊 ${res.updatePatientVisit.message}`,
                       });
-                      if (global?.filter?.mode == 'pagination')
-                        patientVisitStore.patientVisitService.listPatientVisit(
-                          {documentType: 'patientVisit'},
-                          global?.filter?.page,
-                          global?.filter?.limit,
-                        );
-                      else if (global?.filter?.mode == 'filter')
-                        patientVisitStore.patientVisitService.filter({
-                          input: {
-                            type: global?.filter?.type,
-                            filter: global?.filter?.filter,
-                            page: global?.filter?.page,
-                            limit: global?.filter?.limit,
-                          },
-                        });
-                      else
-                        patientVisitStore.patientVisitService.listPatientVisit({
-                          documentType: 'patientVisit',
-                        });
+                      for (const [key, value] of Object.entries(
+                        patientRegistrationStore.defaultValues,
+                      )) {
+                        if (typeof value === 'string' && !_.isEmpty(value)) {
+                          patientRegistrationStore.getPatientRegRecords(
+                            key,
+                            value,
+                          );
+                        }
+                      }
                     }
                   });
                 break;

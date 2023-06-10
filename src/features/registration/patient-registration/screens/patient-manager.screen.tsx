@@ -218,29 +218,6 @@ export const PatientManager = PatientManagerHoc(
           <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={2}>
               <List direction='col' space={4} justify='stretch' fill>
-                {/* <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Pid'
-                      name='txtPid'
-                      disabled={true}
-                      placeholder={errors.pId ? 'Please enter pid' : 'Pid'}
-                      hasError={!!errors.pId}
-                      value={value}
-                      onChange={pId => {
-                        onChange(pId);
-                        patientManagerStore.updatePatientManager({
-                          ...patientManagerStore.patientManger,
-                          pId,
-                        });
-                      }}
-                    />
-                  )}
-                  name='pId'
-                  rules={{required: false}}
-                  defaultValue=''
-                /> */}
                 <div className='flex flex-row gap-4'>
                   <Controller
                     control={control}
@@ -1692,7 +1669,6 @@ export const PatientManager = PatientManagerHoc(
             </Buttons.Button>
           </List>
         </div>
-
         <div
           className='p-1 rounded-lg shadow-xl overflow-scroll'
           style={{overflowX: 'scroll'}}

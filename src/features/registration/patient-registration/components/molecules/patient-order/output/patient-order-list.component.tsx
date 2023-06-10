@@ -11,8 +11,6 @@ import {
 import {Confirm} from '@/library/models';
 import {PatientOrderExpand} from './patient-order-expand.component';
 
-// import { NumberFilter } from "@/library/components/Organisms"
-
 interface PatientOrderListProps {
   data: any;
   totalSize: number;
@@ -21,6 +19,7 @@ interface PatientOrderListProps {
   isEditModify?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
+  onAddPanels?: (item: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
@@ -31,10 +30,12 @@ interface PatientOrderListProps {
   ) => void;
   onBarcode?: (item: any) => void;
 }
+
 let labid;
 let visitId;
 let orderId;
 let panelCode;
+
 export const PatientOrderList = observer((props: PatientOrderListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
@@ -46,6 +47,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
+          isPagination={false}
           columns={[
             {
               dataField: '_id',
@@ -67,15 +69,6 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                   labid = filter;
                 },
               }),
-              // csvFormatter: (cell, row,rowIndex) => (
-              //   <>
-              //     <span>appa{cell}</span>
-              //     <span>{JSON.stringify(row)}</span>
-              //     {row.packageList.map((item) => (
-              //       <span>{item.panelCode}</span>
-              //     ))}
-              //   </>
-              // ),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
@@ -169,6 +162,19 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row gap-2'>
+                    {row?.isApproval == false && (
+                      <Tooltip tooltipText='Add Panel'>
+                        <Icons.IconContext
+                          color='#000'
+                          size='22'
+                          onClick={() =>
+                            props.onAddPanels && props.onAddPanels(row)
+                          }
+                        >
+                          {Icons.getIconTag(Icons.Iconio5.IoAddCircle)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#000'

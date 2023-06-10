@@ -55,6 +55,7 @@ export const ExtraDataPatientManagerList = observer(
             id='_id'
             data={props.data}
             totalSize={props.totalSize}
+            isPagination={false}
             columns={[
               {
                 dataField: '_id',
