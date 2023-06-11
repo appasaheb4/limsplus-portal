@@ -10,7 +10,8 @@ import {stores} from '@/stores';
 import {
   LIST_PATIENT_ORDER,
   REMOVE_PATIENT_ORDER,
-  UPDATE_PATIENT_VISIT,
+  UPDATE_PATIENT_ORDER,
+  UPDATE_PACKAGE_LIST,
   FILTER_PATIENT_ORDER,
   COUNTER_PATIENT_ORDER_ORDERID,
   CHECK_EXISTS_PATIENT_ORDER,
@@ -72,11 +73,26 @@ export class PatientOrderService {
         );
     });
 
-  updateSingleFiled = (variables: any) =>
+  update = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: UPDATE_PATIENT_VISIT,
+          mutation: UPDATE_PATIENT_ORDER,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updatePackageList = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_PACKAGE_LIST,
           variables,
         })
         .then((response: any) => {

@@ -137,6 +137,46 @@ export const PatientOrder = PatientOrderHoc(
       }
     };
 
+    const onUpdatePatientOrder = record => {
+      const packageList = [
+        ...patientOrderStore.packageList.pacakgeListS,
+        ...patientOrderStore.packageList.pacakgeListM,
+        ...patientOrderStore.packageList.pacakgeListN,
+        ...patientOrderStore.packageList.pacakgeListK,
+      ];
+      patientOrderStore.patientOrderService
+        .updatePackageList({
+          input: {
+            _id: record?._id,
+            packageList: packageList?.map(v => ({
+              ...v,
+              orderStatus: 'P',
+              status: 'P',
+              $__: undefined,
+              $isNew: undefined,
+              _doc: undefined,
+            })),
+            panelCode: patientOrderStore.patientOrder.panelCode,
+          },
+        })
+        .then(res => {
+          if (res.updatePackageListPatientOrder.success) {
+            Toast.success({
+              message: `😊 ${res.updatePackageListPatientOrder.message}`,
+            });
+          }
+          setHideInputView(true);
+          reset();
+          for (const [key, value] of Object.entries(
+            patientRegistrationStore.defaultValues,
+          )) {
+            if (typeof value === 'string' && !_.isEmpty(value)) {
+              patientRegistrationStore.getPatientRegRecords(key, value);
+            }
+          }
+        });
+    };
+
     const patientOrderList = useMemo(
       () => (
         <PatientOrderList
@@ -585,10 +625,16 @@ export const PatientOrder = PatientOrderHoc(
         <ModalAddPanel
           {...modalAddPanel}
           onClose={() => {
+            patientOrderStore.updateSelectedItems({
+              ...patientOrderStore.selectedItems,
+              panels: [],
+              serviceTypes: [],
+            });
+            patientOrderStore.updatePackageList([]);
             setModalAddPanel({visible: false});
           }}
-          onClick={items => {
-            console.log({items});
+          onClick={record => {
+            onUpdatePatientOrder(record);
           }}
         />
       </>
