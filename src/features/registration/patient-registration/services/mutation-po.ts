@@ -103,9 +103,18 @@ export const REMOVE_PATIENT_ORDER = gql`
   }
 `;
 
-export const UPDATE_PATIENT_VISIT = gql`
-  mutation ($input: UpdatePatientVisitInput!) {
-    updatePatientVisit(input: $input) {
+export const UPDATE_PATIENT_ORDER = gql`
+  mutation ($input: UpdatePatientOrderInput!) {
+    updatePatientOrder(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
+export const UPDATE_PACKAGE_LIST = gql`
+  mutation ($input: UpdatePatientOrderInput!) {
+    updatePackageListPatientOrder(input: $input) {
       success
       message
     }

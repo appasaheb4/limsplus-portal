@@ -9,6 +9,7 @@ import {
 } from '@/library/components';
 import './barcode.css';
 import {useStores} from '@/stores';
+import {TablePackagesList} from '../input/table-packages-list.component';
 
 interface ModalAddPanelProps {
   visible?: boolean;
@@ -32,8 +33,6 @@ export const ModalAddPanel = observer(
     const barCodeRef = useRef<any>();
 
     useEffect(() => {
-      console.log({data});
-
       setShowModal(visible);
     }, [visible]);
 
@@ -68,8 +67,20 @@ export const ModalAddPanel = observer(
                         isUpperCase={true}
                         data={{
                           list: masterPanelStore.listMasterPanel.filter(
-                            item =>
-                              item.rLab === data?.rLab && item.status == 'A',
+                            item => {
+                              if (
+                                item.rLab === data?.rLab &&
+                                item.status == 'A'
+                              ) {
+                                if (
+                                  data?.packageList?.filter(
+                                    e => e.panelCode == item?.panelCode,
+                                  )?.length == 0
+                                ) {
+                                  return item;
+                                }
+                              }
+                            },
                           ),
                           selected: patientOrderStore.selectedItems?.panels,
                           displayKey: ['panelCode', 'panelName'],
@@ -155,6 +166,16 @@ export const ModalAddPanel = observer(
                         }}
                       />
                     </Form.InputWrapper>
+                    <div
+                      className='rounded-lg shadow-xl overflow-scroll mt-2'
+                      style={{overflowX: 'scroll'}}
+                    >
+                      {patientOrderStore.packageList && (
+                        <TablePackagesList
+                          data={patientOrderStore.packageList}
+                        />
+                      )}
+                    </div>
                   </div>
                   <div className='flex items-center justify-end p-3 border-t border-solid border-gray-300 rounded-b gap-4'>
                     <button
@@ -175,7 +196,7 @@ export const ModalAddPanel = observer(
                       style={{transition: 'all .15s ease'}}
                       onClick={() => {
                         setShowModal(false);
-                        onClick && onClick({});
+                        onClick && onClick(data);
                       }}
                     >
                       Yes

@@ -232,8 +232,7 @@ export class PatientManagerService {
         .then((res: any) => {
           if (res.data.getPatientRegRecords?.success) {
             const {records} = res.data.getPatientRegRecords;
-            console.log({records});
-
+            //console.log({records});
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({
               patientManagers: {

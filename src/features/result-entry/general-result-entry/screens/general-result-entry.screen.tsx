@@ -101,15 +101,13 @@ const GeneralResultEntry = observer(() => {
                 input: {filter: {ids, fields: {finishResult: 'D'}}},
               })
               .then(res => {
-                if (res.updateFieldsByIdsPatientResult?.success) {
+                if (res.updateFinishResultFieldsByIdsPatientResult?.success) {
                   Toast.success({
-                    message: `😊 ${res.updateFieldsByIdsPatientResult.message}`,
+                    message: `😊 ${res.updateFinishResultFieldsByIdsPatientResult.message}`,
                   });
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
                       pLab: loginStore.login?.lab,
-                      // resultStatus: 'P',
-                      // testStatus: 'P',
                       finishResult: 'P',
                     },
                   );
