@@ -22,8 +22,8 @@ export class LoginActivityStore {
     return new LoginActivityService();
   }
 
-  fetchLoginActivity(page?, limit?) {
-    this.LoginActivityService.listLoginActivity(page, limit);
+  fetchLoginActivity(page?, limit?, filter?) {
+    this.LoginActivityService.listLoginActivity(page, limit, filter);
   }
 
   updateLoginActivityList(res: any) {

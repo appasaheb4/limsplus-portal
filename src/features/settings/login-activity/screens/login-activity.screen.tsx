@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   Header,
   PageHeading,
@@ -21,11 +22,13 @@ let ipInfo;
 
 const LoginActivity = observer(() => {
   const {loginStore, loginActivityStore, routerStore} = useStores();
+  const [statusWiseFilter, setStatusWiseFilter] = useState({});
+
   useEffect(() => {
     loginActivityStore.fetchLoginActivity();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <Header>
@@ -184,7 +187,25 @@ const LoginActivity = observer(() => {
                       : '',
                   filter: customFilter(),
                   filterRenderer: (onFilter, column) => (
-                    <DateFilter onFilter={onFilter} column={column} />
+                    <>
+                      <DateFilter
+                        onFilter={onFilter}
+                        column={column}
+                        isStatus={true}
+                        onStatus={status => {
+                          const input = {
+                            type: 'options-filter',
+                            filter: {status},
+                            page: 0,
+                            limit: 10,
+                          };
+                          loginActivityStore.LoginActivityService.filter({
+                            input,
+                          });
+                          setStatusWiseFilter({input});
+                        }}
+                      />
+                    </>
                   ),
                   formatter: (cell, row) => {
                     return row.lastUpdated ? (
@@ -200,17 +221,37 @@ const LoginActivity = observer(() => {
                 },
               ]}
               onPageSizeChange={(page, size) => {
-                loginActivityStore.fetchLoginActivity(page, size);
+                if (_.isEmpty(statusWiseFilter)) {
+                  loginActivityStore.fetchLoginActivity(page, size);
+                } else {
+                  loginActivityStore.fetchLoginActivity(
+                    page,
+                    size,
+                    statusWiseFilter,
+                  );
+                }
               }}
               onFilter={(type, filter, page, limit) => {
-                loginActivityStore.LoginActivityService.filter({
-                  input: {type, filter, page, limit},
-                });
+                if (_.isEmpty(statusWiseFilter)) {
+                  loginActivityStore.LoginActivityService.filter({
+                    input: {type, filter, page, limit},
+                  });
+                } else {
+                  loginActivityStore.LoginActivityService.filter({
+                    ...statusWiseFilter,
+                    page,
+                    limit,
+                  });
+                }
               }}
               clearAllFilter={() => {
                 userId('');
                 systemInfo('');
                 ipInfo('');
+                setStatusWiseFilter({});
+                setTimeout(() => {
+                  loginActivityStore.fetchLoginActivity(0, 10);
+                }, 2000);
               }}
               isEditModify={false}
               isSelectRow={false}
