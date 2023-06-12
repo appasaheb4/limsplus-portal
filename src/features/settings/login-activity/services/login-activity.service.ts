@@ -8,12 +8,12 @@ import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {LIST, FILTER} from './mutation';
 import {stores} from '@/stores';
 class LoginActivityService {
-  listLoginActivity = (page = 0, limit = 10) =>
+  listLoginActivity = (page = 0, limit = 10, filter = {}) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit}},
+          variables: {input: {filter, page, limit}},
         })
         .then((response: any) => {
           stores.loginActivityStore.updateLoginActivityList(response.data);

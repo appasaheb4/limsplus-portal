@@ -138,6 +138,27 @@ export const DateFilter = props => {
           />
         </div>
 
+        {props.isStatus && (
+          <div>
+            <select
+              className={
+                'leading-4 p-2 focus:outline-none focus:ring block w-38 shadow-sm sm:text-base border-2  rounded-md text-black'
+              }
+              onChange={e => {
+                const status = e.target.value;
+                props.onStatus && props.onStatus(status);
+              }}
+            >
+              <option selected>{'Select'}</option>
+              {['Active'].map((item, index) => (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {!diffFlag && (
           <select
             value={comparator}
