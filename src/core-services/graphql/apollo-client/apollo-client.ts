@@ -6,7 +6,6 @@ import {
   ApolloClient,
   InMemoryCache,
   from,
-  concat,
   ApolloLink,
 } from '@apollo/client';
 import {onError} from '@apollo/client/link/error';
@@ -66,7 +65,6 @@ const authMiddleware = new ApolloLink((operation, forward) => {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   }));
-
   return forward(operation);
 });
 
@@ -103,8 +101,8 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 });
 
 export const client = new ApolloClient({
-  //link: authLink.concat(from([errorLink, UploadLink])),
-  link: concat(authMiddleware, UploadLinkLocal),
+  link: authLink.concat(from([errorLink, UploadLink])),
+  //link: concat(authMiddleware, UploadLinkLocal),
   cache: new InMemoryCache(),
 });
 

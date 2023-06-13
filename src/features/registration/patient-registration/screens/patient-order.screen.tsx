@@ -127,6 +127,7 @@ export const PatientOrder = PatientOrderHoc(
             )) {
               if (typeof value === 'string' && !_.isEmpty(value)) {
                 patientRegistrationStore.getPatientRegRecords(key, value);
+                break;
               }
             }
           });
@@ -172,8 +173,16 @@ export const PatientOrder = PatientOrderHoc(
           )) {
             if (typeof value === 'string' && !_.isEmpty(value)) {
               patientRegistrationStore.getPatientRegRecords(key, value);
+              break;
             }
           }
+          // unselect selected panel
+          patientOrderStore.updateSelectedItems({
+            ...patientOrderStore.selectedItems,
+            panels: [],
+            serviceTypes: [],
+          });
+          patientOrderStore.updatePackageList([]);
         });
     };
 
@@ -302,18 +311,18 @@ export const PatientOrder = PatientOrderHoc(
                           displayKey: ['labId', 'patientName'],
                         }}
                         hasError={!!errors.labId}
-                        onFilter={(value: string) => {
-                          patientVisitStore.patientVisitService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ['labId', 'visitId', 'patientName'],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
+                        // onFilter={(value: string) => {
+                        //   patientVisitStore.patientVisitService.filterByFields({
+                        //     input: {
+                        //       filter: {
+                        //         fields: ['labId', 'visitId', 'patientName'],
+                        //         srText: value,
+                        //       },
+                        //       page: 0,
+                        //       limit: 10,
+                        //     },
+                        //   });
+                        // }}
                         displayValue={value}
                         onSelect={item => {
                           setIsPrintPrimaryBarcod(
@@ -607,6 +616,7 @@ export const PatientOrder = PatientOrderHoc(
                           key,
                           value,
                         );
+                        break;
                       }
                     }
                   }
@@ -634,6 +644,7 @@ export const PatientOrder = PatientOrderHoc(
             setModalAddPanel({visible: false});
           }}
           onClick={record => {
+            setModalAddPanel({visible: false});
             onUpdatePatientOrder(record);
           }}
         />

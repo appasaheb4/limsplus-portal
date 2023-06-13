@@ -13,7 +13,7 @@ interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   hasError?: boolean;
   className?: string;
   posstion?: string;
-  onFilter: (item: any) => void;
+  onFilter?: (item: any) => void;
   onSelect?: (item: any) => any;
   onBlur?: (item: any) => any;
 }
@@ -64,14 +64,14 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   const onChange = e => {
     const search = e.target.value;
     setValue(search);
-    onFilter(search);
+    onFilter && onFilter(search);
   };
 
   const onKeyUp = e => {
     const charCode = e.which ? e.which : e.keyCode;
     if (charCode === 8) {
       const search = e.target.value;
-      onFilter(search);
+      onFilter && onFilter(search);
     }
   };
 

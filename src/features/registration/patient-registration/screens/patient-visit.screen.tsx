@@ -5,7 +5,6 @@ import {Table} from 'reactstrap';
 import _ from 'lodash';
 import {
   Toast,
-  Heading,
   Form,
   List,
   Buttons,
@@ -278,16 +277,44 @@ export const PatientVisit = PatientVisitHoc(
 
     return (
       <>
-        {patientVisitStore.patientVisit.patientName && (
-          <Heading
-            title={`${patientVisitStore.patientVisit.pId} - ${patientVisitStore.patientVisit.patientName}`}
-          />
-        )}
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemoveBottom
             style={{bottom: 140}}
             show={hideInputView}
-            onClick={() => setHideInputView(!hideInputView)}
+            onClick={() => {
+              setHideInputView(!hideInputView);
+              if (
+                hideInputView &&
+                patientManagerStore.listPatientManger?.length == 1
+              ) {
+                const item = patientManagerStore.listPatientManger[0];
+                const age =
+                  getAgeByAgeObject(getDiffByDate(item.birthDate)).age || 0;
+                const ageUnits = getAgeByAgeObject(
+                  getDiffByDate(item.birthDate),
+                ).ageUnit;
+                setValue('age', age);
+                setValue('ageUnits', ageUnits);
+                setValue(
+                  'pId',
+                  item.pId +
+                    ' - ' +
+                    `${item.firstName} ${
+                      item.middleName ? item.middleName : ''
+                    } ${item.lastName}`,
+                );
+                patientVisitStore.updatePatientVisit({
+                  ...patientVisitStore.patientVisit,
+                  pId: item.pId,
+                  patientName: `${item.firstName} ${
+                    item.middleName ? item.middleName : ''
+                  } ${item.lastName}`,
+                  birthDate: item?.birthDate,
+                  age,
+                  ageUnits,
+                });
+              }
+            }}
           />
         )}
         <div
@@ -298,31 +325,7 @@ export const PatientVisit = PatientVisitHoc(
           <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
-                {/* <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Visit Id'
-                      placeholder={
-                        errors.visitId ? 'Please Enter Visit ID' : 'Visit ID'
-                      }
-                      hasError={!!errors.visitId}
-                      disabled={true}
-                      value={value}
-                      onChange={visitId => {
-                        onChange(visitId);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          visitId,
-                        });
-                      }}
-                    />
-                  )}
-                  name='visitId'
-                  rules={{required: false}}
-                  defaultValue=''
-                /> */}
-                {labId}
+                {/* {labId} */}
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
@@ -355,7 +358,7 @@ export const PatientVisit = PatientVisitHoc(
                     <Form.InputWrapper label='PId' hasError={!!errors.pid}>
                       <AutoCompleteFilterSingleSelectPid
                         displayValue={value}
-                        hasError={!!errors.pid}
+                        hasError={!!errors.pId}
                         onSelect={item => {
                           onChange(item.pId);
                           const age =
@@ -380,7 +383,7 @@ export const PatientVisit = PatientVisitHoc(
                       />
                     </Form.InputWrapper>
                   )}
-                  name='pid'
+                  name='pId'
                   rules={{required: true}}
                   defaultValue=''
                 />
@@ -2246,6 +2249,7 @@ export const PatientVisit = PatientVisitHoc(
                             key,
                             value,
                           );
+                          break;
                         }
                       }
                     }
@@ -2274,6 +2278,7 @@ export const PatientVisit = PatientVisitHoc(
                             key,
                             value,
                           );
+                          break;
                         }
                       }
                     }
@@ -2302,6 +2307,7 @@ export const PatientVisit = PatientVisitHoc(
                             key,
                             value,
                           );
+                          break;
                         }
                       }
                     }
