@@ -11,7 +11,6 @@ import {
 import {Accordion, AccordionItem} from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 import {icons} from '@/library/assets';
-
 import {
   PatientManager,
   PatientVisit,
@@ -92,7 +91,7 @@ const PatientRegistration = observer(() => {
               title={stores.routerStore.selectedComponents?.title || ''}
             />
             <div className='flex mx-20 items-center gap-2'>
-              <Form.Input
+              <Form.Input2
                 placeholder='PId'
                 className='w-40'
                 type='number'
@@ -150,7 +149,7 @@ const PatientRegistration = observer(() => {
                   )}
                 </select>
               ) : (
-                <Form.Input
+                <Form.Input2
                   placeholder='Lab Id'
                   className='w-40'
                   value={patientRegistrationStore.defaultValues?.labId}
@@ -178,7 +177,7 @@ const PatientRegistration = observer(() => {
                   }}
                 />
               )}
-              <Form.Input
+              <Form.Input2
                 placeholder='Mobile No'
                 className='w-40'
                 value={patientRegistrationStore.defaultValues?.mobileNo}
@@ -234,10 +233,22 @@ const PatientRegistration = observer(() => {
             <PageHeadingLabDetails store={loginStore} />
           </div>
 
-          <div className='flex items-center justify-center  mt-2 gap-2 just'>
+          <div className='items-center justify-center  mt-2 grid gap-2 grid-cols-4 just'>
             {patientManagerStore.listPatientManger?.map(item => (
               <>
-                <div className='flex rounded-md shadow-md p-2 gap-1 items-center'>
+                <div
+                  className='flex rounded-md shadow-md p-2 gap-1 items-center'
+                  onClick={() => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      pId: item?.pId?.toString(),
+                    });
+                    patientRegistrationStore.getPatientRegRecords(
+                      'pId',
+                      item?.pId?.toString(),
+                    );
+                  }}
+                >
                   <div>
                     <img
                       src={item.sex == 'M' ? icons.male : icons.female}
@@ -249,7 +260,10 @@ const PatientRegistration = observer(() => {
                     <span className='text-sm font-bold'>
                       {patientManagerStore.listPatientManger[0]?.firstName +
                         ' ' +
-                        patientManagerStore.listPatientManger[0]?.middleName +
+                        (patientManagerStore.listPatientManger[0]?.middleName !=
+                        undefined
+                          ? patientManagerStore.listPatientManger[0]?.middleName
+                          : '') +
                         ' ' +
                         patientManagerStore.listPatientManger[0]?.lastName}
                     </span>

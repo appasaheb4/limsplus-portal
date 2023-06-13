@@ -12,9 +12,13 @@ interface AutoCompleteFilterSingleSelectPidProps {
 }
 
 export const AutoCompleteFilterSingleSelectPid = observer(
-  ({hasError = false, onSelect}: AutoCompleteFilterSingleSelectPidProps) => {
+  ({
+    hasError = false,
+    displayValue = '',
+    onSelect,
+  }: AutoCompleteFilterSingleSelectPidProps) => {
     const {loading, patientManagerStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -45,6 +49,10 @@ export const AutoCompleteFilterSingleSelectPid = observer(
       setOptions(patientManagerStore.listPatientManger);
     }, [patientManagerStore.listPatientManger]);
 
+    useEffect(() => {
+      setValue(displayValue);
+    }, [displayValue]);
+
     const onFilter = (value: string) => {
       patientManagerStore.patientManagerService.filterByFields({
         input: {
@@ -59,14 +67,14 @@ export const AutoCompleteFilterSingleSelectPid = observer(
     const onChange = e => {
       const search = e.target.value;
       setValue(search);
-      onFilter(search);
+      // onFilter(search);
     };
 
     const onKeyUp = e => {
       const charCode = e.which ? e.which : e.keyCode;
       if (charCode === 8) {
         const search = e.target.value;
-        onFilter(search);
+        // onFilter(search);
       }
     };
 

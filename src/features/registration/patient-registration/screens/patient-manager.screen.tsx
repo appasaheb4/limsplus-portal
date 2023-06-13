@@ -1780,6 +1780,7 @@ export const PatientManager = PatientManagerHoc(
                             key,
                             value,
                           );
+                          break;
                         }
                       }
                     }
@@ -1808,6 +1809,7 @@ export const PatientManager = PatientManagerHoc(
                             key,
                             value,
                           );
+                          break;
                         }
                       }
                     }
@@ -1835,6 +1837,7 @@ export const PatientManager = PatientManagerHoc(
                             key,
                             value,
                           );
+                          break;
                         }
                       }
                     }

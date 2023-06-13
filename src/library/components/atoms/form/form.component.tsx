@@ -115,7 +115,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
           props.hasError ? 'border-red ' : 'border-gray-300'
         } rounded-md`}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
-        onKeyDown={props.onKeyDown}
+        onKeyDown={props.onKeyDown && props.onKeyDown}
       />
     </InputWrapper>
   );
@@ -162,6 +162,56 @@ export const Input1 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         } rounded-md`}
         onBlur={e => props.onBlur && props.onBlur(e)}
         onKeyDown={props.onKeyDown}
+      />
+    </InputWrapper>
+  );
+});
+
+export const Input2 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
+  const handleKeyPress = e => {
+    const key = e.key;
+    const regex = props.pattern;
+    if (regex && !regex?.test(key)) {
+      e.preventDefault();
+    }
+  };
+
+  return (
+    <InputWrapper
+      label={props.label}
+      id={props.id}
+      hasError={props.hasError}
+      style={props.wrapperStyle}
+      className={props.labelClassName}
+    >
+      <input
+        type={props.type || 'text'}
+        id={props.id}
+        ref={props.inputRef}
+        data-testid='INPT'
+        autoFocus={props?.isAutoFocus || false}
+        name={props.name}
+        style={props.style}
+        defaultValue={props.defaultValue}
+        placeholder={props.placeholder}
+        required={props.required || false}
+        disabled={props.disabled || false}
+        autoComplete='given-name'
+        maxLength={props.maxLength}
+        value={props.value}
+        onChange={e => props.onChange && props.onChange(e.target.value)}
+        onKeyPress={e => handleKeyPress(e)}
+        className={`${
+          props.className
+        } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+          props.hasError ? 'border-red ' : 'border-gray-300'
+        } rounded-md`}
+        onKeyDown={(e: any) => {
+          if (e.keyCode == 13) {
+            props.onBlur && props.onBlur(e.target.value);
+          }
+          props.onKeyDown && props.onKeyDown(e);
+        }}
       />
     </InputWrapper>
   );
