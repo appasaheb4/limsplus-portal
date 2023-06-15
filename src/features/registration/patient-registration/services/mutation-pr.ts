@@ -13,9 +13,9 @@ export const LIST_PATIENT_RESULT = gql`
   }
 `;
 
-export const LIST_PATIENT_RESULT_NOT_AUTO_UPDATE = gql`
+export const PATIENT_RESULT_RECORDS = gql`
   mutation ($input: PatientResultInput!) {
-    patientResultsNotAutoUpdate(input: $input) {
+    patientResultRecordsForGRE(input: $input) {
       paginatorInfo {
         count
       }

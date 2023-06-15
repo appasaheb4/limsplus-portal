@@ -21,6 +21,7 @@ import {
 } from './index';
 import {useStores} from '@/stores';
 import {stores} from '@/stores';
+// import '../utils/patient-registration.css';
 
 export const patientRegistrationOptions = [
   {title: 'PATIENT MANAGER'},
@@ -93,7 +94,7 @@ const PatientRegistration = observer(() => {
             <div className='flex mx-20 items-center gap-2'>
               <Form.Input2
                 placeholder='PId'
-                className='w-40'
+                className='w-40 arrow-hide'
                 type='number'
                 value={patientRegistrationStore.defaultValues?.pId}
                 onChange={pId => {
@@ -151,7 +152,8 @@ const PatientRegistration = observer(() => {
               ) : (
                 <Form.Input2
                   placeholder='Lab Id'
-                  className='w-40'
+                  className='w-40 arrow-hide'
+                  type='number'
                   value={patientRegistrationStore.defaultValues?.labId}
                   onChange={labId => {
                     patientRegistrationStore.updateDefaultValue({
@@ -179,7 +181,8 @@ const PatientRegistration = observer(() => {
               )}
               <Form.Input2
                 placeholder='Mobile No'
-                className='w-40'
+                className='w-40 arrow-hide'
+                type='number'
                 value={patientRegistrationStore.defaultValues?.mobileNo}
                 onChange={mobileNo => {
                   patientRegistrationStore.updateDefaultValue({

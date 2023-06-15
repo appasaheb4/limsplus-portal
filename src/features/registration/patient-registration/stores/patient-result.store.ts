@@ -65,10 +65,10 @@ export class PatientResultStore {
 
   updatePatientResultNotAutoUpdate(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.patientResultsNotAutoUpdate.success) {
-        return alert(res.patientResultsNotAutoUpdate.message);
+      if (!res.patientResultRecordsForGRE.success) {
+        return alert(res.patientResultRecordsForGRE.message);
       } else {
-        let data: any = res.patientResultsNotAutoUpdate.patientResultList;
+        let data: any = res.patientResultRecordsForGRE.patientResultList;
         data = data.map(item => {
           return {
             ...item,
@@ -83,7 +83,7 @@ export class PatientResultStore {
         ]);
         this.patientResultListNotAutoUpdate = data;
         this.patientResultListNotAutoUpdateCount =
-          res.patientResultsNotAutoUpdate.paginatorInfo.count;
+          res.patientResultRecordsForGRE.paginatorInfo.count;
       }
     } else {
       this.patientResultListNotAutoUpdate = res;

@@ -186,8 +186,6 @@ export class PatientResultService {
           if (!response.data.patientResultListForGenResEntry.success) {
             return this.listPatientResultNotAutoUpdate({
               pLab: stores.loginStore.login?.lab,
-              // resultStatus: 'P',
-              // testStatus: 'P',
               finishResult: 'P',
             });
           } else {
