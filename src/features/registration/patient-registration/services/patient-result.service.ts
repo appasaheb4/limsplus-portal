@@ -18,7 +18,7 @@ import {
   UPDATE_RECORD,
   UPDATE_BY_FIELDS_RECORD,
   RELOAD_RECORD,
-  LIST_PATIENT_RESULT_NOT_AUTO_UPDATE,
+  PATIENT_RESULT_RECORDS,
   UPDATE_FIELDS_BY_IDS,
 } from './mutation-pr';
 
@@ -70,10 +70,12 @@ export class PatientResultService {
       const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
-          mutation: LIST_PATIENT_RESULT_NOT_AUTO_UPDATE,
+          mutation: PATIENT_RESULT_RECORDS,
           variables: {input: {filter, page, limit, env, role}},
         })
         .then((response: any) => {
+          console.log({response});
+
           stores.patientResultStore.updatePatientResultNotAutoUpdate(
             response.data,
           );
@@ -186,8 +188,6 @@ export class PatientResultService {
           if (!response.data.patientResultListForGenResEntry.success) {
             return this.listPatientResultNotAutoUpdate({
               pLab: stores.loginStore.login?.lab,
-              // resultStatus: 'P',
-              // testStatus: 'P',
               finishResult: 'P',
             });
           } else {

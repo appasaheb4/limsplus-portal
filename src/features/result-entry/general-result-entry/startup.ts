@@ -5,8 +5,6 @@ const startup = async () => {
     stores.patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
       {
         pLab: stores.loginStore.login?.lab,
-        // resultStatus: 'P',
-        // testStatus: 'P',
         finishResult: 'P',
       },
     );

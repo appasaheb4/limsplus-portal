@@ -177,6 +177,7 @@ const GeneralResultEntry = observer(() => {
         <FilterInputTable />
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
+
       <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {

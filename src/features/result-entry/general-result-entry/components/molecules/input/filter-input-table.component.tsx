@@ -42,6 +42,9 @@ export const FilterInputTable = observer(() => {
               PLab
             </th>
             <th className='text-white' style={{minWidth: 190}}>
+              Test Code / Name
+            </th>
+            <th className='text-white' style={{minWidth: 190}}>
               Department
             </th>
             <th className='text-white' style={{minWidth: 190}}>
@@ -50,9 +53,7 @@ export const FilterInputTable = observer(() => {
             {/* <th className='text-white' style={{minWidth: 190}}>
               Result Status
             </th> */}
-            <th className='text-white' style={{minWidth: 190}}>
-              Test Code / Name
-            </th>
+
             {/* <th className='text-white' style={{minWidth: 190}}>
               Analyte Code / Name
             </th> */}
@@ -176,6 +177,116 @@ export const FilterInputTable = observer(() => {
                 rules={{required: true}}
                 defaultValue={patientResultStore.distinctPatientResult}
               />
+            </td>
+            <td>
+              <div className='flex flex-row items-center gap-2'>
+                <Controller
+                  control={control}
+                  render={({field: {onChange}}) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      hasError={!!errors.testCode}
+                      placeholder='Search by code '
+                      data={{
+                        list: _.uniqBy(
+                          patientResultStore.distinctPatientResult?.filter(
+                            item => item.testCode !== undefined,
+                          ),
+                          'testCode',
+                        ),
+                        displayKey: ['testCode', 'testName'],
+                      }}
+                      displayValue={
+                        generalResultEntryStore.filterGeneralResEntry?.testCode
+                      }
+                      onFilter={(value: string) => {
+                        patientResultStore.filterDistinctPatientResult(
+                          getFilteredData(
+                            value,
+                            'testCode',
+                            patientResultStore.distinctPatientResultCopy,
+                          ),
+                        );
+                      }}
+                      onSelect={item => {
+                        onChange(item.testCode);
+                        generalResultEntryStore.updateFilterGeneralResEntry({
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          testCode: item.testCode,
+                        });
+                        const input = _.pickBy(
+                          {
+                            ...generalResultEntryStore.filterGeneralResEntry,
+                            testCode: item.testCode,
+                          },
+                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                          function (value, key) {
+                            return !(
+                              value === undefined ||
+                              value === null ||
+                              value === ''
+                            );
+                          },
+                        );
+                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                          {
+                            input: {
+                              filter: {
+                                ...input,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          },
+                        );
+                        patientResultStore.filterDistinctPatientResult(
+                          patientResultStore.distinctPatientResultCopy,
+                        );
+                      }}
+                    />
+                  )}
+                  name='testCode'
+                  rules={{required: true}}
+                  defaultValue={patientResultStore.patientResultList}
+                />
+                <Icons.IconContext
+                  color='#000000'
+                  size='30'
+                  onClick={() => {
+                    const input = _.pickBy(
+                      {
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        testCode: '',
+                      },
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                      function (value, key) {
+                        return !(
+                          value === undefined ||
+                          value === null ||
+                          value === ''
+                        );
+                      },
+                    );
+                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                      {
+                        input: {
+                          filter: {
+                            ...input,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      },
+                    );
+                    generalResultEntryStore.updateFilterGeneralResEntry({
+                      ...generalResultEntryStore.filterGeneralResEntry,
+                      testCode: '',
+                    });
+                  }}
+                >
+                  <Icons.Iconai.AiFillCloseCircle />
+                </Icons.IconContext>
+              </div>
             </td>
             <td>
               <div className='flex flex-row items-center gap-2'>
@@ -510,116 +621,7 @@ export const FilterInputTable = observer(() => {
                 </Icons.IconContext>
               </div>
             </td> */}
-            <td>
-              <div className='flex flex-row items-center gap-2'>
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      hasError={!!errors.testCode}
-                      placeholder='Search by code '
-                      data={{
-                        list: _.uniqBy(
-                          patientResultStore.distinctPatientResult?.filter(
-                            item => item.testCode !== undefined,
-                          ),
-                          'testCode',
-                        ),
-                        displayKey: ['testCode', 'testName'],
-                      }}
-                      displayValue={
-                        generalResultEntryStore.filterGeneralResEntry?.testCode
-                      }
-                      onFilter={(value: string) => {
-                        patientResultStore.filterDistinctPatientResult(
-                          getFilteredData(
-                            value,
-                            'testCode',
-                            patientResultStore.distinctPatientResultCopy,
-                          ),
-                        );
-                      }}
-                      onSelect={item => {
-                        onChange(item.testCode);
-                        generalResultEntryStore.updateFilterGeneralResEntry({
-                          ...generalResultEntryStore.filterGeneralResEntry,
-                          testCode: item.testCode,
-                        });
-                        const input = _.pickBy(
-                          {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                            testCode: item.testCode,
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          },
-                        );
-                        patientResultStore.filterDistinctPatientResult(
-                          patientResultStore.distinctPatientResultCopy,
-                        );
-                      }}
-                    />
-                  )}
-                  name='testCode'
-                  rules={{required: true}}
-                  defaultValue={patientResultStore.patientResultList}
-                />
-                <Icons.IconContext
-                  color='#000000'
-                  size='30'
-                  onClick={() => {
-                    const input = _.pickBy(
-                      {
-                        ...generalResultEntryStore.filterGeneralResEntry,
-                        testCode: '',
-                      },
-                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                      function (value, key) {
-                        return !(
-                          value === undefined ||
-                          value === null ||
-                          value === ''
-                        );
-                      },
-                    );
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...input,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      },
-                    );
-                    generalResultEntryStore.updateFilterGeneralResEntry({
-                      ...generalResultEntryStore.filterGeneralResEntry,
-                      testCode: '',
-                    });
-                  }}
-                >
-                  <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext>
-              </div>
-            </td>
+
             {/* <td>
               <div className='flex flex-row items-center gap-2'>
                 <Controller
@@ -956,11 +958,6 @@ export const FilterInputTable = observer(() => {
             labId: '',
             finishResult: '',
           });
-          // patientResultStore.patientResultService.listPatientResult({
-          //   pLab: loginStore.login?.lab,
-          //   resultStatus: 'P',
-          //   testStatus: 'P',
-          // });
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
               pLab: loginStore.login?.lab,

@@ -8,9 +8,6 @@ import ToolkitProvider, {
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
-  PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator';
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
@@ -435,7 +432,7 @@ export const GeneralResultEntryExpand = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
+              {/* <div className='flex items-center gap-2 mt-2'>
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
@@ -443,10 +440,10 @@ export const GeneralResultEntryExpand = ({
                   )}
                 />
                 <PaginationListStandalone {...paginationProps} />
-              </div>
-              <div className='flex items-center gap-2 mt-2'>
+              </div> */}
+              {/* <div className='flex items-center gap-2 mt-2'>
                 <PaginationTotalStandalone {...paginationProps} />
-              </div>
+              </div> */}
             </div>
           )}
         </ToolkitProvider>
