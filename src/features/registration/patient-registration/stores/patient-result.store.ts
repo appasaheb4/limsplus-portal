@@ -130,11 +130,11 @@ export class PatientResultStore {
       item => {
         const obj = {
           pLab: item._id?.pLab,
+          testCode: item._id?.testCode,
+          testName: item._id?.testName,
           departement: item._id?.departement,
           testStatus: item._id?.testStatus,
           resultStatus: item._id?.resultStatus,
-          testCode: item._id?.testCode,
-          testName: item._id?.testName,
           analyteCode: item._id?.analyteCode,
           analyteName: item._id?.analyteName,
           labId: item._id?.labId,

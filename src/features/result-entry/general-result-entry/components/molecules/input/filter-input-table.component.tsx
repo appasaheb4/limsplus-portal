@@ -30,6 +30,8 @@ export const FilterInputTable = observer(() => {
     return itemList;
   };
 
+  console.log({data: generalResultEntryStore.filterGeneralResEntry});
+
   return (
     <div
       className='flex flex-row gap-2 items-center '
@@ -50,13 +52,6 @@ export const FilterInputTable = observer(() => {
             <th className='text-white' style={{minWidth: 190}}>
               Test Status
             </th>
-            {/* <th className='text-white' style={{minWidth: 190}}>
-              Result Status
-            </th> */}
-
-            {/* <th className='text-white' style={{minWidth: 190}}>
-              Analyte Code / Name
-            </th> */}
             <th className='text-white' style={{minWidth: 190}}>
               LabId
             </th>
@@ -134,7 +129,7 @@ export const FilterInputTable = observer(() => {
                         );
                       }}
                     />
-                    <Icons.IconContext
+                    {/* <Icons.IconContext
                       color='#000000'
                       size='30'
                       onClick={() => {
@@ -170,12 +165,12 @@ export const FilterInputTable = observer(() => {
                       }}
                     >
                       <Icons.Iconai.AiFillCloseCircle />
-                    </Icons.IconContext>
+                    </Icons.IconContext> */}
                   </div>
                 )}
                 name='plab'
                 rules={{required: true}}
-                defaultValue={patientResultStore.distinctPatientResult}
+                defaultValue={generalResultEntryStore.filterGeneralResEntry}
               />
             </td>
             <td>
@@ -247,9 +242,9 @@ export const FilterInputTable = observer(() => {
                   )}
                   name='testCode'
                   rules={{required: true}}
-                  defaultValue={patientResultStore.patientResultList}
+                  defaultValue={generalResultEntryStore.filterGeneralResEntry}
                 />
-                <Icons.IconContext
+                {/* <Icons.IconContext
                   color='#000000'
                   size='30'
                   onClick={() => {
@@ -285,7 +280,7 @@ export const FilterInputTable = observer(() => {
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext>
+                </Icons.IconContext> */}
               </div>
             </td>
             <td>
