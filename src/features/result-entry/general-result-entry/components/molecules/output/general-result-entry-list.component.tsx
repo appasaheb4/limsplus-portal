@@ -50,6 +50,15 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
+          isFinishResultDisable={
+            props.data?.length == 0
+              ? true
+              : props.data?.filter(item => {
+                  return item.panelStatus != 'P' && item?.approvalStatus == 'P';
+                })?.length == props.data?.length
+              ? false
+              : true
+          }
           columns={[
             {
               dataField: '_id',
@@ -61,8 +70,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'result',
               text: 'Result',
               headerClasses: 'textHeader',
-              // editable: (content, row, rowIndex, columnIndex) =>
-              //   row.isResultEditor,
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' ? true : false,
               formatter: (cellContent, row) => (

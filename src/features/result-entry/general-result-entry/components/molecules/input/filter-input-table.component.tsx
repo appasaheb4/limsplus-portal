@@ -30,8 +30,6 @@ export const FilterInputTable = observer(() => {
     return itemList;
   };
 
-  console.log({data: generalResultEntryStore.filterGeneralResEntry});
-
   return (
     <div
       className='flex flex-row gap-2 items-center '
@@ -956,6 +954,7 @@ export const FilterInputTable = observer(() => {
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
               pLab: loginStore.login?.lab,
+              testCode: generalResultEntryStore.filterGeneralResEntry?.testCode,
               finishResult: 'P',
             },
           );

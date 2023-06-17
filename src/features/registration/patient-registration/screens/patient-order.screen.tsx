@@ -36,6 +36,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import {getFilterField} from '../utils';
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void;
@@ -245,6 +246,12 @@ export const PatientOrder = PatientOrderHoc(
             <Buttons.ButtonCircleAddRemoveBottom
               style={{bottom: 60}}
               show={hideInputView}
+              disabled={
+                getFilterField(patientRegistrationStore?.defaultValues)?.key ==
+                'labId'
+                  ? true
+                  : false
+              }
               onClick={() => {
                 setHideInputView(!hideInputView);
                 if (
