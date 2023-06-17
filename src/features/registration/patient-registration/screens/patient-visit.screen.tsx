@@ -39,6 +39,7 @@ import {RouterFlow} from '@/flows';
 import {getAgeByAgeObject, getDiffByDate} from '../utils';
 import {FormHelper} from '@/helper';
 import {AutoCompleteFilterDeliveryMode} from '@/core-components';
+import {getFilterField} from '../utils';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
@@ -281,6 +282,12 @@ export const PatientVisit = PatientVisitHoc(
           <Buttons.ButtonCircleAddRemoveBottom
             style={{bottom: 140}}
             show={hideInputView}
+            disabled={
+              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
+              'labId'
+                ? true
+                : false
+            }
             onClick={() => {
               setHideInputView(!hideInputView);
               if (

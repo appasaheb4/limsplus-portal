@@ -20,6 +20,7 @@ import {
   FILTER_OPTION_LIST,
   GET_PATIENT_REG_RECORDS,
 } from './mutation-pm';
+import {Toast} from '@/library/components';
 
 export class PatientManagerService {
   listPatientManager = (filter: any, page = 0, limit = 10) =>
@@ -232,6 +233,11 @@ export class PatientManagerService {
         .then((res: any) => {
           if (res.data.getPatientRegRecords?.success) {
             const {records} = res.data.getPatientRegRecords;
+            if (records?.patientManager?.length <= 0)
+              return Toast.error({
+                message:
+                  '😔 Records not available. Please enter correct details or clear filter',
+              });
             //console.log({records});
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({

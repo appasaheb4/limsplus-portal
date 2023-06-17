@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import _ from 'lodash';
 export const getAgeAndAgeUnit = ageObject => {
   if (ageObject.years > 0) {
     return {age: ageObject.years, ageUnit: 'year'};
@@ -42,5 +43,14 @@ export const getAgeByDate = date => {
     return age;
   } catch (error: any) {
     alert(error.message);
+  }
+};
+
+export const getFilterField = option => {
+  for (const [key, value] of Object.entries(option)) {
+    if (typeof value === 'string' && !_.isEmpty(value)) {
+      return {key, value};
+      break;
+    }
   }
 };

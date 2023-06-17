@@ -70,7 +70,7 @@ interface ButtonCircleAddRemoveProps {
   size?: 'small' | 'medium' | 'large';
   icon?: React.FunctionComponent<IconProps>;
   pill?: boolean;
-  disabled?: string;
+  disabled?: boolean;
 }
 
 export const ButtonCircleAddRemove: React.FunctionComponent<
@@ -135,6 +135,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
             zIndex: 1,
           }}
           onClick={() => props.onClick(true)}
+          isDisable={props.disabled || false}
         >
           <Icons.EvaIcon icon='plus-outline' size='large' color='#ffffff' />
         </Buttons.CircleButton>
@@ -162,6 +163,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
 };
 
 interface CircleButtonProps {
+  isDisable?: boolean;
   style?: CSSProperties;
   onClick: () => void;
   children?: React.ReactNode;
@@ -172,8 +174,10 @@ export const CircleButton: React.FunctionComponent<
 > = props => (
   <div
     style={props.style}
-    className='rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center'
-    onClick={props.onClick}
+    className={`rounded-full h-7 w-7 border border-gray-300 text-gray-400 flex justify-center items-center ${
+      props.isDisable ? 'opacity-50 cursor-not-allowed ' : ' '
+    } `}
+    onClick={props.isDisable ? undefined : props.onClick}
   >
     {props.children}
   </div>

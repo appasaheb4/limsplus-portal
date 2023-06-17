@@ -108,6 +108,8 @@ const GeneralResultEntry = observer(() => {
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
                       pLab: loginStore.login?.lab,
+                      testCode:
+                        generalResultEntryStore.filterGeneralResEntry?.testCode,
                       finishResult: 'P',
                     },
                   );
@@ -141,27 +143,24 @@ const GeneralResultEntry = observer(() => {
             message: `😊 ${res.updatePatientResult.message}`,
             timer: 2000,
           });
-          if (!generalResultEntryStore.filterGeneralResEntry)
-            patientResultStore.patientResultService.listPatientResult({
-              pLab: loginStore.login?.lab,
-              // resultStatus: 'P',
-              // testStatus: 'P',
-              finishResult: 'P',
-            });
-          else
-            patientResultStore.patientResultService.patientListForGeneralResultEntry(
-              {
-                input: {
-                  filter: {
-                    ...generalResultEntryStore.filterGeneralResEntry,
-                    // panelStatus: 'P',
-                    finishResult: 'P',
-                  },
-                  page: 0,
-                  limit: 10,
+          // if (!generalResultEntryStore.filterGeneralResEntry)
+          //   patientResultStore.patientResultService.listPatientResult({
+          //     pLab: loginStore.login?.lab,
+          //     finishResult: 'P',
+          //   });
+          // else
+          patientResultStore.patientResultService.patientListForGeneralResultEntry(
+            {
+              input: {
+                filter: {
+                  ...generalResultEntryStore.filterGeneralResEntry,
+                  finishResult: 'P',
                 },
+                page: 0,
+                limit: 10,
               },
-            );
+            },
+          );
         }
       });
     setTableReload(!tableReaload);
@@ -199,27 +198,25 @@ const GeneralResultEntry = observer(() => {
                     message: `😊 ${res.updateByFieldsPatientResult.message}`,
                     timer: 2000,
                   });
-                  if (!generalResultEntryStore.filterGeneralResEntry)
-                    patientResultStore.patientResultService.listPatientResult({
-                      pLab: loginStore.login?.lab,
-                      // resultStatus: 'P',
-                      // testStatus: 'P',
-                      finishResult: 'P',
-                    });
-                  else
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                            // panelStatus: 'P',
-                            finishResult: 'P',
-                          },
-                          page: 0,
-                          limit: 10,
+                  // if (!generalResultEntryStore.filterGeneralResEntry)
+                  //   patientResultStore.patientResultService.listPatientResult({
+                  //     pLab: loginStore.login?.lab,
+                  //     finishResult: 'P',
+                  //   });
+                  // else
+                  patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                    {
+                      input: {
+                        filter: {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          // panelStatus: 'P',
+                          finishResult: 'P',
                         },
+                        page: 0,
+                        limit: 10,
                       },
-                    );
+                    },
+                  );
                 }
               });
           }

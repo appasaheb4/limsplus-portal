@@ -34,6 +34,7 @@ interface GeneralResultEntryExpandProps {
   isDelete?: boolean;
   isEditModify?: boolean;
   isSelectRow?: boolean;
+  isFinishResultDisable?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -58,6 +59,7 @@ export const GeneralResultEntryExpand = ({
   fileName,
   isEditModify,
   isSelectRow,
+  isFinishResultDisable = true,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
@@ -392,8 +394,9 @@ export const GeneralResultEntryExpand = ({
                   </Buttons.Button>
                 )}
                 <button
+                  disabled={isFinishResultDisable}
                   className={
-                    'ml-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white'
+                    'ml-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed'
                   }
                   onClick={onFinishResult}
                 >
@@ -432,18 +435,6 @@ export const GeneralResultEntryExpand = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              {/* <div className='flex items-center gap-2 mt-2'>
-                <SizePerPageDropdownStandalone
-                  {...Object.assign(
-                    {},
-                    {...paginationProps, hideSizePerPage: false},
-                  )}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div> */}
-              {/* <div className='flex items-center gap-2 mt-2'>
-                <PaginationTotalStandalone {...paginationProps} />
-              </div> */}
             </div>
           )}
         </ToolkitProvider>

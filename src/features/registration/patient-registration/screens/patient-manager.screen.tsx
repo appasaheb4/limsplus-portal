@@ -35,6 +35,7 @@ import {
   getDiffByDate,
   dateAvailableUnits,
 } from '@/core-utils';
+import {getFilterField} from '../utils';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
@@ -207,6 +208,14 @@ export const PatientManager = PatientManagerHoc(
           <Buttons.ButtonCircleAddRemoveBottom
             style={{bottom: 140}}
             show={hideInputView}
+            disabled={
+              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
+                'labId' ||
+              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
+                'pId'
+                ? true
+                : false
+            }
             onClick={() => setHideInputView(!hideInputView)}
           />
         )}
