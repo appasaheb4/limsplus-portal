@@ -223,8 +223,10 @@ export class PatientManagerService {
         );
     });
 
-  getPatientRegRecords = (variables: any) =>
+  getPatientRegRecords = (variables: any, type = 'fetch') =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
+
       client
         .mutate({
           mutation: GET_PATIENT_REG_RECORDS,
@@ -233,11 +235,12 @@ export class PatientManagerService {
         .then((res: any) => {
           if (res.data.getPatientRegRecords?.success) {
             const {records} = res.data.getPatientRegRecords;
-            if (records?.patientManager?.length <= 0)
-              return Toast.error({
+            if (records?.patientManager?.length <= 0 && type != 'delete')
+              Toast.error({
                 message:
                   '😔 Records not available. Please enter correct details or clear filter',
               });
+
             //console.log({records});
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({
