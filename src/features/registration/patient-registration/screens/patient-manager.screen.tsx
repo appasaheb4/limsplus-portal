@@ -1788,13 +1788,13 @@ export const PatientManager = PatientManagerHoc(
                           patientRegistrationStore.getPatientRegRecords(
                             key,
                             value,
+                            'delete',
                           );
                           break;
                         }
                       }
                     }
                   });
-
                 break;
               }
               case 'updateFileds': {
@@ -1854,7 +1854,6 @@ export const PatientManager = PatientManagerHoc(
 
                 break;
               }
-              // No default
             }
           }}
           onClose={() => setModalConfirm({show: false})}

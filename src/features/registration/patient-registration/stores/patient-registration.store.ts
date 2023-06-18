@@ -44,19 +44,22 @@ export class PatientRegistrationStore {
       this.filterOptionList = res.getFilterOptionListPatientManager.records;
   }
 
-  getPatientRegRecords(type: string, value: string) {
+  getPatientRegRecords(key: string, value: string, type = 'fetch') {
     this.patientManagerStore.patientManagerService.getFilterOptionList({
       input: {
         filter: {
-          type,
-          [type]: value,
+          type: key,
+          [key]: value,
         },
       },
     });
-    this.patientManagerStore.patientManagerService.getPatientRegRecords({
-      input: {
-        filter: {type, [type]: value},
+    this.patientManagerStore.patientManagerService.getPatientRegRecords(
+      {
+        input: {
+          filter: {type: key, [key]: value},
+        },
       },
-    });
+      type,
+    );
   }
 }

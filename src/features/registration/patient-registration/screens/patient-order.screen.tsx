@@ -622,6 +622,7 @@ export const PatientOrder = PatientOrderHoc(
                         patientRegistrationStore.getPatientRegRecords(
                           key,
                           value,
+                          'delete',
                         );
                         break;
                       }

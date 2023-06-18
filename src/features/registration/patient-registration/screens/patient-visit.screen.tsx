@@ -2255,6 +2255,7 @@ export const PatientVisit = PatientVisitHoc(
                           patientRegistrationStore.getPatientRegRecords(
                             key,
                             value,
+                            'delete',
                           );
                           break;
                         }
