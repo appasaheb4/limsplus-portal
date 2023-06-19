@@ -7,6 +7,7 @@ import {
   Buttons,
   textFilter,
   sortCaret,
+  Tooltip,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 
@@ -135,72 +136,75 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               csvExport: false,
               formatter: (cellContent, row) => (
                 <>
-                  <Buttons.Button
-                    size='small'
-                    type='outline'
-                    onClick={() => {
-                      const router = toJS(stores.routerStore.router);
-                      const roleRouter = JSON.parse(row.router);
-                      roleRouter.filter((item, index) => {
-                        router.filter((routerItem, indexRouter) => {
-                          if (routerItem.name === item.name) {
-                            routerItem.children.filter(
-                              (childrenItem, indexChildren) => {
-                                const itemChildren = item.children;
-                                for (const children of itemChildren) {
-                                  if (childrenItem.name == children.name) {
-                                    router[indexRouter].children[
-                                      indexChildren
-                                    ] = children;
-                                    router[indexRouter].title = item.title;
+                  <Tooltip tooltipText='Edit'>
+                    <Buttons.Button
+                      size='small'
+                      type='outline'
+                      onClick={() => {
+                        const router = toJS(stores.routerStore.router);
+                        const roleRouter = JSON.parse(row.router);
+                        roleRouter.filter((item, index) => {
+                          router.filter((routerItem, indexRouter) => {
+                            if (routerItem.name === item.name) {
+                              routerItem.children.filter(
+                                (childrenItem, indexChildren) => {
+                                  const itemChildren = item.children;
+                                  for (const children of itemChildren) {
+                                    if (childrenItem.name == children.name) {
+                                      router[indexRouter].children[
+                                        indexChildren
+                                      ] = children;
+                                      router[indexRouter].title = item.title;
+                                    }
                                   }
-                                }
-                              },
-                            );
-                          }
+                                },
+                              );
+                            }
+                          });
                         });
-                      });
-                      stores.routerStore.updateRouter(router);
-                      props.onDuplicate &&
-                        props.onDuplicate({
-                          router,
-                          id: row._id,
-                          description: row.role.description,
-                          code: row.role.code,
-                        });
-                    }}
-                  >
-                    <Icons.EvaIcon
-                      icon='edit-outline'
-                      size='medium'
-                      color='#fff'
-                    />
-                  </Buttons.Button>
+                        stores.routerStore.updateRouter(router);
+                        props.onDuplicate &&
+                          props.onDuplicate({
+                            router,
+                            id: row._id,
+                            description: row.role.description,
+                            code: row.role.code,
+                          });
+                      }}
+                    >
+                      <Icons.EvaIcon
+                        icon='edit-outline'
+                        size='medium'
+                        color='#fff'
+                      />
+                    </Buttons.Button>
+                  </Tooltip>
+
                   {props.isDelete && (
                     <>
                       <br />
-                      <br />
-                      <Buttons.Button
-                        size='small'
-                        type='outline'
-                        //icon={Icon.Remove}
-                        onClick={() => {
-                          props.onDelete &&
-                            props.onDelete({
-                              type: 'Delete',
-                              show: true,
-                              id: [row._id],
-                              title: 'Are you sure?',
-                              body: 'Delete this role mapping!',
-                            });
-                        }}
-                      >
-                        <Icons.EvaIcon
-                          icon='trash-2-outline'
-                          size='medium'
-                          color='#fff'
-                        />
-                      </Buttons.Button>
+                      <Tooltip tooltipText='Delete'>
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          onClick={() => {
+                            props.onDelete &&
+                              props.onDelete({
+                                type: 'Delete',
+                                show: true,
+                                id: [row._id],
+                                title: 'Are you sure?',
+                                body: 'Delete this role mapping!',
+                              });
+                          }}
+                        >
+                          <Icons.EvaIcon
+                            icon='trash-2-outline'
+                            size='medium'
+                            color='#fff'
+                          />
+                        </Buttons.Button>
+                      </Tooltip>
                     </>
                   )}
                 </>

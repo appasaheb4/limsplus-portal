@@ -12,7 +12,6 @@ import {
   ModalConfirm,
 } from '@/library/components';
 import {RoleMappingList} from '../components';
-
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 
 import 'react-dropdown-tree-select/dist/styles.css';
@@ -72,13 +71,22 @@ const RoleMapping = observer(() => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;
         item.title = item.name;
-        item = item.children.filter((childernItem: any) => {
-          childernItem.title = childernItem.name;
-          childernItem.toggle = false;
-          childernItem.permission = permission;
+        item = item.children.filter((childrenItem: any) => {
+          childrenItem.title = childrenItem.name;
+          childrenItem.toggle = false;
+          childrenItem.permission = permission;
+          if (
+            item.name == 'Result Entry' &&
+            childrenItem.name == 'General Result Entry'
+          ) {
+            childrenItem.permission = permission.concat({
+              title: 'ReOpen',
+              checked: false,
+            });
+          }
           // eslint-disable-next-line no-self-assign
-          childernItem.icon = childernItem.icon;
-          return childernItem;
+          //childernItem.icon = childernItem.icon;
+          return childrenItem;
         });
         return item;
       }
@@ -110,7 +118,7 @@ const RoleMapping = observer(() => {
         >
           <Form.InputWrapper label='Role' id='role'>
             <select
-              name='defualtLab'
+              name='role'
               disabled={hideRole}
               value={roleMappingStore.selectedRole as any}
               className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
@@ -131,8 +139,17 @@ const RoleMapping = observer(() => {
                           childernItem.title = childernItem.name;
                           childernItem.toggle = false;
                           childernItem.permission = permission;
+                          if (
+                            item.name == 'Result Entry' &&
+                            childernItem.name == 'General Result Entry'
+                          ) {
+                            childernItem.permission = permission.concat({
+                              title: 'ReOpen',
+                              checked: false,
+                            });
+                          }
                           // eslint-disable-next-line no-self-assign
-                          childernItem.icon = childernItem.icon;
+                          // childernItem.icon = childernItem.icon;
                           return childernItem;
                         }
                       });
@@ -148,8 +165,8 @@ const RoleMapping = observer(() => {
               }}
             >
               <option selected>
-                {roleMappingStore.selectedRole
-                  ? roleMappingStore.selectedRole.description
+                {roleMappingStore.selectedRole?.code
+                  ? roleMappingStore.selectedRole?.description
                   : 'Select'}
               </option>
               {roleList.map((item: any, index: number) => (
@@ -269,35 +286,76 @@ const RoleMapping = observer(() => {
                                                   {...provided.dragHandleProps}
                                                 >
                                                   {children.toggle ? (
-                                                    <input
-                                                      type='text'
-                                                      className='leading-4 p-2 m-2 focus:outline-none focus:ring block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm'
-                                                      value={children.title}
-                                                      onChange={e => {
-                                                        const title =
-                                                          e.target.value;
-                                                        const routers = toJS(
-                                                          routerStore.router,
-                                                        );
-                                                        routers[index].children[
-                                                          indexChildren
-                                                        ].title = title;
-                                                        routerStore.updateRouter(
-                                                          routers,
-                                                        );
-                                                      }}
-                                                      onBlur={() => {
-                                                        const routers = toJS(
-                                                          routerStore.router,
-                                                        );
-                                                        routers[index].children[
-                                                          indexChildren
-                                                        ].toggle = false;
-                                                        routerStore.updateRouter(
-                                                          routers,
-                                                        );
-                                                      }}
-                                                    />
+                                                    <>
+                                                      <input
+                                                        type='text'
+                                                        className='leading-4 p-1 m-1 focus:outline-none focus:ring block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                                        value={children.title}
+                                                        placeholder='Title'
+                                                        onChange={e => {
+                                                          const title =
+                                                            e.target.value;
+                                                          const routers = toJS(
+                                                            routerStore.router,
+                                                          );
+                                                          routers[
+                                                            index
+                                                          ].children[
+                                                            indexChildren
+                                                          ].title = title;
+                                                          routerStore.updateRouter(
+                                                            routers,
+                                                          );
+                                                        }}
+                                                        onBlur={() => {
+                                                          const routers = toJS(
+                                                            routerStore.router,
+                                                          );
+                                                          routers[
+                                                            index
+                                                          ].children[
+                                                            indexChildren
+                                                          ].toggle = false;
+                                                          routerStore.updateRouter(
+                                                            routers,
+                                                          );
+                                                        }}
+                                                      />
+                                                      <input
+                                                        type='text'
+                                                        className='leading-4 p-1 m-1 focus:outline-none focus:ring block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                                        value={children.icon}
+                                                        placeholder='Icon'
+                                                        onChange={e => {
+                                                          const icon =
+                                                            e.target.value;
+                                                          const routers = toJS(
+                                                            routerStore.router,
+                                                          );
+                                                          routers[
+                                                            index
+                                                          ].children[
+                                                            indexChildren
+                                                          ].icon = icon;
+                                                          routerStore.updateRouter(
+                                                            routers,
+                                                          );
+                                                        }}
+                                                        onBlur={() => {
+                                                          const routers = toJS(
+                                                            routerStore.router,
+                                                          );
+                                                          routers[
+                                                            index
+                                                          ].children[
+                                                            indexChildren
+                                                          ].toggle = false;
+                                                          routerStore.updateRouter(
+                                                            routers,
+                                                          );
+                                                        }}
+                                                      />
+                                                    </>
                                                   ) : (
                                                     <p
                                                       className='font-bold'
@@ -550,6 +608,8 @@ const RoleMapping = observer(() => {
             )}
             onDelete={selectedUser => setModalConfirm(selectedUser)}
             onDuplicate={async (selectedItem: any) => {
+              console.log({selectedItem});
+
               if (selectedItem.code !== 'SYSADMIN') {
                 const routers: any = routerStore.router.filter((item: any) => {
                   const children = item.children.filter(childernItem => {
