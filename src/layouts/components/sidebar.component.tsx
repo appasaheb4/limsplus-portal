@@ -53,7 +53,6 @@ const SidebarCategory = withRouter(
         ? 'active'
         : '';
     };
-    const Icon = icon;
     return (
       <li className={'sidebar-item ' + getSidebarItemClass(to)}>
         <span
@@ -64,11 +63,7 @@ const SidebarCategory = withRouter(
           onClick={onClick}
           aria-expanded={isOpen ? 'true' : 'false'}
         >
-          {icon !== undefined ? (
-            <Icons.IconContext color='#ffffff'>
-              <Icon />
-            </Icons.IconContext>
-          ) : null}
+          {/* <Icons.RIcon nameIcon={icon} propsIcon={{color: '#ffffff'}} /> */}
           <span className='align-middle'>{title}</span>
           {badgeColor && badgeText ? (
             <Badge color={badgeColor} size={18} className='sidebar-badge'>
@@ -114,11 +109,10 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
     >
       <NavLink to={props.to} className='sidebar-link' activeClassName='active'>
         <span className='flex items-center'>
-          {props.icon ? (
-            <Icons.IconContext color='#ffffff'>
-              <props.icon />
-            </Icons.IconContext>
-          ) : null}
+          {/* <Icons.RIcon
+            nameIcon={props.icon}
+            propsIcon={{color: '#ffffff'}}
+          /> */}
           {props.title}
         </span>
         {props.badgeColor && props.badgeText ? (

@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-
+import _ from 'lodash';
 import {
   TableBootstrap,
   Icons,
@@ -10,10 +10,9 @@ import {
   Tooltip,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-
-import {stores} from '@/stores';
-
-import {toJS} from 'mobx';
+//import {stores} from '@/stores';
+import {dashboardRouter as dashboardRoutes} from '@/routes';
+let router: any = dashboardRoutes;
 
 let role;
 
@@ -83,9 +82,9 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               //filter: textFilter(),
               formatter: (cellContent, row) => (
                 <>
-                  {row.router && (
+                  {_.isEmpty(row.router) != true && row?.router != '' && (
                     <ul className='nav nav-stacked' id='accordion1'>
-                      {JSON.parse(row.router).map((item, index) => (
+                      {JSON.parse(row.router)?.map((item, index) => (
                         <li className='flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md'>
                           <a
                             data-toggle='collapse'
@@ -138,31 +137,38 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                 <>
                   <Tooltip tooltipText='Edit'>
                     <Buttons.Button
+                      key={row?._id}
                       size='small'
                       type='outline'
                       onClick={() => {
-                        const router = toJS(stores.routerStore.router);
-                        const roleRouter = JSON.parse(row.router);
-                        roleRouter.filter((item, index) => {
-                          router.filter((routerItem, indexRouter) => {
-                            if (routerItem.name === item.name) {
-                              routerItem.children.filter(
-                                (childrenItem, indexChildren) => {
-                                  const itemChildren = item.children;
-                                  for (const children of itemChildren) {
-                                    if (childrenItem.name == children.name) {
-                                      router[indexRouter].children[
-                                        indexChildren
-                                      ] = children;
-                                      router[indexRouter].title = item.title;
+                        const roleRouter =
+                          _.isEmpty(row?.router) != true && row?.router != ''
+                            ? JSON.parse(row?.router)
+                            : [];
+                        router = router?.filter((routerItem, indexRouter) => {
+                          if (routerItem.name !== 'Dashboard') {
+                            return roleRouter?.filter((item, index) => {
+                              if (routerItem.name === item.name) {
+                                return routerItem.children.filter(
+                                  (childrenItem, indexChildren) => {
+                                    const itemChildren = item.children;
+                                    for (const children of itemChildren) {
+                                      if (childrenItem.name == children.name) {
+                                        router[indexRouter].children[
+                                          indexChildren
+                                        ] = children;
+                                        router[indexRouter].title = item.title;
+                                      }
                                     }
-                                  }
-                                },
-                              );
-                            }
-                          });
+                                  },
+                                );
+                              } else {
+                                return routerItem;
+                              }
+                            });
+                          }
                         });
-                        stores.routerStore.updateRouter(router);
+                        //stores.routerStore.updateRouter(router);
                         props.onDuplicate &&
                           props.onDuplicate({
                             router,

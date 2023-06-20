@@ -14,7 +14,7 @@ import Page404 from '@/features/login/screens/page-404.screen';
 import ScrollToTop from '@/layouts/components/scroll-to-top.component';
 
 const childRoutes = (Layout, routes) =>
-  routes.map(({children, path, component: Component}, index) =>
+  routes?.map(({children, path, component: Component}, index) =>
     children ? (
       // Route item with children
       children.map(({path, component: Component}, index) => (

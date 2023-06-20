@@ -12,24 +12,24 @@ const HistoResultEntry = async(
 export const resultEntryRoutes = {
   path: '/result-entry',
   name: 'Result Entry',
-  icon: 'Icons.Iconsi.SiSentry',
+  icon: 'SiSentry',
   children: [
     {
       path: '/result-entry/general',
       name: 'General Result Entry',
-      icon: 'Icons.IconBi.BiCategory',
+      icon: 'BiCategory',
       component: GeneralResultEntry,
     },
     {
       path: '/result-entry/micro',
       name: 'Micro Result Entry',
-      icon: 'Icons.IconGi.GiMicroscope',
+      icon: 'GiMicroscope',
       component: MicroResultEntry,
     },
     {
       path: '/result-entry/histo',
       name: 'Histo Result Entry',
-      icon: 'Icons.Iconmd.MdHistoryToggleOff',
+      icon: 'MdHistoryToggleOff',
       component: HistoResultEntry,
     },
   ],

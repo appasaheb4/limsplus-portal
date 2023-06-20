@@ -6,12 +6,12 @@ const PanelApproval = async(
 export const validationRoutes = {
   path: '/validation',
   name: 'Validation',
-  icon: 'Icons.Iconmd.MdOutlineRule',
+  icon: 'MdOutlineRule',
   children: [
     {
       path: '/validation/panel-approval',
       name: 'Panel Approval',
-      icon: 'Icons.Iconmd.MdOutlineApproval',
+      icon: 'MdOutlineApproval',
       component: PanelApproval,
     },
   ],
