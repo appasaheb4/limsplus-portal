@@ -9,18 +9,18 @@ const ReportTemplate = async(
 export const reportBuilderRoutes = {
   path: '/report-builder',
   name: 'Report Builder',
-  icon: 'Icons.Iconhi.HiDocumentReport',
+  icon: 'HiDocumentReport',
   children: [
     {
       path: '/report-builder/report-settings',
       name: 'Report Settings',
-      icon: 'Icons.IconRi.RiListSettingsFill',
+      icon: 'RiListSettingsFill',
       component: ReportSettings,
     },
     {
       path: '/report-builder/report-template',
       name: 'Report Template',
-      icon: 'Icons.IconIm.ImInsertTemplate',
+      icon: 'ImInsertTemplate',
       component: ReportTemplate,
     },
   ],

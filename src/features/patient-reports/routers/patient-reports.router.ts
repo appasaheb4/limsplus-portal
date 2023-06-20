@@ -9,18 +9,18 @@ const DeliveryQueue = async(
 export const patientReportsRoutes = {
   path: '/patient-reports',
   name: 'Patient Reports',
-  icon: 'Icons.Iconmd.MdOutlineLibraryBooks',
+  icon: 'MdOutlineLibraryBooks',
   children: [
     {
       path: '/patient-reports/generate-report',
       name: 'Generate Report',
-      icon: 'Icons.IconGi.GiRegeneration',
+      icon: 'GiRegeneration',
       component: GenerateReport,
     },
     {
       path: '/patient-reports/delivery-queue',
       name: 'Delivery Queue',
-      icon: 'Icons.Iconmd.MdOutlineDeliveryDining',
+      icon: 'MdOutlineDeliveryDining',
       component: DeliveryQueue,
     },
   ],

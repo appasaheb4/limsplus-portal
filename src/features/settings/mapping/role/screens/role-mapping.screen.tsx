@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Header,
@@ -39,7 +39,7 @@ const RoleMapping = observer(() => {
   for (const router of roleMappingStore.roleMappingList || []) {
     if (router) {
       roleList = roleList.filter(item => {
-        return item.code !== router.role.code;
+        return item.code !== router?.role.code;
       });
     }
   }
@@ -66,8 +66,8 @@ const RoleMapping = observer(() => {
     },
   ];
 
-  useEffect(() => {
-    const routers: any = router.filter((item: any) => {
+  const setRouter = () => {
+    const routers: any = router?.filter((item: any) => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;
         item.title = item.name;
@@ -94,8 +94,71 @@ const RoleMapping = observer(() => {
     if (routers) {
       routerStore.updateRouter(routers);
     }
+  };
+
+  useEffect(() => {
+    setRouter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const roleMappingTable = useMemo(
+    () => (
+      <RoleMappingList
+        data={roleMappingStore.roleMappingList || []}
+        totalSize={roleMappingStore.roleMappingListCount}
+        isDelete={RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          'Delete',
+        )}
+        isEditModify={RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          'Edit/Modify',
+        )}
+        onDelete={selectedUser => setModalConfirm(selectedUser)}
+        onDuplicate={async (selectedItem: any) => {
+          if (selectedItem.code !== 'SYSADMIN') {
+            const routers: any = routerStore.router?.filter((item: any) => {
+              const children = item.children.filter(childernItem => {
+                if (
+                  childernItem.name !== 'Role' &&
+                  childernItem.name !== 'User' &&
+                  childernItem.name !== 'Login Activity' &&
+                  childernItem.name !== 'Role Mapping' &&
+                  childernItem.name !== 'Environment Settings' &&
+                  childernItem.name !== 'Notice Boards'
+                ) {
+                  return childernItem;
+                }
+              });
+              item.children = children;
+              return item;
+            });
+            if (routers) {
+              routerStore.updateRouter(routers);
+            }
+          } else {
+            routerStore.updateRouter(selectedItem?.router);
+          }
+          setHideAddRoleMapping(!hideAddRoleMapping);
+          setHideRole(true);
+          roleMappingStore.updateSelectedRole(toJS(selectedItem));
+          setIsModify({status: true, id: selectedItem.id});
+        }}
+        onPageSizeChange={(page, limit) => {
+          roleMappingStore.fetchRoleMappingList(page, limit);
+          global.filter = {mode: 'pagination', page, limit};
+        }}
+        onFilter={(type, filter, page, limit) => {
+          roleMappingStore.roleMappingService.filter({
+            input: {type, filter, page, limit},
+          });
+          global.filter = {mode: 'filter', type, filter, page, limit};
+        }}
+      />
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [roleMappingStore.roleMappingList],
+  );
 
   return (
     <>
@@ -106,7 +169,10 @@ const RoleMapping = observer(() => {
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
         <Buttons.ButtonCircleAddRemove
           show={hideAddRoleMapping}
-          onClick={status => setHideAddRoleMapping(!hideAddRoleMapping)}
+          onClick={status => {
+            setRouter();
+            setHideAddRoleMapping(!hideAddRoleMapping);
+          }}
         />
       )}
       <div className=' mx-auto  flex-wrap'>
@@ -125,7 +191,7 @@ const RoleMapping = observer(() => {
               onChange={e => {
                 const role = roleList[e.target.value];
                 if (role.code !== 'SYSADMIN') {
-                  const routers: any = routerStore.router.filter(
+                  const routers: any = routerStore.router?.filter(
                     (item: any) => {
                       const children = item.children.filter(childernItem => {
                         if (
@@ -195,7 +261,7 @@ const RoleMapping = observer(() => {
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                     >
-                      {routerStore.router.map((item, index) => (
+                      {routerStore.router?.map((item, index) => (
                         <Draggable
                           key={item.name}
                           draggableId={item.name}
@@ -209,22 +275,41 @@ const RoleMapping = observer(() => {
                               {...provided.dragHandleProps}
                             >
                               {item.toggle ? (
-                                <input
-                                  type='text'
-                                  className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
-                                  value={item.title}
-                                  onChange={e => {
-                                    const title = e.target.value;
-                                    const routers = toJS(routerStore.router);
-                                    routers[index].title = title;
-                                    routerStore.updateRouter(routers);
-                                  }}
-                                  onBlur={() => {
-                                    const routers = toJS(routerStore.router);
-                                    routers[index].toggle = false;
-                                    routerStore.updateRouter(routers);
-                                  }}
-                                />
+                                <>
+                                  <input
+                                    type='text'
+                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                    value={item.title}
+                                    onChange={e => {
+                                      const title = e.target.value;
+                                      const routers = toJS(routerStore.router);
+                                      routers[index].title = title;
+                                      routerStore.updateRouter(routers);
+                                    }}
+                                    onBlur={() => {
+                                      const routers = toJS(routerStore.router);
+                                      routers[index].toggle = false;
+                                      routerStore.updateRouter(routers);
+                                    }}
+                                  />
+
+                                  <input
+                                    type='text'
+                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                    value={item.icon}
+                                    onChange={e => {
+                                      const icon = e.target.value;
+                                      const routers = toJS(routerStore.router);
+                                      routers[index].icon = icon;
+                                      routerStore.updateRouter(routers);
+                                    }}
+                                    onBlur={() => {
+                                      const routers = toJS(routerStore.router);
+                                      routers[index].toggle = false;
+                                      routerStore.updateRouter(routers);
+                                    }}
+                                  />
+                                </>
                               ) : (
                                 <p
                                   className='font-bold'
@@ -376,7 +461,7 @@ const RoleMapping = observer(() => {
                                                   )}
 
                                                   <ul className='ml-2'>
-                                                    {children.permission.map(
+                                                    {children.permission?.map(
                                                       (
                                                         permission,
                                                         indexPermission,
@@ -468,28 +553,26 @@ const RoleMapping = observer(() => {
               size='medium'
               type='solid'
               icon={Svg.Save}
-              onClick={() => {
+              onClick={async () => {
                 if (
                   roleMappingStore.selectedRole?.description !== undefined &&
                   routerStore.router !== undefined
                 ) {
                   let router: any[] = [];
-                  // console.log({fullRouter: routerStore.router});
-
-                  routerStore.router.filter(item => {
-                    return item.children.filter((childern, indexChildern) => {
+                  routerStore.router?.filter(item => {
+                    return item.children.filter((childern, indexChildren) => {
                       childern.permission.filter(
                         (permission, indexPermission) => {
                           if (permission.checked) {
-                            const isRouter = router.find(
+                            const isRouter = router?.find(
                               routerItem => routerItem.name === item.name,
                             );
                             if (isRouter) {
-                              router = router.filter(function (obj) {
+                              router = router?.filter(function (obj) {
                                 return obj.name !== item.name;
                               });
                               let children = isRouter.children.concat([
-                                toJS(item.children[indexChildern]),
+                                toJS(item.children[indexChildren]),
                               ]);
                               // eslint-disable-next-line unicorn/no-array-reduce
                               children = children.reduce((filtered, item) => {
@@ -499,9 +582,11 @@ const RoleMapping = observer(() => {
                                       JSON.stringify(filteredItem) ==
                                       JSON.stringify(item),
                                   )
-                                )
-                                  //item.icon = item.icon.replace('LibraryComponents.Atoms.', '');
+                                ) {
                                   filtered.push(item);
+                                }
+                                //item.icon = item.icon.replace('LibraryComponents.Atoms.', '');
+                                //item.toggle = false;
                                 return filtered;
                               }, []);
                               router.push({
@@ -519,7 +604,7 @@ const RoleMapping = observer(() => {
                                 icon: item.icon,
                                 title: item.title,
                                 toggle: item.toggle,
-                                children: [toJS(item.children[indexChildern])],
+                                children: [toJS(item.children[indexChildren])],
                               });
                             }
                           }
@@ -527,52 +612,72 @@ const RoleMapping = observer(() => {
                       );
                     });
                   });
-                  isModify.status
-                    ? roleMappingStore.roleMappingService
-                        .updateRoleMapping({
-                          input: {
-                            _id: isModify.id,
-                            role: roleMappingStore.selectedRole,
-                            router: JSON.stringify(router),
-                          },
-                        })
-                        .then(res => {
-                          if (res.updateRoleMapping.success) {
-                            if (
-                              roleMappingStore.selectedRole?.code ===
-                              loginStore.login?.role
-                            ) {
-                              routerStore.updateUserRouter(router);
-                            }
-                            Toast.success({
-                              message: `😊 ${res.updateRoleMapping.message}`,
-                            });
-                            setTimeout(() => {
-                              window.location.reload();
-                            }, 2000);
-                          } else {
-                            alert('Data not update. Please try again');
+
+                  router = router?.map(item => {
+                    return {
+                      ...item,
+                      toggle: false,
+                      children: item.children?.map(e => {
+                        return {...e, toggle: false};
+                      }),
+                    };
+                  });
+                  if (isModify.status) {
+                    roleMappingStore.roleMappingService
+                      .update({
+                        input: {
+                          _id: isModify.id,
+                          role: toJS(roleMappingStore.selectedRole),
+                          router: JSON.stringify(router),
+                        },
+                      })
+                      .then(res => {
+                        if (res.updateRoleMapping.success) {
+                          if (
+                            roleMappingStore.selectedRole?.code ===
+                            loginStore.login?.role
+                          ) {
+                            routerStore.updateUserRouter(router);
                           }
-                        })
-                    : roleMappingStore.roleMappingService
-                        .addRoleMapping({
-                          input: {
-                            role: roleMappingStore.selectedRole,
-                            router: JSON.stringify(router),
-                          },
-                        })
-                        .then(res => {
-                          if (res.createRoleMapping.success) {
-                            Toast.success({
-                              message: `😊 ${res.createRoleMapping.message}`,
-                            });
-                            setTimeout(() => {
-                              window.location.reload();
-                            }, 2000);
-                          } else {
-                            alert('Not added data.');
-                          }
-                        });
+                          Toast.success({
+                            message: `😊 ${res.updateRoleMapping.message}`,
+                          });
+                          setHideAddRoleMapping(!hideAddRoleMapping);
+                          setHideRole(false);
+                          roleMappingStore.updateSelectedRole({} as any);
+                          routerStore.updateRouter([]);
+                          roleMappingStore.fetchRoleMappingList();
+                        } else {
+                          Toast.error({
+                            message: '😊 Data not update. Please try again',
+                          });
+                        }
+                      });
+                  } else {
+                    roleMappingStore.roleMappingService
+                      .addRoleMapping({
+                        input: {
+                          role: roleMappingStore.selectedRole,
+                          router: JSON.stringify(router),
+                        },
+                      })
+                      .then(res => {
+                        if (res.createRoleMapping.success) {
+                          Toast.success({
+                            message: `😊 ${res.createRoleMapping.message}`,
+                          });
+                          setHideAddRoleMapping(!hideAddRoleMapping);
+                          setHideRole(false);
+                          roleMappingStore.updateSelectedRole({} as any);
+                          routerStore.updateRouter([]);
+                          roleMappingStore.fetchRoleMappingList();
+                        } else {
+                          Toast.error({
+                            message: '😊 Data not update. Please try again',
+                          });
+                        }
+                      });
+                  }
                 } else {
                   Toast.warning({
                     message: '😔 Please enter all information!',
@@ -582,71 +687,10 @@ const RoleMapping = observer(() => {
             >
               {isModify.status ? 'Update' : 'Save'}
             </Buttons.Button>
-            <Buttons.Button
-              size='medium'
-              type='outline'
-              icon={Svg.Remove}
-              onClick={() => {
-                window.location.reload();
-              }}
-            >
-              Clear
-            </Buttons.Button>
           </List>
         </div>
         <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-          <RoleMappingList
-            data={roleMappingStore.roleMappingList || []}
-            totalSize={roleMappingStore.roleMappingListCount}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Delete',
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              'Edit/Modify',
-            )}
-            onDelete={selectedUser => setModalConfirm(selectedUser)}
-            onDuplicate={async (selectedItem: any) => {
-              console.log({selectedItem});
-
-              if (selectedItem.code !== 'SYSADMIN') {
-                const routers: any = routerStore.router.filter((item: any) => {
-                  const children = item.children.filter(childernItem => {
-                    if (
-                      childernItem.name !== 'Role' &&
-                      childernItem.name !== 'User' &&
-                      childernItem.name !== 'Login Activity' &&
-                      childernItem.name !== 'Role Mapping' &&
-                      childernItem.name !== 'Environment Settings' &&
-                      childernItem.name !== 'Notice Boards'
-                    ) {
-                      return childernItem;
-                    }
-                  });
-                  item.children = children;
-                  return item;
-                });
-                if (routers) {
-                  routerStore.updateRouter(routers);
-                }
-              }
-              setHideAddRoleMapping(!hideAddRoleMapping);
-              setHideRole(true);
-              roleMappingStore.updateSelectedRole(toJS(selectedItem));
-              setIsModify({status: true, id: selectedItem.id});
-            }}
-            onPageSizeChange={(page, limit) => {
-              roleMappingStore.fetchRoleMappingList(page, limit);
-              global.filter = {mode: 'pagination', page, limit};
-            }}
-            onFilter={(type, filter, page, limit) => {
-              roleMappingStore.roleMappingService.filter({
-                input: {type, filter, page, limit},
-              });
-              global.filter = {mode: 'filter', type, filter, page, limit};
-            }}
-          />
+          {roleMappingTable}
         </div>
         <ModalConfirm
           {...modalConfirm}

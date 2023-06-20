@@ -59,7 +59,7 @@ export class RoleMappingService {
         );
     });
 
-  updateRoleMapping = (variables: any) =>
+  update = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({

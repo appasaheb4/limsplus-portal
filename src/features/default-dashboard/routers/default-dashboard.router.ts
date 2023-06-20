@@ -5,12 +5,12 @@ export const dashboardRoutes = {
   path: '/dashboard',
   name: 'Dashboard',
   header: 'Dashboard',
-  icon: 'Icons.IconRi.RiDashboardFill',
+  icon: 'RiDashboardFill',
   children: [
     {
       path: '/dashboard/default',
       name: 'Default',
-      icon: 'Icons.IconRi.RiDashboard3Fill',
+      icon: 'RiDashboard3Fill',
       component: DefaultDashboard,
     },
   ],

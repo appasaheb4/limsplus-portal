@@ -11,18 +11,18 @@ const ClientRegistrations = async(
 export const registrationRoutes = {
   path: '/registration',
   name: 'Registration',
-  icon: 'Icons.IconRi.RiUserAddLine',
+  icon: 'RiUserAddLine',
   children: [
     {
       path: '/registration/patient',
       name: 'Patient Registration',
-      icon: 'Icons.IconFa.FaAddressCard',
+      icon: 'FaAddressCard',
       component: PatientRegistrations,
     },
     {
       path: '/registration/client',
       name: 'Client Registration',
-      icon: 'Icons.IconFa.FaRegUser',
+      icon: 'FaRegUser',
       component: ClientRegistrations,
     },
   ],
