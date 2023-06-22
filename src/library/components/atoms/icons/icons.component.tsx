@@ -255,6 +255,5 @@ export const RIcon = ({nameIcon, propsIcon}: RIconProps): JSX.Element => {
       resolveComponent: (el: JSX.Element) => el[nameIcon as keyof JSX.Element],
     },
   );
-
   return <ElementIcon {...propsIcon} />;
 };

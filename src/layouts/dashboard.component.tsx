@@ -83,11 +83,8 @@ import * as Receipt from '@/features/account-receivable/receipt';
 import * as PanelApproval from '@/features/validation/panel-approval';
 
 export const RouterService = () => {
-  console.log('calling fun');
-
   const history: any = useHistory();
   const refreshPage = () => {
-    console.log({path: window.location.pathname});
     history.replace(window.location.pathname);
   };
   return refreshPage();
@@ -311,9 +308,10 @@ const Dashboard = observer(({children}) => {
 
   const router = async () => {
     let router: any = toJS(loginStore.login);
+
     if (router?.userId) {
       if (router && !stores.routerStore.userRouter) {
-        router = JSON.parse(router.roleMapping.router[0]);
+        router = router.roleMapping.router;
         stores.routerStore.updateUserRouter(router);
       }
     } else {
@@ -378,10 +376,9 @@ const Dashboard = observer(({children}) => {
     }, 1000);
   }, [loginStore.login]);
 
-  // idel time
+  // idle item session time
   const handleOnIdle = event => {
-    // console.log("user is idle", event)
-    console.log('last active', getLastActiveTime());
+    console.log('session logout', getLastActiveTime());
     setIsLogined(true);
     loginStore
       .removeUser()

@@ -1,6 +1,5 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   TableBootstrap,
   Icons,
@@ -40,8 +39,8 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
       <div style={{position: 'relative'}}>
         <TableBootstrap
           id='_id'
-          data={props.data}
-          totalSize={props.totalSize}
+          data={props?.data || []}
+          totalSize={props?.totalSize}
           columns={[
             {
               dataField: '_id',
@@ -58,7 +57,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (row, col) => `${col.role.description}`,
+              csvFormatter: (row, col) => `${col.role?.description}`,
               filter: textFilter({
                 getFilter: filter => {
                   role = filter;
@@ -79,38 +78,40 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               editable: false,
               headerClasses: 'textHeader4',
               sort: true,
-              //filter: textFilter(),
               formatter: (cellContent, row) => (
                 <>
-                  {_.isEmpty(row.router) != true && row?.router != '' && (
+                  {row?.router?.length > 0 && (
                     <ul className='nav nav-stacked' id='accordion1'>
-                      {JSON.parse(row.router)?.map((item, index) => (
-                        <li className='flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md'>
+                      {row?.router?.map((item, index) => (
+                        <li
+                          className='flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md'
+                          key={index}
+                        >
                           <a
                             data-toggle='collapse'
                             data-parent='#accordion1'
                             className='font-bold'
                           >
-                            {item.title}
+                            {item?.title}
                           </a>
-                          {item.children ? (
+                          {item?.children ? (
                             <ul
                               className='flex flex-row ml-1 text-white ' //collapse
-                              id={item.name}
+                              id={item?.name}
                             >
                               {item.children.map((children, indexChildren) => (
                                 <li className='bg-blue-600 ml-4 p-2 rounded-md'>
-                                  {children.title}
+                                  {children?.title}
                                   <ul className='ml-2'>
-                                    {children.permission.map(
+                                    {children?.permission.map(
                                       (permission, indexPermission) => (
                                         <li>
                                           <input
                                             type='checkbox'
-                                            checked={permission.checked}
+                                            checked={permission?.checked}
                                             className='m-2'
                                           />
-                                          {permission.title}
+                                          {permission?.title}
                                         </li>
                                       ),
                                     )}
@@ -119,7 +120,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                               ))}
                             </ul>
                           ) : (
-                            <li>{item.title}</li>
+                            <li>{item?.title}</li>
                           )}
                         </li>
                       ))}
@@ -142,9 +143,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                       type='outline'
                       onClick={() => {
                         const roleRouter =
-                          _.isEmpty(row?.router) != true && row?.router != ''
-                            ? JSON.parse(row?.router)
-                            : [];
+                          row?.router?.length > 0 ? row?.router : [];
                         router = router?.filter((routerItem, indexRouter) => {
                           if (routerItem.name !== 'Dashboard') {
                             return roleRouter?.filter((item, index) => {
@@ -186,7 +185,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                     </Buttons.Button>
                   </Tooltip>
 
-                  {props.isDelete && (
+                  {props?.isDelete && (
                     <>
                       <br />
                       <Tooltip tooltipText='Delete'>

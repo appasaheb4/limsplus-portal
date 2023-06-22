@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {observer} from 'mobx-react';
 import {useHistory} from 'react-router-dom';
 
-import {Badge, Collapse} from 'reactstrap';
+import {Badge} from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import {Icons, AutocompleteGroupBy} from '@/library/components';
@@ -43,7 +43,7 @@ const SidebarCategory = withRouter(
     isOpen,
     children,
     onClick,
-    icon,
+    icon = 'VscListSelection',
     location,
     to,
   }) => {
@@ -63,7 +63,10 @@ const SidebarCategory = withRouter(
           onClick={onClick}
           aria-expanded={isOpen ? 'true' : 'false'}
         >
-          {/* <Icons.RIcon nameIcon={icon} propsIcon={{color: '#ffffff'}} /> */}
+          <Icons.RIcon
+            nameIcon={icon}
+            propsIcon={{color: '#ffffff', size: 20}}
+          />
           <span className='align-middle'>{title}</span>
           {badgeColor && badgeText ? (
             <Badge color={badgeColor} size={18} className='sidebar-badge'>
@@ -108,13 +111,13 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
       }}
     >
       <NavLink to={props.to} className='sidebar-link' activeClassName='active'>
-        <span className='flex items-center'>
-          {/* <Icons.RIcon
-            nameIcon={props.icon}
-            propsIcon={{color: '#ffffff'}}
-          /> */}
-          {props.title}
-        </span>
+        <div className='flex items-center p-0 m-0'>
+          <Icons.RIcon
+            nameIcon={props.icon || 'VscListSelection'}
+            propsIcon={{color: '#ffffff', size: 18}}
+          />
+          <span className='flex items-center'>{props.title}</span>
+        </div>
         {props.badgeColor && props.badgeText ? (
           <Badge color={props.badgeColor} size={18} className='sidebar-badge'>
             {props.badgeText}
@@ -195,9 +198,7 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
                           title={category.title}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
-                          icon={
-                            Icons.getIcons(category.icon) || Icons.IconBs.BsList
-                          }
+                          icon={category.icon}
                           to={category.path}
                           isOpen={openRoutes[index]}
                           onClick={() => toggle(index)}
@@ -212,10 +213,7 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
                                 to={route.path}
                                 badgeColor={route.badgeColor}
                                 badgeText={route.badgeText}
-                                icon={
-                                  Icons.getIcons(route.icon) ||
-                                  Icons.IconBs.BsList
-                                }
+                                icon={route.icon}
                                 onChangeItem={async (category, item) => {
                                   const {permission, selectedComp} =
                                     await RouterFlow.updateSelectedCategory(
@@ -236,12 +234,12 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
                         </SidebarCategory>
                       ) : (
                         <>
-                          <h1>secound</h1>
+                          <h1>Second</h1>
                           <SidebarItem
                             name={category.name}
                             title={category.title}
                             to={category.path}
-                            icon={Icons.getIcons(category.icon)}
+                            icon={category.icon}
                             badgeColor={category.badgeColor}
                             badgeText={category.badgeText}
                             onChangeItem={async (category, item) => {
