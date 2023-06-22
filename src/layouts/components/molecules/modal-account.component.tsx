@@ -114,9 +114,8 @@ export const ModalAccount = observer((props: ModalAccountProps) => {
                             ...loginStore.login,
                             role,
                           });
-                          const router = JSON.parse(
-                            res.userSwitchAccess.data.roleMapping.router[0],
-                          );
+                          const router =
+                            res.userSwitchAccess.data.roleMapping.router;
                           stores.routerStore.updateUserRouter(router);
                           Toast.success({
                             message: `😊 ${res.userSwitchAccess.message}`,

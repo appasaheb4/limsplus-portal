@@ -59,9 +59,9 @@ export class RoleMappingService {
         );
     });
 
-  update = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      client
+  update = async (variables: any) =>
+    new Promise<any>(async (resolve, reject) => {
+      await client
         .mutate({
           mutation: UPDATE_RECORD,
           variables,
@@ -69,9 +69,10 @@ export class RoleMappingService {
         .then((response: any) => {
           resolve(response.data);
         })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
+        .catch(error => {
+          console.log({error});
+          reject(new ServiceResponse<any>(0, error.message, undefined));
+        });
     });
 
   filter = (variables: any) =>

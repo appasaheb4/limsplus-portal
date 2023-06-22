@@ -10,14 +10,13 @@ import DashboardLayout from '../layouts/dashboard.component';
 import LandingLayout from '../layouts/landing.component';
 import AuthLayout from '../layouts/auth.component';
 import Page404 from '@/features/login/screens/page-404.screen';
-
 import ScrollToTop from '@/layouts/components/scroll-to-top.component';
 
 const childRoutes = (Layout, routes) =>
   routes?.map(({children, path, component: Component}, index) =>
-    children ? (
+    children != undefined ? (
       // Route item with children
-      children.map(({path, component: Component}, index) => (
+      children?.map(({path, component: Component}, index) => (
         <Route
           key={index}
           path={path}

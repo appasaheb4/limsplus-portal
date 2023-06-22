@@ -116,29 +116,33 @@ const RoleMapping = observer(() => {
         )}
         onDelete={selectedUser => setModalConfirm(selectedUser)}
         onDuplicate={async (selectedItem: any) => {
-          if (selectedItem.code !== 'SYSADMIN') {
-            const routers: any = routerStore.router?.filter((item: any) => {
-              const children = item.children.filter(childernItem => {
-                if (
-                  childernItem.name !== 'Role' &&
-                  childernItem.name !== 'User' &&
-                  childernItem.name !== 'Login Activity' &&
-                  childernItem.name !== 'Role Mapping' &&
-                  childernItem.name !== 'Environment Settings' &&
-                  childernItem.name !== 'Notice Boards'
-                ) {
-                  return childernItem;
-                }
-              });
-              item.children = children;
-              return item;
-            });
-            if (routers) {
-              routerStore.updateRouter(routers);
-            }
-          } else {
-            routerStore.updateRouter(selectedItem?.router);
-          }
+          //if (selectedItem.code !== 'SYSADMIN') {
+          //   const routers: any = routerStore.router?.filter((item: any) => {
+          //     const children = item.children?.filter(childrenItem => {
+          //       if (
+          //         childrenItem.name !== 'Role' &&
+          //         childrenItem.name !== 'User' &&
+          //         childrenItem.name !== 'Login Activity' &&
+          //         childrenItem.name !== 'Role Mapping' &&
+          //         childrenItem.name !== 'Environment Settings' &&
+          //         childrenItem.name !== 'Notice Boards'
+          //       ) {
+          //         return childrenItem;
+          //       }
+          //     });
+          //     item.children = children;
+          //     return item;
+          //   });
+          //   console.log({routers});
+          //   if (routers) {
+          //     console.log({routers});
+          //     routerStore.updateRouter(routers);
+          //   }
+          // } else {
+          //   console.log({router: selectedItem?.router});
+          //   routerStore.updateRouter(selectedItem?.router);
+          // }
+          routerStore.updateRouter(selectedItem?.router);
           setHideAddRoleMapping(!hideAddRoleMapping);
           setHideRole(true);
           roleMappingStore.updateSelectedRole(toJS(selectedItem));
@@ -559,7 +563,7 @@ const RoleMapping = observer(() => {
                   routerStore.router !== undefined
                 ) {
                   let router: any[] = [];
-                  routerStore.router?.filter(item => {
+                  routerStore?.router?.filter(item => {
                     return item.children.filter((childern, indexChildren) => {
                       childern.permission.filter(
                         (permission, indexPermission) => {
@@ -622,43 +626,53 @@ const RoleMapping = observer(() => {
                       }),
                     };
                   });
+
                   if (isModify.status) {
-                    roleMappingStore.roleMappingService
-                      .update({
-                        input: {
-                          _id: isModify.id,
-                          role: toJS(roleMappingStore.selectedRole),
-                          router: JSON.stringify(router),
-                        },
-                      })
-                      .then(res => {
-                        if (res.updateRoleMapping.success) {
-                          if (
-                            roleMappingStore.selectedRole?.code ===
-                            loginStore.login?.role
-                          ) {
-                            routerStore.updateUserRouter(router);
+                    if (router?.length > 0) {
+                      roleMappingStore.roleMappingService
+                        .update({
+                          input: {
+                            _id: isModify?.id,
+                            role: {
+                              ...roleMappingStore?.selectedRole,
+                              router: undefined,
+                            },
+                            router,
+                          },
+                        })
+                        .then(res => {
+                          if (res.updateRoleMapping.success) {
+                            if (
+                              roleMappingStore.selectedRole?.code ===
+                              loginStore.login?.role
+                            ) {
+                              routerStore.updateUserRouter(router);
+                            }
+                            Toast.success({
+                              message: `😊 ${res.updateRoleMapping.message}`,
+                            });
+                            setHideAddRoleMapping(!hideAddRoleMapping);
+                            setHideRole(false);
+                            roleMappingStore.updateSelectedRole({} as any);
+                            routerStore.updateRouter([]);
+                            // roleMappingStore.fetchRoleMappingList();
+                            // exists records fetch time facing issue
+                            setTimeout(() => {
+                              window.location.reload();
+                            }, 100);
+                          } else {
+                            Toast.error({
+                              message: '😊 Data not update. Please try again',
+                            });
                           }
-                          Toast.success({
-                            message: `😊 ${res.updateRoleMapping.message}`,
-                          });
-                          setHideAddRoleMapping(!hideAddRoleMapping);
-                          setHideRole(false);
-                          roleMappingStore.updateSelectedRole({} as any);
-                          routerStore.updateRouter([]);
-                          roleMappingStore.fetchRoleMappingList();
-                        } else {
-                          Toast.error({
-                            message: '😊 Data not update. Please try again',
-                          });
-                        }
-                      });
+                        });
+                    }
                   } else {
                     roleMappingStore.roleMappingService
                       .addRoleMapping({
                         input: {
                           role: roleMappingStore.selectedRole,
-                          router: JSON.stringify(router),
+                          router: router,
                         },
                       })
                       .then(res => {
