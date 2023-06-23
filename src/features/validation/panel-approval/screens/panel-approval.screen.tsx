@@ -34,7 +34,6 @@ const PanelApproval = observer(() => {
     formState: {errors},
     setValue,
   } = useForm();
-  //const [modalConfirm, setModalConfirm] = useState<any>();
   const [receiptPath, setReceiptPath] = useState<string>();
   const [expandItem, setExpandItem] = useState<any>([]);
   const [tableReaload, setTableReload] = useState<boolean>(false);
