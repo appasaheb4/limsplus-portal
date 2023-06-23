@@ -430,6 +430,34 @@ export const ResultList = (props: ResultListProps) => {
                       </Icons.IconContext>
                     </Tooltip>
                   )}
+                  <Tooltip tooltipText='Recheck'>
+                    <Icons.IconContext
+                      color='#fff'
+                      size='20'
+                      onClick={() => {
+                        props.onExpand && props.onExpand(row);
+                      }}
+                    >
+                      <Icons.RIcon
+                        nameIcon='GoIssueReopened'
+                        propsIcon={{color: '#ffffff'}}
+                      />
+                    </Icons.IconContext>
+                  </Tooltip>
+                  <Tooltip tooltipText='Retest'>
+                    <Icons.IconContext
+                      color='#fff'
+                      size='20'
+                      onClick={() => {
+                        props.onExpand && props.onExpand(row);
+                      }}
+                    >
+                      <Icons.RIcon
+                        nameIcon='VscIssueReopened'
+                        propsIcon={{color: '#ffffff'}}
+                      />
+                    </Icons.IconContext>
+                  </Tooltip>
                 </div>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
