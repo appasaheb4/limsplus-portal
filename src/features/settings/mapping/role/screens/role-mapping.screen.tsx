@@ -116,33 +116,43 @@ const RoleMapping = observer(() => {
         )}
         onDelete={selectedUser => setModalConfirm(selectedUser)}
         onDuplicate={async (selectedItem: any) => {
-          //if (selectedItem.code !== 'SYSADMIN') {
-          //   const routers: any = routerStore.router?.filter((item: any) => {
-          //     const children = item.children?.filter(childrenItem => {
-          //       if (
-          //         childrenItem.name !== 'Role' &&
-          //         childrenItem.name !== 'User' &&
-          //         childrenItem.name !== 'Login Activity' &&
-          //         childrenItem.name !== 'Role Mapping' &&
-          //         childrenItem.name !== 'Environment Settings' &&
-          //         childrenItem.name !== 'Notice Boards'
-          //       ) {
-          //         return childrenItem;
-          //       }
-          //     });
-          //     item.children = children;
-          //     return item;
-          //   });
-          //   console.log({routers});
-          //   if (routers) {
-          //     console.log({routers});
-          //     routerStore.updateRouter(routers);
-          //   }
-          // } else {
-          //   console.log({router: selectedItem?.router});
-          //   routerStore.updateRouter(selectedItem?.router);
-          // }
-          routerStore.updateRouter(selectedItem?.router);
+          console.log({code: selectedItem?.code, router: selectedItem?.router});
+          if (selectedItem?.code !== 'SYSADMIN') {
+            const routers: any = selectedItem?.router?.filter((item: any) => {
+              const children = item.children?.filter(childrenItem => {
+                if (
+                  childrenItem.name !== 'Role' &&
+                  childrenItem.name !== 'User' &&
+                  childrenItem.name !== 'Login Activity' &&
+                  childrenItem.name !== 'Role Mapping' &&
+                  childrenItem.name !== 'Environment Settings' &&
+                  childrenItem.name !== 'Notice Boards'
+                ) {
+                  // childrenItem.title = childrenItem.name;
+                  // childrenItem.toggle = false;
+                  //childrenItem.permission = permission;
+                  // if (
+                  //   item.name == 'Result Entry' &&
+                  //   childernItem.name == 'General Result Entry'
+                  // ) {
+                  //   childernItem.permission = permission.concat({
+                  //     title: 'ReOpen',
+                  //     checked: false,
+                  //   });
+                  // }
+                  // eslint-disable-next-line no-self-assign
+                  return {...childrenItem};
+                }
+              });
+              item.children = children;
+              return item;
+            });
+            if (routers) {
+              routerStore.updateRouter(routers);
+            }
+          } else {
+            routerStore.updateRouter(selectedItem?.router);
+          }
           setHideAddRoleMapping(!hideAddRoleMapping);
           setHideRole(true);
           roleMappingStore.updateSelectedRole(toJS(selectedItem));
@@ -197,30 +207,16 @@ const RoleMapping = observer(() => {
                 if (role.code !== 'SYSADMIN') {
                   const routers: any = routerStore.router?.filter(
                     (item: any) => {
-                      const children = item.children.filter(childernItem => {
+                      const children = item.children.filter(childrenItem => {
                         if (
-                          childernItem.name !== 'Role' &&
-                          childernItem.name !== 'User' &&
-                          childernItem.name !== 'Login Activity' &&
-                          childernItem.name !== 'Role Mapping' &&
-                          childernItem.name !== 'Environment Settings' &&
-                          childernItem.name !== 'Notice Boards'
+                          childrenItem.name !== 'Role' &&
+                          childrenItem.name !== 'User' &&
+                          childrenItem.name !== 'Login Activity' &&
+                          childrenItem.name !== 'Role Mapping' &&
+                          childrenItem.name !== 'Environment Settings' &&
+                          childrenItem.name !== 'Notice Boards'
                         ) {
-                          childernItem.title = childernItem.name;
-                          childernItem.toggle = false;
-                          childernItem.permission = permission;
-                          if (
-                            item.name == 'Result Entry' &&
-                            childernItem.name == 'General Result Entry'
-                          ) {
-                            childernItem.permission = permission.concat({
-                              title: 'ReOpen',
-                              checked: false,
-                            });
-                          }
-                          // eslint-disable-next-line no-self-assign
-                          // childernItem.icon = childernItem.icon;
-                          return childernItem;
+                          return {...childrenItem};
                         }
                       });
                       item.children = children;
