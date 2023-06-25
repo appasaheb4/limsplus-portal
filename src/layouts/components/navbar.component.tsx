@@ -111,12 +111,10 @@ const NavbarComponent = observer(({dispatch}) => {
                         >
                           <div style={{position: 'relative', zIndex: 999}}>
                             <Tooltip tooltipText={item.title}>
-                              <Icons.IconContext color='#000' size='22'>
-                                {Icons.getIconTag(
-                                  Icons.getIcons(item.icon) ||
-                                    Icons.IconBs.BsList,
-                                )}
-                              </Icons.IconContext>
+                              <Icons.RIcon
+                                nameIcon={item.icon || 'VscListSelection'}
+                                propsIcon={{color: '#000000', size: 18}}
+                              />
                             </Tooltip>
                           </div>
                         </Buttons.Button>

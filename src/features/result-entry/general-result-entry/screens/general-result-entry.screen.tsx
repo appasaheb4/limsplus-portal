@@ -22,7 +22,7 @@ const GeneralResultEntry = observer(() => {
   const {loginStore, routerStore, patientResultStore, generalResultEntryStore} =
     useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
-  const [tableReaload, setTableReload] = useState<boolean>(false);
+  const [tableReload, setTableReload] = useState<boolean>(false);
 
   const tableView = useMemo(
     () => (
@@ -113,14 +113,14 @@ const GeneralResultEntry = observer(() => {
                       finishResult: 'P',
                     },
                   );
-                  setTableReload(!tableReaload);
+                  setTableReload(!tableReload);
                 }
               });
           }}
         />
       </>
     ),
-    [patientResultStore.patientResultListNotAutoUpdate, tableReaload],
+    [patientResultStore.patientResultListNotAutoUpdate, tableReload],
   );
 
   const updateRecords = (id, data) => {
@@ -163,7 +163,7 @@ const GeneralResultEntry = observer(() => {
           );
         }
       });
-    setTableReload(!tableReaload);
+    setTableReload(!tableReload);
   };
 
   return (

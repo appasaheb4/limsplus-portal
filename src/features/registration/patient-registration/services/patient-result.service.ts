@@ -20,6 +20,7 @@ import {
   RELOAD_RECORD,
   PATIENT_RESULT_RECORDS,
   UPDATE_FIELDS_BY_IDS,
+  UPDATE_STATUS_RECORD,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -289,6 +290,21 @@ export class PatientResultService {
       client
         .mutate({
           mutation: UPDATE_FIELDS_BY_IDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateStatus = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_STATUS_RECORD,
           variables,
         })
         .then((response: any) => {
