@@ -181,6 +181,30 @@ const PanelApproval = observer(() => {
             input: {type, filter, page, limit},
           });
         }}
+        onRecheck={async (id: string, patientResultId: string) => {
+          await patientResultStore.patientResultService
+            .updateStatus({
+              input: {filter: {id, patientResultId, mode: 'reCheck'}},
+            })
+            .then(res => {
+              Toast.success({
+                message: `😊 ${res.updateStatusPatientResult.message}`,
+              });
+              panelApprovalStore.panelApprovalService?.listPanelApproval();
+            });
+        }}
+        onRetest={async (id: string, patientResultId: string) => {
+          await patientResultStore.patientResultService
+            .updateStatus({
+              input: {filter: {id, patientResultId, mode: 'reTest'}},
+            })
+            .then(res => {
+              Toast.success({
+                message: `😊 ${res.updateStatusPatientResult.message}`,
+              });
+              panelApprovalStore.panelApprovalService?.listPanelApproval();
+            });
+        }}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -31,6 +31,8 @@ interface ResultListProps {
   onUpdateFields?: (fields: any, id: string) => void;
   onUpdateResult?: (fields: any, id: string) => void;
   onExpand?: (items: any) => void;
+  onRecheck?: (id: string, patientResultId: string) => void;
+  onRetest?: (id: string, patientResultId: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -374,7 +376,7 @@ export const ResultList = (props: ResultListProps) => {
               sort: true,
               editable: true,
               formatter: (cellContent, row) => (
-                <div className='flex flex-row gap-1'>
+                <div className='flex flex-row gap-1' key={row?._id}>
                   <Tooltip tooltipText='Approved'>
                     <Icons.IconContext
                       color='#fff'
@@ -435,7 +437,8 @@ export const ResultList = (props: ResultListProps) => {
                       color='#fff'
                       size='20'
                       onClick={() => {
-                        props.onExpand && props.onExpand(row);
+                        props.onRecheck &&
+                          props.onRecheck(row?._id, row?.patientResultId);
                       }}
                     >
                       <Icons.RIcon
@@ -449,7 +452,8 @@ export const ResultList = (props: ResultListProps) => {
                       color='#fff'
                       size='20'
                       onClick={() => {
-                        props.onExpand && props.onExpand(row);
+                        props.onRetest &&
+                          props.onRetest(row?._id, row?.patientResultId);
                       }}
                     >
                       <Icons.RIcon

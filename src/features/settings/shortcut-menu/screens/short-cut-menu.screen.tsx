@@ -11,7 +11,6 @@ import {
   Toast,
 } from '@/library/components';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-
 import {useStores} from '@/stores';
 
 const grid = 8;
@@ -25,6 +24,7 @@ const getListStyle = isDraggingOver => ({
 
 const ShortcutMenu = observer(() => {
   const {loginStore, shortcutMenuStore, routerStore} = useStores();
+
   useEffect(() => {
     const list: any[] = [];
     routerStore.userRouter?.filter(item => {
@@ -56,7 +56,6 @@ const ShortcutMenu = observer(() => {
     if (list) {
       list[index].selected = !list[index].selected;
     }
-
     shortcutMenuStore.updateShortcutMenu(list);
   };
 
@@ -68,13 +67,13 @@ const ShortcutMenu = observer(() => {
     );
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-
     loginStore.updateLogin({
       ...loginStore.login,
       shortcutMenu: {[loginStore.login?.role || '']: items},
     });
     shortcutMenuStore.updateDragDrop(true);
   };
+
   return (
     <>
       <Header>
@@ -114,12 +113,10 @@ const ShortcutMenu = observer(() => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                               >
-                                <Icons.IconContext color='#fff' size='22'>
-                                  {Icons.getIconTag(
-                                    Icons.getIcons(item.icon) ||
-                                      Icons.IconBs.BsList,
-                                  )}
-                                </Icons.IconContext>
+                                <Icons.RIcon
+                                  nameIcon={item.icon || 'VscListSelection'}
+                                  propsIcon={{color: '#ffffff', size: 18}}
+                                />
                                 <li className='m-2 text-white'>{item.title}</li>
                               </div>
                             )}
@@ -186,11 +183,10 @@ const ShortcutMenu = observer(() => {
                     onChange={() => onItemSelect(item, index)}
                   />
 
-                  <Icons.IconContext color='#fff' size='22'>
-                    {Icons.getIconTag(
-                      Icons.getIcons(item.icon) || Icons.IconBs.BsList,
-                    )}
-                  </Icons.IconContext>
+                  <Icons.RIcon
+                    nameIcon={item.icon || 'VscListSelection'}
+                    propsIcon={{color: '#ffffff', size: 18}}
+                  />
                   <li className='m-2 text-white'>{item.title}</li>
                 </div>
               </>
