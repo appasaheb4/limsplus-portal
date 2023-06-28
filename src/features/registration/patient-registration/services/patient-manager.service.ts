@@ -225,8 +225,7 @@ export class PatientManagerService {
 
   getPatientRegRecords = (variables: any, type = 'fetch') =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
+      // console.log({variables});
       client
         .mutate({
           mutation: GET_PATIENT_REG_RECORDS,
@@ -241,7 +240,7 @@ export class PatientManagerService {
                   '😔 Records not available. Please enter correct details or clear filter',
               });
 
-            //console.log({records});
+            console.log({records});
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({
               patientManagers: {
