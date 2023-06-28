@@ -260,26 +260,20 @@ const PatientRegistration = observer(() => {
                   </div>
                   <div className='flex flex-col'>
                     <span className='text-sm font-bold'>
-                      {patientManagerStore.listPatientManger[0]?.firstName +
+                      {item?.firstName +
                         ' ' +
-                        (patientManagerStore.listPatientManger[0]?.middleName !=
-                        undefined
-                          ? patientManagerStore.listPatientManger[0]?.middleName
+                        (item?.middleName != undefined
+                          ? item?.middleName
                           : '') +
                         ' ' +
-                        patientManagerStore.listPatientManger[0]?.lastName}
+                        item?.lastName}
                     </span>
+                    <span>{item?.pId?.toString()}</span>
                     <span>
                       {item.sex} |{' '}
-                      <span>
-                        {patientManagerStore.listPatientManger[0]?.age +
-                          ' ' +
-                          patientManagerStore.listPatientManger[0]?.ageUnit}
-                      </span>
+                      <span>{item?.age + ' ' + item?.ageUnit}</span>
                     </span>
-                    <span>
-                      {patientManagerStore.listPatientManger[0]?.mobileNo}
-                    </span>
+                    <span>{item?.mobileNo}</span>
                   </div>
                 </div>
               </>
