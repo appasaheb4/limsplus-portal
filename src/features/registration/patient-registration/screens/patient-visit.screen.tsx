@@ -127,6 +127,7 @@ export const PatientVisit = PatientVisitHoc(
               ...patientRegistrationStore.defaultValues,
               labId: result?.labId?.toString(),
               accordionExpandItem: 'PATIENT ORDER',
+              isPOLabIdLock: true,
             });
           });
       } else {
@@ -366,6 +367,9 @@ export const PatientVisit = PatientVisitHoc(
                       <AutoCompleteFilterSingleSelectPid
                         displayValue={value}
                         hasError={!!errors.pId}
+                        isDisable={
+                          patientRegistrationStore.defaultValues.isPVPIdLock
+                        }
                         onSelect={item => {
                           onChange(item.pId);
                           const age =

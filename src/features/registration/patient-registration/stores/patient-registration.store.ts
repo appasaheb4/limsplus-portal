@@ -27,6 +27,8 @@ export class PatientRegistrationStore {
       mobileNo: '',
       accordionExpandItem: '',
       filterLock: false,
+      isPVPIdLock: false,
+      isPOLabIdLock: false,
     };
     this.filterOptionList = {
       pIds: [],

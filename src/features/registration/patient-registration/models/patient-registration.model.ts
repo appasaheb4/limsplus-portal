@@ -4,12 +4,16 @@ export class DefaultValues {
   mobileNo?: string;
   filterLock?: boolean;
   accordionExpandItem?: string;
+  isPVPIdLock: boolean;
+  isPOLabIdLock: boolean;
   constructor(rawData: {[key in string]: any}) {
     this.pId = rawData.pId;
     this.labId = rawData.labId;
     this.mobileNo = rawData.mobileNo;
     this.filterLock = rawData.filterLock;
     this.accordionExpandItem = rawData.accordionExpandItem;
+    this.isPVPIdLock = rawData.isPVPIdLock;
+    this.isPOLabIdLock = rawData.isPOLabIdLock;
   }
 }
 

@@ -247,8 +247,10 @@ export const PatientOrder = PatientOrderHoc(
               style={{bottom: 60}}
               show={hideInputView}
               disabled={
-                getFilterField(patientRegistrationStore?.defaultValues)?.key ==
-                'labId'
+                patientOrderStore.listPatientOrder?.length == 0
+                  ? false
+                  : getFilterField(patientRegistrationStore?.defaultValues)
+                      ?.key == 'labId'
                   ? true
                   : false
               }
@@ -313,6 +315,9 @@ export const PatientOrder = PatientOrderHoc(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by lab id, visit id or name'
+                        disable={
+                          patientRegistrationStore.defaultValues?.isPOLabIdLock
+                        }
                         data={{
                           list: patientVisitStore.listPatientVisit,
                           displayKey: ['labId', 'patientName'],

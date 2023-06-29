@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 interface AutoCompleteFilterSingleSelectPidProps {
   hasError?: boolean;
   displayValue?: string;
+  isDisable?: boolean;
   onSelect: (item: any) => void;
 }
 
@@ -15,6 +16,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
   ({
     hasError = false,
     displayValue = '',
+    isDisable = false,
     onSelect,
   }: AutoCompleteFilterSingleSelectPidProps) => {
     const {loading, patientManagerStore} = useStores();
@@ -90,6 +92,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
               placeholder='Search by PId, Name, Mobile No.'
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
+              disabled={isDisable}
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
