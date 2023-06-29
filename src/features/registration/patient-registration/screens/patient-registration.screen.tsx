@@ -91,34 +91,66 @@ const PatientRegistration = observer(() => {
               title={stores.routerStore.selectedComponents?.title || ''}
             />
             <div className='flex mx-20 items-center gap-2'>
-              <Form.Input2
-                placeholder='PId'
-                className='w-40 arrow-hide'
-                type='number'
-                value={patientRegistrationStore.defaultValues?.pId}
-                onChange={pId => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    pId,
-                  });
-                }}
-                onKeyDown={() => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    labId: '',
-                    mobileNo: '',
-                    filterLock: false,
-                  });
-                }}
-                onBlur={pId => {
-                  if (pId?.length > 0) {
+              {patientRegistrationStore.filterOptionList.pIds?.length > 1 ? (
+                <select
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block mt-1 h-11 shadow-sm sm:text-base border-2 border-gray-300 rounded-md w-40'
+                  }
+                  onChange={e => {
+                    const pId = e.target.value;
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      pId,
+                      labId: '',
+                      mobileNo: '',
+                      filterLock: false,
+                    });
                     patientRegistrationStore.getPatientRegRecords(
                       'pId',
                       pId?.toString(),
                     );
-                  }
-                }}
-              />
+                  }}
+                >
+                  <option selected>{'Select PId'}</option>
+                  {patientRegistrationStore.filterOptionList.pIds?.map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item.toString()}
+                      </option>
+                    ),
+                  )}
+                </select>
+              ) : (
+                <Form.Input2
+                  placeholder='PId'
+                  className='w-40 arrow-hide'
+                  type='number'
+                  value={patientRegistrationStore.defaultValues?.pId}
+                  onChange={pId => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      pId,
+                    });
+                  }}
+                  onKeyDown={() => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      labId: '',
+                      mobileNo: '',
+                      filterLock: false,
+                    });
+                  }}
+                  onBlur={pId => {
+                    if (pId?.length > 0) {
+                      patientRegistrationStore.getPatientRegRecords(
+                        'pId',
+                        pId?.toString(),
+                      );
+                    }
+                  }}
+                />
+              )}
+
               {patientRegistrationStore.filterOptionList.labIds?.length > 1 ? (
                 <select
                   className={
@@ -203,6 +235,10 @@ const PatientRegistration = observer(() => {
                       'mobileNo',
                       mobileNo?.toString(),
                     );
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      mobileNo,
+                    });
                   }
                 }}
               />

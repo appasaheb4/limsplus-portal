@@ -65,6 +65,7 @@ export const PatientManager = PatientManagerHoc(
       // Default value initialization
       setValue('species', patientManagerStore.patientManger.species);
       setValue('pId', patientManagerStore.patientManger?.pId);
+      setValue('txtMobileNo', patientManagerStore.patientManger?.mobileNo);
       setValue(
         'isPatientMobileNo',
         patientManagerStore.patientManger?.isPatientMobileNo,
@@ -112,6 +113,7 @@ export const PatientManager = PatientManagerHoc(
                 ...patientRegistrationStore.defaultValues,
                 pId: result?.pId?.toString(),
                 accordionExpandItem: 'PATIENT VISIT',
+                isPVPIdLock: true,
               });
               patientRegistrationStore.getPatientRegRecords(
                 'pId',
@@ -340,52 +342,57 @@ export const PatientManager = PatientManagerHoc(
                           value={value}
                           onChange={birthDate => {
                             onChange(birthDate);
-                            setValue('age', getDiffByDate(birthDate));
                             if (
-                              dayjs(new Date()).diff(dayjs(birthDate), 'hour') >
-                              0
+                              dayjs(new Date()).diff(dayjs(birthDate), 'year') <
+                              150
                             ) {
-                              patientManagerStore.updatePatientManager({
-                                ...patientManagerStore.patientManger,
-                                birthDate,
-                                isBirthdateAvailabe: true,
-                                age:
-                                  getAgeByAgeObject(getDiffByDate(birthDate))
-                                    .age || 0,
-                                ageUnit: getAgeByAgeObject(
-                                  getDiffByDate(birthDate),
-                                ).ageUnit,
-                              });
-                              patientManagerStore.patientManagerService
-                                .checkExistsPatient({
-                                  input: {
-                                    firstName:
-                                      patientManagerStore.patientManger
-                                        ?.firstName,
-                                    lastName:
-                                      patientManagerStore.patientManger
-                                        ?.lastName,
-                                    mobileNo:
-                                      patientManagerStore.patientManger
-                                        ?.mobileNo,
-                                    birthDate,
-                                  },
-                                })
-                                .then(res => {
-                                  if (res.checkExistsPatientManager.success) {
-                                    patientManagerStore.updateExistsPatient(
-                                      true,
-                                    );
-                                    Toast.error({
-                                      message: `😔 ${res.checkExistsPatientManager.message}`,
-                                    });
-                                  } else
-                                    patientManagerStore.updateExistsPatient(
-                                      false,
-                                    );
+                              setValue('age', getDiffByDate(birthDate));
+                              if (
+                                dayjs(new Date()).diff(
+                                  dayjs(birthDate),
+                                  'hour',
+                                ) > 0
+                              ) {
+                                patientManagerStore.updatePatientManager({
+                                  ...patientManagerStore.patientManger,
+                                  birthDate,
+                                  isBirthdateAvailabe: true,
+                                  age:
+                                    getAgeByAgeObject(getDiffByDate(birthDate))
+                                      .age || 0,
+                                  ageUnit: getAgeByAgeObject(
+                                    getDiffByDate(birthDate),
+                                  ).ageUnit,
                                 });
-                            } else {
-                              alert('Please select correct birth date!!');
+                                patientManagerStore.patientManagerService
+                                  .checkExistsPatient({
+                                    input: {
+                                      firstName:
+                                        patientManagerStore.patientManger
+                                          ?.firstName,
+                                      lastName:
+                                        patientManagerStore.patientManger
+                                          ?.lastName,
+                                      mobileNo:
+                                        patientManagerStore.patientManger
+                                          ?.mobileNo,
+                                      birthDate,
+                                    },
+                                  })
+                                  .then(res => {
+                                    if (res.checkExistsPatientManager.success) {
+                                      patientManagerStore.updateExistsPatient(
+                                        true,
+                                      );
+                                      Toast.error({
+                                        message: `😔 ${res.checkExistsPatientManager.message}`,
+                                      });
+                                    } else
+                                      patientManagerStore.updateExistsPatient(
+                                        false,
+                                      );
+                                  });
+                              }
                             }
                           }}
                         />
