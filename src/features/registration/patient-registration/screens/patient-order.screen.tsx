@@ -53,6 +53,7 @@ export const PatientOrder = PatientOrderHoc(
       masterPanelStore,
       patientRegistrationStore,
     } = useStores();
+
     const {
       control,
       handleSubmit,
@@ -146,10 +147,12 @@ export const PatientOrder = PatientOrderHoc(
         ...patientOrderStore.packageList.pacakgeListN,
         ...patientOrderStore.packageList.pacakgeListK,
       ];
+      console.log({record});
+
       patientOrderStore.patientOrderService
         .updatePackageList({
           input: {
-            _id: record?._id,
+            ...record,
             packageList: packageList?.map(v => ({
               ...v,
               orderStatus: 'P',
@@ -159,6 +162,8 @@ export const PatientOrder = PatientOrderHoc(
               _doc: undefined,
             })),
             panelCode: patientOrderStore.patientOrder.panelCode,
+            __v: undefined,
+            isApproval: undefined, // not added in backend schema
           },
         })
         .then(res => {
@@ -648,15 +653,17 @@ export const PatientOrder = PatientOrderHoc(
         <ModalAddPanel
           {...modalAddPanel}
           onClose={() => {
+            setModalAddPanel({visible: false});
             patientOrderStore.updateSelectedItems({
               ...patientOrderStore.selectedItems,
               panels: [],
               serviceTypes: [],
             });
             patientOrderStore.updatePackageList([]);
-            setModalAddPanel({visible: false});
           }}
           onClick={record => {
+            console.log({record});
+
             setModalAddPanel({visible: false});
             onUpdatePatientOrder(record);
           }}

@@ -163,7 +163,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                 <>
                   <div className='flex flex-row gap-2'>
                     {row?.isApproval == false && (
-                      <Tooltip tooltipText='Add Panel'>
+                      <Tooltip tooltipText='Add/Remove Panel'>
                         <Icons.IconContext
                           color='#000'
                           size='22'
@@ -171,7 +171,10 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                             props.onAddPanels && props.onAddPanels(row)
                           }
                         >
-                          {Icons.getIconTag(Icons.Iconio5.IoAddCircle)}
+                          <Icons.RIcon
+                            nameIcon='VscIssueReopened'
+                            propsIcon={{color: '#000000'}}
+                          />
                         </Icons.IconContext>
                       </Tooltip>
                     )}

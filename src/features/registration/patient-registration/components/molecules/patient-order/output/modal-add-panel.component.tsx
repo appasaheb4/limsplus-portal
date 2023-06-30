@@ -30,11 +30,18 @@ export const ModalAddPanel = observer(
       patientRegistrationStore,
     } = useStores();
     const [showModal, setShowModal] = React.useState(visible);
-    const barCodeRef = useRef<any>();
 
     useEffect(() => {
       setShowModal(visible);
-    }, [visible]);
+      if (data?.packageList?.length > 0) {
+        const panels = data?.packageList;
+        patientOrderStore.updateSelectedItems({
+          ...patientOrderStore.selectedItems,
+          panels,
+          serviceTypes: _.union(_.map(panels, 'serviceType')),
+        });
+      }
+    }, [visible, data]);
 
     return (
       <Container>
@@ -45,7 +52,7 @@ export const ModalAddPanel = observer(
                 <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   <div className='flex items-start justify-between p-3 border-b border-solid border-gray-300 rounded-t'>
                     <h3 className='text-3xl font-semibold'>
-                      {'Are you sure add new panels'}
+                      {'Are you sure modify panels'}
                     </h3>
                     <button
                       className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
@@ -72,13 +79,7 @@ export const ModalAddPanel = observer(
                                 item.rLab === data?.rLab &&
                                 item.status == 'A'
                               ) {
-                                if (
-                                  data?.packageList?.filter(
-                                    e => e.panelCode == item?.panelCode,
-                                  )?.length == 0
-                                ) {
-                                  return item;
-                                }
+                                return item;
                               }
                             },
                           ),
@@ -179,7 +180,7 @@ export const ModalAddPanel = observer(
                   </div>
                   <div className='flex items-center justify-end p-3 border-t border-solid border-gray-300 rounded-b gap-4'>
                     <button
-                      className='text-red-500 background-transparent font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none'
+                      className='background-transparent font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none'
                       type='button'
                       style={{transition: 'all .15s ease'}}
                       onClick={() => {
@@ -189,9 +190,8 @@ export const ModalAddPanel = observer(
                     >
                       No
                     </button>
-
                     <button
-                      className='text-red-500 background-transparent font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none'
+                      className='background-transparent font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none'
                       type='button'
                       style={{transition: 'all .15s ease'}}
                       onClick={() => {
