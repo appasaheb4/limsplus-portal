@@ -169,6 +169,10 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               text: 'Sample Type',
             },
             {
+              dataField: 'specimenId',
+              text: 'Specimen Id',
+            },
+            {
               dataField: 'collContainerCode',
               text: 'Coll Container Code',
             },
