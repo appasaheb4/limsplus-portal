@@ -156,7 +156,6 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
             {
               dataField: 'opration',
               text: 'Action',
-              headerClasses: 'z-10',
               csvExport: false,
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
@@ -208,6 +207,15 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                   </div>
                 </>
               ),
+              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
+              classes: (cell, row, rowIndex, colIndex) => {
+                return 'sticky right-0 bg-gray-500';
+              },
+              style: (cell, row, rowIndex, colIndex) => {
+                return {
+                  zIndex: props.data?.length - rowIndex,
+                };
+              },
             },
           ]}
           isEditModify={false}

@@ -85,12 +85,12 @@ const PatientRegistration = observer(() => {
   return (
     <>
       <Header>
-        <div className='flex flex-col'>
-          <div className='flex flex-row gap-2 items-center'>
+        <div className='flex flex-col flex-wrap'>
+          <div className='flex flex-row gap-2 items-center flex-wrap'>
             <PageHeading
               title={stores.routerStore.selectedComponents?.title || ''}
             />
-            <div className='flex mx-20 items-center gap-2'>
+            <div className='flex mx-20 items-center gap-2 flex-wrap'>
               {patientRegistrationStore.filterOptionList.pIds?.length > 1 ? (
                 <select
                   className={
