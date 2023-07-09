@@ -1,15 +1,16 @@
 /* eslint-disable  */
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Container} from 'reactstrap';
 import _ from 'lodash';
 import {observer} from 'mobx-react';
 import {
   Form,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
 import './barcode.css';
 import {useStores} from '@/stores';
 import {TablePackagesList} from '../input/table-packages-list.component';
+import {toJS} from 'mobx';
 
 interface ModalAddPanelProps {
   visible?: boolean;
@@ -30,11 +31,13 @@ export const ModalAddPanel = observer(
       patientRegistrationStore,
     } = useStores();
     const [showModal, setShowModal] = React.useState(visible);
+    const [existsPackageList, setExistsPackageList] = useState<any>([]);
 
     useEffect(() => {
       setShowModal(visible);
       if (data?.packageList?.length > 0) {
         const panels = data?.packageList;
+        setExistsPackageList(panels);
         patientOrderStore.updateSelectedItems({
           ...patientOrderStore.selectedItems,
           panels,
@@ -68,7 +71,7 @@ export const ModalAddPanel = observer(
                   </div>
                   <div className='relative p-2 flex-auto'>
                     <Form.InputWrapper label='Panels'>
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                      <AutoCompleteFilterMultiSelectSelectedTopDisplay
                         loader={loading}
                         placeholder='Search by code or name'
                         isUpperCase={true}
@@ -148,12 +151,16 @@ export const ModalAddPanel = observer(
                             },
                           });
                         }}
-                        onSelect={item => {
+                        onSelect={(item, isSelectedRemove = false) => {
                           let panels = patientOrderStore.selectedItems?.panels;
+                          let newPackageList = panels;
+                          const existsSelRecords = toJS(existsPackageList);
                           if (!item.selected) {
-                            if (panels && panels.length > 0) {
+                            if (panels && panels?.length > 0) {
                               panels.push(item);
                             } else panels = [item];
+                            //setExistsPackageList(panels);
+                            newPackageList = panels;
                           } else {
                             panels = panels.filter(items => {
                               return items._id !== item._id;
@@ -164,6 +171,39 @@ export const ModalAddPanel = observer(
                             panels,
                             serviceTypes: _.union(_.map(panels, 'serviceType')),
                           });
+                          if (isSelectedRemove) {
+                            const selectedRecords = existsSelRecords?.filter(
+                              (existsItem: any) =>
+                                existsItem.panelCode != item.panelCode,
+                            );
+                            newPackageList = selectedRecords;
+                          }
+                          newPackageList = newPackageList.map(o => ({
+                            _id: o?._id,
+                            department: o?.department,
+                            bill: o?.bill,
+                            rLab: o?.rLab,
+                            pLab: o?.pLab,
+                            panelCode: o?.panelCode,
+                            panelName: o?.panelName,
+                            serviceType: o?.serviceType,
+                            confidential: o?.confidential,
+                            schedule: o?.schedule,
+                            dueDate: o?.dueDate,
+                            discountPer: o?.discountPer,
+                            miscellaneousCharges: o?.miscellaneousCharges,
+                            index: o?.index,
+                            packageCode: o?.packageCode,
+                            service: o?.service,
+                            orderStatus: o?.orderStatus,
+                            status: o?.status,
+                            priceGroup: o?.priceGroup,
+                            priceList: o?.priceList,
+                            grossAmount: o?.grossAmount,
+                            netAmount: o?.netAmount,
+                            discountAmount: o?.discountAmount,
+                          }));
+                          setExistsPackageList(toJS(newPackageList));
                         }}
                       />
                     </Form.InputWrapper>
@@ -174,6 +214,7 @@ export const ModalAddPanel = observer(
                       {patientOrderStore.packageList && (
                         <TablePackagesList
                           data={patientOrderStore.packageList}
+                          isDelete={false}
                         />
                       )}
                     </div>
