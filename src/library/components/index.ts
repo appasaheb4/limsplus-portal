@@ -38,6 +38,7 @@ export * from './molecules/modal/modal-token-expire/modal-token-expire.component
 export * from './molecules/modal/modal-transition/modal-transition.component';
 export * from './molecules/modal/modal-file-upload/modal-file-upload.component';
 export * from './molecules/modal/modal-view/modal-view.component';
+export * from './molecules/auto-complete-filter-multi-select-selected-top-dispaly/auto-complete-filter-muti-select-selected-top-display.component';
 
 export * from './organisms/filter-comp';
 export * from './organisms/table-bootstrap/table-bootstrap.component';

@@ -662,8 +662,6 @@ export const PatientOrder = PatientOrderHoc(
             patientOrderStore.updatePackageList([]);
           }}
           onClick={record => {
-            console.log({record});
-
             setModalAddPanel({visible: false});
             onUpdatePatientOrder(record);
           }}
