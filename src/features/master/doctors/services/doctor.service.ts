@@ -41,6 +41,7 @@ export class DoctorsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   addDoctors = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
