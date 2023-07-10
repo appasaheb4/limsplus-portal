@@ -30,18 +30,6 @@ export const startupByLabId = async () => {
 
 const startup = async () => {
   await stores.patientRegistrationStore.reload();
-  // await stores.patientManagerStore.patientManagerService.getFilterOptionList({
-  //   input: {
-  //     filter: {
-  //       pId: '*',
-  //       labId: '*',
-  //       mobileNo: '*',
-  //     },
-  //   },
-  // });
-  // await stores.patientManagerStore.patientManagerService.getPatientRegRecords({
-  //   input: {},
-  // });
 };
 
 export const resetPatientManager = () => {

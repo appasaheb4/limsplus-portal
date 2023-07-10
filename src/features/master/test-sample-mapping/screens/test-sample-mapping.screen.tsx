@@ -47,7 +47,7 @@ const TestSampleMapping = TestSampleMappingHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -171,14 +171,14 @@ const TestSampleMapping = TestSampleMappingHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
+            show={!hideAddLab}
             onClick={() => setHideAddLab(!hideAddLab)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'shown' : 'hidden')
             }
           >
             <Grid cols={2}>

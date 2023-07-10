@@ -124,6 +124,14 @@ export const PatientOrder = PatientOrderHoc(
             }
             setHideInputView(true);
             reset();
+            // unselect selected panel
+            patientOrderStore.updateSelectedItems({
+              ...patientOrderStore.selectedItems,
+              panels: [],
+              serviceTypes: [],
+            });
+            patientOrderStore.updatePackageList([]);
+            // filter pr
             for (const [key, value] of Object.entries(
               patientRegistrationStore.defaultValues,
             )) {
@@ -147,8 +155,6 @@ export const PatientOrder = PatientOrderHoc(
         ...patientOrderStore.packageList.pacakgeListN,
         ...patientOrderStore.packageList.pacakgeListK,
       ];
-      console.log({record});
-
       patientOrderStore.patientOrderService
         .updatePackageList({
           input: {

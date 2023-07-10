@@ -75,6 +75,7 @@ export const PatientVisit = PatientVisitHoc(
 
     useEffect(() => {
       // Default value initialization
+      setValue('rLab', patientVisitStore.patientVisit.rLab);
       setValue('visitDate', patientVisitStore.patientVisit.visitDate);
       setValue(
         'registrationDate',
@@ -431,7 +432,7 @@ export const PatientVisit = PatientVisitHoc(
                   )}
                   name='rLab'
                   rules={{required: false}}
-                  defaultValue=''
+                  defaultValue={''}
                 />
 
                 <Controller
@@ -876,11 +877,6 @@ export const PatientVisit = PatientVisitHoc(
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder='Search by code or name'
-                          // displayValue={
-                          //   patientVisitStore.patientVisit.doctorId
-                          //     ? `${patientVisitStore.patientVisit.doctorId} - ${patientVisitStore.patientVisit.doctorName}`
-                          //     : ''
-                          // }
                           displayValue={value}
                           data={{
                             list: doctorsStore.listDoctors,
@@ -918,7 +914,6 @@ export const PatientVisit = PatientVisitHoc(
                     defaultValue={doctorsStore.listDoctors}
                   />
                 )}
-
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (

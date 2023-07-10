@@ -253,6 +253,10 @@ const PatientRegistration = observer(() => {
                       mobileNo: '',
                       filterLock: false,
                     });
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      mobileNo: '',
+                    });
                     patientManagerStore.reset();
                     patientVisitStore.reset();
                     patientOrderStore.reset();
