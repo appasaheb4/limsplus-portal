@@ -64,8 +64,6 @@ export const Login = observer(() => {
 
   useEffect(() => {
     bannerStore.fetchListAllBanner();
-    // corporateClientsStore.corporateClientsService.listCorporateClients();
-    // registrationLocationsStore.registrationLocationsService.listRegistrationLocations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
