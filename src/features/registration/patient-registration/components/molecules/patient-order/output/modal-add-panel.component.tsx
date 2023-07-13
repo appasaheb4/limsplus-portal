@@ -21,15 +21,7 @@ interface ModalAddPanelProps {
 
 export const ModalAddPanel = observer(
   ({visible = false, data, onClick, onClose}: ModalAddPanelProps) => {
-    const {
-      loading,
-      patientOrderStore,
-      patientVisitStore,
-      loginStore,
-      routerStore,
-      masterPanelStore,
-      patientRegistrationStore,
-    } = useStores();
+    const {loading, patientOrderStore, masterPanelStore} = useStores();
     const [showModal, setShowModal] = React.useState(visible);
     const [existsPackageList, setExistsPackageList] = useState<any>([]);
 
@@ -45,6 +37,16 @@ export const ModalAddPanel = observer(
         });
       }
     }, [visible, data]);
+
+    const sameArrayKeyValueExists = (arr1 = [], arr2 = [], key = '') => {
+      let isSame = true;
+      arr1.filter(item => {
+        if (arr2.filter((e: any) => e[key] == item[key])?.length == 0) {
+          isSame = false;
+        }
+      });
+      return isSame;
+    };
 
     return (
       <Container>
@@ -232,7 +234,20 @@ export const ModalAddPanel = observer(
                       No
                     </button>
                     <button
-                      className='background-transparent font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none'
+                      disabled={sameArrayKeyValueExists(
+                        patientOrderStore.selectedItems.panels as any,
+                        data?.panelCode,
+                        'panelCode',
+                      )}
+                      className={`${
+                        sameArrayKeyValueExists(
+                          patientOrderStore.selectedItems.panels as any,
+                          data?.panelCode,
+                          'panelCode',
+                        )
+                          ? 'bg-blue-300'
+                          : 'bg-blue-700 '
+                      }  text-white font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none`}
                       type='button'
                       style={{transition: 'all .15s ease'}}
                       onClick={() => {
