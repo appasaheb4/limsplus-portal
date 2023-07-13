@@ -212,6 +212,7 @@ export const Input2 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
           }
           props.onKeyDown && props.onKeyDown(e);
         }}
+        onBlur={e => props.onBlur && props.onBlur(e.target.value)}
       />
     </InputWrapper>
   );
