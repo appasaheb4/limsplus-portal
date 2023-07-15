@@ -5,7 +5,6 @@ import '../css/toggle.css';
 import classNames from 'classnames';
 import DateTimePicker from 'react-datetime-picker';
 import '../css/date-time-picker.css';
-
 interface LabelProps {
   htmlFor: string;
   hasError?: boolean;
@@ -69,6 +68,7 @@ interface InputProps extends InputWrapperProps {
   pattern?: any;
   maxLength?: number;
   isAutoFocus?: boolean;
+  input2isBlurEnable?: boolean;
   onChange?: (e: any) => void;
   onBlur?: (e: any) => void;
   onKeyDown?: (e: any) => void;
@@ -168,12 +168,20 @@ export const Input1 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
 });
 
 export const Input2 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
+  const [isBlur, setIsBlur] = useState(true);
   const handleKeyPress = e => {
     const key = e.key;
     const regex = props.pattern;
     if (regex && !regex?.test(key)) {
       e.preventDefault();
     }
+  };
+
+  const handleBlur = (value: string) => {
+    props.onBlur && isBlur && props.onBlur(value);
+    setTimeout(() => {
+      setIsBlur(true);
+    }, 10_000);
   };
 
   return (
@@ -208,11 +216,14 @@ export const Input2 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         } rounded-md`}
         onKeyDown={(e: any) => {
           if (e.keyCode == 13) {
+            setIsBlur(false);
             props.onBlur && props.onBlur(e.target.value);
           }
           props.onKeyDown && props.onKeyDown(e);
         }}
-        onBlur={e => props.onBlur && props.onBlur(e.target.value)}
+        onBlur={e => {
+          handleBlur(e.target.value);
+        }}
       />
     </InputWrapper>
   );

@@ -258,12 +258,14 @@ export const PatientOrder = PatientOrderHoc(
               style={{bottom: 60}}
               show={hideInputView}
               disabled={
-                patientOrderStore.listPatientOrder?.length == 0
-                  ? false
-                  : getFilterField(patientRegistrationStore?.defaultValues)
-                      ?.key == 'labId'
-                  ? true
-                  : false
+                patientVisitStore.listPatientVisit?.length > 0
+                  ? patientOrderStore.listPatientOrder?.length == 0
+                    ? false
+                    : getFilterField(patientRegistrationStore?.defaultValues)
+                        ?.key == 'labId'
+                    ? true
+                    : false
+                  : true
               }
               onClick={() => {
                 setHideInputView(!hideInputView);

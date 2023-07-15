@@ -140,9 +140,9 @@ const PatientRegistration = observer(() => {
                       filterLock: false,
                     });
                   }}
-                  onBlur={pId => {
+                  onBlur={async pId => {
                     if (pId?.length > 0) {
-                      patientRegistrationStore.getPatientRegRecords(
+                      await patientRegistrationStore.getPatientRegRecords(
                         'pId',
                         pId?.toString(),
                       );

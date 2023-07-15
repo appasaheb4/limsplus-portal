@@ -285,10 +285,12 @@ export const PatientVisit = PatientVisitHoc(
             style={{bottom: 140}}
             show={hideInputView}
             disabled={
-              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
-              'labId'
-                ? true
-                : false
+              patientManagerStore?.listPatientManger?.length > 0
+                ? getFilterField(patientRegistrationStore?.defaultValues)
+                    ?.key == 'labId'
+                  ? true
+                  : false
+                : true
             }
             onClick={() => {
               setHideInputView(!hideInputView);

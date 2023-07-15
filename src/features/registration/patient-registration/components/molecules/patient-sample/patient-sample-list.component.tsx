@@ -108,7 +108,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             },
             {
               dataField: 'containerId',
-              text: 'Container Id',
+              text: 'Container Name',
               headerClasses: 'textHeader3',
               sort: true,
               editable: false,
