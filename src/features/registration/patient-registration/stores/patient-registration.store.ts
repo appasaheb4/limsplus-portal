@@ -7,15 +7,18 @@ export class PatientRegistrationStore {
   defaultValues!: DefaultValues;
   filterOptionList!: FilterOptionList;
   patientManagerStore = new PatientManagerStore();
+  input2isBlurEnable!: boolean;
   constructor() {
     this.reload();
     makeObservable<PatientRegistrationStore, any>(this, {
       defaultValues: observable,
       filterOptionList: observable,
+      input2isBlurEnable: observable,
 
       updateDefaultValue: action,
       updateFilterOptionList: action,
       getPatientRegRecords: action,
+      updateInput2isBlurEnable: action,
     });
   }
 
@@ -35,6 +38,7 @@ export class PatientRegistrationStore {
       labIds: [],
       mobileNos: [],
     };
+    this.input2isBlurEnable = true;
   }
 
   updateDefaultValue(values: DefaultValues) {
@@ -63,5 +67,9 @@ export class PatientRegistrationStore {
       },
       type,
     );
+  }
+
+  updateInput2isBlurEnable(flag: boolean) {
+    this.input2isBlurEnable = flag;
   }
 }

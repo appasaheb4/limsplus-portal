@@ -240,7 +240,8 @@ export class PatientManagerService {
                   '😔 Records not available. Please enter correct details or clear filter',
               });
 
-            console.log({records});
+            //console.log({records});
+
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({
               patientManagers: {
