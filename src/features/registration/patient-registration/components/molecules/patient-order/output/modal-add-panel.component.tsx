@@ -236,19 +236,13 @@ export const ModalAddPanel = observer(
                       No
                     </button> */}
                     <button
-                      disabled={sameArrayKeyValueExists(
-                        patientOrderStore.selectedItems.panels as any,
-                        data?.panelCode,
-                        'panelCode',
-                      )}
+                      disabled={
+                        _.isEmpty(patientOrderStore.packageList) ? true : false
+                      }
                       className={`${
-                        sameArrayKeyValueExists(
-                          patientOrderStore.selectedItems.panels as any,
-                          data?.panelCode,
-                          'panelCode',
-                        )
+                        _.isEmpty(patientOrderStore.packageList)
                           ? 'bg-blue-300'
-                          : 'bg-blue-700 '
+                          : 'bg-blue-700'
                       }  text-white font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none`}
                       type='button'
                       style={{transition: 'all .15s ease'}}
