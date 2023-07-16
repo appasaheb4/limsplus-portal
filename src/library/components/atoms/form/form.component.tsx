@@ -179,9 +179,6 @@ export const Input2 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
 
   const handleBlur = (value: string) => {
     props.onBlur && isBlur && props.onBlur(value);
-    setTimeout(() => {
-      setIsBlur(true);
-    }, 10_000);
   };
 
   return (
@@ -207,7 +204,10 @@ export const Input2 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         autoComplete='given-name'
         maxLength={props.maxLength}
         value={props.value}
-        onChange={e => props.onChange && props.onChange(e.target.value)}
+        onChange={e => {
+          setIsBlur(true);
+          props.onChange && props.onChange(e.target.value);
+        }}
         onKeyPress={e => handleKeyPress(e)}
         className={`${
           props.className
