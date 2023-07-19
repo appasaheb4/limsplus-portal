@@ -12,8 +12,9 @@ class CommonInput {
   rangeType?: string;
   sex?: string;
   ageFrom?: number;
+  ageFromUnit?: string;
   ageTo?: number;
-  ageUnit?: string;
+  ageToUnit?: string;
   picture?: string;
   low?: string;
   high?: string;
@@ -46,8 +47,9 @@ class CommonInput {
     this.rangeType = rawData.rangeType;
     this.sex = rawData.sex;
     this.ageFrom = rawData.ageFrom;
+    this.ageFromUnit = rawData.ageFromUnit;
     this.ageTo = rawData.ageTo;
-    this.ageUnit = rawData.ageUnit;
+    this.ageToUnit = rawData.ageToUnit;
     this.picture = rawData.picture;
     this.low = rawData.low;
     this.high = rawData.high;

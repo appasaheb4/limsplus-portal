@@ -231,7 +231,7 @@ const ReferenceRanges = ReferenceRangesHoc(
         ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [
-        refernceRangesStore.referenceRanges?.refRangesInputList.length,
+        refernceRangesStore.referenceRanges?.refRangesInputList?.length,
         refernceRangesStore.referenceRanges?.refreshList,
       ],
     );

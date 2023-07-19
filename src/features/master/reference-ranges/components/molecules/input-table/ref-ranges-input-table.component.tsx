@@ -153,6 +153,43 @@ export const RefRangesInputTable = observer(
               ),
             },
             {
+              dataField: 'ageFromUnit',
+              text: 'Age From Unit',
+              headerClasses: 'textHeaderm',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const ageFromUnit = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems({ageFromUnit}, row.rangeId);
+                      setTimeout(() => {
+                        duplicateCombination();
+                      }, 1000);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, 'AGE_UNIT').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
               dataField: 'ageTo',
               text: 'Age To',
               headerClasses: 'textHeaderm',
@@ -181,8 +218,8 @@ export const RefRangesInputTable = observer(
               ),
             },
             {
-              dataField: 'ageUnit',
-              text: 'Age Unit',
+              dataField: 'ageToUnit',
+              text: 'Age To Unit',
               headerClasses: 'textHeaderm',
               csvExport: false,
               editorRenderer: (
@@ -197,8 +234,8 @@ export const RefRangesInputTable = observer(
                   <select
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const ageUnit = e.target.value;
-                      onUpdateItems && onUpdateItems({ageUnit}, row.rangeId);
+                      const ageToUnit = e.target.value;
+                      onUpdateItems && onUpdateItems({ageToUnit}, row.rangeId);
                       setTimeout(() => {
                         duplicateCombination();
                       }, 1000);
