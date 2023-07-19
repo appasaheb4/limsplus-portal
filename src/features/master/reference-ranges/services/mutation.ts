@@ -23,8 +23,9 @@ export const LIST = gql`
         rangeType
         sex
         ageFrom
+        ageFromUnit
         ageTo
-        ageUnit
+        ageToUnit
         low
         high
         alpha
@@ -107,8 +108,9 @@ export const FILTER = gql`
         rangeType
         sex
         ageFrom
+        ageFromUnit
         ageTo
-        ageUnit
+        ageToUnit
         low
         high
         alpha
@@ -155,8 +157,9 @@ export const FILTER_BY_FIELDS = gql`
         rangeType
         sex
         ageFrom
+        ageFromUnit
         ageTo
-        ageUnit
+        ageToUnit
         low
         high
         alpha

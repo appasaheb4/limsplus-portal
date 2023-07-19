@@ -21,6 +21,7 @@ import {
   AutoCompleteFilterSingleSelectAnalyteName,
 } from '../../index';
 import {FormHelper} from '@/helper';
+import {getDays} from '../../../utils';
 
 let analyteCode;
 let analyteName;
@@ -32,7 +33,8 @@ let instType;
 let lab;
 let rangType;
 let age;
-let ageUnit;
+let ageFromUnit;
+let ageToUnit;
 let low;
 let high;
 let alpha;
@@ -551,10 +553,68 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     type='text'
                     pattern={FormHelper.patterns.decimalPatterm}
                     onBlur={ageFrom => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(ageFrom, column.dataField, row._id);
+                      console.log({
+                        result: getDays(
+                          ageFrom,
+                          row?.ageFromUnit,
+                          row?.ageTo,
+                          row?.ageToUnit,
+                        ),
+                      });
+                      // props.onUpdateItem &&
+                      //   props.onUpdateItem(ageFrom, column.dataField, row._id);
                     }}
                   />
+                </>
+              ),
+            },
+            {
+              dataField: 'ageFromUnit',
+              text: 'Age From Unit',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  ageFromUnit = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const ageFromUnit = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          ageFromUnit,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'AGE_UNIT').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
                 </>
               ),
             },
@@ -600,8 +660,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ),
             },
             {
-              dataField: 'ageUnit',
-              text: 'Age Unit',
+              dataField: 'ageToUnit',
+              text: 'Age To Unit',
               headerClasses: 'textHeader1',
               sort: true,
               headerStyle: {
@@ -611,7 +671,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  ageUnit = filter;
+                  ageToUnit = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -628,9 +688,13 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   <select
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const ageUnit = e.target.value;
+                      const ageToUnit = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(ageUnit, column.dataField, row._id);
+                        props.onUpdateItem(
+                          ageToUnit,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   >
                     <option selected>Select</option>
@@ -1217,7 +1281,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             lab('');
             rangType('');
             age('');
-            ageUnit('');
+            ageFromUnit('');
+            ageToUnit('');
             low('');
             high('');
             alpha('');
