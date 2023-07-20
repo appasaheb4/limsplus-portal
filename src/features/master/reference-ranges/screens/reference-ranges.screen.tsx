@@ -18,7 +18,6 @@ import {
 } from '../components';
 import {ReferenceRangesHoc} from '../hoc';
 import {useStores} from '@/stores';
-
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetReferenceRange} from '../startup';

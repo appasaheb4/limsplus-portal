@@ -12,7 +12,7 @@ import {useStores} from '@/stores';
 import _ from 'lodash';
 import {TableBootstrap} from './TableBootstrap';
 import {FormHelper} from '@/helper';
-
+import {getDays} from '../../../utils';
 interface RefRangesInputTableProps {
   data: any;
   extraData?: any;
@@ -143,10 +143,19 @@ export const RefRangesInputTable = observer(
                     type='text'
                     pattern={FormHelper.patterns.decimalPatterm}
                     onBlur={ageFrom => {
-                      onUpdateItems && onUpdateItems({ageFrom}, row.rangeId);
-                      setTimeout(() => {
-                        duplicateCombination();
-                      }, 1000);
+                      const days = getDays(
+                        ageFrom,
+                        row?.ageFromUnit,
+                        row?.ageTo,
+                        row?.ageToUnit,
+                      );
+                      if (days) {
+                        onUpdateItems &&
+                          onUpdateItems({ageFrom, days}, row.rangeId);
+                        setTimeout(() => {
+                          duplicateCombination();
+                        }, 1000);
+                      }
                     }}
                   />
                 </>
@@ -170,11 +179,19 @@ export const RefRangesInputTable = observer(
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const ageFromUnit = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems({ageFromUnit}, row.rangeId);
-                      setTimeout(() => {
-                        duplicateCombination();
-                      }, 1000);
+                      const days = getDays(
+                        row?.ageFrom,
+                        ageFromUnit,
+                        row?.ageTo,
+                        row?.ageToUnit,
+                      );
+                      if (days) {
+                        onUpdateItems &&
+                          onUpdateItems({ageFromUnit, days}, row.rangeId);
+                        setTimeout(() => {
+                          duplicateCombination();
+                        }, 1000);
+                      }
                     }}
                   >
                     <option selected>Select</option>
@@ -208,10 +225,19 @@ export const RefRangesInputTable = observer(
                     type='text'
                     pattern={FormHelper.patterns.decimalPatterm}
                     onBlur={ageTo => {
-                      onUpdateItems && onUpdateItems({ageTo}, row.rangeId);
-                      setTimeout(() => {
-                        duplicateCombination();
-                      }, 1000);
+                      const days = getDays(
+                        row?.ageFrom,
+                        row?.ageFromUnit,
+                        ageTo,
+                        row?.ageToUnit,
+                      );
+                      if (days) {
+                        onUpdateItems &&
+                          onUpdateItems({ageTo, days}, row.rangeId);
+                        setTimeout(() => {
+                          duplicateCombination();
+                        }, 1000);
+                      }
                     }}
                   />
                 </>
@@ -235,10 +261,19 @@ export const RefRangesInputTable = observer(
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const ageToUnit = e.target.value;
-                      onUpdateItems && onUpdateItems({ageToUnit}, row.rangeId);
-                      setTimeout(() => {
-                        duplicateCombination();
-                      }, 1000);
+                      const days = getDays(
+                        row?.ageFrom,
+                        row?.ageFromUnit,
+                        row?.ageTo,
+                        ageToUnit,
+                      );
+                      if (days) {
+                        onUpdateItems &&
+                          onUpdateItems({ageToUnit, days}, row.rangeId);
+                        setTimeout(() => {
+                          duplicateCombination();
+                        }, 1000);
+                      }
                     }}
                   >
                     <option selected>Select</option>

@@ -39,6 +39,8 @@ export class ReferenceRangesService {
 
   addReferenceRanges = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
+
       client
         .mutate({
           mutation: CREATE_RECORD,
