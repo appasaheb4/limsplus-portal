@@ -553,16 +553,21 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     type='text'
                     pattern={FormHelper.patterns.decimalPatterm}
                     onBlur={ageFrom => {
-                      console.log({
-                        result: getDays(
-                          ageFrom,
-                          row?.ageFromUnit,
-                          row?.ageTo,
-                          row?.ageToUnit,
-                        ),
-                      });
-                      // props.onUpdateItem &&
-                      //   props.onUpdateItem(ageFrom, column.dataField, row._id);
+                      const days = getDays(
+                        ageFrom,
+                        row?.ageFromUnit,
+                        row?.ageTo,
+                        row?.ageToUnit,
+                      );
+                      if (days)
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              ageFrom: Number.parseInt(ageFrom),
+                              days,
+                            },
+                            row._id,
+                          );
                     }}
                   />
                 </>
@@ -598,12 +603,21 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const ageFromUnit = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          ageFromUnit,
-                          column.dataField,
-                          row._id,
-                        );
+                      const days = getDays(
+                        row?.ageFrom,
+                        ageFromUnit,
+                        row?.ageTo,
+                        row?.ageToUnit,
+                      );
+                      if (days)
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              ageFromUnit,
+                              days,
+                            },
+                            row._id,
+                          );
                     }}
                   >
                     <option selected>Select</option>
@@ -652,8 +666,21 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     type='text'
                     pattern={FormHelper.patterns.decimalPatterm}
                     onBlur={ageTo => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(ageTo, column.dataField, row._id);
+                      const days = getDays(
+                        row?.ageFrom,
+                        row?.ageFromUnit,
+                        ageTo,
+                        row?.ageToUnit,
+                      );
+                      if (days)
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              ageTo: Number.parseInt(ageTo),
+                              days,
+                            },
+                            row._id,
+                          );
                     }}
                   />
                 </>
@@ -689,12 +716,21 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const ageToUnit = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          ageToUnit,
-                          column.dataField,
-                          row._id,
-                        );
+                      const days = getDays(
+                        row?.ageFrom,
+                        row?.ageFromUnit,
+                        row?.ageTo,
+                        ageToUnit,
+                      );
+                      if (days)
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              ageToUnit,
+                              days,
+                            },
+                            row._id,
+                          );
                     }}
                   >
                     <option selected>Select</option>
