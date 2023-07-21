@@ -26,6 +26,8 @@ export const LIST = gql`
         ageFromUnit
         ageTo
         ageToUnit
+        daysAgeFrom
+        daysAgeTo
         low
         high
         alpha
@@ -111,6 +113,8 @@ export const FILTER = gql`
         ageFromUnit
         ageTo
         ageToUnit
+        daysAgeFrom
+        daysAgeTo
         low
         high
         alpha
@@ -160,6 +164,8 @@ export const FILTER_BY_FIELDS = gql`
         ageFromUnit
         ageTo
         ageToUnit
+        daysAgeFrom
+        daysAgeTo
         low
         high
         alpha

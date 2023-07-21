@@ -564,7 +564,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           props.onUpdateFileds(
                             {
                               ageFrom: Number.parseInt(ageFrom),
-                              days,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
                             },
                             row._id,
                           );
@@ -614,7 +615,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           props.onUpdateFileds(
                             {
                               ageFromUnit,
-                              days,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
                             },
                             row._id,
                           );
@@ -677,7 +679,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           props.onUpdateFileds(
                             {
                               ageTo: Number.parseInt(ageTo),
-                              days,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
                             },
                             row._id,
                           );
@@ -727,7 +730,8 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           props.onUpdateFileds(
                             {
                               ageToUnit,
-                              days,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
                             },
                             row._id,
                           );

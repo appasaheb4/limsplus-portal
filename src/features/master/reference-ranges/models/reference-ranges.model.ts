@@ -15,6 +15,8 @@ class CommonInput {
   ageFromUnit?: string;
   ageTo?: number;
   ageToUnit?: string;
+  daysAgeFrom?: number;
+  daysAgeTo?: number;
   picture?: string;
   low?: string;
   high?: string;

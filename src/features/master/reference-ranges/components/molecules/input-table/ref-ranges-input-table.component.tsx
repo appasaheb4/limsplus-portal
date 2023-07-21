@@ -151,7 +151,14 @@ export const RefRangesInputTable = observer(
                       );
                       if (days) {
                         onUpdateItems &&
-                          onUpdateItems({ageFrom, days}, row.rangeId);
+                          onUpdateItems(
+                            {
+                              ageFrom,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
+                            },
+                            row.rangeId,
+                          );
                         setTimeout(() => {
                           duplicateCombination();
                         }, 1000);
@@ -187,7 +194,14 @@ export const RefRangesInputTable = observer(
                       );
                       if (days) {
                         onUpdateItems &&
-                          onUpdateItems({ageFromUnit, days}, row.rangeId);
+                          onUpdateItems(
+                            {
+                              ageFromUnit,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
+                            },
+                            row.rangeId,
+                          );
                         setTimeout(() => {
                           duplicateCombination();
                         }, 1000);
@@ -233,7 +247,14 @@ export const RefRangesInputTable = observer(
                       );
                       if (days) {
                         onUpdateItems &&
-                          onUpdateItems({ageTo, days}, row.rangeId);
+                          onUpdateItems(
+                            {
+                              ageTo,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
+                            },
+                            row.rangeId,
+                          );
                         setTimeout(() => {
                           duplicateCombination();
                         }, 1000);
@@ -269,7 +290,14 @@ export const RefRangesInputTable = observer(
                       );
                       if (days) {
                         onUpdateItems &&
-                          onUpdateItems({ageToUnit, days}, row.rangeId);
+                          onUpdateItems(
+                            {
+                              ageToUnit,
+                              daysAgeFrom: days?.daysAgeFrom,
+                              daysAgeTo: days?.daysAgeTo,
+                            },
+                            row.rangeId,
+                          );
                         setTimeout(() => {
                           duplicateCombination();
                         }, 1000);
