@@ -45,6 +45,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
     setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     switch (refernceRangesStore.referenceRanges?.rangeSetOn) {
       case 'I':
@@ -91,7 +92,7 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
   }, [refernceRangesStore.referenceRanges?.rangeSetOn]);
 
   const addItem = () => {
-    reset();
+    // reset();
     const refRangesInputList =
       refernceRangesStore.referenceRanges?.refRangesInputList;
     refRangesInputList.push({
@@ -124,7 +125,6 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       ...refernceRangesStore.referenceRanges,
       refRangesInputList,
     });
-    // reset();
   };
 
   return (

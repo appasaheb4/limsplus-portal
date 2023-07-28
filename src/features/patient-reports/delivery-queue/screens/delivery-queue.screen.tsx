@@ -19,14 +19,8 @@ import {useStores} from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const DeliveryQueue = observer(() => {
-  const {
-    loading,
-    deliveryQueueStore,
-    routerStore,
-    loginStore,
-    receiptStore,
-    reportSettingStore,
-  } = useStores();
+  const {deliveryQueueStore, routerStore, loginStore, reportSettingStore} =
+    useStores();
 
   const {
     control,
@@ -35,7 +29,6 @@ const DeliveryQueue = observer(() => {
     setValue,
   } = useForm();
 
-  //const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalGenerateReports, setModalGenerateReports] = useState<any>();
   const [selectId, setSelectId] = useState('');
   const [reloadTable, setReloadTable] = useState<boolean>(false);
@@ -439,7 +432,6 @@ const DeliveryQueue = observer(() => {
           data={deliveryQueueStore.orderDeliveredList || []}
           totalSize={deliveryQueueStore.orderDeliveredListCount}
         />
-
         <ModalGenerateReports
           {...modalGenerateReports}
           onClose={() => {
