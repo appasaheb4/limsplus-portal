@@ -27,6 +27,7 @@ export class ReportDelivery {
   qrCode: string;
   pdf: string;
   reportPriority: string;
+  colorScheme: any;
   approvalDate: string;
   enteredBy: string;
   userComments: string;
@@ -60,6 +61,7 @@ export class ReportDelivery {
     this.qrCode = rawData.qrCode;
     this.pdf = rawData.pdf;
     this.reportPriority = rawData.reportPriority;
+    this.colorScheme = rawData.colorScheme;
     this.approvalDate = rawData.approvalDate;
     this.enteredBy = rawData.enteredBy;
     this.userComments = rawData.userComments;

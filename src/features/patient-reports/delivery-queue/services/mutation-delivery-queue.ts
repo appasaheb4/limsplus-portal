@@ -61,6 +61,7 @@ export const DELIVERY_QUEUE_LIST = gql`
         reportPriority
         approvalDate
         reportTemplate
+        colorScheme
         documentType
         dateOfEntry
         lastUpdated
@@ -156,6 +157,7 @@ export const FILTER = gql`
         reportPriority
         approvalDate
         reportTemplate
+        colorScheme
         documentType
         dateOfEntry
         lastUpdated
@@ -212,6 +214,7 @@ export const FIND_BY_FIELDS = gql`
         reportPriority
         approvalDate
         reportTemplate
+        colorScheme
         documentType
         dateOfEntry
         lastUpdated

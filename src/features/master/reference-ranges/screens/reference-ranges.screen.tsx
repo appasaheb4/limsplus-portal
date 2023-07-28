@@ -37,6 +37,7 @@ const ReferenceRanges = ReferenceRangesHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [dupExistsRecords, setDupExistsRecords] = useState<any>();
+
     const onSubmitReferenceRanges = () => {
       if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
         if (!refernceRangesStore.checkExitsRecord) {

@@ -13,6 +13,7 @@ import _ from 'lodash';
 import {TableBootstrap} from './TableBootstrap';
 import {FormHelper} from '@/helper';
 import {getDays} from '../../../utils';
+
 interface RefRangesInputTableProps {
   data: any;
   extraData?: any;
@@ -27,7 +28,6 @@ export const RefRangesInputTable = observer(
       loading,
       departmentStore,
       interfaceManagerStore,
-      labStore,
       refernceRangesStore,
     } = useStores();
 
@@ -123,318 +123,286 @@ export const RefRangesInputTable = observer(
                 </>
               ),
             },
-
             {
               dataField: 'ageFrom',
               text: 'Age From',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.Input
-                    placeholder={row?.ageFrom}
-                    type='text'
-                    pattern={FormHelper.patterns.decimalPatterm}
-                    onBlur={ageFrom => {
-                      const days = getDays(
-                        ageFrom,
-                        row?.ageFromUnit,
-                        row?.ageTo,
-                        row?.ageToUnit,
-                      );
-                      if (days) {
-                        onUpdateItems &&
-                          onUpdateItems(
-                            {
-                              ageFrom,
-                              daysAgeFrom: days?.daysAgeFrom,
-                              daysAgeTo: days?.daysAgeTo,
-                            },
-                            row.rangeId,
-                          );
-                        setTimeout(() => {
-                          duplicateCombination();
-                        }, 1000);
-                      }
-                    }}
-                  />
-                </>
-              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Input
+                      placeholder={row?.ageFrom}
+                      type='text'
+                      pattern={FormHelper.patterns.decimalPatterm}
+                      onBlur={ageFrom => {
+                        const days = getDays(
+                          ageFrom,
+                          row?.ageFromUnit,
+                          row?.ageTo,
+                          row?.ageToUnit,
+                        );
+                        if (days) {
+                          onUpdateItems &&
+                            onUpdateItems(
+                              {
+                                ageFrom,
+                                daysAgeFrom: days?.daysAgeFrom,
+                                daysAgeTo: days?.daysAgeTo,
+                              },
+                              row.rangeId,
+                            );
+                          setTimeout(() => {
+                            duplicateCombination();
+                          }, 1000);
+                        }
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'ageFromUnit',
               text: 'Age From Unit',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const ageFromUnit = e.target.value;
-                      const days = getDays(
-                        row?.ageFrom,
-                        ageFromUnit,
-                        row?.ageTo,
-                        row?.ageToUnit,
-                      );
-                      if (days) {
-                        onUpdateItems &&
-                          onUpdateItems(
-                            {
-                              ageFromUnit,
-                              daysAgeFrom: days?.daysAgeFrom,
-                              daysAgeTo: days?.daysAgeTo,
-                            },
-                            row.rangeId,
-                          );
-                        setTimeout(() => {
-                          duplicateCombination();
-                        }, 1000);
-                      }
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'AGE_UNIT').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <select
+                      value={row?.ageFromUnit}
+                      className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                      onChange={e => {
+                        const ageFromUnit = e.target.value;
+                        const days = getDays(
+                          row?.ageFrom,
+                          ageFromUnit,
+                          row?.ageTo,
+                          row?.ageToUnit,
+                        );
+                        if (days) {
+                          onUpdateItems &&
+                            onUpdateItems(
+                              {
+                                ageFromUnit,
+                                daysAgeFrom: days?.daysAgeFrom,
+                                daysAgeTo: days?.daysAgeTo,
+                              },
+                              row.rangeId,
+                            );
+                          setTimeout(() => {
+                            duplicateCombination();
+                          }, 1000);
+                        }
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(extraData.lookupItems, 'AGE_UNIT').map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </>
+                );
+              },
             },
             {
               dataField: 'ageTo',
               text: 'Age To',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.Input
-                    placeholder={row?.ageTo}
-                    type='text'
-                    pattern={FormHelper.patterns.decimalPatterm}
-                    onBlur={ageTo => {
-                      const days = getDays(
-                        row?.ageFrom,
-                        row?.ageFromUnit,
-                        ageTo,
-                        row?.ageToUnit,
-                      );
-                      if (days) {
-                        onUpdateItems &&
-                          onUpdateItems(
-                            {
-                              ageTo,
-                              daysAgeFrom: days?.daysAgeFrom,
-                              daysAgeTo: days?.daysAgeTo,
-                            },
-                            row.rangeId,
-                          );
-                        setTimeout(() => {
-                          duplicateCombination();
-                        }, 1000);
-                      }
-                    }}
-                  />
-                </>
-              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Input
+                      placeholder={row?.ageTo}
+                      type='text'
+                      pattern={FormHelper.patterns.decimalPatterm}
+                      onBlur={ageTo => {
+                        const days = getDays(
+                          row?.ageFrom,
+                          row?.ageFromUnit,
+                          ageTo,
+                          row?.ageToUnit,
+                        );
+                        if (days) {
+                          onUpdateItems &&
+                            onUpdateItems(
+                              {
+                                ageTo,
+                                daysAgeFrom: days?.daysAgeFrom,
+                                daysAgeTo: days?.daysAgeTo,
+                              },
+                              row.rangeId,
+                            );
+                          setTimeout(() => {
+                            duplicateCombination();
+                          }, 1000);
+                        }
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'ageToUnit',
               text: 'Age To Unit',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const ageToUnit = e.target.value;
-                      const days = getDays(
-                        row?.ageFrom,
-                        row?.ageFromUnit,
-                        row?.ageTo,
-                        ageToUnit,
-                      );
-                      if (days) {
-                        onUpdateItems &&
-                          onUpdateItems(
-                            {
-                              ageToUnit,
-                              daysAgeFrom: days?.daysAgeFrom,
-                              daysAgeTo: days?.daysAgeTo,
-                            },
-                            row.rangeId,
-                          );
-                        setTimeout(() => {
-                          duplicateCombination();
-                        }, 1000);
-                      }
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'AGE_UNIT').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <select
+                      value={row?.ageToUnit}
+                      className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                      onChange={e => {
+                        const ageToUnit = e.target.value;
+                        const days = getDays(
+                          row?.ageFrom,
+                          row?.ageFromUnit,
+                          row?.ageTo,
+                          ageToUnit,
+                        );
+                        if (days) {
+                          onUpdateItems &&
+                            onUpdateItems(
+                              {
+                                ageToUnit,
+                                daysAgeFrom: days?.daysAgeFrom,
+                                daysAgeTo: days?.daysAgeTo,
+                              },
+                              row.rangeId,
+                            );
+                          setTimeout(() => {
+                            duplicateCombination();
+                          }, 1000);
+                        }
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(extraData.lookupItems, 'AGE_UNIT').map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </>
+                );
+              },
             },
             {
               dataField: 'low',
               text: 'Low',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.Input
-                    placeholder={row?.low}
-                    onBlur={low => {
-                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
-                      if (
-                        regex.test(low) &&
-                        FormHelper.isNumberAvailable(low)
-                      ) {
-                        const isNumber = Number(low);
-                        if (isNumber) {
-                          onUpdateItems &&
-                            onUpdateItems(
-                              {
-                                low: row?.picture
-                                  ? Number.parseFloat(low).toFixed(row?.picture)
-                                  : low,
-                              },
-                              row.rangeId,
-                            );
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Input
+                      placeholder={row?.low}
+                      onBlur={low => {
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                        if (
+                          regex.test(low) &&
+                          FormHelper.isNumberAvailable(low)
+                        ) {
+                          const isNumber = Number(low);
+                          if (isNumber) {
+                            onUpdateItems &&
+                              onUpdateItems(
+                                {
+                                  low: row?.picture
+                                    ? Number.parseFloat(low).toFixed(
+                                        row?.picture,
+                                      )
+                                    : low,
+                                },
+                                row.rangeId,
+                              );
+                          } else {
+                            onUpdateItems &&
+                              onUpdateItems({low: low}, row.rangeId);
+                          }
                         } else {
-                          onUpdateItems &&
-                            onUpdateItems({low: low}, row.rangeId);
+                          Toast.warning({
+                            message:
+                              '😔 Only > and < sign and numbers should be allowed',
+                          });
                         }
-                      } else {
-                        Toast.warning({
-                          message:
-                            '😔 Only > and < sign and numbers should be allowed',
-                        });
-                      }
-                    }}
-                  />
-                </>
-              ),
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'high',
               text: 'High',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.Input
-                    placeholder={row?.high}
-                    onBlur={high => {
-                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
-                      if (
-                        regex.test(high) &&
-                        FormHelper.isNumberAvailable(high)
-                      ) {
-                        const isNumber = Number(high);
-                        if (isNumber) {
-                          onUpdateItems &&
-                            onUpdateItems(
-                              {
-                                high: row?.picture
-                                  ? Number.parseFloat(high).toFixed(
-                                      row?.picture,
-                                    )
-                                  : high,
-                              },
-                              row.rangeId,
-                            );
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Input
+                      placeholder={row?.high}
+                      onBlur={high => {
+                        const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                        if (
+                          regex.test(high) &&
+                          FormHelper.isNumberAvailable(high)
+                        ) {
+                          const isNumber = Number(high);
+                          if (isNumber) {
+                            onUpdateItems &&
+                              onUpdateItems(
+                                {
+                                  high: row?.picture
+                                    ? Number.parseFloat(high).toFixed(
+                                        row?.picture,
+                                      )
+                                    : high,
+                                },
+                                row.rangeId,
+                              );
+                          } else {
+                            onUpdateItems && onUpdateItems({high}, row.rangeId);
+                          }
                         } else {
-                          onUpdateItems && onUpdateItems({high}, row.rangeId);
+                          Toast.warning({
+                            message:
+                              '😔 Only > and < sign and numbers should be allowed',
+                          });
                         }
-                      } else {
-                        Toast.warning({
-                          message:
-                            '😔 Only > and < sign and numbers should be allowed',
-                        });
-                      }
-                    }}
-                  />
-                </>
-              ),
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'alpha',
               text: 'Allpha',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.Input
-                    placeholder={row?.alpha}
-                    onBlur={alpha => {
-                      onUpdateItems && onUpdateItems({alpha}, row.rangeId);
-                    }}
-                  />
-                </>
-              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Input
+                      placeholder={row?.alpha}
+                      onBlur={alpha => {
+                        onUpdateItems && onUpdateItems({alpha}, row.rangeId);
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'analyteCode',
@@ -764,47 +732,38 @@ export const RefRangesInputTable = observer(
               text: 'Delta Type',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.Input
-                    placeholder={row?.deltaType}
-                    onBlur={deltaType => {
-                      onUpdateItems && onUpdateItems({deltaType}, row.rangeId);
-                    }}
-                  />
-                </>
-              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Input
+                      placeholder={row?.deltaType}
+                      onBlur={deltaType => {
+                        onUpdateItems &&
+                          onUpdateItems({deltaType}, row.rangeId);
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'deltaInterval',
               text: 'Delta Interval',
               headerClasses: 'textHeaderm',
               csvExport: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.Input
-                    placeholder={row?.deltaInterval}
-                    onBlur={deltaInterval => {
-                      onUpdateItems &&
-                        onUpdateItems({deltaInterval}, row.rangeId);
-                    }}
-                  />
-                </>
-              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Input
+                      placeholder={row?.deltaInterval}
+                      onBlur={deltaInterval => {
+                        onUpdateItems &&
+                          onUpdateItems({deltaInterval}, row.rangeId);
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'intervalUnit',

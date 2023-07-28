@@ -139,6 +139,7 @@ export const TableBootstrap = ({
       ))}
     </div>
   );
+
   const options = {
     cutome: true,
     totalSize: totalSize,
@@ -178,9 +179,11 @@ export const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
+
   let searchProps: any = {
     placeholder: searchPlaceholder,
   };
+
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {

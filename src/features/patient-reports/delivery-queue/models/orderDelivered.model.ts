@@ -12,6 +12,7 @@ export class OrderDelivered {
   analyteName: string;
   rep: number;
   delivered: boolean;
+  colorScheme: any;
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
@@ -27,5 +28,6 @@ export class OrderDelivered {
     this.analyteName = rawData.analyteName;
     this.rep = rawData.rep;
     this.delivered = rawData.delivered;
+    this.colorScheme = rawData.colorScheme;
   }
 }
