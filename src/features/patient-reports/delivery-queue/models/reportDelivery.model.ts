@@ -27,6 +27,8 @@ export class ReportDelivery {
   qrCode: string;
   pdf: string;
   reportPriority: string;
+  abnFlag: boolean;
+  critical: boolean;
   colorScheme: any;
   approvalDate: string;
   enteredBy: string;
@@ -61,6 +63,8 @@ export class ReportDelivery {
     this.qrCode = rawData.qrCode;
     this.pdf = rawData.pdf;
     this.reportPriority = rawData.reportPriority;
+    this.abnFlag = rawData.abnFlag;
+    this.critical = rawData.critical;
     this.colorScheme = rawData.colorScheme;
     this.approvalDate = rawData.approvalDate;
     this.enteredBy = rawData.enteredBy;

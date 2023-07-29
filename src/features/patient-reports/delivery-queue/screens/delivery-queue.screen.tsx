@@ -149,6 +149,8 @@ const DeliveryQueue = observer(() => {
         }
       });
     }
+    console.log({list});
+
     return list;
   };
 
@@ -426,19 +428,22 @@ const DeliveryQueue = observer(() => {
         {reportDeliveryList}
       </div>
 
-      <div className='p-3 rounded-lg shadow-xl overflow-auto'>
-        <span className='font-bold text-lg underline'>Order Delivered</span>
-        <OrderDeliveredList
-          data={deliveryQueueStore.orderDeliveredList || []}
-          totalSize={deliveryQueueStore.orderDeliveredListCount}
-        />
-        <ModalGenerateReports
-          {...modalGenerateReports}
-          onClose={() => {
-            setModalGenerateReports({show: false});
-          }}
-        />
-      </div>
+      {deliveryQueueStore.orderDeliveredList?.length > 0 && (
+        <div className='p-3 rounded-lg shadow-xl overflow-auto'>
+          <span className='font-bold text-lg underline'>Order Delivered</span>
+          <OrderDeliveredList
+            data={deliveryQueueStore.orderDeliveredList || []}
+            totalSize={deliveryQueueStore.orderDeliveredListCount}
+          />
+        </div>
+      )}
+
+      <ModalGenerateReports
+        {...modalGenerateReports}
+        onClose={() => {
+          setModalGenerateReports({show: false});
+        }}
+      />
     </>
   );
 });

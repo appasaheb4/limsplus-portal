@@ -265,8 +265,16 @@ export const TableBootstrapReport = ({
   );
 
   const rowStyle = (row, rowIndex) => {
-    if (row._id == selectedItem?._id) {
-      return {backgroundColor: '#a9a9a9'};
+    if (row?.isAnyCritical || (row?.isAnyABNFlag && row?.isAnyCritical)) {
+      return {
+        backgroundColor: '#FF0000',
+        color: '#FFFF00',
+      };
+    } else if (row?.isAnyABNFlag) {
+      return {
+        backgroundColor: '#FFFF00',
+        color: '#FF0000',
+      };
     }
   };
 
