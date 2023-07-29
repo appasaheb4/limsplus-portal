@@ -61,6 +61,10 @@ export const DELIVERY_QUEUE_LIST = gql`
         reportPriority
         approvalDate
         reportTemplate
+        abnFlag
+        critical
+        isAnyABNFlag
+        isAnyCritical
         colorScheme
         documentType
         dateOfEntry
@@ -157,6 +161,10 @@ export const FILTER = gql`
         reportPriority
         approvalDate
         reportTemplate
+        abnFlag
+        critical
+        isAnyABNFlag
+        isAnyCritical
         colorScheme
         documentType
         dateOfEntry
@@ -214,6 +222,10 @@ export const FIND_BY_FIELDS = gql`
         reportPriority
         approvalDate
         reportTemplate
+        abnFlag
+        critical
+        isAnyABNFlag
+        isAnyCritical
         colorScheme
         documentType
         dateOfEntry
