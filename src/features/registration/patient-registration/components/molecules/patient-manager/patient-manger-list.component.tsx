@@ -226,7 +226,13 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.birthDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row.birthDate
+                      ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,

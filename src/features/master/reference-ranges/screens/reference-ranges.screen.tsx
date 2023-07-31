@@ -37,6 +37,7 @@ const ReferenceRanges = ReferenceRangesHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [dupExistsRecords, setDupExistsRecords] = useState<any>();
+    const [isCommonTableReload, setIsCommonTableReload] = useState(false);
 
     const onSubmitReferenceRanges = () => {
       if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
@@ -70,6 +71,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                   });
                   setHideAddLab(true);
                   resetReferenceRange();
+                  setIsCommonTableReload(!isCommonTableReload);
                   refernceRangesStore.updateReferenceRanges({
                     ...refernceRangesStore.referenceRanges,
                     refRangesInputList: [],
@@ -96,6 +98,12 @@ const ReferenceRanges = ReferenceRangesHoc(
         });
       }
     };
+
+    // const commonTable = useMemo(
+    //   () => <CommonInputTable />,
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    //   [isCommonTableReload],
+    // );
 
     const tableView = useMemo(
       () => (
@@ -249,7 +257,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             }
           >
             <div className='p-2 rounded-lg shadow-xl '>
-              <CommonInputTable />
+              <CommonInputTable isReload={isCommonTableReload} />
               {refRangesInputTable}
             </div>
             <br />

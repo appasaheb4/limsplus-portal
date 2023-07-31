@@ -13,7 +13,6 @@ export class PatientSample {
   receivedDate: Date;
   collectionDate: Date;
   methodCollection: string;
-  dateCollection: Date;
   primaryContainer: string;
   aliquot: string;
   uniqueContainer: string;
@@ -40,7 +39,6 @@ export class PatientSample {
     this.receivedDate = rawData.receivedDate;
     this.collectionDate = rawData.collectionDate;
     this.methodCollection = rawData.methodCollection;
-    this.dateCollection = rawData.dateCollection;
     this.primaryContainer = rawData.primaryContainer;
     this.aliquot = rawData.aliquot;
     this.uniqueContainer = rawData.uniqueContainer;

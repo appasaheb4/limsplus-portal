@@ -418,8 +418,8 @@ export const PatientOrderExpand = ({
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row?.resultDate
-                      ? dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')
+                    {row.resultDate
+                      ? dayjs(row?.resultDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );
