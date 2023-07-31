@@ -266,7 +266,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 return (
                   <>
                     {row.resultDate
-                      ? dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')
+                      ? dayjs(row?.resultDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );
@@ -317,7 +317,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
                 return (
                   <>
                     {row.instResultDate
-                      ? dayjs(row.instResultDate).format('YYYY-MM-DD HH:mm:ss')
+                      ? dayjs(row?.instResultDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );

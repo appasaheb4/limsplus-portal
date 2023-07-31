@@ -42,6 +42,7 @@ interface PatientVisitProps {
     totalSize: number,
   ) => void;
 }
+
 let labId;
 let pId;
 let rLab;
@@ -189,7 +190,13 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.visitDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row.visitDate
+                      ? dayjs(row?.visitDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
+                  </>
+                );
               },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -234,7 +241,15 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.registrationDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row.registrationDate
+                      ? dayjs(row?.registrationDate).format(
+                          'DD-MM-YYYY HH:mm:ss',
+                        )
+                      : ''}
+                  </>
+                );
               },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -283,7 +298,13 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.collectionDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {row.collectionDate
+                      ? dayjs(row?.collectionDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
+                  </>
+                );
               },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -332,8 +353,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row?.dueDate
-                      ? dayjs(row?.dueDate).format('YYYY-MM-DD')
+                    {row.dueDate
+                      ? dayjs(row?.dueDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );
@@ -380,8 +401,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row?.birthDate
-                      ? dayjs(row?.birthDate).format('YYYY-MM-DD')
+                    {row.birthDate
+                      ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
                       : ''}
                   </>
                 );

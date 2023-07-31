@@ -1,5 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
+import dayjs from 'dayjs';
 import {
   NumberFilter,
   Form,
@@ -140,6 +141,15 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               headerClasses: 'textHeader3',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.receivedDate
+                      ? dayjs(row?.receivedDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
+                  </>
+                );
+              },
             },
             {
               dataField: 'collectionDate',
@@ -147,6 +157,15 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               headerClasses: 'textHeader4',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.collectionDate
+                      ? dayjs(row?.collectionDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
+                  </>
+                );
+              },
             },
             {
               dataField: 'methodCollection',
@@ -155,13 +174,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               sort: true,
               editable: false,
             },
-            {
-              dataField: 'dateCollection',
-              text: 'Date Collection',
-              headerClasses: 'textHeader6',
-              sort: true,
-              editable: false,
-            },
+
             {
               dataField: 'primaryContainer',
               text: 'Primary Container',
