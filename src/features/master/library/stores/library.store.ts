@@ -40,7 +40,6 @@ export class LibraryStore {
     this.listLibraryCount = 0;
     this.library = {
       ...this.library,
-      abNormal: false,
     };
   }
 
