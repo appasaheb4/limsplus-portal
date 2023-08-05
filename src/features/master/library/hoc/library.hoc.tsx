@@ -11,37 +11,26 @@ export const LibraryHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       libraryStore.updateLibrary({
         ...libraryStore.library,
-        lab: loginStore.login.lab,
-        usageType: getDefaultLookupItem(routerStore.lookupItems, 'USAGE_TYPE'),
+        position: getDefaultLookupItem(routerStore.lookupItems, 'POSITION'),
+        groups: getDefaultLookupItem(routerStore.lookupItems, 'GROUPS'),
         libraryType: getDefaultLookupItem(
           routerStore.lookupItems,
           'LIBRARY_TYPE',
         ),
-        commentType: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'COMMENT_TYPE',
-        ),
-        commentsTarget: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'COMMENTS_TARGET',
-        ),
         parameter: getDefaultLookupItem(routerStore.lookupItems, 'PARAMETER'),
-        action: getDefaultLookupItem(routerStore.lookupItems, 'ACTION'),
-        results: getDefaultLookupItem(routerStore.lookupItems, 'RESULTS'),
-        sex: getDefaultLookupItem(routerStore.lookupItems, 'SEX'),
-        sexAction: getDefaultLookupItem(routerStore.lookupItems, 'SEX_ACTION'),
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
+        enteredBy: loginStore.login?.userId,
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',
         ),
-        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
-        libraryStore.updateLibrary({
-          ...libraryStore.library,
-          environment: loginStore.login.environment,
-        });
-      }
+      // if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      //   libraryStore.updateLibrary({
+      //     ...libraryStore.library,
+      //     environment: loginStore.login.environment,
+      //   });
+      // }
     }, [libraryStore, loginStore.login, routerStore.lookupItems]);
     return <Component {...props} />;
   });

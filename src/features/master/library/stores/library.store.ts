@@ -1,6 +1,7 @@
 import {makeObservable, action, observable, computed} from 'mobx';
 import {Library} from '../models';
 import {MasterAnalyteService} from '../services';
+import dayjs from 'dayjs';
 
 export class LibraryStore {
   library!: Library;
@@ -40,6 +41,15 @@ export class LibraryStore {
     this.listLibraryCount = 0;
     this.library = {
       ...this.library,
+      lab: 'Default',
+      department: 'Default',
+      editable: false,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      ),
+      versions: 1,
     };
   }
 

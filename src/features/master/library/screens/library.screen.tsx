@@ -11,16 +11,14 @@ import {
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelect,
-  AutoCompleteCheckMultiFilterKeys,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {LibraryList} from '../components';
+import dayjs from 'dayjs';
 
 import {useForm, Controller} from 'react-hook-form';
 import {LibraryHoc} from '../hoc';
 import {useStores} from '@/stores';
-import {AutoCompleteFilterSingleSelectDepartment} from '../components';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetLibrary} from '../startup';
@@ -38,7 +36,8 @@ export const Library = LibraryHoc(
       loading,
     } = useStores();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
+    const [departmentList, setDepartmentList] = useState([]);
 
     const {
       control,
@@ -46,22 +45,23 @@ export const Library = LibraryHoc(
       formState: {errors},
       setValue,
       reset,
-    } = useForm();
+    } = useForm({mode: 'all'});
 
     useEffect(() => {
       // Default value initialization
-      setValue('lab', loginStore.login.lab);
-      setValue('status', libraryStore.library?.status);
-      setValue('environment', libraryStore.library?.environment);
-      setValue('usageType', libraryStore.library?.usageType);
+      setValue('lab', libraryStore.library?.lab);
+      setValue('department', libraryStore.library?.department);
+      setValue('position', libraryStore.library?.position);
+      setValue('groups', libraryStore.library?.groups);
       setValue('libraryType', libraryStore.library?.libraryType);
-      setValue('commentType', libraryStore.library?.commentType);
-      setValue('commentsTarget', libraryStore.library?.commentsTarget);
       setValue('parameter', libraryStore.library?.parameter);
-      setValue('action', libraryStore.library?.action);
-      setValue('results', libraryStore.library?.results);
-      setValue('sex', libraryStore.library?.sex);
-      setValue('sexAction', libraryStore.library?.sexAction);
+      setValue('editable', libraryStore.library.editable);
+      setValue('status', libraryStore.library?.status);
+      setValue('enteredBy', libraryStore.library?.enteredBy);
+      setValue('dateCreation', libraryStore.library?.dateCreation);
+      setValue('dateExpire', libraryStore.library?.dateExpire);
+      setValue('versions', libraryStore.library?.versions);
+      setValue('environment', libraryStore.library?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [libraryStore.library]);
 
@@ -188,101 +188,142 @@ export const Library = LibraryHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={3}>
+            <Grid cols={2}>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.Input
-                      label='Code'
-                      placeholder={!!errors.code ? 'Please enter code' : 'Code'}
-                      value={value}
-                      hasError={!!errors.code}
-                      onChange={code => {
-                        onChange(code);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          code,
-                        });
-                      }}
-                      onBlur={code => {
-                        libraryStore.libraryService
-                          .checkExistsRecords({
-                            input: {
-                              code,
-                              env: libraryStore.library?.environment,
-                              lab: libraryStore.library?.lab,
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkLibrarysExistsRecord.success) {
-                              libraryStore.updateExistsLabEnvCode(true);
-                              Toast.error({
-                                message: `😔 ${res.checkLibrarysExistsRecord.message}`,
-                              });
-                            } else libraryStore.updateExistsLabEnvCode(false);
-                          });
-                      }}
-                    />
-                  )}
-                  name='code'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                {libraryStore.checkExistsLabEnvCode && (
-                  <span className='text-red-600 font-medium relative'>
-                    Code already exits. Please use other code.
-                  </span>
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Description'
+                      label='Library Code'
                       placeholder={
-                        errors.description
-                          ? 'Please Enter description'
-                          : 'Description'
+                        !!errors.libraryCode ? 'Please Enter code' : 'Code'
                       }
-                      hasError={!!errors.description}
+                      hasError={!!errors.libraryCode}
                       value={value}
-                      onChange={description => {
-                        onChange(description);
+                      onChange={libraryCode => {
+                        onChange(libraryCode);
                         libraryStore.updateLibrary({
                           ...libraryStore.library,
-                          description,
+                          libraryCode,
                         });
                       }}
                     />
                   )}
-                  name='description'
-                  rules={{required: false}}
+                  name='libraryCode'
+                  rules={{
+                    required: true,
+                    maxLength: 10,
+                  }}
                   defaultValue=''
                 />
+
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Usage Type'
-                      hasError={!!errors.usageType}
-                    >
+                    <Form.InputWrapper label='Lib' hasError={!!errors.lab}>
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.usageType ? 'border-red  ' : 'border-gray-300'
+                          errors.lab ? 'border-red  ' : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const usageType = e.target.value;
-                          onChange(usageType);
+                          const lab = e.target.value;
+                          onChange(lab);
                           libraryStore.updateLibrary({
                             ...libraryStore.library,
-                            usageType,
+                            lab,
+                          });
+                          // fetch department list
+                          departmentStore.DepartmentService.findByFields({
+                            input: {filter: {lab}},
+                          }).then(res => {
+                            if (res.findByFieldsDepartments.success) {
+                              setDepartmentList(
+                                res.findByFieldsDepartments?.data,
+                              );
+                            }
+                            console.log([res]);
                           });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'USAGE_TYPE').map(
+                        {[{code: 'Default'}]
+                          .concat(loginStore?.login?.labList)
+                          ?.map((item: any, index: number) => (
+                            <option key={index} value={item?.code}>
+                              {item?.code}
+                            </option>
+                          ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='lab'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Department'
+                      hasError={!!errors.department}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.department ? 'border-red  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const department = e.target.value;
+                          onChange(department);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            department,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {[{name: '', code: 'Default'}]
+                          .concat(departmentList)
+                          ?.map((item: any, index: number) => (
+                            <option key={index} value={item?.code}>
+                              {item.code != 'Default'
+                                ? item?.name + ' - ' + item?.code
+                                : item.code}
+                            </option>
+                          ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='department'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Position'
+                      hasError={!!errors.position}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.position ? 'border-red  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const position = e.target.value;
+                          onChange(position);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            position,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'POSITION').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
@@ -292,10 +333,48 @@ export const Library = LibraryHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='usageType'
+                  name='position'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Groups'
+                      hasError={!!errors.groups}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.groups ? 'border-red  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const groups = e.target.value;
+                          onChange(groups);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            groups,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'GROUPS').map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='groups'
                   rules={{required: false}}
                   defaultValue=''
                 />
+
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
@@ -320,14 +399,15 @@ export const Library = LibraryHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'LIBRARY_TYPE',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
+                        {lookupItems(routerStore.lookupItems, 'LIBRARY_TYPE')
+                          ?.filter(item =>
+                            item.code?.match(libraryStore.library.groups),
+                          )
+                          .map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
                       </select>
                     </Form.InputWrapper>
                   )}
@@ -335,194 +415,7 @@ export const Library = LibraryHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Comment Type'
-                      hasError={!!errors.commentType}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.commentType
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const commentType = e.target.value;
-                          onChange(commentType);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            commentType,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'COMMENT_TYPE',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='commentType'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
-                      <AutoCompleteFilterSingleSelect
-                        loader={loading}
-                        placeholder='Search by name'
-                        disable={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        displayValue={value}
-                        data={{
-                          list: labStore.listLabs,
-                          displayKey: 'name',
-                          findKey: 'name',
-                        }}
-                        hasError={!!errors.lab}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filter({
-                            input: {
-                              type: 'filter',
-                              filter: {
-                                name: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(item.name);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            lab: item.code,
-                          });
-                          labStore.updateLabList(labStore.listLabsCopy);
-                          libraryStore.libraryService
-                            .checkExistsRecords({
-                              input: {
-                                code: libraryStore.library.code,
-                                env: libraryStore.library?.environment,
-                                lab: item.code,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkLibrarysExistsRecord.success) {
-                                libraryStore.updateExistsLabEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkLibrarysExistsRecord.message}`,
-                                });
-                              } else libraryStore.updateExistsLabEnvCode(false);
-                            });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='lab'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Department'
-                      hasError={!!errors.department}
-                    >
-                      <AutoCompleteFilterSingleSelectDepartment
-                        onSelect={item => {
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            department: item.code,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='department'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Comments Target'
-                      hasError={!!errors.commentsTarget}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.commentsTarget
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const commentsTarget = e.target.value;
-                          onChange(commentsTarget);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            commentsTarget,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'COMMENTS_TARGET',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='commentsTarget'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Details'
-                      placeholder={
-                        errors.details ? 'Please Enter Details' : 'Detials'
-                      }
-                      hasError={!!errors.details}
-                      value={value}
-                      onChange={details => {
-                        onChange(details);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          details,
-                        });
-                      }}
-                    />
-                  )}
-                  name='details'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
+
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
@@ -559,174 +452,54 @@ export const Library = LibraryHoc(
                   rules={{required: false}}
                   defaultValue=''
                 />
+
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Action'
-                      hasError={!!errors.action}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.action ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const action = e.target.value;
-                          onChange(action);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            action,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'ACTION').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='action'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Results'
-                      hasError={!!errors.results}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.results ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const results = e.target.value;
-                          onChange(results);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            results,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'RESULTS').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='results'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Value'
-                      placeholder={
-                        errors.value ? 'Please Enter value' : 'Value'
-                      }
-                      hasError={!!errors.value}
+                    <Form.Toggle
+                      label='Editable'
+                      hasError={!!errors.editable}
                       value={value}
-                      onChange={value => {
-                        onChange(value);
+                      onChange={editable => {
+                        onChange(editable);
                         libraryStore.updateLibrary({
                           ...libraryStore.library,
-                          value,
+                          editable,
                         });
                       }}
                     />
                   )}
-                  name='value'
+                  name='editable'
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Reflex'
-                      hasError={!!errors.reflex}
-                    >
-                      <AutoCompleteCheckMultiFilterKeys
-                        placeholder='Search by panel name or panel code'
-                        data={{
-                          defulatValues: [],
-                          list: masterPanelStore.listMasterPanel || [],
-                          displayKey: ['panelName', 'panelCode'],
-                          findKey: ['panelName', 'panelCode'],
-                        }}
-                        onUpdate={items => {
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            reflex: items,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='reflex'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Analyte'
-                      placeholder={
-                        errors.analyte ? 'Please Enter analyte' : 'Analyte'
-                      }
-                      hasError={!!errors.analyte}
-                      value={value}
-                      onChange={analyte => {
-                        onChange(analyte);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          analyte,
-                        });
-                      }}
-                    />
-                  )}
-                  name='analyte'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.MultilineInput
                       rows={3}
-                      label='Rule'
-                      placeholder={!!errors.rule ? 'Please Enter rule' : 'Rule'}
-                      hasError={!!errors.rule}
+                      label='Details'
+                      placeholder={
+                        errors.details ? 'Please Enter Details' : 'Detials'
+                      }
+                      hasError={!!errors.details}
                       value={value}
-                      onChange={rule => {
-                        onChange(rule);
+                      onChange={details => {
+                        onChange(details);
                         libraryStore.updateLibrary({
                           ...libraryStore.library,
-                          rule,
+                          details,
                         });
                       }}
                     />
                   )}
-                  name='rule'
+                  name='details'
                   rules={{required: false}}
                   defaultValue=''
                 />
+
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
@@ -763,193 +536,69 @@ export const Library = LibraryHoc(
                   rules={{required: true}}
                   defaultValue=''
                 />
+
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Toggle
-                      label='AbNormal'
-                      hasError={!!errors.abNormal}
-                      value={value}
-                      onChange={abNormal => {
-                        onChange(abNormal);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          abNormal,
-                        });
-                      }}
-                    />
-                  )}
-                  name='abNormal'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({field: {value}}) => (
                     <Form.Input
-                      label='Organism Group'
-                      placeholder={
-                        errors.organismGroup
-                          ? 'Please Enter organismGroup'
-                          : 'Organism Group'
-                      }
-                      hasError={!!errors.organismGroup}
+                      label='Enter By'
+                      disabled
+                      hasError={!!errors.enteredBy}
                       value={value}
-                      onChange={organismGroup => {
-                        onChange(organismGroup);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          organismGroup,
-                        });
-                      }}
                     />
                   )}
-                  name='organismGroup'
+                  name='enteredBy'
                   rules={{required: false}}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({field: {value}}) => (
                     <Form.Input
-                      label='Organism Class'
-                      placeholder={
-                        errors.organismClass
-                          ? 'Please Enter organismClass'
-                          : 'Organism Class'
+                      label='Date Creation'
+                      disabled
+                      value={
+                        value
+                          ? dayjs(value)
+                              ?.format('DD-MM-YYYY HH:mm:ss')
+                              .toString()
+                          : ''
                       }
-                      hasError={!!errors.organismClass}
-                      value={value}
-                      onChange={organismClass => {
-                        onChange(organismClass);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          organismClass,
-                        });
-                      }}
                     />
                   )}
-                  name='organismClass'
+                  name='dateCreation'
                   rules={{required: false}}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({field: {value}}) => (
                     <Form.Input
-                      label='LO Age'
-                      placeholder={
-                        errors.loAge ? 'Please Enter loAge' : 'LO Age'
+                      label='Date Expire'
+                      disabled
+                      value={
+                        value
+                          ? dayjs(value)
+                              ?.format('DD-MM-YYYY HH:mm:ss')
+                              .toString()
+                          : ''
                       }
-                      hasError={!!errors.loAge}
-                      value={value}
-                      onChange={loAge => {
-                        onChange(loAge);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          loAge: Number.parseInt(loAge),
-                        });
-                      }}
                     />
                   )}
-                  name='loAge'
+                  name='dateExpire'
                   rules={{required: false}}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='HI Age'
-                      placeholder={
-                        errors.hiAge ? 'Please Enter hiAge' : 'HI Age'
-                      }
-                      hasError={!!errors.hiAge}
-                      value={value}
-                      onChange={hiAge => {
-                        onChange(hiAge);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          hiAge: Number.parseInt(hiAge),
-                        });
-                      }}
-                    />
+                  render={({field: {value}}) => (
+                    <Form.Input label='Versions' disabled value={value} />
                   )}
-                  name='hiAge'
+                  name='versions'
                   rules={{required: false}}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sex ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const sex = e.target.value;
-                          onChange(sex);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            sex,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'SEX').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='sex'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Sex Action'
-                      hasError={!!errors.sexAction}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sexAction ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const sexAction = e.target.value;
-                          onChange(sexAction);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            sexAction,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'SEX_ACTION').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='sexAction'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
@@ -964,12 +613,7 @@ export const Library = LibraryHoc(
                             ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
+                        disabled={true}
                         onChange={e => {
                           const environment = e.target.value;
                           onChange(environment);

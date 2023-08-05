@@ -1,8 +1,8 @@
 import {eventEmitter} from '@/core-utils';
-import {Stores} from './stores';
+import {stores} from '@/stores';
 const startup = async () => {
   setTimeout(() => {
-    Stores.libraryStore.fetchLibrary();
+    stores.libraryStore.fetchLibrary();
   }, 2000);
 };
 export const resetLibrary = () => {

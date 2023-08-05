@@ -11,29 +11,21 @@ export const LIST = gql`
       data {
         _id
         code
-        description
-        usageType
-        libraryType
-        commentType
+        libraryCode
         lab
         department
-        commentsTarget
-        details
+        position
+        groups
+        libraryType
         parameter
-        action
-        results
-        value
-        reflex
-        analyte
-        rule
-        abNormal
+        editable
+        details
         status
-        organismGroup
-        organismClass
-        loAge
-        hiAge
-        sex
-        sexAction
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        versions
         environment
         dateOfEntry
         lastUpdated
@@ -89,29 +81,21 @@ export const FILTER = gql`
       data {
         _id
         code
-        description
-        usageType
-        libraryType
-        commentType
+        libraryCode
         lab
         department
-        commentsTarget
-        details
+        position
+        groups
+        libraryType
         parameter
-        action
-        results
-        value
-        reflex
-        analyte
-        rule
-        abNormal
+        editable
+        details
         status
-        organismGroup
-        organismClass
-        loAge
-        hiAge
-        sex
-        sexAction
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        versions
         environment
         dateOfEntry
         lastUpdated
@@ -128,29 +112,21 @@ export const LIBRARYS_BY_CODE = gql`
       data {
         _id
         code
-        description
-        usageType
-        libraryType
-        commentType
+        libraryCode
         lab
         department
-        commentsTarget
-        details
+        position
+        groups
+        libraryType
         parameter
-        action
-        results
-        value
-        reflex
-        analyte
-        rule
-        abNormal
+        editable
+        details
         status
-        organismGroup
-        organismClass
-        loAge
-        hiAge
-        sex
-        sexAction
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        versions
         environment
         dateOfEntry
         lastUpdated
@@ -170,29 +146,21 @@ export const FILTER_BY_FIELDS = gql`
       data {
         _id
         code
-        description
-        usageType
-        libraryType
-        commentType
+        libraryCode
         lab
         department
-        commentsTarget
-        details
+        position
+        groups
+        libraryType
         parameter
-        action
-        results
-        value
-        reflex
-        analyte
-        rule
-        abNormal
+        editable
+        details
         status
-        organismGroup
-        organismClass
-        loAge
-        hiAge
-        sex
-        sexAction
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        versions
         environment
         dateOfEntry
         lastUpdated
@@ -209,29 +177,21 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         code
-        description
-        usageType
-        libraryType
-        commentType
+        libraryCode
         lab
         department
-        commentsTarget
-        details
+        position
+        groups
+        libraryType
         parameter
-        action
-        results
-        value
-        reflex
-        analyte
-        rule
-        abNormal
+        editable
+        details
         status
-        organismGroup
-        organismClass
-        loAge
-        hiAge
-        sex
-        sexAction
+        enteredBy
+        dateCreation
+        dateActive
+        dateExpire
+        versions
         environment
         dateOfEntry
         lastUpdated
