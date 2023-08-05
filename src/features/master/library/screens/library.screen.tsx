@@ -92,6 +92,7 @@ export const Library = LibraryHoc(
           data={libraryStore.listLibrary || []}
           totalSize={libraryStore.listLibraryCount}
           extraData={{
+            loginDetails: loginStore.login,
             listLookup: lookupStore.listLookup,
             library: libraryStore.library,
             listLabs: labStore.listLabs,
@@ -118,11 +119,11 @@ export const Library = LibraryHoc(
               body: 'Delete selected items!',
             });
           }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
+          onUpdateItem={(fields: any, id: string) => {
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: {fields, id},
               title: 'Are you sure?',
               body: 'Update item!',
             });
@@ -242,7 +243,6 @@ export const Library = LibraryHoc(
                                 res.findByFieldsDepartments?.data,
                               );
                             }
-                            console.log([res]);
                           });
                         }}
                       >
@@ -724,8 +724,8 @@ export const Library = LibraryHoc(
                   libraryStore.libraryService
                     .updateSingleFiled({
                       input: {
+                        ...modalConfirm.data.fields,
                         _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
                       },
                     })
                     .then((res: any) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
   TableBootstrap,
@@ -6,9 +6,13 @@ import {
   Icons,
   textFilter,
   sortCaret,
+  Form,
+  DateFilter,
+  customFilter,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-
+import DepartmentList from '../organsims/department-list.component';
+import dayjs from 'dayjs';
 let libraryCode;
 let lab;
 let department;
@@ -34,7 +38,7 @@ interface LibraryListProps {
   isEditModify?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
-  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateItem?: (fields: any, id: string) => void;
   onVersionUpgrade?: (item: any) => void;
   onDuplicate?: (item: any) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
@@ -50,6 +54,8 @@ export const LibraryList = (props: LibraryListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+  const refDepartmentList = useRef<Array<any>>([]);
+
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -90,7 +96,88 @@ export const LibraryList = (props: LibraryListProps) => {
               filter: textFilter({}),
               editable: false,
             },
-
+            {
+              dataField: 'lab',
+              text: 'Lab',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  lab = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.lab}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const lab = e.target.value;
+                      props.onUpdateItem && props.onUpdateItem({lab}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[{code: 'Default'}]
+                      .concat(props.extraData?.loginDetails?.labList)
+                      ?.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item?.code}
+                        </option>
+                      ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'department',
+              text: 'Department',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  department = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <DepartmentList
+                    row={row}
+                    onUpdate={department =>
+                      props.onUpdateItem &&
+                      props.onUpdateItem({department}, row._id)
+                    }
+                  />
+                </>
+              ),
+            },
             {
               dataField: 'position',
               text: 'Position',
@@ -120,17 +207,59 @@ export const LibraryList = (props: LibraryListProps) => {
                   <select
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const usageType = e.target.value;
+                      const position = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(
-                          usageType,
-                          column.dataField,
-                          row._id,
-                        );
+                        props.onUpdateItem({position}, row._id);
                     }}
                   >
                     <option selected>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'POSITION').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'groups',
+              text: 'Groups',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  groups = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const groups = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({groups}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'GROUPS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -172,27 +301,235 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const libraryType = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(
-                          libraryType,
-                          column.dataField,
-                          row._id,
-                        );
+                        props.onUpdateItem({libraryType}, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      'LIBRARY_TYPE',
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
+                    {lookupItems(props.extraData.lookupItems, 'LIBRARY_TYPE')
+                      ?.filter(item => item.code?.match(row?.groups))
+                      .map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
                   </select>
                 </>
               ),
             },
-
+            {
+              dataField: 'parameter',
+              text: 'Parameter',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  groups = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const parameter = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({parameter}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'PARAMETER').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'editable',
+              text: 'Editable',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.editable ? (row.editable ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.editable}
+                      onChange={editable => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem({editable}, row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'details',
+              text: 'Details',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({}),
+              editable: false,
+            },
+            {
+              dataField: 'status',
+              text: 'Status',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  status = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const status = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({status}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'enteredBy',
+              text: 'Entered By',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({}),
+              editable: false,
+            },
+            {
+              dataField: 'dateCreation',
+              editable: false,
+              text: 'Date Creation',
+              headerClasses: 'textHeader11',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row.dateCreation
+                  ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')
+                  : '',
+              filter: customFilter({
+                getFilter: filter => {
+                  dateCreation = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')}
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'dateExpire',
+              editable: false,
+              text: 'Date Expire',
+              headerClasses: 'textHeader11',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row.dateExpire
+                  ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')
+                  : '',
+              filter: customFilter({
+                getFilter: filter => {
+                  dateExpire = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')}
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'versions',
+              text: 'Versions',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({}),
+              editable: false,
+            },
             {
               dataField: 'environment',
               text: 'Environment',
@@ -227,11 +564,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const environment = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem(
-                          environment,
-                          column.dataField,
-                          row._id,
-                        );
+                        props.onUpdateItem({environment}, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -296,7 +629,7 @@ export const LibraryList = (props: LibraryListProps) => {
               props.onSelectedRow(rows.map((item: any) => item._id));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
+            props.onUpdateItem && props.onUpdateItem({dataField: value}, id);
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size);
