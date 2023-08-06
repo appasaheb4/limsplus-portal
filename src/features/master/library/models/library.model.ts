@@ -1,5 +1,7 @@
 export class Library {
   _id: string;
+  existsVersionId: string;
+  existsRecordId: string;
   code: number;
   libraryCode: string;
   lab: string;
@@ -22,6 +24,8 @@ export class Library {
 
   constructor(rawData: {[key in string]: any}) {
     this._id = rawData._id;
+    this.existsVersionId = rawData.existsVersionId;
+    this.existsRecordId = rawData.existsRecordId;
     this.code = rawData.code;
     this.libraryCode = rawData.libraryCode;
     this.lab = rawData.lab;

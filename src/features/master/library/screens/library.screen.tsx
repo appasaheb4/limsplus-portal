@@ -23,6 +23,24 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetLibrary} from '../startup';
 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+const modules = {
+  toolbar: [
+    [{header: '1'}, {header: '2'}, {font: []}],
+    [{size: []}],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
+    ['link', 'image', 'video'],
+    ['clean'],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
+
 export const Library = LibraryHoc(
   observer(() => {
     const {
@@ -36,7 +54,7 @@ export const Library = LibraryHoc(
       loading,
     } = useStores();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
+    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [departmentList, setDepartmentList] = useState([]);
 
     const {
@@ -48,7 +66,8 @@ export const Library = LibraryHoc(
     } = useForm({mode: 'all'});
 
     useEffect(() => {
-      // Default value initialization
+      // Default value initialization\
+      setValue('libraryCode', libraryStore.library?.libraryCode);
       setValue('lab', libraryStore.library?.lab);
       setValue('department', libraryStore.library?.department);
       setValue('position', libraryStore.library?.position);
@@ -56,6 +75,7 @@ export const Library = LibraryHoc(
       setValue('libraryType', libraryStore.library?.libraryType);
       setValue('parameter', libraryStore.library?.parameter);
       setValue('editable', libraryStore.library.editable);
+      setValue('details', libraryStore.library.details);
       setValue('status', libraryStore.library?.status);
       setValue('enteredBy', libraryStore.library?.enteredBy);
       setValue('dateCreation', libraryStore.library?.dateCreation);
@@ -74,7 +94,7 @@ export const Library = LibraryHoc(
               Toast.success({
                 message: `😊 ${res.createLibrary.message}`,
               });
-              setHideAddLab(true);
+              setHideAddLab(!hideAddLab);
               reset();
               resetLibrary();
             }
@@ -200,7 +220,7 @@ export const Library = LibraryHoc(
                         !!errors.libraryCode ? 'Please Enter code' : 'Code'
                       }
                       hasError={!!errors.libraryCode}
-                      value={value}
+                      value={value?.toString()}
                       onChange={libraryCode => {
                         onChange(libraryCode);
                         libraryStore.updateLibrary({
@@ -478,22 +498,26 @@ export const Library = LibraryHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Details'
-                      placeholder={
-                        errors.details ? 'Please Enter Details' : 'Detials'
-                      }
-                      hasError={!!errors.details}
-                      value={value}
-                      onChange={details => {
-                        onChange(details);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          details,
-                        });
-                      }}
-                    />
+                    <>
+                      <Form.InputWrapper
+                        label='Details'
+                        hasError={!!errors.details}
+                      >
+                        <ReactQuill
+                          placeholder='Type here'
+                          theme='snow'
+                          value={value}
+                          modules={modules}
+                          onChange={details => {
+                            onChange(details);
+                            libraryStore.updateLibrary({
+                              ...libraryStore.library,
+                              details,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    </>
                   )}
                   name='details'
                   rules={{required: false}}
@@ -690,12 +714,12 @@ export const Library = LibraryHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({show: false});
               switch (action) {
                 case 'Delete': {
                   libraryStore.libraryService
                     .deleteLibrary({input: {id: modalConfirm.id}})
                     .then((res: any) => {
-                      setModalConfirm({show: false});
                       if (res.removeLibrary.success) {
                         Toast.success({
                           message: `😊 ${res.removeLibrary.message}`,
@@ -729,7 +753,6 @@ export const Library = LibraryHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
                       if (res.updateLibrary.success) {
                         Toast.success({
                           message: `😊 ${res.updateLibrary.message}`,
@@ -751,6 +774,34 @@ export const Library = LibraryHoc(
                         else libraryStore.fetchLibrary();
                       }
                     });
+                  break;
+                }
+                case 'versionUpgrade': {
+                  libraryStore.updateLibrary({
+                    ...modalConfirm.data,
+                    __typename: undefined,
+                    _id: undefined,
+                    code: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    versions: Number.parseInt(modalConfirm.data.versions + 1),
+                    dateActive: new Date(),
+                  });
+                  setHideAddLab(!hideAddLab);
+                  break;
+                }
+                case 'duplicate': {
+                  libraryStore.updateLibrary({
+                    ...modalConfirm.data,
+                    __typename: undefined,
+                    _id: undefined,
+                    code: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    versions: Number.parseInt(modalConfirm.data.versions),
+                    dateActive: new Date(),
+                  });
+                  setHideAddLab(!hideAddLab);
                   break;
                 }
               }

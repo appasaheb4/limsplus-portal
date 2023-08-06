@@ -9,10 +9,13 @@ import {
   Form,
   DateFilter,
   customFilter,
+  NumberFilter,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
 import DepartmentList from '../organsims/department-list.component';
 import dayjs from 'dayjs';
+
+let code;
 let libraryCode;
 let lab;
 let department;
@@ -73,14 +76,21 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'code',
               text: 'Code',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({}),
+              filter: customFilter({
+                getFilter: filter => {
+                  code = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: false,
             },
             {
@@ -390,13 +400,15 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Details',
               headerClasses: 'textHeader1',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({}),
               editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <div dangerouslySetInnerHTML={{__html: row?.details}} />
+                  </>
+                );
+              },
             },
             {
               dataField: 'status',
@@ -520,14 +532,21 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'versions',
               text: 'Versions',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({}),
+              filter: customFilter({
+                getFilter: filter => {
+                  versions = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: false,
             },
             {
@@ -588,7 +607,7 @@ export const LibraryList = (props: LibraryListProps) => {
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
+                  <div className='flex flex-row gap-2'>
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
                         color='#fff'
@@ -607,6 +626,33 @@ export const LibraryList = (props: LibraryListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
+                    {row.status !== 'I' && (
+                      <>
+                        <Tooltip tooltipText='Version Upgrade'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onVersionUpgrade &&
+                              props.onVersionUpgrade(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip tooltipText='Duplicate'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onDuplicate && props.onDuplicate(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      </>
+                    )}
                   </div>
                 </>
               ),
