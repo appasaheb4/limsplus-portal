@@ -35,6 +35,7 @@ import {PossibleResultsStore} from '@/features/master/possible-results/stores/po
 import {LibraryStore} from '@/features/master/library/stores/library.store';
 import {PriceListStore} from '@/features/master/price-list/stores/price-list.store';
 import {RefernceRangesStore} from '@/features/master/reference-ranges/stores/reference-ranges.store';
+import {CommentManagerStore} from '@/features/master/comment-manager/stores/library.store';
 
 // communication
 import {InterfaceManagerStore} from '@/features/communication/interface-manager/stores/interface-manager.store';
@@ -115,6 +116,7 @@ export class Stores extends Store {
   libraryStore!: LibraryStore;
   priceListStore!: PriceListStore;
   refernceRangesStore!: RefernceRangesStore;
+  commentManagerStore!: CommentManagerStore;
 
   // communication
   interfaceManagerStore!: InterfaceManagerStore;
@@ -195,6 +197,7 @@ export class Stores extends Store {
     this.libraryStore = new LibraryStore();
     this.priceListStore = new PriceListStore();
     this.refernceRangesStore = new RefernceRangesStore();
+    this.commentManagerStore = new CommentManagerStore();
 
     // communication
     this.interfaceManagerStore = new InterfaceManagerStore();

@@ -104,7 +104,7 @@ const Dashboard = observer(({children}) => {
     const currentLocation = window.location;
     pathname = pathname || currentLocation.pathname;
     //console.log({ beforeStore: pathname })
-    //console.log({ pathname })
+    // console.log({pathname});
     if (pathname !== '/' && stores && loginStore.login) {
       // for every table filer access filter data
       global.filter = undefined;

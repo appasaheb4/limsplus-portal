@@ -4,7 +4,6 @@
  
  * @author limsplus
  */
-import * as Models from '../models';
 import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
 import {stores} from '@/stores';
 
@@ -13,15 +12,13 @@ import {
   REMOVE_RECORDS,
   CREATE_RECORD,
   UPDATE_RECORD,
-  CHECK_EXISTS_RECORD,
   FILTER,
-  LIBRARYS_BY_CODE,
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
 } from './mutation';
 
-export class MasterAnalyteService {
-  listLibrary = (page = 0, limit = 10) =>
+export class CommentManagerService {
+  list = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
@@ -41,7 +38,7 @@ export class MasterAnalyteService {
         );
     });
 
-  addLibrary = (variables: any) =>
+  add = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -55,7 +52,7 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
-  deleteLibrary = (variables: any) =>
+  delete = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -69,27 +66,11 @@ export class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
-  updateSingleFiled = (variables: any) =>
+  update = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: UPDATE_RECORD,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data);
-          stores.libraryStore.updateLibrary(new Models.Library({}));
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
-
-  checkExistsRecords = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: CHECK_EXISTS_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -109,24 +90,9 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterLibrarys.success) return this.listLibrary();
+          if (!response.data.filterLibrarys.success) return this.list();
           stores.libraryStore.filterLibraryList(response.data);
           stores.uploadLoadingFlag(true);
-          resolve(response.data);
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
-
-  librarysByCode = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: LIBRARYS_BY_CODE,
-          variables,
-        })
-        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>
@@ -143,8 +109,7 @@ export class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsLibrarys.success)
-            return this.listLibrary();
+          if (!response.data.filterByFieldsLibrarys.success) return this.list();
           stores.libraryStore.filterLibraryList({
             filterLibrarys: {
               data: response.data.filterByFieldsLibrarys.data,
@@ -163,8 +128,6 @@ export class MasterAnalyteService {
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
       stores.uploadLoadingFlag(false);
       client
         .mutate({

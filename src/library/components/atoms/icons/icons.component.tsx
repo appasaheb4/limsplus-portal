@@ -242,9 +242,14 @@ export const EvaIcon: React.FunctionComponent<IconProps> = (
 interface RIconProps {
   nameIcon: string;
   propsIcon?: IconBaseProps;
+  onClick?: () => void;
 }
 
-export const RIcon = ({nameIcon, propsIcon}: RIconProps): JSX.Element => {
+export const RIcon = ({
+  nameIcon,
+  propsIcon,
+  onClick,
+}: RIconProps): JSX.Element => {
   try {
     const lib = nameIcon
       .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
@@ -257,7 +262,11 @@ export const RIcon = ({nameIcon, propsIcon}: RIconProps): JSX.Element => {
           el[nameIcon] != null ? el[nameIcon] : el[Object.keys(el.default)[0]],
       },
     );
-    return <ElementIcon {...propsIcon} />;
+    return (
+      <div onClick={() => onClick && onClick()}>
+        <ElementIcon {...propsIcon} />
+      </div>
+    );
   } catch (error) {
     return <></>;
   }
