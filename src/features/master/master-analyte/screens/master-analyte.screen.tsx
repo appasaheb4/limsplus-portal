@@ -21,7 +21,6 @@ import {MasterAnalyteHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {FormHelper} from '@/helper';
 import {InputResult} from '@/core-components';
-
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetMasterAnalyte} from '../startup';
@@ -36,7 +35,6 @@ const MasterAnalyte = MasterAnalyteHoc(
       routerStore,
       loading,
       departmentStore,
-      interfaceManagerStore,
       libraryStore,
     } = useStores();
 
