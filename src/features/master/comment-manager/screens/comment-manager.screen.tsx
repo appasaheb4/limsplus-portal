@@ -1,6 +1,5 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
-import _ from 'lodash';
 import {
   Toast,
   Header,
@@ -18,11 +17,11 @@ import {LibraryList} from '../components';
 import dayjs from 'dayjs';
 
 import {useForm, Controller} from 'react-hook-form';
-import {LibraryHoc} from '../hoc';
+import {CommentManagerHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-import {resetLibrary} from '../startup';
+import {resetCommentManager} from '../startup';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -42,7 +41,7 @@ const modules = {
   },
 };
 
-export const Library = LibraryHoc(
+const CommentManager = CommentManagerHoc(
   observer(() => {
     const {
       loginStore,
@@ -57,7 +56,6 @@ export const Library = LibraryHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [departmentList, setDepartmentList] = useState([]);
-    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     const {
       control,
@@ -88,7 +86,7 @@ export const Library = LibraryHoc(
     }, [libraryStore.library]);
 
     const onSubmitLibrary = data => {
-      if (!isExistsRecord) {
+      if (!libraryStore.checkExistsLabEnvCode) {
         libraryStore.libraryService
           .addLibrary({input: {...libraryStore.library}})
           .then(res => {
@@ -98,12 +96,12 @@ export const Library = LibraryHoc(
               });
               setHideAddLab(!hideAddLab);
               reset();
-              resetLibrary();
+              resetCommentManager();
             }
           });
       } else {
-        Toast.error({
-          message: '😔 Already some record exists.',
+        Toast.warning({
+          message: '😔 Please enter diff code',
         });
       }
     };
@@ -190,35 +188,6 @@ export const Library = LibraryHoc(
       [libraryStore.listLibrary],
     );
 
-    const checkExistsRecords = filed => {
-      libraryStore.libraryService
-        .findByFields({
-          input: {
-            filter: {
-              ..._.pick(libraryStore.library, [
-                'libraryCode',
-                'lab',
-                'department',
-                'position',
-                'parameter',
-                'status',
-                'versions',
-                'environment',
-              ]),
-              ...filed,
-            },
-          },
-        })
-        .then(res => {
-          if (res.findByFieldsLibrarys?.success) {
-            setIsExistsRecord(true);
-            Toast.error({
-              message: '😔 Already some record exists.',
-            });
-          }
-        });
-    };
-
     return (
       <>
         <Header>
@@ -259,11 +228,6 @@ export const Library = LibraryHoc(
                           libraryCode,
                         });
                       }}
-                      onBlur={libraryCode => {
-                        if (libraryCode) {
-                          checkExistsRecords({libraryCode});
-                        }
-                      }}
                     />
                   )}
                   name='libraryCode'
@@ -290,9 +254,6 @@ export const Library = LibraryHoc(
                             ...libraryStore.library,
                             lab,
                           });
-                          if (lab) {
-                            checkExistsRecords({lab});
-                          }
                           // fetch department list
                           departmentStore.DepartmentService.findByFields({
                             input: {filter: {lab}},
@@ -340,9 +301,6 @@ export const Library = LibraryHoc(
                             ...libraryStore.library,
                             department,
                           });
-                          if (department) {
-                            checkExistsRecords({department});
-                          }
                         }}
                       >
                         <option selected>Select</option>
@@ -382,9 +340,6 @@ export const Library = LibraryHoc(
                             ...libraryStore.library,
                             position,
                           });
-                          if (position) {
-                            checkExistsRecords({position});
-                          }
                         }}
                       >
                         <option selected>Select</option>
@@ -500,9 +455,6 @@ export const Library = LibraryHoc(
                             ...libraryStore.library,
                             parameter,
                           });
-                          if (parameter) {
-                            checkExistsRecords({parameter});
-                          }
                         }}
                       >
                         <option selected>Select</option>
@@ -591,9 +543,6 @@ export const Library = LibraryHoc(
                             ...libraryStore.library,
                             status,
                           });
-                          if (status) {
-                            checkExistsRecords({status});
-                          }
                         }}
                       >
                         <option selected>Select</option>
@@ -696,9 +645,6 @@ export const Library = LibraryHoc(
                             ...libraryStore.library,
                             environment,
                           });
-                          if (environment) {
-                            checkExistsRecords({environment});
-                          }
                           libraryStore.libraryService
                             .checkExistsRecords({
                               input: {
@@ -869,5 +815,4 @@ export const Library = LibraryHoc(
     );
   }),
 );
-
-export default Library;
+export default CommentManager;

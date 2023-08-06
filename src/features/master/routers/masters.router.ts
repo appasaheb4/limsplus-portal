@@ -73,6 +73,10 @@ const ReferenceRanges = async(
   () => import('../reference-ranges/screens/reference-ranges.screen'),
 );
 
+const CommentManager = async(
+  () => import('../comment-manager/screens/comment-manager.screen'),
+);
+
 export const collectionRoutes = {
   path: '/collection',
   name: 'Collection',
@@ -234,6 +238,12 @@ export const collectionRoutes = {
       name: 'ReferenceRanges',
       icon: 'VscReferences',
       component: ReferenceRanges,
+    },
+    {
+      path: '/collection/comment-manager',
+      name: 'Comment Manager',
+      icon: 'BiCommentDetail',
+      component: CommentManager,
     },
   ],
 };
