@@ -1,1 +1,1 @@
-export * from './library.store';
+export * from './comment-manager.store';

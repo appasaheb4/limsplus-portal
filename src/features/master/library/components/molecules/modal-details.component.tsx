@@ -1,22 +1,45 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container} from 'reactstrap';
-import {Form} from '../../..';
 
-interface ModalProps {
-  show?: boolean;
-  title?: string;
-  onClick: (image: any) => void;
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+const modules = {
+  toolbar: [
+    [{header: '1'}, {header: '2'}, {font: []}],
+    [{size: []}],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
+    ['link'],
+    ['clean'],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
+
+interface ModalDetailsProps {
+  visible: boolean;
+  details: string;
+  onUpdate: (details: string) => void;
   onClose: () => void;
 }
 
-export const ModalFileUpload = (props: ModalProps) => {
-  const [showModal, setShowModal] = React.useState(props.show);
-  const [image, setImage] = React.useState<any>();
+const ModalDetails = ({
+  visible,
+  details,
+  onUpdate,
+  onClose,
+}: ModalDetailsProps) => {
+  const [value, setValue] = useState(details);
+  const [showModal, setShowModal] = React.useState(visible);
 
   useEffect(() => {
-    setShowModal(props.show);
-  }, [props.show]);
-
+    setShowModal(visible);
+    setValue(details);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
   return (
     <Container>
       {showModal && (
@@ -27,12 +50,12 @@ export const ModalFileUpload = (props: ModalProps) => {
               <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                 {/*header*/}
                 <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                  <h3 className='text-3xl font-semibold'>{props.title}</h3>
+                  <h3 className='text-3xl font-semibold'>Update details</h3>
                   <button
                     className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                     onClick={() => {
                       setShowModal(false);
-                      props.onClose && props.onClose();
+                      onClose && onClose();
                     }}
                   >
                     <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
@@ -42,15 +65,20 @@ export const ModalFileUpload = (props: ModalProps) => {
                 </div>
                 {/*body*/}
                 <div className='relative p-2 flex-auto'>
-                  <Form.InputFile
-                    label='File'
-                    id='file'
-                    placeholder='File'
-                    onChange={e => {
-                      const image = e.target.files[0];
-                      setImage(image);
-                    }}
-                  />
+                  <div className='grid grid-cols-2 gap-2'>
+                    <div>
+                      <ReactQuill
+                        placeholder='Type here'
+                        theme='snow'
+                        value={value}
+                        modules={modules}
+                        onChange={details => {
+                          setValue(details);
+                        }}
+                      />
+                    </div>
+                    <div dangerouslySetInnerHTML={{__html: value}} />
+                  </div>
                 </div>
                 {/*footer*/}
                 <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
@@ -60,7 +88,7 @@ export const ModalFileUpload = (props: ModalProps) => {
                     style={{transition: 'all .15s ease'}}
                     onClick={() => {
                       setShowModal(false);
-                      props.onClose && props.onClose();
+                      onClose && onClose();
                     }}
                   >
                     Close
@@ -70,11 +98,7 @@ export const ModalFileUpload = (props: ModalProps) => {
                     type='button'
                     style={{transition: 'all .15s ease'}}
                     onClick={() => {
-                      if (image !== undefined) {
-                        props.onClick && props.onClick(image);
-                      } else {
-                        alert('Please select image');
-                      }
+                      onUpdate && onUpdate(value);
                     }}
                   >
                     Upload
@@ -89,3 +113,5 @@ export const ModalFileUpload = (props: ModalProps) => {
     </Container>
   );
 };
+
+export default ModalDetails;

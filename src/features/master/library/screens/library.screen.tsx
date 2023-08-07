@@ -33,7 +33,7 @@ const modules = {
     [{size: []}],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
     [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
-    ['link', 'image', 'video'],
+    ['link'],
     ['clean'],
   ],
   clipboard: {
@@ -256,12 +256,14 @@ export const Library = LibraryHoc(
                         onChange(libraryCode);
                         libraryStore.updateLibrary({
                           ...libraryStore.library,
-                          libraryCode,
+                          libraryCode: libraryCode?.toUpperCase(),
                         });
                       }}
                       onBlur={libraryCode => {
                         if (libraryCode) {
-                          checkExistsRecords({libraryCode});
+                          checkExistsRecords({
+                            libraryCode: libraryCode?.toUpperCase(),
+                          });
                         }
                       }}
                     />
@@ -277,7 +279,7 @@ export const Library = LibraryHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Lib' hasError={!!errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${

@@ -35,7 +35,7 @@ import {PossibleResultsStore} from '@/features/master/possible-results/stores/po
 import {LibraryStore} from '@/features/master/library/stores/library.store';
 import {PriceListStore} from '@/features/master/price-list/stores/price-list.store';
 import {RefernceRangesStore} from '@/features/master/reference-ranges/stores/reference-ranges.store';
-import {CommentManagerStore} from '@/features/master/comment-manager/stores/library.store';
+import {CommentManagerStore} from '@/features/master/comment-manager/stores/comment-manager.store';
 
 // communication
 import {InterfaceManagerStore} from '@/features/communication/interface-manager/stores/interface-manager.store';

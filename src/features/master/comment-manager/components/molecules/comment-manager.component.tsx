@@ -12,7 +12,6 @@ import {
   NumberFilter,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import DepartmentList from '../organsims/department-list.component';
 import dayjs from 'dayjs';
 
 let code;
@@ -33,7 +32,7 @@ let dateExpire;
 let versions;
 let environment;
 
-interface LibraryListProps {
+interface CommentManagerListProps {
   data: any;
   totalSize: number;
   extraData: any;
@@ -53,7 +52,7 @@ interface LibraryListProps {
   ) => void;
 }
 
-export const LibraryList = (props: LibraryListProps) => {
+export const CommentManagerList = (props: CommentManagerListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -178,13 +177,13 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <DepartmentList
+                  {/* <DepartmentList
                     row={row}
                     onUpdate={department =>
                       props.onUpdateItem &&
                       props.onUpdateItem({department}, row._id)
                     }
-                  />
+                  /> */}
                 </>
               ),
             },

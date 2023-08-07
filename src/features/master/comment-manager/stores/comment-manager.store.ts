@@ -38,7 +38,6 @@ export class CommentManagerStore {
       ...this.commentManager,
       lab: 'Default',
       department: 'Default',
-      editable: false,
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
