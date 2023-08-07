@@ -13,7 +13,7 @@ import {
   ModalConfirm,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {LibraryList} from '../components';
+import {CommentManagerList} from '../components';
 import dayjs from 'dayjs';
 
 import {useForm, Controller} from 'react-hook-form';
@@ -108,7 +108,7 @@ const CommentManager = CommentManagerHoc(
 
     const tableView = useMemo(
       () => (
-        <LibraryList
+        <CommentManagerList
           data={libraryStore.listLibrary || []}
           totalSize={libraryStore.listLibraryCount}
           extraData={{

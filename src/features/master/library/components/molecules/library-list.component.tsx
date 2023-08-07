@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useState} from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
   TableBootstrap,
@@ -14,6 +14,7 @@ import {
 import {Confirm} from '@/library/models';
 import DepartmentList from '../organsims/department-list.component';
 import dayjs from 'dayjs';
+import ModalDetails from './modal-details.component';
 
 let code;
 let libraryCode;
@@ -57,7 +58,7 @@ export const LibraryList = (props: LibraryListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
-  const refDepartmentList = useRef<Array<any>>([]);
+  const [modalDetails, setModalDetails] = useState<any>();
 
   return (
     <>
@@ -405,7 +406,18 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <div dangerouslySetInnerHTML={{__html: row?.details}} />
+                    <button
+                      className='p-1 bg-blue-500 rounded-sm text-white'
+                      onClick={() => {
+                        setModalDetails({
+                          visible: true,
+                          details: row?.details,
+                          _id: row?._id,
+                        });
+                      }}
+                    >
+                      Show Details
+                    </button>
                   </>
                 );
               },
@@ -686,6 +698,17 @@ export const LibraryList = (props: LibraryListProps) => {
           clearAllFilter={() => {
             libraryCode('');
             environment('');
+          }}
+        />
+        <ModalDetails
+          {...modalDetails}
+          onUpdate={details => {
+            setModalDetails({visible: false});
+            props.onUpdateItem &&
+              props.onUpdateItem({details}, modalDetails._id);
+          }}
+          onClose={() => {
+            setModalDetails({visible: false});
           }}
         />
       </div>
