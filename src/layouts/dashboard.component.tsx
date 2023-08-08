@@ -237,6 +237,7 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/collection/comment-manager') {
         await CommentManager.startup();
+        await Library.startup();
       }
       // settings
       if (pathname === '/settings/environment') await Environment.startup();
