@@ -21,6 +21,7 @@ import {stores, useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {eventEmitter} from '@/core-utils';
 
+// master
 import * as Banner from '@/features/master/banner';
 import * as Deginisation from '@/features/master/deginisation';
 import * as Lab from '@/features/master/labs';
@@ -51,7 +52,7 @@ import * as PossibleResults from '@/features/master/possible-results';
 import * as Library from '@/features/master/library';
 import * as PriceList from '@/features/master/price-list';
 import * as ReferenceRanges from '@/features/master/reference-ranges';
-import * as SegmentMapping from '@/features/communication/segment-mapping';
+import * as CommentManager from '@/features/master/comment-manager';
 
 // communication
 import * as InterfaceManager from '@/features/communication/interface-manager';
@@ -60,6 +61,7 @@ import * as HostCommunication from '@/features/communication/host-communication'
 import * as InstResultMapping from '@/features/communication/instrument-result-mapping';
 import * as TransmittedMessage from '@/features/communication/transmitted-message';
 import * as FileImportExport from '@/features/communication/file-import-export';
+import * as SegmentMapping from '@/features/communication/segment-mapping';
 
 // result entry
 import * as GeneralResultEntry from '@/features/result-entry/general-result-entry';
@@ -233,6 +235,10 @@ const Dashboard = observer(({children}) => {
         await ReferenceRanges.startup();
         await InterfaceManager.startup();
       }
+      if (pathname === '/collection/comment-manager') {
+        await CommentManager.startup();
+      }
+      // settings
       if (pathname === '/settings/environment') await Environment.startup();
       if (pathname === '/settings/mapping/role-mapping')
         await RoleMappping.startup();

@@ -93,6 +93,7 @@ export const Library = LibraryHoc(
           .addLibrary({input: {...libraryStore.library}})
           .then(res => {
             if (res.createLibrary.success) {
+              libraryStore.libraryService.listLibrary();
               Toast.success({
                 message: `😊 ${res.createLibrary.message}`,
               });

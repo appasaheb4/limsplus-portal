@@ -21,7 +21,6 @@ import {CommentManagerHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-import {resetCommentManager} from '../startup';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -51,10 +50,11 @@ const CommentManager = CommentManagerHoc(
       masterPanelStore,
       lookupStore,
       routerStore,
+      commentManagerStore,
       loading,
     } = useStores();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [isHideAddView, setIsHideAddView] = useState<boolean>(true);
     const [departmentList, setDepartmentList] = useState([]);
 
     const {
@@ -87,16 +87,15 @@ const CommentManager = CommentManagerHoc(
 
     const onSubmitLibrary = data => {
       if (!libraryStore.checkExistsLabEnvCode) {
-        libraryStore.libraryService
-          .addLibrary({input: {...libraryStore.library}})
+        commentManagerStore.commentManagerService
+          .create({input: {...commentManagerStore.commentManager}})
           .then(res => {
-            if (res.createLibrary.success) {
+            if (res.createCommentManager.success) {
+              commentManagerStore.commentManagerService.list();
               Toast.success({
-                message: `😊 ${res.createLibrary.message}`,
+                message: `😊 ${res.createCommentManager.message}`,
               });
-              setHideAddLab(!hideAddLab);
-              reset();
-              resetCommentManager();
+              setIsHideAddView(!isHideAddView);
             }
           });
       } else {
@@ -109,8 +108,8 @@ const CommentManager = CommentManagerHoc(
     const tableView = useMemo(
       () => (
         <CommentManagerList
-          data={libraryStore.listLibrary || []}
-          totalSize={libraryStore.listLibraryCount}
+          data={commentManagerStore.commentManagerList || []}
+          totalSize={commentManagerStore.commentManagerListCount}
           extraData={{
             loginDetails: loginStore.login,
             listLookup: lookupStore.listLookup,
@@ -199,14 +198,14 @@ const CommentManager = CommentManagerHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={isHideAddView}
+            onClick={() => setIsHideAddView(!isHideAddView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isHideAddView ? 'hidden' : 'shown')
             }
           >
             <Grid cols={2}>
@@ -787,7 +786,7 @@ const CommentManager = CommentManagerHoc(
                     versions: Number.parseInt(modalConfirm.data.versions + 1),
                     dateActive: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsHideAddView(!isHideAddView);
                   break;
                 }
                 case 'duplicate': {
@@ -801,7 +800,7 @@ const CommentManager = CommentManagerHoc(
                     versions: Number.parseInt(modalConfirm.data.versions),
                     dateActive: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setIsHideAddView(!isHideAddView);
                   break;
                 }
               }
