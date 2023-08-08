@@ -6,18 +6,11 @@ import {getDefaultLookupItem} from '@/library/utils';
 export const CommentManagerHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, libraryStore, routerStore} = useStores();
+    const {loginStore, commentManagerStore, routerStore} = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-      libraryStore.updateLibrary({
-        ...libraryStore.library,
-        position: getDefaultLookupItem(routerStore.lookupItems, 'POSITION'),
-        groups: getDefaultLookupItem(routerStore.lookupItems, 'GROUPS'),
-        libraryType: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'LIBRARY_TYPE',
-        ),
-        parameter: getDefaultLookupItem(routerStore.lookupItems, 'PARAMETER'),
+      commentManagerStore.updateCommentManager({
+        ...commentManagerStore.commentManager,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         enteredBy: loginStore.login?.userId,
         environment: getDefaultLookupItem(
@@ -25,7 +18,7 @@ export const CommentManagerHoc = (Component: React.FC<any>) => {
           'ENVIRONMENT',
         ),
       });
-    }, [libraryStore, loginStore.login, routerStore.lookupItems]);
+    }, [commentManagerStore, loginStore.login, routerStore.lookupItems]);
     return <Component {...props} />;
   });
 };

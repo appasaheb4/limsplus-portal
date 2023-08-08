@@ -11,6 +11,7 @@ import {
   Form,
   Svg,
   ModalConfirm,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {CommentManagerList} from '../components';
@@ -21,24 +22,6 @@ import {CommentManagerHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
-const modules = {
-  toolbar: [
-    [{header: '1'}, {header: '2'}, {font: []}],
-    [{size: []}],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
-    ['link', 'image', 'video'],
-    ['clean'],
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  },
-};
 
 const CommentManager = CommentManagerHoc(
   observer(() => {
@@ -54,8 +37,9 @@ const CommentManager = CommentManagerHoc(
       loading,
     } = useStores();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isHideAddView, setIsHideAddView] = useState<boolean>(true);
+    const [isHideAddView, setIsHideAddView] = useState<boolean>(false);
     const [departmentList, setDepartmentList] = useState([]);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     const {
       control,
@@ -67,40 +51,35 @@ const CommentManager = CommentManagerHoc(
 
     useEffect(() => {
       // Default value initialization\
-      setValue('libraryCode', libraryStore.library?.libraryCode);
-      setValue('lab', libraryStore.library?.lab);
-      setValue('department', libraryStore.library?.department);
-      setValue('position', libraryStore.library?.position);
-      setValue('groups', libraryStore.library?.groups);
-      setValue('libraryType', libraryStore.library?.libraryType);
-      setValue('parameter', libraryStore.library?.parameter);
-      setValue('editable', libraryStore.library.editable);
-      setValue('details', libraryStore.library.details);
-      setValue('status', libraryStore.library?.status);
-      setValue('enteredBy', libraryStore.library?.enteredBy);
-      setValue('dateCreation', libraryStore.library?.dateCreation);
-      setValue('dateExpire', libraryStore.library?.dateExpire);
-      setValue('versions', libraryStore.library?.versions);
-      setValue('environment', libraryStore.library?.environment);
+      setValue('status', commentManagerStore.commentManager?.status);
+      setValue('enteredBy', commentManagerStore.commentManager?.enteredBy);
+      setValue(
+        'dateCreation',
+        commentManagerStore.commentManager?.dateCreation,
+      );
+      setValue('dateExpire', commentManagerStore.commentManager?.dateExpire);
+      setValue('versions', commentManagerStore.commentManager?.versions);
+      setValue('environment', commentManagerStore.commentManager?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [libraryStore.library]);
+    }, [commentManagerStore.commentManager]);
 
-    const onSubmitLibrary = data => {
-      if (!libraryStore.checkExistsLabEnvCode) {
-        commentManagerStore.commentManagerService
-          .create({input: {...commentManagerStore.commentManager}})
-          .then(res => {
-            if (res.createCommentManager.success) {
-              commentManagerStore.commentManagerService.list();
-              Toast.success({
-                message: `😊 ${res.createCommentManager.message}`,
-              });
-              setIsHideAddView(!isHideAddView);
-            }
-          });
+    const onSubmitCommentManager = data => {
+      if (!isExistsRecord) {
+        // commentManagerStore.commentManagerService
+        //   .create({input: {...commentManagerStore.commentManager}})
+        //   .then(res => {
+        //     if (res.createCommentManager.success) {
+        //       commentManagerStore.commentManagerService.list();
+        //       Toast.success({
+        //         message: `😊 ${res.createCommentManager.message}`,
+        //       });
+        //       setIsHideAddView(!isHideAddView);
+        //     }
+        //   });
+        alert('working on');
       } else {
-        Toast.warning({
-          message: '😔 Please enter diff code',
+        Toast.error({
+          message: '😔 Already some record exists.',
         });
       }
     };
@@ -208,26 +187,47 @@ const CommentManager = CommentManagerHoc(
               'p-2 rounded-lg shadow-xl ' + (isHideAddView ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={2}>
+            <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.Input
+                    <Form.InputWrapper
                       label='Library Code'
-                      placeholder={
-                        !!errors.libraryCode ? 'Please Enter code' : 'Code'
-                      }
                       hasError={!!errors.libraryCode}
-                      value={value?.toString()}
-                      onChange={libraryCode => {
-                        onChange(libraryCode);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          libraryCode,
-                        });
-                      }}
-                    />
+                    >
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        data={{
+                          list: libraryStore.listLibrary,
+                          displayKey: ['code', 'libraryCode'],
+                        }}
+                        placeholder='Search by library code'
+                        hasError={!!errors.libraryCode}
+                        onFilter={(value: string) => {
+                          libraryStore.libraryService.filterByFields({
+                            input: {
+                              filter: {
+                                fields: ['libraryCode'],
+                                srText: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          });
+                        }}
+                        onSelect={item => {
+                          onChange(item.libraryCode);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            libraryCode: item.libraryCode,
+                          });
+                          libraryStore.updateLibraryList(
+                            libraryStore.listLibraryCopy,
+                          );
+                        }}
+                      />
+                    </Form.InputWrapper>
                   )}
                   name='libraryCode'
                   rules={{
@@ -240,7 +240,7 @@ const CommentManager = CommentManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Lib' hasError={!!errors.lab}>
+                    <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -249,8 +249,8 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const lab = e.target.value;
                           onChange(lab);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
                             lab,
                           });
                           // fetch department list
@@ -296,8 +296,8 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const department = e.target.value;
                           onChange(department);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
                             department,
                           });
                         }}
@@ -324,35 +324,38 @@ const CommentManager = CommentManagerHoc(
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
-                      label='Position'
-                      hasError={!!errors.position}
+                      label='Investigation Type'
+                      hasError={!!errors.investigationType}
                     >
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.position ? 'border-red  ' : 'border-gray-300'
+                          errors.investigationType
+                            ? 'border-red  '
+                            : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const position = e.target.value;
-                          onChange(position);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            position,
+                          const investigationType = e.target.value;
+                          onChange(investigationType);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            investigationType,
                           });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'POSITION').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'INVESTIGATION-TYPE',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='position'
+                  name='investigationType'
                   rules={{required: true}}
                   defaultValue=''
                 />
@@ -361,77 +364,39 @@ const CommentManager = CommentManagerHoc(
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
-                      label='Groups'
-                      hasError={!!errors.groups}
+                      label='Investigation Code'
+                      hasError={!!errors.investigationCode}
                     >
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.groups ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const groups = e.target.value;
-                          onChange(groups);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            groups,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'GROUPS').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='groups'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Library Type'
-                      hasError={!!errors.libraryType}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.libraryType
+                          errors.investigationCode
                             ? 'border-red  '
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const libraryType = e.target.value;
-                          onChange(libraryType);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            libraryType,
+                          const investigationCode = e.target.value;
+                          onChange(investigationCode);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            investigationCode,
                           });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'LIBRARY_TYPE')
-                          ?.filter(item =>
-                            item.code?.match(libraryStore.library.groups),
-                          )
-                          .map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'INVESTIGATION-CODE',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='libraryType'
-                  rules={{required: false}}
+                  name='investigationCode'
+                  rules={{required: true}}
                   defaultValue=''
                 />
 
@@ -439,25 +404,64 @@ const CommentManager = CommentManagerHoc(
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Form.InputWrapper
-                      label='Parameter'
-                      hasError={!!errors.parameter}
+                      label='Investigation Name'
+                      hasError={!!errors.investigationName}
                     >
                       <select
                         value={value}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.parameter ? 'border-red  ' : 'border-gray-300'
+                          errors.investigationName
+                            ? 'border-red  '
+                            : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
-                          const parameter = e.target.value;
-                          onChange(parameter);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            parameter,
+                          const investigationName = e.target.value;
+                          onChange(investigationName);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            investigationName,
                           });
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'PARAMETER').map(
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'INVESTIGATION-NAME',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='investigationName'
+                  rules={{required: false}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Species'
+                      hasError={!!errors.species}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.species ? 'border-red  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const species = e.target.value;
+                          onChange(species);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            species,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'SPECIES').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
@@ -467,29 +471,41 @@ const CommentManager = CommentManagerHoc(
                       </select>
                     </Form.InputWrapper>
                   )}
-                  name='parameter'
-                  rules={{required: false}}
+                  name='species'
+                  rules={{required: true}}
                   defaultValue=''
                 />
-
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <Form.Toggle
-                      label='Editable'
-                      hasError={!!errors.editable}
-                      value={value}
-                      onChange={editable => {
-                        onChange(editable);
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          editable,
-                        });
-                      }}
-                    />
+                    <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.sex ? 'border-red  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const sex = e.target.value;
+                          onChange(sex);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            sex,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'SEX').map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
                   )}
-                  name='editable'
-                  rules={{required: false}}
+                  name='sex'
+                  rules={{required: true}}
                   defaultValue=''
                 />
               </List>
@@ -497,32 +513,294 @@ const CommentManager = CommentManagerHoc(
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
-                    <>
-                      <Form.InputWrapper
-                        label='Details'
-                        hasError={!!errors.details}
+                    <Form.InputWrapper
+                      label='Inst Type'
+                      hasError={!!errors.instType}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.instType ? 'border-red  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const instType = e.target.value;
+                          onChange(instType);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            instType,
+                          });
+                        }}
                       >
-                        <ReactQuill
-                          placeholder='Type here'
-                          theme='snow'
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'INST-TYPE').map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='instType'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Comments Type'
+                      hasError={!!errors.commentsType}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.commentsType
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const commentsType = e.target.value;
+                          onChange(commentsType);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            commentsType,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'COMMENTS-TYPE',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='commentsType'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Comments For'
+                      hasError={!!errors.commentsFor}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.commentsFor
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const commentsFor = e.target.value;
+                          onChange(commentsFor);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            commentsFor,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'COMMENTS-FOR',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='commentsFor'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+                <div className='grid grid-cols-2 gap-2'>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Age From'
+                        type='number'
+                        placeholder='Age From'
+                        onChange={ageFrom => {
+                          onChange(ageFrom);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            ageFrom,
+                          });
+                        }}
+                      />
+                    )}
+                    name='ageFrom'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper label='Age From Unit'>
+                        <select
                           value={value}
-                          modules={modules}
-                          onChange={details => {
-                            onChange(details);
-                            libraryStore.updateLibrary({
-                              ...libraryStore.library,
-                              details,
+                          className={
+                            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  border-gray-300 rounded-md'
+                          }
+                          onChange={e => {
+                            const ageFromUnit = e.target.value;
+                            onChange(ageFromUnit);
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              ageFromUnit,
                             });
                           }}
-                        />
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'AGE-FROM-UNIT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
                       </Form.InputWrapper>
-                    </>
+                    )}
+                    name='ageFromUnit'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </div>
+
+                <div className='grid grid-cols-2 gap-2'>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Age To'
+                        type='number'
+                        placeholder='Age To'
+                        onChange={ageTo => {
+                          onChange(ageTo);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            ageTo,
+                          });
+                        }}
+                      />
+                    )}
+                    name='ageTo'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper label='Age To Unit'>
+                        <select
+                          value={value}
+                          className={
+                            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  border-gray-300 rounded-md'
+                          }
+                          onChange={e => {
+                            const ageToUnit = e.target.value;
+                            onChange(ageToUnit);
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              ageToUnit,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'AGE-TO-UNIT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='ageToUnit'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </div>
+                <div className='grid grid-cols-2 gap-2'>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Low'
+                        type='number'
+                        placeholder='Low'
+                        onChange={low => {
+                          onChange(low);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            low,
+                          });
+                        }}
+                      />
+                    )}
+                    name='low'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='High'
+                        type='number'
+                        placeholder='High'
+                        onChange={high => {
+                          onChange(high);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            high,
+                          });
+                        }}
+                      />
+                    )}
+                    name='high'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </div>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.Input
+                      label='Alpha'
+                      type='number'
+                      placeholder='Alpha'
+                      onChange={alpha => {
+                        onChange(alpha);
+                        commentManagerStore.updateCommentManager({
+                          ...commentManagerStore.commentManager,
+                          alpha,
+                        });
+                      }}
+                    />
                   )}
-                  name='details'
+                  name='alpha'
                   rules={{required: false}}
                   defaultValue=''
                 />
-
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
@@ -538,8 +816,8 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const status = e.target.value;
                           onChange(status);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
                             status,
                           });
                         }}
@@ -640,33 +918,18 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const environment = e.target.value;
                           onChange(environment);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
                             environment,
                           });
-                          libraryStore.libraryService
-                            .checkExistsRecords({
-                              input: {
-                                code: libraryStore.library.code,
-                                env: environment,
-                                lab: libraryStore.library.lab,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkLibrarysExistsRecord.success) {
-                                libraryStore.updateExistsLabEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkLibrarysExistsRecord.message}`,
-                                });
-                              } else libraryStore.updateExistsLabEnvCode(false);
-                            });
                         }}
                       >
                         <option selected>
                           {loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
                             ? 'Select'
-                            : libraryStore.library?.environment || 'Select'}
+                            : commentManagerStore.commentManager?.environment ||
+                              'Select'}
                         </option>
                         {lookupItems(
                           routerStore.lookupItems,
@@ -691,7 +954,7 @@ const CommentManager = CommentManagerHoc(
                 size='medium'
                 type='solid'
                 icon={Svg.Save}
-                onClick={handleSubmit(onSubmitLibrary)}
+                onClick={handleSubmit(onSubmitCommentManager)}
               >
                 Save
               </Buttons.Button>

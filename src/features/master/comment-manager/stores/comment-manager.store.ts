@@ -22,6 +22,7 @@ export class CommentManagerStore {
 
       commentManagerService: computed,
       reset: action,
+      updateCommentManager: action,
       updateCommentManagerList: action,
     });
   }
@@ -45,6 +46,10 @@ export class CommentManagerStore {
       ),
       versions: 1,
     };
+  }
+
+  updateCommentManager(payload: CommentManager) {
+    this.commentManager = payload;
   }
 
   updateCommentManagerList(res: any) {

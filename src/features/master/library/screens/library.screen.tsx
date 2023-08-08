@@ -702,22 +702,6 @@ export const Library = LibraryHoc(
                           if (environment) {
                             checkExistsRecords({environment});
                           }
-                          libraryStore.libraryService
-                            .checkExistsRecords({
-                              input: {
-                                code: libraryStore.library.code,
-                                env: environment,
-                                lab: libraryStore.library.lab,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkLibrarysExistsRecord.success) {
-                                libraryStore.updateExistsLabEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkLibrarysExistsRecord.message}`,
-                                });
-                              } else libraryStore.updateExistsLabEnvCode(false);
-                            });
                         }}
                       >
                         <option selected>
