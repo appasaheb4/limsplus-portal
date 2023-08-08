@@ -1,9 +1,7 @@
 import {stores} from '@/stores';
 
 const startup = async () => {
-  // setTimeout(() => {
-  //   stores.libraryStore.fetchLibrary();
-  // }, 2000);
+  stores.commentManagerStore.commentManagerService.list();
 };
 
 export const resetCommentManager = () => {

@@ -7,18 +7,18 @@ export class CommentManagerStore {
   commentManager!: CommentManager;
   commentManagerList!: CommentManager[];
   commentManagerCopy: CommentManager[];
-  commentManagerCount: number;
+  commentManagerListCount: number;
 
   constructor() {
     this.commentManagerList = [];
     this.commentManagerCopy = [];
-    this.commentManagerCount = 0;
+    this.commentManagerListCount = 0;
     this.reset();
     makeObservable<CommentManagerStore, any>(this, {
       commentManager: observable,
       commentManagerList: observable,
       commentManagerCopy: observable,
-      commentManagerCount: observable,
+      commentManagerListCount: observable,
 
       commentManagerService: computed,
       reset: action,
@@ -33,7 +33,7 @@ export class CommentManagerStore {
   reset() {
     this.commentManager = new CommentManager({});
     this.commentManagerList = [];
-    this.commentManagerCount = 0;
+    this.commentManagerListCount = 0;
     this.commentManager = {
       ...this.commentManager,
       lab: 'Default',
@@ -49,10 +49,11 @@ export class CommentManagerStore {
 
   updateCommentManagerList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.librarys.success) return alert(res.librarys.message);
-      this.commentManagerList = res.librarys.data;
-      this.commentManagerCopy = res.librarys.data;
-      this.commentManagerCount = res.librarys.paginatorInfo.count;
+      if (!res.commentManagers.success)
+        return alert(res.commentManagers.message);
+      this.commentManagerList = res.commentManagers.data;
+      this.commentManagerCopy = res.commentManagers.data;
+      this.commentManagerListCount = res.commentManagers.paginatorInfo.count;
     } else {
       this.commentManagerList = res;
     }

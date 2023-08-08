@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client';
 
 export const LIST = gql`
-  mutation ($input: LibraryInput!) {
-    librarys(input: $input) {
+  mutation ($input: CommentManagerInput!) {
+    commentManagers(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,16 +10,27 @@ export const LIST = gql`
       message
       data {
         _id
+        existsVersionId
+        existsRecordId
         code
         libraryCode
         lab
         department
-        position
-        groups
-        libraryType
-        parameter
-        editable
-        details
+        investigationType
+        investigationCode
+        investigationName
+        species
+        sex
+        instType
+        commentsType
+        commentsFor
+        ageFrom
+        ageFromUnit
+        ageTo
+        ageToUnit
+        low
+        high
+        alpha
         status
         enteredBy
         dateCreation
@@ -44,8 +55,8 @@ export const REMOVE_RECORDS = gql`
 `;
 
 export const CREATE_RECORD = gql`
-  mutation ($input: CreateLibraryInput!) {
-    createLibrary(input: $input) {
+  mutation ($input: CreateCommentManagerInput!) {
+    createCommentManager(input: $input) {
       success
       message
     }
