@@ -31,6 +31,9 @@ const CommentManager = CommentManagerHoc(
       labStore,
       departmentStore,
       masterPanelStore,
+      masterPackageStore,
+      testMasterStore,
+      masterAnalyteStore,
       lookupStore,
       routerStore,
       commentManagerStore,
@@ -51,6 +54,23 @@ const CommentManager = CommentManagerHoc(
 
     useEffect(() => {
       // Default value initialization\
+      setValue(
+        'investigationType',
+        commentManagerStore.commentManager?.investigationType,
+      );
+      setValue('species', commentManagerStore.commentManager?.species);
+      setValue('sex', commentManagerStore.commentManager?.sex);
+
+      setValue(
+        'commentsType',
+        commentManagerStore.commentManager?.commentsType,
+      );
+      setValue('commentsFor', commentManagerStore.commentManager?.commentsFor);
+      setValue('ageFromUnit', commentManagerStore.commentManager?.ageFromUnit);
+      setValue('ageToUnit', commentManagerStore.commentManager?.ageToUnit);
+
+      setValue('instType', 'test');
+
       setValue('status', commentManagerStore.commentManager?.status);
       setValue('enteredBy', commentManagerStore.commentManager?.enteredBy);
       setValue(
@@ -60,28 +80,122 @@ const CommentManager = CommentManagerHoc(
       setValue('dateExpire', commentManagerStore.commentManager?.dateExpire);
       setValue('versions', commentManagerStore.commentManager?.versions);
       setValue('environment', commentManagerStore.commentManager?.environment);
+      // get panel list
+      if (commentManagerStore.commentManager?.investigationType)
+        investigationMasterLoad();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commentManagerStore.commentManager]);
 
     const onSubmitCommentManager = data => {
       if (!isExistsRecord) {
-        // commentManagerStore.commentManagerService
-        //   .create({input: {...commentManagerStore.commentManager}})
-        //   .then(res => {
-        //     if (res.createCommentManager.success) {
-        //       commentManagerStore.commentManagerService.list();
-        //       Toast.success({
-        //         message: `😊 ${res.createCommentManager.message}`,
-        //       });
-        //       setIsHideAddView(!isHideAddView);
-        //     }
-        //   });
-        alert('working on');
+        commentManagerStore.commentManagerService
+          .create({input: {...commentManagerStore.commentManager}})
+          .then(res => {
+            if (res.createCommentManager.success) {
+              commentManagerStore.commentManagerService.list();
+              Toast.success({
+                message: `😊 ${res.createCommentManager.message}`,
+              });
+              setIsHideAddView(!isHideAddView);
+            }
+          });
       } else {
         Toast.error({
           message: '😔 Already some record exists.',
         });
       }
+    };
+
+    const investigationMasterLoad = (
+      type = commentManagerStore.commentManager.investigationType,
+    ) => {
+      if (type)
+        switch (type) {
+          case 'PANEL':
+            return masterPanelStore.masterPanelService.listPanelMaster();
+          case 'PACKAGE':
+            return masterPackageStore.masterPackageService.listPackageMaster();
+          case 'TEST':
+            return testMasterStore.testMasterService.listTestMaster();
+          case 'ANALYTE':
+            return masterAnalyteStore.masterAnalyteService.listAnalyteMaster();
+          default:
+            alert('Not found data. Please contact to admin');
+        }
+    };
+
+    const getInvestigationDetails = (
+      type = commentManagerStore.commentManager.investigationType,
+    ) => {
+      if (type)
+        switch (type) {
+          case 'PANEL':
+            return {
+              list: masterPanelStore.listMasterPanel,
+              fields: ['panelCode', 'panelName'],
+              filterFun: value =>
+                masterPanelStore.masterPanelService.filterByFields({
+                  input: {
+                    filter: {
+                      fields: ['panelCode', 'panelName'],
+                      srText: value,
+                    },
+                    page: 0,
+                    limit: 10,
+                  },
+                }),
+            };
+          case 'PACKAGE':
+            return {
+              list: masterPackageStore.listMasterPackage,
+              fields: ['packageCode', 'packageName'],
+              filterFun: value =>
+                masterPackageStore.masterPackageService.filterByFields({
+                  input: {
+                    filter: {
+                      fields: ['packageCode', 'packageName'],
+                      srText: value,
+                    },
+                    page: 0,
+                    limit: 10,
+                  },
+                }),
+            };
+          case 'TEST':
+            return {
+              list: testMasterStore.listTestMaster,
+              fields: ['testCode', 'testName'],
+              filterFun: value =>
+                testMasterStore.testMasterService.filterByFields({
+                  input: {
+                    filter: {
+                      fields: ['testCode', 'testName'],
+                      srText: value,
+                    },
+                    page: 0,
+                    limit: 10,
+                  },
+                }),
+            };
+          case 'ANALYTE':
+            return {
+              list: masterAnalyteStore.listMasterAnalyte,
+              fields: ['analyteCode', 'analyteName'],
+              filterFun: value =>
+                masterAnalyteStore.masterAnalyteService.filterByFields({
+                  input: {
+                    filter: {
+                      fields: ['analyteCode', 'analyteName'],
+                      srText: value,
+                    },
+                    page: 0,
+                    limit: 10,
+                  },
+                }),
+            };
+          default:
+            alert('Not found data. Please contact to admin');
+        }
     };
 
     const tableView = useMemo(
@@ -341,12 +455,13 @@ const CommentManager = CommentManagerHoc(
                             ...commentManagerStore.commentManager,
                             investigationType,
                           });
+                          investigationMasterLoad(investigationType);
                         }}
                       >
                         <option selected>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          'INVESTIGATION-TYPE',
+                          'INVESTIGATION_TYPE',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -367,32 +482,42 @@ const CommentManager = CommentManagerHoc(
                       label='Investigation Code'
                       hasError={!!errors.investigationCode}
                     >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.investigationCode
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const investigationCode = e.target.value;
-                          onChange(investigationCode);
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        data={{
+                          list: getInvestigationDetails()?.list,
+                          displayKey: getInvestigationDetails()?.fields,
+                        }}
+                        placeholder='Search'
+                        hasError={!!errors.investigationCode}
+                        onFilter={(value: string) => {
+                          getInvestigationDetails()?.filterFun(value);
+                        }}
+                        onSelect={item => {
+                          onChange(
+                            item[
+                              getInvestigationDetails()?.fields[0] as string
+                            ],
+                          );
+                          setValue(
+                            'investigationName',
+                            item[
+                              getInvestigationDetails()?.fields[1] as string
+                            ],
+                          );
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
-                            investigationCode,
+                            investigationCode:
+                              item[
+                                getInvestigationDetails()?.fields[0] as string
+                              ],
+                            investigationName:
+                              item[
+                                getInvestigationDetails()?.fields[1] as string
+                              ],
                           });
                         }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'INVESTIGATION-CODE',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     </Form.InputWrapper>
                   )}
                   name='investigationCode'
@@ -407,32 +532,11 @@ const CommentManager = CommentManagerHoc(
                       label='Investigation Name'
                       hasError={!!errors.investigationName}
                     >
-                      <select
+                      <Form.Input
                         value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.investigationName
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const investigationName = e.target.value;
-                          onChange(investigationName);
-                          commentManagerStore.updateCommentManager({
-                            ...commentManagerStore.commentManager,
-                            investigationName,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'INVESTIGATION-NAME',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                        disabled
+                        placeholder='Investigation Name'
+                      />
                     </Form.InputWrapper>
                   )}
                   name='investigationName'
@@ -572,7 +676,7 @@ const CommentManager = CommentManagerHoc(
                         <option selected>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          'COMMENTS-TYPE',
+                          'COMMENTS_TYPE',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -611,7 +715,7 @@ const CommentManager = CommentManagerHoc(
                         <option selected>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
-                          'COMMENTS-FOR',
+                          'COMMENTS_FOR',
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
@@ -666,7 +770,7 @@ const CommentManager = CommentManagerHoc(
                           <option selected>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
-                            'AGE-FROM-UNIT',
+                            'AGE_FROM_UNIT',
                           ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
@@ -723,7 +827,7 @@ const CommentManager = CommentManagerHoc(
                           <option selected>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
-                            'AGE-TO-UNIT',
+                            'AGE_TO_UNIT',
                           ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}

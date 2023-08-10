@@ -11,6 +11,25 @@ export const CommentManagerHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       commentManagerStore.updateCommentManager({
         ...commentManagerStore.commentManager,
+        investigationType: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'INVESTIGATION_TYPE',
+        ),
+        species: getDefaultLookupItem(routerStore.lookupItems, 'SPECIES'),
+        sex: getDefaultLookupItem(routerStore.lookupItems, 'SEX'),
+        commentsType: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'COMMENTS_TYPE',
+        ),
+        ageToUnit: getDefaultLookupItem(routerStore.lookupItems, 'AGE_TO_UNIT'),
+        ageFromUnit: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'AGE_FROM_UNIT',
+        ),
+        commentsFor: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'COMMENTS_FOR',
+        ),
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         enteredBy: loginStore.login?.userId,
         environment: getDefaultLookupItem(
