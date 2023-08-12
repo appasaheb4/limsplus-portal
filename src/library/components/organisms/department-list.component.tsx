@@ -5,7 +5,7 @@ interface DepartmentListProps {
   onUpdate: (value: string) => void;
 }
 
-const DepartmentList = ({row, onUpdate}: DepartmentListProps) => {
+export const DepartmentList = ({row, onUpdate}: DepartmentListProps) => {
   const [departmentList, setDepartmentList] = useState([]);
   return (
     <div>
@@ -40,5 +40,3 @@ const DepartmentList = ({row, onUpdate}: DepartmentListProps) => {
     </div>
   );
 };
-
-export default DepartmentList;

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
   TableBootstrap,
@@ -6,24 +6,37 @@ import {
   Icons,
   textFilter,
   sortCaret,
-  Form,
   DateFilter,
   customFilter,
   NumberFilter,
+  DepartmentList,
+  Form,
+  Toast,
 } from '@/library/components';
+import {InvestigationDetails, InstType} from '..';
 import {Confirm} from '@/library/models';
 import dayjs from 'dayjs';
+import {FormHelper} from '@/helper';
 
 let code;
 let libraryCode;
 let lab;
 let department;
-let position;
-let groups;
-let libraryType;
-let parameter;
-let editable;
-let details;
+let investigationType;
+let investigationCode;
+let investigationName;
+let species;
+let sex;
+let instType;
+let commentsType;
+let commentsFor;
+let ageFrom;
+let ageFromUnit;
+let ageTo;
+let ageToUnit;
+let low;
+let high;
+let alpha;
 let status;
 let enteredBy;
 let dateCreation;
@@ -34,7 +47,7 @@ let environment;
 
 interface CommentManagerListProps {
   data: any;
-  totalSize: number;
+  totalSize;
   extraData: any;
   isDelete?: boolean;
   isEditModify?: boolean;
@@ -56,8 +69,6 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
-  const refDepartmentList = useRef<Array<any>>([]);
-
   return (
     <>
       <div style={{position: 'relative'}}>
@@ -177,19 +188,19 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  {/* <DepartmentList
+                  <DepartmentList
                     row={row}
                     onUpdate={department =>
                       props.onUpdateItem &&
                       props.onUpdateItem({department}, row._id)
                     }
-                  /> */}
+                  />
                 </>
               ),
             },
             {
-              dataField: 'position',
-              text: 'Position',
+              dataField: 'investigationType',
+              text: 'Investigation Type',
               headerClasses: 'textHeader1',
               sort: true,
               headerStyle: {
@@ -199,7 +210,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  position = filter;
+                  investigationType = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -216,26 +227,27 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                   <select
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
-                      const position = e.target.value;
+                      const investigationType = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({position}, row._id);
+                        props.onUpdateItem({investigationType}, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'POSITION').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'INVESTIGATION_TYPE',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
             },
             {
-              dataField: 'groups',
-              text: 'Groups',
+              dataField: 'investigationCode',
+              text: 'Investigation Code',
               headerClasses: 'textHeader1',
               sort: true,
               headerStyle: {
@@ -245,7 +257,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  groups = filter;
+                  investigationCode = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -259,29 +271,26 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <select
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const groups = e.target.value;
+                  <InvestigationDetails
+                    investigationType={row?.investigationType}
+                    isError={false}
+                    onSelect={items => {
                       props.onUpdateItem &&
-                        props.onUpdateItem({groups}, row._id);
+                        props.onUpdateItem(
+                          {
+                            investigationCode: items.investigationCode,
+                            investigationName: items.investigationName,
+                          },
+                          row._id,
+                        );
                     }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'GROUPS').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
+                  />
                 </>
               ),
             },
             {
-              dataField: 'libraryType',
-              text: 'Library Type',
+              dataField: 'investigationName',
+              text: 'Investigation Name',
               headerClasses: 'textHeader1',
               sort: true,
               headerStyle: {
@@ -291,123 +300,543 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  libraryType = filter;
+                  investigationName = filter;
                 },
               }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const libraryType = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem({libraryType}, row._id);
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'LIBRARY_TYPE')
-                      ?.filter(item => item.code?.match(row?.groups))
-                      .map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                  </select>
-                </>
-              ),
-            },
-            {
-              dataField: 'parameter',
-              text: 'Parameter',
-              headerClasses: 'textHeader1',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  groups = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const parameter = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem({parameter}, row._id);
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'PARAMETER').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
-            },
-            {
-              dataField: 'editable',
-              text: 'Editable',
-              sort: true,
               editable: false,
-              csvFormatter: (col, row) =>
-                `${row.editable ? (row.editable ? 'Yes' : 'No') : 'No'}`,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {' '}
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.editable}
-                      onChange={editable => {
+            },
+            {
+              dataField: 'species',
+              text: 'Species',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  species = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const species = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({species}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'SPECIES').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'sex',
+              text: 'Sex',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  sex = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const sex = e.target.value;
+                      props.onUpdateItem && props.onUpdateItem({sex}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'SEX').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'instType',
+              text: 'Inst Type',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  instType = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <InstType
+                    hasError={false}
+                    onSelect={instType => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem({instType}, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'commentsType',
+              text: 'Comments Type',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  commentsType = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const commentsType = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({commentsType}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'COMMENTS_TYPE',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'commentsFor',
+              text: 'Comments For',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  commentsFor = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const commentsFor = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({commentsFor}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'COMMENTS_FOR',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'ageFrom',
+              text: 'Age From',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  ageFrom = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    label=''
+                    type='number'
+                    placeholder={row?.ageFrom}
+                    onBlur={ageFrom => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {ageFrom: Number.parseFloat(ageFrom)},
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'ageFromUnit',
+              text: 'Age From Unit',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  ageFromUnit = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const ageFromUnit = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({ageFromUnit}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'AGE_FROM_UNIT',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'ageTo',
+              text: 'Age To',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  ageTo = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    label=''
+                    type='number'
+                    placeholder={row?.ageTo}
+                    onBlur={ageTo => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {ageTo: Number.parseFloat(ageTo)},
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'ageToUnit',
+              text: 'Age To Unit',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  ageToUnit = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const ageToUnit = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem({ageToUnit}, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'AGE_TO_UNIT',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+
+            {
+              dataField: 'low',
+              text: 'Low',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  low = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.low}
+                    onBlur={low => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                      if (
+                        regex.test(low) &&
+                        FormHelper.isNumberAvailable(low)
+                      ) {
                         props.onUpdateItem &&
-                          props.onUpdateItem({editable}, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
+                          props.onUpdateItem({low}, row._id);
+                      } else {
+                        Toast.warning({
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
+                        });
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
-              dataField: 'details',
-              text: 'Details',
+              dataField: 'high',
+              text: 'High',
               headerClasses: 'textHeader1',
               sort: true,
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <div dangerouslySetInnerHTML={{__html: row?.details}} />
-                  </>
-                );
+              headerStyle: {
+                fontSize: 0,
               },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  high = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row?.high}
+                    onBlur={high => {
+                      const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                      if (
+                        regex.test(high) &&
+                        FormHelper.isNumberAvailable(high)
+                      ) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem({high}, row._id);
+                      } else {
+                        Toast.warning({
+                          message:
+                            '😔 Only > and < sign and numbers should be allowed',
+                        });
+                      }
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'alpha',
+              text: 'Alpha',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  alpha = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    label=''
+                    type='number'
+                    placeholder={row.alpha}
+                    onBlur={alpha => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          {alpha: Number.parseFloat(alpha)},
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'status',

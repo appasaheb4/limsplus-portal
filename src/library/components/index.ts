@@ -43,3 +43,4 @@ export * from './molecules/auto-complete-filter-multi-select-selected-top-dispal
 export * from './organisms/filter-comp';
 export * from './organisms/table-bootstrap/table-bootstrap.component';
 export * from './organisms/utils';
+export * from './organisms/department-list.component';
