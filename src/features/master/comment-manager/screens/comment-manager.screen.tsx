@@ -37,6 +37,7 @@ const CommentManager = CommentManagerHoc(
       lookupStore,
       routerStore,
       commentManagerStore,
+      interfaceManagerStore,
       loading,
     } = useStores();
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -68,8 +69,6 @@ const CommentManager = CommentManagerHoc(
       setValue('commentsFor', commentManagerStore.commentManager?.commentsFor);
       setValue('ageFromUnit', commentManagerStore.commentManager?.ageFromUnit);
       setValue('ageToUnit', commentManagerStore.commentManager?.ageToUnit);
-
-      setValue('instType', 'test');
 
       setValue('status', commentManagerStore.commentManager?.status);
       setValue('enteredBy', commentManagerStore.commentManager?.enteredBy);
@@ -277,7 +276,7 @@ const CommentManager = CommentManagerHoc(
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [libraryStore.listLibrary],
+      [commentManagerStore.commentManagerList],
     );
 
     return (
@@ -621,29 +620,40 @@ const CommentManager = CommentManagerHoc(
                       label='Inst Type'
                       hasError={!!errors.instType}
                     >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.instType ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const instType = e.target.value;
-                          onChange(instType);
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by inst type'
+                        hasError={!!errors.instType}
+                        data={{
+                          list: interfaceManagerStore.listInterfaceManager,
+                          displayKey: ['instrumentType'],
+                        }}
+                        displayValue={value}
+                        onFilter={(value: string) => {
+                          interfaceManagerStore.interfaceManagerService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ['instrumentType'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            },
+                          );
+                        }}
+                        onSelect={item => {
+                          onChange(item.instrumentType);
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
-                            instType,
+                            instType: item.instrumentType,
                           });
+                          interfaceManagerStore.updateInterfaceManagerList(
+                            interfaceManagerStore.listInterfaceManagerCopy,
+                          );
                         }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'INST-TYPE').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
+                      />
                     </Form.InputWrapper>
                   )}
                   name='instType'
@@ -1083,67 +1093,68 @@ const CommentManager = CommentManagerHoc(
               setModalConfirm({show: false});
               switch (action) {
                 case 'Delete': {
-                  libraryStore.libraryService
-                    .deleteLibrary({input: {id: modalConfirm.id}})
+                  commentManagerStore.commentManagerService
+                    .delete({input: {id: modalConfirm.id}})
                     .then((res: any) => {
-                      if (res.removeLibrary.success) {
+                      if (res.removeCommentManager.success) {
                         Toast.success({
-                          message: `😊 ${res.removeLibrary.message}`,
+                          message: `😊 ${res.removeCommentManager.message}`,
                         });
-                        if (global?.filter?.mode == 'pagination')
-                          libraryStore.fetchLibrary(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          libraryStore.libraryService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else libraryStore.fetchLibrary();
+                        commentManagerStore.commentManagerService.list();
+                        // if (global?.filter?.mode == 'pagination')
+                        //   libraryStore.fetchLibrary(
+                        //     global?.filter?.page,
+                        //     global?.filter?.limit,
+                        //   );
+                        // else if (global?.filter?.mode == 'filter')
+                        //   libraryStore.libraryService.filter({
+                        //     input: {
+                        //       type: global?.filter?.type,
+                        //       filter: global?.filter?.filter,
+                        //       page: global?.filter?.page,
+                        //       limit: global?.filter?.limit,
+                        //     },
+                        //   });
+                        // else libraryStore.fetchLibrary();
                       }
                     });
                   break;
                 }
-
                 case 'Update': {
-                  libraryStore.libraryService
-                    .updateSingleFiled({
+                  commentManagerStore.commentManagerService
+                    .update({
                       input: {
                         ...modalConfirm.data.fields,
                         _id: modalConfirm.data.id,
                       },
                     })
                     .then((res: any) => {
-                      if (res.updateLibrary.success) {
+                      if (res.updateCommentManager.success) {
                         Toast.success({
-                          message: `😊 ${res.updateLibrary.message}`,
+                          message: `😊 ${res.updateCommentManager.message}`,
                         });
-                        if (global?.filter?.mode == 'pagination')
-                          libraryStore.fetchLibrary(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          libraryStore.libraryService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else libraryStore.fetchLibrary();
+                        commentManagerStore.commentManagerService.list();
+                        // if (global?.filter?.mode == 'pagination')
+                        //   libraryStore.fetchLibrary(
+                        //     global?.filter?.page,
+                        //     global?.filter?.limit,
+                        //   );
+                        // else if (global?.filter?.mode == 'filter')
+                        //   libraryStore.libraryService.filter({
+                        //     input: {
+                        //       type: global?.filter?.type,
+                        //       filter: global?.filter?.filter,
+                        //       page: global?.filter?.page,
+                        //       limit: global?.filter?.limit,
+                        //     },
+                        //   });
+                        // else libraryStore.fetchLibrary();
                       }
                     });
                   break;
                 }
                 case 'versionUpgrade': {
-                  libraryStore.updateLibrary({
+                  commentManagerStore.updateCommentManager({
                     ...modalConfirm.data,
                     __typename: undefined,
                     _id: undefined,
@@ -1157,7 +1168,7 @@ const CommentManager = CommentManagerHoc(
                   break;
                 }
                 case 'duplicate': {
-                  libraryStore.updateLibrary({
+                  commentManagerStore.updateCommentManager({
                     ...modalConfirm.data,
                     __typename: undefined,
                     _id: undefined,

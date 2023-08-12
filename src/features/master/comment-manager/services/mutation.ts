@@ -46,8 +46,8 @@ export const LIST = gql`
 `;
 
 export const REMOVE_RECORDS = gql`
-  mutation ($input: LibraryRemoveInput!) {
-    removeLibrary(input: $input) {
+  mutation ($input: CommentManagerRemoveInput!) {
+    removeCommentManager(input: $input) {
       success
       message
     }
@@ -64,8 +64,8 @@ export const CREATE_RECORD = gql`
 `;
 
 export const UPDATE_RECORD = gql`
-  mutation ($input: UpdateLibraryInput!) {
-    updateLibrary(input: $input) {
+  mutation ($input: UpdateCommentManagerInput!) {
+    updateCommentManager(input: $input) {
       success
       message
     }
