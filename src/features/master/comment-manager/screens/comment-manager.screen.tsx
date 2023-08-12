@@ -14,7 +14,11 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
-import {CommentManagerList} from '../components';
+import {
+  CommentManagerList,
+  InvestigationDetails,
+  InstType,
+} from '../components';
 import dayjs from 'dayjs';
 
 import {useForm, Controller} from 'react-hook-form';
@@ -22,6 +26,7 @@ import {CommentManagerHoc} from '../hoc';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
+import {FormHelper} from '@/helper';
 
 const CommentManager = CommentManagerHoc(
   observer(() => {
@@ -51,6 +56,8 @@ const CommentManager = CommentManagerHoc(
       formState: {errors},
       setValue,
       reset,
+      setError,
+      clearErrors,
     } = useForm({mode: 'all'});
 
     useEffect(() => {
@@ -80,8 +87,8 @@ const CommentManager = CommentManagerHoc(
       setValue('versions', commentManagerStore.commentManager?.versions);
       setValue('environment', commentManagerStore.commentManager?.environment);
       // get panel list
-      if (commentManagerStore.commentManager?.investigationType)
-        investigationMasterLoad();
+      // if (commentManagerStore.commentManager?.investigationType)
+      //   investigationMasterLoad();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commentManagerStore.commentManager]);
 
@@ -105,98 +112,6 @@ const CommentManager = CommentManagerHoc(
       }
     };
 
-    const investigationMasterLoad = (
-      type = commentManagerStore.commentManager.investigationType,
-    ) => {
-      if (type)
-        switch (type) {
-          case 'PANEL':
-            return masterPanelStore.masterPanelService.listPanelMaster();
-          case 'PACKAGE':
-            return masterPackageStore.masterPackageService.listPackageMaster();
-          case 'TEST':
-            return testMasterStore.testMasterService.listTestMaster();
-          case 'ANALYTE':
-            return masterAnalyteStore.masterAnalyteService.listAnalyteMaster();
-          default:
-            alert('Not found data. Please contact to admin');
-        }
-    };
-
-    const getInvestigationDetails = (
-      type = commentManagerStore.commentManager.investigationType,
-    ) => {
-      if (type)
-        switch (type) {
-          case 'PANEL':
-            return {
-              list: masterPanelStore.listMasterPanel,
-              fields: ['panelCode', 'panelName'],
-              filterFun: value =>
-                masterPanelStore.masterPanelService.filterByFields({
-                  input: {
-                    filter: {
-                      fields: ['panelCode', 'panelName'],
-                      srText: value,
-                    },
-                    page: 0,
-                    limit: 10,
-                  },
-                }),
-            };
-          case 'PACKAGE':
-            return {
-              list: masterPackageStore.listMasterPackage,
-              fields: ['packageCode', 'packageName'],
-              filterFun: value =>
-                masterPackageStore.masterPackageService.filterByFields({
-                  input: {
-                    filter: {
-                      fields: ['packageCode', 'packageName'],
-                      srText: value,
-                    },
-                    page: 0,
-                    limit: 10,
-                  },
-                }),
-            };
-          case 'TEST':
-            return {
-              list: testMasterStore.listTestMaster,
-              fields: ['testCode', 'testName'],
-              filterFun: value =>
-                testMasterStore.testMasterService.filterByFields({
-                  input: {
-                    filter: {
-                      fields: ['testCode', 'testName'],
-                      srText: value,
-                    },
-                    page: 0,
-                    limit: 10,
-                  },
-                }),
-            };
-          case 'ANALYTE':
-            return {
-              list: masterAnalyteStore.listMasterAnalyte,
-              fields: ['analyteCode', 'analyteName'],
-              filterFun: value =>
-                masterAnalyteStore.masterAnalyteService.filterByFields({
-                  input: {
-                    filter: {
-                      fields: ['analyteCode', 'analyteName'],
-                      srText: value,
-                    },
-                    page: 0,
-                    limit: 10,
-                  },
-                }),
-            };
-          default:
-            alert('Not found data. Please contact to admin');
-        }
-    };
-
     const tableView = useMemo(
       () => (
         <CommentManagerList
@@ -205,11 +120,7 @@ const CommentManager = CommentManagerHoc(
           extraData={{
             loginDetails: loginStore.login,
             listLookup: lookupStore.listLookup,
-            library: libraryStore.library,
-            listLabs: labStore.listLabs,
             listDepartment: departmentStore.listDepartment,
-            listMasterPanel: masterPanelStore.listMasterPanel,
-            updateLibraryStore: libraryStore.updateLibrary,
             lookupItems: routerStore.lookupItems,
           }}
           isDelete={RouterFlow.checkPermission(
@@ -454,7 +365,6 @@ const CommentManager = CommentManagerHoc(
                             ...commentManagerStore.commentManager,
                             investigationType,
                           });
-                          investigationMasterLoad(investigationType);
                         }}
                       >
                         <option selected>Select</option>
@@ -481,39 +391,21 @@ const CommentManager = CommentManagerHoc(
                       label='Investigation Code'
                       hasError={!!errors.investigationCode}
                     >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        data={{
-                          list: getInvestigationDetails()?.list,
-                          displayKey: getInvestigationDetails()?.fields,
-                        }}
-                        placeholder='Search'
-                        hasError={!!errors.investigationCode}
-                        onFilter={(value: string) => {
-                          getInvestigationDetails()?.filterFun(value);
-                        }}
-                        onSelect={item => {
-                          onChange(
-                            item[
-                              getInvestigationDetails()?.fields[0] as string
-                            ],
-                          );
+                      <InvestigationDetails
+                        investigationType={
+                          commentManagerStore.commentManager.investigationType
+                        }
+                        isError={!!errors.investigationCode}
+                        onSelect={items => {
+                          onChange(items.investigationCode);
                           setValue(
                             'investigationName',
-                            item[
-                              getInvestigationDetails()?.fields[1] as string
-                            ],
+                            items.investigationName,
                           );
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
-                            investigationCode:
-                              item[
-                                getInvestigationDetails()?.fields[0] as string
-                              ],
-                            investigationName:
-                              item[
-                                getInvestigationDetails()?.fields[1] as string
-                              ],
+                            investigationCode: items.investigationCode,
+                            investigationName: items.investigationName,
                           });
                         }}
                       />
@@ -620,38 +512,14 @@ const CommentManager = CommentManagerHoc(
                       label='Inst Type'
                       hasError={!!errors.instType}
                     >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by inst type'
+                      <InstType
                         hasError={!!errors.instType}
-                        data={{
-                          list: interfaceManagerStore.listInterfaceManager,
-                          displayKey: ['instrumentType'],
-                        }}
-                        displayValue={value}
-                        onFilter={(value: string) => {
-                          interfaceManagerStore.interfaceManagerService.filterByFields(
-                            {
-                              input: {
-                                filter: {
-                                  fields: ['instrumentType'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(item.instrumentType);
+                        onSelect={instType => {
+                          onChange(instType);
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
-                            instType: item.instrumentType,
+                            instType,
                           });
-                          interfaceManagerStore.updateInterfaceManagerList(
-                            interfaceManagerStore.listInterfaceManagerCopy,
-                          );
                         }}
                       />
                     </Form.InputWrapper>
@@ -750,7 +618,7 @@ const CommentManager = CommentManagerHoc(
                           onChange(ageFrom);
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
-                            ageFrom,
+                            ageFrom: Number.parseFloat(ageFrom),
                           });
                         }}
                       />
@@ -807,7 +675,7 @@ const CommentManager = CommentManagerHoc(
                           onChange(ageTo);
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
-                            ageTo,
+                            ageTo: Number.parseFloat(ageTo),
                           });
                         }}
                       />
@@ -857,14 +725,28 @@ const CommentManager = CommentManagerHoc(
                     render={({field: {onChange, value}}) => (
                       <Form.Input
                         label='Low'
-                        type='number'
                         placeholder='Low'
+                        hasError={!!errors.low}
                         onChange={low => {
-                          onChange(low);
-                          commentManagerStore.updateCommentManager({
-                            ...commentManagerStore.commentManager,
-                            low,
-                          });
+                          const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                          if (
+                            regex.test(low) &&
+                            FormHelper.isNumberAvailable(low)
+                          ) {
+                            clearErrors('low');
+
+                            onChange(low);
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              low,
+                            });
+                          } else {
+                            setError('low', {type: 'onBlur'});
+                            Toast.warning({
+                              message:
+                                '😔 Only > and < sign and numbers should be allowed',
+                            });
+                          }
                         }}
                       />
                     )}
@@ -877,14 +759,28 @@ const CommentManager = CommentManagerHoc(
                     render={({field: {onChange, value}}) => (
                       <Form.Input
                         label='High'
-                        type='number'
                         placeholder='High'
+                        hasError={!!errors.high}
                         onChange={high => {
-                          onChange(high);
-                          commentManagerStore.updateCommentManager({
-                            ...commentManagerStore.commentManager,
-                            high,
-                          });
+                          const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                          if (
+                            regex.test(high) &&
+                            FormHelper.isNumberAvailable(high)
+                          ) {
+                            clearErrors('high');
+
+                            onChange(high);
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              high,
+                            });
+                          } else {
+                            setError('high', {type: 'onBlur'});
+                            Toast.warning({
+                              message:
+                                '😔 Only > and < sign and numbers should be allowed',
+                            });
+                          }
                         }}
                       />
                     )}
@@ -904,7 +800,7 @@ const CommentManager = CommentManagerHoc(
                         onChange(alpha);
                         commentManagerStore.updateCommentManager({
                           ...commentManagerStore.commentManager,
-                          alpha,
+                          alpha: Number.parseFloat(alpha),
                         });
                       }}
                     />

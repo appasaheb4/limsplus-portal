@@ -10,9 +10,9 @@ import {
   DateFilter,
   customFilter,
   NumberFilter,
+  DepartmentList,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import DepartmentList from '../organsims/department-list.component';
 import dayjs from 'dayjs';
 import ModalDetails from './modal-details.component';
 
