@@ -536,11 +536,14 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
+              filter: customFilter({
                 getFilter: filter => {
                   ageFrom = filter;
                 },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -624,11 +627,14 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
+              filter: customFilter({
                 getFilter: filter => {
                   ageTo = filter;
                 },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -807,11 +813,14 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
+              filter: customFilter({
                 getFilter: filter => {
                   alpha = filter;
                 },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -894,7 +903,11 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({}),
+              filter: textFilter({
+                getFilter: filter => {
+                  enteredBy = filter;
+                },
+              }),
               editable: false,
             },
             {
@@ -1112,7 +1125,30 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
+            code('');
             libraryCode('');
+            lab('');
+            department('');
+            investigationType('');
+            investigationCode('');
+            investigationName('');
+            species('');
+            sex('');
+            instType('');
+            commentsType('');
+            commentsFor('');
+            ageFrom('');
+            ageFromUnit('');
+            ageTo('');
+            ageToUnit('');
+            low('');
+            high('');
+            alpha('');
+            status('');
+            enteredBy('');
+            dateCreation();
+            dateExpire();
+            versions('');
             environment('');
           }}
         />

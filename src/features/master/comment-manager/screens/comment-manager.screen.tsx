@@ -1,5 +1,6 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   Toast,
   Header,
@@ -46,7 +47,7 @@ const CommentManager = CommentManagerHoc(
       loading,
     } = useStores();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isHideAddView, setIsHideAddView] = useState<boolean>(false);
+    const [isHideAddView, setIsHideAddView] = useState<boolean>(true);
     const [departmentList, setDepartmentList] = useState([]);
     const [isExistsRecord, setIsExistsRecord] = useState(false);
 
@@ -169,11 +170,11 @@ const CommentManager = CommentManagerHoc(
             });
           }}
           onPageSizeChange={(page, limit) => {
-            libraryStore.fetchLibrary(page, limit);
+            commentManagerStore.commentManagerService.list(page, limit);
             global.filter = {mode: 'pagination', page, limit};
           }}
           onFilter={(type, filter, page, limit) => {
-            libraryStore.libraryService.filter({
+            commentManagerStore.commentManagerService.filter({
               input: {type, filter, page, limit},
             });
             global.filter = {
@@ -189,6 +190,42 @@ const CommentManager = CommentManagerHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [commentManagerStore.commentManagerList],
     );
+
+    const checkExistsRecords = filed => {
+      commentManagerStore.commentManagerService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick(commentManagerStore.commentManager, [
+                'libraryCode',
+                'lab',
+                'department',
+                'investigationType',
+                'investigationCode',
+                'species',
+                'sex',
+                'instType',
+                'commentsType',
+                'commentsFor',
+                'status',
+                'versions',
+                'environment',
+              ]),
+              ...filed,
+            },
+          },
+        })
+        .then(res => {
+          console.log({res});
+
+          if (res.findByFieldsCommentManger?.success) {
+            setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+          }
+        });
+    };
 
     return (
       <>
@@ -242,6 +279,9 @@ const CommentManager = CommentManagerHoc(
                         }}
                         onSelect={item => {
                           onChange(item.libraryCode);
+                          checkExistsRecords({
+                            libraryCode: item.libraryCode,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             libraryCode: item.libraryCode,
@@ -273,6 +313,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const lab = e.target.value;
                           onChange(lab);
+                          checkExistsRecords({
+                            lab,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             lab,
@@ -320,6 +363,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const department = e.target.value;
                           onChange(department);
+                          checkExistsRecords({
+                            department,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             department,
@@ -361,6 +407,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const investigationType = e.target.value;
                           onChange(investigationType);
+                          checkExistsRecords({
+                            investigationType,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             investigationType,
@@ -402,6 +451,9 @@ const CommentManager = CommentManagerHoc(
                             'investigationName',
                             items.investigationName,
                           );
+                          checkExistsRecords({
+                            investigationCode: items.investigationCode,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             investigationCode: items.investigationCode,
@@ -449,6 +501,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const species = e.target.value;
                           onChange(species);
+                          checkExistsRecords({
+                            species,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             species,
@@ -482,6 +537,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const sex = e.target.value;
                           onChange(sex);
+                          checkExistsRecords({
+                            sex,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             sex,
@@ -516,6 +574,9 @@ const CommentManager = CommentManagerHoc(
                         hasError={!!errors.instType}
                         onSelect={instType => {
                           onChange(instType);
+                          checkExistsRecords({
+                            instType,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             instType,
@@ -545,6 +606,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const commentsType = e.target.value;
                           onChange(commentsType);
+                          checkExistsRecords({
+                            commentsType,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             commentsType,
@@ -584,6 +648,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const commentsFor = e.target.value;
                           onChange(commentsFor);
+                          checkExistsRecords({
+                            commentsFor,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             commentsFor,
@@ -826,6 +893,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const status = e.target.value;
                           onChange(status);
+                          checkExistsRecords({
+                            status,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             status,
@@ -928,6 +998,9 @@ const CommentManager = CommentManagerHoc(
                         onChange={e => {
                           const environment = e.target.value;
                           onChange(environment);
+                          checkExistsRecords({
+                            environment,
+                          });
                           commentManagerStore.updateCommentManager({
                             ...commentManagerStore.commentManager,
                             environment,

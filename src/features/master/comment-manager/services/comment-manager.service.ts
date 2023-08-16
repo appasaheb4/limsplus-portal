@@ -89,8 +89,17 @@ export class CommentManagerService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterLibrarys.success) return this.list();
-          stores.libraryStore.filterLibraryList(response.data);
+          console.log({response});
+          if (!response.data.filterCommentManager.success) return this.list();
+          stores.commentManagerStore.updateCommentManagerList({
+            commentManagers: {
+              success: 1,
+              data: response.data.filterCommentManager.data,
+              paginatorInfo: {
+                count: response.data.filterCommentManager.paginatorInfo.count,
+              },
+            },
+          });
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
