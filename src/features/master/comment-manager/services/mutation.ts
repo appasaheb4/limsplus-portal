@@ -82,8 +82,8 @@ export const CHECK_EXISTS_RECORD = gql`
 `;
 
 export const FILTER = gql`
-  mutation ($input: LibraryInput!) {
-    filterLibrarys(input: $input) {
+  mutation ($input: CommentManagerInput!) {
+    filterCommentManager(input: $input) {
       paginatorInfo {
         count
       }
@@ -91,47 +91,27 @@ export const FILTER = gql`
       message
       data {
         _id
+        existsVersionId
+        existsRecordId
         code
         libraryCode
         lab
         department
-        position
-        groups
-        libraryType
-        parameter
-        editable
-        details
-        status
-        enteredBy
-        dateCreation
-        dateActive
-        dateExpire
-        versions
-        environment
-        dateOfEntry
-        lastUpdated
-      }
-    }
-  }
-`;
-
-export const LIBRARYS_BY_CODE = gql`
-  mutation ($input: LibraryInput!) {
-    librarysByCode(input: $input) {
-      success
-      message
-      data {
-        _id
-        code
-        libraryCode
-        lab
-        department
-        position
-        groups
-        libraryType
-        parameter
-        editable
-        details
+        investigationType
+        investigationCode
+        investigationName
+        species
+        sex
+        instType
+        commentsType
+        commentsFor
+        ageFrom
+        ageFromUnit
+        ageTo
+        ageToUnit
+        low
+        high
+        alpha
         status
         enteredBy
         dateCreation
@@ -156,16 +136,27 @@ export const FILTER_BY_FIELDS = gql`
       message
       data {
         _id
+        existsVersionId
+        existsRecordId
         code
         libraryCode
         lab
         department
-        position
-        groups
-        libraryType
-        parameter
-        editable
-        details
+        investigationType
+        investigationCode
+        investigationName
+        species
+        sex
+        instType
+        commentsType
+        commentsFor
+        ageFrom
+        ageFromUnit
+        ageTo
+        ageToUnit
+        low
+        high
+        alpha
         status
         enteredBy
         dateCreation
@@ -181,22 +172,33 @@ export const FILTER_BY_FIELDS = gql`
 `;
 
 export const FIND_BY_FIELDS = gql`
-  mutation ($input: LibraryInput!) {
-    findByFieldsLibrarys(input: $input) {
+  mutation ($input: CommentManagerInput!) {
+    findByFieldsCommentManger(input: $input) {
       success
       message
       data {
         _id
+        existsVersionId
+        existsRecordId
         code
         libraryCode
         lab
         department
-        position
-        groups
-        libraryType
-        parameter
-        editable
-        details
+        investigationType
+        investigationCode
+        investigationName
+        species
+        sex
+        instType
+        commentsType
+        commentsFor
+        ageFrom
+        ageFromUnit
+        ageTo
+        ageToUnit
+        low
+        high
+        alpha
         status
         enteredBy
         dateCreation

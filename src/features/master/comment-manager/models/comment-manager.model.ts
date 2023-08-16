@@ -18,8 +18,8 @@ export class CommentManager {
   ageFromUnit: string;
   ageTo: number;
   ageToUnit: string;
-  low: number;
-  high: number;
+  low: string;
+  high: string;
   alpha: number;
   status: string;
   enteredBy: string;

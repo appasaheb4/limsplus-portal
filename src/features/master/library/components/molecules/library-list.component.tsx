@@ -104,7 +104,11 @@ export const LibraryList = (props: LibraryListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({}),
+              filter: customFilter({
+                getFilter: filter => {
+                  libraryCode = filter;
+                },
+              }),
               editable: false,
             },
             {
@@ -339,7 +343,7 @@ export const LibraryList = (props: LibraryListProps) => {
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  groups = filter;
+                  parameter = filter;
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
@@ -478,7 +482,11 @@ export const LibraryList = (props: LibraryListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({}),
+              filter: textFilter({
+                getFilter: filter => {
+                  enteredBy = filter;
+                },
+              }),
               editable: false,
             },
             {
@@ -696,7 +704,19 @@ export const LibraryList = (props: LibraryListProps) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
+            code('');
             libraryCode('');
+            lab('');
+            department('');
+            position('');
+            groups('');
+            libraryType('');
+            parameter('');
+            status('');
+            enteredBy('');
+            dateCreation();
+            dateExpire();
+            versions('');
             environment('');
           }}
         />
