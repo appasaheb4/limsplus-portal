@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {
-  TableBootstrap,
   Tooltip,
   Icons,
   textFilter,
   sortCaret,
   Form,
+  TableBootstrap,
   DateFilter,
   customFilter,
   NumberFilter,
@@ -380,6 +380,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'editable',
               text: 'Editable',
+              headerClasses: 'textHeader1',
               sort: true,
               editable: false,
               csvFormatter: (col, row) =>
@@ -514,7 +515,11 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')}
+                    {row?.dateCreation
+                      ? dayjs(row?.dateCreation || 0).format(
+                          'DD-MM-YYYY hh:mm:ss',
+                        )
+                      : ''}
                   </>
                 );
               },
@@ -544,7 +549,11 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')}
+                    {row?.dateExpire
+                      ? dayjs(row?.dateExpire || 0).format(
+                          'DD-MM-YYYY hh:mm:ss',
+                        )
+                      : ''}
                   </>
                 );
               },
@@ -714,8 +723,6 @@ export const LibraryList = (props: LibraryListProps) => {
             parameter('');
             status('');
             enteredBy('');
-            dateCreation();
-            dateExpire();
             versions('');
             environment('');
           }}

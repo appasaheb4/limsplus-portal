@@ -33,7 +33,8 @@ export class MasterAnalyteService {
           variables: {input: {page, limit, env, role, lab}},
         })
         .then((response: any) => {
-          stores.libraryStore.updateLibraryList(response.data);
+          console.log({response});
+          // stores.libraryStore.updateLibraryList(response.data);
           resolve(response.data);
         })
         .catch(error =>
