@@ -2,6 +2,7 @@ export class Deginisation {
   _id: string;
   code: string;
   description: string;
+  status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -10,6 +11,7 @@ export class Deginisation {
     this._id = rawData._id;
     this.code = rawData.code;
     this.description = rawData.description;
+    this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
