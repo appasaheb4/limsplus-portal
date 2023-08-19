@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
 import {
   Tooltip,
   Icons,
@@ -13,8 +12,9 @@ import {
   DepartmentList,
 } from '@/library/components';
 import {Confirm} from '@/library/models';
-import dayjs from 'dayjs';
 import ModalDetails from './modal-details.component';
+import dayjs from 'dayjs';
+import {lookupItems, lookupValue} from '@/library/utils';
 
 let code;
 let libraryCode;
@@ -97,14 +97,14 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'libraryCode',
               text: 'Library Code',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: customFilter({
+              filter: textFilter({
                 getFilter: filter => {
                   libraryCode = filter;
                 },
@@ -228,7 +228,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'POSITION').map(
+                    {lookupItems(props.extraData?.lookupItems, 'POSITION').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -274,7 +274,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'GROUPS').map(
+                    {lookupItems(props.extraData?.lookupItems, 'GROUPS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -320,7 +320,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'LIBRARY_TYPE')
+                    {lookupItems(props.extraData?.lookupItems, 'LIBRARY_TYPE')
                       ?.filter(item => item.code?.match(row?.groups))
                       .map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -366,7 +366,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'PARAMETER').map(
+                    {lookupItems(props.extraData?.lookupItems, 'PARAMETER').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -462,7 +462,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
+                    {lookupItems(props.extraData?.lookupItems, 'STATUS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -501,8 +501,8 @@ export const LibraryList = (props: LibraryListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
-                row.dateCreation
-                  ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')
+                row?.dateCreation
+                  ? dayjs(row?.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -535,8 +535,8 @@ export const LibraryList = (props: LibraryListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
-                row.dateExpire
-                  ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')
+                row?.dateExpire
+                  ? dayjs(row?.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -617,7 +617,7 @@ export const LibraryList = (props: LibraryListProps) => {
                   >
                     <option selected>Select</option>
                     {lookupItems(
-                      props.extraData.lookupItems,
+                      props.extraData?.lookupItems,
                       'ENVIRONMENT',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -727,6 +727,7 @@ export const LibraryList = (props: LibraryListProps) => {
             environment('');
           }}
         />
+
         <ModalDetails
           {...modalDetails}
           onUpdate={details => {

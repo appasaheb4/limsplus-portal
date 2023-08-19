@@ -38,6 +38,7 @@ const Deginisation = DeginisationHoc(
     useEffect(() => {
       // Default value initialization
       setValue('environment', deginisationStore.deginisation?.environment);
+      setValue('status', deginisationStore.deginisation?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deginisationStore.deginisation]);
 
@@ -155,6 +156,23 @@ const Deginisation = DeginisationHoc(
                   )}
                   name='description'
                   rules={{required: true}}
+                  defaultValue=''
+                />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.Input
+                      label='Status'
+                      placeholder={'Status'}
+                      hasError={!!errors.description}
+                      value={value}
+                      disabled
+                    />
+                  )}
+                  name='status'
+                  rules={{required: false}}
                   defaultValue=''
                 />
                 <Controller

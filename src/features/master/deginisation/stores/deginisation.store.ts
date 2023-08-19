@@ -31,7 +31,9 @@ export class DeginisationStore {
   }
 
   reset() {
-    this.deginisation = new Deginisation({});
+    this.deginisation = new Deginisation({
+      status: 'A',
+    });
     this.listDeginisation = [];
     this.listDeginisationCount = 0;
   }

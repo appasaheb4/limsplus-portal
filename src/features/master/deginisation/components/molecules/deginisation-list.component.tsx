@@ -11,6 +11,7 @@ import {Confirm} from '@/library/models';
 
 let code;
 let description;
+let status;
 let environment;
 
 interface DeginisationListProps {
@@ -76,6 +77,22 @@ export const DeginisationList = (props: DeginisationListProps) => {
           }),
           style: {textTransform: 'uppercase'},
           editorStyle: {textTransform: 'uppercase'},
+        },
+        {
+          dataField: 'status',
+          text: 'Status',
+          sort: true,
+          headerClasses: 'textHeader',
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          filter: textFilter({
+            getFilter: filter => {
+              status = filter;
+            },
+          }),
+          editable: false,
         },
         {
           dataField: 'environment',
@@ -184,6 +201,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
       clearAllFilter={() => {
         code('');
         description('');
+        status('');
         environment('');
       }}
     />
