@@ -15131,6 +15131,11 @@ react-file-reader@1.1.4:
     prop-types "^15.5.0"
     uuid4 "^1.0.0"
 
+react-files@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-files/-/react-files-3.0.0.tgz#d2284e33106cc5ddcc547e8633cad0b633c017b2"
+  integrity sha512-/Zz7S98vZFYxHw3RVSZcf3dD+xO714ZQd/jEhIp8q+MofBgydXWlHdw05TA4jradL7XpZFPvJaIvM6Z6I5nIHw==
+
 react-fit@^1.0.3, react-fit@^1.4.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/react-fit/-/react-fit-1.5.0.tgz#ef0ed7d9b414d147cf9afc4464adfdc42305aa74"

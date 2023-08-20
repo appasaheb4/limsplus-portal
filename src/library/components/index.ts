@@ -18,6 +18,9 @@ export * from './atoms/pdf/typography.components';
 export * from './atoms/pdf/wrapped-view.components';
 export * from './atoms/pdf/table.components';
 export * from './atoms/pdf/images.components';
+export * from './atoms/tabs/manual-import-tabs.component';
+export * from './atoms/files/import-file.component';
+export * from './atoms/table/static-input.component';
 
 export * from './molecules/auto-complete/auto-complete.component';
 export * from './molecules/auto-complete-check/auto-complete-check.component';

@@ -186,6 +186,7 @@ const Lab = LabHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [labStore.listLabs],
     );
+
     return (
       <>
         <Header>
