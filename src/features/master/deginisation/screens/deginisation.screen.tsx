@@ -11,12 +11,16 @@ import {
   Form,
   Svg,
   ModalConfirm,
+  ManualImportTabs,
+  ImportFile,
+  StaticInputTable,
 } from '@/library/components';
 import {DeginisationList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {DeginisationHoc} from '../hoc';
 import {useStores} from '@/stores';
+import * as XLSX from 'xlsx';
 
 import {RouterFlow} from '@/flows';
 import {resetDesignation} from '../startup';
@@ -33,7 +37,9 @@ const Deginisation = DeginisationHoc(
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDeginisation, setHideAddDeginisation] =
-      useState<boolean>(true);
+      useState<boolean>(false);
+    const [isImport, setIsImport] = useState<boolean>(false);
+    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
     useEffect(() => {
       // Default value initialization
@@ -65,6 +71,31 @@ const Deginisation = DeginisationHoc(
       }
     };
 
+    const handleFileUpload = (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (evt: any) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, {type: 'binary'});
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const list = data.map((item: any) => {
+          return {
+            code: item?.Code,
+            description: item?.Description,
+            environment: item?.Environment,
+            status: 'D',
+          };
+        });
+        console.log({list});
+        setArrImportRecords(list);
+      });
+      reader.readAsBinaryString(file);
+    };
+
     return (
       <>
         <Header>
@@ -77,169 +108,195 @@ const Deginisation = DeginisationHoc(
             onClick={() => setHideAddDeginisation(!hideAddDeginisation)}
           />
         )}
-        <div className=' mx-auto flex-wrap'>
+        <div className='mx-auto flex-wrap'>
           <div
             className={
               'p-2 rounded-lg shadow-xl ' +
               (hideAddDeginisation ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={2}>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Code'
-                      id='code'
-                      placeholder={errors.code ? 'Please Enter Code' : 'Code'}
-                      hasError={!!errors.code}
-                      value={value}
-                      onChange={code => {
-                        onChange(code);
-                        deginisationStore.updateDescription({
-                          ...deginisationStore.deginisation,
-                          code: code.toUpperCase(),
-                        });
-                      }}
-                      onBlur={code => {
-                        deginisationStore.DeginisationService.checkExitsEnvCode(
-                          {
-                            input: {
-                              code,
-                              env: deginisationStore.deginisation?.environment,
-                            },
-                          },
-                        ).then(res => {
-                          if (res.checkDesignationsExistsRecord.success) {
-                            deginisationStore.setExitsCode(true);
-                            Toast.error({
-                              message: `😔 ${res.checkDesignationsExistsRecord.message}`,
+            <ManualImportTabs
+              isImport={isImport}
+              onClick={flag => {
+                setIsImport(flag);
+              }}
+            />
+            {!isImport ? (
+              <div className='mx-auto'>
+                <Grid cols={2}>
+                  <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Input
+                          label='Code'
+                          id='code'
+                          placeholder={
+                            errors.code ? 'Please Enter Code' : 'Code'
+                          }
+                          hasError={!!errors.code}
+                          value={value}
+                          onChange={code => {
+                            onChange(code);
+                            deginisationStore.updateDescription({
+                              ...deginisationStore.deginisation,
+                              code: code.toUpperCase(),
                             });
-                          } else deginisationStore.setExitsCode(false);
-                        });
-                      }}
-                    />
-                  )}
-                  name='code'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-
-                {deginisationStore.checkExitsCode && (
-                  <span className='text-red-600 font-medium relative'>
-                    Code already exits. Please use other code.
-                  </span>
-                )}
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Description'
-                      name='description'
-                      placeholder={
-                        errors.description
-                          ? 'Please Enter Description'
-                          : 'Description'
-                      }
-                      hasError={!!errors.description}
-                      value={value}
-                      onChange={description => {
-                        onChange(description);
-                        deginisationStore.updateDescription({
-                          ...deginisationStore.deginisation,
-                          description: description.toUpperCase(),
-                        });
-                      }}
-                    />
-                  )}
-                  name='description'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Status'
-                      placeholder={'Status'}
-                      hasError={!!errors.description}
-                      value={value}
-                      disabled
-                    />
-                  )}
-                  name='status'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          deginisationStore.updateDescription({
-                            ...deginisationStore.deginisation,
-                            environment,
-                          });
-                          deginisationStore.DeginisationService.checkExitsEnvCode(
-                            {
-                              input: {
-                                code: deginisationStore.deginisation?.code,
-                                env: environment,
+                          }}
+                          onBlur={code => {
+                            deginisationStore.DeginisationService.checkExitsEnvCode(
+                              {
+                                input: {
+                                  code,
+                                  env: deginisationStore.deginisation
+                                    ?.environment,
+                                },
                               },
-                            },
-                          ).then(res => {
-                            if (res.checkDesignationsExistsRecord.success) {
-                              deginisationStore.setExitsCode(true);
-                              Toast.error({
-                                message: `😔 ${res.checkDesignationsExistsRecord.message}`,
+                            ).then(res => {
+                              if (res.checkDesignationsExistsRecord.success) {
+                                deginisationStore.setExitsCode(true);
+                                Toast.error({
+                                  message: `😔 ${res.checkDesignationsExistsRecord.message}`,
+                                });
+                              } else deginisationStore.setExitsCode(false);
+                            });
+                          }}
+                        />
+                      )}
+                      name='code'
+                      rules={{required: true}}
+                      defaultValue=''
+                    />
+
+                    {deginisationStore.checkExitsCode && (
+                      <span className='text-red-600 font-medium relative'>
+                        Code already exits. Please use other code.
+                      </span>
+                    )}
+
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Input
+                          label='Description'
+                          name='description'
+                          placeholder={
+                            errors.description
+                              ? 'Please Enter Description'
+                              : 'Description'
+                          }
+                          hasError={!!errors.description}
+                          value={value}
+                          onChange={description => {
+                            onChange(description);
+                            deginisationStore.updateDescription({
+                              ...deginisationStore.deginisation,
+                              description: description.toUpperCase(),
+                            });
+                          }}
+                        />
+                      )}
+                      name='description'
+                      rules={{required: true}}
+                      defaultValue=''
+                    />
+                  </List>
+                  <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Input
+                          label='Status'
+                          placeholder={'Status'}
+                          hasError={!!errors.description}
+                          value={value}
+                          disabled
+                        />
+                      )}
+                      name='status'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.InputWrapper label='Environment'>
+                          <select
+                            value={value}
+                            disabled={
+                              loginStore.login &&
+                              loginStore.login.role !== 'SYSADMIN'
+                                ? true
+                                : false
+                            }
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.environment
+                                ? 'border-red  '
+                                : 'border-gray-300'
+                            } rounded-md`}
+                            onChange={e => {
+                              const environment = e.target.value;
+                              onChange(environment);
+                              deginisationStore.updateDescription({
+                                ...deginisationStore.deginisation,
+                                environment,
                               });
-                            } else deginisationStore.setExitsCode(false);
-                          });
-                        }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : deginisationStore.deginisation?.environment ||
-                              'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-              </List>
-            </Grid>
+                              deginisationStore.DeginisationService.checkExitsEnvCode(
+                                {
+                                  input: {
+                                    code: deginisationStore.deginisation?.code,
+                                    env: environment,
+                                  },
+                                },
+                              ).then(res => {
+                                if (res.checkDesignationsExistsRecord.success) {
+                                  deginisationStore.setExitsCode(true);
+                                  Toast.error({
+                                    message: `😔 ${res.checkDesignationsExistsRecord.message}`,
+                                  });
+                                } else deginisationStore.setExitsCode(false);
+                              });
+                            }}
+                          >
+                            <option selected>
+                              {loginStore.login &&
+                              loginStore.login.role !== 'SYSADMIN'
+                                ? 'Select'
+                                : deginisationStore.deginisation?.environment ||
+                                  'Select'}
+                            </option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'ENVIRONMENT',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name='environment'
+                      rules={{required: true}}
+                      defaultValue=''
+                    />
+                  </List>
+                </Grid>
+              </div>
+            ) : (
+              <>
+                {arrImportRecords?.length > 0 ? (
+                  <StaticInputTable data={arrImportRecords} />
+                ) : (
+                  <ImportFile
+                    onClick={file => {
+                      console.log({file});
+                      handleFileUpload(file[0]);
+                    }}
+                  />
+                )}
+              </>
+            )}
             <br />
 
             <List direction='row' space={3} align='center'>
