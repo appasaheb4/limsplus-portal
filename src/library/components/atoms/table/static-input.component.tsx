@@ -27,7 +27,7 @@ export const StaticInputTable = ({data}: StaticInputTableProps) => {
         <thead className='text-xs text-white uppercase '>
           <tr>
             {arrKeys.map(item => (
-              <th scope='col' className='px-6 py-3'>
+              <th scope='col' className='p-2'>
                 {item}
               </th>
             ))}
@@ -37,7 +37,7 @@ export const StaticInputTable = ({data}: StaticInputTableProps) => {
           {data?.map(item => (
             <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
               {arrKeys.map(key => (
-                <td className='px-6 py-4'>{item[key]}</td>
+                <td className='p-2'>{item[key]}</td>
               ))}
             </tr>
           ))}

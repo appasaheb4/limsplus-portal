@@ -51,7 +51,9 @@ const Deginisation = DeginisationHoc(
     const onSubmitDesginiation = () => {
       if (!deginisationStore.checkExitsCode) {
         deginisationStore.DeginisationService.addDeginisation({
-          input: {...deginisationStore.deginisation},
+          input: isImport
+            ? {isImport, arrImportRecords}
+            : {isImport, ...deginisationStore.deginisation},
         }).then(res => {
           if (res.createDesignation.success) {
             Toast.success({
@@ -208,7 +210,7 @@ const Deginisation = DeginisationHoc(
                         <Form.Input
                           label='Status'
                           placeholder={'Status'}
-                          hasError={!!errors.description}
+                          hasError={!!errors.status}
                           value={value}
                           disabled
                         />
