@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {
   Toast,
   Header,
@@ -96,6 +97,35 @@ const Deginisation = DeginisationHoc(
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);
+    };
+
+    const checkExistsRecords = async (
+      fields = deginisationStore.deginisation,
+      length = 0,
+    ) => {
+      return deginisationStore.DeginisationService.findByFields({
+        input: {
+          filter: {
+            ..._.pick(fields, ['code', 'environment']),
+          },
+        },
+      }).then(res => {
+        console.log({
+          res,
+          first: res.findByFieldsDesignation.data?.length,
+          secound: length,
+        });
+        if (
+          res.findByFieldsDesignation?.success &&
+          res.findByFieldsDesignation.data?.length > length
+        ) {
+          //setIsExistsRecord(true);
+          Toast.error({
+            message: '😔 Already some record exists.',
+          });
+          return true;
+        } else return false;
+      });
     };
 
     return (
@@ -371,6 +401,19 @@ const Deginisation = DeginisationHoc(
                   page,
                   limit,
                 };
+              }}
+              onApproval={async records => {
+                const isExists = await checkExistsRecords(records, 1);
+                console.log({isExists});
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: {value: 'A', dataField: 'status', id: records._id},
+                    title: 'Are you sure?',
+                    body: 'Update deginisation!',
+                  });
+                }
               }}
             />
           </div>

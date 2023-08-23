@@ -30,6 +30,7 @@ interface DeginisationListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const DeginisationList = (props: DeginisationListProps) => {
@@ -149,7 +150,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
           hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
-              <div className='flex flex-row'>
+              <div className='flex flex-row items-center gap-1'>
                 <Tooltip tooltipText='Delete'>
                   <Icons.IconContext
                     color='#fff'
@@ -168,6 +169,15 @@ export const DeginisationList = (props: DeginisationListProps) => {
                     {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                   </Icons.IconContext>
                 </Tooltip>
+                {row.status == 'D' && (
+                  <Tooltip tooltipText='Approval'>
+                    <Icons.RIcon
+                      nameIcon='AiOutlineCheckCircle'
+                      propsIcon={{size: 24, color: '#ffffff'}}
+                      onClick={() => props.onApproval(row)}
+                    />
+                  </Tooltip>
+                )}
               </div>
             </>
           ),
