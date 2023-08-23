@@ -404,25 +404,26 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'details',
               text: 'Details',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
-                    <button
-                      className='p-1 bg-blue-500 rounded-sm text-white'
-                      onClick={() => {
-                        setModalDetails({
-                          visible: true,
-                          details: row?.details,
-                          _id: row?._id,
-                        });
-                      }}
-                    >
-                      Show Details
-                    </button>
+                    <Tooltip tooltipText='Details Content'>
+                      <Icons.RIcon
+                        nameIcon='AiFillHtml5'
+                        propsIcon={{size: 30}}
+                        onClick={() => {
+                          setModalDetails({
+                            visible: true,
+                            details: row?.details,
+                            _id: row?._id,
+                          });
+                        }}
+                      />
+                    </Tooltip>
                   </>
                 );
               },
