@@ -1,10 +1,10 @@
 import {makeObservable, action, observable, computed} from 'mobx';
-import {FileImportExport} from '../models';
-import {FileImportExportService} from '../services';
+import {ImportFromFile} from '../models';
+import {ImportFromFileService} from '../services';
 
-export class FileImportExportStore {
-  fileImportExport!: FileImportExport;
-  fileImportExportList!: FileImportExport[];
+export class ImportFromFileStore {
+  fileImportExport!: ImportFromFile;
+  fileImportExportList!: ImportFromFile[];
   fileImportExportListCount: number;
   defaultValue: {
     transferType: string;
@@ -14,7 +14,7 @@ export class FileImportExportStore {
   };
 
   constructor() {
-    this.fileImportExport = new FileImportExport({transferType: 'IMPORT_FILE'});
+    this.fileImportExport = new ImportFromFile({transferType: 'IMPORT_FILE'});
     this.fileImportExportList = [];
     this.fileImportExportListCount = 0;
     this.defaultValue = {
@@ -23,7 +23,7 @@ export class FileImportExportStore {
       limit: 10,
     };
 
-    makeObservable<FileImportExportStore, any>(this, {
+    makeObservable<ImportFromFileStore, any>(this, {
       fileImportExport: observable,
       fileImportExportList: observable,
       fileImportExportListCount: observable,
@@ -37,7 +37,7 @@ export class FileImportExportStore {
   }
 
   get fileImportExportService() {
-    return new FileImportExportService();
+    return new ImportFromFileService();
   }
 
   updateFileImpExport(data) {
@@ -52,4 +52,4 @@ export class FileImportExportStore {
     this.defaultValue = payload;
   }
 }
-const store = new FileImportExportStore();
+const store = new ImportFromFileStore();

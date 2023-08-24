@@ -44,7 +44,6 @@ import {HostCommunicationStore} from '@/features/communication/host-communicatio
 import {SegmentMappingStore} from '@/features/communication/segment-mapping/stores/segment-mapping.store';
 import {InstResultMappingStore} from '@/features/communication/instrument-result-mapping/stores/inst-result-mapping.store';
 import {TransmittedMessageStore} from '@/features/communication/transmitted-message/stores/transmitted-message.store';
-import {FileImportExportStore} from '@/features/communication/file-import-export/stores/file-import-export.store';
 
 // setting
 import {RoleStore} from '@/features/settings/roles/stores/role.store';
@@ -64,6 +63,7 @@ import {
   PatientResultStore,
   PatientSampleStore,
   PatientRegistrationStore,
+  ImportFromFileStore,
 } from '@/features/registration/patient-registration/stores';
 import {ClientRegistrationStore} from '@/features/registration/client-registration/stores';
 
@@ -125,7 +125,6 @@ export class Stores extends Store {
   segmentMappingStore!: SegmentMappingStore;
   instResultMappingStore!: InstResultMappingStore;
   transmittedMessageStore!: TransmittedMessageStore;
-  fileImportExportStore!: FileImportExportStore;
 
   // settings
   userStore!: UserStore;
@@ -144,6 +143,7 @@ export class Stores extends Store {
   patientSampleStore!: PatientSampleStore;
   patientRegistrationStore!: PatientRegistrationStore;
   clientRegistrationStore!: ClientRegistrationStore;
+  importFromFileStore!: ImportFromFileStore;
 
   // result entry
   generalResultEntryStore!: GeneralResultEntryStore;
@@ -206,7 +206,6 @@ export class Stores extends Store {
     this.segmentMappingStore = new SegmentMappingStore();
     this.instResultMappingStore = new InstResultMappingStore();
     this.transmittedMessageStore = new TransmittedMessageStore();
-    this.fileImportExportStore = new FileImportExportStore();
 
     // settings
     this.userStore = new UserStore();
@@ -225,6 +224,7 @@ export class Stores extends Store {
     this.patientSampleStore = new PatientSampleStore();
     this.patientRegistrationStore = new PatientRegistrationStore();
     this.clientRegistrationStore = new ClientRegistrationStore();
+    this.importFromFileStore = new ImportFromFileStore();
 
     // result entry
     this.generalResultEntryStore = new GeneralResultEntryStore();

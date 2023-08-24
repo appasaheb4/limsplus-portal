@@ -60,7 +60,6 @@ import * as DataConveration from '@/features/communication/data-conversation';
 import * as HostCommunication from '@/features/communication/host-communication';
 import * as InstResultMapping from '@/features/communication/instrument-result-mapping';
 import * as TransmittedMessage from '@/features/communication/transmitted-message';
-import * as FileImportExport from '@/features/communication/file-import-export';
 import * as SegmentMapping from '@/features/communication/segment-mapping';
 
 // result entry
@@ -262,9 +261,6 @@ const Dashboard = observer(({children}) => {
       }
       if (pathname === '/communication/transmitted-message') {
         await TransmittedMessage.startup();
-      }
-      if (pathname === '/communication/file-import-export') {
-        await FileImportExport.startup();
       }
       // registration
       if (pathname === '/registration/patient') {

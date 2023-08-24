@@ -26,7 +26,7 @@ export const ManualImportTabs = ({
               nameIcon='AiOutlineUnorderedList'
               propsIcon={{size: 24}}
             />
-            Manual
+            Manual Entry
           </div>
         </li>
         <li>
@@ -39,7 +39,7 @@ export const ManualImportTabs = ({
             onClick={() => onClick(true)}
           >
             <Icons.RIcon nameIcon='CiImport' propsIcon={{size: 24}} />
-            Import
+            Import from file
           </div>
         </li>
       </ul>

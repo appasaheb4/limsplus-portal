@@ -19,10 +19,6 @@ const TransmittedMessage = async(
   () => import('../transmitted-message/screens/transmitted-message.screen'),
 );
 
-const FileImportExport = async(
-  () => import('../file-import-export/screens/file-import-export.screen'),
-);
-
 export const communicationRoutes = {
   path: '/communication',
   name: 'Communication',
@@ -63,12 +59,6 @@ export const communicationRoutes = {
       name: 'Transmitted Message',
       icon: 'AiOutlineMessage',
       component: TransmittedMessage,
-    },
-    {
-      path: '/communication/file-import-export',
-      name: 'File Import And Export',
-      icon: 'MdImportExport',
-      component: FileImportExport,
     },
   ],
 };
