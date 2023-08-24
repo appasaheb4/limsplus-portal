@@ -15,6 +15,7 @@ export * from './molecules/patient-test/input/extra-data-panel-list-table.compon
 export * from './molecules/patient-test/output/patient-test-list.component';
 export * from './molecules/patient-sample/patient-sample-list.component';
 export * from './molecules/patient-order/output/modal-barcode-lab.component';
+export * from './molecules/modal-modify-details.component';
 
 export * from './orgransims/auto-complete-filter-single-select-city.component';
 export * from './orgransims/auto-complete-filter-single-select-country.component';
@@ -25,3 +26,6 @@ export * from './orgransims/auto-complete-filter-single-select-state-collection-
 export * from './orgransims/auto-complete-filter-single-select-state-corporate-code.component';
 export * from './orgransims/auto-complete-filter-single-select-state-doctor-Id.component';
 export * from './orgransims/auto-complete-filter-single-select-state-doctor-name.component';
+
+export * from './input/preview-import-table.component';
+export * from './output/file-import-export-list.component';

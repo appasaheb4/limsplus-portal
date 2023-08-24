@@ -5,3 +5,4 @@ export * from './patient-test.store';
 export * from './patient-result.store';
 export * from './patient-sample.store';
 export * from './patient-registration.store';
+export * from './import-from-file.store';

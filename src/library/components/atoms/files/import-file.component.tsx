@@ -3,9 +3,10 @@ import Files from 'react-files';
 import {Icons} from '@/library/components';
 
 interface ImportFileProps {
+  accepts?: Array<string>;
   onClick: (item: any) => void;
 }
-export const ImportFile = ({onClick}: ImportFileProps) => {
+export const ImportFile = ({accepts = ['.csv'], onClick}: ImportFileProps) => {
   return (
     <div className='flex justify-center'>
       <Files
@@ -17,7 +18,7 @@ export const ImportFile = ({onClick}: ImportFileProps) => {
           console.log('error code ' + error.code + ': ' + error.message);
         }}
         //accepts={['.xlsx', '.xls', '.csv']}
-        accepts={['.csv']}
+        accepts={accepts}
         multiple={false}
         maxFileSize={10_000_000}
         minFileSize={0}

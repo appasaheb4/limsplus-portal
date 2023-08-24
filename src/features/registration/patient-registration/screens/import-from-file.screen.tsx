@@ -2,18 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
-  List,
-  ModalImportFile,
-  Icons,
   ModalConfirm,
   Form,
+  ImportFile,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
-import {Styles} from '@/config';
 import {FileImportExportList} from '../components';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
@@ -22,13 +16,13 @@ import {useForm, Controller} from 'react-hook-form';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {PreviewImportTable} from '../components';
 
-const FileImportExport = observer(() => {
+export const FileImportExport = observer(() => {
   const {
     loginStore,
     clientRegistrationStore,
     segmentMappingStore,
     routerStore,
-    fileImportExportStore,
+    importFromFileStore,
     patientManagerStore,
   } = useStores();
   const {
@@ -61,13 +55,10 @@ const FileImportExport = observer(() => {
   };
 
   useEffect(() => {
-    setValue(
-      'transferType',
-      fileImportExportStore.fileImportExport.transferType,
-    );
-    getSegmentMappingList(fileImportExportStore.fileImportExport.transferType);
+    setValue('transferType', importFromFileStore.fileImportExport.transferType);
+    getSegmentMappingList(importFromFileStore.fileImportExport.transferType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileImportExportStore.fileImportExport]);
+  }, [importFromFileStore.fileImportExport]);
 
   const handleFileUpload = (file: any) => {
     const reader = new FileReader();
@@ -108,8 +99,8 @@ const FileImportExport = observer(() => {
   };
 
   const onUpload = () => {
-    fileImportExportStore.fileImportExportService
-      .create({input: {...fileImportExportStore.fileImportExport}})
+    importFromFileStore.fileImportExportService
+      .create({input: {...importFromFileStore.fileImportExport}})
       .then(res => {
         if (res.createFileImportExport.success) {
           Toast.success({
@@ -117,8 +108,8 @@ const FileImportExport = observer(() => {
           });
           setInputView(false);
           setPreviewRecords([]);
-          fileImportExportStore.fileImportExportService.listFileImportExport(
-            fileImportExportStore.defaultValue.transferType,
+          importFromFileStore.fileImportExportService.listFileImportExport(
+            importFromFileStore.defaultValue.transferType,
           );
         }
       });
@@ -126,70 +117,72 @@ const FileImportExport = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <div className='ml-20'>
-          <Form.InputWrapper
-            label='Transfer Type'
-            hasError={!!errors.transferType}
-          >
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <select
-                  value={value}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.transferType ? 'border-red  ' : 'border-gray-300'
-                  } rounded-md`}
-                  onChange={e => {
-                    const transferType = e.target.value;
-                    onChange(transferType);
-                    fileImportExportStore.updateFileImpExport({
-                      ...fileImportExportStore.fileImportExport,
-                      transferType,
-                    });
-                    if (isInputView) getSegmentMappingList(transferType);
-                    fileImportExportStore.fileImportExportService.listFileImportExport(
-                      transferType,
-                    );
-                    fileImportExportStore.updateDefaultValue({
-                      ...fileImportExportStore.defaultValue,
-                      transferType,
-                    });
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(routerStore.lookupItems, 'TRANSFER_TYPE')?.map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ),
-                  )}
-                </select>
-              )}
-              name='transferType'
-              rules={{required: true}}
-              defaultValue=''
-            />
-          </Form.InputWrapper>
-        </div>
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
-      {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
-        <Buttons.ButtonCircleAddRemove
-          show={!isInputView}
-          onClick={status => setInputView(!isInputView)}
-        />
-      )}
-
       <div
         className={
           'flex flex-col items-center justify-center p-2 rounded-lg shadow-xl gap-2 ' +
           (isInputView ? 'shown' : 'hidden')
         }
       >
-        <List direction='col' space={3} align='center'>
+        {previewRecords?.length == 0 && (
+          <div className='flex flex-col items-center gap-2 mb-4'>
+            <div className='flex flex-wrap'>
+              <Form.InputWrapper
+                label='Transfer Type'
+                hasError={!!errors.transferType}
+              >
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <select
+                      value={value}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.transferType ? 'border-red  ' : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const transferType = e.target.value;
+                        onChange(transferType);
+                        importFromFileStore.updateFileImpExport({
+                          ...importFromFileStore.fileImportExport,
+                          transferType,
+                        });
+                        if (isInputView) getSegmentMappingList(transferType);
+                        importFromFileStore.fileImportExportService.listFileImportExport(
+                          transferType,
+                        );
+                        importFromFileStore.updateDefaultValue({
+                          ...importFromFileStore.defaultValue,
+                          transferType,
+                        });
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(
+                        routerStore.lookupItems,
+                        'TRANSFER_TYPE',
+                      )?.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  name='transferType'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+              </Form.InputWrapper>
+            </div>
+
+            <ImportFile
+              accepts={['.csv', '.xlsx', '.xls']}
+              onClick={file => {
+                console.log({file});
+                handleFileUpload(file[0]);
+              }}
+            />
+          </div>
+        )}
+        {/* <List direction='col' space={3} align='center'>
           <Buttons.Button
             size='medium'
             type='outline'
@@ -202,21 +195,16 @@ const FileImportExport = observer(() => {
               });
             }}
           >
-            <Icons.EvaIcon
-              icon='arrowhead-down-outline'
-              size='medium'
-              color={Styles.COLORS.BLACK}
-            />
-            Import File
+            Save
           </Buttons.Button>
-        </List>
+        </List> */}
         {previewRecords?.length > 0 && (
           <div className='w-full'>
             <PreviewImportTable
               arrData={previewRecords}
               onUpload={records => {
-                fileImportExportStore.updateFileImpExport({
-                  ...fileImportExportStore.fileImportExport,
+                importFromFileStore.updateFileImpExport({
+                  ...importFromFileStore.fileImportExport,
                   records,
                 });
                 onUpload();
@@ -226,26 +214,33 @@ const FileImportExport = observer(() => {
         )}
       </div>
 
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
+        <Buttons.ButtonCircleAddRemove
+          show={!isInputView}
+          onClick={status => setInputView(!isInputView)}
+        />
+      )}
+
       <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
         <FileImportExportList
-          data={fileImportExportStore.fileImportExportList || []}
+          data={importFromFileStore.fileImportExportList || []}
           totalSize={{
-            ...fileImportExportStore.defaultValue,
-            count: fileImportExportStore.fileImportExportListCount,
+            ...importFromFileStore.defaultValue,
+            count: importFromFileStore.fileImportExportListCount,
           }}
           onPagination={type => {
-            let page = fileImportExportStore.defaultValue.page;
+            let page = importFromFileStore.defaultValue.page;
             if (type == 'next') {
               page = page + 1;
             } else {
               page = page - 1;
             }
-            fileImportExportStore.updateDefaultValue({
-              ...fileImportExportStore.defaultValue,
+            importFromFileStore.updateDefaultValue({
+              ...importFromFileStore.defaultValue,
               page,
             });
-            fileImportExportStore.fileImportExportService.listFileImportExport(
-              fileImportExportStore.defaultValue.transferType,
+            importFromFileStore.fileImportExportService.listFileImportExport(
+              importFromFileStore.defaultValue.transferType,
               page,
             );
           }}
@@ -259,14 +254,14 @@ const FileImportExport = observer(() => {
             });
           }}
           onFilter={filter => {
-            fileImportExportStore.fileImportExportService
+            importFromFileStore.fileImportExportService
               .filterByFields({input: {filter}})
               .then(res => {
                 console.log(res);
               });
           }}
           onClearFilter={() => {
-            fileImportExportStore.fileImportExportService.listFileImportExport();
+            importFromFileStore.fileImportExportService.listFileImportExport();
           }}
           onSend={records => {
             const list = records.filter(n => n);
@@ -283,7 +278,7 @@ const FileImportExport = observer(() => {
                   Toast.success({
                     message: `😊 ${res.createByFileImportExportPatientManager.message}`,
                   });
-                  fileImportExportStore.fileImportExportService.listFileImportExport();
+                  importFromFileStore.fileImportExportService.listFileImportExport();
                 } else {
                   Toast.error({
                     message: `😌 ${res.createByFileImportExportPatientManager.message}`,
@@ -298,33 +293,21 @@ const FileImportExport = observer(() => {
           }}
         />
       </div>
-      <ModalImportFile
-        accept='.csv,.xlsx,.xls'
-        {...modalImportFile}
-        click={(file: any) => {
-          setModalImportFile({show: false});
-          handleFileUpload(file);
-        }}
-        close={() => {
-          setModalImportFile({show: false});
-        }}
-      />
-
       <ModalConfirm
         {...modalConfirm}
         click={(action?: string) => {
           setModalConfirm({show: false});
           switch (action) {
             case 'delete': {
-              fileImportExportStore.fileImportExportService
+              importFromFileStore.fileImportExportService
                 .delete({input: {id: modalConfirm.id}})
                 .then(res => {
                   if (res.removeFileImportExport.success) {
                     Toast.success({
                       message: `😊 ${res.removeFileImportExport.message}`,
                     });
-                    fileImportExportStore.fileImportExportService.listFileImportExport(
-                      fileImportExportStore.defaultValue.transferType,
+                    importFromFileStore.fileImportExportService.listFileImportExport(
+                      importFromFileStore.defaultValue.transferType,
                     );
                   }
                 });
@@ -374,5 +357,3 @@ const FileImportExport = observer(() => {
     </>
   );
 });
-
-export default FileImportExport;

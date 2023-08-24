@@ -17,9 +17,9 @@ import {
   FIND_BY_FIELDS,
   CREATE_RECORD,
   FILTER_BY_FIELDS,
-} from './mutation';
+} from './mutation-import-from-file';
 
-export class FileImportExportService {
+export class ImportFromFileService {
   listFileImportExport = (transferType = 'IMPORT_FILE', page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -28,7 +28,7 @@ export class FileImportExportService {
           variables: {input: {page, limit, transferType}},
         })
         .then((res: any) => {
-          stores.fileImportExportStore.updateFileImportExportList(res.data);
+          stores.importFromFileStore.updateFileImportExportList(res.data);
           resolve(res.data);
         })
         .catch(error =>
@@ -131,7 +131,7 @@ export class FileImportExportService {
         .then((response: any) => {
           if (!response.data.filterByFieldsFileImportExport.success)
             return this.listFileImportExport();
-          stores.fileImportExportStore.updateFileImportExportList({
+          stores.importFromFileStore.updateFileImportExportList({
             fileImportExports: {
               data: response.data.filterByFieldsFileImportExport.data,
               paginatorInfo: {

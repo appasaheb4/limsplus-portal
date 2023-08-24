@@ -5,3 +5,4 @@ export * from './patient-order.model';
 export * from './patient-test.model';
 export * from './patient-result.model';
 export * from './patient-sample.model';
+export * from './import-from-file.model';

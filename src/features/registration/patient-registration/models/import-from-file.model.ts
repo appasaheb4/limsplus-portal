@@ -1,4 +1,4 @@
-export class FileImportExport {
+export class ImportFromFile {
   _id: string;
   transferType: string;
   isError: boolean;
