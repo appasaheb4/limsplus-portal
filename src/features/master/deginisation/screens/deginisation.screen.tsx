@@ -93,7 +93,6 @@ const Deginisation = DeginisationHoc(
             status: 'D',
           };
         });
-        console.log({list});
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);
@@ -110,11 +109,6 @@ const Deginisation = DeginisationHoc(
           },
         },
       }).then(res => {
-        console.log({
-          res,
-          first: res.findByFieldsDesignation.data?.length,
-          secound: length,
-        });
         if (
           res.findByFieldsDesignation?.success &&
           res.findByFieldsDesignation.data?.length > length
@@ -322,7 +316,6 @@ const Deginisation = DeginisationHoc(
                 ) : (
                   <ImportFile
                     onClick={file => {
-                      console.log({file});
                       handleFileUpload(file[0]);
                     }}
                   />
@@ -404,7 +397,6 @@ const Deginisation = DeginisationHoc(
               }}
               onApproval={async records => {
                 const isExists = await checkExistsRecords(records, 1);
-                console.log({isExists});
                 if (!isExists) {
                   setModalConfirm({
                     show: true,

@@ -56,13 +56,7 @@ export class BannerService {
       await client
         .mutate({
           mutation: CREATE_BANNER,
-          variables: {
-            input: {
-              title: banner.title,
-              environment: banner.environment,
-              file: banner.image,
-            },
-          },
+          variables: banner,
         })
         .then((response: any) => {
           resolve(response.data);

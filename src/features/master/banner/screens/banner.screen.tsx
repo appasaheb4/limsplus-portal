@@ -42,18 +42,18 @@ const Banner = BannerHoc(
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);
 
     const onSubmitBanner = async () => {
-      await bannerStore.BannerService.addBanner(bannerStore.banner).then(
-        res => {
-          if (res.createBanner.success) {
-            Toast.success({
-              message: `😊 ${res.createBanner.message}`,
-            });
-            setHideAddBanner(true);
-            reset();
-            resetBanner();
-          }
-        },
-      );
+      await bannerStore.BannerService.addBanner({
+        input: {...bannerStore.banner},
+      }).then(res => {
+        if (res.createBanner.success) {
+          Toast.success({
+            message: `😊 ${res.createBanner.message}`,
+          });
+          setHideAddBanner(true);
+          reset();
+          resetBanner();
+        }
+      });
     };
 
     return (
