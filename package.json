@@ -6,7 +6,7 @@
     "start": "serve -s build",
     "serve-webapp": "craco build && craco start ",
     "dev": "craco start --max_old_space_size=15000",
-    "build": "rm -rf ./build && craco build --max_old_space_size=15000",
+    "build": "rm -rf ./build && craco build",
     "test": "craco test",
     "testConfig": "jest --watch --config=jest.config.js",
     "test:coverage": "craco test --coverage --testResultsProcessor jest-sonar-reporter --watchAll=false",
