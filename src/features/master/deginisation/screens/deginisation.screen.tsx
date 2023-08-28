@@ -57,6 +57,7 @@ const Deginisation = DeginisationHoc(
             : {isImport, ...deginisationStore.deginisation},
         }).then(res => {
           if (res.createDesignation.success) {
+            setArrImportRecords([]);
             Toast.success({
               message: `😊 ${res.createDesignation.message}`,
             });
