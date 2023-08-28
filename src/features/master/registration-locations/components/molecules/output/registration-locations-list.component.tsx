@@ -1661,6 +1661,17 @@ export const RegistrationLocationsList = (
           status('');
           environment('');
         }}
+        dynamicStylingFields={[
+          'lab',
+          'locationCode',
+          'locationName',
+          'acClass',
+          'accountType',
+          'deliveryMode',
+          'status',
+          'environment',
+        ]}
+        hideExcelSheet={['_id', 'opration']}
       />
     </div>
   );

@@ -1,10 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {
-  TableBootstrap,
-  Tooltip,
-  Icons,
-} from '@/library/components';
+import {TableBootstrap, Tooltip, Icons} from '@/library/components';
 import {Confirm} from '@/library/models';
 import {AutoCompletePageBrandingCode} from '../..';
 
@@ -210,6 +206,12 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
             version('');
             environment('');
           }}
+          dynamicStylingFields={[
+            'pageBrandingCode',
+            'reportCode',
+            'reportName',
+          ]}
+          hideExcelSheet={['_id', 'operation']}
         />
       </div>
     </>

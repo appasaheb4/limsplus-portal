@@ -21,7 +21,7 @@ import {Buttons, Icons} from '@/library/components';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
-
+import ExcelJS from 'exceljs';
 interface TableBootstrapProps {
   id: string;
   editorId?: string;
@@ -46,6 +46,8 @@ interface TableBootstrapProps {
     totalSize: number,
   ) => void;
   clearAllFilter?: () => void;
+  dynamicStylingFields?: any;
+  hideExcelSheet?: any;
 }
 export const TableBootstrap = ({
   id,
@@ -64,6 +66,8 @@ export const TableBootstrap = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
+  dynamicStylingFields,
+  hideExcelSheet,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -300,6 +304,76 @@ export const TableBootstrap = ({
         })}
     </div>
   );
+  const exportToExcel = () => {
+    const filteredColumns = columns.filter(
+      column => !hideExcelSheet.includes(column.dataField),
+    );
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(fileName);
+    worksheet.properties.defaultRowHeight = 20;
+    worksheet.columns = filteredColumns.map(column => {
+      const columnConfig: any = {
+        header: column.text,
+        key: column.dataField,
+      };
+
+      return columnConfig;
+    });
+    data.forEach((product, index) => {
+      const row = {};
+      filteredColumns.forEach(column => {
+        // Check if the column's value is an array
+        if (Array.isArray(product[column.dataField])) {
+          // Convert the array of objects to a concatenated string
+          row[column.dataField] = product[column.dataField]
+            .map(item => `Value :${item.value} - Code:${item.code}`)
+            .join(', ');
+        } else if (
+          typeof product[column.dataField] === 'object' &&
+          product[column.dataField] !== null
+        ) {
+          // Handle case where column value is an object
+          // You can customize how you want to display object values here
+          row[column.dataField] = JSON.stringify(
+            product[column.dataField].children.title,
+          ).replace(/^"(.*)"$/, '$1');
+        } else {
+          row[column.dataField] = product[column.dataField];
+        }
+      });
+
+      const newRow = worksheet.addRow(row);
+
+      // Check if any of the dynamic styling fields have values that require red background
+      dynamicStylingFields.forEach(field => {
+        const columnIndex = filteredColumns.findIndex(
+          column => column.dataField === field,
+        );
+        if (columnIndex !== -1) {
+          newRow.getCell(columnIndex + 1).fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: {argb: 'E42217'}, // Red background color
+          };
+        }
+      });
+    });
+
+    workbook.xlsx.writeBuffer().then(data => {
+      const blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fileName}_${dayjs(new Date()).format(
+        'YYYY-MM-DD HH:mm',
+      )}.xlsx`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  };
 
   return (
     <PaginationProvider
@@ -348,12 +422,12 @@ export const TableBootstrap = ({
                 >
                   Clear all filters
                 </button>
-                <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.csvProps}
+                <button
+                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  onClick={exportToExcel}
                 >
                   Export CSV!!
-                </ExportCSVButton>
+                </button>
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'

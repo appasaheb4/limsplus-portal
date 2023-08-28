@@ -1151,6 +1151,21 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
             versions('');
             environment('');
           }}
+          dynamicStylingFields={[
+            'libraryCode',
+            'lab',
+            'department',
+            'investigationType',
+            'investigationCode',
+            'species',
+            'sex',
+            'instType',
+            'commentsType',
+            'commentsFor',
+            'status',
+            'environment',
+          ]}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>

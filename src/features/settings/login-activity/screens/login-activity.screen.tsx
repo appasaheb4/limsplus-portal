@@ -256,6 +256,8 @@ const LoginActivity = observer(() => {
               isEditModify={false}
               isSelectRow={false}
               fileName='Login Activity'
+              dynamicStylingFields={[]}
+              hideExcelSheet={['_id']}
             />
           </div>
         </div>

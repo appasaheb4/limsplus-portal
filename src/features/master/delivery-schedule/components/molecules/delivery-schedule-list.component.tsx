@@ -567,6 +567,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             schForPat('');
             environment('');
           }}
+          dynamicStylingFields={['schCode', 'environment']}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>

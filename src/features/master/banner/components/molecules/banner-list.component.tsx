@@ -30,7 +30,8 @@ interface BannerListProps {
     totalSize: number,
   ) => void;
 }
-
+const dynamicStylingFields = ['title', 'environment'];
+const hideExcelSheet = ['_id', 'image', 'operation'];
 export const BannerList = (props: BannerListProps) => {
   return (
     <TableBootstrap
@@ -203,6 +204,8 @@ export const BannerList = (props: BannerListProps) => {
         title('');
         environment('');
       }}
+      dynamicStylingFields={dynamicStylingFields}
+      hideExcelSheet={hideExcelSheet}
     />
   );
 };

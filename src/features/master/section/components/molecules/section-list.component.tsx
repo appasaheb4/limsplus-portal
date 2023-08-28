@@ -490,6 +490,14 @@ export const SectionList = (props: SectionListProps) => {
           status('');
           environment('');
         }}
+        dynamicStylingFields={[
+          'departmentCode',
+          'code',
+          'name',
+          'status',
+          'environment',
+        ]}
+        hideExcelSheet={['_id', 'opration']}
       />
     </div>
   );
