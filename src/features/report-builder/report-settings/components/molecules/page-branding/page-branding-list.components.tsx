@@ -886,6 +886,14 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
             version('');
             environment('');
           }}
+          dynamicStylingFields={['layoutCode', 'tempCode', 'brandingTitle']}
+          hideExcelSheet={[
+            '_id',
+            'operation',
+            'header.logo',
+            'header.backgroundImage',
+            'footer.backgroundImage',
+          ]}
         />
       </div>
     </>

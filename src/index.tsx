@@ -16,6 +16,7 @@ import reportWebVitals from './reportWebVitals';
 //     });
 // }
 
+// eslint-disable-next-line react/no-deprecated
 ReactDOM.render(
   <React.StrictMode>
     <App />

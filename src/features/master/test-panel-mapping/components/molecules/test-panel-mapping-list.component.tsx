@@ -927,6 +927,14 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             status('');
             environment('');
           }}
+          dynamicStylingFields={[
+            'panelCode',
+            'testName',
+            'status',
+            'environment',
+            'lab',
+          ]}
+          hideExcelSheet={['_id', 'opration']}
         />
         <ModalReportOrder
           {...modalResultOrder}

@@ -1711,6 +1711,14 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             maxReportable('');
             price('');
           }}
+          dynamicStylingFields={[
+            'lab',
+            'analyteCode',
+            'analyteName',
+            'status',
+            'environment',
+          ]}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>

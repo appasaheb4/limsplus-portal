@@ -307,6 +307,8 @@ export const TransmittedMessageList = observer(
             dateOfEntry('');
             status('');
           }}
+          hideExcelSheet={['_id']}
+          dynamicStylingFields={[]}
         />
       </>
     );

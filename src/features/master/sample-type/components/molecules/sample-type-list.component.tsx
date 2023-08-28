@@ -230,6 +230,8 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
             sampleGroup('');
             environment('');
           }}
+          dynamicStylingFields={['sampleCode', 'sampleType', 'environment']}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>

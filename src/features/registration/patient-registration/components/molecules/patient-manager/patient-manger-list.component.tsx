@@ -828,6 +828,8 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               },
             },
           ]}
+          dynamicStylingFields={[]}
+          hideExcelSheet={['opration', '_id']}
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName='Patient Manager'

@@ -1008,6 +1008,8 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           limsFields('');
           environment('');
         }}
+        hideExcelSheet={['_id', 'opration']}
+        dynamicStylingFields={['dataFlow', 'instType', 'protocol']}
       />
     </>
   );
