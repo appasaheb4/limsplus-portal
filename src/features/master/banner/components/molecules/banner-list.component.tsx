@@ -11,6 +11,7 @@ import {lookupItems, lookupValue} from '@/library/utils';
 
 let title;
 let environment;
+let status;
 
 interface BannerListProps {
   data: any;
@@ -29,6 +30,7 @@ interface BannerListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const BannerList = (props: BannerListProps) => {
@@ -95,6 +97,22 @@ export const BannerList = (props: BannerListProps) => {
               />
             </>
           ),
+        },
+        {
+          dataField: 'status',
+          text: 'Status',
+          sort: true,
+          headerClasses: 'textHeader',
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          filter: textFilter({
+            getFilter: filter => {
+              status = filter;
+            },
+          }),
+          editable: false,
         },
         {
           dataField: 'environment',
@@ -169,6 +187,15 @@ export const BannerList = (props: BannerListProps) => {
                     {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                   </Icons.IconContext>
                 </Tooltip>
+                {row.status == 'D' && (
+                  <Tooltip tooltipText='Approval'>
+                    <Icons.RIcon
+                      nameIcon='AiOutlineCheckCircle'
+                      propsIcon={{size: 24, color: '#ffffff'}}
+                      onClick={() => props.onApproval(row)}
+                    />
+                  </Tooltip>
+                )}
               </div>
             </>
           ),
@@ -202,6 +229,7 @@ export const BannerList = (props: BannerListProps) => {
       clearAllFilter={() => {
         title('');
         environment('');
+        status('');
       }}
     />
   );
