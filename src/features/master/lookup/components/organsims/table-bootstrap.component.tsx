@@ -311,11 +311,20 @@ export const TableBootstrap = ({
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(fileName);
-    worksheet.properties.defaultRowHeight = 20;
     worksheet.columns = filteredColumns.map(column => {
+      const maxLength = Math.max(
+        column.text.length,
+        ...data.map(
+          product => (product[column.dataField]?.toString() || '').length,
+        ),
+      );
       const columnConfig: any = {
         header: column.text,
         key: column.dataField,
+        width: maxLength + 4, // Add a little extra width for padding
+        style: {
+          alignment: {wrapText: true}, // Set wrapText to true for cell content
+        },
       };
 
       return columnConfig;

@@ -196,7 +196,6 @@ export const TableBootstrap = ({
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(fileName);
-
     worksheet.columns = filteredColumns.map(column => {
       const maxLength = Math.max(
         column.text.length,
@@ -380,6 +379,16 @@ export const TableBootstrap = ({
                 })
                 .join(', ')
             : product['priceList'];
+
+          row[
+            'block'
+          ] = `Start:${product['blockStart']} - End:${product['blockEnd']}`;
+          row[
+            'testCodeName'
+          ] = `${product['testCode']} - ${product['testName']}`;
+          row[
+            'analyteCodeName'
+          ] = `${product['analyteCode']} - ${product['analyteName']}`;
         }
       });
 

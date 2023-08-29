@@ -586,8 +586,8 @@ export const InstResultMappingList = observer(
             dateOfEntry('');
             lastUpdated('');
           }}
-          dynamicStylingFields={['pLab']}
-          hideExcelSheet={['operation', '_id']}
+          dynamicStylingFields={[]}
+          hideExcelSheet={['operation', '_id', 'key']}
         />
       </>
     );
