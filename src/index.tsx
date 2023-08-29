@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 // import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -16,12 +16,13 @@ import reportWebVitals from './reportWebVitals';
 //     });
 // }
 
-// eslint-disable-next-line react/no-deprecated
-ReactDOM.render(
-  <React.StrictMode>
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement,
+);
+root.render(
+  <div>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
+  </div>,
 );
 
 // serviceWorkerRegistration.register();
