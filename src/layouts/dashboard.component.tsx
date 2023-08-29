@@ -82,6 +82,7 @@ import * as Receipt from '@/features/account-receivable/receipt';
 
 // Validations
 import * as PanelApproval from '@/features/validation/panel-approval';
+import {async} from 'validate.js';
 
 export const RouterService = () => {
   const history: any = useHistory();
@@ -329,7 +330,7 @@ const Dashboard = observer(({children}) => {
     let selectedCategory: any = await Storage.getItem(
       `__persist_mobx_stores_routerStore_SelectedCategory__`,
     );
-    if (selectedCategory !== null) {
+    if (selectedCategory) {
       const permission = await RouterFlow.getPermission(
         toJS(stores.routerStore.userRouter),
         selectedCategory.category,
@@ -348,12 +349,12 @@ const Dashboard = observer(({children}) => {
   };
 
   useEffect(() => {
-    // buz reload page after not showing delete and update so added settimout
+    // buz reload page after not showing delete and update so added settimeout
     stores.rootStore.isLogin().then(isLogin => {
       if (isLogin) {
         router();
-        setTimeout(() => {
-          permission();
+        setTimeout(async () => {
+          await permission();
         }, 1000);
       }
     });
