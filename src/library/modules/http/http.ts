@@ -35,7 +35,6 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
 
 export class Http {
   private instance: AxiosInstance | null = null;
-  //seesion = Session.getSession()
   accessToken!: string;
 
   constructor() {

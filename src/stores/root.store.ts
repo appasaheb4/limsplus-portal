@@ -36,7 +36,7 @@ export class RootStore {
           resolve(false);
         }
       } catch (error) {
-        reject(error);
+        reject(false);
       }
     });
   }
