@@ -252,6 +252,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
             action('');
             header('');
           }}
+          dynamicStylingFields={['lab', 'header', 'action']}
+          hideExcelSheet={['opration', '_id']}
         />
       </div>
     </>

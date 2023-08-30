@@ -629,6 +629,14 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           status('');
           environment('');
         }}
+        dynamicStylingFields={[
+          'salesTerritory',
+          'empCode',
+          'targets',
+          'status',
+          'environment',
+        ]}
+        hideExcelSheet={['opration', '_id']}
       />
     </div>
   );

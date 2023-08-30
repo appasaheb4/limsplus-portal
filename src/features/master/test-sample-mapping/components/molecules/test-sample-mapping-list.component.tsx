@@ -1146,6 +1146,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             departments('');
             environment('');
           }}
+          dynamicStylingFields={['testCode', 'sampleCode', 'environment']}
+          hideExcelSheet={['opration', '_id']}
         />
       </div>
     </>

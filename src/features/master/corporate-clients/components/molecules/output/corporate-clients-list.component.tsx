@@ -1690,6 +1690,13 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
           status('');
           environment('');
         }}
+        dynamicStylingFields={[
+          'corporateCode',
+          'corporateName',
+          'status',
+          'environment',
+        ]}
+        hideExcelSheet={['_id', 'opration']}
       />
     </div>
   );

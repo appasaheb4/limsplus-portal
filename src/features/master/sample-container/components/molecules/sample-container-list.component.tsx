@@ -244,6 +244,8 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
         description('');
         environment('');
       }}
+      dynamicStylingFields={['containerCode', 'containerName', 'environment']}
+      hideExcelSheet={['operation', '_id', 'image']}
     />
   );
 };

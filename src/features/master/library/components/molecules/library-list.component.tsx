@@ -727,6 +727,15 @@ export const LibraryList = (props: LibraryListProps) => {
             versions('');
             environment('');
           }}
+          hideExcelSheet={['_id', 'opration']}
+          dynamicStylingFields={[
+            'libraryCode',
+            'lab',
+            'department',
+            'position',
+            'status',
+            'environment',
+          ]}
         />
 
         <ModalDetails

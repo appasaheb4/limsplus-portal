@@ -34,16 +34,10 @@ const CommentManager = CommentManagerHoc(
     const {
       loginStore,
       libraryStore,
-      labStore,
       departmentStore,
-      masterPanelStore,
-      masterPackageStore,
-      testMasterStore,
-      masterAnalyteStore,
       lookupStore,
       routerStore,
       commentManagerStore,
-      interfaceManagerStore,
       loading,
     } = useStores();
     const [modalConfirm, setModalConfirm] = useState<any>();

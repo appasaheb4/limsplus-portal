@@ -244,6 +244,8 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
           clearAllFilter={() => {
             role('');
           }}
+          dynamicStylingFields={['role']}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>

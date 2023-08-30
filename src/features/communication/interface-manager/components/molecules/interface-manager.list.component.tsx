@@ -649,6 +649,15 @@ export const InterfaceManagerList = observer(
           fileds('');
           environment('');
         }}
+        dynamicStylingFields={[
+          'interfaceType',
+          'instrumentType',
+          'instrumentName',
+          'startBlock',
+          'endBlock',
+          'environment',
+        ]}
+        hideExcelSheet={['_id', 'operation']}
       />
     );
   },

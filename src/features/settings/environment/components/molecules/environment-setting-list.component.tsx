@@ -463,6 +463,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
             description('');
             environment('');
           }}
+          hideExcelSheet={['_id', 'opration']}
+          dynamicStylingFields={['variable', 'value', 'environment']}
         />
       </div>
     </>

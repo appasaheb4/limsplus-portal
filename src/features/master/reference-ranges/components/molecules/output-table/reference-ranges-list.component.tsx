@@ -1337,6 +1337,16 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             deltaInterval('');
             intervalUnit('');
           }}
+          dynamicStylingFields={[
+            'analyteCode',
+            'analyteName',
+            'species',
+            'sex',
+            'rangeSetOn',
+            'status',
+            'environment',
+          ]}
+          hideExcelSheet={['opration', 'rangeId', '_id']}
         />
       </div>
     </>

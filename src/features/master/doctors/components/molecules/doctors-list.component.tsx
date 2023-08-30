@@ -1468,6 +1468,13 @@ export const DoctorsList = (props: DoctorsListProps) => {
           status('');
           environment('');
         }}
+        dynamicStylingFields={[
+          'doctorCode',
+          'doctorName',
+          'status',
+          'environment',
+        ]}
+        hideExcelSheet={['_id', 'opration']}
       />
     </div>
   );

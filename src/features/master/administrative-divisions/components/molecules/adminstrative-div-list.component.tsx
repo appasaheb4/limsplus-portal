@@ -387,6 +387,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
           zone('');
           environment('');
         }}
+        hideExcelSheet={['_id', 'opration']}
+        dynamicStylingFields={['country', 'state', 'district', 'environment']}
       />
     </div>
   );

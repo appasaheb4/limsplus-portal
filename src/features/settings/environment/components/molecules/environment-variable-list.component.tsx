@@ -260,6 +260,8 @@ export const EnvironmentVariableList = observer(
               description('');
               enteredBy('');
             }}
+            dynamicStylingFields={['environmentVariable', 'category']}
+            hideExcelSheet={['_id', 'opration']}
           />
         </div>
       </>
