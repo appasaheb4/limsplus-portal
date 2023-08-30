@@ -260,6 +260,13 @@ export const MethodsList = (props: MethodsListProps) => {
         status('');
         environment('');
       }}
+      dynamicStylingFields={[
+        'methodsCode',
+        'methodName',
+        'status',
+        'environment',
+      ]}
+      hideExcelSheet={['opration', '_id']}
     />
   );
 };

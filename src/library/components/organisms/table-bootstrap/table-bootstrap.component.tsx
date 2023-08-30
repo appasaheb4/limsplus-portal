@@ -22,7 +22,7 @@ import {Buttons, Icons} from '../..';
 
 const {SearchBar, ClearSearchButton} = Search;
 const {ExportCSVButton} = CSVExport;
-
+import ExcelJS from 'exceljs';
 interface TableBootstrapProps {
   id: string;
   data: any;
@@ -48,6 +48,9 @@ interface TableBootstrapProps {
     totalSize: number,
   ) => void;
   clearAllFilter?: () => void;
+  dynamicStylingFields?: any;
+  hideExcelSheet?: any;
+  registrationExtraData?: boolean;
 }
 
 export const sortCaret = (order, column) => {
@@ -104,6 +107,9 @@ export const TableBootstrap = ({
   onPageSizeChange,
   onFilter,
   clearAllFilter,
+  dynamicStylingFields,
+  hideExcelSheet,
+  registrationExtraData = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -182,6 +188,242 @@ export const TableBootstrap = ({
       </div>
     </div>
   );
+
+  const exportToExcel = () => {
+    const filteredColumns = columns.filter(
+      column => !hideExcelSheet.includes(column.dataField),
+    );
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(fileName);
+    worksheet.columns = filteredColumns.map(column => {
+      const maxLength = Math.max(
+        column.text.length,
+        ...data.map(
+          product => (product[column.dataField]?.toString() || '').length,
+        ),
+      );
+      const columnConfig: any = {
+        header: column.text,
+        key: column.dataField,
+        width: maxLength + 4, // Add a little extra width for padding
+        style: {
+          alignment: {wrapText: true}, // Set wrapText to true for cell content
+        },
+      };
+
+      // Calculate the maximum width needed for the content in the column
+
+      return columnConfig;
+    });
+    data.forEach((product, index) => {
+      const row = {};
+      filteredColumns.forEach((column, columnIndex) => {
+        const dataField = column.dataField;
+        const columnValue = product[dataField];
+        const userObj = product['user'];
+        const ipObj = product['systemInfo']?.ipInfo;
+        const roleMapping = product['role']?.description;
+        if (Array.isArray(columnValue)) {
+          const extractedValues = columnValue.map(item => {
+            const properties = [
+              item.locationCode && `Registration Code:${item.locationCode}`,
+              item.corporateCode && `Corporate Client:${item.corporateCode}`,
+              item.field_no && `FieldNo:${item.field_no}`,
+              item.filed && `Filed:${item.filed}`,
+              item.name && `Name:${item.name}`,
+              item.prefrence && `Preference:${item.prefrence}`,
+              item.tatInMin && `TatInMin:${item.tatInMin}`,
+              item.code && `Code:${item.code}`,
+              item.value && `Value:${item.value}`,
+              item.panelCode && `Panel Code:${item.panelCode}`,
+              item.panelName && `PanelName:${item.panelName}`,
+              item.fyYear && `FyYear:${item.fyYear}`,
+              item.month && `Month:${item.month}`,
+              item.empCode && `Employee:${item.empCode}`,
+              item.designation && `Designation:${item.designation}`,
+              item.level && `Level:${item.level}`,
+              item.result && `Result:${item.result}`,
+              item.possibleValue && `Possible Value: ${item.possibleValue}`,
+              item.abNormal && `Ab Normal:${item.abNormal ? 'Yes' : 'No'}`,
+              item.critical && `Critical:${item.critical ? 'Yes' : 'No'}`,
+            ];
+            return properties.filter(Boolean).join(' - ');
+          });
+          row[dataField] = extractedValues.join(', ');
+        } else if (typeof columnValue === 'object' && columnValue !== null) {
+          switch (dataField) {
+            case 'systemInfo':
+              {
+                if (columnValue.workstation) {
+                  // Handle systemInfo for LoginActivity
+                  const extractedValues = [
+                    `Device: ${columnValue.device}`,
+                    `OS Name: ${columnValue.workstation.os.name}`,
+                    `OS Version: ${columnValue.workstation.os.version}`,
+                    `Browser Name: ${columnValue.workstation.browser.name}`,
+                    `Browser Version: ${columnValue.workstation.browser.version}`,
+                  ];
+
+                  // ... extract other properties from 'workstation' and 'device' if needed ...
+                  row[dataField] = extractedValues.join(' - ');
+                  row[
+                    'userId'
+                  ] = `UserId: ${userObj.userId} - UserName:${userObj.fullName} - lab:${userObj.lab} - Role:${userObj.role}`;
+                } else if (columnValue.accessInfo) {
+                  // Handle systemInfo for User
+                  const extractedValues = [
+                    `Mobile Access: ${
+                      columnValue.accessInfo.mobile ? 'Yes' : 'No'
+                    }`,
+                    `Desktop Access: ${
+                      columnValue.accessInfo.desktop ? 'Yes' : 'No'
+                    }`,
+                  ];
+                  row[dataField] = extractedValues.join(' - ');
+                }
+              }
+              break;
+            default:
+              const objectProperties = [
+                columnValue.header && columnValue.header.title,
+                columnValue.result && `Result:${columnValue.result}`,
+                columnValue.possibleValue &&
+                  `Possible Value: ${columnValue.possibleValue}`,
+                columnValue.abNormal &&
+                  `Ab Normal:${columnValue.abNormal ? 'Yes' : 'No'}`,
+                columnValue.critical &&
+                  `Critical:${columnValue.critical ? 'Yes' : 'No'}`,
+              ];
+
+              row[dataField] = objectProperties.filter(Boolean).join(' - ');
+              row['role'] = roleMapping;
+
+              break;
+          }
+        } else if (typeof columnValue === 'boolean') {
+          row[dataField] = columnValue ? 'Yes' : 'No';
+        } else {
+          row[dataField] =
+            typeof product?.extraData === 'object' && registrationExtraData
+              ? product?.extraData[dataField]
+              : columnValue;
+          row['ipInfo'] = `IP:${ipObj?.ip}`;
+          row['permission'] = `AllLabs:${
+            product['allLabs'] ? 'Yes' : 'No'
+          } - AllUsers:${product['allUsers'] ? 'Yes' : 'No'} - AllDepartment:${
+            product['allDepartment'] ? 'Yes' : 'No'
+          }`;
+          row['header.title'] = product['header']?.title;
+          row['header.titleCSS'] = product['header']?.titleCSS;
+          row['header.logoCSS'] = product['header']?.logoCSS;
+          row['header.mainBoxCss'] = product['header']?.mainBoxCSS;
+
+          row['subHeader.title'] = product['subHeader']?.title;
+          row['subHeader.titleCSS'] = product['subHeader']?.titleCSS;
+          row['subHeader.subTitle'] = product['subHeader']?.subTitle;
+          row['subHeader.subTitleCSS'] = product['subHeader']?.subTitleCSS;
+          row['subHeader.mainBoxCss'] = product['subHeader']?.mainBoxCSS;
+
+          row['footer.title'] = product['footer']?.title;
+          row['footer.titleCSS'] = product['footer']?.titleCSS;
+          row['footer.subTitle'] = product['footer']?.subTitle;
+          row['footer.subTitleCSS'] = product['footer']?.subTitleCSS;
+          row['footer.mainBoxCss'] = product['footer']?.mainBoxCSS;
+
+          row['pageNumber.pageNumberCSS'] =
+            product['pageNumber']?.pageNumberCSS;
+          row['dateActive'] = dayjs(product['dateActive']).format('YYYY-MM-DD');
+          row['dateCreation'] = dayjs(product['dateCreation']).format(
+            'YYYY-MM-DD',
+          );
+          row['lastUpdated'] = product['lastUpdated']
+            ? dayjs(
+                dayjs(product['lastUpdated']).format('YYYY-MM-DD h:mm:ss a'),
+              ).fromNow()
+            : 'Active User';
+          row['dateOfEntry'] = dayjs(
+            dayjs(product['dateOfEntry']).format('YYYY-MM-DD h:mm:ss a'),
+          ).fromNow();
+          row['dateExpire'] = dayjs(product['dateExpire ']).format(
+            'YYYY-MM-DD',
+          );
+          row['dateOfBirth'] = dayjs(product['dateOfBirth ']).format(
+            'YYYY-MM-DD',
+          );
+          row['marriageAnniversary'] = dayjs(
+            product['marriageAnniversary '],
+          ).format('YYYY-MM-DD');
+          row['exipreDate'] = dayjs(product['exipreDate ']).format(
+            'YYYY-MM-DD',
+          );
+          row['authorizedSignatory'] = product['authorizedSignatory']
+            ?.map(item => item)
+            ?.join(',');
+
+          row['postalCode'] = Array.isArray(product['postalCode'])
+            ? product['postalCode']?.map(item => item)?.join(',')
+            : product['postalCode'];
+
+          row['priceList'] = Array.isArray(product['priceList'])
+            ? product['priceList']
+                ?.map((item: any) => {
+                  const dataValue = [
+                    item.priceGroup && `Price Group:${item.priceGroup}`,
+                    item.maxDis && `Max Dis:${item.maxDis}`,
+                    item.priceList && `Price List:${item.priceList}`,
+                    item.priority && `Priority:${item.priority}`,
+                    item.description && `Description:${item.description}`,
+                  ];
+                  return dataValue.filter(Boolean)?.join(' - ');
+                })
+                .join(', ')
+            : product['priceList'];
+
+          row[
+            'block'
+          ] = `Start:${product['blockStart']} - End:${product['blockEnd']}`;
+          row[
+            'testCodeName'
+          ] = `${product['testCode']} - ${product['testName']}`;
+          row[
+            'analyteCodeName'
+          ] = `${product['analyteCode']} - ${product['analyteName']}`;
+        }
+      });
+
+      const newRow = worksheet.addRow(row);
+
+      // Check if any of the dynamic styling fields have values that require red background
+      dynamicStylingFields.forEach(field => {
+        const columnIndex = filteredColumns.findIndex(
+          column => column.dataField === field,
+        );
+        if (columnIndex !== -1) {
+          newRow.getCell(columnIndex + 1).fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: {argb: 'E42217'},
+          };
+        }
+      });
+    });
+
+    workbook.xlsx.writeBuffer().then(data => {
+      const blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fileName}_${dayjs(new Date()).format(
+        'YYYY-MM-DD HH:mm',
+      )}.xlsx`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  };
+
   const options = {
     cutome: true,
     totalSize: totalSize,
@@ -394,12 +636,12 @@ export const TableBootstrap = ({
                 >
                   Clear all filters
                 </button>
-                <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.csvProps}
+                <button
+                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  onClick={exportToExcel}
                 >
                   Export CSV!!
-                </ExportCSVButton>
+                </button>
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'

@@ -618,6 +618,8 @@ export const ClientRegistrationList = observer(
             dueDate('');
             reportDate('');
           }}
+          dynamicStylingFields={[]}
+          hideExcelSheet={['operation', '_id', 'pdfReport']}
         />
         <ModalImportFile
           accept='.pdf'

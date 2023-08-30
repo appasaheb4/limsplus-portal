@@ -1971,6 +1971,16 @@ export const TestMasterList = (props: TestMasterProps) => {
             interpretation('');
             testResultDate('');
           }}
+          dynamicStylingFields={[
+            'rLab',
+            'pLab',
+            'department',
+            'testCode',
+            'testName',
+            'status',
+            'environment',
+          ]}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>
