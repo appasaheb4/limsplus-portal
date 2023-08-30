@@ -1,19 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
-import {
-  Toast,
-  Buttons,
-  ModalConfirm,
-  Form,
-  ImportFile,
-} from '@/library/components';
+import {Toast, Buttons, ModalConfirm, ImportFile} from '@/library/components';
 import * as XLSX from 'xlsx';
 import {FileImportExportList} from '../components';
 import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
-import {useForm, Controller} from 'react-hook-form';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {useForm} from 'react-hook-form';
 import {PreviewImportTable} from '../components';
 
 export const FileImportExport = observer(() => {
@@ -32,8 +25,6 @@ export const FileImportExport = observer(() => {
     setValue,
   } = useForm();
   const [isInputView, setInputView] = useState<boolean>(false);
-  const [modalImportFile, setModalImportFile] = useState({});
-
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [segmentMappingList, setSegmentMappingList] = useState<any>([]);
   const [previewRecords, setPreviewRecords] = useState<Array<any>>([]);
@@ -66,13 +57,11 @@ export const FileImportExport = observer(() => {
       /* Parse data */
       const bstr = evt.target.result;
       const wb = XLSX.read(bstr, {type: 'binary'});
-
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws, {raw: true});
-
       const segmentMappings = segmentMappingList?.map(item => {
         return {
           elementName: item.elementName,
@@ -125,7 +114,7 @@ export const FileImportExport = observer(() => {
       >
         {previewRecords?.length == 0 && (
           <div className='flex flex-col items-center gap-2 mb-4'>
-            <div className='flex flex-wrap'>
+            {/* <div className='flex flex-wrap'>
               <Form.InputWrapper
                 label='Transfer Type'
                 hasError={!!errors.transferType}
@@ -171,8 +160,7 @@ export const FileImportExport = observer(() => {
                   defaultValue=''
                 />
               </Form.InputWrapper>
-            </div>
-
+            </div> */}
             <ImportFile
               accepts={['.csv', '.xlsx', '.xls']}
               onClick={file => {
@@ -182,22 +170,7 @@ export const FileImportExport = observer(() => {
             />
           </div>
         )}
-        {/* <List direction='col' space={3} align='center'>
-          <Buttons.Button
-            size='medium'
-            type='outline'
-            onClick={() => {
-              if (segmentMappingList?.length == 0)
-                return alert('Please select transfer type');
-              setModalImportFile({
-                show: true,
-                title: 'Import excel file!',
-              });
-            }}
-          >
-            Save
-          </Buttons.Button>
-        </List> */}
+
         {previewRecords?.length > 0 && (
           <div className='w-full'>
             <PreviewImportTable
@@ -222,76 +195,84 @@ export const FileImportExport = observer(() => {
       )}
 
       <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
-        <FileImportExportList
-          data={importFromFileStore.fileImportExportList || []}
-          totalSize={{
-            ...importFromFileStore.defaultValue,
-            count: importFromFileStore.fileImportExportListCount,
-          }}
-          onPagination={type => {
-            let page = importFromFileStore.defaultValue.page;
-            if (type == 'next') {
-              page = page + 1;
-            } else {
-              page = page - 1;
-            }
-            importFromFileStore.updateDefaultValue({
+        {importFromFileStore.fileImportExportList?.length > 0 ? (
+          <FileImportExportList
+            data={importFromFileStore.fileImportExportList || []}
+            totalSize={{
               ...importFromFileStore.defaultValue,
-              page,
-            });
-            importFromFileStore.fileImportExportService.listFileImportExport(
-              importFromFileStore.defaultValue.transferType,
-              page,
-            );
-          }}
-          onDelete={ids => {
-            setModalConfirm({
-              show: true,
-              type: 'delete',
-              id: ids,
-              title: 'Are you delete records?',
-              body: 'Record delete permanently',
-            });
-          }}
-          onFilter={filter => {
-            importFromFileStore.fileImportExportService
-              .filterByFields({input: {filter}})
-              .then(res => {
-                console.log(res);
+              count: importFromFileStore.fileImportExportListCount,
+            }}
+            onPagination={type => {
+              let page = importFromFileStore.defaultValue.page;
+              if (type == 'next') {
+                page = page + 1;
+              } else {
+                page = page - 1;
+              }
+              importFromFileStore.updateDefaultValue({
+                ...importFromFileStore.defaultValue,
+                page,
               });
-          }}
-          onClearFilter={() => {
-            importFromFileStore.fileImportExportService.listFileImportExport();
-          }}
-          onSend={records => {
-            const list = records.filter(n => n);
-            patientManagerStore.patientManagerService
-              .createPatientManagerByFileImportExport({
-                input: {
-                  filter: list?.map(e => {
-                    return {...e, enteredBy: loginStore.login?.userId};
-                  }),
-                },
-              })
-              .then(res => {
-                if (res.createByFileImportExportPatientManager.success) {
-                  Toast.success({
-                    message: `😊 ${res.createByFileImportExportPatientManager.message}`,
-                  });
-                  importFromFileStore.fileImportExportService.listFileImportExport();
-                } else {
-                  Toast.error({
-                    message: `😌 ${res.createByFileImportExportPatientManager.message}`,
-                  });
-                }
-              })
-              .catch(error => {
-                Toast.error({
-                  message: '😌 Please enter correctly data like birthrate',
+              importFromFileStore.fileImportExportService.listFileImportExport(
+                importFromFileStore.defaultValue.transferType,
+                page,
+              );
+            }}
+            onDelete={ids => {
+              setModalConfirm({
+                show: true,
+                type: 'delete',
+                id: ids,
+                title: 'Are you delete records?',
+                body: 'Record delete permanently',
+              });
+            }}
+            onFilter={filter => {
+              importFromFileStore.fileImportExportService
+                .filterByFields({input: {filter}})
+                .then(res => {
+                  console.log(res);
                 });
-              });
-          }}
-        />
+            }}
+            onClearFilter={() => {
+              importFromFileStore.fileImportExportService.listFileImportExport();
+            }}
+            onSend={records => {
+              const list = records.filter(n => n);
+              patientManagerStore.patientManagerService
+                .createPatientManagerByFileImportExport({
+                  input: {
+                    filter: list?.map(e => {
+                      return {...e, enteredBy: loginStore.login?.userId};
+                    }),
+                  },
+                })
+                .then(res => {
+                  if (res.createByFileImportExportPatientManager.success) {
+                    Toast.success({
+                      message: `😊 ${res.createByFileImportExportPatientManager.message}`,
+                    });
+                    importFromFileStore.fileImportExportService.listFileImportExport();
+                  } else {
+                    Toast.error({
+                      message: `😌 ${res.createByFileImportExportPatientManager.message}`,
+                    });
+                  }
+                })
+                .catch(error => {
+                  Toast.error({
+                    message: '😌 Please enter correctly data like birthrate',
+                  });
+                });
+            }}
+          />
+        ) : (
+          <div className='flex justify-center'>
+            <span className='font-bold text-lg'>
+              Records not founds.Please add records ➕
+            </span>
+          </div>
+        )}
       </div>
       <ModalConfirm
         {...modalConfirm}
