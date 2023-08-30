@@ -52,7 +52,7 @@
     "dayjs": "1.10.6",
     "draft-js": "^0.11.7",
     "exceljs": "^4.3.0",
-    "file-saver": "2.0.5",
+    "file-saver": "^2.0.5",
     "fs": "0.0.1-security",
     "graphql": "15.5.3",
     "html-react-parser": "1.4.8",

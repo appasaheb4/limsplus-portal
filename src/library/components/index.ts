@@ -21,6 +21,7 @@ export * from './atoms/pdf/images.components';
 export * from './atoms/tabs/manual-import-tabs.component';
 export * from './atoms/files/import-file.component';
 export * from './atoms/table/static-input.component';
+export * from './atoms/tabs/tabs.component';
 
 export * from './molecules/auto-complete/auto-complete.component';
 export * from './molecules/auto-complete-check/auto-complete-check.component';
