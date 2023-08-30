@@ -66,6 +66,14 @@ interface LabListProps {
   ) => void;
   onApproval: (record: any) => void;
 }
+const dynamicStylingFields = [
+  'code',
+  'name',
+  'defaultLab',
+  'status',
+  'environment',
+];
+const hideExcelSheet = ['_id', 'opration', 'image'];
 export const LabList = (props: LabListProps) => {
   const {administrativeDivisions, salesTeamStore} = useStores();
   const {
@@ -286,70 +294,70 @@ export const LabList = (props: LabListProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'registeredOffice',
-              text: 'Registered Office',
-              sort: true,
-              // headerClasses: 'textHeader2',
-              // headerStyle: {
-              //   fontSize: 0,
-              // },
-              // sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.MultilineInput
-                    label=''
-                    placeholder='Registered Office'
-                    onBlur={registeredOffice => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds({registeredOffice}, row._id);
-                    }}
-                    defaultValue={row.registeredOffice}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: 'corporateOffice',
-              text: 'Corporate Office',
-              sort: true,
-              // headerClasses: 'textHeader2',
-              // headerStyle: {
-              //   fontSize: 0,
-              // },
-              // sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.MultilineInput
-                    label=''
-                    placeholder='Corporate Office'
-                    onBlur={corporateOffice => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds({corporateOffice}, row._id);
-                    }}
-                    defaultValue={row.corporateOffice}
-                  />
-                </>
-              ),
-            },
+            // {
+            //   dataField: 'registeredOffice',
+            //   text: 'Registered Office',
+            //   sort: true,
+            //   // headerClasses: 'textHeader2',
+            //   // headerStyle: {
+            //   //   fontSize: 0,
+            //   // },
+            //   // sortCaret: (order, column) => sortCaret(order, column),
+            //   editable: (content, row, rowIndex, columnIndex) =>
+            //     editorCell(row),
+            //   editorRenderer: (
+            //     editorProps,
+            //     value,
+            //     row,
+            //     column,
+            //     rowIndex,
+            //     columnIndex,
+            //   ) => (
+            //     <>
+            //       <Form.MultilineInput
+            //         label=''
+            //         placeholder='Registered Office'
+            //         onBlur={registeredOffice => {
+            //           props.onUpdateFileds &&
+            //             props.onUpdateFileds({registeredOffice}, row._id);
+            //         }}
+            //         defaultValue={row.registeredOffice}
+            //       />
+            //     </>
+            //   ),
+            // },
+            // {
+            //   dataField: 'corporateOffice',
+            //   text: 'Corporate Office',
+            //   sort: true,
+            //   // headerClasses: 'textHeader2',
+            //   // headerStyle: {
+            //   //   fontSize: 0,
+            //   // },
+            //   // sortCaret: (order, column) => sortCaret(order, column),
+            //   editable: (content, row, rowIndex, columnIndex) =>
+            //     editorCell(row),
+            //   editorRenderer: (
+            //     editorProps,
+            //     value,
+            //     row,
+            //     column,
+            //     rowIndex,
+            //     columnIndex,
+            //   ) => (
+            //     <>
+            //       <Form.MultilineInput
+            //         label=''
+            //         placeholder='Corporate Office'
+            //         onBlur={corporateOffice => {
+            //           props.onUpdateFileds &&
+            //             props.onUpdateFileds({corporateOffice}, row._id);
+            //         }}
+            //         defaultValue={row.corporateOffice}
+            //       />
+            //     </>
+            //   ),
+            // },
             {
               dataField: 'priceList',
               text: 'Price List',
@@ -1369,6 +1377,8 @@ export const LabList = (props: LabListProps) => {
             status('');
             environment('');
           }}
+          hideExcelSheet={hideExcelSheet}
+          dynamicStylingFields={dynamicStylingFields}
         />
       </div>
     </>

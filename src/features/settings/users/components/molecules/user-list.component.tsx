@@ -1608,6 +1608,34 @@ export const UserList = (props: UserListProps) => {
             status('');
             environment('');
           }}
+          dynamicStylingFields={[
+            'defaultLab',
+            'defaultDepartment',
+            'userGroup',
+            'userModule',
+            'userId',
+            'fullName',
+            'empCode',
+            'deginisation',
+            'role',
+            'lab',
+            'department',
+            'mobileNo',
+            'email',
+            'dateOfBirth',
+            'exipreDate',
+            'environment',
+            'status',
+          ]}
+          hideExcelSheet={[
+            '_id',
+            'signature',
+            'picture',
+            'opration',
+            'sessionAllowedCount',
+            'passwordHistory',
+            'passChanged',
+          ]}
         />
         <ModalDefaultLabDeptUpdate
           {...modalDefaultLabDeptUpdate}

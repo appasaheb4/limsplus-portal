@@ -246,6 +246,8 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
         ascii('');
         environment('');
       }}
+      dynamicStylingFields={['hexadecimal', 'binary', 'environment']}
+      hideExcelSheet={['_id', 'operation']}
     />
   );
 };

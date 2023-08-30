@@ -428,6 +428,8 @@ export const LookupList = (props: LookupListProps) => {
           defaultItem('');
           environment('');
         }}
+        hideExcelSheet={['_id', 'opration']}
+        dynamicStylingFields={['documentName', 'fieldName', 'environment']}
       />
     </div>
   );

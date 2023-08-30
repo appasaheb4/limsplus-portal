@@ -32,7 +32,8 @@ interface BannerListProps {
   ) => void;
   onApproval: (record: any) => void;
 }
-
+const dynamicStylingFields = ['title', 'environment'];
+const hideExcelSheet = ['_id', 'image', 'operation'];
 export const BannerList = (props: BannerListProps) => {
   return (
     <TableBootstrap
@@ -231,6 +232,8 @@ export const BannerList = (props: BannerListProps) => {
         environment('');
         status('');
       }}
+      dynamicStylingFields={dynamicStylingFields}
+      hideExcelSheet={hideExcelSheet}
     />
   );
 };

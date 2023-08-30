@@ -344,6 +344,8 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
             version('');
             environment('');
           }}
+          dynamicStylingFields={['tempName', 'tempCode']}
+          hideExcelSheet={['_id', 'operation', 'backgroundImage']}
         />
       </div>
     </>

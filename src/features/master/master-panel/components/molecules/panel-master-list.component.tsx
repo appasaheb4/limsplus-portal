@@ -1983,6 +1983,18 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             status('');
             environment('');
           }}
+          dynamicStylingFields={[
+            'rLab',
+            'pLab',
+            'department',
+            'serviceType',
+            'panelCode',
+            'panelName',
+            'schedule',
+            'status',
+            'environment',
+          ]}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>

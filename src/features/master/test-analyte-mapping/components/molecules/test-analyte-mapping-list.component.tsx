@@ -856,6 +856,14 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             version('');
             enteredBy('');
           }}
+          dynamicStylingFields={[
+            'lab',
+            'testName',
+            'analyteCode',
+            'status',
+            'environment',
+          ]}
+          hideExcelSheet={['_id', 'opration']}
         />
         <ModalResultReportOrder
           {...modalResultOrder}
