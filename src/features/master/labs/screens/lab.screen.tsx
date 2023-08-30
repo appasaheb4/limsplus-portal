@@ -191,6 +191,18 @@ const Lab = LabHoc(
               limit,
             };
           }}
+          onApproval={async records => {
+            const isExists = await checkExistsRecords(records, 1);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update deginisation!',
+              });
+            }
+          }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -217,49 +229,69 @@ const Lab = LabHoc(
             district: item?.District,
             city: item?.City,
             area: item?.Area,
-            postalCode: item?.PostalCode,
+            postalCode: item['Postal Code'],
             address: item?.Address,
             deliveryType: item.DeliveryType,
-            salesTerritory: item.SalesTerritory,
-            labLicence: item.LabLicence,
+            salesTerritory: item['Sales Territory'],
+            labLicence: item['Lab Licence'],
             director: item.Director,
             physician: item.Physician,
-            mobileNo: item.MobileNo,
-            contactNo: item.ContactNo,
+            mobileNo: item['Mobile No'],
+            contactNo: item['Contact No'],
             speciality: item.Speciality,
-            labType: item.LabType,
-            defaultLab: item.DefaultLab,
-            openingTime: item.OpeningTime,
-            closingTime: item.ClosingTime,
+            labType: item['Lab Type'],
+            defaultLab: item['Default Lab'],
+            openingTime: item['Opening Time'],
+            closingTime: item['Closing Time'],
             email: item.Email,
             web: item.Web,
-            registeredOffice: item.RegisteredOffice,
-            customerCare: item.CustomerCare,
-            corporateOffice: item.CorporateOffice,
+            registeredOffice: item['Registered Office'],
+            customerCare: item['Customer Care'],
+            corporateOffice: item['Corporate Office'],
             gst: item.Gst,
-            sacCode: item.SacCode,
-            cinNo: item.CinNo,
+            sacCode: item['Sac Code'],
+            cinNo: item['CIN No'],
             labLog: '',
             image: '',
             environment: item?.Environment,
-            autoRelease: item.autoRelease,
-            requireReceveInLab: item.RequireReceveInLab,
-            requireScainIn: item.RequireScainIn,
-            routingDept: item.RoutingDept,
-            reportFormat: item.ReportFormat,
-            printLable: item.PrintLable,
-            abnFlag: item.AbnFlag,
+            autoRelease: item['Auto Release'],
+            requireReceveInLab: item['Require Receve In Lab'],
+            requireScainIn: item['Require Scain In'],
+            routingDept: item['Routing Dept'],
+            reportFormat: item['Report Format'],
+            printLable: item['Print Lable'],
+            abnFlag: item['Abn Flag'],
             critical: item.Critical,
-            fyiLine: item.FyiLine,
-            workLine: item.Workline,
+            fyiLine: item['Fyi Line'],
+            workLine: item['Work Line'],
             priceList: [],
-            specificFormat: item.SpecificFormat,
+            specificFormat: item['Specific Format'],
             status: 'D',
           };
         });
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);
+    };
+    const checkExistsRecords = async (fields = labStore.labs, length = 0) => {
+      return labStore.LabService.findByFields({
+        input: {
+          filter: {
+            ..._.pick(fields, ['code', 'environment']),
+          },
+        },
+      }).then(res => {
+        if (
+          res.findByFieldsLabs?.success &&
+          res.findByFieldsLabs.data?.length > length
+        ) {
+          //setIsExistsRecord(true);
+          Toast.error({
+            message: '😔 Already some record exists.',
+          });
+          return true;
+        } else return false;
+      });
     };
 
     return (
