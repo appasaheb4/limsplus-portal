@@ -776,6 +776,15 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           serviceType('');
           environment('');
         }}
+        dynamicStylingFields={[
+          'lab',
+          'serviceType',
+          'packageCode',
+          'panelCode',
+          'status',
+          'environment',
+        ]}
+        hideExcelSheet={['_id', 'opration']}
       />
       <ModalReportOrder
         {...modalResultOrder}

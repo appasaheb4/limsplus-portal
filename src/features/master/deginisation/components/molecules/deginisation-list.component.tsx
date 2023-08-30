@@ -32,7 +32,8 @@ interface DeginisationListProps {
   ) => void;
   onApproval: (record: any) => void;
 }
-
+const dynamicStylingFields = ['code', 'description', 'environment'];
+const hideExcelSheet = ['_id', 'opration'];
 export const DeginisationList = (props: DeginisationListProps) => {
   return (
     <TableBootstrap
@@ -214,6 +215,8 @@ export const DeginisationList = (props: DeginisationListProps) => {
         status('');
         environment('');
       }}
+      hideExcelSheet={hideExcelSheet}
+      dynamicStylingFields={dynamicStylingFields}
     />
   );
 };

@@ -49,6 +49,16 @@ interface DepartmentListProps {
   ) => void;
 }
 
+const dynamicStylingFields = [
+  'lab',
+  'code',
+  'name',
+  'description',
+  'status',
+  'environment',
+];
+const hideExcelSheet = ['_id', 'opration'];
+
 export const DepartmentList = (props: DepartmentListProps) => {
   const {
     control,
@@ -749,6 +759,8 @@ export const DepartmentList = (props: DepartmentListProps) => {
           status('');
           environment('');
         }}
+        dynamicStylingFields={dynamicStylingFields}
+        hideExcelSheet={hideExcelSheet}
       />
     </div>
   );

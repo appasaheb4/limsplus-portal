@@ -791,6 +791,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           status('');
           version('');
         }}
+        dynamicStylingFields={['analyteCode', 'environment', 'status']}
+        hideExcelSheet={['_id', 'opration']}
       />
     </div>
   );

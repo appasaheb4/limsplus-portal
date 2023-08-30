@@ -82,7 +82,6 @@ import * as Receipt from '@/features/account-receivable/receipt';
 
 // Validations
 import * as PanelApproval from '@/features/validation/panel-approval';
-import {async} from 'validate.js';
 
 export const RouterService = () => {
   const history: any = useHistory();

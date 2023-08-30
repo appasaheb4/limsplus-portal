@@ -109,9 +109,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               sort: true,
               csvFormatter: (col, row) => (col ? col : false),
               editable: false,
-              formatter: (cell, row) => {
-                return <>{row.extraData.externalLabId}</>;
-              },
+              // formatter: (cell, row) => {
+              //   return <>{row.extraData.externalLabId}</>;
+              // },
             },
             {
               dataField: 'pId',
@@ -1224,6 +1224,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             holdReason('');
             status('');
           }}
+          dynamicStylingFields={[]}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>

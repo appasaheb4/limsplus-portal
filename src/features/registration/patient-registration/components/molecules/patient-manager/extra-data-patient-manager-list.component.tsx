@@ -671,6 +671,9 @@ export const ExtraDataPatientManagerList = observer(
               status('');
               environment('');
             }}
+            dynamicStylingFields={[]}
+            hideExcelSheet={['_id', 'opration']}
+            registrationExtraData={true}
           />
         </div>
       </>

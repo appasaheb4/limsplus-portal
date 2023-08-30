@@ -897,6 +897,15 @@ export const PriceListList = (props: PriceListProps) => {
             dateExpire();
             version('');
           }}
+          dynamicStylingFields={[
+            'priceGroup',
+            'priceList',
+            'panelCode',
+            'price',
+            'status',
+            'environment',
+          ]}
+          hideExcelSheet={['_id', 'opration']}
         />
       </div>
     </>
