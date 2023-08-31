@@ -277,7 +277,13 @@ const Lab = LabHoc(
       return labStore.LabService.findByFields({
         input: {
           filter: {
-            ..._.pick(fields, ['code', 'environment']),
+            ..._.pick(fields, [
+              'code',
+              'name',
+              'defaultLab',
+              'status',
+              'environment',
+            ]),
           },
         },
       }).then(res => {

@@ -26,6 +26,7 @@ import {RouterFlow} from '@/flows';
 import {FormHelper} from '@/helper';
 import {resetDepartment} from '../startup';
 import * as XLSX from 'xlsx';
+import _ from 'lodash';
 
 export const Department = DeginisationHoc(
   observer(() => {
@@ -134,6 +135,18 @@ export const Department = DeginisationHoc(
               limit,
             };
           }}
+          onApproval={async records => {
+            const isExists = await checkExistsRecords(records, 1);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update deginisation!',
+              });
+            }
+          }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,6 +189,36 @@ export const Department = DeginisationHoc(
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);
+    };
+    const checkExistsRecords = async (
+      fields = departmentStore.department,
+      length = 0,
+    ) => {
+      return departmentStore.DepartmentService.findByFields({
+        input: {
+          filter: {
+            ..._.pick(fields, [
+              'lab',
+              'code',
+              'name',
+              'description',
+              'status',
+              'environment',
+            ]),
+          },
+        },
+      }).then(res => {
+        if (
+          res.findByFieldsDepartments?.success &&
+          res.findByFieldsDepartments?.data?.length > length
+        ) {
+          //setIsExistsRecord(true);
+          Toast.error({
+            message: '😔 Already some record exists.',
+          });
+          return true;
+        } else return false;
+      });
     };
 
     return (

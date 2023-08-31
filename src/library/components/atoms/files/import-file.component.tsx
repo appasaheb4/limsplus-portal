@@ -17,8 +17,8 @@ export const ImportFile = ({accepts = ['.csv'], onClick}: ImportFileProps) => {
         onError={(error, file) => {
           console.log('error code ' + error.code + ': ' + error.message);
         }}
-        //accepts={['.xlsx', '.xls', '.csv']}
-        accepts={accepts}
+        accepts={['.xlsx', '.xls', '.csv']}
+        // accepts={accepts}
         multiple={false}
         maxFileSize={10_000_000}
         minFileSize={0}
