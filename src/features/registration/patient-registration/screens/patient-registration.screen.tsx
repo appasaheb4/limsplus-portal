@@ -185,7 +185,6 @@ const PatientRegistration = observer(() => {
                 }}
               />
             )}
-
             {patientRegistrationStore.filterOptionList.labIds?.length > 1 ? (
               <select
                 className={
