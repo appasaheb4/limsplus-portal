@@ -56,6 +56,7 @@ interface TestAnalyteMappingListProps {
     totalSize: number,
   ) => void;
   onUpdateOrderSeq?: (orderSeq: any) => void;
+  onApproval: (record: any) => void;
 }
 
 export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
@@ -811,6 +812,15 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                           </Icons.IconContext>
                         </Tooltip>
                       </>
+                    )}
+                    {row.status == 'D' && (
+                      <Tooltip tooltipText='Approval'>
+                        <Icons.RIcon
+                          nameIcon='AiOutlineCheckCircle'
+                          propsIcon={{size: 24, color: '#ffffff'}}
+                          onClick={() => props.onApproval(row)}
+                        />
+                      </Tooltip>
                     )}
                   </div>
                 </>
