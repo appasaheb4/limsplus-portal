@@ -60,6 +60,7 @@ const Banner = BannerHoc(
           setHideAddBanner(true);
           reset();
           resetBanner();
+          setArrImportRecords([]);
         }
       });
     };
