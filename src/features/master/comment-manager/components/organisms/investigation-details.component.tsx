@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
+import _ from 'lodash';
 import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
 import {useStores} from '@/stores';
 
@@ -64,7 +65,10 @@ export const InvestigationDetails = observer(
             };
           case 'PACKAGE':
             return {
-              list: masterPackageStore.listMasterPackage,
+              list: _.uniqBy(
+                masterPackageStore?.listMasterPackage,
+                'packageCode',
+              ),
               fields: ['packageCode', 'packageName'],
               filterFun: value =>
                 masterPackageStore.masterPackageService.filterByFields({

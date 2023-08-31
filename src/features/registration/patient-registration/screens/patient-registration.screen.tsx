@@ -114,16 +114,9 @@ const PatientRegistration = observer(() => {
               if (item !== 'Export file') {
                 setIsImport(false);
               } else {
-                console.log({
-                  file:
-                    process.env.PUBLIC_URL +
-                    '/src/features/registration/patient-registration/docs/ExcelTemplateBulkRegistration.xlsx',
-                });
-
                 FileSaver.saveAs(
-                  process.env.PUBLIC_URL +
-                    '/src/features/registration/patient-registration/docs/ExcelTemplateBulkRegistration.xlsx',
-                  'ExcelTemplateBulkRegistration.xlsx',
+                  'https://limsplussolutions.blob.core.windows.net/assets/registration/Export Template File.xlsx',
+                  'Export Template File.xlsx',
                 );
               }
             }

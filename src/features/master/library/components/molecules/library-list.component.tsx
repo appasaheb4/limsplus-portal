@@ -323,7 +323,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     {lookupItems(props.extraData?.lookupItems, 'LIBRARY_TYPE')
                       ?.filter(item => item.code?.match(row?.groups))
                       .map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={index} value={item.value}>
                           {lookupValue(item)}
                         </option>
                       ))}

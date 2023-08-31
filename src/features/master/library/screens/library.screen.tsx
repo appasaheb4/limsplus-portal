@@ -472,7 +472,7 @@ export const Library = LibraryHoc(
                             item.code?.match(libraryStore.library.groups),
                           )
                           .map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
+                            <option key={index} value={item.value}>
                               {lookupValue(item)}
                             </option>
                           ))}
