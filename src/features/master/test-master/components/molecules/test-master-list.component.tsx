@@ -88,6 +88,7 @@ interface TestMasterProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const TestMasterList = (props: TestMasterProps) => {
@@ -674,7 +675,7 @@ export const TestMasterList = (props: TestMasterProps) => {
 
             {
               dataField: 'disease',
-              text: 'disease',
+              text: 'Disease',
               headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
@@ -1896,6 +1897,15 @@ export const TestMasterList = (props: TestMasterProps) => {
                           </Icons.IconContext>
                         </Tooltip>
                       </>
+                    )}
+                    {row.status == 'D' && (
+                      <Tooltip tooltipText='Approval'>
+                        <Icons.RIcon
+                          nameIcon='AiOutlineCheckCircle'
+                          propsIcon={{size: 24, color: '#ffffff'}}
+                          onClick={() => props.onApproval(row)}
+                        />
+                      </Tooltip>
                     )}
                   </div>
                 </>

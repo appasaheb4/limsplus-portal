@@ -53,6 +53,7 @@ interface TestPanelMappingListProps {
     totalSize: number,
   ) => void;
   onUpdateOrderSeq?: (orderSeq: any) => void;
+  onApproval: (record: any) => void;
 }
 
 export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
@@ -882,6 +883,15 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                           </Icons.IconContext>
                         </Tooltip>
                       </>
+                    )}
+                    {row.status == 'D' && (
+                      <Tooltip tooltipText='Approval'>
+                        <Icons.RIcon
+                          nameIcon='AiOutlineCheckCircle'
+                          propsIcon={{size: 24, color: '#ffffff'}}
+                          onClick={() => props.onApproval(row)}
+                        />
+                      </Tooltip>
                     )}
                   </div>
                 </>
