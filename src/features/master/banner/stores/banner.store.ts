@@ -28,7 +28,7 @@ export class BannerStore {
   }
 
   reset() {
-    this.banner = new Banner({});
+    this.banner = new Banner({status: 'A'});
     this.listBanner = [];
     this.listAllBanner = [];
     this.listBannerCount = 0;

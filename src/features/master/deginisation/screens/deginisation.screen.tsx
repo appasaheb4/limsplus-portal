@@ -103,6 +103,7 @@ const Deginisation = DeginisationHoc(
       fields = deginisationStore.deginisation,
       length = 0,
     ) => {
+      //Pass required Field in Array
       return deginisationStore.DeginisationService.findByFields({
         input: {
           filter: {
