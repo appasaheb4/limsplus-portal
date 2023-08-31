@@ -16,7 +16,6 @@ export class TestAnalyteMapping {
   calculationFormula: any;
   reportable: any;
   defaultResult: any;
-
   testCode: string;
   testName: string;
   bill: boolean;
