@@ -71,20 +71,9 @@ const Lab = LabHoc(
 
     const onSubmitLab = () => {
       if (!labStore.checkExitsEnvCode) {
-        if (
-          labStore.labs?.priceList?.filter(item => {
-            return (
-              // eslint-disable-next-line no-prototype-builtins
-              item.hasOwnProperty('priceGroup') &&
-              // eslint-disable-next-line no-prototype-builtins
-              item.hasOwnProperty('priority')
-            );
-          }).length > 0
-        ) {
+        if (isImport) {
           labStore.LabService.addLab({
-            input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...labStore.labs},
+            input: {isImport, arrImportRecords},
           }).then(res => {
             if (res.createLab.success) {
               Toast.success({
@@ -93,12 +82,37 @@ const Lab = LabHoc(
               setHideAddLab(true);
               reset();
               resetLab();
+              setArrImportRecords([]);
             }
           });
         } else {
-          return Toast.warning({
-            message: '😔 Price list min 1 record required.',
-          });
+          if (
+            labStore.labs?.priceList?.filter(item => {
+              return (
+                // eslint-disable-next-line no-prototype-builtins
+                item.hasOwnProperty('priceGroup') &&
+                // eslint-disable-next-line no-prototype-builtins
+                item.hasOwnProperty('priority')
+              );
+            }).length > 0
+          ) {
+            labStore.LabService.addLab({
+              input: {isImport, ...labStore.labs},
+            }).then(res => {
+              if (res.createLab.success) {
+                Toast.success({
+                  message: `😊 ${res.createLab.message}`,
+                });
+                setHideAddLab(true);
+                reset();
+                resetLab();
+              }
+            });
+          } else {
+            return Toast.warning({
+              message: '😔 Price list min 1 record required.',
+            });
+          }
         }
       } else {
         Toast.warning({
@@ -261,7 +275,7 @@ const Lab = LabHoc(
             reportFormat: item['Report Format'],
             printLable: item['Print Lable'],
             abnFlag: item['Abn Flag'],
-            critical: item.Critical,
+            critical: item.Critical == 'Yes' ? true : false,
             fyiLine: item['Fyi Line'],
             workLine: item['Work Line'],
             priceList: [],
@@ -273,6 +287,7 @@ const Lab = LabHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (fields = labStore.labs, length = 0) => {
       return labStore.LabService.findByFields({
         input: {
