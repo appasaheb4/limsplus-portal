@@ -14,6 +14,7 @@ let sampleType;
 let descriptions;
 let sampleGroup;
 let environment;
+let status;
 
 interface SampleTypeListProps {
   data: any;
@@ -31,6 +32,7 @@ interface SampleTypeListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const SampleTypeList = (props: SampleTypeListProps) => {
@@ -113,6 +115,52 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleGroup = filter;
                 },
               }),
+            },
+            {
+              dataField: 'status',
+              text: 'Status',
+              sort: true,
+              headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                getFilter: filter => {
+                  status = filter;
+                },
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row.status}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                    }
+                    onChange={e => {
+                      const status = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: 'environment',
@@ -229,6 +277,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
             descriptions('');
             sampleGroup('');
             environment('');
+            status('');
           }}
           dynamicStylingFields={['sampleCode', 'sampleType', 'environment']}
           hideExcelSheet={['_id', 'opration']}
