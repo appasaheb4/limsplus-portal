@@ -31,6 +31,7 @@ interface MethodsListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const MethodsList = (props: MethodsListProps) => {
@@ -223,6 +224,15 @@ export const MethodsList = (props: MethodsListProps) => {
                     {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                   </Icons.IconContext>
                 </Tooltip>
+                {row.status == 'D' && (
+                  <Tooltip tooltipText='Approval'>
+                    <Icons.RIcon
+                      nameIcon='AiOutlineCheckCircle'
+                      propsIcon={{size: 24, color: '#ffffff'}}
+                      onClick={() => props.onApproval(row)}
+                    />
+                  </Tooltip>
+                )}
               </div>
             </>
           ),
