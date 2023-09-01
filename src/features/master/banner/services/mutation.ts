@@ -12,6 +12,7 @@ export const BANNER_LIST = gql`
         _id
         title
         image
+        status
         environment
       }
     }
@@ -66,6 +67,7 @@ export const FILTER = gql`
         _id
         title
         image
+        status
         environment
       }
     }
