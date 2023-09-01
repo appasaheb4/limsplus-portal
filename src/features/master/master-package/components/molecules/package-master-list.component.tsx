@@ -53,6 +53,7 @@ interface PackageMasterListProps {
     totalSize: number,
   ) => void;
   onUpdateOrderSeq?: (orderSeq: any) => void;
+  onApproval: (record: any) => void;
 }
 
 export const PackageMasterList = (props: PackageMasterListProps) => {
@@ -730,6 +731,15 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     </>
+                  )}
+                  {row.status == 'D' && (
+                    <Tooltip tooltipText='Approval'>
+                      <Icons.RIcon
+                        nameIcon='AiOutlineCheckCircle'
+                        propsIcon={{size: 24, color: '#ffffff'}}
+                        onClick={() => props.onApproval(row)}
+                      />
+                    </Tooltip>
                   )}
                 </div>
               </>
