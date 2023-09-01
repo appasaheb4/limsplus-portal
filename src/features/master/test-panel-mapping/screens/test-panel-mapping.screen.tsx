@@ -315,6 +315,10 @@ const TestPanelMapping = TestPanelMappingHoc(
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_json(ws, {raw: true});
         const list = data.map((item: any) => {
+          const methodFlags = item['Method Flags'];
+          const methodFlagPMValue = methodFlags?.includes('MethodFlag PM:Yes');
+          const methodFlagTMValue = methodFlags?.includes('MethodFlag TM:Yes');
+          const methodFlagAMValue = methodFlags?.includes('MethodFlag AM:Yes');
           return {
             lab: item?.Lab,
             panelCode: item['Panel Code'],
@@ -331,6 +335,9 @@ const TestPanelMapping = TestPanelMappingHoc(
               item['Test Interpretation'] === 'Yes' ? true : false,
             analyteInterpretation:
               item['Analyte Interpretation'] === 'Yes' ? true : false,
+            panelMethod: methodFlagPMValue ? true : false,
+            testMethod: methodFlagTMValue ? true : false,
+            analyteMethod: methodFlagAMValue ? true : false,
             enteredBy: loginStore.login?.userId,
             dateCreation: item['Date Creation'],
             dateActive: item['Date Active'],
