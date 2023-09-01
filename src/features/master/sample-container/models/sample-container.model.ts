@@ -4,6 +4,7 @@ export class SampleContainer {
   containerName: string;
   description: string;
   image: any;
+  status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -14,6 +15,7 @@ export class SampleContainer {
     this.containerName = rawData.containerName;
     this.description = rawData.description;
     this.image = rawData.image;
+    this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
