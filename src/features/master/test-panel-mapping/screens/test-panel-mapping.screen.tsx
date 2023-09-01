@@ -345,10 +345,10 @@ const TestPanelMapping = TestPanelMappingHoc(
       reader.readAsBinaryString(file);
     };
     const checkExistsRecords = async (
-      fields = masterPanelStore.masterPanel,
+      fields = testPanelMappingStore.testPanelMapping,
       length = 0,
     ) => {
-      return masterPanelStore.masterPanelService
+      return testPanelMappingStore.testPanelMappingService
         .findByFields({
           input: {
             filter: {
@@ -364,8 +364,8 @@ const TestPanelMapping = TestPanelMappingHoc(
         })
         .then(res => {
           if (
-            res.findByFieldsPanelMaster?.success &&
-            res.findByFieldsPanelMaster?.data?.length > length
+            res.findByFieldsTestPanelMappings?.success &&
+            res.findByFieldsTestPanelMappings?.data?.length > length
           ) {
             //setIsExistsRecord(true);
             Toast.error({
