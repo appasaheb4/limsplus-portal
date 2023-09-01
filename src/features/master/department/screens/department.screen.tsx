@@ -165,7 +165,7 @@ export const Department = DeginisationHoc(
         const data = XLSX.utils.sheet_to_json(ws, {raw: true});
         const list = data.map((item: any) => {
           return {
-            lab: item.lab,
+            lab: item.Lab,
             code: item?.Code,
             name: item.Name,
             shortName: item['Short Name'],
@@ -174,10 +174,11 @@ export const Department = DeginisationHoc(
             reportOrder: item['Report Order'],
             mobileNo: item['Mobile No'],
             contactNo: item['Contact No'],
-            autoRelease: item['Auto Release'],
-            requireReceveInLab: item['Require Receve In Lab'],
-            requireScainIn: item['Require Scain In'],
-            routingDept: item['Routing Dept'],
+            autoRelease: item['Auto Release'] === 'Yes' ? true : false,
+            requireReceveInLab:
+              item['Require Receve In Lab'] === 'Yes' ? true : false,
+            requireScainIn: item['Require Scain In'] === 'Yes' ? true : false,
+            routingDept: item['Routing Dept'] === 'Yes' ? true : false,
             openingTime: item['Opening Time'],
             closingTime: item['Closing Time'],
             fyiLine: item['Fyi Line'],
