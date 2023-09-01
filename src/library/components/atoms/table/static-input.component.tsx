@@ -37,7 +37,13 @@ export const StaticInputTable = ({data}: StaticInputTableProps) => {
           {data?.map(item => (
             <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
               {arrKeys.map(key => (
-                <td className='p-2'>{item[key]}</td>
+                <td className='p-2'>
+                  {typeof item[key] === 'boolean'
+                    ? item[key]
+                      ? 'Yes'
+                      : 'No'
+                    : item[key]}
+                </td>
               ))}
             </tr>
           ))}

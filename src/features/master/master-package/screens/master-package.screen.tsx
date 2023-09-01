@@ -309,11 +309,14 @@ const MasterPackage = MasterPackageHOC(
             panelName: [],
             panelCode: [],
             reportOrder: '',
-            bill: item.Bill,
-            printPackageName: item['Print Package Name'],
-            printPanelName: item['Print Panel Name'],
-            packageInterpretation: item['Package Interpretation'],
-            panelInterpretation: item['Panel Interpretation'],
+            bill: item.Bill === 'Yes' ? true : false,
+            printPackageName:
+              item['Print Package Name'] === 'Yes' ? true : false,
+            printPanelName: item['Print Panel Name'] === 'Yes' ? true : false,
+            packageInterpretation:
+              item['Package Interpretation'] === 'Yes' ? true : false,
+            panelInterpretation:
+              item['Panel Interpretation'] === 'Yes' ? true : false,
             enteredBy: loginStore.login?.userId,
             dateCreation: item['Date Creation'],
             dateActive: item['Date Active'],
