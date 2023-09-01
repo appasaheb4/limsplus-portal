@@ -320,13 +320,17 @@ const TestPanelMapping = TestPanelMappingHoc(
             panelCode: item['Panel Code'],
             testCode: [],
             testName: [],
-            bill: item.Bill,
-            printPanelName: item['Print Panel Name'],
-            printTestName: item['Print Test Name'],
-            printAnalyteName: item['Print Analyte Name'],
-            panelInterpretation: item['Panel Interpretation'],
-            testInterpretation: item['Test Interpretation'],
-            analyteInterpretation: item['Analyte Interpretation'],
+            bill: item.Bill === 'Yes' ? true : false,
+            printPanelName: item['Print Panel Name'] === 'Yes' ? true : false,
+            printTestName: item['Print Test Name'] === 'Yes' ? true : false,
+            printAnalyteName:
+              item['Print Analyte Name'] === 'Yes' ? true : false,
+            panelInterpretation:
+              item['Panel Interpretation'] === 'Yes' ? true : false,
+            testInterpretation:
+              item['Test Interpretation'] === 'Yes' ? true : false,
+            analyteInterpretation:
+              item['Analyte Interpretation'] === 'Yes' ? true : false,
             enteredBy: loginStore.login?.userId,
             dateCreation: item['Date Creation'],
             dateActive: item['Date Active'],

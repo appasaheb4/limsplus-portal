@@ -166,13 +166,34 @@ const Banner = BannerHoc(
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Input
+                      <Form.InputWrapper
                         label='Status'
-                        placeholder={'Status'}
                         hasError={!!errors.status}
-                        value={value}
-                        disabled
-                      />
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.status ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const status = e.target.value;
+                            onChange(status);
+                            bannerStore.updateBanner({
+                              ...bannerStore.banner,
+                              status,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
                     )}
                     name='status'
                     rules={{required: false}}
