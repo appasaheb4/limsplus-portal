@@ -19,6 +19,7 @@ import {
   AutoCompleteFilterSingleSelectPanelName,
 } from '../index';
 import {toJS} from 'mobx';
+
 // import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let panelCode;
@@ -57,6 +58,7 @@ interface PriceListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const PriceListList = (props: PriceListProps) => {
@@ -848,6 +850,15 @@ export const PriceListList = (props: PriceListProps) => {
                           </Icons.IconContext>
                         </Tooltip>
                       </>
+                    )}
+                    {row.status == 'D' && (
+                      <Tooltip tooltipText='Approval'>
+                        <Icons.RIcon
+                          nameIcon='AiOutlineCheckCircle'
+                          propsIcon={{size: 24, color: '#ffffff'}}
+                          onClick={() => props.onApproval(row)}
+                        />
+                      </Tooltip>
                     )}
                   </div>
                 </>
