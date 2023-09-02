@@ -75,6 +75,7 @@ interface DoctorsListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const DoctorsList = (props: DoctorsListProps) => {
@@ -832,7 +833,6 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <AutoCompleteRegistrationLocation
                   onSelect={item => {
-                    console.log({item});
                     if (item !== 'RemoveItem') {
                       props.onUpdateItem &&
                         props.onUpdateItem(item, column.dataField, row._id);
@@ -1400,6 +1400,15 @@ export const DoctorsList = (props: DoctorsListProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     </>
+                  )}
+                  {row.status == 'D' && (
+                    <Tooltip tooltipText='Approval'>
+                      <Icons.RIcon
+                        nameIcon='AiOutlineCheckCircle'
+                        propsIcon={{size: 24, color: '#ffffff'}}
+                        onClick={() => props.onApproval(row)}
+                      />
+                    </Tooltip>
                   )}
                 </div>
               </>

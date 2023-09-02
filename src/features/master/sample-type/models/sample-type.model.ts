@@ -4,6 +4,7 @@ export class SampleType {
   sampleType: string;
   descriptions: string;
   sampleGroup: string;
+  status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -14,6 +15,7 @@ export class SampleType {
     this.sampleType = rawData.sampleType;
     this.descriptions = rawData.descriptions;
     this.sampleGroup = rawData.sampleGroup;
+    this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
