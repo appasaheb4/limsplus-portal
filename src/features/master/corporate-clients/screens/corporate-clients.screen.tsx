@@ -287,16 +287,16 @@ const CorporateClients = CorporateClientsHoc(
             };
           }}
           onApproval={async records => {
-            // const isExists = await checkExistsRecords(records, 1);
-            // if (!isExists) {
-            setModalConfirm({
-              show: true,
-              type: 'Update',
-              data: {value: 'A', dataField: 'status', id: records._id},
-              title: 'Are you sure?',
-              body: 'Update deginisation!',
-            });
-            // }
+            const isExists = await checkExistsRecords(records, 1);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update deginisation!',
+              });
+            }
           }}
         />
       ),
@@ -371,32 +371,37 @@ const CorporateClients = CorporateClientsHoc(
       reader.readAsBinaryString(file);
     };
 
-    // const checkExistsRecords = async (
-    //   fields = corporateClientsStore.corporateClients,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return corporateClientsStore.corporateClientsService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, ['corporateCode','corporateName','status', 'environment']),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsDesignation?.success &&
-    //         res.findByFieldsDesignation.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = corporateClientsStore.corporateClients,
+      length = 0,
+    ) => {
+      //Pass required Field in Array
+      return corporateClientsStore.corporateClientsService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick(fields, [
+                'corporateCode',
+                'corporateName',
+                'status',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsCorporateClient?.success &&
+            res.findByFieldsCorporateClient.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     return (
       <>

@@ -9,6 +9,7 @@ export class AdministrativeDivisions {
   sbu: string;
   zone: string;
   environment: string;
+  status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
@@ -22,6 +23,7 @@ export class AdministrativeDivisions {
     this.postalCode = rawData.postalCode;
     this.sbu = rawData.sbu;
     this.zone = rawData.zone;
+    this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
