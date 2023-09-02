@@ -101,10 +101,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         ) {
           testAnalyteMappingStore.testAnalyteMappingService
             .addTestAnalyteMapping({
-              input: {
-                ...testAnalyteMappingStore.testAnalyteMapping,
-                enteredBy: loginStore.login.userId,
-              },
+              input: isImport
+                ? {isImport, arrImportRecords}
+                : {
+                    arrImportRecords,
+                    ...testAnalyteMappingStore.testAnalyteMapping,
+                    enteredBy: loginStore.login.userId,
+                  },
             })
             .then(res => {
               if (res.createTestAnalyteMapping.success) {
