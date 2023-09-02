@@ -28,15 +28,15 @@ import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
-
 import {TestPanelMappingHoc} from '../hoc';
 import {useStores} from '@/stores';
-
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetTestPanelMapping} from '../startup';
 import {SelectedItems} from '../models';
 import * as XLSX from 'xlsx';
+import dayjs from 'dayjs';
+
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
     const {
@@ -339,9 +339,11 @@ const TestPanelMapping = TestPanelMappingHoc(
             testMethod: methodFlagTMValue ? true : false,
             analyteMethod: methodFlagAMValue ? true : false,
             enteredBy: loginStore.login?.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+            ),
             version: item.Version,
             environment: item.Environment,
             status: 'D',
@@ -351,6 +353,7 @@ const TestPanelMapping = TestPanelMappingHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = testPanelMappingStore.testPanelMapping,
       length = 0,

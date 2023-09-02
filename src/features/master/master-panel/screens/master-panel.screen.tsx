@@ -84,6 +84,7 @@ const MasterPanel = MasterPanelHoc(
       setValue('version', masterPanelStore.masterPanel?.version);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [masterPanelStore.masterPanel]);
+
     const onSubmitMasterPanel = () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (
@@ -313,9 +314,11 @@ const MasterPanel = MasterPanelHoc(
             panelRightMarker: item['Panel Right Marker'],
             externalPanelCode: item['External Panel Code'],
             enteredBy: loginStore.login?.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+            ),
             version: item.Version,
             environment: item.Environment,
             status: 'D',
@@ -325,6 +328,7 @@ const MasterPanel = MasterPanelHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = masterPanelStore.masterPanel,
       length = 0,

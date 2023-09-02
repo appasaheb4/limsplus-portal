@@ -29,6 +29,7 @@ import {toJS} from 'mobx';
 import {resetMasterAnalyte} from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import dayjs from 'dayjs';
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -100,6 +101,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 setIsInputView(true);
                 reset();
                 resetMasterAnalyte();
+                setArrImportRecords([]);
               }
             });
         } else if (
@@ -316,9 +318,11 @@ const MasterAnalyte = MasterAnalyteHoc(
             abnormalHighlighterCSS: item['Abnormal Highlighter CSS'],
             criticalHighlighterCSS: item['Critical Highlighter CSS'],
             enteredBy: loginStore.login?.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+            ),
             version: item.Version,
             maxReportable: item['Max Reportable'],
             interpretation: item.Interpretation,
@@ -330,6 +334,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = masterAnalyteStore.masterAnalyte,
       length = 0,
