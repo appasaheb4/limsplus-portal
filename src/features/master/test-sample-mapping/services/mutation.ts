@@ -125,3 +125,45 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: TestSampleMappingInput!) {
+    findByFieldsTestSampleMapping(input: $input) {
+      success
+      message
+      data {
+        _id
+        testCode
+        testName
+        sampleCode
+        sampleType
+        sampleGroup
+        collContainerCode
+        collContainerName
+        testContainerCode
+        testContainerName
+        primaryContainer
+        uniqueContainer
+        centerIfuge
+        aliquot
+        labSpecfic
+        departmentSpecfic
+        sharedSample
+        minDrawVol
+        minDrawVolUnit
+        minTestVol
+        minTestVolUnit
+        condition
+        repentionPeriod
+        repentionUnits
+        labelInst
+        printLabels
+        info
+        departments
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
