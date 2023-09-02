@@ -36,6 +36,7 @@ import {toJS} from 'mobx';
 import {resetTestAnalyteMapping} from '../startup';
 import {SelectedItems} from '../models';
 import * as XLSX from 'xlsx';
+import dayjs from 'dayjs';
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -113,6 +114,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 setHideAddLab(true);
                 reset();
                 resetTestAnalyteMapping();
+                setArrImportRecords([]);
                 testAnalyteMappingStore.updateSelectedItems(
                   new SelectedItems({}),
                 );
@@ -328,9 +330,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             resultOrder: '',
             reportOrder: '',
             enteredBy: loginStore.login.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+            ),
             version: item.Version,
             environment: item.Environment,
             status: 'D',
@@ -340,6 +344,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = testAnalyteMappingStore.testAnalyteMapping,
       length = 0,

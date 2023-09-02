@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import dayjs from 'dayjs';
 
 interface StaticInputTableProps {
   data: any;
@@ -42,6 +43,8 @@ export const StaticInputTable = ({data}: StaticInputTableProps) => {
                     ? item[key]
                       ? 'Yes'
                       : 'No'
+                    : typeof item[key] === 'object'
+                    ? dayjs(item[key]).format('YYYY-MM-DD')
                     : item[key]}
                 </td>
               ))}

@@ -78,12 +78,14 @@ export const Department = DeginisationHoc(
         setHideAddDepartment(true);
         reset();
         resetDepartment();
+        setArrImportRecords([]);
       } else {
         Toast.warning({
           message: '😔 Please enter diff code!',
         });
       }
     };
+
     const tableView = useMemo(
       () => (
         <DepartmentList
@@ -155,6 +157,7 @@ export const Department = DeginisationHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [departmentStore.listDepartment],
     );
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -194,6 +197,7 @@ export const Department = DeginisationHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = departmentStore.department,
       length = 0,
@@ -875,7 +879,6 @@ export const Department = DeginisationHoc(
               </>
             )}
             <br />
-
             <List direction='row' space={3} align='center'>
               <Buttons.Button
                 size='medium'
