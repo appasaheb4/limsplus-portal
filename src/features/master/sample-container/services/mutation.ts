@@ -110,3 +110,22 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: SampleContainerInput!) {
+    findByFieldsSampleContainers(input: $input) {
+      success
+      message
+      data {
+        _id
+        containerCode
+        containerName
+        description
+        image
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
