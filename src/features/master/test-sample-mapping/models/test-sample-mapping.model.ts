@@ -28,6 +28,7 @@ export class TestSampleMapping {
   info: string;
   departments: any[];
   environment: string;
+  status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
@@ -61,6 +62,7 @@ export class TestSampleMapping {
     this.info = rawData.info;
     this.departments = rawData.departments;
     this.environment = rawData.environment;
+    this.status = rawData.status;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

@@ -62,9 +62,12 @@ export const Department = DeginisationHoc(
     const onSubmitDepartment = () => {
       if (!departmentStore.checkExitsCode) {
         departmentStore.DepartmentService.adddepartment({
-          input: {
-            ...departmentStore.department,
-          },
+          input: isImport
+            ? {isImport, arrImportRecords}
+            : {
+                arrImportRecords,
+                ...departmentStore.department,
+              },
         }).then(res => {
           if (res.createDepartment.success) {
             Toast.success({
