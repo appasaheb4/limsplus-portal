@@ -15,6 +15,7 @@ import {
   CHECK_EXISTS_RECORD,
   FILTER,
   FILTER_BY_FIELDS,
+  FIND_BY_FIELDS,
 } from './mutation';
 
 export class MethodsService {
@@ -135,6 +136,23 @@ export class MethodsService {
               },
             },
           });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

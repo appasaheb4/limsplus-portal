@@ -331,3 +331,68 @@ export const FIND_BY_ARR_ITEMS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: CorporateClientInput!) {
+    findByFieldsCorporateClient(input: $input) {
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        corporateCode
+        corporateName
+        invoiceAc
+        priceList
+        clientSpecificPrice
+        acType
+        acClass
+        billingOn
+        billingFrequency
+        address
+        city
+        state
+        district
+        country
+        postalCode
+        creditLimit
+        consumedLimit
+        customerGroup
+        category
+        confidential
+        telephone
+        mobileNo
+        email
+        reportPriority
+        deliveryMode
+        salesTerritoRy
+        area
+        sbu
+        zone
+        urgent
+        schedule
+        reportFormat
+        info
+        fyiLine
+        workLine
+        isEmployeeCode
+        specificFormat
+        isBalanceCheck
+        isPredefinedPanel
+        panelList
+        templateForImport
+        templateForExport
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

@@ -16,7 +16,6 @@ import {
 import {lookupItems, lookupValue} from '@/library/utils';
 import {LibraryList} from '../components';
 import dayjs from 'dayjs';
-
 import {useForm, Controller} from 'react-hook-form';
 import {LibraryHoc} from '../hoc';
 import {useStores} from '@/stores';
@@ -58,6 +57,7 @@ export const Library = LibraryHoc(
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [departmentList, setDepartmentList] = useState([]);
     const [isExistsRecord, setIsExistsRecord] = useState(false);
+    const [isImport, setIsImport] = useState<boolean>(false);
 
     const {
       control,
@@ -87,10 +87,14 @@ export const Library = LibraryHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [libraryStore.library]);
 
-    const onSubmitLibrary = data => {
+    const onSubmitLibrary = async data => {
       if (!isExistsRecord) {
+        if (libraryStore.library.existsRecordId) {
+          const isExists = await checkExistsRecords();
+          if (isExists) return;
+        }
         libraryStore.libraryService
-          .addLibrary({input: {...libraryStore.library}})
+          .addLibrary({input: {isImport, ...libraryStore.library}})
           .then(res => {
             if (res.createLibrary.success) {
               libraryStore.libraryService.listLibrary();
@@ -191,12 +195,16 @@ export const Library = LibraryHoc(
       [libraryStore.listLibrary],
     );
 
-    const checkExistsRecords = filed => {
-      libraryStore.libraryService
+    const checkExistsRecords = async (
+      fields = libraryStore.library,
+      length = 0,
+    ) => {
+      //Pass required Field in Array
+      return libraryStore.libraryService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(libraryStore.library, [
+              ..._.pick(fields, [
                 'libraryCode',
                 'lab',
                 'department',
@@ -206,16 +214,22 @@ export const Library = LibraryHoc(
                 'versions',
                 'environment',
               ]),
-              ...filed,
             },
           },
         })
         .then(res => {
-          if (res.findByFieldsLibrarys?.success) {
+          if (
+            res.findByFieldsLibrarys?.success &&
+            res.findByFieldsLibrarys.data?.length > length
+          ) {
             setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
+            return true;
+          } else {
+            setIsExistsRecord(false);
+            return false;
           }
         });
     };
@@ -262,9 +276,7 @@ export const Library = LibraryHoc(
                       }}
                       onBlur={libraryCode => {
                         if (libraryCode) {
-                          checkExistsRecords({
-                            libraryCode: libraryCode?.toUpperCase(),
-                          });
+                          checkExistsRecords();
                         }
                       }}
                     />
@@ -294,7 +306,7 @@ export const Library = LibraryHoc(
                             lab,
                           });
                           if (lab) {
-                            checkExistsRecords({lab});
+                            checkExistsRecords();
                           }
                           // fetch department list
                           departmentStore.DepartmentService.findByFields({
@@ -344,7 +356,7 @@ export const Library = LibraryHoc(
                             department,
                           });
                           if (department) {
-                            checkExistsRecords({department});
+                            checkExistsRecords();
                           }
                         }}
                       >
@@ -386,7 +398,7 @@ export const Library = LibraryHoc(
                             position,
                           });
                           if (position) {
-                            checkExistsRecords({position});
+                            checkExistsRecords();
                           }
                         }}
                       >
@@ -504,7 +516,7 @@ export const Library = LibraryHoc(
                             parameter,
                           });
                           if (parameter) {
-                            checkExistsRecords({parameter});
+                            checkExistsRecords();
                           }
                         }}
                       >
@@ -595,7 +607,7 @@ export const Library = LibraryHoc(
                             status,
                           });
                           if (status) {
-                            checkExistsRecords({status});
+                            checkExistsRecords();
                           }
                         }}
                       >
@@ -700,7 +712,7 @@ export const Library = LibraryHoc(
                             environment,
                           });
                           if (environment) {
-                            checkExistsRecords({environment});
+                            checkExistsRecords();
                           }
                         }}
                       >
@@ -828,7 +840,7 @@ export const Library = LibraryHoc(
                     versions: Number.parseInt(modalConfirm.data.versions + 1),
                     dateActive: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setHideAddLab(false);
                   break;
                 }
                 case 'duplicate': {
@@ -842,7 +854,7 @@ export const Library = LibraryHoc(
                     versions: Number.parseInt(modalConfirm.data.versions),
                     dateActive: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setHideAddLab(false);
                   break;
                 }
               }

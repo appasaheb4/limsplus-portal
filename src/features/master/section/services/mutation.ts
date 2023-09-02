@@ -116,3 +116,28 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: SectionInput!) {
+    findByFieldsSections(input: $input) {
+      success
+      message
+      data {
+        _id
+        departmentCode
+        code
+        name
+        shortName
+        sectionInCharge
+        mobileNo
+        contactNo
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
