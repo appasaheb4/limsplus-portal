@@ -74,3 +74,27 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: AdministrativeDevisionInput!) {
+    findByFieldsAdministrativeDevision(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        country
+        state
+        district
+        city
+        area
+        postalCode
+        sbu
+        zone
+        environment
+      }
+    }
+  }
+`;
