@@ -161,3 +161,39 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: PriceListInput!) {
+    findByFieldsPriceList(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        priceGroup
+        priceList
+        description
+        panelCode
+        panelName
+        price
+        minSp
+        maxSp
+        maxDis
+        fixedPrice
+        enteredBy
+        status
+        environment
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

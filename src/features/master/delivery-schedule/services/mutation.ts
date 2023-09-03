@@ -125,3 +125,39 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: DeliverySchduleInput!) {
+    findByFieldsDeliverySchdules(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        schCode
+        sundayProcessing
+        holidayProcessing
+        sundayReporting
+        holidayReporting
+        pStartTime
+        pEndTime
+        cutofTime
+        secoundCutofTime
+        processingType
+        schFrequency
+        reportOn
+        dynamicRT
+        dynamicTU
+        fixedRT
+        onTime
+        schForDept
+        schForPat
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
