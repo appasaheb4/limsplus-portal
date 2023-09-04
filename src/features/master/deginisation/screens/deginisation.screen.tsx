@@ -102,12 +102,13 @@ const Deginisation = DeginisationHoc(
     const checkExistsRecords = async (
       fields = deginisationStore.deginisation,
       length = 0,
+      status = 'A',
     ) => {
       //Pass required Field in Array
       return deginisationStore.DeginisationService.findByFields({
         input: {
           filter: {
-            ..._.pick(fields, ['code', 'environment']),
+            ..._.pick({...fields, status}, ['code', 'environment']),
           },
         },
       }).then(res => {
@@ -419,7 +420,7 @@ const Deginisation = DeginisationHoc(
                 };
               }}
               onApproval={async records => {
-                const isExists = await checkExistsRecords(records, 1);
+                const isExists = await checkExistsRecords(records);
                 if (!isExists) {
                   setModalConfirm({
                     show: true,
