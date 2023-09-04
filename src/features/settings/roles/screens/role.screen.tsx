@@ -11,6 +11,9 @@ import {
   Svg,
   Toast,
   ModalConfirm,
+  ManualImportTabs,
+  StaticInputTable,
+  ImportFile,
 } from '@/library/components';
 import {RoleList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -20,7 +23,7 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {resetRole} from '../startup';
-
+import * as XLSX from 'xlsx';
 const Role = RolesHoc(
   observer(() => {
     const {loginStore, roleStore, routerStore} = useStores();
@@ -34,33 +37,89 @@ const Role = RolesHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddRole, setHideAddRole] = useState<boolean>(true);
+    const [isImport, setIsImport] = useState<boolean>(false);
+    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
     useEffect(() => {
       // Default value initialization
+      setValue('status', roleStore.role?.status);
       setValue('environment', roleStore.role?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roleStore.role]);
 
     const onSubmitRoles = () => {
       if (!roleStore.checkExitsCode) {
-        roleStore.RoleService.addrole({input: {...roleStore.role}}).then(
-          res => {
-            if (res.createRole.success) {
-              Toast.success({
-                message: `😊 ${res.createRole.message}`,
-              });
-            }
-            setHideAddRole(true);
-            reset();
-            resetRole();
-          },
-        );
+        roleStore.RoleService.addrole({
+          input: isImport
+            ? {isImport, arrImportRecords}
+            : {isImport, ...roleStore.role},
+        }).then(res => {
+          if (res.createRole.success) {
+            Toast.success({
+              message: `😊 ${res.createRole.message}`,
+            });
+          }
+          setHideAddRole(true);
+          reset();
+          resetRole();
+        });
       } else {
         Toast.warning({
           message: '😔 Please enter all information!',
         });
       }
     };
+    const handleFileUpload = (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (evt: any) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, {type: 'binary'});
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const list = data.map((item: any) => {
+          return {
+            code: item?.Code,
+            description: item.Description,
+            environment: item?.Environment,
+            status: 'D',
+          };
+        });
+        setArrImportRecords(list);
+      });
+      reader.readAsBinaryString(file);
+    };
+
+    // const checkExistsRecords = async (fields = roleStore.role, length = 0) => {
+    //   //Pass required Field in Array
+    //   return roleStore.RoleService.findByFields({
+    //     input: {
+    //       filter: {
+    //         ..._.pick(fields, [
+    //           'salesTerritory',
+    //           'empCode',
+    //           'targets',
+    //           'status',
+    //           'environment',
+    //         ]),
+    //       },
+    //     },
+    //   }).then(res => {
+    //     if (
+    //       res.findByFieldsSalesTeams?.success &&
+    //       res.findByFieldsSalesTeams.data?.length > length
+    //     ) {
+    //       //setIsExistsRecord(true);
+    //       Toast.error({
+    //         message: '😔 Already some record exists.',
+    //       });
+    //       return true;
+    //     } else return false;
+    //   });
+    // };
 
     return (
       <>
@@ -81,104 +140,38 @@ const Role = RolesHoc(
               (hideAddRole ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={2}>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Code'
-                      id='code'
-                      hasError={!!errors.code}
-                      placeholder={errors.code ? 'Please Enter Code ' : 'Code'}
-                      value={value}
-                      onChange={code => {
-                        onChange(code);
-                        roleStore.updateRole({
-                          ...roleStore.role,
-                          code: code.toUpperCase(),
-                        });
-                      }}
-                      onBlur={code => {
-                        roleStore.RoleService.checkExitsEnvCode({
-                          input: {
-                            code,
-                            env: roleStore.role?.environment,
-                          },
-                        }).then(res => {
-                          if (res.checkRoleExistsEnvCode.success) {
-                            roleStore.setExitsCode(true);
-                            Toast.error({
-                              message: `😔 ${res.checkRoleExistsEnvCode.message}`,
-                            });
-                          } else roleStore.setExitsCode(false);
-                        });
-                      }}
-                    />
-                  )}
-                  name='code'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                {roleStore.checkExitsCode && (
-                  <span className='text-red-600 font-medium relative'>
-                    Code already exits. Please use other code.
-                  </span>
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Description'
-                      name='description'
-                      hasError={!!errors.description}
-                      placeholder={
-                        errors.description
-                          ? 'Please Enter Description'
-                          : 'Description'
-                      }
-                      value={value}
-                      onChange={description => {
-                        onChange(description);
-                        roleStore.updateRole({
-                          ...roleStore.role,
-                          description: description.toUpperCase(),
-                        });
-                      }}
-                    />
-                  )}
-                  name='description'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
+            <ManualImportTabs
+              isImport={isImport}
+              onClick={flag => {
+                setIsImport(flag);
+              }}
+            />
+            {!isImport ? (
+              <Grid cols={2}>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Code'
+                        id='code'
+                        hasError={!!errors.code}
+                        placeholder={
+                          errors.code ? 'Please Enter Code ' : 'Code'
                         }
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
+                        value={value}
+                        onChange={code => {
+                          onChange(code);
                           roleStore.updateRole({
                             ...roleStore.role,
-                            environment,
+                            code: code.toUpperCase(),
                           });
+                        }}
+                        onBlur={code => {
                           roleStore.RoleService.checkExitsEnvCode({
                             input: {
-                              code: roleStore.role?.code,
-                              env: environment,
+                              code,
+                              env: roleStore.role?.environment,
                             },
                           }).then(res => {
                             if (res.checkRoleExistsEnvCode.success) {
@@ -189,30 +182,154 @@ const Role = RolesHoc(
                             } else roleStore.setExitsCode(false);
                           });
                         }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : roleStore.role?.environment || 'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
+                      />
+                    )}
+                    name='code'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  {roleStore.checkExitsCode && (
+                    <span className='text-red-600 font-medium relative'>
+                      Code already exits. Please use other code.
+                    </span>
                   )}
-                  name='environment'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-              </List>
-            </Grid>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Description'
+                        name='description'
+                        hasError={!!errors.description}
+                        placeholder={
+                          errors.description
+                            ? 'Please Enter Description'
+                            : 'Description'
+                        }
+                        value={value}
+                        onChange={description => {
+                          onChange(description);
+                          roleStore.updateRole({
+                            ...roleStore.role,
+                            description: description.toUpperCase(),
+                          });
+                        }}
+                      />
+                    )}
+                    name='description'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Status'
+                        hasError={!!errors.status}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.status ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const status = e.target.value;
+                            onChange(status);
+                            roleStore.updateRole({
+                              ...roleStore.role,
+                              status,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='status'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper label='Environment'>
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.environment
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          disabled={
+                            loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? true
+                              : false
+                          }
+                          onChange={e => {
+                            const environment = e.target.value;
+                            onChange(environment);
+                            roleStore.updateRole({
+                              ...roleStore.role,
+                              environment,
+                            });
+                            roleStore.RoleService.checkExitsEnvCode({
+                              input: {
+                                code: roleStore.role?.code,
+                                env: environment,
+                              },
+                            }).then(res => {
+                              if (res.checkRoleExistsEnvCode.success) {
+                                roleStore.setExitsCode(true);
+                                Toast.error({
+                                  message: `😔 ${res.checkRoleExistsEnvCode.message}`,
+                                });
+                              } else roleStore.setExitsCode(false);
+                            });
+                          }}
+                        >
+                          <option selected>
+                            {loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? 'Select'
+                              : roleStore.role?.environment || 'Select'}
+                          </option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='environment'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                </List>
+              </Grid>
+            ) : (
+              <>
+                {arrImportRecords?.length > 0 ? (
+                  <StaticInputTable data={arrImportRecords} />
+                ) : (
+                  <ImportFile
+                    onClick={file => {
+                      handleFileUpload(file[0]);
+                    }}
+                  />
+                )}
+              </>
+            )}
             <br />
 
             <List direction='row' space={3} align='center'>
@@ -279,6 +396,18 @@ const Role = RolesHoc(
                   input: {type, filter, page, limit},
                 });
                 global.filter = {mode: 'filter', type, filter, page, limit};
+              }}
+              onApproval={async records => {
+                // const isExists = await checkExistsRecords(records, 1);
+                // if (!isExists) {
+                setModalConfirm({
+                  show: true,
+                  type: 'Update',
+                  data: {value: 'A', dataField: 'status', id: records._id},
+                  title: 'Are you sure?',
+                  body: 'Update deginisation!',
+                });
+                // }
               }}
             />
           </div>

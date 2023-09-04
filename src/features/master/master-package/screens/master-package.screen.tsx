@@ -318,9 +318,11 @@ const MasterPackage = MasterPackageHOC(
             panelInterpretation:
               item['Panel Interpretation'] === 'Yes' ? true : false,
             enteredBy: loginStore.login?.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             version: item.Version,
             environment: item.Environment,
             status: 'D',

@@ -16,7 +16,7 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {dayjs, lookupItems, lookupValue} from '@/library/utils';
 import {PossibleResultsList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {AutoCompleteFilterSingleSelectAnalyteCode} from '../components';
@@ -200,9 +200,11 @@ export const PossibleResults = PossibleResultHoc(
             analyteName: item['Analyte Name'],
             conclusionResult: [],
             defaultConclusion: '',
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,

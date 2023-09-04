@@ -4,6 +4,7 @@ export class NoticeBoard {
   header: string;
   message: string;
   action: string;
+  status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
   constructor(rawData: {[key in string]: any}) {
@@ -12,6 +13,7 @@ export class NoticeBoard {
     this.header = rawData.header;
     this.message = rawData.message;
     this.action = rawData.action;
+    this.status = rawData.status;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }
