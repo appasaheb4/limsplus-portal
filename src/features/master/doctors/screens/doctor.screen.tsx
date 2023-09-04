@@ -19,7 +19,7 @@ import {
 } from '@/library/components';
 import {DoctorsList} from '../components';
 import {AutoCompleteFilterDeliveryMode} from '@/core-components';
-import {lookupItems, lookupValue, toTitleCase} from '@/library/utils';
+import {dayjs, lookupItems, lookupValue, toTitleCase} from '@/library/utils';
 import {useForm, Controller} from 'react-hook-form';
 import {DoctorsHoc} from '../hoc';
 import {useStores} from '@/stores';
@@ -321,9 +321,11 @@ const Doctors = DoctorsHoc(
             urgent: item.Urgent === 'Yes' ? true : false,
             reportFormat: item['Report Format'] === 'Yes' ? true : false,
             specificFormat: item['Specific Format'] === 'Yes' ? true : false,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             version: item.Version,
             enteredBy: loginStore.login.userId,
             openingTime: item['Opening Time'],

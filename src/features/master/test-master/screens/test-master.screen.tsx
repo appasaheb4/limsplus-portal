@@ -17,7 +17,7 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {dayjs, lookupItems, lookupValue} from '@/library/utils';
 import {TestMasterList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {AutoCompleteFilterSingleSelectDepartment} from '../components';
@@ -309,9 +309,11 @@ const TestMater = TestMasterHOC(
             testBottomMarker: '',
             testRightMarker: item['Test Right Marker'],
             enteredBy: loginStore.login?.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             interpretation: item.Interpretation,
             testResultDate: item['Test Result Date'],
             version: item.Version,

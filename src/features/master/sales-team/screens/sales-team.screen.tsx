@@ -16,7 +16,7 @@ import {
   ImportFile,
 } from '@/library/components';
 import {SalesTeamList, SalesHierarchyTable, TargetsTable} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {dayjs, lookupItems, lookupValue} from '@/library/utils';
 import _ from 'lodash';
 import * as Utils from '../util';
 import {SalesTeamHoc} from '../hoc';
@@ -195,9 +195,11 @@ export const SalesTeam = SalesTeamHoc(
             empName: item['Employee Name'],
             salesHierarchy: [],
             targets: [],
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,

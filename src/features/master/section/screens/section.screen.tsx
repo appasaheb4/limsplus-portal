@@ -184,7 +184,7 @@ const Section = SectionHoc(
     ) => {
       //Pass required Field in Array
       return sectionStore.sectionService
-        .findSectionListByDeptCode({
+        .findByFields({
           input: {
             filter: {
               ..._.pick(fields, [
@@ -199,8 +199,8 @@ const Section = SectionHoc(
         })
         .then(res => {
           if (
-            res.findSectionListByDeptCode?.success &&
-            res.findSectionListByDeptCode.data?.length > length
+            res.findByFieldsSections?.success &&
+            res.findByFieldsSections.data?.length > length
           ) {
             //setIsExistsRecord(true);
             Toast.error({

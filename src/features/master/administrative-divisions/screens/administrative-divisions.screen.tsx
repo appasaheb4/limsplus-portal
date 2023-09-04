@@ -25,7 +25,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {resetBanner} from '../../banner/startup';
 import * as XLSX from 'xlsx';
-// import _ from 'lodash';
+import _ from 'lodash';
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
     const {loginStore, administrativeDivisions, routerStore} = useStores();
@@ -111,37 +111,37 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
       reader.readAsBinaryString(file);
     };
 
-    // const checkExistsRecords = async (
-    //   fields = administrativeDivisions.administrativeDiv,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return administrativeDivisions.administrativeDivisionsService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, [
-    //             'country',
-    //             'state',
-    //             'district',
-    //             'environment',
-    //           ]),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsCorporateClient?.success &&
-    //         res.findByFieldsCorporateClient.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = administrativeDivisions.administrativeDiv,
+      length = 0,
+    ) => {
+      //Pass required Field in Array
+      return administrativeDivisions.administrativeDivisionsService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick(fields, [
+                'country',
+                'state',
+                'district',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsAdministrativeDevision?.success &&
+            res.findByFieldsAdministrativeDevision.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     return (
       <>
@@ -654,16 +654,16 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 };
               }}
               onApproval={async records => {
-                // const isExists = await checkExistsRecords(records, 1);
-                // if (!isExists) {
-                setModalConfirm({
-                  show: true,
-                  type: 'Update',
-                  data: {value: 'A', dataField: 'status', id: records._id},
-                  title: 'Are you sure?',
-                  body: 'Update deginisation!',
-                });
-                // }
+                const isExists = await checkExistsRecords(records, 1);
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: {value: 'A', dataField: 'status', id: records._id},
+                    title: 'Are you sure?',
+                    body: 'Update deginisation!',
+                  });
+                }
               }}
             />
           </div>

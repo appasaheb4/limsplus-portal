@@ -20,7 +20,7 @@ import {
 } from '@/library/components';
 import {CorporateClient} from '../components';
 import {AutoCompleteFilterDeliveryMode} from '@/core-components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {dayjs, lookupItems, lookupValue} from '@/library/utils';
 
 import {useForm, Controller} from 'react-hook-form';
 import {CorporateClientsHoc} from '../hoc';
@@ -357,9 +357,11 @@ const CorporateClients = CorporateClientsHoc(
             fyiLine: item['FYI Line'],
             workLine: item['Work line'],
             reportFormat: item['Report Format'] === 'Yes' ? true : false,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,

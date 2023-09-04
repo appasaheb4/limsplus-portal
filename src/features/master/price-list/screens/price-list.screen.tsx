@@ -17,14 +17,14 @@ import {
   ManualImportTabs,
 } from '@/library/components';
 
-import {lookupItems, lookupValue} from '@/library/utils';
+import {dayjs, lookupItems, lookupValue} from '@/library/utils';
 import {PriceListList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {AutoCompleteFilterSingleSelectPanelCode} from '../components';
 import {PriceListHoc} from '../hoc';
 import {useStores} from '@/stores';
 import * as XLSX from 'xlsx';
-// import _ from 'lodash';
+import _ from 'lodash';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetPriceList} from '../startup';
@@ -226,16 +226,16 @@ export const PriceList = PriceListHoc(
             global.filter = {mode: 'filter', type, page, limit, filter};
           }}
           onApproval={async records => {
-            // const isExists = await checkExistsRecords(records, 1);
-            // if (!isExists) {
-            setModalConfirm({
-              show: true,
-              type: 'Update',
-              data: {value: 'A', dataField: 'status', id: records._id},
-              title: 'Are you sure?',
-              body: 'Update deginisation!',
-            });
-            // }
+            const isExists = await checkExistsRecords(records, 1);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update deginisation!',
+              });
+            }
           }}
         />
       ),
@@ -266,9 +266,11 @@ export const PriceList = PriceListHoc(
             maxSp: item['Max Sp'],
             maxDis: item['Max Discount'],
             fixedPrice: item['Fixed Price'] === 'Yes' ? true : false,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,
@@ -280,32 +282,39 @@ export const PriceList = PriceListHoc(
       reader.readAsBinaryString(file);
     };
 
-    // const checkExistsRecords = async (
-    //   fields = priceListStore.priceList,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return priceListStore.priceListService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, ['analyteCode', 'environment', 'status']),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsPossibleResult?.success &&
-    //         res.findByFieldsPossibleResult.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = priceListStore.priceList,
+      length = 0,
+    ) => {
+      //Pass required Field in Array
+      return priceListStore.priceListService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick(fields, [
+                'priceGroup',
+                'priceList',
+                'panelCode',
+                'price',
+                'status',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsPriceList?.success &&
+            res.findByFieldsPriceList.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     return (
       <>

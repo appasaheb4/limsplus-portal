@@ -29,7 +29,7 @@ import {toJS} from 'mobx';
 import {resetTestSampleMapping} from '../startup';
 import {LocalInput} from '../models';
 import * as XLSX from 'xlsx';
-
+import {pick} from 'lodash';
 const TestSampleMapping = TestSampleMappingHoc(
   observer(() => {
     const {
@@ -163,16 +163,16 @@ const TestSampleMapping = TestSampleMappingHoc(
             };
           }}
           onApproval={async records => {
-            // const isExists = await checkExistsRecords(records, 1);
-            // if (!isExists) {
-            setModalConfirm({
-              show: true,
-              type: 'Update',
-              data: {value: 'A', dataField: 'status', id: records._id},
-              title: 'Are you sure?',
-              body: 'Update deginisation!',
-            });
-            // }
+            const isExists = await checkExistsRecords(records, 1);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update deginisation!',
+              });
+            }
           }}
         />
       ),
@@ -228,36 +228,36 @@ const TestSampleMapping = TestSampleMappingHoc(
       });
       reader.readAsBinaryString(file);
     };
-    // const checkExistsRecords = async (
-    //   fields = testSampleMappingStore.testSampleMapping,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return testSampleMappingStore.testSampleMappingService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, [
-    //             'containerCode',
-    //             'containerName',
-    //             'environment',
-    //           ]),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsDesignation?.success &&
-    //         res.findByFieldsDesignation.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = testSampleMappingStore.testSampleMapping,
+      length = 0,
+    ) => {
+      //Pass required Field in Array
+      return testSampleMappingStore.testSampleMappingService
+        .findByFields({
+          input: {
+            filter: {
+              ...pick(fields, [
+                'containerCode',
+                'containerName',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsTestSampleMapping?.success &&
+            res.findByFieldsTestSampleMapping.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
     return (
       <>
         <Header>

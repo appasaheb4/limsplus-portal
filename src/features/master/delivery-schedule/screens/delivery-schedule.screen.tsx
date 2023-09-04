@@ -25,7 +25,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetDeliverySchedule} from '../startup';
-// import _ from 'lodash';
+import _ from 'lodash';
 import * as XLSX from 'xlsx';
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
@@ -117,32 +117,32 @@ const DeliverySchedule = DeliveryScheduleHoc(
       });
       reader.readAsBinaryString(file);
     };
-    // const checkExistsRecords = async (
-    //   fields = deliveryScheduleStore.deliverySchedule,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return deliveryScheduleStore.deliveryScheduleService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, ['schCode', 'environment']),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsDesignation?.success &&
-    //         res.findByFieldsDesignation.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = deliveryScheduleStore.deliverySchedule,
+      length = 0,
+    ) => {
+      //Pass required Field in Array
+      return deliveryScheduleStore.deliveryScheduleService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick(fields, ['schCode', 'environment']),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsDeliverySchdules?.success &&
+            res.findByFieldsDeliverySchdules.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     return (
       <>

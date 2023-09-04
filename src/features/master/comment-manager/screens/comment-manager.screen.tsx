@@ -285,11 +285,13 @@ const CommentManager = CommentManagerHoc(
             low: item.Low,
             high: item.High,
             alpha: item.Alpha,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
-            version: item.Version,
             enteredBy: loginStore.login.userId,
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
+            version: item.Version,
             environment: item?.Environment,
             status: 'D',
           };
