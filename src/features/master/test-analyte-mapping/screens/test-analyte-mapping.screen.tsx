@@ -101,10 +101,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         ) {
           testAnalyteMappingStore.testAnalyteMappingService
             .addTestAnalyteMapping({
-              input: {
-                ...testAnalyteMappingStore.testAnalyteMapping,
-                enteredBy: loginStore.login.userId,
-              },
+              input: isImport
+                ? {isImport, arrImportRecords}
+                : {
+                    arrImportRecords,
+                    ...testAnalyteMappingStore.testAnalyteMapping,
+                    enteredBy: loginStore.login.userId,
+                  },
             })
             .then(res => {
               if (res.createTestAnalyteMapping.success) {
@@ -261,14 +264,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Test Analyte Mapping!',
               });
             }
           }}
@@ -348,12 +351,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     const checkExistsRecords = async (
       fields = testAnalyteMappingStore.testAnalyteMapping,
       length = 0,
+      status = 'A',
     ) => {
       return testAnalyteMappingStore.testAnalyteMappingService
         .findByFileds({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'lab',
                 'testName',
                 'analyteCode',

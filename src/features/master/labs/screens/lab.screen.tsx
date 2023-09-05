@@ -206,14 +206,14 @@ const Lab = LabHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Lab!',
               });
             }
           }}
@@ -289,11 +289,15 @@ const Lab = LabHoc(
       reader.readAsBinaryString(file);
     };
 
-    const checkExistsRecords = async (fields = labStore.labs, length = 0) => {
+    const checkExistsRecords = async (
+      fields = labStore.labs,
+      length = 0,
+      status = 'A',
+    ) => {
       return labStore.LabService.findByFields({
         input: {
           filter: {
-            ..._.pick(fields, [
+            ..._.pick({...fields, status}, [
               'code',
               'name',
               'defaultLab',

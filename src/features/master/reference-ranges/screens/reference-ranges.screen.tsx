@@ -10,6 +10,9 @@ import {
   List,
   Svg,
   ModalConfirm,
+  ManualImportTabs,
+  StaticInputTable,
+  ImportFile,
 } from '@/library/components';
 import {
   CommonInputTable,
@@ -21,6 +24,8 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetReferenceRange} from '../startup';
+import dayjs from 'dayjs';
+import * as XLSX from 'xlsx';
 
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {
@@ -38,7 +43,8 @@ const ReferenceRanges = ReferenceRangesHoc(
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [dupExistsRecords, setDupExistsRecords] = useState<any>();
     const [isCommonTableReload, setIsCommonTableReload] = useState(false);
-
+    const [isImport, setIsImport] = useState<boolean>(false);
+    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const onSubmitReferenceRanges = () => {
       if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
         if (!refernceRangesStore.checkExitsRecord) {
@@ -52,17 +58,21 @@ const ReferenceRanges = ReferenceRangesHoc(
           ) {
             refernceRangesStore.referenceRangesService
               .addReferenceRanges({
-                input: {
-                  filter: {
-                    refRangesInputList: _.filter(
-                      refernceRangesStore.referenceRanges?.refRangesInputList,
-                      (a: any) => {
-                        a._id = undefined;
-                        return a;
+                input: isImport
+                  ? {isImport, arrImportRecords}
+                  : {
+                      filter: {
+                        isImport,
+                        refRangesInputList: _.filter(
+                          refernceRangesStore.referenceRanges
+                            ?.refRangesInputList,
+                          (a: any) => {
+                            a._id = undefined;
+                            return a;
+                          },
+                        ),
                       },
-                    ),
-                  },
-                },
+                    },
               })
               .then(res => {
                 if (res.createReferenceRange.success) {
@@ -98,12 +108,6 @@ const ReferenceRanges = ReferenceRangesHoc(
         });
       }
     };
-
-    // const commonTable = useMemo(
-    //   () => <CommonInputTable />,
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    //   [isCommonTableReload],
-    // );
 
     const tableView = useMemo(
       () => (
@@ -181,11 +185,106 @@ const ReferenceRanges = ReferenceRangesHoc(
             });
             global.filter = {mode: 'filter', type, page, limit, filter};
           }}
+          onApproval={async records => {
+            const isExists = await checkExistsRecords(records);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update Reference Ranges!',
+              });
+            }
+          }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [refernceRangesStore.listReferenceRanges],
     );
+
+    const handleFileUpload = (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (evt: any) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, {type: 'binary'});
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const list = data.map((item: any) => {
+          return {
+            analyteCode: item['Analyte Code'],
+            analyteName: item['Analayte Name'],
+            department: item.Department,
+            species: item.Species,
+            sex: item.Sex,
+            rangeSetOn: item['Range Set On'],
+            instType: item['Inst Type'],
+            lab: item.Lab,
+            rangeType: item['Range Type'],
+            ageFrom: item['Age From'],
+            ageFromUnit: item['Age From Unit'],
+            ageTo: item['Age To'],
+            ageToUnit: item['Age To Unit'],
+            low: item.Low,
+            high: item.High,
+            alpha: item.Alpha,
+            deltaType: item['Delta Type'],
+            deltaInterval: item['Delta Interval'],
+            intervalUnit: item['Interval Unit'],
+            enteredBy: loginStore.login?.userId,
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+            ),
+            version: item.Version,
+            environment: item.Environment,
+            status: 'D',
+          };
+        });
+        setArrImportRecords(list);
+      });
+      reader.readAsBinaryString(file);
+    };
+
+    const checkExistsRecords = async (
+      fields = refernceRangesStore.referenceRanges,
+      length = 0,
+      status = 'A',
+    ) => {
+      return refernceRangesStore.referenceRangesService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({...fields, status}, [
+                'analyteCode',
+                'analyteName',
+                'species',
+                'sex',
+                'rangeSetOn',
+                'status',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsAnalyteMaster?.success &&
+            res.findByFieldsAnalyteMaster?.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     const refRangesInputTable = useMemo(
       () =>
@@ -256,10 +355,30 @@ const ReferenceRanges = ReferenceRangesHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'shown' : 'shown')
             }
           >
-            <div className='p-2 rounded-lg shadow-xl '>
-              <CommonInputTable isReload={isCommonTableReload} />
-              {refRangesInputTable}
-            </div>
+            <ManualImportTabs
+              isImport={isImport}
+              onClick={flag => {
+                setIsImport(flag);
+              }}
+            />
+            {!isImport ? (
+              <div className='p-2 rounded-lg shadow-xl '>
+                <CommonInputTable isReload={isCommonTableReload} />
+                {refRangesInputTable}
+              </div>
+            ) : (
+              <>
+                {arrImportRecords?.length > 0 ? (
+                  <StaticInputTable data={arrImportRecords} />
+                ) : (
+                  <ImportFile
+                    onClick={file => {
+                      handleFileUpload(file[0]);
+                    }}
+                  />
+                )}
+              </>
+            )}
             <br />
             <List direction='row' space={2} align='center'>
               <Buttons.Button

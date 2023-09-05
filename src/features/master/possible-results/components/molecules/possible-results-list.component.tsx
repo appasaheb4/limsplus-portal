@@ -47,6 +47,7 @@ interface PossibleResultsListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
@@ -747,6 +748,15 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     </>
+                  )}
+                  {row.status == 'D' && (
+                    <Tooltip tooltipText='Approval'>
+                      <Icons.RIcon
+                        nameIcon='AiOutlineCheckCircle'
+                        propsIcon={{size: 24, color: '#ffffff'}}
+                        onClick={() => props.onApproval(row)}
+                      />
+                    </Tooltip>
                   )}
                 </div>
               </>

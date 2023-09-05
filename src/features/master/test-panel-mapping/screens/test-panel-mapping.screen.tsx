@@ -286,14 +286,14 @@ const TestPanelMapping = TestPanelMappingHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update TestPanelMapping!',
               });
             }
           }}
@@ -357,12 +357,13 @@ const TestPanelMapping = TestPanelMappingHoc(
     const checkExistsRecords = async (
       fields = testPanelMappingStore.testPanelMapping,
       length = 0,
+      status = 'A',
     ) => {
       return testPanelMappingStore.testPanelMappingService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'panelCode',
                 'testName',
                 'status',

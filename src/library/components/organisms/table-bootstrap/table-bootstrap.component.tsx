@@ -270,17 +270,6 @@ export const TableBootstrap = ({
                   row[
                     'userId'
                   ] = `UserId: ${userObj.userId} - UserName:${userObj.fullName} - lab:${userObj.lab} - Role:${userObj.role}`;
-                } else if (columnValue.accessInfo) {
-                  // Handle systemInfo for User
-                  const extractedValues = [
-                    `Mobile Access: ${
-                      columnValue.accessInfo.mobile ? 'Yes' : 'No'
-                    }`,
-                    `Desktop Access: ${
-                      columnValue.accessInfo.desktop ? 'Yes' : 'No'
-                    }`,
-                  ];
-                  row[dataField] = extractedValues.join(' - ');
                 }
               }
               break;
@@ -314,11 +303,6 @@ export const TableBootstrap = ({
               ? product?.extraData[dataField]
               : columnValue;
           row['ipInfo'] = `IP:${ipObj?.ip}`;
-          row['permission'] = `AllLabs:${
-            product['allLabs'] ? 'Yes' : 'No'
-          } - AllUsers:${product['allUsers'] ? 'Yes' : 'No'} - AllDepartment:${
-            product['allDepartment'] ? 'Yes' : 'No'
-          }`;
           row['header.title'] = product['header']?.title;
           row['header.titleCSS'] = product['header']?.titleCSS;
           row['header.logoCSS'] = product['header']?.logoCSS;
@@ -394,6 +378,15 @@ export const TableBootstrap = ({
           row[
             'analyteCodeName'
           ] = `${product['analyteCode']} - ${product['analyteName']}`;
+          row['systemInfo.accessInfo.mobile'] = product.systemInfo.accessInfo
+            .mobile
+            ? 'Yes'
+            : 'No';
+
+          row['systemInfo.accessInfo.desktop'] = product.systemInfo.accessInfo
+            .desktop
+            ? 'Yes'
+            : 'No';
         }
       });
 

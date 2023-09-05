@@ -263,14 +263,14 @@ const MasterPackage = MasterPackageHOC(
             global.filter = {mode: 'filter', type, page, limit, filter};
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Master Package!',
               });
             }
           }}
@@ -318,9 +318,11 @@ const MasterPackage = MasterPackageHOC(
             panelInterpretation:
               item['Panel Interpretation'] === 'Yes' ? true : false,
             enteredBy: loginStore.login?.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             version: item.Version,
             environment: item.Environment,
             status: 'D',
@@ -333,12 +335,13 @@ const MasterPackage = MasterPackageHOC(
     const checkExistsRecords = async (
       fields = masterPackageStore.masterPackage,
       length = 0,
+      status = 'A',
     ) => {
       return masterPackageStore.masterPackageService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'lab',
                 'serviceType',
                 'packageCode',

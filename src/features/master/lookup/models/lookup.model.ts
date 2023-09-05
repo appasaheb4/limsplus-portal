@@ -5,6 +5,7 @@ export class Lookup {
   arrValue: {value: string; code: string; flagUpperCase: boolean}[];
   description: string;
   defaultItem: Array<{value: string; code: string; flagUpperCase: boolean}>;
+  status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -15,6 +16,7 @@ export class Lookup {
     this.arrValue = rawData.arrValue;
     this.description = rawData.description;
     this.defaultItem = rawData.defaultItem;
+    this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

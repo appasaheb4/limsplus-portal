@@ -11,6 +11,9 @@ import {
   Form,
   Svg,
   ModalConfirm,
+  ManualImportTabs,
+  StaticInputTable,
+  ImportFile,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {DeliverySchduleList} from '../components';
@@ -22,7 +25,8 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetDeliverySchedule} from '../startup';
-
+import _ from 'lodash';
+import * as XLSX from 'xlsx';
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
     const {loginStore, deliveryScheduleStore, routerStore} = useStores();
@@ -36,13 +40,15 @@ const DeliverySchedule = DeliveryScheduleHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
-
+    const [isImport, setIsImport] = useState<boolean>(false);
+    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     useEffect(() => {
       // Default value initialization
       setValue(
         'environment',
         deliveryScheduleStore.deliverySchedule?.environment,
       );
+      setValue('status', deliveryScheduleStore.deliverySchedule?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deliveryScheduleStore.deliverySchedule]);
 
@@ -50,7 +56,9 @@ const DeliverySchedule = DeliveryScheduleHoc(
       if (!deliveryScheduleStore.checkExistsEnvCode) {
         deliveryScheduleStore.deliveryScheduleService
           .addDeliverySchdule({
-            input: {...deliveryScheduleStore.deliverySchedule},
+            input: isImport
+              ? {isImport, arrImportRecords}
+              : {isImport, ...deliveryScheduleStore.deliverySchedule},
           })
           .then(res => {
             if (res.createDeliverySchdule.success)
@@ -66,6 +74,79 @@ const DeliverySchedule = DeliveryScheduleHoc(
           message: '😔 Please enter diff code',
         });
       }
+    };
+
+    const handleFileUpload = (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (evt: any) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, {type: 'binary'});
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const list = data.map((item: any) => {
+          return {
+            schCode: item['Sch Code'],
+            sundayProcessing:
+              item['Sunday Processing'] === 'Yes' ? true : false,
+            holidayProcessing: item['Holiday Processing'],
+            sundayReporting: item['Sunday Reporting'],
+            holidayReporting:
+              item['Holiday Reporting'] === 'Yes' ? true : false,
+            pStartTime: item['P Start Time'],
+            pEndTime: item['P End Time'],
+            cutofTime: item['Cutof Time'],
+            secoundCutofTime: item['Secound Cutof Time'],
+            processingType: item['Processing Type'],
+            schFrequency: item['Sch Frequency'],
+            reportOn: item['Report On'],
+            dynamicRT: item['Dynamic RT'],
+            dynamicTU: item['Dynamic TU'],
+            fixedRT: item['Fixed RT'],
+            onTime: item['On Time'] === 'Yes' ? true : false,
+            schForDept: item['Sch For Dept'],
+            schForPat: item['Sch For Pat'],
+            environment: item?.Environment,
+            status: 'D',
+          };
+        });
+        setArrImportRecords(list);
+      });
+      reader.readAsBinaryString(file);
+    };
+    const checkExistsRecords = async (
+      fields = deliveryScheduleStore.deliverySchedule,
+      length = 0,
+      status = 'A',
+    ) => {
+      //Pass required Field in Array
+      return deliveryScheduleStore.deliveryScheduleService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({...fields, status}, [
+                'schCode',
+                'environment',
+                'status',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsDeliverySchdules?.success &&
+            res.findByFieldsDeliverySchdules.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
     };
 
     return (
@@ -89,385 +170,39 @@ const DeliverySchedule = DeliveryScheduleHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={2}>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Sch Code'
-                      placeholder={
-                        errors.schCode ? 'Please Enter Sch Code' : 'Sch Code'
-                      }
-                      hasError={!!errors.schCode}
-                      value={value}
-                      onChange={schCode => {
-                        onChange(schCode);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          schCode,
-                        });
-                      }}
-                      onBlur={code => {
-                        deliveryScheduleStore.deliveryScheduleService
-                          .checkExistsEnvCode({
-                            input: {
-                              code,
-                              env: deliveryScheduleStore.deliverySchedule
-                                ?.environment,
-                            },
-                          })
-                          .then(res => {
-                            if (res.checkDeliverySchdulesExistsRecord.success) {
-                              deliveryScheduleStore.updateExistsEnvCode(true);
-                              Toast.error({
-                                message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
-                              });
-                            } else
-                              deliveryScheduleStore.updateExistsEnvCode(false);
-                          });
-                      }}
-                    />
-                  )}
-                  name='schCode'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                {deliveryScheduleStore.checkExistsEnvCode && (
-                  <span className='text-red-600 font-medium relative'>
-                    Code already exits. Please use other code.
-                  </span>
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Clock
-                      label='P Start Time'
-                      hasError={!!errors.pStartTime}
-                      value={value}
-                      onChange={pStartTime => {
-                        onChange(pStartTime);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          pStartTime,
-                        });
-                      }}
-                    />
-                  )}
-                  name='pStartTime'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Clock
-                      label='P End Time'
-                      hasError={!!errors.pEndTime}
-                      value={value}
-                      onChange={pEndTime => {
-                        onChange(pEndTime);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          pEndTime,
-                        });
-                      }}
-                    />
-                  )}
-                  name='pEndTime'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Clock
-                      label='Cutof Time'
-                      hasError={!!errors.cutofTime}
-                      value={value}
-                      onChange={cutofTime => {
-                        onChange(cutofTime);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          cutofTime,
-                        });
-                      }}
-                    />
-                  )}
-                  name='cutofTime'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Clock
-                      label='Secound Cutof Time'
-                      hasError={!!errors.secoundCutofTime}
-                      value={value}
-                      onChange={secoundCutofTime => {
-                        onChange(secoundCutofTime);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          secoundCutofTime,
-                        });
-                      }}
-                    />
-                  )}
-                  name='secoundCutofTime'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Processing Type'
-                      hasError={!!errors.processingType}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.processingType
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const processingType = e.target.value as string;
-                          onChange(processingType);
-
-                          deliveryScheduleStore.updateDeliverySchedule({
-                            ...deliveryScheduleStore.deliverySchedule,
-                            processingType,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'PROCESSING_TYPE',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='processingType'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <ScheduleFrequency
-                      type={value || ''}
-                      onChnage={schFrequency => {
-                        onChange(schFrequency);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          schFrequency,
-                        });
-                      }}
-                    />
-                  )}
-                  name='schFrequency'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Report on'
-                      placeholder={
-                        errors.reportOn ? 'Please Enter ReportOn' : 'ReportOn'
-                      }
-                      hasError={!!errors.reportOn}
-                      value={value}
-                      onChange={reportOn => {
-                        onChange(reportOn);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          reportOn,
-                        });
-                      }}
-                    />
-                  )}
-                  name='reportOn'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Dynamic RT'
-                      placeholder={
-                        errors.dynamicRT
-                          ? 'Please Enter DynamicRT '
-                          : 'DynamicRT'
-                      }
-                      hasError={!!errors.dynamicRT}
-                      value={value}
-                      onChange={dynamicRT => {
-                        onChange(dynamicRT);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          dynamicRT,
-                        });
-                      }}
-                    />
-                  )}
-                  name='dynamicRT'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-              </List>
-
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Dynamic TU'
-                      hasError={!!errors.dynamicTU}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.dynamicTU ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const dynamicTU = e.target.value;
-                          onChange(dynamicTU);
-                          deliveryScheduleStore.updateDeliverySchedule({
-                            ...deliveryScheduleStore.deliverySchedule,
-                            dynamicTU,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'DYNAMIC_TU').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='dynamicTU'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Fixed RT'
-                      placeholder={
-                        errors.fixedRT ? 'Please Enter fixedRT' : 'fixedRT'
-                      }
-                      hasError={!!errors.fixedRT}
-                      value={value}
-                      onChange={fixedRT => {
-                        onChange(fixedRT);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          fixedRT,
-                        });
-                      }}
-                    />
-                  )}
-                  name='fixedRT'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Sch For DEPT'
-                      placeholder={
-                        errors.schForDept
-                          ? 'Please Enter schForDept'
-                          : 'schForDept'
-                      }
-                      hasError={!!errors.schForDept}
-                      value={value}
-                      onChange={schForDept => {
-                        onChange(schForDept);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          schForDept,
-                        });
-                      }}
-                    />
-                  )}
-                  name='schForDept'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Sch For PAT'
-                      placeholder={
-                        errors.schForPat
-                          ? 'Please Enter schForPat'
-                          : 'schForPat'
-                      }
-                      hasError={!!errors.schForPat}
-                      value={value}
-                      onChange={schForPat => {
-                        onChange(schForPat);
-                        deliveryScheduleStore.updateDeliverySchedule({
-                          ...deliveryScheduleStore.deliverySchedule,
-                          schForPat,
-                        });
-                      }}
-                    />
-                  )}
-                  name='schForPat'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
+            <ManualImportTabs
+              isImport={isImport}
+              onClick={flag => {
+                setIsImport(flag);
+              }}
+            />
+            {!isImport ? (
+              <Grid cols={2}>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Sch Code'
+                        placeholder={
+                          errors.schCode ? 'Please Enter Sch Code' : 'Sch Code'
                         }
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
+                        hasError={!!errors.schCode}
+                        value={value}
+                        onChange={schCode => {
+                          onChange(schCode);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            environment,
+                            schCode,
                           });
+                        }}
+                        onBlur={code => {
                           deliveryScheduleStore.deliveryScheduleService
                             .checkExistsEnvCode({
                               input: {
-                                code: deliveryScheduleStore.deliverySchedule
-                                  ?.schCode,
-                                env: environment,
+                                code,
+                                env: deliveryScheduleStore.deliverySchedule
+                                  ?.environment,
                               },
                             })
                             .then(res => {
@@ -484,133 +219,544 @@ const DeliverySchedule = DeliveryScheduleHoc(
                                 );
                             });
                         }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : deliveryScheduleStore.deliverySchedule
-                                ?.environment || 'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
+                      />
+                    )}
+                    name='schCode'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  {deliveryScheduleStore.checkExistsEnvCode && (
+                    <span className='text-red-600 font-medium relative'>
+                      Code already exits. Please use other code.
+                    </span>
                   )}
-                  name='environment'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Grid cols={5}>
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Toggle
-                        label='Sunday Processing'
-                        hasError={!!errors.sundayProcessing}
+                      <Form.Clock
+                        label='P Start Time'
+                        hasError={!!errors.pStartTime}
                         value={value}
-                        onChange={sundayProcessing => {
-                          onChange(sundayProcessing);
+                        onChange={pStartTime => {
+                          onChange(pStartTime);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            sundayProcessing,
+                            pStartTime,
                           });
                         }}
                       />
                     )}
-                    name='sundayProcessing'
+                    name='pStartTime'
                     rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Toggle
-                        label='Holiday Processing'
-                        hasError={!!errors.holidayProcessing}
+                      <Form.Clock
+                        label='P End Time'
+                        hasError={!!errors.pEndTime}
                         value={value}
-                        onChange={holidayProcessing => {
-                          onChange(holidayProcessing);
+                        onChange={pEndTime => {
+                          onChange(pEndTime);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            holidayProcessing,
+                            pEndTime,
                           });
                         }}
                       />
                     )}
-                    name='holidayProcessing'
+                    name='pEndTime'
                     rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Toggle
-                        hasError={!!errors.sundayReporting}
-                        label='Sunday Reporting'
+                      <Form.Clock
+                        label='Cutof Time'
+                        hasError={!!errors.cutofTime}
                         value={value}
-                        onChange={sundayReporting => {
-                          onChange(sundayReporting);
+                        onChange={cutofTime => {
+                          onChange(cutofTime);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            sundayReporting,
+                            cutofTime,
                           });
                         }}
                       />
                     )}
-                    name='sundayReporting'
+                    name='cutofTime'
                     rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Toggle
-                        label='Holiday Reporting'
-                        hasError={!!errors.holidayReporting}
+                      <Form.Clock
+                        label='Secound Cutof Time'
+                        hasError={!!errors.secoundCutofTime}
                         value={value}
-                        onChange={holidayReporting => {
-                          onChange(holidayReporting);
+                        onChange={secoundCutofTime => {
+                          onChange(secoundCutofTime);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            holidayReporting,
+                            secoundCutofTime,
                           });
                         }}
                       />
                     )}
-                    name='holidayReporting'
+                    name='secoundCutofTime'
                     rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Toggle
-                        label='On Time'
-                        hasError={!!errors.onTime}
-                        value={value}
-                        onChange={onTime => {
-                          onChange(onTime);
+                      <Form.InputWrapper
+                        label='Processing Type'
+                        hasError={!!errors.processingType}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.processingType
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const processingType = e.target.value as string;
+                            onChange(processingType);
+
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              processingType,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'PROCESSING_TYPE',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='processingType'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <ScheduleFrequency
+                        type={value || ''}
+                        onChnage={schFrequency => {
+                          onChange(schFrequency);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            onTime,
+                            schFrequency,
                           });
                         }}
                       />
                     )}
-                    name='onTime'
+                    name='schFrequency'
                     rules={{required: false}}
                     defaultValue=''
                   />
-                </Grid>
-              </List>
-            </Grid>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Report on'
+                        placeholder={
+                          errors.reportOn ? 'Please Enter ReportOn' : 'ReportOn'
+                        }
+                        hasError={!!errors.reportOn}
+                        value={value}
+                        onChange={reportOn => {
+                          onChange(reportOn);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            reportOn,
+                          });
+                        }}
+                      />
+                    )}
+                    name='reportOn'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Dynamic RT'
+                        placeholder={
+                          errors.dynamicRT
+                            ? 'Please Enter DynamicRT '
+                            : 'DynamicRT'
+                        }
+                        hasError={!!errors.dynamicRT}
+                        value={value}
+                        onChange={dynamicRT => {
+                          onChange(dynamicRT);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            dynamicRT,
+                          });
+                        }}
+                      />
+                    )}
+                    name='dynamicRT'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                </List>
+
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Dynamic TU'
+                        hasError={!!errors.dynamicTU}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.dynamicTU
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const dynamicTU = e.target.value;
+                            onChange(dynamicTU);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              dynamicTU,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'DYNAMIC_TU',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='dynamicTU'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Fixed RT'
+                        placeholder={
+                          errors.fixedRT ? 'Please Enter fixedRT' : 'fixedRT'
+                        }
+                        hasError={!!errors.fixedRT}
+                        value={value}
+                        onChange={fixedRT => {
+                          onChange(fixedRT);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            fixedRT,
+                          });
+                        }}
+                      />
+                    )}
+                    name='fixedRT'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Sch For DEPT'
+                        placeholder={
+                          errors.schForDept
+                            ? 'Please Enter schForDept'
+                            : 'schForDept'
+                        }
+                        hasError={!!errors.schForDept}
+                        value={value}
+                        onChange={schForDept => {
+                          onChange(schForDept);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            schForDept,
+                          });
+                        }}
+                      />
+                    )}
+                    name='schForDept'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Sch For PAT'
+                        placeholder={
+                          errors.schForPat
+                            ? 'Please Enter schForPat'
+                            : 'schForPat'
+                        }
+                        hasError={!!errors.schForPat}
+                        value={value}
+                        onChange={schForPat => {
+                          onChange(schForPat);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            schForPat,
+                          });
+                        }}
+                      />
+                    )}
+                    name='schForPat'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Status'
+                        hasError={!!errors.status}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.status ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const status = e.target.value;
+                            onChange(status);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              status,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='status'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper label='Environment'>
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.environment
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          disabled={
+                            loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? true
+                              : false
+                          }
+                          onChange={e => {
+                            const environment = e.target.value;
+                            onChange(environment);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              environment,
+                            });
+                            deliveryScheduleStore.deliveryScheduleService
+                              .checkExistsEnvCode({
+                                input: {
+                                  code: deliveryScheduleStore.deliverySchedule
+                                    ?.schCode,
+                                  env: environment,
+                                },
+                              })
+                              .then(res => {
+                                if (
+                                  res.checkDeliverySchdulesExistsRecord.success
+                                ) {
+                                  deliveryScheduleStore.updateExistsEnvCode(
+                                    true,
+                                  );
+                                  Toast.error({
+                                    message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
+                                  });
+                                } else
+                                  deliveryScheduleStore.updateExistsEnvCode(
+                                    false,
+                                  );
+                              });
+                          }}
+                        >
+                          <option selected>
+                            {loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? 'Select'
+                              : deliveryScheduleStore.deliverySchedule
+                                  ?.environment || 'Select'}
+                          </option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='environment'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Grid cols={5}>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Toggle
+                          label='Sunday Processing'
+                          hasError={!!errors.sundayProcessing}
+                          value={value}
+                          onChange={sundayProcessing => {
+                            onChange(sundayProcessing);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              sundayProcessing,
+                            });
+                          }}
+                        />
+                      )}
+                      name='sundayProcessing'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Toggle
+                          label='Holiday Processing'
+                          hasError={!!errors.holidayProcessing}
+                          value={value}
+                          onChange={holidayProcessing => {
+                            onChange(holidayProcessing);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              holidayProcessing,
+                            });
+                          }}
+                        />
+                      )}
+                      name='holidayProcessing'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Toggle
+                          hasError={!!errors.sundayReporting}
+                          label='Sunday Reporting'
+                          value={value}
+                          onChange={sundayReporting => {
+                            onChange(sundayReporting);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              sundayReporting,
+                            });
+                          }}
+                        />
+                      )}
+                      name='sundayReporting'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Toggle
+                          label='Holiday Reporting'
+                          hasError={!!errors.holidayReporting}
+                          value={value}
+                          onChange={holidayReporting => {
+                            onChange(holidayReporting);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              holidayReporting,
+                            });
+                          }}
+                        />
+                      )}
+                      name='holidayReporting'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Toggle
+                          label='On Time'
+                          hasError={!!errors.onTime}
+                          value={value}
+                          onChange={onTime => {
+                            onChange(onTime);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              onTime,
+                            });
+                          }}
+                        />
+                      )}
+                      name='onTime'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                  </Grid>
+                </List>
+              </Grid>
+            ) : (
+              <>
+                {arrImportRecords?.length > 0 ? (
+                  <StaticInputTable data={arrImportRecords} />
+                ) : (
+                  <ImportFile
+                    onClick={file => {
+                      handleFileUpload(file[0]);
+                    }}
+                  />
+                )}
+              </>
+            )}
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button
@@ -683,6 +829,18 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   filter,
                   limit,
                 };
+              }}
+              onApproval={async records => {
+                const isExists = await checkExistsRecords(records);
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: {value: 'A', dataField: 'status', id: records._id},
+                    title: 'Are you sure?',
+                    body: 'Update Delivery!',
+                  });
+                }
               }}
             />
           </div>

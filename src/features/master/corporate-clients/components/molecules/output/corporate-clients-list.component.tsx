@@ -82,6 +82,7 @@ interface CorporateClientListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (record: any) => void;
 }
 
 export const CorporateClient = observer((props: CorporateClientListProps) => {
@@ -1618,6 +1619,15 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     </>
+                  )}
+                  {row.status == 'D' && (
+                    <Tooltip tooltipText='Approval'>
+                      <Icons.RIcon
+                        nameIcon='AiOutlineCheckCircle'
+                        propsIcon={{size: 24, color: '#ffffff'}}
+                        onClick={() => props.onApproval(row)}
+                      />
+                    </Tooltip>
                   )}
                 </div>
               </>
