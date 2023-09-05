@@ -21,7 +21,7 @@ import '@/library/assets/css/accordion.css';
 import {useForm, Controller} from 'react-hook-form';
 import {NoticeBoardHoc} from '../hoc';
 import {useStores} from '@/stores';
-
+import _ from 'lodash';
 import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetNoticeBoard} from '../startup';
