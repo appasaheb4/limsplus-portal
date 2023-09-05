@@ -47,6 +47,7 @@ const NoticeBoard = NoticeBoardHoc(
       // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', noticeBoardStore.noticeBoard?.status);
+      setValue('environment', noticeBoardStore.noticeBoard?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login]);
 
@@ -119,16 +120,16 @@ const NoticeBoard = NoticeBoardHoc(
             global.filter = {mode: 'filter', type, filter, page, limit};
           }}
           onApproval={async records => {
-            // const isExists = await checkExistsRecords(records, 1);
-            // if (!isExists) {
-            setModalConfirm({
-              show: true,
-              type: 'Update',
-              data: {value: 'A', dataField: 'status', id: records._id},
-              title: 'Are you sure?',
-              body: 'Update deginisation!',
-            });
-            // }
+            const isExists = await checkExistsRecords(records);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update deginisation!',
+              });
+            }
           }}
         />
       ),
@@ -152,6 +153,7 @@ const NoticeBoard = NoticeBoardHoc(
             header: item.Header,
             message: item.Message,
             action: item.Action,
+            environment: item.Environment,
             status: 'D',
           };
         });
@@ -159,30 +161,37 @@ const NoticeBoard = NoticeBoardHoc(
       });
       reader.readAsBinaryString(file);
     };
-    // const checkExistsRecords = async (
-    //   fields = noticeBoardStore.noticeBoard,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return noticeBoardStore.NoticeBoardService.findByFields({
-    //     input: {
-    //       filter: {
-    //         ..._.pick(fields, ['lab', 'header', 'action']),
-    //       },
-    //     },
-    //   }).then(res => {
-    //     if (
-    //       res.findByFieldsAdministrativeDevision?.success &&
-    //       res.findByFieldsAdministrativeDevision.data?.length > length
-    //     ) {
-    //       //setIsExistsRecord(true);
-    //       Toast.error({
-    //         message: '😔 Already some record exists.',
-    //       });
-    //       return true;
-    //     } else return false;
-    //   });
-    // };
+    const checkExistsRecords = async (
+      fields = noticeBoardStore.noticeBoard,
+      length = 0,
+      status = 'A',
+    ) => {
+      //Pass required Field in Array
+      return noticeBoardStore.NoticeBoardService.findByFields({
+        input: {
+          filter: {
+            ..._.pick({...fields, status}, [
+              'lab',
+              'header',
+              'action',
+              'environment',
+              'status',
+            ]),
+          },
+        },
+      }).then(res => {
+        if (
+          res.findByFieldsAdministrativeDevision?.success &&
+          res.findByFieldsAdministrativeDevision.data?.length > length
+        ) {
+          //setIsExistsRecord(true);
+          Toast.error({
+            message: '😔 Already some record exists.',
+          });
+          return true;
+        } else return false;
+      });
+    };
     return (
       <>
         <Header>
@@ -310,6 +319,57 @@ const NoticeBoard = NoticeBoardHoc(
                     </Form.InputWrapper>
                   )}
                   name='action'
+                  rules={{required: true}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Form.InputWrapper
+                      label='Environment'
+                      hasError={!!errors.environment}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.environment
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        disabled={
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
+                            ? true
+                            : false
+                        }
+                        onChange={e => {
+                          const environment = e.target.value;
+                          onChange(environment);
+                          noticeBoardStore.updateNoticeBoard({
+                            ...noticeBoardStore.noticeBoard,
+                            environment,
+                          });
+                        }}
+                      >
+                        <option selected>
+                          {loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
+                            ? 'Select'
+                            : noticeBoardStore.noticeBoard?.environment ||
+                              'Select'}
+                        </option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'ENVIRONMENT',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='environment'
                   rules={{required: true}}
                   defaultValue=''
                 />

@@ -5,6 +5,7 @@ export class NoticeBoard {
   message: string;
   action: string;
   status: string;
+  environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
   constructor(rawData: {[key in string]: any}) {
@@ -14,6 +15,7 @@ export class NoticeBoard {
     this.message = rawData.message;
     this.action = rawData.action;
     this.status = rawData.status;
+    this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

@@ -102,13 +102,14 @@ const Methods = MethodsHoc(
     const checkExistsRecords = async (
       fields = methodsStore.methods,
       length = 0,
+      status = 'A',
     ) => {
       //Pass required Field in Array
       return methodsStore.methodsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'methodsCode',
                 'environment',
                 'status',
@@ -440,7 +441,7 @@ const Methods = MethodsHoc(
                 global.filter = {mode: 'filter', type, page, limit, filter};
               }}
               onApproval={async records => {
-                const isExists = await checkExistsRecords(records, 1);
+                const isExists = await checkExistsRecords(records);
                 if (!isExists) {
                   setModalConfirm({
                     show: true,

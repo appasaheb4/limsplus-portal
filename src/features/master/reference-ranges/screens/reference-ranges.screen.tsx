@@ -186,16 +186,16 @@ const ReferenceRanges = ReferenceRangesHoc(
             global.filter = {mode: 'filter', type, page, limit, filter};
           }}
           onApproval={async records => {
-            // const isExists = await checkExistsRecords(records, 1);
-            // if (!isExists) {
-            setModalConfirm({
-              show: true,
-              type: 'Update',
-              data: {value: 'A', dataField: 'status', id: records._id},
-              title: 'Are you sure?',
-              body: 'Update deginisation!',
-            });
-            // }
+            const isExists = await checkExistsRecords(records);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update Reference Ranges!',
+              });
+            }
           }}
         />
       ),
@@ -251,37 +251,40 @@ const ReferenceRanges = ReferenceRangesHoc(
       reader.readAsBinaryString(file);
     };
 
-    // const checkExistsRecords = async (
-    //   fields = refernceRangesStore.referenceRanges,
-    //   length = 0,
-    // ) => {
-    //   return refernceRangesStore.referenceRangesService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, [
-    //             'lab',
-    //             'analyteCode',
-    //             'analyteName',
-    //             'status',
-    //             'environment',
-    //           ]),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsAnalyteMaster?.success &&
-    //         res.findByFieldsAnalyteMaster?.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = refernceRangesStore.referenceRanges,
+      length = 0,
+      status = 'A',
+    ) => {
+      return refernceRangesStore.referenceRangesService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({...fields, status}, [
+                'analyteCode',
+                'analyteName',
+                'species',
+                'sex',
+                'rangeSetOn',
+                'status',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsAnalyteMaster?.success &&
+            res.findByFieldsAnalyteMaster?.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     const refRangesInputTable = useMemo(
       () =>

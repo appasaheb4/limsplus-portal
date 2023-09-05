@@ -234,14 +234,14 @@ const TestMater = TestMasterHOC(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Test Master!',
               });
             }
           }}
@@ -328,12 +328,13 @@ const TestMater = TestMasterHOC(
     const checkExistsRecords = async (
       fields = testMasterStore.testMaster,
       length = 0,
+      status = 'A',
     ) => {
       return testMasterStore.testMasterService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'rLab',
                 'pLab',
                 'department',

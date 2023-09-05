@@ -230,7 +230,7 @@ const Doctors = DoctorsHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
@@ -249,12 +249,13 @@ const Doctors = DoctorsHoc(
     const checkExistsRecords = async (
       fields = doctorsStore.doctors,
       length = 0,
+      status = 'A',
     ) => {
       return doctorsStore.doctorsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'doctorCode',
                 'doctorName',
                 'status',

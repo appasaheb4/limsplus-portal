@@ -200,14 +200,14 @@ const CommentManager = CommentManagerHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecord(records, 1);
+            const isExists = await checkExistsRecord(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Comment Manager!',
               });
             }
           }}
@@ -242,8 +242,6 @@ const CommentManager = CommentManagerHoc(
           },
         })
         .then(res => {
-          console.log({res});
-
           if (res.findByFieldsCommentManger?.success) {
             setIsExistsRecord(true);
             Toast.error({
@@ -304,13 +302,14 @@ const CommentManager = CommentManagerHoc(
     const checkExistsRecord = async (
       fields = commentManagerStore.commentManager,
       length = 0,
+      status = 'A',
     ) => {
       //Pass required Field in Array
       return commentManagerStore.commentManagerService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'libraryCode',
                 'lab',
                 'department',

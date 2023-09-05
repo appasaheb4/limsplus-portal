@@ -217,7 +217,7 @@ export const Users = UsersHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
@@ -268,6 +268,14 @@ export const Users = UsersHoc(
             exipreDate: item['Expire Date'],
             confidential: item.Confidential === 'Yes' ? true : false,
             confirguration: item.Confirguration === 'Yes' ? true : false,
+            systemInfo: {
+              accessInfo: {
+                mobile:
+                  item['Mobile Access Permission'] === 'Yes' ? true : false,
+                desktop:
+                  item['Desktop Access Permission'] === 'Yes' ? true : false,
+              },
+            },
             role: [],
             lab: [],
             department: [],
@@ -289,11 +297,15 @@ export const Users = UsersHoc(
       reader.readAsBinaryString(file);
     };
 
-    const checkExistsRecords = async (fields = userStore.user, length = 0) => {
+    const checkExistsRecords = async (
+      fields = userStore.user,
+      length = 0,
+      status = 'A',
+    ) => {
       return userStore.UsersService.findByFields({
         input: {
           filter: {
-            ..._.pick(fields, [
+            ..._.pick({...fields, status}, [
               'defaultLab',
               'defaultDepartment',
               'userGroup',

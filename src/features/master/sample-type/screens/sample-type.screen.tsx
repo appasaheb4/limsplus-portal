@@ -97,32 +97,38 @@ const SampleType = SampleTypeHoc(
       });
       reader.readAsBinaryString(file);
     };
-    // const checkExistsRecords = async (
-    //   fields = sampleContainerStore.sampleContainer,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return sampleContainerStore.sampleContainerService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, ['sampleCode', 'sampleType', 'environment']),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsDesignation?.success &&
-    //         res.findByFieldsDesignation.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = sampleTypeStore.sampleType,
+      length = 0,
+      status = 'A',
+    ) => {
+      //Pass required Field in Array
+      return sampleTypeStore.sampleTypeService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({...fields, status}, [
+                'sampleCode',
+                'sampleType',
+                'status',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsDesignation?.success &&
+            res.findByFieldsDesignation.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     return (
       <>

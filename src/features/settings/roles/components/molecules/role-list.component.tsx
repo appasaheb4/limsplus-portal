@@ -242,7 +242,7 @@ export const RoleList = (props: RoleListProps) => {
         description('');
         environment('');
       }}
-      dynamicStylingFields={['code', 'description', 'environment']}
+      dynamicStylingFields={['code', 'description', 'environment', 'status']}
       hideExcelSheet={['opration', '_id']}
     />
   );

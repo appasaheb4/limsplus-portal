@@ -120,13 +120,18 @@ const DeliverySchedule = DeliveryScheduleHoc(
     const checkExistsRecords = async (
       fields = deliveryScheduleStore.deliverySchedule,
       length = 0,
+      status = 'A',
     ) => {
       //Pass required Field in Array
       return deliveryScheduleStore.deliveryScheduleService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, ['schCode', 'environment']),
+              ..._.pick({...fields, status}, [
+                'schCode',
+                'environment',
+                'status',
+              ]),
             },
           },
         })
@@ -826,16 +831,16 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 };
               }}
               onApproval={async records => {
-                // const isExists = await checkExistsRecords(records, 1);
-                // if (!isExists) {
-                setModalConfirm({
-                  show: true,
-                  type: 'Update',
-                  data: {value: 'A', dataField: 'status', id: records._id},
-                  title: 'Are you sure?',
-                  body: 'Update deginisation!',
-                });
-                // }
+                const isExists = await checkExistsRecords(records);
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: {value: 'A', dataField: 'status', id: records._id},
+                    title: 'Are you sure?',
+                    body: 'Update Delivery!',
+                  });
+                }
               }}
             />
           </div>
