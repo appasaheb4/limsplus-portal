@@ -141,3 +141,35 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: EnviromentInput!) {
+    findByFieldsEnviroment(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        lab
+        user
+        department
+        variable
+        value
+        descriptions
+        allLabs
+        allUsers
+        allDepartment
+        environment
+        environmentVariable
+        category
+        enteredBy
+        isModify
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
