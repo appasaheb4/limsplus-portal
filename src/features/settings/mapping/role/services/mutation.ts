@@ -66,3 +66,23 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: RoleMappingInput!) {
+    findByFieldsRoleMapping(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        role
+        router
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
