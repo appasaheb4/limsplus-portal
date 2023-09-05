@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Header,
@@ -19,19 +19,19 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {UserList} from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { UserList } from '../components';
 import dayjs from 'dayjs';
-import {FormHelper} from '@/helper';
+import { FormHelper } from '@/helper';
 
-import {useForm, Controller} from 'react-hook-form';
-import {UsersHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { UsersHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetUser} from '../startup';
-import {SelectedItems} from '../models';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetUser } from '../startup';
+import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 
 export const Users = UsersHoc(
@@ -58,7 +58,7 @@ export const Users = UsersHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       resetField,
       reset,
@@ -83,7 +83,7 @@ export const Users = UsersHoc(
         userStore &&
           userStore.UsersService.addUser({
             input: isImport
-              ? {isImport, arrImportRecords}
+              ? { isImport, arrImportRecords }
               : {
                   isImport,
                   ...userStore.user,
@@ -150,7 +150,7 @@ export const Users = UsersHoc(
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update user!',
             });
@@ -159,7 +159,7 @@ export const Users = UsersHoc(
             setModalConfirm({
               show: true,
               type: 'updateFields',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update items!',
             });
@@ -168,7 +168,7 @@ export const Users = UsersHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateImage',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'UpdateImage!',
             });
@@ -195,18 +195,18 @@ export const Users = UsersHoc(
             setModalChangePasswordByAdmin({
               show: true,
               type: 'changePassword',
-              data: {id, userId, email},
+              data: { id, userId, email },
               title: 'Are You Sure?',
               body: 'UpdatePassword!',
             });
           }}
           onPageSizeChange={(page, limit) => {
             userStore.loadUser(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             userStore.UsersService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -222,7 +222,7 @@ export const Users = UsersHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update User!',
               });
@@ -239,12 +239,12 @@ export const Users = UsersHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             defaultLab: item['Default Lab'],
@@ -305,7 +305,7 @@ export const Users = UsersHoc(
       return userStore.UsersService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, [
+            ..._.pick({ ...fields, status }, [
               'defaultLab',
               'defaultDepartment',
               'userGroup',
@@ -372,7 +372,7 @@ export const Users = UsersHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         hasError={!!errors.defaultLab}
                         label='Default Lab'
@@ -419,7 +419,7 @@ export const Users = UsersHoc(
                               labs: lab,
                             });
                             departmentStore.DepartmentService.findByFields({
-                              input: {filter: {lab: _.map(lab, 'code')}},
+                              input: { filter: { lab: _.map(lab, 'code') } },
                             }).then(res => {
                               if (!res.findByFieldsDepartments.success)
                                 return Toast.error({
@@ -436,12 +436,12 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='defaultLab'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue={userStore.user?.defaultLab || ''}
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         hasError={!!errors.defaultDepartment}
                         label='Default Department'
@@ -494,13 +494,13 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='defaultDepartment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue={userStore.user?.defaultDepartment || ''}
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='User Group'
                         hasError={!!errors.userGroup}
@@ -534,13 +534,13 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='userGroup'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='User Module'
                         hasError={!!errors.userModule}
@@ -574,13 +574,13 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='userModule'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='User Id'
                         placeholder={
@@ -609,7 +609,7 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='userId'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {userStore && userStore.checkExitsUserId && (
@@ -619,7 +619,7 @@ export const Users = UsersHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Full Name'
                         placeholder={
@@ -639,12 +639,12 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='fullName'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Emp Code'
                         placeholder={
@@ -675,7 +675,7 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='empCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {userStore && userStore.checkExistsEmpCode && (
@@ -686,7 +686,7 @@ export const Users = UsersHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         hasError={!!errors.reportingTo}
                         label='Reporting To'
@@ -724,13 +724,13 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='reportingTo'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue={userStore.user?.reportingTo}
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Designation'
                         hasError={!!errors.deginisation}
@@ -772,12 +772,12 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='deginisation'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='User Degree'
                         placeholder={
@@ -797,13 +797,13 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='userDegree'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Role' hasError={!!errors.role}>
                         <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                           loader={loading}
@@ -855,12 +855,12 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='role'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Password'
                         type='password'
@@ -888,7 +888,7 @@ export const Users = UsersHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Assigned Lab'
                         hasError={!!errors.labs}
@@ -918,7 +918,7 @@ export const Users = UsersHoc(
                             resetField('department');
                             if (lab.some(e => e.code !== '*')) {
                               departmentStore.DepartmentService.findByFields({
-                                input: {filter: {lab: _.map(lab, 'code')}},
+                                input: { filter: { lab: _.map(lab, 'code') } },
                               }).then(res => {
                                 if (!res.findByFieldsDepartments.success)
                                   return Toast.error({
@@ -982,13 +982,13 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='labs'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue={userStore.selectedItems?.labs}
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Assigned Department'
                         hasError={!!errors.department}
@@ -1080,13 +1080,13 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='department'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Assigned Corporate Client'
                         hasError={!!errors.corporateCode}
@@ -1183,13 +1183,13 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='corporateCode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue={corporateClientsStore.listCorporateClients}
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Assigned Registration Location'
                         hasError={!!errors.locationCode}
@@ -1285,7 +1285,7 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='locationCode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue={
                       registrationLocationsStore.listRegistrationLocations
                     }
@@ -1294,7 +1294,7 @@ export const Users = UsersHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Mobile No'
                         placeholder={
@@ -1324,7 +1324,7 @@ export const Users = UsersHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Contact No'
                         type='number'
@@ -1354,7 +1354,7 @@ export const Users = UsersHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         type='mail'
                         label='Email'
@@ -1373,12 +1373,12 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='email'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputFile
                         label='Signature'
                         placeholder='File'
@@ -1394,12 +1394,12 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='signature'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputFile
                         label='Picture'
                         placeholder='File'
@@ -1415,13 +1415,13 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='picture'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Validation Level'
                         hasError={!!errors.validationLevel}
@@ -1452,12 +1452,12 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='validationLevel'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Birth date'
                         hasError={!!errors.dateOfBirth}
@@ -1472,12 +1472,12 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='dateOfBirth'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue={userStore && userStore.user.dateOfBirth}
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Marriage Anniversary'
                         hasError={!!errors.marriageAnniversary}
@@ -1492,7 +1492,7 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='marriageAnniversary'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue={
                       userStore && userStore.user.marriageAnniversary
                     }
@@ -1500,7 +1500,7 @@ export const Users = UsersHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Exipre Date'
                         hasError={!!errors.exipreDate}
@@ -1515,13 +1515,13 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='exipreDate'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue={userStore && userStore.user.exipreDate}
                   />
                   <List space={4} direction='row'>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           type='number'
                           label='Exipre Days'
@@ -1542,7 +1542,7 @@ export const Users = UsersHoc(
                         />
                       )}
                       name='expireDays'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue={userStore && userStore.user.expireDays}
                     />
                     <div className='mt-3'>
@@ -1571,7 +1571,7 @@ export const Users = UsersHoc(
                   <div className='flex flex-row gap-4'>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Confidential'
                           value={value}
@@ -1585,12 +1585,12 @@ export const Users = UsersHoc(
                         />
                       )}
                       name='confidential'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Confirguration'
                           value={value}
@@ -1604,19 +1604,19 @@ export const Users = UsersHoc(
                         />
                       )}
                       name='confirguration'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </div>
                   <Form.InputWrapper
                     label='Access Permission'
                     hasError={!!errors.environment}
-                    style={{fontWeight: 'bold'}}
+                    style={{ fontWeight: 'bold' }}
                   >
                     <div className='flex flex-row gap-4'>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Mobile'
                             value={value}
@@ -1627,7 +1627,7 @@ export const Users = UsersHoc(
                                 systemInfo: {
                                   ...userStore.user.systemInfo,
                                   accessInfo: {
-                                    ...userStore.user.systemInfo.accessInfo,
+                                    ...userStore.user.systemInfo?.accessInfo,
                                     mobile,
                                   },
                                 },
@@ -1636,12 +1636,12 @@ export const Users = UsersHoc(
                           />
                         )}
                         name='confirguration'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Desktop'
                             value={value}
@@ -1652,7 +1652,7 @@ export const Users = UsersHoc(
                                 systemInfo: {
                                   ...userStore.user.systemInfo,
                                   accessInfo: {
-                                    ...userStore.user.systemInfo.accessInfo,
+                                    ...userStore.user.systemInfo?.accessInfo,
                                     desktop,
                                   },
                                 },
@@ -1661,7 +1661,7 @@ export const Users = UsersHoc(
                           />
                         )}
                         name='confirguration'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </div>
@@ -1670,7 +1670,7 @@ export const Users = UsersHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Creation'
                         disabled={true}
@@ -1678,12 +1678,12 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Active'
                         disabled={true}
@@ -1691,12 +1691,12 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='dateActive'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Created By'
                         disabled={true}
@@ -1712,13 +1712,13 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='createdBy'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -1749,12 +1749,12 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Version'
                         placeholder={
@@ -1766,12 +1766,12 @@ export const Users = UsersHoc(
                       />
                     )}
                     name='version'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Environment'
                         hasError={!!errors.environment}
@@ -1817,7 +1817,7 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -1864,12 +1864,12 @@ export const Users = UsersHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'delete': {
                   userStore &&
                     userStore.UsersService.deleteUser({
-                      input: {id: modalConfirm.id},
+                      input: { id: modalConfirm.id },
                     }).then((res: any) => {
                       if (res.removeUser.success) {
                         Toast.success({
@@ -1936,7 +1936,7 @@ export const Users = UsersHoc(
                       _id: modalConfirm.data.id,
                     },
                   }).then((res: any) => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.updateUser.success) {
                       Toast.success({
                         message: `😊 ${res.updateUser.message}`,
@@ -2073,7 +2073,7 @@ export const Users = UsersHoc(
                 }
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
 
           <ModalChangePasswordByAdmin
@@ -2090,10 +2090,10 @@ export const Users = UsersHoc(
               };
               userStore &&
                 userStore.UsersService.changepasswordByAdmin({
-                  input: {...body},
+                  input: { ...body },
                 }).then(res => {
                   if (res.userChnagePasswordByAdmin.success) {
-                    setModalChangePasswordByAdmin({show: false});
+                    setModalChangePasswordByAdmin({ show: false });
                     Toast.success({
                       message: `😊 ${res.userChnagePasswordByAdmin.message}`,
                     });
@@ -2108,7 +2108,7 @@ export const Users = UsersHoc(
                 });
             }}
             onClose={() => {
-              setModalChangePasswordByAdmin({show: false});
+              setModalChangePasswordByAdmin({ show: false });
             }}
           />
         </div>

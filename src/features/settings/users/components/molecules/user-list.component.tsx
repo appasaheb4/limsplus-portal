@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { FormHelper } from '@/helper';
 import {
   Svg,
   NumberFilter,
@@ -17,7 +17,7 @@ import {
   Toast,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterMutiSelectRoles,
   AutoCompleteFilterSingleSelectDegnisation,
@@ -84,12 +84,12 @@ export const UserList = (props: UserListProps) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
 
   const [modalDefaultLabDeptUpdate, setModalDefaultLabDeptUpdate] =
-    useState<ModalDefaultLabDeptUpdateProps>({show: false});
+    useState<ModalDefaultLabDeptUpdateProps>({ show: false });
 
   const editorCell = (row: any) => {
     if (props?.role === 'SYSADMIN') return true;
@@ -98,7 +98,7 @@ export const UserList = (props: UserListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -296,7 +296,7 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul style={{ listStyle: 'inside' }}>
                     {row?.corporateClient?.map((item, index) => (
                       <li key={index}>{item.corporateCode}</li>
                     ))}
@@ -337,7 +337,7 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul style={{ listStyle: 'inside' }}>
                     {row?.registrationLocation?.map((item, index) => (
                       <li key={index}>{item.locationCode}</li>
                     ))}
@@ -401,8 +401,8 @@ export const UserList = (props: UserListProps) => {
                 },
               }),
               headerClasses: 'textHeader2',
-              style: {textTransform: 'uppercase'},
-              editorStyle: {textTransform: 'uppercase'},
+              style: { textTransform: 'uppercase' },
+              editorStyle: { textTransform: 'uppercase' },
             },
             {
               dataField: 'empCode',
@@ -537,7 +537,7 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader2',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul style={{ listStyle: 'inside' }}>
                     {row.role.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
@@ -583,7 +583,7 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul style={{ listStyle: 'inside' }}>
                     {row?.lab.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
@@ -628,7 +628,7 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul style={{ listStyle: 'inside' }}>
                     {row.department.map((item, index) => (
                       <li key={index}>{item.code}</li>
                     ))}
@@ -681,7 +681,7 @@ export const UserList = (props: UserListProps) => {
                 <>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         placeholder={
                           errors.mobileNo
@@ -739,7 +739,7 @@ export const UserList = (props: UserListProps) => {
                 <>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         type='number'
                         placeholder={
@@ -1135,8 +1135,8 @@ export const UserList = (props: UserListProps) => {
                       disabled={!editorCell(row)}
                       value={
                         row.systemInfo &&
-                        row.systemInfo.accessInfo &&
-                        row.systemInfo.accessInfo?.mobile
+                        row.systemInfo?.accessInfo &&
+                        row.systemInfo?.accessInfo?.mobile
                       }
                       onChange={mobile => {
                         props.onUpdateItem &&
@@ -1169,8 +1169,8 @@ export const UserList = (props: UserListProps) => {
                       disabled={!editorCell(row)}
                       value={
                         row.systemInfo &&
-                        row.systemInfo.accessInfo &&
-                        row.systemInfo.accessInfo?.desktop
+                        row.systemInfo?.accessInfo &&
+                        row.systemInfo?.accessInfo?.desktop
                       }
                       onChange={desktop => {
                         props.onUpdateItem &&
@@ -1542,7 +1542,7 @@ export const UserList = (props: UserListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>
@@ -1637,7 +1637,7 @@ export const UserList = (props: UserListProps) => {
         <ModalDefaultLabDeptUpdate
           {...modalDefaultLabDeptUpdate}
           onClose={() => {
-            setModalDefaultLabDeptUpdate({show: false});
+            setModalDefaultLabDeptUpdate({ show: false });
           }}
         />
       </div>
