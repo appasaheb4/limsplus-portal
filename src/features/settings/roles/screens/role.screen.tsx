@@ -93,33 +93,36 @@ const Role = RolesHoc(
       reader.readAsBinaryString(file);
     };
 
-    // const checkExistsRecords = async (fields = roleStore.role, length = 0) => {
-    //   //Pass required Field in Array
-    //   return roleStore.RoleService.findByFields({
-    //     input: {
-    //       filter: {
-    //         ..._.pick(fields, [
-    //           'salesTerritory',
-    //           'empCode',
-    //           'targets',
-    //           'status',
-    //           'environment',
-    //         ]),
-    //       },
-    //     },
-    //   }).then(res => {
-    //     if (
-    //       res.findByFieldsSalesTeams?.success &&
-    //       res.findByFieldsSalesTeams.data?.length > length
-    //     ) {
-    //       //setIsExistsRecord(true);
-    //       Toast.error({
-    //         message: '😔 Already some record exists.',
-    //       });
-    //       return true;
-    //     } else return false;
-    //   });
-    // };
+    const checkExistsRecords = async (
+      fields = roleStore.role,
+      length = 0,
+      status = 'A',
+    ) => {
+      //Pass required Field in Array
+      return roleStore.RoleService.findByFields({
+        input: {
+          filter: {
+            ..._.pick({...fields, status}, [
+              'code',
+              'description',
+              'environment',
+              'status',
+            ]),
+          },
+        },
+      }).then(res => {
+        if (
+          res.findByFieldsSalesTeams?.success &&
+          res.findByFieldsSalesTeams.data?.length > length
+        ) {
+          //setIsExistsRecord(true);
+          Toast.error({
+            message: '😔 Already some record exists.',
+          });
+          return true;
+        } else return false;
+      });
+    };
 
     return (
       <>
@@ -398,16 +401,16 @@ const Role = RolesHoc(
                 global.filter = {mode: 'filter', type, filter, page, limit};
               }}
               onApproval={async records => {
-                // const isExists = await checkExistsRecords(records, 1);
-                // if (!isExists) {
-                setModalConfirm({
-                  show: true,
-                  type: 'Update',
-                  data: {value: 'A', dataField: 'status', id: records._id},
-                  title: 'Are you sure?',
-                  body: 'Update deginisation!',
-                });
-                // }
+                const isExists = await checkExistsRecords(records);
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: {value: 'A', dataField: 'status', id: records._id},
+                    title: 'Are you sure?',
+                    body: 'Update Role!',
+                  });
+                }
               }}
             />
           </div>

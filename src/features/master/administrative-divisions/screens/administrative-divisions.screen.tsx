@@ -114,17 +114,19 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
     const checkExistsRecords = async (
       fields = administrativeDivisions.administrativeDiv,
       length = 0,
+      status = 'A',
     ) => {
       //Pass required Field in Array
       return administrativeDivisions.administrativeDivisionsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'country',
                 'state',
                 'district',
                 'environment',
+                'status',
               ]),
             },
           },
@@ -654,7 +656,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 };
               }}
               onApproval={async records => {
-                const isExists = await checkExistsRecords(records, 1);
+                const isExists = await checkExistsRecords(records);
                 if (!isExists) {
                   setModalConfirm({
                     show: true,

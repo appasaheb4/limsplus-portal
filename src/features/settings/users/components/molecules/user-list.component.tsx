@@ -1124,85 +1124,72 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              dataField: 'systemInfo',
-              text: 'System Info',
+              dataField: 'systemInfo.accessInfo.mobile',
+              text: 'Mobile Access Permission',
               sort: true,
               editable: false,
-              csvFormatter: (cell, row, rowIndex) =>
-                `Mobile:${
-                  row.systemInfo.accessInfo && row.systemInfo.accessInfo?.mobile
-                    ? row.systemInfo.accessInfo &&
-                      row.systemInfo.accessInfo?.mobile
-                      ? 'Yes'
-                      : 'No'
-                    : 'No'
-                },Desktop:${
-                  row.systemInfo.accessInfo &&
-                  row.systemInfo.accessInfo?.desktop
-                    ? row.systemInfo.accessInfo &&
-                      row.systemInfo.accessInfo?.desktop
-                      ? 'Yes'
-                      : 'No'
-                    : 'No'
-                }`,
-              formatter: (cellContent, row) => (
-                <>
-                  <Form.InputWrapper
-                    label='Access Permission'
-                    style={{fontWeight: 'bold'}}
-                  >
-                    <div className='flex flex-row gap-4'>
-                      <Form.Toggle
-                        disabled={!editorCell(row)}
-                        label='Mobile'
-                        value={
-                          row.systemInfo &&
-                          row.systemInfo.accessInfo &&
-                          row.systemInfo.accessInfo?.mobile
-                        }
-                        onChange={mobile => {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(
-                              {
-                                ...row.systemInfo,
-                                accessInfo: {
-                                  ...row.systemInfo?.accessInfo,
-                                  mobile,
-                                },
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={
+                        row.systemInfo &&
+                        row.systemInfo.accessInfo &&
+                        row.systemInfo.accessInfo?.mobile
+                      }
+                      onChange={mobile => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {
+                              ...row.systemInfo,
+                              accessInfo: {
+                                ...row.systemInfo?.accessInfo,
+                                mobile,
                               },
-                              'systemInfo',
-                              row._id,
-                            );
-                        }}
-                      />
-
-                      <Form.Toggle
-                        disabled={!editorCell(row)}
-                        label='Desktop'
-                        value={
-                          row.systemInfo &&
-                          row.systemInfo.accessInfo &&
-                          row.systemInfo.accessInfo?.desktop
-                        }
-                        onChange={desktop => {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(
-                              {
-                                ...row.systemInfo,
-                                accessInfo: {
-                                  ...row.systemInfo?.accessInfo,
-                                  desktop,
-                                },
+                            },
+                            'systemInfo',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'systemInfo.accessInfo.desktop',
+              text: 'Desktop Access Permission',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={
+                        row.systemInfo &&
+                        row.systemInfo.accessInfo &&
+                        row.systemInfo.accessInfo?.desktop
+                      }
+                      onChange={desktop => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            {
+                              ...row.systemInfo,
+                              accessInfo: {
+                                ...row.systemInfo?.accessInfo,
+                                desktop,
                               },
-                              'systemInfo',
-                              row._id,
-                            );
-                        }}
-                      />
-                    </div>
-                  </Form.InputWrapper>
-                </>
-              ),
+                            },
+                            'systemInfo',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'dateCreation',

@@ -287,52 +287,57 @@ const RegistrationLocation = RegistrationLocationHoc(
             global.filter = {mode: 'filter', type, page, limit, filter};
           }}
           onApproval={async records => {
-            // const isExists = await checkExistsRecords(records, 1);
-            // if (!isExists) {
-            setModalConfirm({
-              show: true,
-              type: 'Update',
-              data: {value: 'A', dataField: 'status', id: records._id},
-              title: 'Are you sure?',
-              body: 'Update deginisation!',
-            });
-            // }
+            const isExists = await checkExistsRecords(records);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update Registration Location!',
+              });
+            }
           }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [registrationLocationsStore.listRegistrationLocations],
     );
-    // const checkExistsRecords = async (
-    //   fields = registrationLocationsStore.registrationLocations,
-    //   length = 0,
-    // ) => {
-    //   return registrationLocationsStore.registrationLocationsService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, [
-    //             'doctorCode',
-    //             'doctorName',
-    //             'status',
-    //             'environment',
-    //           ]),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsDocter?.success &&
-    //         res.findByFieldsDocter.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = registrationLocationsStore.registrationLocations,
+      length = 0,
+      status = 'A',
+    ) => {
+      return registrationLocationsStore.registrationLocationsService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({...fields, status}, [
+                'lab',
+                'locationCode',
+                'locationName',
+                'acClass',
+                'accountType',
+                'deliveryMode',
+                'status',
+                'environment',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsDocter?.success &&
+            res.findByFieldsDocter.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
 
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();

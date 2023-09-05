@@ -159,14 +159,14 @@ export const SalesTeam = SalesTeamHoc(
             global.filter = {mode: 'filter', type, page, limit, filter};
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Sales Team!',
               });
             }
           }}
@@ -214,13 +214,14 @@ export const SalesTeam = SalesTeamHoc(
     const checkExistsRecords = async (
       fields = salesTeamStore.salesTeam,
       length = 0,
+      status = 'A',
     ) => {
       //Pass required Field in Array
       return salesTeamStore.salesTeamService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'salesTerritory',
                 'empCode',
                 'targets',

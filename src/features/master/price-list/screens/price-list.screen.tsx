@@ -226,14 +226,14 @@ export const PriceList = PriceListHoc(
             global.filter = {mode: 'filter', type, page, limit, filter};
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Price List!',
               });
             }
           }}
@@ -285,13 +285,14 @@ export const PriceList = PriceListHoc(
     const checkExistsRecords = async (
       fields = priceListStore.priceList,
       length = 0,
+      status = 'A',
     ) => {
       //Pass required Field in Array
       return priceListStore.priceListService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'priceGroup',
                 'priceList',
                 'panelCode',

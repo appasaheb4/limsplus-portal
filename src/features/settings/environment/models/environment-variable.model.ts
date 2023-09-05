@@ -8,6 +8,7 @@ export class EnvironmentVariable {
   allUsers: boolean;
   allDepartment: boolean;
   isModify: boolean;
+  status: string;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -22,6 +23,7 @@ export class EnvironmentVariable {
     this.allDepartment = rawData.allDepartment;
     this.allUsers = rawData.allUsers;
     this.isModify = rawData.isModify;
+    this.status = rawData.status;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

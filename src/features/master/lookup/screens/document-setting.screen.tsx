@@ -96,34 +96,6 @@ export const DocumentSettings = DocumentSettingHoc(
       reader.readAsBinaryString(file);
     };
 
-    // const checkExistsRecords = async (
-    //   fields = administrativeDivisions.administrativeDiv,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return administrativeDivisions.administrativeDivisionsService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, [
-    //             'documentName', 'fieldName', 'environment'
-    //           ]),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsCorporateClient?.success &&
-    //         res.findByFieldsCorporateClient.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
     return (
       <div className={'p-2 rounded-lg shadow-xl'}>
         <ManualImportTabs
