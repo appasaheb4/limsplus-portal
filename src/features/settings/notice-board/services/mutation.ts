@@ -68,3 +68,24 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: NoticeBoardInput!) {
+    findByFieldsNoticeBoard(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        lab
+        header
+        message
+        action
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

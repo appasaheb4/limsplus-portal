@@ -188,3 +188,54 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: ReferenceRangeInput!) {
+    findByFieldsReferenceRanges(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        rangeId
+        existsRecordId
+        analyteCode
+        analyteName
+        analyteDepartments
+        department
+        species
+        rangeSetOn
+        instType
+        lab
+        rangeType
+        sex
+        ageFrom
+        ageFromUnit
+        ageTo
+        ageToUnit
+        daysAgeFrom
+        daysAgeTo
+        low
+        high
+        alpha
+        deltaType
+        deltaInterval
+        intervalUnit
+        colorLo
+        colorHi
+        colorNormal
+        version
+        dateCreation
+        dateActive
+        dateExpire
+        enterBy
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

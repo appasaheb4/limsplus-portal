@@ -169,3 +169,38 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: LookupInput!) {
+    findByFieldsLookup(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        defaultItem {
+          code
+          value
+          flagUpperCase
+        }
+        documentName {
+          name
+          title
+          path
+          children
+        }
+        fieldName
+        arrValue {
+          code
+          value
+          flagUpperCase
+        }
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
