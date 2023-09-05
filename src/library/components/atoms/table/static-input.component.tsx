@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 interface StaticInputTableProps {
   data: any;
 }
 
-export const StaticInputTable = ({data}: StaticInputTableProps) => {
+export const StaticInputTable = ({ data }: StaticInputTableProps) => {
   const [arrKeys, setArrKeys] = useState<Array<string>>([]);
 
   const loadAsync = async list => {
@@ -45,11 +45,11 @@ export const StaticInputTable = ({data}: StaticInputTableProps) => {
                   {key === 'systemInfo' && typeof item[key] === 'object' ? (
                     <>
                       <span>
-                        Mobile: {item[key].accessInfo.mobile ? 'Yes' : 'No'}
+                        Mobile: {item[key]?.accessInfo.mobile ? 'Yes' : 'No'}
                       </span>
                       <br />
                       <span>
-                        Desktop: {item[key].accessInfo.desktop ? 'Yes' : 'No'}
+                        Desktop: {item[key]?.accessInfo.desktop ? 'Yes' : 'No'}
                       </span>
                     </>
                   ) : typeof item[key] === 'boolean' ? (
