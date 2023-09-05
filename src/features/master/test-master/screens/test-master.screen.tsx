@@ -17,7 +17,7 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import {dayjs, lookupItems, lookupValue} from '@/library/utils';
 import {TestMasterList} from '../components';
 import {useForm, Controller} from 'react-hook-form';
 import {AutoCompleteFilterSingleSelectDepartment} from '../components';
@@ -234,14 +234,14 @@ const TestMater = TestMasterHOC(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records, 1);
+            const isExists = await checkExistsRecords(records);
             if (!isExists) {
               setModalConfirm({
                 show: true,
                 type: 'Update',
                 data: {value: 'A', dataField: 'status', id: records._id},
                 title: 'Are you sure?',
-                body: 'Update deginisation!',
+                body: 'Update Test Master!',
               });
             }
           }}
@@ -309,9 +309,11 @@ const TestMater = TestMasterHOC(
             testBottomMarker: '',
             testRightMarker: item['Test Right Marker'],
             enteredBy: loginStore.login?.userId,
-            dateCreation: item['Date Creation'],
-            dateActive: item['Date Active'],
-            dateExpire: item['Date Expire'],
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+            ),
             interpretation: item.Interpretation,
             testResultDate: item['Test Result Date'],
             version: item.Version,
@@ -326,12 +328,13 @@ const TestMater = TestMasterHOC(
     const checkExistsRecords = async (
       fields = testMasterStore.testMaster,
       length = 0,
+      status = 'A',
     ) => {
       return testMasterStore.testMasterService
         .findByFields({
           input: {
             filter: {
-              ..._.pick(fields, [
+              ..._.pick({...fields, status}, [
                 'rLab',
                 'pLab',
                 'department',

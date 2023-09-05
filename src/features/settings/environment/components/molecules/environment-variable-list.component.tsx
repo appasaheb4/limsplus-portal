@@ -15,6 +15,7 @@ let environmentVariable;
 let category;
 let description;
 let enteredBy;
+let status;
 
 interface EnvironmentVariableProps {
   data: any;
@@ -32,6 +33,7 @@ interface EnvironmentVariableProps {
     page: number,
     totalSize: number,
   ) => void;
+  onApproval: (records: any) => void;
 }
 export const EnvironmentVariableList = observer(
   (props: EnvironmentVariableProps) => {
@@ -136,6 +138,52 @@ export const EnvironmentVariableList = observer(
                 csvFormatter: col => (col ? col : ''),
               },
               {
+                dataField: 'status',
+                text: 'Status',
+                sort: true,
+                headerClasses: 'textHeader',
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
+                filter: textFilter({
+                  getFilter: filter => {
+                    status = filter;
+                  },
+                }),
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex,
+                ) => (
+                  <>
+                    <select
+                      value={row.status}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                      }
+                      onChange={e => {
+                        const status = e.target.value;
+                        props.onUpdateItem &&
+                          props.onUpdateItem(status, column.dataField, row._id);
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(props.extraData.lookupItems, 'STATUS').map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </>
+                ),
+              },
+              {
                 dataField: 'enteredBy',
                 text: 'Entered By',
                 headerClasses: 'textHeader3',
@@ -153,46 +201,67 @@ export const EnvironmentVariableList = observer(
                 csvFormatter: col => (col ? col : ''),
               },
               {
-                dataField: 'permission',
-                text: 'Permission',
-                headerClasses: 'textHeader3',
-                editable: false,
-                csvFormatter: col => (col ? col : false),
+                dataField: 'allLabs',
+                text: 'All Labs',
                 sort: true,
+                editable: false,
                 formatter: (cell, row) => {
                   return (
                     <>
-                      <div className='flex flex-row gap-2'>
-                        <Form.Toggle
-                          disabled={!row.isModify}
-                          value={row?.allLabs || false}
-                          onChange={allLabs => {
-                            props.onUpdateItem &&
-                              props.onUpdateItem(allLabs, 'allLabs', row._id);
-                          }}
-                        />
-                        <Form.Toggle
-                          disabled={!row.isModify}
-                          value={row?.allUsers || false}
-                          onChange={allUsers => {
-                            props.onUpdateItem &&
-                              props.onUpdateItem(allUsers, 'allUsers', row._id);
-                          }}
-                        />
-                        <Form.Toggle
-                          label='Department'
-                          disabled={!row.isModify}
-                          value={row?.allDepartment || false}
-                          onChange={allDepartment => {
-                            props.onUpdateItem &&
-                              props.onUpdateItem(
-                                allDepartment,
-                                'allDepartment',
-                                row._id,
-                              );
-                          }}
-                        />
-                      </div>
+                      <Form.Toggle
+                        disabled={!row.isModify}
+                        value={row?.allLabs || false}
+                        onChange={allLabs => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(allLabs, 'allLabs', row._id);
+                        }}
+                      />
+                    </>
+                  );
+                },
+              },
+
+              {
+                dataField: 'allUsers',
+                text: 'All User',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <Form.Toggle
+                        disabled={!row.isModify}
+                        value={row?.allUsers || false}
+                        onChange={allUsers => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(allUsers, 'allUsers', row._id);
+                        }}
+                      />
+                    </>
+                  );
+                },
+              },
+              {
+                dataField: 'allDepartment',
+                text: 'All Department',
+                sort: true,
+                editable: false,
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <Form.Toggle
+                        label='Department'
+                        disabled={!row.isModify}
+                        value={row?.allDepartment || false}
+                        onChange={allDepartment => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(
+                              allDepartment,
+                              'allDepartment',
+                              row._id,
+                            );
+                        }}
+                      />
                     </>
                   );
                 },
@@ -224,6 +293,15 @@ export const EnvironmentVariableList = observer(
                           {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                         </Icons.IconContext>
                       </Tooltip>
+                      {row.status == 'D' && (
+                        <Tooltip tooltipText='Approval'>
+                          <Icons.RIcon
+                            nameIcon='AiOutlineCheckCircle'
+                            propsIcon={{size: 24, color: '#ffffff'}}
+                            onClick={() => props.onApproval(row)}
+                          />
+                        </Tooltip>
+                      )}
                     </div>
                   </>
                 ),
@@ -259,6 +337,7 @@ export const EnvironmentVariableList = observer(
               category('');
               description('');
               enteredBy('');
+              status('');
             }}
             dynamicStylingFields={['environmentVariable', 'category']}
             hideExcelSheet={['_id', 'opration']}

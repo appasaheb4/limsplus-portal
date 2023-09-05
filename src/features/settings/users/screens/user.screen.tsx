@@ -15,6 +15,9 @@ import {
   ModalChangePasswordByAdmin,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  ManualImportTabs,
+  StaticInputTable,
+  ImportFile,
 } from '@/library/components';
 import {lookupItems, lookupValue} from '@/library/utils';
 import {UserList} from '../components';
@@ -29,6 +32,7 @@ import {RouterFlow} from '@/flows';
 import {toJS} from 'mobx';
 import {resetUser} from '../startup';
 import {SelectedItems} from '../models';
+import * as XLSX from 'xlsx';
 
 export const Users = UsersHoc(
   observer(() => {
@@ -49,7 +53,8 @@ export const Users = UsersHoc(
     const [hideAddUser, setHideAddUser] = useState<boolean>(true);
     const [modalChangePasswordByadmin, setModalChangePasswordByAdmin] =
       useState<any>();
-
+    const [isImport, setIsImport] = useState<boolean>(false);
+    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const {
       control,
       handleSubmit,
@@ -77,12 +82,16 @@ export const Users = UsersHoc(
       if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
         userStore &&
           userStore.UsersService.addUser({
-            input: {
-              ...userStore.user,
-              createdBy: userStore.user?.createdBy || loginStore.login.userId,
-              __typename: undefined,
-              __v: undefined,
-            },
+            input: isImport
+              ? {isImport, arrImportRecords}
+              : {
+                  isImport,
+                  ...userStore.user,
+                  createdBy:
+                    userStore.user?.createdBy || loginStore.login.userId,
+                  __typename: undefined,
+                  __v: undefined,
+                },
           }).then((res: any) => {
             if (res.createUser.success) {
               Toast.success({
@@ -207,11 +216,129 @@ export const Users = UsersHoc(
               limit,
             };
           }}
+          onApproval={async records => {
+            const isExists = await checkExistsRecords(records);
+            if (!isExists) {
+              setModalConfirm({
+                show: true,
+                type: 'Update',
+                data: {value: 'A', dataField: 'status', id: records._id},
+                title: 'Are you sure?',
+                body: 'Update User!',
+              });
+            }
+          }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [userStore.userList],
     );
+
+    const handleFileUpload = (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (evt: any) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, {type: 'binary'});
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const list = data.map((item: any) => {
+          return {
+            defaultLab: item['Default Lab'],
+            defaultDepartment: item['Default Department'],
+            userGroup: item['User Group'],
+            userModule: item['User Module'],
+            userId: item.UserId,
+            fullName: item['Full Name'],
+            empCode: item['Emp Code'],
+            reportingTo: item['Reporting To'],
+            deginisation: item.Deginisation,
+            userDegree: item['User Degree'],
+            mobileNo: item['Mobile No'],
+            contactNo: item['Contact No'],
+            email: item.Email,
+            signature: '',
+            picture: '',
+            validationLevel: item['Validation Level'],
+            dateOfBirth: item['Birth Date'],
+            marriageAnniversary: item['Marriage Anniversary'],
+            exipreDate: item['Expire Date'],
+            confidential: item.Confidential === 'Yes' ? true : false,
+            confirguration: item.Confirguration === 'Yes' ? true : false,
+            systemInfo: {
+              accessInfo: {
+                mobile:
+                  item['Mobile Access Permission'] === 'Yes' ? true : false,
+                desktop:
+                  item['Desktop Access Permission'] === 'Yes' ? true : false,
+              },
+            },
+            role: [],
+            lab: [],
+            department: [],
+            corporateClient: [],
+            registrationLocation: [],
+            enteredBy: loginStore.login?.userId,
+            dateCreation: new Date(),
+            dateActive: new Date(),
+            dateExpire: new Date(
+              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+            ),
+            version: item.Version,
+            environment: item.Environment,
+            status: 'D',
+          };
+        });
+        setArrImportRecords(list);
+      });
+      reader.readAsBinaryString(file);
+    };
+
+    const checkExistsRecords = async (
+      fields = userStore.user,
+      length = 0,
+      status = 'A',
+    ) => {
+      return userStore.UsersService.findByFields({
+        input: {
+          filter: {
+            ..._.pick({...fields, status}, [
+              'defaultLab',
+              'defaultDepartment',
+              'userGroup',
+              'userModule',
+              'userId',
+              'fullName',
+              'empCode',
+              'deginisation',
+              'role',
+              'lab',
+              'department',
+              'mobileNo',
+              'email',
+              'dateOfBirth',
+              'exipreDate',
+              'environment',
+              'status',
+            ]),
+          },
+        },
+      }).then(res => {
+        if (
+          res.findByFieldsUser?.success &&
+          res.findByFieldsUser?.data?.length > length
+        ) {
+          //setIsExistsRecord(true);
+          Toast.error({
+            message: '😔 Already some record exists.',
+          });
+          return true;
+        } else return false;
+      });
+    };
 
     return (
       <>
@@ -234,546 +361,63 @@ export const Users = UsersHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddUser ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={3}>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      hasError={!!errors.defaultLab}
-                      label='Default Lab'
-                    >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: labStore.listLabs,
-                          displayKey: ['code', 'name'],
-                        }}
-                        displayValue={value}
+            <ManualImportTabs
+              isImport={isImport}
+              onClick={flag => {
+                setIsImport(flag);
+              }}
+            />
+            {!isImport ? (
+              <Grid cols={3}>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
                         hasError={!!errors.defaultLab}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filter({
-                            input: {
-                              type: 'filter',
-                              filter: {
-                                name: value,
+                        label='Default Lab'
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: labStore.listLabs,
+                            displayKey: ['code', 'name'],
+                          }}
+                          displayValue={value}
+                          hasError={!!errors.defaultLab}
+                          onFilter={(value: string) => {
+                            labStore.LabService.filter({
+                              input: {
+                                type: 'filter',
+                                filter: {
+                                  name: value,
+                                },
+                                page: 0,
+                                limit: 10,
                               },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(item?.name);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            defaultLab: item.code,
-                            defaultDepartment: '',
-                          });
-                          const lab: any = labStore.listLabs.filter(
-                            e => e.code == item.code,
-                          );
-                          setValue('labs', lab);
-                          resetField('defaultDepartment');
-                          userStore.updateUser({
-                            ...userStore.user,
-                            lab,
-                          });
-                          userStore.updateSelectedItems({
-                            ...userStore.selectedItems,
-                            labs: lab,
-                          });
-                          departmentStore.DepartmentService.findByFields({
-                            input: {filter: {lab: _.map(lab, 'code')}},
-                          }).then(res => {
-                            if (!res.findByFieldsDepartments.success)
-                              return Toast.error({
-                                message:
-                                  '😔 Technical issue, Please try again !',
-                              });
-                            departmentStore.updateDepartmentList(
-                              res.findByFieldsDepartments.data,
-                            );
-                          });
-                          labStore.updateLabList(labStore.listLabsCopy);
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='defaultLab'
-                  rules={{required: true}}
-                  defaultValue={userStore.user?.defaultLab || ''}
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      hasError={!!errors.defaultDepartment}
-                      label='Default Department'
-                    >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: departmentStore.listDepartment.filter(
-                            item => item.lab === userStore.user?.defaultLab,
-                          ),
-                          displayKey: ['code', 'name'],
-                        }}
-                        displayValue={value}
-                        hasError={!!errors.defaultDepartment}
-                        onFilter={(value: string) => {
-                          departmentStore.DepartmentService.filter({
-                            input: {
-                              type: 'filter',
-                              filter: {
-                                name: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(item?.name);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            defaultDepartment: item.code,
-                          });
-                          const department: any =
-                            departmentStore.listDepartment.filter(
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(item?.name);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              defaultLab: item.code,
+                              defaultDepartment: '',
+                            });
+                            const lab: any = labStore.listLabs.filter(
                               e => e.code == item.code,
                             );
-                          setValue('department', department);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            department,
-                          });
-                          userStore.updateSelectedItems({
-                            ...userStore.selectedItems,
-                            department,
-                          });
-                          labStore.updateLabList(labStore.listLabsCopy);
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='defaultDepartment'
-                  rules={{required: true}}
-                  defaultValue={userStore.user?.defaultDepartment || ''}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='User Group'
-                      hasError={!!errors.userGroup}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.userGroup ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const userGroup = e.target.value;
-                          onChange(userGroup);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            userGroup,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'USER_GROUP').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='userGroup'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='User Module'
-                      hasError={!!errors.userModule}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.userModule ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const userModule = e.target.value;
-                          onChange(userModule);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            userModule,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'USER_MODULE',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='userModule'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='User Id'
-                      placeholder={
-                        errors.userId ? 'Please enter userId' : 'UserId'
-                      }
-                      hasError={!!errors.userId}
-                      value={value}
-                      onChange={userId => {
-                        onChange(userId);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          userId: userId.toUpperCase(),
-                        });
-                      }}
-                      onBlur={userId => {
-                        if (userId) {
-                          userStore.UsersService.serviceUser
-                            .checkExitsUserId(userId)
-                            .then(res => {
-                              if (res.checkUserExitsUserId.success)
-                                userStore.setExitsUserId(true);
-                              else userStore.setExitsUserId(false);
+                            setValue('labs', lab);
+                            resetField('defaultDepartment');
+                            userStore.updateUser({
+                              ...userStore.user,
+                              lab,
                             });
-                        }
-                      }}
-                    />
-                  )}
-                  name='userId'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                {userStore && userStore.checkExitsUserId && (
-                  <span className='text-red-600 font-medium relative'>
-                    UserId already exits. Please use other userid.
-                  </span>
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Full Name'
-                      placeholder={
-                        errors.fullName ? 'Please enter full name' : 'Full Name'
-                      }
-                      hasError={!!errors.fullName}
-                      value={value}
-                      onChange={fullName => {
-                        onChange(fullName);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          fullName: fullName.toUpperCase(),
-                        });
-                      }}
-                    />
-                  )}
-                  name='fullName'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Emp Code'
-                      placeholder={
-                        errors.empCode ? 'Please enter emp code' : 'Emp Code'
-                      }
-                      hasError={!!errors.empCode}
-                      value={value}
-                      onChange={empCode => {
-                        onChange(empCode);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          empCode: empCode.toUpperCase(),
-                        });
-                      }}
-                      onBlur={empCode => {
-                        if (empCode) {
-                          userStore.UsersService.findUserByEmpCode(empCode)
-                            .then(res => {
-                              if (res.checkUserByEmpCode.success)
-                                userStore.setExistsEmpCodeStatus(true);
-                              else userStore.setExistsEmpCodeStatus(false);
-                            })
-                            .catch(error => {
-                              userStore.setExistsEmpCodeStatus(false);
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              labs: lab,
                             });
-                        }
-                      }}
-                    />
-                  )}
-                  name='empCode'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                {userStore && userStore.checkExistsEmpCode && (
-                  <span className='text-red-600 font-medium relative'>
-                    Emp code already exits. Please use other emp code.
-                  </span>
-                )}
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      hasError={!!errors.reportingTo}
-                      label='Reporting To'
-                    >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by emp code or full name'
-                        data={{
-                          list: userStore.userList,
-                          displayKey: ['empCode', 'fullName'],
-                        }}
-                        displayValue={value}
-                        hasError={!!errors.reportingTo}
-                        onFilter={(value: string) => {
-                          userStore.UsersService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ['empCode', 'fullName'],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(item.empCode);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            reportingTo: item.empCode,
-                          });
-                          userStore.updateUserList(userStore.userListCopy);
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='reportingTo'
-                  rules={{required: false}}
-                  defaultValue={userStore.user?.reportingTo}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Designation'
-                      hasError={!!errors.deginisation}
-                    >
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or description'
-                        data={{
-                          list: deginisationStore.listDeginisation,
-                          displayKey: ['code', 'description'],
-                        }}
-                        displayValue={value}
-                        hasError={!!errors.deginisation}
-                        onFilter={(value: string) => {
-                          deginisationStore.DeginisationService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ['code', 'description'],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(item.code);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            deginisation: item.code,
-                          });
-                          deginisationStore.updateListDeginisation(
-                            deginisationStore.listDeginisationCopy,
-                          );
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='deginisation'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='User Degree'
-                      placeholder={
-                        errors.userDegree
-                          ? 'Please enter user degree'
-                          : 'User Degree'
-                      }
-                      hasError={!!errors.userDegree}
-                      value={value}
-                      onChange={userDegree => {
-                        onChange(userDegree);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          userDegree: userDegree.toUpperCase(),
-                        });
-                      }}
-                    />
-                  )}
-                  name='userDegree'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='Role' hasError={!!errors.role}>
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: roleStore.listRole,
-                          selected: userStore.selectedItems?.roles,
-                          displayKey: ['code', 'description'],
-                        }}
-                        hasError={!!errors.role}
-                        onUpdate={item => {
-                          const roles = userStore.selectedItems?.roles;
-                          userStore.updateUser({
-                            ...userStore.user,
-                            role: roles,
-                          });
-                          roleStore.updateRoleList(roleStore.listRoleCopy);
-                        }}
-                        onFilter={(value: string) => {
-                          roleStore.RoleService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ['code', 'description'],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(new Date());
-                          let roles = userStore.selectedItems?.roles;
-                          if (!item.selected) {
-                            if (roles && roles.length > 0) {
-                              roles.push(item);
-                            } else roles = [item];
-                          } else {
-                            roles = roles.filter(items => {
-                              return items._id !== item._id;
-                            });
-                          }
-                          userStore.updateSelectedItems({
-                            ...userStore.selectedItems,
-                            roles,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='role'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Password'
-                      type='password'
-                      placeholder={
-                        errors.password ? 'Please enter password' : 'Password'
-                      }
-                      hasError={!!errors.password}
-                      value={value}
-                      onChange={password => {
-                        onChange(password);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          password,
-                        });
-                      }}
-                    />
-                  )}
-                  name='password'
-                  rules={{
-                    required: true,
-                    pattern: FormHelper.patterns.password,
-                  }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Assigned Lab'
-                      hasError={!!errors.labs}
-                    >
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: [
-                            {
-                              _id: 'selectAll',
-                              code: '*',
-                              name: '*',
-                            },
-                          ].concat(labStore.listLabs),
-                          selected: userStore.selectedItems?.labs,
-                          displayKey: ['code', 'name'],
-                        }}
-                        hasError={!!errors.labs}
-                        onUpdate={item => {
-                          const lab = userStore.selectedItems?.labs;
-                          userStore.updateUser({
-                            ...userStore.user,
-                            lab,
-                            department: [],
-                          });
-                          resetField('department');
-                          if (lab.some(e => e.code !== '*')) {
                             departmentStore.DepartmentService.findByFields({
                               input: {filter: {lab: _.map(lab, 'code')}},
                             }).then(res => {
@@ -786,703 +430,1161 @@ export const Users = UsersHoc(
                                 res.findByFieldsDepartments.data,
                               );
                             });
-                          }
-                          labStore.updateLabList(labStore.listLabsCopy);
-                        }}
-                        onFilter={(value: string) => {
-                          labStore.LabService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ['code', 'name'],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(new Date());
-                          let labs = userStore.selectedItems?.labs;
-                          if (
-                            item.code === '*' ||
-                            labs?.some(e => e.code === '*')
-                          ) {
-                            if (
-                              !item.selected ||
-                              labs?.some(e => e.code === '*')
-                            ) {
-                              labs = [];
-                              labs.push(item);
-                            } else {
-                              labs = labs.filter(items => {
-                                return items._id !== item._id;
-                              });
-                            }
-                          } else {
-                            if (!item.selected) {
-                              if (labs && labs.length > 0) {
-                                labs.push(item);
-                              } else labs = [item];
-                            } else {
-                              labs = labs.filter(items => {
-                                return items._id !== item._id;
-                              });
-                            }
-                          }
-                          userStore.updateSelectedItems({
-                            ...userStore.selectedItems,
-                            labs,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='labs'
-                  rules={{required: true}}
-                  defaultValue={userStore.selectedItems?.labs}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Assigned Department'
-                      hasError={!!errors.department}
-                    >
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: [
-                            {
-                              _id: 'selectAll',
-                              code: '*',
-                              name: '*',
-                            },
-                          ].concat(
-                            userStore.user.lab?.length > 0
-                              ? userStore.user.lab?.some(e => e.code !== '*')
-                                ? departmentStore.listDepartment?.filter(o1 =>
-                                    userStore.user?.lab?.some(
-                                      o2 => o1.lab === o2.code,
-                                    ),
-                                  )
-                                : departmentStore.listDepartment
-                              : [],
-                          ),
-                          selected: userStore.selectedItems?.department,
-                          displayKey: ['code', 'name'],
-                        }}
-                        hasError={!!errors.department}
-                        onUpdate={item => {
-                          const department =
-                            userStore.selectedItems?.department;
-                          userStore.updateUser({
-                            ...userStore.user,
-                            department,
-                          });
-                          departmentStore.updateDepartmentList(
-                            departmentStore.listDepartmentCopy,
-                          );
-                        }}
-                        onFilter={(value: string) => {
-                          departmentStore.DepartmentService.filterByFields({
-                            input: {
-                              filter: {
-                                fields: ['code', 'name'],
-                                srText: value,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          });
-                        }}
-                        onSelect={item => {
-                          onChange(new Date());
-                          let department = userStore.selectedItems?.department;
-                          if (
-                            item.code === '*' ||
-                            department?.some(e => e.code === '*')
-                          ) {
-                            if (
-                              !item.selected ||
-                              department?.some(e => e.code === '*')
-                            ) {
-                              department = [];
-                              department.push(item);
-                            } else {
-                              department = department.filter(items => {
-                                return items._id !== item._id;
-                              });
-                            }
-                          } else {
-                            if (!item.selected) {
-                              if (department && department.length > 0) {
-                                department.push(item);
-                              } else department = [item];
-                            } else {
-                              department = department.filter(items => {
-                                return items._id !== item._id;
-                              });
-                            }
-                          }
-                          userStore.updateSelectedItems({
-                            ...userStore.selectedItems,
-                            department,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='department'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Assigned Corporate Client'
-                      hasError={!!errors.corporateCode}
-                    >
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: [
-                            {
-                              _id: 'selectAll',
-                              corporateCode: '*',
-                              corporateName: '*',
-                            },
-                          ].concat(
-                            corporateClientsStore.listCorporateClients as any,
-                          ),
-                          selected: userStore.selectedItems?.corporateClient,
-                          displayKey: ['corporateCode', 'corporateName'],
-                        }}
-                        hasError={!!errors.corporateCode}
-                        onUpdate={item => {
-                          const corporateClient =
-                            userStore.selectedItems?.corporateClient;
-                          userStore.updateUser({
-                            ...userStore.user,
-                            corporateClient,
-                          });
-                          corporateClientsStore.updateCorporateClientsList(
-                            corporateClientsStore.listCorporateClientsCopy,
-                          );
-                        }}
-                        onFilter={(value: string) => {
-                          corporateClientsStore.corporateClientsService.filterByFields(
-                            {
-                              input: {
-                                filter: {
-                                  fields: ['corporateCode', 'corporateName'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(new Date());
-                          let corporateClient =
-                            userStore.selectedItems?.corporateClient;
-                          if (
-                            item.corporateCode === '*' ||
-                            corporateClient?.some(e => e.corporateCode === '*')
-                          ) {
-                            if (
-                              !item.selected ||
-                              corporateClient?.some(
-                                e => e.corporateCode === '*',
-                              )
-                            ) {
-                              corporateClient = [];
-                              corporateClient.push(item);
-                            } else {
-                              corporateClient = corporateClient.filter(
-                                items => {
-                                  return items._id !== item._id;
-                                },
-                              );
-                            }
-                          } else {
-                            if (!item.selected) {
-                              if (
-                                corporateClient &&
-                                corporateClient.length > 0
-                              ) {
-                                corporateClient.push(item);
-                              } else corporateClient = [item];
-                            } else {
-                              corporateClient = corporateClient.filter(
-                                items => {
-                                  return items._id !== item._id;
-                                },
-                              );
-                            }
-                          }
-                          userStore.updateSelectedItems({
-                            ...userStore.selectedItems,
-                            corporateClient,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='corporateCode'
-                  rules={{required: false}}
-                  defaultValue={corporateClientsStore.listCorporateClients}
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Assigned Registration Location'
-                      hasError={!!errors.locationCode}
-                    >
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by code or name'
-                        data={{
-                          list: [
-                            {
-                              _id: 'selectAll',
-                              locationCode: '*',
-                              locationName: '*',
-                            },
-                          ].concat(
-                            registrationLocationsStore.listRegistrationLocations as any,
-                          ),
-                          selected:
-                            userStore.selectedItems?.registrationLocation,
-                          displayKey: ['locationCode', 'locationName'],
-                        }}
-                        hasError={!!errors.locationCode}
-                        onUpdate={item => {
-                          const registrationLocation =
-                            userStore.selectedItems?.registrationLocation;
-                          userStore.updateUser({
-                            ...userStore.user,
-                            registrationLocation,
-                          });
-                          registrationLocationsStore.updateRegistrationLocationsList(
-                            registrationLocationsStore.listRegistrationLocationsCopy,
-                          );
-                        }}
-                        onFilter={(value: string) => {
-                          registrationLocationsStore.registrationLocationsService.filterByFields(
-                            {
-                              input: {
-                                filter: {
-                                  fields: ['locationCode', 'locationName'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            },
-                          );
-                        }}
-                        onSelect={item => {
-                          onChange(new Date());
-                          let registrationLocation =
-                            userStore.selectedItems?.registrationLocation;
-                          if (
-                            item.locationCode === '*' ||
-                            registrationLocation?.some(
-                              e => e.locationCode === '*',
-                            )
-                          ) {
-                            if (
-                              !item.selected ||
-                              registrationLocation?.some(
-                                e => e.locationCode === '*',
-                              )
-                            ) {
-                              registrationLocation = [];
-                              registrationLocation.push(item);
-                            } else {
-                              registrationLocation =
-                                registrationLocation.filter(items => {
-                                  return items._id !== item._id;
-                                });
-                            }
-                          } else {
-                            if (!item.selected) {
-                              if (
-                                registrationLocation &&
-                                registrationLocation.length > 0
-                              ) {
-                                registrationLocation.push(item);
-                              } else registrationLocation = [item];
-                            } else {
-                              registrationLocation =
-                                registrationLocation.filter(items => {
-                                  return items._id !== item._id;
-                                });
-                            }
-                          }
-                          userStore.updateSelectedItems({
-                            ...userStore.selectedItems,
-                            registrationLocation,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='locationCode'
-                  rules={{required: false}}
-                  defaultValue={
-                    registrationLocationsStore.listRegistrationLocations
-                  }
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Mobile No'
-                      placeholder={
-                        errors.mobileNo ? 'Please enter mobile no' : 'Mobile No'
-                      }
-                      pattern={FormHelper.patterns.mobileNo}
-                      type='number'
-                      hasError={!!errors.mobileNo}
-                      value={value}
-                      onChange={mobileNo => {
-                        onChange(mobileNo);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          mobileNo,
-                        });
-                      }}
-                    />
-                  )}
-                  name='mobileNo'
-                  rules={{
-                    required: true,
-                    pattern: FormHelper.patterns.mobileNo,
-                  }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Contact No'
-                      type='number'
-                      placeholder={
-                        errors.contactNo
-                          ? 'Please enter contact no'
-                          : 'Contact No'
-                      }
-                      pattern={FormHelper.patterns.mobileNo}
-                      hasError={!!errors.contactNo}
-                      value={value}
-                      onChange={contactNo => {
-                        onChange(contactNo);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          contactNo,
-                        });
-                      }}
-                    />
-                  )}
-                  name='contactNo'
-                  rules={{
-                    required: false,
-                    pattern: FormHelper.patterns.mobileNo,
-                  }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      type='mail'
-                      label='Email'
-                      placeholder={
-                        errors.email ? 'Please enter email' : 'Email'
-                      }
-                      hasError={!!errors.email}
-                      value={value}
-                      onChange={email => {
-                        onChange(email);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          email,
-                        });
-                      }}
-                    />
-                  )}
-                  name='email'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputFile
-                      label='Signature'
-                      placeholder='File'
-                      value={value ? value.fileName : ''}
-                      onChange={async e => {
-                        const signature = e.target.files[0];
-                        onChange(signature);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          signature,
-                        });
-                      }}
-                    />
-                  )}
-                  name='signature'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputFile
-                      label='Picture'
-                      placeholder='File'
-                      value={value ? value.fileName : ''}
-                      onChange={e => {
-                        const picture = e.target.files[0];
-                        onChange(picture);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          picture,
-                        });
-                      }}
-                    />
-                  )}
-                  name='picture'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Validation Level'
-                      hasError={!!errors.validationLevel}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.validationLevel
-                            ? 'border-red'
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const validationLevel = e.target.value;
-                          onChange(validationLevel);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            validationLevel: Number.parseInt(validationLevel),
-                          });
-                        }}
+                            labStore.updateLabList(labStore.listLabsCopy);
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='defaultLab'
+                    rules={{required: true}}
+                    defaultValue={userStore.user?.defaultLab || ''}
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        hasError={!!errors.defaultDepartment}
+                        label='Default Department'
                       >
-                        <option selected>Select</option>
-                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
-                          <option key={item.description} value={item}>
-                            {item}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='validationLevel'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputDateTime
-                      label='Birth date'
-                      hasError={!!errors.dateOfBirth}
-                      value={value}
-                      onChange={dateOfBirth => {
-                        onChange(dateOfBirth);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          dateOfBirth,
-                        });
-                      }}
-                    />
-                  )}
-                  name='dateOfBirth'
-                  rules={{required: true}}
-                  defaultValue={userStore && userStore.user.dateOfBirth}
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputDateTime
-                      label='Marriage Anniversary'
-                      hasError={!!errors.marriageAnniversary}
-                      value={value}
-                      onChange={marriageAnniversary => {
-                        onChange(marriageAnniversary);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          marriageAnniversary,
-                        });
-                      }}
-                    />
-                  )}
-                  name='marriageAnniversary'
-                  rules={{required: true}}
-                  defaultValue={userStore && userStore.user.marriageAnniversary}
-                />
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: departmentStore.listDepartment.filter(
+                              item => item.lab === userStore.user?.defaultLab,
+                            ),
+                            displayKey: ['code', 'name'],
+                          }}
+                          displayValue={value}
+                          hasError={!!errors.defaultDepartment}
+                          onFilter={(value: string) => {
+                            departmentStore.DepartmentService.filter({
+                              input: {
+                                type: 'filter',
+                                filter: {
+                                  name: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(item?.name);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              defaultDepartment: item.code,
+                            });
+                            const department: any =
+                              departmentStore.listDepartment.filter(
+                                e => e.code == item.code,
+                              );
+                            setValue('department', department);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              department,
+                            });
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              department,
+                            });
+                            labStore.updateLabList(labStore.listLabsCopy);
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='defaultDepartment'
+                    rules={{required: true}}
+                    defaultValue={userStore.user?.defaultDepartment || ''}
+                  />
 
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputDateTime
-                      label='Exipre Date'
-                      hasError={!!errors.exipreDate}
-                      value={value}
-                      onChange={exipreDate => {
-                        onChange(exipreDate);
-                        userStore.updateUser({
-                          ...userStore.user,
-                          exipreDate,
-                        });
-                      }}
-                    />
-                  )}
-                  name='exipreDate'
-                  rules={{required: true}}
-                  defaultValue={userStore && userStore.user.exipreDate}
-                />
-                <List space={4} direction='row'>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='User Group'
+                        hasError={!!errors.userGroup}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.userGroup
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const userGroup = e.target.value;
+                            onChange(userGroup);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              userGroup,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'USER_GROUP',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='userGroup'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='User Module'
+                        hasError={!!errors.userModule}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.userModule
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const userModule = e.target.value;
+                            onChange(userModule);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              userModule,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'USER_MODULE',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='userModule'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <Form.Input
-                        type='number'
-                        label='Exipre Days'
+                        label='User Id'
                         placeholder={
-                          errors.expireDays
-                            ? 'Please enter exipre days'
-                            : 'Exipre Days'
+                          errors.userId ? 'Please enter userId' : 'UserId'
                         }
-                        hasError={!!errors.expireDays}
+                        hasError={!!errors.userId}
                         value={value}
-                        onChange={expireDays => {
-                          onChange(expireDays);
+                        onChange={userId => {
+                          onChange(userId);
                           userStore.updateUser({
                             ...userStore.user,
-                            expireDays: Number.parseInt(expireDays),
+                            userId: userId.toUpperCase(),
+                          });
+                        }}
+                        onBlur={userId => {
+                          if (userId) {
+                            userStore.UsersService.serviceUser
+                              .checkExitsUserId(userId)
+                              .then(res => {
+                                if (res.checkUserExitsUserId.success)
+                                  userStore.setExitsUserId(true);
+                                else userStore.setExitsUserId(false);
+                              });
+                          }
+                        }}
+                      />
+                    )}
+                    name='userId'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  {userStore && userStore.checkExitsUserId && (
+                    <span className='text-red-600 font-medium relative'>
+                      UserId already exits. Please use other userid.
+                    </span>
+                  )}
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Full Name'
+                        placeholder={
+                          errors.fullName
+                            ? 'Please enter full name'
+                            : 'Full Name'
+                        }
+                        hasError={!!errors.fullName}
+                        value={value}
+                        onChange={fullName => {
+                          onChange(fullName);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            fullName: fullName.toUpperCase(),
                           });
                         }}
                       />
                     )}
-                    name='expireDays'
-                    rules={{required: false}}
-                    defaultValue={userStore && userStore.user.expireDays}
+                    name='fullName'
+                    rules={{required: true}}
+                    defaultValue=''
                   />
-                  <div className='mt-3'>
-                    <Buttons.Button
-                      size='medium'
-                      type='solid'
-                      onClick={() => {
-                        const date = new Date(
-                          dayjs(userStore && userStore.user.exipreDate)
-                            .add(userStore && userStore.user.expireDays, 'days')
-                            .format('YYYY-MM-DD HH:mm'),
-                        );
-                        userStore.updateUser({
-                          ...userStore.user,
-                          exipreDate: date,
-                        });
-                      }}
-                    >
-                      Apply Days
-                    </Buttons.Button>
-                  </div>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Emp Code'
+                        placeholder={
+                          errors.empCode ? 'Please enter emp code' : 'Emp Code'
+                        }
+                        hasError={!!errors.empCode}
+                        value={value}
+                        onChange={empCode => {
+                          onChange(empCode);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            empCode: empCode.toUpperCase(),
+                          });
+                        }}
+                        onBlur={empCode => {
+                          if (empCode) {
+                            userStore.UsersService.findUserByEmpCode(empCode)
+                              .then(res => {
+                                if (res.checkUserByEmpCode.success)
+                                  userStore.setExistsEmpCodeStatus(true);
+                                else userStore.setExistsEmpCodeStatus(false);
+                              })
+                              .catch(error => {
+                                userStore.setExistsEmpCodeStatus(false);
+                              });
+                          }
+                        }}
+                      />
+                    )}
+                    name='empCode'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  {userStore && userStore.checkExistsEmpCode && (
+                    <span className='text-red-600 font-medium relative'>
+                      Emp code already exits. Please use other emp code.
+                    </span>
+                  )}
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        hasError={!!errors.reportingTo}
+                        label='Reporting To'
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by emp code or full name'
+                          data={{
+                            list: userStore.userList,
+                            displayKey: ['empCode', 'fullName'],
+                          }}
+                          displayValue={value}
+                          hasError={!!errors.reportingTo}
+                          onFilter={(value: string) => {
+                            userStore.UsersService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['empCode', 'fullName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(item.empCode);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              reportingTo: item.empCode,
+                            });
+                            userStore.updateUserList(userStore.userListCopy);
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='reportingTo'
+                    rules={{required: false}}
+                    defaultValue={userStore.user?.reportingTo}
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Designation'
+                        hasError={!!errors.deginisation}
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or description'
+                          data={{
+                            list: deginisationStore.listDeginisation,
+                            displayKey: ['code', 'description'],
+                          }}
+                          displayValue={value}
+                          hasError={!!errors.deginisation}
+                          onFilter={(value: string) => {
+                            deginisationStore.DeginisationService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ['code', 'description'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              },
+                            );
+                          }}
+                          onSelect={item => {
+                            onChange(item.code);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              deginisation: item.code,
+                            });
+                            deginisationStore.updateListDeginisation(
+                              deginisationStore.listDeginisationCopy,
+                            );
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='deginisation'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='User Degree'
+                        placeholder={
+                          errors.userDegree
+                            ? 'Please enter user degree'
+                            : 'User Degree'
+                        }
+                        hasError={!!errors.userDegree}
+                        value={value}
+                        onChange={userDegree => {
+                          onChange(userDegree);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            userDegree: userDegree.toUpperCase(),
+                          });
+                        }}
+                      />
+                    )}
+                    name='userDegree'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper label='Role' hasError={!!errors.role}>
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: roleStore.listRole,
+                            selected: userStore.selectedItems?.roles,
+                            displayKey: ['code', 'description'],
+                          }}
+                          hasError={!!errors.role}
+                          onUpdate={item => {
+                            const roles = userStore.selectedItems?.roles;
+                            userStore.updateUser({
+                              ...userStore.user,
+                              role: roles,
+                            });
+                            roleStore.updateRoleList(roleStore.listRoleCopy);
+                          }}
+                          onFilter={(value: string) => {
+                            roleStore.RoleService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['code', 'description'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let roles = userStore.selectedItems?.roles;
+                            if (!item.selected) {
+                              if (roles && roles.length > 0) {
+                                roles.push(item);
+                              } else roles = [item];
+                            } else {
+                              roles = roles.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              roles,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='role'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Password'
+                        type='password'
+                        placeholder={
+                          errors.password ? 'Please enter password' : 'Password'
+                        }
+                        hasError={!!errors.password}
+                        value={value}
+                        onChange={password => {
+                          onChange(password);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            password,
+                          });
+                        }}
+                      />
+                    )}
+                    name='password'
+                    rules={{
+                      required: true,
+                      pattern: FormHelper.patterns.password,
+                    }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Assigned Lab'
+                        hasError={!!errors.labs}
+                      >
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: [
+                              {
+                                _id: 'selectAll',
+                                code: '*',
+                                name: '*',
+                              },
+                            ].concat(labStore.listLabs),
+                            selected: userStore.selectedItems?.labs,
+                            displayKey: ['code', 'name'],
+                          }}
+                          hasError={!!errors.labs}
+                          onUpdate={item => {
+                            const lab = userStore.selectedItems?.labs;
+                            userStore.updateUser({
+                              ...userStore.user,
+                              lab,
+                              department: [],
+                            });
+                            resetField('department');
+                            if (lab.some(e => e.code !== '*')) {
+                              departmentStore.DepartmentService.findByFields({
+                                input: {filter: {lab: _.map(lab, 'code')}},
+                              }).then(res => {
+                                if (!res.findByFieldsDepartments.success)
+                                  return Toast.error({
+                                    message:
+                                      '😔 Technical issue, Please try again !',
+                                  });
+                                departmentStore.updateDepartmentList(
+                                  res.findByFieldsDepartments.data,
+                                );
+                              });
+                            }
+                            labStore.updateLabList(labStore.listLabsCopy);
+                          }}
+                          onFilter={(value: string) => {
+                            labStore.LabService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['code', 'name'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let labs = userStore.selectedItems?.labs;
+                            if (
+                              item.code === '*' ||
+                              labs?.some(e => e.code === '*')
+                            ) {
+                              if (
+                                !item.selected ||
+                                labs?.some(e => e.code === '*')
+                              ) {
+                                labs = [];
+                                labs.push(item);
+                              } else {
+                                labs = labs.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                              }
+                            } else {
+                              if (!item.selected) {
+                                if (labs && labs.length > 0) {
+                                  labs.push(item);
+                                } else labs = [item];
+                              } else {
+                                labs = labs.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                              }
+                            }
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              labs,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='labs'
+                    rules={{required: true}}
+                    defaultValue={userStore.selectedItems?.labs}
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Assigned Department'
+                        hasError={!!errors.department}
+                      >
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: [
+                              {
+                                _id: 'selectAll',
+                                code: '*',
+                                name: '*',
+                              },
+                            ].concat(
+                              userStore.user.lab?.length > 0
+                                ? userStore.user.lab?.some(e => e.code !== '*')
+                                  ? departmentStore.listDepartment?.filter(o1 =>
+                                      userStore.user?.lab?.some(
+                                        o2 => o1.lab === o2.code,
+                                      ),
+                                    )
+                                  : departmentStore.listDepartment
+                                : [],
+                            ),
+                            selected: userStore.selectedItems?.department,
+                            displayKey: ['code', 'name'],
+                          }}
+                          hasError={!!errors.department}
+                          onUpdate={item => {
+                            const department =
+                              userStore.selectedItems?.department;
+                            userStore.updateUser({
+                              ...userStore.user,
+                              department,
+                            });
+                            departmentStore.updateDepartmentList(
+                              departmentStore.listDepartmentCopy,
+                            );
+                          }}
+                          onFilter={(value: string) => {
+                            departmentStore.DepartmentService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['code', 'name'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let department =
+                              userStore.selectedItems?.department;
+                            if (
+                              item.code === '*' ||
+                              department?.some(e => e.code === '*')
+                            ) {
+                              if (
+                                !item.selected ||
+                                department?.some(e => e.code === '*')
+                              ) {
+                                department = [];
+                                department.push(item);
+                              } else {
+                                department = department.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                              }
+                            } else {
+                              if (!item.selected) {
+                                if (department && department.length > 0) {
+                                  department.push(item);
+                                } else department = [item];
+                              } else {
+                                department = department.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                              }
+                            }
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              department,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='department'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Assigned Corporate Client'
+                        hasError={!!errors.corporateCode}
+                      >
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: [
+                              {
+                                _id: 'selectAll',
+                                corporateCode: '*',
+                                corporateName: '*',
+                              },
+                            ].concat(
+                              corporateClientsStore.listCorporateClients as any,
+                            ),
+                            selected: userStore.selectedItems?.corporateClient,
+                            displayKey: ['corporateCode', 'corporateName'],
+                          }}
+                          hasError={!!errors.corporateCode}
+                          onUpdate={item => {
+                            const corporateClient =
+                              userStore.selectedItems?.corporateClient;
+                            userStore.updateUser({
+                              ...userStore.user,
+                              corporateClient,
+                            });
+                            corporateClientsStore.updateCorporateClientsList(
+                              corporateClientsStore.listCorporateClientsCopy,
+                            );
+                          }}
+                          onFilter={(value: string) => {
+                            corporateClientsStore.corporateClientsService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ['corporateCode', 'corporateName'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              },
+                            );
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let corporateClient =
+                              userStore.selectedItems?.corporateClient;
+                            if (
+                              item.corporateCode === '*' ||
+                              corporateClient?.some(
+                                e => e.corporateCode === '*',
+                              )
+                            ) {
+                              if (
+                                !item.selected ||
+                                corporateClient?.some(
+                                  e => e.corporateCode === '*',
+                                )
+                              ) {
+                                corporateClient = [];
+                                corporateClient.push(item);
+                              } else {
+                                corporateClient = corporateClient.filter(
+                                  items => {
+                                    return items._id !== item._id;
+                                  },
+                                );
+                              }
+                            } else {
+                              if (!item.selected) {
+                                if (
+                                  corporateClient &&
+                                  corporateClient.length > 0
+                                ) {
+                                  corporateClient.push(item);
+                                } else corporateClient = [item];
+                              } else {
+                                corporateClient = corporateClient.filter(
+                                  items => {
+                                    return items._id !== item._id;
+                                  },
+                                );
+                              }
+                            }
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              corporateClient,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='corporateCode'
+                    rules={{required: false}}
+                    defaultValue={corporateClientsStore.listCorporateClients}
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Assigned Registration Location'
+                        hasError={!!errors.locationCode}
+                      >
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: [
+                              {
+                                _id: 'selectAll',
+                                locationCode: '*',
+                                locationName: '*',
+                              },
+                            ].concat(
+                              registrationLocationsStore.listRegistrationLocations as any,
+                            ),
+                            selected:
+                              userStore.selectedItems?.registrationLocation,
+                            displayKey: ['locationCode', 'locationName'],
+                          }}
+                          hasError={!!errors.locationCode}
+                          onUpdate={item => {
+                            const registrationLocation =
+                              userStore.selectedItems?.registrationLocation;
+                            userStore.updateUser({
+                              ...userStore.user,
+                              registrationLocation,
+                            });
+                            registrationLocationsStore.updateRegistrationLocationsList(
+                              registrationLocationsStore.listRegistrationLocationsCopy,
+                            );
+                          }}
+                          onFilter={(value: string) => {
+                            registrationLocationsStore.registrationLocationsService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ['locationCode', 'locationName'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              },
+                            );
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let registrationLocation =
+                              userStore.selectedItems?.registrationLocation;
+                            if (
+                              item.locationCode === '*' ||
+                              registrationLocation?.some(
+                                e => e.locationCode === '*',
+                              )
+                            ) {
+                              if (
+                                !item.selected ||
+                                registrationLocation?.some(
+                                  e => e.locationCode === '*',
+                                )
+                              ) {
+                                registrationLocation = [];
+                                registrationLocation.push(item);
+                              } else {
+                                registrationLocation =
+                                  registrationLocation.filter(items => {
+                                    return items._id !== item._id;
+                                  });
+                              }
+                            } else {
+                              if (!item.selected) {
+                                if (
+                                  registrationLocation &&
+                                  registrationLocation.length > 0
+                                ) {
+                                  registrationLocation.push(item);
+                                } else registrationLocation = [item];
+                              } else {
+                                registrationLocation =
+                                  registrationLocation.filter(items => {
+                                    return items._id !== item._id;
+                                  });
+                              }
+                            }
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              registrationLocation,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='locationCode'
+                    rules={{required: false}}
+                    defaultValue={
+                      registrationLocationsStore.listRegistrationLocations
+                    }
+                  />
                 </List>
-                <div className='flex flex-row gap-4'>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Toggle
-                        label='Confidential'
+                      <Form.Input
+                        label='Mobile No'
+                        placeholder={
+                          errors.mobileNo
+                            ? 'Please enter mobile no'
+                            : 'Mobile No'
+                        }
+                        pattern={FormHelper.patterns.mobileNo}
+                        type='number'
+                        hasError={!!errors.mobileNo}
                         value={value}
-                        onChange={confidential => {
-                          onChange(confidential);
+                        onChange={mobileNo => {
+                          onChange(mobileNo);
                           userStore.updateUser({
                             ...userStore.user,
-                            confidential,
+                            mobileNo,
                           });
                         }}
                       />
                     )}
-                    name='confidential'
+                    name='mobileNo'
+                    rules={{
+                      required: true,
+                      pattern: FormHelper.patterns.mobileNo,
+                    }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Contact No'
+                        type='number'
+                        placeholder={
+                          errors.contactNo
+                            ? 'Please enter contact no'
+                            : 'Contact No'
+                        }
+                        pattern={FormHelper.patterns.mobileNo}
+                        hasError={!!errors.contactNo}
+                        value={value}
+                        onChange={contactNo => {
+                          onChange(contactNo);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            contactNo,
+                          });
+                        }}
+                      />
+                    )}
+                    name='contactNo'
+                    rules={{
+                      required: false,
+                      pattern: FormHelper.patterns.mobileNo,
+                    }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        type='mail'
+                        label='Email'
+                        placeholder={
+                          errors.email ? 'Please enter email' : 'Email'
+                        }
+                        hasError={!!errors.email}
+                        value={value}
+                        onChange={email => {
+                          onChange(email);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            email,
+                          });
+                        }}
+                      />
+                    )}
+                    name='email'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputFile
+                        label='Signature'
+                        placeholder='File'
+                        value={value ? value.fileName : ''}
+                        onChange={async e => {
+                          const signature = e.target.files[0];
+                          onChange(signature);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            signature,
+                          });
+                        }}
+                      />
+                    )}
+                    name='signature'
                     rules={{required: false}}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
-                      <Form.Toggle
-                        label='Confirguration'
-                        value={value}
-                        onChange={confirguration => {
-                          onChange(confirguration);
+                      <Form.InputFile
+                        label='Picture'
+                        placeholder='File'
+                        value={value ? value.fileName : ''}
+                        onChange={e => {
+                          const picture = e.target.files[0];
+                          onChange(picture);
                           userStore.updateUser({
                             ...userStore.user,
-                            confirguration,
+                            picture,
                           });
                         }}
                       />
                     )}
-                    name='confirguration'
+                    name='picture'
                     rules={{required: false}}
                     defaultValue=''
                   />
-                </div>
-                <Form.InputWrapper
-                  label='Access Permission'
-                  hasError={!!errors.environment}
-                  style={{fontWeight: 'bold'}}
-                >
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Validation Level'
+                        hasError={!!errors.validationLevel}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.validationLevel
+                              ? 'border-red'
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const validationLevel = e.target.value;
+                            onChange(validationLevel);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              validationLevel: Number.parseInt(validationLevel),
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
+                            <option key={item.description} value={item}>
+                              {item}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='validationLevel'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputDateTime
+                        label='Birth date'
+                        hasError={!!errors.dateOfBirth}
+                        value={value}
+                        onChange={dateOfBirth => {
+                          onChange(dateOfBirth);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            dateOfBirth,
+                          });
+                        }}
+                      />
+                    )}
+                    name='dateOfBirth'
+                    rules={{required: true}}
+                    defaultValue={userStore && userStore.user.dateOfBirth}
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputDateTime
+                        label='Marriage Anniversary'
+                        hasError={!!errors.marriageAnniversary}
+                        value={value}
+                        onChange={marriageAnniversary => {
+                          onChange(marriageAnniversary);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            marriageAnniversary,
+                          });
+                        }}
+                      />
+                    )}
+                    name='marriageAnniversary'
+                    rules={{required: true}}
+                    defaultValue={
+                      userStore && userStore.user.marriageAnniversary
+                    }
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputDateTime
+                        label='Exipre Date'
+                        hasError={!!errors.exipreDate}
+                        value={value}
+                        onChange={exipreDate => {
+                          onChange(exipreDate);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            exipreDate,
+                          });
+                        }}
+                      />
+                    )}
+                    name='exipreDate'
+                    rules={{required: true}}
+                    defaultValue={userStore && userStore.user.exipreDate}
+                  />
+                  <List space={4} direction='row'>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Input
+                          type='number'
+                          label='Exipre Days'
+                          placeholder={
+                            errors.expireDays
+                              ? 'Please enter exipre days'
+                              : 'Exipre Days'
+                          }
+                          hasError={!!errors.expireDays}
+                          value={value}
+                          onChange={expireDays => {
+                            onChange(expireDays);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              expireDays: Number.parseInt(expireDays),
+                            });
+                          }}
+                        />
+                      )}
+                      name='expireDays'
+                      rules={{required: false}}
+                      defaultValue={userStore && userStore.user.expireDays}
+                    />
+                    <div className='mt-3'>
+                      <Buttons.Button
+                        size='medium'
+                        type='solid'
+                        onClick={() => {
+                          const date = new Date(
+                            dayjs(userStore && userStore.user.exipreDate)
+                              .add(
+                                userStore && userStore.user.expireDays,
+                                'days',
+                              )
+                              .format('YYYY-MM-DD HH:mm'),
+                          );
+                          userStore.updateUser({
+                            ...userStore.user,
+                            exipreDate: date,
+                          });
+                        }}
+                      >
+                        Apply Days
+                      </Buttons.Button>
+                    </div>
+                  </List>
                   <div className='flex flex-row gap-4'>
                     <Controller
                       control={control}
                       render={({field: {onChange, value}}) => (
                         <Form.Toggle
-                          label='Mobile'
+                          label='Confidential'
                           value={value}
-                          onChange={mobile => {
-                            onChange(mobile);
+                          onChange={confidential => {
+                            onChange(confidential);
                             userStore.updateUser({
                               ...userStore.user,
-                              systemInfo: {
-                                ...userStore.user.systemInfo,
-                                accessInfo: {
-                                  ...userStore.user.systemInfo.accessInfo,
-                                  mobile,
-                                },
-                              },
+                              confidential,
                             });
                           }}
                         />
                       )}
-                      name='confirguration'
+                      name='confidential'
                       rules={{required: false}}
                       defaultValue=''
                     />
@@ -1490,19 +1592,13 @@ export const Users = UsersHoc(
                       control={control}
                       render={({field: {onChange, value}}) => (
                         <Form.Toggle
-                          label='Desktop'
+                          label='Confirguration'
                           value={value}
-                          onChange={desktop => {
-                            onChange(desktop);
+                          onChange={confirguration => {
+                            onChange(confirguration);
                             userStore.updateUser({
                               ...userStore.user,
-                              systemInfo: {
-                                ...userStore.user.systemInfo,
-                                accessInfo: {
-                                  ...userStore.user.systemInfo.accessInfo,
-                                  desktop,
-                                },
-                              },
+                              confirguration,
                             });
                           }}
                         />
@@ -1512,163 +1608,233 @@ export const Users = UsersHoc(
                       defaultValue=''
                     />
                   </div>
-                </Form.InputWrapper>
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputDateTime
-                      label='Date Creation'
-                      disabled={true}
-                      value={value}
-                    />
-                  )}
-                  name='dateCreation'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputDateTime
-                      label='Date Active'
-                      disabled={true}
-                      value={value}
-                    />
-                  )}
-                  name='dateActive'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Created By'
-                      disabled={true}
-                      placeholder={
-                        errors.createdBy
-                          ? 'Please enter created by'
-                          : 'Created By'
-                      }
-                      hasError={!!errors.createdBy}
-                      value={
-                        userStore.user?.createdBy || loginStore.login?.userId
-                      }
-                    />
-                  )}
-                  name='createdBy'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Status'
-                      hasError={!!errors.status}
-                    >
-                      <select
+                  <Form.InputWrapper
+                    label='Access Permission'
+                    hasError={!!errors.environment}
+                    style={{fontWeight: 'bold'}}
+                  >
+                    <div className='flex flex-row gap-4'>
+                      <Controller
+                        control={control}
+                        render={({field: {onChange, value}}) => (
+                          <Form.Toggle
+                            label='Mobile'
+                            value={value}
+                            onChange={mobile => {
+                              onChange(mobile);
+                              userStore.updateUser({
+                                ...userStore.user,
+                                systemInfo: {
+                                  ...userStore.user.systemInfo,
+                                  accessInfo: {
+                                    ...userStore.user.systemInfo.accessInfo,
+                                    mobile,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+                        )}
+                        name='confirguration'
+                        rules={{required: false}}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({field: {onChange, value}}) => (
+                          <Form.Toggle
+                            label='Desktop'
+                            value={value}
+                            onChange={desktop => {
+                              onChange(desktop);
+                              userStore.updateUser({
+                                ...userStore.user,
+                                systemInfo: {
+                                  ...userStore.user.systemInfo,
+                                  accessInfo: {
+                                    ...userStore.user.systemInfo.accessInfo,
+                                    desktop,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+                        )}
+                        name='confirguration'
+                        rules={{required: false}}
+                        defaultValue=''
+                      />
+                    </div>
+                  </Form.InputWrapper>
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputDateTime
+                        label='Date Creation'
+                        disabled={true}
                         value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const status = e.target.value;
-                          onChange(status);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            status,
-                          });
-                        }}
+                      />
+                    )}
+                    name='dateCreation'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputDateTime
+                        label='Date Active'
+                        disabled={true}
+                        value={value}
+                      />
+                    )}
+                    name='dateActive'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Created By'
+                        disabled={true}
+                        placeholder={
+                          errors.createdBy
+                            ? 'Please enter created by'
+                            : 'Created By'
+                        }
+                        hasError={!!errors.createdBy}
+                        value={
+                          userStore.user?.createdBy || loginStore.login?.userId
+                        }
+                      />
+                    )}
+                    name='createdBy'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Status'
+                        hasError={!!errors.status}
                       >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                          (item: any, index: number) => (
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.status ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const status = e.target.value;
+                            onChange(status);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              status,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='status'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.Input
+                        label='Version'
+                        placeholder={
+                          errors.version ? 'Please Enter Version' : 'Version'
+                        }
+                        hasError={!!errors.version}
+                        value={userStore.user?.version}
+                        disabled={true}
+                      />
+                    )}
+                    name='version'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Environment'
+                        hasError={!!errors.environment}
+                      >
+                        <select
+                          value={value}
+                          disabled={
+                            loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? true
+                              : false
+                          }
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.environment
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const environment = e.target.value;
+                            onChange(environment);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              environment,
+                            });
+                          }}
+                        >
+                          <option selected>
+                            {loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? 'Select'
+                              : (userStore && userStore.user?.environment) ||
+                                'Select'}
+                          </option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='status'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Version'
-                      placeholder={
-                        errors.version ? 'Please Enter Version' : 'Version'
-                      }
-                      hasError={!!errors.version}
-                      value={userStore.user?.version}
-                      disabled={true}
-                    />
-                  )}
-                  name='version'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Environment'
-                      hasError={!!errors.environment}
-                    >
-                      <select
-                        value={value}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            environment,
-                          });
-                        }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : (userStore && userStore.user?.environment) ||
-                              'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-              </List>
-            </Grid>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='environment'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                </List>
+              </Grid>
+            ) : (
+              <>
+                {arrImportRecords?.length > 0 ? (
+                  <StaticInputTable data={arrImportRecords} />
+                ) : (
+                  <ImportFile
+                    onClick={file => {
+                      handleFileUpload(file[0]);
+                    }}
+                  />
+                )}
+              </>
+            )}
             <br />
 
             <List direction='row' space={3} align='center'>

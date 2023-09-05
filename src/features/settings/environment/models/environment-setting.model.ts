@@ -12,6 +12,7 @@ export class EnvironmentSettings {
   allDepartment: boolean;
   environment: string;
   documentType: string;
+  status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
   constructor(rawData: {[key in string]: any}) {
@@ -27,6 +28,7 @@ export class EnvironmentSettings {
     this.allUsers = rawData.allUsers;
     this.documentType = rawData.documentType;
     this.environment = rawData.environment;
+    this.status = rawData.status;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

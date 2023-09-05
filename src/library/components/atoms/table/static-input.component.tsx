@@ -36,16 +36,37 @@ export const StaticInputTable = ({data}: StaticInputTableProps) => {
         </thead>
         <tbody>
           {data?.map(item => (
-            <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+            <tr
+              className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
+              key={item.id}
+            >
               {arrKeys.map(key => (
-                <td className='p-2'>
-                  {typeof item[key] === 'boolean'
-                    ? item[key]
-                      ? 'Yes'
-                      : 'No'
-                    : typeof item[key] === 'object'
-                    ? dayjs(item[key]).format('YYYY-MM-DD')
-                    : item[key]}
+                <td className='p-2' key={key}>
+                  {key === 'systemInfo' && typeof item[key] === 'object' ? (
+                    <>
+                      <span>
+                        Mobile: {item[key].accessInfo.mobile ? 'Yes' : 'No'}
+                      </span>
+                      <br />
+                      <span>
+                        Desktop: {item[key].accessInfo.desktop ? 'Yes' : 'No'}
+                      </span>
+                    </>
+                  ) : typeof item[key] === 'boolean' ? (
+                    item[key] ? (
+                      'Yes'
+                    ) : (
+                      'No'
+                    )
+                  ) : typeof item[key] === 'object' ? (
+                    Array.isArray(item[key]) ? (
+                      ''
+                    ) : (
+                      dayjs(item[key]).format('YYYY-MM-DD')
+                    )
+                  ) : (
+                    item[key]
+                  )}
                 </td>
               ))}
             </tr>

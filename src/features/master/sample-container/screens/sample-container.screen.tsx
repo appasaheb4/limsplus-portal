@@ -25,7 +25,7 @@ import {useStores} from '@/stores';
 import {RouterFlow} from '@/flows';
 import {resetSampleContainer} from '../startup';
 import * as XLSX from 'xlsx';
-// import _ from 'lodash';
+import _ from 'lodash';
 const SampleContainer = SampleContainerHoc(
   observer(() => {
     const {loginStore, sampleContainerStore, routerStore} = useStores();
@@ -101,32 +101,38 @@ const SampleContainer = SampleContainerHoc(
       reader.readAsBinaryString(file);
     };
 
-    // const checkExistsRecords = async (
-    //   fields = sampleContainerStore.sampleContainer,
-    //   length = 0,
-    // ) => {
-    //   //Pass required Field in Array
-    //   return sampleContainerStore.sampleContainerService
-    //     .findByFields({
-    //       input: {
-    //         filter: {
-    //           ..._.pick(fields, ['containerCode', 'containerName', 'environment']),
-    //         },
-    //       },
-    //     })
-    //     .then(res => {
-    //       if (
-    //         res.findByFieldsDesignation?.success &&
-    //         res.findByFieldsDesignation.data?.length > length
-    //       ) {
-    //         //setIsExistsRecord(true);
-    //         Toast.error({
-    //           message: '😔 Already some record exists.',
-    //         });
-    //         return true;
-    //       } else return false;
-    //     });
-    // };
+    const checkExistsRecords = async (
+      fields = sampleContainerStore.sampleContainer,
+      length = 0,
+      status = 'A',
+    ) => {
+      //Pass required Field in Array
+      return sampleContainerStore.sampleContainerService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({...fields, status}, [
+                'containerCode',
+                'containerName',
+                'environment',
+                'status',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsSampleContainers?.success &&
+            res.findByFieldsSampleContainers.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
+    };
     return (
       <>
         <Header>
@@ -486,16 +492,16 @@ const SampleContainer = SampleContainerHoc(
                 };
               }}
               onApproval={async records => {
-                // const isExists = await checkExistsRecords(records, 1);
-                // if (!isExists) {
-                setModalConfirm({
-                  show: true,
-                  type: 'Update',
-                  data: {value: 'A', dataField: 'status', id: records._id},
-                  title: 'Are you sure?',
-                  body: 'Update deginisation!',
-                });
-                // }
+                const isExists = await checkExistsRecords(records);
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: {value: 'A', dataField: 'status', id: records._id},
+                    title: 'Are you sure?',
+                    body: 'Update deginisation!',
+                  });
+                }
               }}
             />
           </div>

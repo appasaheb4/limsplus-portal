@@ -19,6 +19,7 @@ export class DeliverySchedule {
   schForDept: string;
   schForPat: string;
   environment: string;
+  status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
@@ -43,6 +44,7 @@ export class DeliverySchedule {
     this.schForDept = rawData.schForDept;
     this.schForPat = rawData.schForPat;
     this.environment = rawData.environment;
+    this.status = rawData.status;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

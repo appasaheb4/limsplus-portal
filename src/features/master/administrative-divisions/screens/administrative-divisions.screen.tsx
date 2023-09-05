@@ -12,6 +12,9 @@ import {
   Svg,
   Icons,
   ModalConfirm,
+  ManualImportTabs,
+  StaticInputTable,
+  ImportFile,
 } from '@/library/components';
 import {AdminstrativeDivList} from '../components';
 import {lookupItems, lookupValue} from '@/library/utils';
@@ -21,7 +24,8 @@ import {useStores} from '@/stores';
 
 import {RouterFlow} from '@/flows';
 import {resetBanner} from '../../banner/startup';
-
+import * as XLSX from 'xlsx';
+import _ from 'lodash';
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
     const {loginStore, administrativeDivisions, routerStore} = useStores();
@@ -39,6 +43,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
         'environment',
         administrativeDivisions.administrativeDiv?.environment,
       );
+      setValue('status', administrativeDivisions.administrativeDiv?.status);
       setValue('sbu', administrativeDivisions.administrativeDiv?.sbu);
       setValue('zone', administrativeDivisions.administrativeDiv?.zone);
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,7 +51,8 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
-
+    const [isImport, setIsImport] = useState<boolean>(false);
+    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const onSubmitAdministrativeDivision = () => {
       if (administrativeDivisions.administrativeDiv) {
         if (!administrativeDivisions.administrativeDiv.postalCode)
@@ -55,7 +61,9 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
           });
         administrativeDivisions.administrativeDivisionsService
           .addAdministrativeDivisions({
-            input: {...administrativeDivisions.administrativeDiv},
+            input: isImport
+              ? {isImport, arrImportRecords}
+              : {isImport, ...administrativeDivisions.administrativeDiv},
           })
           .then(res => {
             if (res.createAdministrativeDivision.success) {
@@ -72,6 +80,69 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
           message: '😔 Please enter all information!',
         });
       }
+    };
+    const handleFileUpload = (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (evt: any) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, {type: 'binary'});
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const list = data.map((item: any) => {
+          return {
+            postalCode: [],
+            country: item?.Country,
+            state: item?.State,
+            district: item?.District,
+            city: item?.City,
+            area: item?.Area,
+            sbu: item.SBU,
+            zone: item.Zone,
+            environment: item?.Environment,
+            status: 'D',
+          };
+        });
+        setArrImportRecords(list);
+      });
+      reader.readAsBinaryString(file);
+    };
+
+    const checkExistsRecords = async (
+      fields = administrativeDivisions.administrativeDiv,
+      length = 0,
+      status = 'A',
+    ) => {
+      //Pass required Field in Array
+      return administrativeDivisions.administrativeDivisionsService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({...fields, status}, [
+                'country',
+                'state',
+                'district',
+                'environment',
+                'status',
+              ]),
+            },
+          },
+        })
+        .then(res => {
+          if (
+            res.findByFieldsAdministrativeDevision?.success &&
+            res.findByFieldsAdministrativeDevision.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
+        });
     };
 
     return (
@@ -93,353 +164,413 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               (hideAddSection ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={2}>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.Input
-                      label='Country'
-                      placeholder={
-                        errors.country ? 'Please Enter Country ' : 'Country'
-                      }
-                      hasError={!!errors.country}
-                      value={value}
-                      onChange={country => {
-                        onChange(country);
-                        administrativeDivisions.updateAdministrativeDiv({
-                          ...administrativeDivisions.administrativeDiv,
-                          country: country.toUpperCase(),
-                        });
-                      }}
-                    />
-                  )}
-                  name='country'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-
-                <Form.InputWrapper label='State' hasError={!!errors.state}>
+            <ManualImportTabs
+              isImport={isImport}
+              onClick={flag => {
+                setIsImport(flag);
+              }}
+            />
+            {!isImport ? (
+              <Grid cols={2}>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <Form.Input
+                        label='Country'
                         placeholder={
-                          errors.state ? 'Please Enter state' : 'State'
+                          errors.country ? 'Please Enter Country ' : 'Country'
                         }
-                        hasError={!!errors.state}
+                        hasError={!!errors.country}
                         value={value}
-                        onChange={state => {
-                          onChange(state);
+                        onChange={country => {
+                          onChange(country);
                           administrativeDivisions.updateAdministrativeDiv({
                             ...administrativeDivisions.administrativeDiv,
-                            state: state.toUpperCase(),
+                            country: country.toUpperCase(),
                           });
                         }}
                       />
                     )}
-                    name='state'
+                    name='country'
                     rules={{required: true}}
                     defaultValue=''
                   />
-                </Form.InputWrapper>
 
-                <Form.InputWrapper
-                  label='District'
-                  hasError={!!errors.district}
-                >
-                  <Controller
-                    control={control}
-                    render={({field: {onChange, value}}) => (
-                      <Form.Input
-                        placeholder={
-                          errors.district ? 'Please Enter District' : 'District'
-                        }
-                        hasError={!!errors.district}
-                        value={value}
-                        onChange={district => {
-                          onChange(district);
-                          administrativeDivisions.updateAdministrativeDiv({
-                            ...administrativeDivisions.administrativeDiv,
-                            district: district.toUpperCase(),
-                          });
-                        }}
-                      />
-                    )}
-                    name='district'
-                    rules={{required: true}}
-                    defaultValue=''
-                  />
-                </Form.InputWrapper>
-
-                <Form.InputWrapper label='City'>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange, value}}) => (
-                      <Form.Input
-                        hasError={!!errors.city}
-                        placeholder={
-                          !!errors.city ? 'Please Enter City' : 'City'
-                        }
-                        value={value}
-                        onChange={city => {
-                          onChange(city);
-                          administrativeDivisions.updateAdministrativeDiv({
-                            ...administrativeDivisions.administrativeDiv,
-                            city: city.toUpperCase(),
-                          });
-                        }}
-                      />
-                    )}
-                    name='city'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                </Form.InputWrapper>
-
-                <Form.InputWrapper label='Area'>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange, value}}) => (
-                      <Form.Input
-                        placeholder={
-                          !!errors.area ? 'Please Enter Area' : 'Area'
-                        }
-                        hasError={!!errors.area}
-                        value={value}
-                        onChange={area => {
-                          onChange(area);
-                          administrativeDivisions.updateAdministrativeDiv({
-                            ...administrativeDivisions.administrativeDiv,
-                            area: area.toUpperCase(),
-                          });
-                        }}
-                      />
-                    )}
-                    name='area'
-                    rules={{required: false}}
-                    defaultValue=''
-                  />
-                </Form.InputWrapper>
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Form.InputWrapper label='Postal Code'>
-                  <div className='flex flex-row'>
+                  <Form.InputWrapper label='State' hasError={!!errors.state}>
                     <Controller
                       control={control}
                       render={({field: {onChange, value}}) => (
                         <Form.Input
-                          type='number'
                           placeholder={
-                            errors.postalCode
-                              ? 'Please Enter PostalCode'
-                              : 'PostalCode'
+                            errors.state ? 'Please Enter state' : 'State'
                           }
-                          hasError={!!errors.postalCode}
+                          hasError={!!errors.state}
                           value={value}
-                          onChange={postalCode => {
-                            onChange(postalCode);
-                            administrativeDivisions.updateLocalPostalCode({
-                              ...administrativeDivisions.localState,
-                              postalCode,
+                          onChange={state => {
+                            onChange(state);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              state: state.toUpperCase(),
                             });
                           }}
                         />
                       )}
-                      name='postalCode'
+                      name='state'
+                      rules={{required: true}}
+                      defaultValue=''
+                    />
+                  </Form.InputWrapper>
+
+                  <Form.InputWrapper
+                    label='District'
+                    hasError={!!errors.district}
+                  >
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Input
+                          placeholder={
+                            errors.district
+                              ? 'Please Enter District'
+                              : 'District'
+                          }
+                          hasError={!!errors.district}
+                          value={value}
+                          onChange={district => {
+                            onChange(district);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              district: district.toUpperCase(),
+                            });
+                          }}
+                        />
+                      )}
+                      name='district'
+                      rules={{required: true}}
+                      defaultValue=''
+                    />
+                  </Form.InputWrapper>
+
+                  <Form.InputWrapper label='City'>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Input
+                          hasError={!!errors.city}
+                          placeholder={
+                            !!errors.city ? 'Please Enter City' : 'City'
+                          }
+                          value={value}
+                          onChange={city => {
+                            onChange(city);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              city: city.toUpperCase(),
+                            });
+                          }}
+                        />
+                      )}
+                      name='city'
                       rules={{required: false}}
                       defaultValue=''
                     />
-                    <div className='w-4 mt-2 ml-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='solid'
-                        onClick={() => {
-                          const postalCode =
-                            administrativeDivisions.localState?.postalCode;
-                          if (postalCode === undefined)
-                            return alert('Please Enter PostalCode');
-                          if (postalCode !== undefined) {
-                            const arrState =
-                              administrativeDivisions.administrativeDiv &&
-                              administrativeDivisions.administrativeDiv
-                                .postalCode;
+                  </Form.InputWrapper>
+
+                  <Form.InputWrapper label='Area'>
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <Form.Input
+                          placeholder={
+                            !!errors.area ? 'Please Enter Area' : 'Area'
+                          }
+                          hasError={!!errors.area}
+                          value={value}
+                          onChange={area => {
+                            onChange(area);
                             administrativeDivisions.updateAdministrativeDiv({
                               ...administrativeDivisions.administrativeDiv,
-                              postalCode: arrState
-                                ? arrState.concat(postalCode)
-                                : [postalCode],
+                              area: area.toUpperCase(),
                             });
-                            administrativeDivisions.updateLocalPostalCode({
-                              ...administrativeDivisions.localState,
-                              postalCode: '',
-                            });
-                          }
-                        }}
-                      >
-                        <Icons.EvaIcon icon='plus-circle-outline' />
-                        {'Add'}
-                      </Buttons.Button>
-                    </div>
-                  </div>
-                  <br />
-                  <List space={2} direction='row' justify='center'>
-                    <div>
-                      {administrativeDivisions.administrativeDiv?.postalCode?.map(
-                        (item, index) => (
-                          <div className='mb-2' key={index}>
-                            <Buttons.Button
-                              size='medium'
-                              type='solid'
-                              icon={Svg.Remove}
-                              onClick={() => {
-                                const firstArr =
-                                  administrativeDivisions.administrativeDiv?.postalCode?.slice(
-                                    0,
-                                    index,
-                                  ) || [];
-                                const secondArr =
-                                  administrativeDivisions.administrativeDiv?.postalCode?.slice(
-                                    index + 1,
-                                  ) || [];
-                                const finalArray = [...firstArr, ...secondArr];
-                                administrativeDivisions.updateAdministrativeDiv(
-                                  {
-                                    ...administrativeDivisions.administrativeDiv,
-                                    postalCode: finalArray,
-                                  },
-                                );
-                              }}
-                            >
-                              {item}
-                            </Buttons.Button>
-                          </div>
-                        ),
+                          }}
+                        />
                       )}
+                      name='area'
+                      rules={{required: false}}
+                      defaultValue=''
+                    />
+                  </Form.InputWrapper>
+                  <Form.InputWrapper label='Postal Code'>
+                    <div className='flex flex-row'>
+                      <Controller
+                        control={control}
+                        render={({field: {onChange, value}}) => (
+                          <Form.Input
+                            type='number'
+                            placeholder={
+                              errors.postalCode
+                                ? 'Please Enter PostalCode'
+                                : 'PostalCode'
+                            }
+                            hasError={!!errors.postalCode}
+                            value={value}
+                            onChange={postalCode => {
+                              onChange(postalCode);
+                              administrativeDivisions.updateLocalPostalCode({
+                                ...administrativeDivisions.localState,
+                                postalCode,
+                              });
+                            }}
+                          />
+                        )}
+                        name='postalCode'
+                        rules={{required: false}}
+                        defaultValue=''
+                      />
+                      <div className='w-4 mt-2 ml-2'>
+                        <Buttons.Button
+                          size='medium'
+                          type='solid'
+                          onClick={() => {
+                            const postalCode =
+                              administrativeDivisions.localState?.postalCode;
+                            if (postalCode === undefined)
+                              return alert('Please Enter PostalCode');
+                            if (postalCode !== undefined) {
+                              const arrState =
+                                administrativeDivisions.administrativeDiv &&
+                                administrativeDivisions.administrativeDiv
+                                  .postalCode;
+                              administrativeDivisions.updateAdministrativeDiv({
+                                ...administrativeDivisions.administrativeDiv,
+                                postalCode: arrState
+                                  ? arrState.concat(postalCode)
+                                  : [postalCode],
+                              });
+                              administrativeDivisions.updateLocalPostalCode({
+                                ...administrativeDivisions.localState,
+                                postalCode: '',
+                              });
+                            }
+                          }}
+                        >
+                          <Icons.EvaIcon icon='plus-circle-outline' />
+                          {'Add'}
+                        </Buttons.Button>
+                      </div>
                     </div>
-                  </List>
-                </Form.InputWrapper>
-
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='SBU' hasError={!!errors.sbu}>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sbu ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const sbu = e.target.value;
-                          onChange(sbu);
-                          administrativeDivisions.updateAdministrativeDiv({
-                            ...administrativeDivisions.administrativeDiv,
-                            sbu,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'SBU').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
+                    <br />
+                    <List space={2} direction='row' justify='center'>
+                      <div>
+                        {administrativeDivisions.administrativeDiv?.postalCode?.map(
+                          (item, index) => (
+                            <div className='mb-2' key={index}>
+                              <Buttons.Button
+                                size='medium'
+                                type='solid'
+                                icon={Svg.Remove}
+                                onClick={() => {
+                                  const firstArr =
+                                    administrativeDivisions.administrativeDiv?.postalCode?.slice(
+                                      0,
+                                      index,
+                                    ) || [];
+                                  const secondArr =
+                                    administrativeDivisions.administrativeDiv?.postalCode?.slice(
+                                      index + 1,
+                                    ) || [];
+                                  const finalArray = [
+                                    ...firstArr,
+                                    ...secondArr,
+                                  ];
+                                  administrativeDivisions.updateAdministrativeDiv(
+                                    {
+                                      ...administrativeDivisions.administrativeDiv,
+                                      postalCode: finalArray,
+                                    },
+                                  );
+                                }}
+                              >
+                                {item}
+                              </Buttons.Button>
+                            </div>
                           ),
                         )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='sbu'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
+                      </div>
+                    </List>
+                  </Form.InputWrapper>
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper label='SBU' hasError={!!errors.sbu}>
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.sbu ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const sbu = e.target.value;
+                            onChange(sbu);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              sbu,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'SBU').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='sbu'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
 
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper label='ZONE' hasError={!!errors.zone}>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.zone ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const zone = e.target.value;
-                          onChange(zone);
-                          administrativeDivisions.updateAdministrativeDiv({
-                            ...administrativeDivisions.administrativeDiv,
-                            zone,
-                          });
-                        }}
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper label='ZONE' hasError={!!errors.zone}>
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.zone ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const zone = e.target.value;
+                            onChange(zone);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              zone,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'ZONE').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='zone'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Status'
+                        hasError={!!errors.status}
                       >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'ZONE').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='zone'
-                  rules={{required: false}}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Form.InputWrapper
-                      label='Environment'
-                      hasError={!!errors.environment}
-                    >
-                      <select
-                        value={value}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          administrativeDivisions.updateAdministrativeDiv({
-                            ...administrativeDivisions.administrativeDiv,
-                            environment,
-                          });
-                        }}
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.status ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const status = e.target.value;
+                            onChange(status);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              status,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='status'
+                    rules={{required: false}}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Form.InputWrapper
+                        label='Environment'
+                        hasError={!!errors.environment}
                       >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : administrativeDivisions.administrativeDiv
-                                ?.environment || 'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
+                        <select
+                          value={value}
+                          disabled={
+                            loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? true
+                              : false
+                          }
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.environment
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const environment = e.target.value;
+                            onChange(environment);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              environment,
+                            });
+                          }}
+                        >
+                          <option selected>
+                            {loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? 'Select'
+                              : administrativeDivisions.administrativeDiv
+                                  ?.environment || 'Select'}
                           </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-              </List>
-            </Grid>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='environment'
+                    rules={{required: true}}
+                    defaultValue=''
+                  />
+                </List>
+              </Grid>
+            ) : (
+              <>
+                {arrImportRecords?.length > 0 ? (
+                  <StaticInputTable data={arrImportRecords} />
+                ) : (
+                  <ImportFile
+                    onClick={file => {
+                      handleFileUpload(file[0]);
+                    }}
+                  />
+                )}
+              </>
+            )}
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button
@@ -523,6 +654,18 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   page,
                   limit,
                 };
+              }}
+              onApproval={async records => {
+                const isExists = await checkExistsRecords(records);
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: {value: 'A', dataField: 'status', id: records._id},
+                    title: 'Are you sure?',
+                    body: 'Update deginisation!',
+                  });
+                }
               }}
             />
           </div>
