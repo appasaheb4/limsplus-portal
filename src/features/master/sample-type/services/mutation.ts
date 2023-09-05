@@ -110,3 +110,25 @@ export const FILTER_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: ReferenceRangeInput!) {
+    findByFieldsReferenceRanges(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        sampleCode
+        sampleType
+        descriptions
+        sampleGroup
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

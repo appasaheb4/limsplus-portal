@@ -317,3 +317,69 @@ export const FIND_BY_ARRAY_ITEMS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS = gql`
+  mutation ($input: ReferenceRangeInput!) {
+    findByFieldsReferenceRanges(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        enteredBy
+        locationCode
+        locationName
+        address
+        city
+        state
+        district
+        country
+        postalCode
+        customerGroup
+        category
+        confidential
+        telephone
+        mobileNo
+        email
+        reportPriority
+        deliveryMode
+        corporateCode
+        invoiceAc
+        priceList
+        printLabel
+        methodColn
+        salesTerritoRy
+        area
+        sbu
+        zone
+        route
+        lab
+        neverBill
+        urgent
+        reportFormat
+        info
+        fyiLine
+        workLine
+        acClass
+        accountType
+        gstNo
+        isPrintPrimaryBarcod
+        isPrintSecondaryBarcode
+        openingTime
+        closingTime
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
