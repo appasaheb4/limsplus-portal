@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -16,15 +16,15 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {DepartmentList, AutoCompleteAuthorizedSignatory} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {DeginisationHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { DepartmentList, AutoCompleteAuthorizedSignatory } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { DeginisationHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {FormHelper} from '@/helper';
-import {resetDepartment} from '../startup';
+import { RouterFlow } from '@/flows';
+import { FormHelper } from '@/helper';
+import { resetDepartment } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 
@@ -41,7 +41,7 @@ export const Department = DeginisationHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -63,7 +63,7 @@ export const Department = DeginisationHoc(
       if (!departmentStore.checkExitsCode) {
         departmentStore.DepartmentService.adddepartment({
           input: isImport
-            ? {isImport, arrImportRecords}
+            ? { isImport, arrImportRecords }
             : {
                 arrImportRecords,
                 ...departmentStore.department,
@@ -119,18 +119,18 @@ export const Department = DeginisationHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update department!',
             });
           }}
           onPageSizeChange={(page, limit) => {
             departmentStore.fetchListDepartment(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             departmentStore.DepartmentService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -146,7 +146,7 @@ export const Department = DeginisationHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update department!',
               });
@@ -163,12 +163,12 @@ export const Department = DeginisationHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             lab: item.Lab,
@@ -203,17 +203,27 @@ export const Department = DeginisationHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'lab',
+        'code',
+        'name',
+        'description',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return departmentStore.DepartmentService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, [
-              'lab',
-              'code',
-              'name',
-              'description',
-              'status',
-              'environment',
-            ]),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
@@ -260,7 +270,7 @@ export const Department = DeginisationHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Lab'
                         id='lab'
@@ -322,13 +332,13 @@ export const Department = DeginisationHoc(
                       </Form.InputWrapper>
                     )}
                     name='lab'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Code'
                         id='code'
@@ -366,7 +376,7 @@ export const Department = DeginisationHoc(
                       />
                     )}
                     name='labCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {departmentStore.checkExitsCode && (
@@ -377,7 +387,7 @@ export const Department = DeginisationHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Name'
                         name='name'
@@ -396,13 +406,13 @@ export const Department = DeginisationHoc(
                       />
                     )}
                     name='labName'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Short Name'
                         placeholder={
@@ -422,12 +432,12 @@ export const Department = DeginisationHoc(
                       />
                     )}
                     name='shortName'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='HOD' hasError={!!errors.hod}>
                         <AutoCompleteFilterSingleSelect
                           loader={loading}
@@ -473,13 +483,13 @@ export const Department = DeginisationHoc(
                       </Form.InputWrapper>
                     )}
                     name='hod'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Authorized Signatory'
                         hasError={!!errors.authorizedSignatory}
@@ -496,7 +506,7 @@ export const Department = DeginisationHoc(
                       </Form.InputWrapper>
                     )}
                     name='authorizedSignatory'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue={
                       departmentStore.selectedItems.authorizedSignatory
                     }
@@ -504,7 +514,7 @@ export const Department = DeginisationHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Report Order'
                         placeholder={
@@ -535,7 +545,7 @@ export const Department = DeginisationHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Mobile No'
                         placeholder={
@@ -563,7 +573,7 @@ export const Department = DeginisationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Contact No'
                         placeholder={
@@ -593,7 +603,7 @@ export const Department = DeginisationHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='Opening Time'
                         hasError={!!errors.openingTime}
@@ -608,12 +618,12 @@ export const Department = DeginisationHoc(
                       />
                     )}
                     name='openingTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='Closing Time'
                         hasError={!!errors.closingTime}
@@ -628,13 +638,13 @@ export const Department = DeginisationHoc(
                       />
                     )}
                     name='closingTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Grid cols={4}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Auto Release'
                           hasError={!!errors.autoRelease}
@@ -649,13 +659,13 @@ export const Department = DeginisationHoc(
                         />
                       )}
                       name='autoRelease'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Require receving in Lab'
                           hasError={!!errors.requireReceveInLab}
@@ -670,12 +680,12 @@ export const Department = DeginisationHoc(
                         />
                       )}
                       name='requireReceveInLab'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Require Scain In'
                           hasError={!!errors.requireScainIn}
@@ -690,12 +700,12 @@ export const Department = DeginisationHoc(
                         />
                       )}
                       name='requireScainIn'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Routing Dept'
                           hasError={!!errors.routingDept}
@@ -710,7 +720,7 @@ export const Department = DeginisationHoc(
                         />
                       )}
                       name='routingDept'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -718,7 +728,7 @@ export const Department = DeginisationHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={2}
                         label='FYI line'
@@ -737,12 +747,12 @@ export const Department = DeginisationHoc(
                       />
                     )}
                     name='fyiLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={2}
                         label='Work line'
@@ -761,12 +771,12 @@ export const Department = DeginisationHoc(
                       />
                     )}
                     name='workLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -797,12 +807,12 @@ export const Department = DeginisationHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -861,7 +871,7 @@ export const Department = DeginisationHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -909,10 +919,10 @@ export const Department = DeginisationHoc(
               switch (action) {
                 case 'Delete': {
                   departmentStore.DepartmentService.deletedepartment({
-                    input: {id: modalConfirm.id},
+                    input: { id: modalConfirm.id },
                   }).then((res: any) => {
                     if (res.removeDepartment.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.removeDepartment.message}`,
                       });
@@ -943,7 +953,7 @@ export const Department = DeginisationHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.updateDepartment.success) {
                       Toast.success({
                         message: `😊 ${res.updateDepartment.message}`,
@@ -969,7 +979,7 @@ export const Department = DeginisationHoc(
                 }
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

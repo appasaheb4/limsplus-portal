@@ -308,27 +308,37 @@ const RegistrationLocation = RegistrationLocationHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'lab',
+        'locationCode',
+        'locationName',
+        'acClass',
+        'accountType',
+        'deliveryMode',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return registrationLocationsStore.registrationLocationsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({ ...fields, status }, [
-                'lab',
-                'locationCode',
-                'locationName',
-                'acClass',
-                'accountType',
-                'deliveryMode',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
         .then(res => {
           if (
-            res.findByFieldsDocter?.success &&
-            res.findByFieldsDocter.data?.length > length
+            res.findByFieldsReferenceRanges?.success &&
+            res.findByFieldsReferenceRanges.data?.length > length
           ) {
             //setIsExistsRecord(true);
             Toast.error({

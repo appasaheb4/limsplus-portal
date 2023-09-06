@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -16,23 +16,23 @@ import {
   ImportFile,
   StaticInputTable,
 } from '@/library/components';
-import {DeginisationList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {DeginisationHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { DeginisationList } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { DeginisationHoc } from '../hoc';
+import { useStores } from '@/stores';
 import * as XLSX from 'xlsx';
 
-import {RouterFlow} from '@/flows';
-import {resetDesignation} from '../startup';
+import { RouterFlow } from '@/flows';
+import { resetDesignation } from '../startup';
 
 const Deginisation = DeginisationHoc(
   observer(() => {
-    const {loginStore, deginisationStore, routerStore} = useStores();
+    const { loginStore, deginisationStore, routerStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -53,8 +53,8 @@ const Deginisation = DeginisationHoc(
       if (!deginisationStore.checkExitsCode) {
         deginisationStore.DeginisationService.addDeginisation({
           input: isImport
-            ? {isImport, arrImportRecords}
-            : {isImport, ...deginisationStore.deginisation},
+            ? { isImport, arrImportRecords }
+            : { isImport, ...deginisationStore.deginisation },
         }).then(res => {
           if (res.createDesignation.success) {
             setArrImportRecords([]);
@@ -65,7 +65,7 @@ const Deginisation = DeginisationHoc(
             reset();
             resetDesignation();
           } else {
-            Toast.error({message: '😔 Please try again'});
+            Toast.error({ message: '😔 Please try again' });
           }
         });
       } else {
@@ -80,12 +80,12 @@ const Deginisation = DeginisationHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             code: item?.Code,
@@ -104,11 +104,21 @@ const Deginisation = DeginisationHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = ['code', 'environment'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return deginisationStore.DeginisationService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, ['code', 'environment']),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
@@ -156,7 +166,7 @@ const Deginisation = DeginisationHoc(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Code'
                           id='code'
@@ -193,7 +203,7 @@ const Deginisation = DeginisationHoc(
                         />
                       )}
                       name='code'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
@@ -205,7 +215,7 @@ const Deginisation = DeginisationHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Description'
                           name='description'
@@ -226,14 +236,14 @@ const Deginisation = DeginisationHoc(
                         />
                       )}
                       name='description'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Status'
                           hasError={!!errors.status}
@@ -264,12 +274,12 @@ const Deginisation = DeginisationHoc(
                         </Form.InputWrapper>
                       )}
                       name='status'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Environment'>
                           <select
                             value={value}
@@ -327,7 +337,7 @@ const Deginisation = DeginisationHoc(
                         </Form.InputWrapper>
                       )}
                       name='environment'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </List>
@@ -398,18 +408,18 @@ const Deginisation = DeginisationHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update deginisation!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 deginisationStore.fetchListDeginisation(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 deginisationStore.DeginisationService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
                 global.filter = {
                   mode: 'filter',
@@ -425,7 +435,7 @@ const Deginisation = DeginisationHoc(
                   setModalConfirm({
                     show: true,
                     type: 'Update',
-                    data: {value: 'A', dataField: 'status', id: records._id},
+                    data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
                     body: 'Update deginisation!',
                   });
@@ -440,9 +450,9 @@ const Deginisation = DeginisationHoc(
               switch (action) {
                 case 'Delete': {
                   deginisationStore.DeginisationService.deleteDeginisation({
-                    input: {id: modalConfirm.id},
+                    input: { id: modalConfirm.id },
                   }).then((res: any) => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.removeDesignation.success) {
                       Toast.success({
                         message: `😊 ${res.removeDesignation.message}`,
@@ -473,7 +483,7 @@ const Deginisation = DeginisationHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.updateDesignation.success) {
                       Toast.success({
                         message: `😊 ${res.updateDesignation.message}`,
@@ -499,7 +509,7 @@ const Deginisation = DeginisationHoc(
                 }
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

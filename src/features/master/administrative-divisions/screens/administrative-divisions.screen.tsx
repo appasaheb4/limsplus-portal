@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -16,23 +16,23 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {AdminstrativeDivList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {AdministrativeDivisionsHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { AdminstrativeDivList } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { AdministrativeDivisionsHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {resetBanner} from '../../banner/startup';
+import { RouterFlow } from '@/flows';
+import { resetBanner } from '../../banner/startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
-    const {loginStore, administrativeDivisions, routerStore} = useStores();
+    const { loginStore, administrativeDivisions, routerStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -62,8 +62,8 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
         administrativeDivisions.administrativeDivisionsService
           .addAdministrativeDivisions({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...administrativeDivisions.administrativeDiv},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...administrativeDivisions.administrativeDiv },
           })
           .then(res => {
             if (res.createAdministrativeDivision.success) {
@@ -86,12 +86,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             postalCode: [],
@@ -116,18 +116,28 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'country',
+        'state',
+        'district',
+        'environment',
+        'status',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return administrativeDivisions.administrativeDivisionsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'country',
-                'state',
-                'district',
-                'environment',
-                'status',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -175,7 +185,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Country'
                         placeholder={
@@ -193,14 +203,14 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       />
                     )}
                     name='country'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Form.InputWrapper label='State' hasError={!!errors.state}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           placeholder={
                             errors.state ? 'Please Enter state' : 'State'
@@ -217,7 +227,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         />
                       )}
                       name='state'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </Form.InputWrapper>
@@ -228,7 +238,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   >
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           placeholder={
                             errors.district
@@ -247,7 +257,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         />
                       )}
                       name='district'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </Form.InputWrapper>
@@ -255,7 +265,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   <Form.InputWrapper label='City'>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           hasError={!!errors.city}
                           placeholder={
@@ -272,7 +282,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         />
                       )}
                       name='city'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Form.InputWrapper>
@@ -280,7 +290,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   <Form.InputWrapper label='Area'>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           placeholder={
                             !!errors.area ? 'Please Enter Area' : 'Area'
@@ -297,7 +307,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         />
                       )}
                       name='area'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Form.InputWrapper>
@@ -305,7 +315,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     <div className='flex flex-row'>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Input
                             type='number'
                             placeholder={
@@ -325,7 +335,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                           />
                         )}
                         name='postalCode'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <div className='w-4 mt-2 ml-2'>
@@ -404,7 +414,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='SBU' hasError={!!errors.sbu}>
                         <select
                           value={value}
@@ -432,13 +442,13 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       </Form.InputWrapper>
                     )}
                     name='sbu'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='ZONE' hasError={!!errors.zone}>
                         <select
                           value={value}
@@ -466,12 +476,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       </Form.InputWrapper>
                     )}
                     name='zone'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -502,12 +512,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Environment'
                         hasError={!!errors.environment}
@@ -553,7 +563,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -634,18 +644,18 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update Section!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 administrativeDivisions.fetchAdministrativeDiv(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 administrativeDivisions.administrativeDivisionsService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
                 global.filter = {
                   mode: 'filter',
@@ -661,7 +671,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   setModalConfirm({
                     show: true,
                     type: 'Update',
-                    data: {value: 'A', dataField: 'status', id: records._id},
+                    data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
                     body: 'Update deginisation!',
                   });
@@ -676,10 +686,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 case 'Delete': {
                   administrativeDivisions.administrativeDivisionsService
                     .deleteAdministrativeDivisions({
-                      input: {id: modalConfirm.id},
+                      input: { id: modalConfirm.id },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.removeAdministrativeDivision.success) {
                         Toast.success({
                           message: `😊 ${res.removeAdministrativeDivision.message}`,
@@ -715,7 +725,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.updateAdministrativeDivision.success) {
                         Toast.success({
                           message: `😊 ${res.updateAdministrativeDivision.message}`,
@@ -743,7 +753,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 }
               }
             }}
-            close={() => setModalConfirm({show: false})}
+            close={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

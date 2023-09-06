@@ -331,19 +331,29 @@ const TestMater = TestMasterHOC(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'rLab',
+        'pLab',
+        'department',
+        'testCode',
+        'testName',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return testMasterStore.testMasterService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({ ...fields, status }, [
-                'rLab',
-                'pLab',
-                'department',
-                'testCode',
-                'testName',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })

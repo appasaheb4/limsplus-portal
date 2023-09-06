@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -16,25 +16,29 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {dayjs, lookupItems, lookupValue} from '@/library/utils';
-import {PossibleResultsList} from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {AutoCompleteFilterSingleSelectAnalyteCode} from '../components';
-import {PossibleResultHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { dayjs, lookupItems, lookupValue } from '@/library/utils';
+import { PossibleResultsList } from '../components';
+import { useForm, Controller } from 'react-hook-form';
+import { AutoCompleteFilterSingleSelectAnalyteCode } from '../components';
+import { PossibleResultHoc } from '../hoc';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {RouterFlow} from '@/flows';
-import {resetPossibleResult} from '../startup';
+import { RouterFlow } from '@/flows';
+import { resetPossibleResult } from '../startup';
 import * as XLSX from 'xlsx';
 
 export const PossibleResults = PossibleResultHoc(
   observer(() => {
-    const {loginStore, possibleResultsStore, masterAnalyteStore, routerStore} =
-      useStores();
+    const {
+      loginStore,
+      possibleResultsStore,
+      masterAnalyteStore,
+      routerStore,
+    } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -69,7 +73,7 @@ export const PossibleResults = PossibleResultHoc(
         possibleResultsStore.possibleResultsService
           .addPossibleResults({
             input: isImport
-              ? {isImport, arrImportRecords}
+              ? { isImport, arrImportRecords }
               : {
                   isImport,
                   ...possibleResultsStore.possibleResults,
@@ -132,7 +136,7 @@ export const PossibleResults = PossibleResultHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update Lookup!',
             });
@@ -157,13 +161,13 @@ export const PossibleResults = PossibleResultHoc(
           }}
           onPageSizeChange={(page, limit) => {
             possibleResultsStore.fetchListPossibleResults(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             possibleResultsStore.possibleResultsService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, page, limit, filter};
+            global.filter = { mode: 'filter', type, page, limit, filter };
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -171,7 +175,7 @@ export const PossibleResults = PossibleResultHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Possible Result!',
               });
@@ -188,12 +192,12 @@ export const PossibleResults = PossibleResultHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             analyteCode: item['Analyte Code'],
@@ -221,16 +225,22 @@ export const PossibleResults = PossibleResultHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = ['analyteCode', 'environment', 'status'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return possibleResultsStore.possibleResultsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'analyteCode',
-                'environment',
-                'status',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -277,7 +287,7 @@ export const PossibleResults = PossibleResultHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Analyte Code'
                         hasError={!!errors.analyteCode}
@@ -323,7 +333,7 @@ export const PossibleResults = PossibleResultHoc(
                       </Form.InputWrapper>
                     )}
                     name='analyteCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {possibleResultsStore.checkExistsRecords && (
@@ -333,7 +343,7 @@ export const PossibleResults = PossibleResultHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         disabled={true}
                         label='Analyte Name'
@@ -347,7 +357,7 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     )}
                     name='analyteName'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
@@ -355,7 +365,7 @@ export const PossibleResults = PossibleResultHoc(
                     <div className='flex flex-row gap-4'>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Input
                             placeholder={
                               errors.result ? 'Please Enter Result' : 'Result'
@@ -372,12 +382,12 @@ export const PossibleResults = PossibleResultHoc(
                           />
                         )}
                         name='result'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Input
                             placeholder={
                               errors.possibleValue
@@ -396,12 +406,12 @@ export const PossibleResults = PossibleResultHoc(
                           />
                         )}
                         name='possibleValue'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='AbNormal'
                             hasError={!!errors.abNormal}
@@ -416,12 +426,12 @@ export const PossibleResults = PossibleResultHoc(
                           />
                         )}
                         name='abNormal'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             hasError={!!errors.critical}
                             label='Critical'
@@ -436,7 +446,7 @@ export const PossibleResults = PossibleResultHoc(
                           />
                         )}
                         name='critical'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <div className='mt-2'>
@@ -548,7 +558,7 @@ export const PossibleResults = PossibleResultHoc(
                   </Form.InputWrapper>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         hasError={!!errors.defaulItem}
                         label='Default Conclusion'
@@ -594,12 +604,12 @@ export const PossibleResults = PossibleResultHoc(
                       </Form.InputWrapper>
                     )}
                     name='defaulItem'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -665,12 +675,12 @@ export const PossibleResults = PossibleResultHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Entered By'
                         placeholder={
@@ -684,7 +694,7 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     )}
                     name='userId'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
@@ -692,7 +702,7 @@ export const PossibleResults = PossibleResultHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Creation'
                         placeholder={
@@ -706,12 +716,12 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Active'
                         placeholder={
@@ -725,12 +735,12 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     )}
                     name='dateActive'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Expire'
                         placeholder={
@@ -750,12 +760,12 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     )}
                     name='dateExpire'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Version'
                         placeholder={
@@ -767,12 +777,12 @@ export const PossibleResults = PossibleResultHoc(
                       />
                     )}
                     name='version'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -803,7 +813,7 @@ export const PossibleResults = PossibleResultHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -853,10 +863,10 @@ export const PossibleResults = PossibleResultHoc(
               switch (action) {
                 case 'Delete': {
                   possibleResultsStore.possibleResultsService
-                    .deletePossibleResults({input: {id: modalConfirm.id}})
+                    .deletePossibleResults({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removePossibleResult.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removePossibleResult.message}`,
                         });
@@ -890,7 +900,7 @@ export const PossibleResults = PossibleResultHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePossibleResult.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePossibleResult.message}`,
                         });
@@ -927,7 +937,7 @@ export const PossibleResults = PossibleResultHoc(
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
                   setHideAddLookup(!hideAddLookup);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
 
                   break;
                 }
@@ -944,14 +954,14 @@ export const PossibleResults = PossibleResultHoc(
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
                   setHideAddLookup(!hideAddLookup);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
 
                   break;
                 }
                 // No default
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

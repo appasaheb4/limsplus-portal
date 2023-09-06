@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -15,16 +15,20 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {SalesTeamList, SalesHierarchyTable, TargetsTable} from '../components';
-import {dayjs, lookupItems, lookupValue} from '@/library/utils';
+import {
+  SalesTeamList,
+  SalesHierarchyTable,
+  TargetsTable,
+} from '../components';
+import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import _ from 'lodash';
 import * as Utils from '../util';
-import {SalesTeamHoc} from '../hoc';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
-import {AutoCompleteFilterSingleSelectEmpolyeCode} from '../components';
-import {RouterFlow} from '@/flows';
-import {resetSalesTeam} from '../startup';
+import { SalesTeamHoc } from '../hoc';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
+import { AutoCompleteFilterSingleSelectEmpolyeCode } from '../components';
+import { RouterFlow } from '@/flows';
+import { resetSalesTeam } from '../startup';
 import * as XLSX from 'xlsx';
 export const SalesTeam = SalesTeamHoc(
   observer(() => {
@@ -38,7 +42,7 @@ export const SalesTeam = SalesTeamHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -63,7 +67,7 @@ export const SalesTeam = SalesTeamHoc(
         salesTeamStore.salesTeamService
           .addSalesTeam({
             input: isImport
-              ? {isImport, arrImportRecords}
+              ? { isImport, arrImportRecords }
               : {
                   isImport,
                   ...salesTeamStore.salesTeam,
@@ -125,7 +129,7 @@ export const SalesTeam = SalesTeamHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update Section!',
             });
@@ -150,13 +154,13 @@ export const SalesTeam = SalesTeamHoc(
           }}
           onPageSizeChange={(page, limit) => {
             salesTeamStore.fetchSalesTeam(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             salesTeamStore.salesTeamService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, page, limit, filter};
+            global.filter = { mode: 'filter', type, page, limit, filter };
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -164,7 +168,7 @@ export const SalesTeam = SalesTeamHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Sales Team!',
               });
@@ -181,12 +185,12 @@ export const SalesTeam = SalesTeamHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             salesTerritory: item['Sales Territory'],
@@ -216,18 +220,28 @@ export const SalesTeam = SalesTeamHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'salesTerritory',
+        'empCode',
+        'targets',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return salesTeamStore.salesTeamService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'salesTerritory',
-                'empCode',
-                'targets',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -275,7 +289,7 @@ export const SalesTeam = SalesTeamHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sales Territory'
                         placeholder='Sales Territory'
@@ -290,7 +304,9 @@ export const SalesTeam = SalesTeamHoc(
                         }}
                         onBlur={salesTerritory => {
                           salesTeamStore.salesTeamService
-                            .findByFields({input: {filter: {salesTerritory}}})
+                            .findByFields({
+                              input: { filter: { salesTerritory } },
+                            })
                             .then(res => {
                               if (res.findByFieldsSalesTeams.success) {
                                 salesTeamStore.updateExistsRecord(true);
@@ -303,12 +319,12 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='salesTerritory'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         label='Description'
                         placeholder='Description'
@@ -323,12 +339,12 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='description'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Employee code'
                         hasError={!!errors.empCode}
@@ -396,7 +412,7 @@ export const SalesTeam = SalesTeamHoc(
                       </Form.InputWrapper>
                     )}
                     name='empCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
@@ -418,7 +434,7 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='employeeName'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
@@ -457,12 +473,12 @@ export const SalesTeam = SalesTeamHoc(
                       </Form.InputWrapper>
                     )}
                     name='salesHierarchy'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Targets'
                         hasError={!!errors.targets}
@@ -476,7 +492,7 @@ export const SalesTeam = SalesTeamHoc(
                       </Form.InputWrapper>
                     )}
                     name='targets'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -497,12 +513,12 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='userId'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Creation'
                         placeholder={
@@ -516,12 +532,12 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Active'
                         placeholder={
@@ -535,12 +551,12 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='dateActive'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Expire'
                         placeholder={
@@ -560,12 +576,12 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='schedule'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Version'
                         placeholder={
@@ -577,12 +593,12 @@ export const SalesTeam = SalesTeamHoc(
                       />
                     )}
                     name='version'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -613,12 +629,12 @@ export const SalesTeam = SalesTeamHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -676,7 +692,7 @@ export const SalesTeam = SalesTeamHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -730,10 +746,10 @@ export const SalesTeam = SalesTeamHoc(
               switch (action) {
                 case 'Delete': {
                   salesTeamStore.salesTeamService
-                    .deleteSalesTeam({input: {id: modalConfirm.id}})
+                    .deleteSalesTeam({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeSalesTeam.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeSalesTeam.message}`,
                         });
@@ -767,7 +783,7 @@ export const SalesTeam = SalesTeamHoc(
                     })
                     .then((res: any) => {
                       if (res.updateSalesTeam.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateSalesTeam.message}`,
                         });
@@ -803,7 +819,7 @@ export const SalesTeam = SalesTeamHoc(
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
                   setHideAddSection(!hideAddSection);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
 
                   break;
                 }
@@ -819,14 +835,14 @@ export const SalesTeam = SalesTeamHoc(
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
                   setHideAddSection(!hideAddSection);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
 
                   break;
                 }
                 // No default
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

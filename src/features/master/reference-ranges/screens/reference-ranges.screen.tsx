@@ -1,5 +1,5 @@
-import React, {useState, useMemo} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -19,11 +19,11 @@ import {
   ReferenceRangesList,
   RefRangesInputTable,
 } from '../components';
-import {ReferenceRangesHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetReferenceRange} from '../startup';
+import { ReferenceRangesHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetReferenceRange } from '../startup';
 import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
 
@@ -59,7 +59,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             refernceRangesStore.referenceRangesService
               .addReferenceRanges({
                 input: isImport
-                  ? {isImport, arrImportRecords}
+                  ? { isImport, arrImportRecords }
                   : {
                       filter: {
                         isImport,
@@ -143,7 +143,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update item!',
             });
@@ -152,7 +152,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
             });
@@ -177,13 +177,13 @@ const ReferenceRanges = ReferenceRangesHoc(
           }}
           onPageSizeChange={(page, limit) => {
             refernceRangesStore.fetchListReferenceRanges(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             refernceRangesStore.referenceRangesService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, page, limit, filter};
+            global.filter = { mode: 'filter', type, page, limit, filter };
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -191,7 +191,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Reference Ranges!',
               });
@@ -208,12 +208,12 @@ const ReferenceRanges = ReferenceRangesHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             analyteCode: item['Analyte Code'],
@@ -256,26 +256,36 @@ const ReferenceRanges = ReferenceRangesHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'analyteCode',
+        'analyteName',
+        'species',
+        'sex',
+        'rangeSetOn',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return refernceRangesStore.referenceRangesService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'analyteCode',
-                'analyteName',
-                'species',
-                'sex',
-                'rangeSetOn',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
         .then(res => {
           if (
-            res.findByFieldsAnalyteMaster?.success &&
-            res.findByFieldsAnalyteMaster?.data?.length > length
+            res.findByFieldsReferenceRanges?.success &&
+            res.findByFieldsReferenceRanges?.data?.length > length
           ) {
             //setIsExistsRecord(true);
             Toast.error({
@@ -298,7 +308,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               onDelete={rangeId => {
                 const index = _.findIndex(
                   refernceRangesStore.referenceRanges?.refRangesInputList,
-                  {rangeId},
+                  { rangeId },
                 );
                 const firstArr =
                   refernceRangesStore.referenceRanges?.refRangesInputList?.slice(
@@ -318,7 +328,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               onUpdateItems={(items, rangeId) => {
                 const index = _.findIndex(
                   refernceRangesStore.referenceRanges?.refRangesInputList,
-                  {rangeId},
+                  { rangeId },
                 );
                 const refRangesInputList =
                   refernceRangesStore.referenceRanges?.refRangesInputList;
@@ -410,10 +420,10 @@ const ReferenceRanges = ReferenceRangesHoc(
               switch (action) {
                 case 'delete': {
                   refernceRangesStore.referenceRangesService
-                    .deleteReferenceRanges({input: {id: modalConfirm.id}})
+                    .deleteReferenceRanges({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeReferenceRange.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeReferenceRange.message}`,
                         });
@@ -447,7 +457,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                     })
                     .then((res: any) => {
                       if (res.updateReferenceRange.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateReferenceRange.message}`,
                         });
@@ -481,7 +491,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                     })
                     .then((res: any) => {
                       if (res.updateReferenceRange.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateReferenceRange.message}`,
                         });
@@ -521,7 +531,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                     ...refernceRangesStore.referenceRanges,
                     refRangesInputList,
                   });
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
 
                   break;
                 }
@@ -537,14 +547,14 @@ const ReferenceRanges = ReferenceRangesHoc(
                     version: 1,
                     type: 'duplicate',
                   });
-                  console.log({refRangesInputList});
+                  console.log({ refRangesInputList });
                   setDupExistsRecords(JSON.stringify(refRangesInputList));
                   refernceRangesStore.updateReferenceRanges({
                     ...refernceRangesStore.referenceRanges,
                     refRangesInputList,
                   });
                   setHideAddLab(!hideAddLab);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
 
                   break;
                 }
@@ -552,7 +562,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

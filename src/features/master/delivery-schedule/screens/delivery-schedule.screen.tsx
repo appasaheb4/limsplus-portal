@@ -123,16 +123,22 @@ const DeliverySchedule = DeliveryScheduleHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = ['schCode', 'environment', 'status'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return deliveryScheduleStore.deliveryScheduleService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({ ...fields, status }, [
-                'schCode',
-                'environment',
-                'status',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
