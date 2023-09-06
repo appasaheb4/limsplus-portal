@@ -319,14 +319,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             lab: item.Lab,
             testCode: item['Test Code'],
             testName: item['Test Name'],
-            analyteCode: [],
-            analyteName: [],
-            variable: [],
+            analyteCode: undefined,
+            analyteName: undefined,
+            variable: undefined,
             calculationFlag: item['Calculation Flag'] === 'Yes' ? true : false,
             calculationFormula: item['Calculation Formula'],
-            reportable: item.Reportable,
+            reportable: item.Reportable === 'Yes' ? true : false,
             defaultResult: item['Default Result'],
-            instantResult: item['Instant Result'],
+            instantResult: item['Instant Result'] === 'Yes' ? true : false,
             bill: item.Bill === 'Yes' ? true : false,
             testMethod: item['Test Method'] === 'Yes' ? true : false,
             analyteMethod: item['Analyte Method'] === 'Yes' ? true : false,
@@ -353,17 +353,27 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'lab',
+        'testName',
+        'analyteCode',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return testAnalyteMappingStore.testAnalyteMappingService
         .findByFileds({
           input: {
             filter: {
-              ..._.pick({ ...fields, status }, [
-                'lab',
-                'testName',
-                'analyteCode',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
