@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
@@ -16,26 +16,26 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {NoticeBoardsList} from '../components';
+import { NoticeBoardsList } from '../components';
 import '@/library/assets/css/accordion.css';
-import {useForm, Controller} from 'react-hook-form';
-import {NoticeBoardHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { NoticeBoardHoc } from '../hoc';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetNoticeBoard} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetNoticeBoard } from '../startup';
 import * as XLSX from 'xlsx';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 
 const NoticeBoard = NoticeBoardHoc(
   observer(() => {
-    const {loginStore, labStore, noticeBoardStore, routerStore, loading} =
+    const { loginStore, labStore, noticeBoardStore, routerStore, loading } =
       useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -54,7 +54,7 @@ const NoticeBoard = NoticeBoardHoc(
     const onNoticeBoardSubmit = () => {
       noticeBoardStore.NoticeBoardService.addNoticeBoard({
         input: isImport
-          ? {isImport, arrImportRecords}
+          ? { isImport, arrImportRecords }
           : {
               isImport,
               ...noticeBoardStore.noticeBoard,
@@ -104,20 +104,20 @@ const NoticeBoard = NoticeBoardHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update recoard!',
             });
           }}
           onPageSizeChange={(page, limit) => {
             noticeBoardStore.fetchNoticeBoards(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             noticeBoardStore.NoticeBoardService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, filter, page, limit};
+            global.filter = { mode: 'filter', type, filter, page, limit };
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -125,7 +125,7 @@ const NoticeBoard = NoticeBoardHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update deginisation!',
               });
@@ -141,12 +141,12 @@ const NoticeBoard = NoticeBoardHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             lab: item.Labs,
@@ -166,23 +166,33 @@ const NoticeBoard = NoticeBoardHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'lab',
+        'header',
+        'action',
+        'environment',
+        'status',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return noticeBoardStore.NoticeBoardService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, [
-              'lab',
-              'header',
-              'action',
-              'environment',
-              'status',
-            ]),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
         if (
-          res.findByFieldsAdministrativeDevision?.success &&
-          res.findByFieldsAdministrativeDevision.data?.length > length
+          res.findByFieldsNoticeBoard?.success &&
+          res.findByFieldsNoticeBoard.data?.length > length
         ) {
           //setIsExistsRecord(true);
           Toast.error({
@@ -211,7 +221,7 @@ const NoticeBoard = NoticeBoardHoc(
                 {labStore.listLabs && (
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Lab'
                         id='labs'
@@ -257,14 +267,14 @@ const NoticeBoard = NoticeBoardHoc(
                       </Form.InputWrapper>
                     )}
                     name='lab'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 )}
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Header'
                       name='lblHeader'
@@ -283,12 +293,12 @@ const NoticeBoard = NoticeBoardHoc(
                     />
                   )}
                   name='header'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper
                       label='Action'
                       id='lblAction'
@@ -319,12 +329,12 @@ const NoticeBoard = NoticeBoardHoc(
                     </Form.InputWrapper>
                   )}
                   name='action'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper
                       label='Environment'
                       hasError={!!errors.environment}
@@ -370,12 +380,12 @@ const NoticeBoard = NoticeBoardHoc(
                     </Form.InputWrapper>
                   )}
                   name='environment'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper
                       label='Status'
                       hasError={!!errors.status}
@@ -406,14 +416,14 @@ const NoticeBoard = NoticeBoardHoc(
                     </Form.InputWrapper>
                   )}
                   name='status'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.MultilineInput
                       rows={7}
                       label='Message'
@@ -433,7 +443,7 @@ const NoticeBoard = NoticeBoardHoc(
                     />
                   )}
                   name='message'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
               </List>
@@ -475,7 +485,7 @@ const NoticeBoard = NoticeBoardHoc(
         </div>
         <div
           className='p-2 rounded-lg shadow-xl overflow-scroll'
-          style={{overflowX: 'scroll'}}
+          style={{ overflowX: 'scroll' }}
         >
           {tableView}
         </div>
@@ -485,10 +495,10 @@ const NoticeBoard = NoticeBoardHoc(
           click={(action?: string) => {
             if (action === 'Delete') {
               noticeBoardStore.NoticeBoardService.deleteNoticeBoards({
-                input: {id: modalConfirm.id},
+                input: { id: modalConfirm.id },
               }).then((res: any) => {
                 if (res.removeNoticeBoard.success) {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   Toast.success({
                     message: `😊 ${res.removeNoticeBoard.message}`,
                   });
@@ -516,7 +526,7 @@ const NoticeBoard = NoticeBoardHoc(
                   [modalConfirm.data.dataField]: modalConfirm.data.value,
                 },
               }).then((res: any) => {
-                setModalConfirm({show: false});
+                setModalConfirm({ show: false });
                 if (res.updateNoticeBoard.success) {
                   Toast.success({
                     message: `😊 ${res.updateNoticeBoard.message}`,
@@ -540,7 +550,7 @@ const NoticeBoard = NoticeBoardHoc(
               });
             }
           }}
-          onClose={() => setModalConfirm({show: false})}
+          onClose={() => setModalConfirm({ show: false })}
         />
       </>
     );

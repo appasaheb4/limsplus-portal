@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Buttons,
@@ -13,17 +13,17 @@ import {
   ImportFile,
   ManualImportTabs,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 
-import {EnvironmentSettingsList} from '../components';
+import { EnvironmentSettingsList } from '../components';
 import '@/library/assets/css/accordion.css';
-import {useForm, Controller} from 'react-hook-form';
-import {EnvironmentSettingsHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { EnvironmentSettingsHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetEnvironmentSettings} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetEnvironmentSettings } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
 interface EnvironmentSettingsProps {
@@ -44,7 +44,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -63,7 +63,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       if (!environmentStore.checkExistsEnvSettingsRecord) {
         environmentStore.EnvironmentService.addEnvironment({
           input: isImport
-            ? {isImport, arrImportRecords}
+            ? { isImport, arrImportRecords }
             : {
                 isImport,
                 ...environmentStore.environmentSettings,
@@ -122,14 +122,14 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               props.onModalConfirm({
                 show: true,
                 type: 'update',
-                data: {value, dataField, id},
+                data: { value, dataField, id },
                 title: 'Are you sure?',
                 body: 'Update recoard!',
               });
           }}
           onPageSizeChange={(page, limit) => {
             environmentStore.fetchEnvironment(
-              {documentType: 'environmentSettings'},
+              { documentType: 'environmentSettings' },
               page,
               limit,
             );
@@ -143,7 +143,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
           onFilter={(type, filter, page, limit) => {
             environmentStore.EnvironmentService.filter(
               {
-                input: {type, filter, page, limit},
+                input: { type, filter, page, limit },
               },
               'environmentSettings',
             );
@@ -162,7 +162,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Environment!',
               });
@@ -179,12 +179,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             lab: [],
@@ -206,25 +206,30 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     };
 
     const checkExistsRecords = async (
-      fields = userStore.user,
+      fields = environmentStore.environmentSettings,
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = ['variable', 'value', 'environment', 'status'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return environmentStore.EnvironmentService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, [
-              'variable',
-              'value',
-              'environment',
-              'status',
-            ]),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
         if (
-          res.findByFieldsUser?.success &&
-          res.findByFieldsUser?.data?.length > length
+          res.findByFieldsEnviroment?.success &&
+          res.findByFieldsEnviroment?.data?.length > length
         ) {
           //setIsExistsRecord(true);
           Toast.error({
@@ -239,7 +244,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       <>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemoveBottom
-            style={{bottom: 40}}
+            style={{ bottom: 40 }}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
           />
@@ -262,7 +267,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <AutoCompleteFilterSingleSelect
                         displayValue={value}
                         loader={loading}
@@ -337,7 +342,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       />
                     )}
                     name='variable'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {environmentStore.checkExistsEnvSettingsRecord && (
@@ -353,7 +358,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                     labStore.listLabs) && (
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Labs'
                           id='labs'
@@ -433,7 +438,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         </Form.InputWrapper>
                       )}
                       name='lab'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   )}
@@ -444,7 +449,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                     userStore.userList) && (
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Users'
                           id='user'
@@ -528,7 +533,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         </Form.InputWrapper>
                       )}
                       name='user'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   )}
@@ -538,7 +543,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                     departmentStore.listDepartment) && (
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Department'
                           id='department'
@@ -626,13 +631,13 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         </Form.InputWrapper>
                       )}
                       name='department'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Value'
                         hasError={!!errors.value}
@@ -650,14 +655,14 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       />
                     )}
                     name='value'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' justify='stretch' fill space={4}>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={3}
                         label='Description'
@@ -679,12 +684,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       />
                     )}
                     name='descriptions'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -715,12 +720,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -788,7 +793,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -832,7 +837,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
         <div
           className='p-2 rounded-lg shadow-xl overflow-scroll'
-          style={{overflowX: 'scroll'}}
+          style={{ overflowX: 'scroll' }}
         >
           {table}
         </div>

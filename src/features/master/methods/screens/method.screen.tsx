@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -15,24 +15,24 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {MethodsList} from '../components';
-import {lookupItems, lookupValue, toTitleCase} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {MethodsHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { MethodsList } from '../components';
+import { lookupItems, lookupValue, toTitleCase } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { MethodsHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {resetMethod} from '../startup';
+import { RouterFlow } from '@/flows';
+import { resetMethod } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 
 const Methods = MethodsHoc(
   observer(() => {
-    const {loginStore, methodsStore, routerStore} = useStores();
+    const { loginStore, methodsStore, routerStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -54,8 +54,8 @@ const Methods = MethodsHoc(
         methodsStore.methodsService
           .addMethods({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...methodsStore.methods},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...methodsStore.methods },
           })
           .then(res => {
             if (res.createMethod.success) {
@@ -79,12 +79,12 @@ const Methods = MethodsHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             methodsCode: item['Methods Code'],
@@ -104,17 +104,27 @@ const Methods = MethodsHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'methodsCode',
+        'environment',
+        'status',
+        'methodName',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return methodsStore.methodsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'methodsCode',
-                'environment',
-                'status',
-                'methodName',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -162,7 +172,7 @@ const Methods = MethodsHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Method Code'
                         placeholder={
@@ -199,7 +209,7 @@ const Methods = MethodsHoc(
                       />
                     )}
                     name='methodsCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {methodsStore.checkExitsEnvCode && (
@@ -209,7 +219,7 @@ const Methods = MethodsHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Method Name'
                         placeholder={
@@ -230,12 +240,12 @@ const Methods = MethodsHoc(
                       />
                     )}
                     name='methodName'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={4}
                         label='Description'
@@ -256,14 +266,14 @@ const Methods = MethodsHoc(
                       />
                     )}
                     name='description'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -294,12 +304,12 @@ const Methods = MethodsHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -356,7 +366,7 @@ const Methods = MethodsHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -425,20 +435,20 @@ const Methods = MethodsHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update Section!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 methodsStore.fetchMethods(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 methodsStore.methodsService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
-                global.filter = {mode: 'filter', type, page, limit, filter};
+                global.filter = { mode: 'filter', type, page, limit, filter };
               }}
               onApproval={async records => {
                 const isExists = await checkExistsRecords(records);
@@ -446,7 +456,7 @@ const Methods = MethodsHoc(
                   setModalConfirm({
                     show: true,
                     type: 'Update',
-                    data: {value: 'A', dataField: 'status', id: records._id},
+                    data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
                     body: 'Update deginisation!',
                   });
@@ -460,10 +470,10 @@ const Methods = MethodsHoc(
               switch (action) {
                 case 'Delete': {
                   methodsStore.methodsService
-                    .deleteMethods({input: {id: modalConfirm.id}})
+                    .deleteMethods({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeMethod.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeMethod.message}`,
                         });
@@ -496,7 +506,7 @@ const Methods = MethodsHoc(
                     })
                     .then((res: any) => {
                       if (res.updateMethod.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateMethod.message}`,
                         });
@@ -521,7 +531,7 @@ const Methods = MethodsHoc(
                 }
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

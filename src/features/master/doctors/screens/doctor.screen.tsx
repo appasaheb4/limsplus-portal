@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -17,15 +17,15 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {DoctorsList} from '../components';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
-import {dayjs, lookupItems, lookupValue, toTitleCase} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {DoctorsHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {FormHelper} from '@/helper';
-import {RouterFlow} from '@/flows';
-import {resetDoctor} from '../startup';
+import { DoctorsList } from '../components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import { dayjs, lookupItems, lookupValue, toTitleCase } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { DoctorsHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { FormHelper } from '@/helper';
+import { RouterFlow } from '@/flows';
+import { resetDoctor } from '../startup';
 import * as XLSX from 'xlsx';
 
 const Doctors = DoctorsHoc(
@@ -43,7 +43,7 @@ const Doctors = DoctorsHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -84,7 +84,7 @@ const Doctors = DoctorsHoc(
           doctorsStore.doctorsService
             .addDoctors({
               input: isImport
-                ? {isImport, arrImportRecords}
+                ? { isImport, arrImportRecords }
                 : {
                     isImport,
                     ...doctorsStore.doctors,
@@ -181,7 +181,7 @@ const Doctors = DoctorsHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update Section!',
             });
@@ -190,7 +190,7 @@ const Doctors = DoctorsHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
             });
@@ -215,11 +215,11 @@ const Doctors = DoctorsHoc(
           }}
           onPageSizeChange={(page, limit) => {
             doctorsStore.fetchDoctors(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             doctorsStore.doctorsService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -235,7 +235,7 @@ const Doctors = DoctorsHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update deginisation!',
               });
@@ -251,16 +251,26 @@ const Doctors = DoctorsHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'doctorCode',
+        'doctorName',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return doctorsStore.doctorsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'doctorCode',
-                'doctorName',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -283,12 +293,12 @@ const Doctors = DoctorsHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             title: item?.Title,
@@ -370,7 +380,7 @@ const Doctors = DoctorsHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Title'
                         hasError={!!errors.title}
@@ -404,12 +414,12 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name=' title'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Doctor Code'
                         hasError={!!errors.doctorCode}
@@ -450,7 +460,7 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='doctorCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {doctorsStore.checkExitsLabEnvCode && (
@@ -460,7 +470,7 @@ const Doctors = DoctorsHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Doctor Name'
                         placeholder={
@@ -483,12 +493,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='doctorName'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Report Name'
                         placeholder={
@@ -509,12 +519,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='reportName'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                         <select
                           value={value}
@@ -542,13 +552,13 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='sex'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Doctor Type'
                         hasError={!!errors.doctorType}
@@ -582,12 +592,12 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='doctorType'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Speciality'
                         hasError={!!errors.speciality}
@@ -621,12 +631,12 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='speciality'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Category'
                         hasError={!!errors.category}
@@ -657,13 +667,13 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='category'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Postal Code'
                         id='postalCode'
@@ -710,13 +720,13 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='postalCode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Country'
                         hasError={!!errors.country}
@@ -733,13 +743,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='country'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='State'
                         hasError={!!errors.state}
@@ -756,13 +766,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='state'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='District'
                         hasError={!!errors.district}
@@ -779,13 +789,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='district'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='City'
                         hasError={!!errors.city}
@@ -802,13 +812,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='city'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Area'
                         hasError={!!errors.area}
@@ -825,14 +835,14 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='area'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='SBU'
                         placeholder={!!errors.sbu ? 'Please Enter sbu' : 'SBU'}
@@ -848,12 +858,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='sbu'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Zone'
                         placeholder={
@@ -871,12 +881,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='zone'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Sales Territory'
                         hasError={!!errors.salesTerritoRy}
@@ -919,13 +929,13 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='salesTerritoRy'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Telephone'
                         placeholder={
@@ -955,7 +965,7 @@ const Doctors = DoctorsHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Mobile No'
                         placeholder={
@@ -968,7 +978,7 @@ const Doctors = DoctorsHoc(
                         hasError={!!errors.mobileNo}
                         value={value}
                         onChange={mobileNo => {
-                          console.log({mobileNo});
+                          console.log({ mobileNo });
                           onChange(mobileNo);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
@@ -986,7 +996,7 @@ const Doctors = DoctorsHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Email'
                         placeholder={
@@ -1004,13 +1014,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='email'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Report Priority'
                         hasError={!!errors.reportPriority}
@@ -1044,12 +1054,12 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='reportPriority'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Delivery Mode'
                         hasError={!!errors.deliveryMode}
@@ -1066,13 +1076,13 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='deliveryMode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Registartion Location'
                         hasError={!!errors.registrationLocation}
@@ -1114,12 +1124,12 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='registrationLocation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                         <select
                           value={value}
@@ -1128,7 +1138,7 @@ const Doctors = DoctorsHoc(
                           } rounded-md`}
                           onChange={e => {
                             const lab = e.target.value;
-                            console.log({lab});
+                            console.log({ lab });
 
                             onChange(lab);
                             doctorsStore.updateDoctors({
@@ -1169,12 +1179,12 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='lab'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='Opening Time'
                         hasError={!!errors.openingTime}
@@ -1189,12 +1199,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='openingTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='Closing Time'
                         hasError={!!errors.closingTime}
@@ -1209,14 +1219,14 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='closingTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Info'
                         placeholder={
@@ -1234,13 +1244,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='info'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='FYI Line'
                         placeholder={
@@ -1258,12 +1268,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='fyiLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Work Line'
                         placeholder={
@@ -1283,13 +1293,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='workLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Creation'
                         placeholder={
@@ -1303,12 +1313,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Active'
                         placeholder={
@@ -1322,12 +1332,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='dateActive'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Expire'
                         placeholder={
@@ -1347,12 +1357,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='dateExpire'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Version'
                         placeholder={
@@ -1364,13 +1374,13 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='version'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Entered By'
                         placeholder={
@@ -1382,12 +1392,12 @@ const Doctors = DoctorsHoc(
                       />
                     )}
                     name='userId'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -1418,12 +1428,12 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Environment'
                         hasError={!!errors.environment}
@@ -1487,13 +1497,13 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Grid cols={4}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Confidential'
                           hasError={!!errors.confidential}
@@ -1508,12 +1518,12 @@ const Doctors = DoctorsHoc(
                         />
                       )}
                       name='confidential'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Urgent'
                           hasError={!!errors.urgent}
@@ -1528,12 +1538,12 @@ const Doctors = DoctorsHoc(
                         />
                       )}
                       name='urgent'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Report Format'
                           hasError={!!errors.reportFormat}
@@ -1548,12 +1558,12 @@ const Doctors = DoctorsHoc(
                         />
                       )}
                       name='reportFormat'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Specific Format'
                           hasError={!!errors.specificFormat}
@@ -1568,7 +1578,7 @@ const Doctors = DoctorsHoc(
                         />
                       )}
                       name='specificFormat'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -1618,10 +1628,10 @@ const Doctors = DoctorsHoc(
               switch (action) {
                 case 'Delete': {
                   doctorsStore.doctorsService
-                    .deleteDoctors({input: {id: modalConfirm.id}})
+                    .deleteDoctors({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeDoctor.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeDoctor.message}`,
                         });
@@ -1655,7 +1665,7 @@ const Doctors = DoctorsHoc(
                     })
                     .then((res: any) => {
                       if (res.updateDoctor.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateDoctor.message}`,
                         });
@@ -1689,7 +1699,7 @@ const Doctors = DoctorsHoc(
                     })
                     .then((res: any) => {
                       if (res.updateDoctor.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateDoctor.message}`,
                         });
@@ -1751,7 +1761,7 @@ const Doctors = DoctorsHoc(
                 // No default
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

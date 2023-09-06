@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import {
   Toast,
@@ -18,19 +18,19 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   PanelMasterList,
   AutoCompleteFilterSingleSelectReportTemplate,
 } from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {AutoCompleteFilterSingleSelectDepartment} from '../components';
-import {MasterPanelHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {FormHelper} from '@/helper';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetMasterPanel} from '../startup';
+import { useForm, Controller } from 'react-hook-form';
+import { AutoCompleteFilterSingleSelectDepartment } from '../components';
+import { MasterPanelHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { FormHelper } from '@/helper';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetMasterPanel } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 
@@ -50,7 +50,7 @@ const MasterPanel = MasterPanelHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -94,7 +94,7 @@ const MasterPanel = MasterPanelHoc(
           masterPanelStore.masterPanelService
             .addPanelMaster({
               input: isImport
-                ? {isImport, arrImportRecords}
+                ? { isImport, arrImportRecords }
                 : {
                     isImport,
                     ...masterPanelStore.masterPanel,
@@ -194,7 +194,7 @@ const MasterPanel = MasterPanelHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update record!',
             });
@@ -203,7 +203,7 @@ const MasterPanel = MasterPanelHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
             });
@@ -228,13 +228,13 @@ const MasterPanel = MasterPanelHoc(
           }}
           onPageSizeChange={(page, limit) => {
             masterPanelStore.fetchPanelMaster(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             masterPanelStore.masterPanelService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, page, limit, filter};
+            global.filter = { mode: 'filter', type, page, limit, filter };
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -242,7 +242,7 @@ const MasterPanel = MasterPanelHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Master Panel!',
               });
@@ -259,12 +259,12 @@ const MasterPanel = MasterPanelHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             rLab: item?.RLab,
@@ -334,21 +334,31 @@ const MasterPanel = MasterPanelHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'rLab',
+        'pLab',
+        'department',
+        'serviceType',
+        'panelCode',
+        'panelName',
+        'schedule',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return masterPanelStore.masterPanelService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'rLab',
-                'pLab',
-                'department',
-                'serviceType',
-                'panelCode',
-                'panelName',
-                'schedule',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -399,7 +409,7 @@ const MasterPanel = MasterPanelHoc(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='RLab'
                           hasError={!!errors.rLab}
@@ -466,13 +476,13 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='rLab'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='PLab'
                           hasError={!!errors.pLab}
@@ -520,13 +530,13 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='pLab'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Department'
                           hasError={!!errors.department}
@@ -558,14 +568,14 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='department'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     {masterPanelStore.sectionListByDeptCode && (
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.InputWrapper
                             label='Section'
                             hasError={!!errors.section}
@@ -602,14 +612,14 @@ const MasterPanel = MasterPanelHoc(
                           </Form.InputWrapper>
                         )}
                         name='section'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     )}
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Service Type'
                           hasError={!!errors.serviceType}
@@ -643,13 +653,13 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='serviceType'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Panel Code'
                           placeholder={
@@ -668,7 +678,9 @@ const MasterPanel = MasterPanelHoc(
                           }}
                           onBlur={panelCode => {
                             masterPanelStore.masterPanelService
-                              .findByFields({input: {filter: {panelCode}}})
+                              .findByFields({
+                                input: { filter: { panelCode } },
+                              })
                               .then((res: any) => {
                                 if (res.findByFieldsPanelMaster.success) {
                                   masterPanelStore.updateMasterPanel({
@@ -699,7 +711,7 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='panelCode'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     {masterPanelStore.checkExitsLabEnvCode && (
@@ -710,7 +722,7 @@ const MasterPanel = MasterPanelHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Panel Name'
                           placeholder={
@@ -734,13 +746,13 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='panelName'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.MultilineInput
                           rows={3}
                           label='Description'
@@ -761,13 +773,13 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='description'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Panel Method'
                           hasError={!!errors.panelMethod}
@@ -819,7 +831,7 @@ const MasterPanel = MasterPanelHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Short Name'
                           placeholder={
@@ -839,12 +851,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='shortName'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Price'
                           placeholder={
@@ -863,13 +875,13 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='price'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Schedule'
                           hasError={!!errors.schedule}
@@ -912,12 +924,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='schedule'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Validation Level'
                           hasError={!!errors.validationLevel}
@@ -951,12 +963,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='validationLevel'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Report Groups'
                           placeholder={
@@ -977,12 +989,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='reportGroup'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Report Order'
                           type='number'
@@ -1003,14 +1015,14 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='reportOrder'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Grid cols={5}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Bill'
                             id='modeBill'
@@ -1026,12 +1038,12 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='bill'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Auto Release'
                             id='modeAutoRelease'
@@ -1047,12 +1059,12 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='autoRelease'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Hold OOS'
                             id='modeHoldOOS'
@@ -1068,12 +1080,12 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='holdOOS'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Confidential'
                             hasError={!!errors.confidential}
@@ -1088,15 +1100,15 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='confidential'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Urgent'
-                            style={{marginLeft: 5}}
+                            style={{ marginLeft: 5 }}
                             hasError={!!errors.urgent}
                             value={value}
                             onChange={urgent => {
@@ -1109,7 +1121,7 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='urgent'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -1118,7 +1130,7 @@ const MasterPanel = MasterPanelHoc(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Processing'
                           hasError={!!errors.processing}
@@ -1152,12 +1164,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='processing'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Workflow'
                           placeholder={
@@ -1177,12 +1189,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='workflow'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Category'
                           hasError={!!errors.category}
@@ -1216,12 +1228,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='category'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Panel Type'
                           hasError={!!errors.panelType}
@@ -1255,13 +1267,13 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='panelType'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Sex Action'
                           hasError={!!errors.sexAction}
@@ -1298,12 +1310,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='sexAction'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                           <select
                             value={value}
@@ -1334,13 +1346,13 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='sex'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Age Action'
                           hasError={!!errors.ageAction}
@@ -1377,12 +1389,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='ageAction'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Lo Age'
                           disabled={!masterPanelStore.masterPanel?.ageSexAction}
@@ -1423,7 +1435,7 @@ const MasterPanel = MasterPanelHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Hi Age'
                           disabled={!masterPanelStore.masterPanel?.ageSexAction}
@@ -1459,7 +1471,7 @@ const MasterPanel = MasterPanelHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Action Message'
                           disabled={!masterPanelStore.masterPanel?.ageSexAction}
@@ -1491,7 +1503,7 @@ const MasterPanel = MasterPanelHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Report Template'
                           hasError={!!errors.reportTemplate}
@@ -1509,12 +1521,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='reportTemplate'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label='Internal Comments'
@@ -1538,7 +1550,7 @@ const MasterPanel = MasterPanelHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label='External Comments'
@@ -1563,7 +1575,7 @@ const MasterPanel = MasterPanelHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Panel Bottom Marker'
                           hasError={!!errors.panelBottomMarker}
@@ -1614,7 +1626,7 @@ const MasterPanel = MasterPanelHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label='Panel Right Marker'
@@ -1640,7 +1652,7 @@ const MasterPanel = MasterPanelHoc(
                     <Grid cols={5}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Page Break'
                             hasError={!!errors.pageBreak}
@@ -1655,13 +1667,13 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='pageBreak'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
 
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Age/Sex Action'
                             hasError={!!errors.ageSexAction}
@@ -1682,13 +1694,13 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='ageSexAction'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
 
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Repetition'
                             hasError={!!errors.repitation}
@@ -1703,12 +1715,12 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='repitation'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Label'
                             hasError={!!errors.printLabel}
@@ -1723,7 +1735,7 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name=' printLabel'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -1762,7 +1774,7 @@ const MasterPanel = MasterPanelHoc(
               </Form.InputWrapper> */}
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Label Instruction'
                           placeholder={
@@ -1781,12 +1793,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='labelInstruction'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Special Instructions'
                           placeholder={
@@ -1807,12 +1819,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='specalInstructions'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='External Panel Code'
                           placeholder='External Panel Code'
@@ -1828,12 +1840,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='externalPanelCode'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Status'
                           hasError={!!errors.status}
@@ -1864,12 +1876,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='status'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Entered By'
                           placeholder={
@@ -1887,12 +1899,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='userId'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Creation'
                           placeholder={
@@ -1905,12 +1917,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='dateCreation'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Active'
                           hasError={!!errors.dateActive}
@@ -1924,12 +1936,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='dateActive'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Expire'
                           placeholder={
@@ -1948,12 +1960,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='dateExpire'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Version'
                           hasError={!!errors.version}
@@ -1965,12 +1977,12 @@ const MasterPanel = MasterPanelHoc(
                         />
                       )}
                       name='version'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Interpretation'>
                           <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
@@ -2009,12 +2021,12 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='interpretation'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Environment'
                           hasError={!!errors.environment}
@@ -2088,13 +2100,13 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='environment'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Grid cols={3}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Cumulative'
                             hasError={!!errors.cumulative}
@@ -2109,12 +2121,12 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='cumulative'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Method'
                             hasError={!!errors.method}
@@ -2129,7 +2141,7 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='method'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -2180,9 +2192,9 @@ const MasterPanel = MasterPanelHoc(
               switch (action) {
                 case 'Delete': {
                   masterPanelStore.masterPanelService
-                    .deletePanelMaster({input: {id: modalConfirm.id}})
+                    .deletePanelMaster({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.removePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.removePanelMaster.message}`,
@@ -2215,7 +2227,7 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.updatePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
@@ -2248,7 +2260,7 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.updatePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
@@ -2288,7 +2300,7 @@ const MasterPanel = MasterPanelHoc(
                   setValue('serviceType', modalConfirm.data.serviceType);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   break;
                 }
                 case 'duplicate': {
@@ -2313,13 +2325,13 @@ const MasterPanel = MasterPanelHoc(
                   setValue('serviceType', modalConfirm.data.serviceType);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   break;
                 }
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

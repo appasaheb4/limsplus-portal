@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -16,26 +16,31 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {Library as LibraryModel} from '../models';
-import {LibraryList} from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { Library as LibraryModel } from '../models';
+import { LibraryList } from '../components';
 import dayjs from 'dayjs';
-import {useForm, Controller} from 'react-hook-form';
-import {LibraryHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetLibrary} from '../startup';
+import { useForm, Controller } from 'react-hook-form';
+import { LibraryHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const modules = {
   toolbar: [
-    [{header: '1'}, {header: '2'}, {font: []}],
-    [{size: []}],
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ size: [] }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' },
+    ],
     ['link'],
     ['clean'],
   ],
@@ -67,10 +72,10 @@ export const Library = LibraryHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
-    } = useForm({mode: 'all'});
+    } = useForm({ mode: 'all' });
 
     useEffect(() => {
       // Default value initialization\
@@ -101,8 +106,8 @@ export const Library = LibraryHoc(
         libraryStore.libraryService
           .addLibrary({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...libraryStore.library},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...libraryStore.library },
           })
           .then(res => {
             if (res.createLibrary.success) {
@@ -160,7 +165,7 @@ export const Library = LibraryHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update item!',
             });
@@ -185,11 +190,11 @@ export const Library = LibraryHoc(
           }}
           onPageSizeChange={(page, limit) => {
             libraryStore.fetchLibrary(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             libraryStore.libraryService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -205,7 +210,7 @@ export const Library = LibraryHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {fields: {status: 'A'}, id: records._id},
+                data: { fields: { status: 'A' }, id: records._id },
                 title: 'Are you sure?',
                 body: 'Update library!',
               });
@@ -222,21 +227,31 @@ export const Library = LibraryHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'libraryCode',
+        'lab',
+        'department',
+        'position',
+        'parameter',
+        'status',
+        'versions',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return libraryStore.libraryService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'libraryCode',
-                'lab',
-                'department',
-                'position',
-                'parameter',
-                'status',
-                'versions',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -262,12 +277,12 @@ export const Library = LibraryHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list: Array<Partial<LibraryModel>> = data.map((item: any) => {
           return {
             code: item?.Code,
@@ -328,7 +343,7 @@ export const Library = LibraryHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Library Code'
                         placeholder={
@@ -360,7 +375,7 @@ export const Library = LibraryHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                         <select
                           value={value}
@@ -379,7 +394,7 @@ export const Library = LibraryHoc(
                             }
                             // fetch department list
                             departmentStore.DepartmentService.findByFields({
-                              input: {filter: {lab}},
+                              input: { filter: { lab } },
                             }).then(res => {
                               if (res.findByFieldsDepartments.success) {
                                 setDepartmentList(
@@ -390,7 +405,7 @@ export const Library = LibraryHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {[{code: 'Default'}]
+                          {[{ code: 'Default' }]
                             .concat(loginStore?.login?.labList)
                             ?.map((item: any, index: number) => (
                               <option key={index} value={item?.code}>
@@ -401,13 +416,13 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='lab'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Department'
                         hasError={!!errors.department}
@@ -432,7 +447,7 @@ export const Library = LibraryHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {[{name: '', code: 'Default'}]
+                          {[{ name: '', code: 'Default' }]
                             .concat(departmentList)
                             ?.map((item: any, index: number) => (
                               <option key={index} value={item?.code}>
@@ -445,13 +460,13 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='department'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Position'
                         hasError={!!errors.position}
@@ -485,13 +500,13 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='position'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Groups'
                         hasError={!!errors.groups}
@@ -522,13 +537,13 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='groups'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Library Type'
                         hasError={!!errors.libraryType}
@@ -563,13 +578,13 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='libraryType'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Parameter'
                         hasError={!!errors.parameter}
@@ -606,13 +621,13 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='parameter'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Toggle
                         label='Editable'
                         hasError={!!errors.editable}
@@ -627,14 +642,14 @@ export const Library = LibraryHoc(
                       />
                     )}
                     name='editable'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <>
                         <Form.InputWrapper
                           label='Details'
@@ -657,13 +672,13 @@ export const Library = LibraryHoc(
                       </>
                     )}
                     name='details'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -697,13 +712,13 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input
                         label='Enter By'
                         disabled
@@ -712,12 +727,12 @@ export const Library = LibraryHoc(
                       />
                     )}
                     name='enteredBy'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input
                         label='Date Creation'
                         disabled
@@ -731,12 +746,12 @@ export const Library = LibraryHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input
                         label='Date Expire'
                         disabled
@@ -750,22 +765,22 @@ export const Library = LibraryHoc(
                       />
                     )}
                     name='dateExpire'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input label='Versions' disabled value={value} />
                     )}
                     name='versions'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Environment'
                         hasError={!!errors.environment}
@@ -808,7 +823,7 @@ export const Library = LibraryHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -854,11 +869,11 @@ export const Library = LibraryHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   libraryStore.libraryService
-                    .deleteLibrary({input: {id: modalConfirm.id}})
+                    .deleteLibrary({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeLibrary.success) {
                         Toast.success({
@@ -947,7 +962,7 @@ export const Library = LibraryHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>
