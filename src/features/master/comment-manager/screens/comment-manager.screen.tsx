@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -17,7 +17,7 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   CommentManagerList,
   InvestigationDetails,
@@ -25,12 +25,12 @@ import {
 } from '../components';
 import dayjs from 'dayjs';
 
-import {useForm, Controller} from 'react-hook-form';
-import {CommentManagerHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {FormHelper} from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { CommentManagerHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { FormHelper } from '@/helper';
 import * as XLSX from 'xlsx';
 const CommentManager = CommentManagerHoc(
   observer(() => {
@@ -52,12 +52,12 @@ const CommentManager = CommentManagerHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
       setError,
       clearErrors,
-    } = useForm({mode: 'all'});
+    } = useForm({ mode: 'all' });
 
     useEffect(() => {
       // Default value initialization\
@@ -108,8 +108,8 @@ const CommentManager = CommentManagerHoc(
         commentManagerStore.commentManagerService
           .create({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...commentManagerStore.commentManager},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...commentManagerStore.commentManager },
           })
           .then(res => {
             if (res.createCommentManager.success) {
@@ -160,7 +160,7 @@ const CommentManager = CommentManagerHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update item!',
             });
@@ -185,11 +185,11 @@ const CommentManager = CommentManagerHoc(
           }}
           onPageSizeChange={(page, limit) => {
             commentManagerStore.commentManagerService.list(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             commentManagerStore.commentManagerService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -205,7 +205,7 @@ const CommentManager = CommentManagerHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Comment Manager!',
               });
@@ -256,12 +256,12 @@ const CommentManager = CommentManagerHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             code: item.Code,
@@ -289,7 +289,7 @@ const CommentManager = CommentManagerHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
             ),
-            version: item.Version,
+            version: item.Versions,
             environment: item?.Environment,
             status: 'D',
           };
@@ -309,7 +309,7 @@ const CommentManager = CommentManagerHoc(
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
+              ..._.pick({ ...fields, status }, [
                 'libraryCode',
                 'lab',
                 'department',
@@ -372,7 +372,7 @@ const CommentManager = CommentManagerHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Library Code'
                         hasError={!!errors.libraryCode}
@@ -429,7 +429,7 @@ const CommentManager = CommentManagerHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                         <select
                           value={value}
@@ -448,7 +448,7 @@ const CommentManager = CommentManagerHoc(
                             });
                             // fetch department list
                             departmentStore.DepartmentService.findByFields({
-                              input: {filter: {lab}},
+                              input: { filter: { lab } },
                             }).then(res => {
                               if (res.findByFieldsDepartments.success) {
                                 setDepartmentList(
@@ -459,7 +459,7 @@ const CommentManager = CommentManagerHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {[{code: 'Default'}]
+                          {[{ code: 'Default' }]
                             .concat(loginStore?.login?.labList)
                             ?.map((item: any, index: number) => (
                               <option key={index} value={item?.code}>
@@ -470,13 +470,13 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='lab'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Department'
                         hasError={!!errors.department}
@@ -501,7 +501,7 @@ const CommentManager = CommentManagerHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {[{name: '', code: 'Default'}]
+                          {[{ name: '', code: 'Default' }]
                             .concat(departmentList)
                             ?.map((item: any, index: number) => (
                               <option key={index} value={item?.code}>
@@ -514,13 +514,13 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='department'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Investigation Type'
                         hasError={!!errors.investigationType}
@@ -557,13 +557,13 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='investigationType'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Investigation Code'
                         hasError={!!errors.investigationCode}
@@ -592,13 +592,13 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='investigationCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Investigation Name'
                         hasError={!!errors.investigationName}
@@ -611,12 +611,12 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='investigationName'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Species'
                         hasError={!!errors.species}
@@ -650,12 +650,12 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='species'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Sex' hasError={!!errors.sex}>
                         <select
                           value={value}
@@ -686,14 +686,14 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='sex'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Inst Type'
                         hasError={!!errors.instType}
@@ -714,12 +714,12 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='instType'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Comments Type'
                         hasError={!!errors.commentsType}
@@ -756,12 +756,12 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='commentsType'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Comments For'
                         hasError={!!errors.commentsFor}
@@ -798,7 +798,7 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='commentsFor'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
@@ -816,7 +816,7 @@ const CommentManager = CommentManagerHoc(
                             <div className='grid grid-cols-2 gap-2'>
                               <Controller
                                 control={control}
-                                render={({field: {onChange, value}}) => (
+                                render={({ field: { onChange, value } }) => (
                                   <Form.Input
                                     label='Age From'
                                     type='number'
@@ -832,12 +832,12 @@ const CommentManager = CommentManagerHoc(
                                   />
                                 )}
                                 name='ageFrom'
-                                rules={{required: false}}
+                                rules={{ required: false }}
                                 defaultValue=''
                               />
                               <Controller
                                 control={control}
-                                render={({field: {onChange, value}}) => (
+                                render={({ field: { onChange, value } }) => (
                                   <Form.InputWrapper label='Age From Unit'>
                                     <select
                                       value={value}
@@ -868,7 +868,7 @@ const CommentManager = CommentManagerHoc(
                                   </Form.InputWrapper>
                                 )}
                                 name='ageFromUnit'
-                                rules={{required: false}}
+                                rules={{ required: false }}
                                 defaultValue=''
                               />
                             </div>
@@ -876,7 +876,7 @@ const CommentManager = CommentManagerHoc(
                             <div className='grid grid-cols-2 gap-2'>
                               <Controller
                                 control={control}
-                                render={({field: {onChange, value}}) => (
+                                render={({ field: { onChange, value } }) => (
                                   <Form.Input
                                     label='Age To'
                                     type='number'
@@ -892,12 +892,12 @@ const CommentManager = CommentManagerHoc(
                                   />
                                 )}
                                 name='ageTo'
-                                rules={{required: false}}
+                                rules={{ required: false }}
                                 defaultValue=''
                               />
                               <Controller
                                 control={control}
-                                render={({field: {onChange, value}}) => (
+                                render={({ field: { onChange, value } }) => (
                                   <Form.InputWrapper label='Age To Unit'>
                                     <select
                                       value={value}
@@ -928,14 +928,14 @@ const CommentManager = CommentManagerHoc(
                                   </Form.InputWrapper>
                                 )}
                                 name='ageToUnit'
-                                rules={{required: false}}
+                                rules={{ required: false }}
                                 defaultValue=''
                               />
                             </div>
                             <div className='grid grid-cols-2 gap-2'>
                               <Controller
                                 control={control}
-                                render={({field: {onChange, value}}) => (
+                                render={({ field: { onChange, value } }) => (
                                   <Form.Input
                                     label='Low'
                                     placeholder='Low'
@@ -959,7 +959,7 @@ const CommentManager = CommentManagerHoc(
                                           },
                                         );
                                       } else {
-                                        setError('low', {type: 'onBlur'});
+                                        setError('low', { type: 'onBlur' });
                                         Toast.warning({
                                           message:
                                             '😔 Only > and < sign and numbers should be allowed',
@@ -969,12 +969,12 @@ const CommentManager = CommentManagerHoc(
                                   />
                                 )}
                                 name='low'
-                                rules={{required: false}}
+                                rules={{ required: false }}
                                 defaultValue=''
                               />
                               <Controller
                                 control={control}
-                                render={({field: {onChange, value}}) => (
+                                render={({ field: { onChange, value } }) => (
                                   <Form.Input
                                     label='High'
                                     placeholder='High'
@@ -997,7 +997,7 @@ const CommentManager = CommentManagerHoc(
                                           },
                                         );
                                       } else {
-                                        setError('high', {type: 'onBlur'});
+                                        setError('high', { type: 'onBlur' });
                                         Toast.warning({
                                           message:
                                             '😔 Only > and < sign and numbers should be allowed',
@@ -1007,7 +1007,7 @@ const CommentManager = CommentManagerHoc(
                                   />
                                 )}
                                 name='high'
-                                rules={{required: false}}
+                                rules={{ required: false }}
                                 defaultValue=''
                               />
                             </div>
@@ -1019,7 +1019,7 @@ const CommentManager = CommentManagerHoc(
                           'ALPHA' && (
                           <Controller
                             control={control}
-                            render={({field: {onChange, value}}) => (
+                            render={({ field: { onChange, value } }) => (
                               <Form.Input
                                 label='Alpha'
                                 type='number'
@@ -1035,7 +1035,7 @@ const CommentManager = CommentManagerHoc(
                               />
                             )}
                             name='alpha'
-                            rules={{required: false}}
+                            rules={{ required: false }}
                             defaultValue=''
                           />
                         )}
@@ -1045,7 +1045,7 @@ const CommentManager = CommentManagerHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -1079,13 +1079,13 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input
                         label='Enter By'
                         disabled
@@ -1094,12 +1094,12 @@ const CommentManager = CommentManagerHoc(
                       />
                     )}
                     name='enteredBy'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input
                         label='Date Creation'
                         disabled
@@ -1113,12 +1113,12 @@ const CommentManager = CommentManagerHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input
                         label='Date Expire'
                         disabled
@@ -1132,22 +1132,22 @@ const CommentManager = CommentManagerHoc(
                       />
                     )}
                     name='dateExpire'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {value}}) => (
+                    render={({ field: { value } }) => (
                       <Form.Input label='Versions' disabled value={value} />
                     )}
                     name='versions'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Environment'
                         hasError={!!errors.environment}
@@ -1191,7 +1191,7 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -1237,11 +1237,11 @@ const CommentManager = CommentManagerHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   commentManagerStore.commentManagerService
-                    .delete({input: {id: modalConfirm.id}})
+                    .delete({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeCommentManager.success) {
                         Toast.success({
@@ -1331,7 +1331,7 @@ const CommentManager = CommentManagerHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>
