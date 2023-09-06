@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -17,15 +17,15 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {LabList, PriceListTable} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {LabHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {FormHelper} from '@/helper';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetLab} from '../startup';
+import { LabList, PriceListTable } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { LabHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { FormHelper } from '@/helper';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetLab } from '../startup';
 import * as XLSX from 'xlsx';
 
 const Lab = LabHoc(
@@ -42,7 +42,7 @@ const Lab = LabHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -73,7 +73,7 @@ const Lab = LabHoc(
       if (!labStore.checkExitsEnvCode) {
         if (isImport) {
           labStore.LabService.addLab({
-            input: {isImport, arrImportRecords},
+            input: { isImport, arrImportRecords },
           }).then(res => {
             if (res.createLab.success) {
               Toast.success({
@@ -97,7 +97,7 @@ const Lab = LabHoc(
             }).length > 0
           ) {
             labStore.LabService.addLab({
-              input: {isImport, ...labStore.labs},
+              input: { isImport, ...labStore.labs },
             }).then(res => {
               if (res.createLab.success) {
                 Toast.success({
@@ -153,7 +153,7 @@ const Lab = LabHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
             });
@@ -162,7 +162,7 @@ const Lab = LabHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update lab!',
             });
@@ -171,7 +171,7 @@ const Lab = LabHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
             });
@@ -180,7 +180,7 @@ const Lab = LabHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateImage',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update lab!',
             });
@@ -195,7 +195,7 @@ const Lab = LabHoc(
           }}
           onFilter={(type, filter, page, limit) => {
             labStore.LabService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -211,7 +211,7 @@ const Lab = LabHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Lab!',
               });
@@ -228,12 +228,12 @@ const Lab = LabHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             code: item?.Code,
@@ -294,16 +294,26 @@ const Lab = LabHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'code',
+        'name',
+        'defaultLab',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return labStore.LabService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, [
-              'code',
-              'name',
-              'defaultLab',
-              'status',
-              'environment',
-            ]),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
@@ -353,7 +363,7 @@ const Lab = LabHoc(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Code'
                           id='code'
@@ -388,7 +398,7 @@ const Lab = LabHoc(
                         />
                       )}
                       name='code'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     {labStore.checkExitsEnvCode && (
@@ -398,7 +408,7 @@ const Lab = LabHoc(
                     )}
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Name'
                           name='name'
@@ -417,13 +427,13 @@ const Lab = LabHoc(
                         />
                       )}
                       name='name'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Postal Code'
                           id='postalCode'
@@ -468,13 +478,13 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='postalCode'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue={labStore.labs.area}
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Country'
                           hasError={!!errors.country}
@@ -491,13 +501,13 @@ const Lab = LabHoc(
                         />
                       )}
                       name='country'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='State'
                           hasError={!!errors.state}
@@ -514,13 +524,13 @@ const Lab = LabHoc(
                         />
                       )}
                       name='state'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='District'
                           hasError={!!errors.district}
@@ -537,13 +547,13 @@ const Lab = LabHoc(
                         />
                       )}
                       name='district'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='City'
                           hasError={!!errors.city}
@@ -560,13 +570,13 @@ const Lab = LabHoc(
                         />
                       )}
                       name='city'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Area'
                           hasError={!!errors.area}
@@ -583,13 +593,13 @@ const Lab = LabHoc(
                         />
                       )}
                       name='area'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label='Address'
@@ -608,12 +618,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='address'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Sales Territory'
                           hasError={!!errors.salesTerritory}
@@ -650,12 +660,12 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='salesTerritory'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Lab Licence'
                           placeholder={
@@ -675,12 +685,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='labLicence'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Director'
                           placeholder={
@@ -700,7 +710,7 @@ const Lab = LabHoc(
                         />
                       )}
                       name='director'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     {/* <Controller
@@ -746,7 +756,7 @@ const Lab = LabHoc(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Physician'
                           placeholder={
@@ -766,12 +776,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='physician'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           type='number'
                           label='Mobile Number'
@@ -801,7 +811,7 @@ const Lab = LabHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           type='number'
                           label='Contact Number'
@@ -831,7 +841,7 @@ const Lab = LabHoc(
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Speciality'
                           hasError={!!errors.speciality}
@@ -865,12 +875,12 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='speciality'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Lab type'
                           hasError={!!errors.labType}
@@ -904,12 +914,12 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='labType'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Default Lab'
                           hasError={!!errors.defaultLab}
@@ -949,12 +959,12 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='defaultLab'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Clock
                           label='Opening Time'
                           hasError={!!errors.openingTime}
@@ -969,12 +979,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='openingTime'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Clock
                           label='Closing Time'
                           hasError={!!errors.closingTime}
@@ -989,12 +999,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='closingTime'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Email'
                           placeholder={
@@ -1012,12 +1022,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='email'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Web'
                           placeholder='Web'
@@ -1033,12 +1043,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='web'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Registered Office'
                           placeholder='Registered Office'
@@ -1054,14 +1064,14 @@ const Lab = LabHoc(
                         />
                       )}
                       name='registeredOffice'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Grid cols={4}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Report Format'
                             hasError={!!errors.reportFormat}
@@ -1076,12 +1086,12 @@ const Lab = LabHoc(
                           />
                         )}
                         name='reportFormat'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Label'
                             hasError={!!errors.printLable}
@@ -1096,12 +1106,12 @@ const Lab = LabHoc(
                           />
                         )}
                         name='printLable'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Abn Flag'
                             hasError={!!errors.abnFlag}
@@ -1116,12 +1126,12 @@ const Lab = LabHoc(
                           />
                         )}
                         name='abnFlag'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Critical'
                             hasError={!!errors.critical}
@@ -1136,7 +1146,7 @@ const Lab = LabHoc(
                           />
                         )}
                         name='critical'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -1144,7 +1154,7 @@ const Lab = LabHoc(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Customer Care'
                           placeholder='Customer Care'
@@ -1160,12 +1170,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='customerCare'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Corporate Office'
                           placeholder='Corporate Office'
@@ -1181,12 +1191,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='corporateOffice'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='GST'
                           placeholder='GST'
@@ -1202,12 +1212,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='gst'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Sac Code'
                           placeholder='Sac Code'
@@ -1223,12 +1233,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='sacCode'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='CIN No'
                           placeholder='CIN No'
@@ -1244,12 +1254,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='cinNo'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputFile
                           label='Lab logo'
                           placeholder={
@@ -1268,12 +1278,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='labLog'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label='FYI line'
@@ -1292,12 +1302,12 @@ const Lab = LabHoc(
                         />
                       )}
                       name='fyiLine'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label='Work line'
@@ -1318,13 +1328,13 @@ const Lab = LabHoc(
                         />
                       )}
                       name='workLine'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Status'
                           hasError={!!errors.status}
@@ -1355,13 +1365,13 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='status'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Environment'
                           hasError={!!errors.environment}
@@ -1419,14 +1429,14 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='environment'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Grid cols={4}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Auto Release'
                             hasError={!!errors.autoRelease}
@@ -1441,13 +1451,13 @@ const Lab = LabHoc(
                           />
                         )}
                         name='autoRelease'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
 
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Require Reveiving in Lab'
                             hasError={!!errors.requireReceveInLab}
@@ -1462,12 +1472,12 @@ const Lab = LabHoc(
                           />
                         )}
                         name='requireReceveInLab'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Require Scain In'
                             hasError={!!errors.requireScainIn}
@@ -1482,12 +1492,12 @@ const Lab = LabHoc(
                           />
                         )}
                         name='requireScainIn'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Routing Dept'
                             hasError={!!errors.routingDept}
@@ -1502,12 +1512,12 @@ const Lab = LabHoc(
                           />
                         )}
                         name='routingDept'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Specific Format'
                             hasError={!!errors.specificFormat}
@@ -1522,7 +1532,7 @@ const Lab = LabHoc(
                           />
                         )}
                         name='specificFormat'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -1531,7 +1541,7 @@ const Lab = LabHoc(
                 <List direction='row' space={3} align='center'>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Price List'
                         hasError={!!errors.priceList}
@@ -1540,7 +1550,7 @@ const Lab = LabHoc(
                       </Form.InputWrapper>
                     )}
                     name='priceList'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
@@ -1590,10 +1600,10 @@ const Lab = LabHoc(
               switch (action) {
                 case 'Delete': {
                   labStore.LabService.deleteLab({
-                    input: {id: modalConfirm.id},
+                    input: { id: modalConfirm.id },
                   }).then((res: any) => {
                     if (res.removeLab.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.removeLab.message}`,
                       });
@@ -1625,7 +1635,7 @@ const Lab = LabHoc(
                     },
                   }).then((res: any) => {
                     if (res.updateLab.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
                       });
@@ -1656,7 +1666,7 @@ const Lab = LabHoc(
                       _id: modalConfirm.data.id,
                     },
                   }).then((res: any) => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.updateLab.success) {
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
@@ -1689,7 +1699,7 @@ const Lab = LabHoc(
                     },
                   }).then((res: any) => {
                     if (res.updateLabImages.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.updateLabImages.message}`,
                       });
@@ -1714,7 +1724,7 @@ const Lab = LabHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

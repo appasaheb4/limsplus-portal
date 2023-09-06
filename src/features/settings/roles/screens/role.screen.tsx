@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
@@ -15,21 +15,21 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {RoleList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {RolesHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { RoleList } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { RolesHoc } from '../hoc';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {RouterFlow} from '@/flows';
-import {resetRole} from '../startup';
+import { RouterFlow } from '@/flows';
+import { resetRole } from '../startup';
 import * as XLSX from 'xlsx';
 const Role = RolesHoc(
   observer(() => {
-    const {loginStore, roleStore, routerStore} = useStores();
+    const { loginStore, roleStore, routerStore } = useStores();
     const {
       control,
-      formState: {errors},
+      formState: { errors },
       handleSubmit,
       setValue,
       reset,
@@ -51,8 +51,8 @@ const Role = RolesHoc(
       if (!roleStore.checkExitsCode) {
         roleStore.RoleService.addrole({
           input: isImport
-            ? {isImport, arrImportRecords}
-            : {isImport, ...roleStore.role},
+            ? { isImport, arrImportRecords }
+            : { isImport, ...roleStore.role },
         }).then(res => {
           if (res.createRole.success) {
             Toast.success({
@@ -74,12 +74,12 @@ const Role = RolesHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             code: item?.Code,
@@ -98,22 +98,27 @@ const Role = RolesHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = ['code', 'description', 'environment', 'status'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return roleStore.RoleService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, [
-              'code',
-              'description',
-              'environment',
-              'status',
-            ]),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
         if (
-          res.findByFieldsSalesTeams?.success &&
-          res.findByFieldsSalesTeams.data?.length > length
+          res.findByFieldsRoleMapping?.success &&
+          res.findByFieldsRoleMapping.data?.length > length
         ) {
           //setIsExistsRecord(true);
           Toast.error({
@@ -154,7 +159,7 @@ const Role = RolesHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Code'
                         id='code'
@@ -188,7 +193,7 @@ const Role = RolesHoc(
                       />
                     )}
                     name='code'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {roleStore.checkExitsCode && (
@@ -198,7 +203,7 @@ const Role = RolesHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Description'
                         name='description'
@@ -219,12 +224,12 @@ const Role = RolesHoc(
                       />
                     )}
                     name='description'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -255,12 +260,12 @@ const Role = RolesHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -315,7 +320,7 @@ const Role = RolesHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -385,20 +390,20 @@ const Role = RolesHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update role!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 roleStore.fetchListRole(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 roleStore.RoleService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
-                global.filter = {mode: 'filter', type, filter, page, limit};
+                global.filter = { mode: 'filter', type, filter, page, limit };
               }}
               onApproval={async records => {
                 const isExists = await checkExistsRecords(records);
@@ -406,7 +411,7 @@ const Role = RolesHoc(
                   setModalConfirm({
                     show: true,
                     type: 'Update',
-                    data: {value: 'A', dataField: 'status', id: records._id},
+                    data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
                     body: 'Update Role!',
                   });
@@ -419,10 +424,10 @@ const Role = RolesHoc(
             click={(action?: string) => {
               if (action === 'Delete') {
                 roleStore.RoleService.deleterole({
-                  input: {id: modalConfirm.id},
+                  input: { id: modalConfirm.id },
                 }).then((res: any) => {
                   if (res.removeRole.success) {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     Toast.success({
                       message: `😊 ${res.removeRole.message}`,
                     });
@@ -450,7 +455,7 @@ const Role = RolesHoc(
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
                   },
                 }).then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.updateRole.success) {
                     Toast.success({
                       message: `😊 ${res.updateRole.message}`,
@@ -474,7 +479,7 @@ const Role = RolesHoc(
                 });
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

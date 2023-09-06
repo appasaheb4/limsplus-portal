@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
-import {Accordion, AccordionItem} from 'react-sanfona';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { Accordion, AccordionItem } from 'react-sanfona';
 
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   Header,
   PageHeading,
@@ -11,26 +11,26 @@ import {
   ModalConfirm,
   Toast,
 } from '@/library/components';
-import {LookupList} from '../components';
-import {ModalLookupValuesModify} from '../components';
+import { LookupList } from '../components';
+import { ModalLookupValuesModify } from '../components';
 import _ from 'lodash';
-import {dashboardRouter as dashboardRoutes} from '@/routes';
-import {useStores} from '@/stores';
+import { dashboardRouter as dashboardRoutes } from '@/routes';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
+import { RouterFlow } from '@/flows';
 let router = dashboardRoutes;
 
-import {DocumentSettings} from './document-setting.screen';
-import {GeneralField} from './general-field.screen';
-import {toJS} from 'mobx';
+import { DocumentSettings } from './document-setting.screen';
+import { GeneralField } from './general-field.screen';
+import { toJS } from 'mobx';
 
 const Lookup = observer(() => {
-  const {loginStore, lookupStore, routerStore} = useStores();
+  const { loginStore, lookupStore, routerStore } = useStores();
   const [hideAddLab, setHideAddLab] = useState<boolean>(true);
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalLookupValuesModify, setModalLookupValuesModify] = useState<any>();
@@ -61,7 +61,7 @@ const Lookup = observer(() => {
         Toast.success({
           message: `😊 ${res.updateLookup.message}`,
         });
-        setModalConfirm({show: false});
+        setModalConfirm({ show: false });
         lookupStore.fetchListLookup();
       }
     });
@@ -71,22 +71,32 @@ const Lookup = observer(() => {
     length = 0,
     status = 'A',
   ) => {
+    const requiredFields = [
+      'documentName',
+      'fieldName',
+      'environment',
+      'status',
+    ];
+    const isEmpty = requiredFields.find(item => {
+      if (_.isEmpty({ ...fields, status }[item])) return item;
+    });
+    if (isEmpty) {
+      Toast.error({
+        message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+      });
+      return true;
+    }
     //Pass required Field in Array
     return lookupStore.LookupService.findByFields({
       input: {
         filter: {
-          ..._.pick({...fields, status}, [
-            'documentName',
-            'fieldName',
-            'environment',
-            'status',
-          ]),
+          ..._.pick({ ...fields, status }, requiredFields),
         },
       },
     }).then(res => {
       if (
-        res.findByFieldsCorporateClient?.success &&
-        res.findByFieldsCorporateClient.data?.length > length
+        res.findByFieldsLookup?.success &&
+        res.findByFieldsLookup.data?.length > length
       ) {
         //setIsExistsRecord(true);
         Toast.error({
@@ -117,7 +127,7 @@ const Lookup = observer(() => {
           }
         >
           <Accordion>
-            {[{title: 'DOCUMENT SETTING'}, {title: 'GENERAL SETTING'}].map(
+            {[{ title: 'DOCUMENT SETTING' }, { title: 'GENERAL SETTING' }].map(
               item => {
                 return (
                   <AccordionItem
@@ -181,18 +191,18 @@ const Lookup = observer(() => {
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update Lookup!',
                 });
               }}
               onPageSizeChange={(page, size) => {
                 lookupStore.fetchListLookup(page, size);
-                global.filter = {mode: 'pagination', page, size};
+                global.filter = { mode: 'pagination', page, size };
               }}
               onFilter={(type, filter, page, limit) => {
                 lookupStore.LookupService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
                 global.filter = {
                   mode: 'filter',
@@ -208,7 +218,7 @@ const Lookup = observer(() => {
                   setModalConfirm({
                     show: true,
                     type: 'Update',
-                    data: {value: 'A', dataField: 'status', id: records._id},
+                    data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
                     body: 'Update deginisation!',
                   });
@@ -222,10 +232,10 @@ const Lookup = observer(() => {
               switch (action) {
                 case 'Delete': {
                   lookupStore.LookupService.deleteLookup({
-                    input: {id: modalConfirm.id},
+                    input: { id: modalConfirm.id },
                   }).then((res: any) => {
                     if (res.removeLookup.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.removeLookup.message}`,
                       });
@@ -256,7 +266,7 @@ const Lookup = observer(() => {
                     },
                   }).then((res: any) => {
                     if (res.updateLookup.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.updateLookup.message}`,
                       });
@@ -281,17 +291,17 @@ const Lookup = observer(() => {
                 }
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
 
           <ModalLookupValuesModify
             {...modalLookupValuesModify}
             onClick={(arrValue, id) => {
-              updateMultipleFields({fields: {arrValue}, id});
-              setModalLookupValuesModify({show: false});
+              updateMultipleFields({ fields: { arrValue }, id });
+              setModalLookupValuesModify({ show: false });
             }}
             onClose={() => {
-              setModalLookupValuesModify({show: false});
+              setModalLookupValuesModify({ show: false });
             }}
           />
         </div>

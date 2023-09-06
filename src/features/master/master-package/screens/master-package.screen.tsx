@@ -1,6 +1,6 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {Table} from 'reactstrap';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { Table } from 'reactstrap';
 import {
   Toast,
   Header,
@@ -19,23 +19,23 @@ import {
   ImportFile,
 } from '@/library/components';
 import _ from 'lodash';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {PackageMasterList} from '../components';
-import {IconContext} from 'react-icons';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { PackageMasterList } from '../components';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
 
 import dayjs from 'dayjs';
-import {useForm, Controller} from 'react-hook-form';
-import {MasterPackageHOC} from '../hoc';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { MasterPackageHOC } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetMasterPackage} from '../startup';
-import {SelectedItems} from '../models';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetMasterPackage } from '../startup';
+import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 
 const grid = 8;
@@ -60,7 +60,7 @@ const MasterPackage = MasterPackageHOC(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -114,7 +114,7 @@ const MasterPackage = MasterPackageHOC(
           masterPackageStore.masterPackageService
             .addPackageMaster({
               input: isImport
-                ? {isImport, arrImportRecords}
+                ? { isImport, arrImportRecords }
                 : {
                     isImport,
                     ...masterPackageStore.masterPackage,
@@ -210,7 +210,7 @@ const MasterPackage = MasterPackageHOC(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update items!',
             });
@@ -219,7 +219,7 @@ const MasterPackage = MasterPackageHOC(
             setModalConfirm({
               show: true,
               type: 'updateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records',
             });
@@ -244,7 +244,7 @@ const MasterPackage = MasterPackageHOC(
           }}
           onUpdateOrderSeq={orderSeq => {
             masterPackageStore.masterPackageService
-              .updateOrderSeq({input: {filter: {orderSeq}}})
+              .updateOrderSeq({ input: { filter: { orderSeq } } })
               .then(res => {
                 Toast.success({
                   message: `😊 ${res.updateRepOPackageMaster.message}`,
@@ -254,13 +254,13 @@ const MasterPackage = MasterPackageHOC(
           }}
           onPageSizeChange={(page, limit) => {
             masterPackageStore.fetchPackageMaster(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             masterPackageStore.masterPackageService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, page, limit, filter};
+            global.filter = { mode: 'filter', type, page, limit, filter };
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -268,7 +268,7 @@ const MasterPackage = MasterPackageHOC(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Master Package!',
               });
@@ -294,12 +294,12 @@ const MasterPackage = MasterPackageHOC(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             lab: item?.Lab,
@@ -337,18 +337,28 @@ const MasterPackage = MasterPackageHOC(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'lab',
+        'serviceType',
+        'packageCode',
+        'panelCode',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return masterPackageStore.masterPackageService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'lab',
-                'serviceType',
-                'packageCode',
-                'panelCode',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -398,7 +408,7 @@ const MasterPackage = MasterPackageHOC(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                           <AutoCompleteFilterSingleSelect
                             placeholder='Search by name'
@@ -474,13 +484,13 @@ const MasterPackage = MasterPackageHOC(
                         </Form.InputWrapper>
                       )}
                       name='lab'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Service Type'
                           hasError={!!errors.serviceType}
@@ -545,12 +555,12 @@ const MasterPackage = MasterPackageHOC(
                         </Form.InputWrapper>
                       )}
                       name='serviceType'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Package Code'
                           hasError={!!errors.packageCode}
@@ -628,7 +638,7 @@ const MasterPackage = MasterPackageHOC(
                         </Form.InputWrapper>
                       )}
                       name='packageCode'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     {masterPackageStore.checkExitsLabEnvCode && (
@@ -642,7 +652,7 @@ const MasterPackage = MasterPackageHOC(
                     </label>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           value={value}
                           label='Package Name'
@@ -651,13 +661,13 @@ const MasterPackage = MasterPackageHOC(
                         />
                       )}
                       name='packageName'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Panel Code'
                           hasError={!!errors.panelCode}
@@ -778,12 +788,12 @@ const MasterPackage = MasterPackageHOC(
                         </Form.InputWrapper>
                       )}
                       name='panelCode'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Panel Name'
                           hasError={!!errors.panelName}
@@ -806,12 +816,12 @@ const MasterPackage = MasterPackageHOC(
                         </Form.InputWrapper>
                       )}
                       name='panelName'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Status'
                           hasError={!!errors.status}
@@ -842,12 +852,12 @@ const MasterPackage = MasterPackageHOC(
                         </Form.InputWrapper>
                       )}
                       name='status'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Entered By'
                           placeholder={
@@ -861,12 +871,12 @@ const MasterPackage = MasterPackageHOC(
                         />
                       )}
                       name='userId'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Creation'
                           placeholder={
@@ -880,14 +890,14 @@ const MasterPackage = MasterPackageHOC(
                         />
                       )}
                       name='dateCreation'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Grid cols={3}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Bill'
                             id='modeBill'
@@ -902,12 +912,12 @@ const MasterPackage = MasterPackageHOC(
                           />
                         )}
                         name='bill'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Package Name'
                             id='printPackageName'
@@ -922,13 +932,13 @@ const MasterPackage = MasterPackageHOC(
                           />
                         )}
                         name='printPackageName'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
 
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Panel Name'
                             id='printPanelName'
@@ -943,13 +953,13 @@ const MasterPackage = MasterPackageHOC(
                           />
                         )}
                         name='printPanelName'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
 
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Panel Name'
                             id='printPanelName'
@@ -964,13 +974,13 @@ const MasterPackage = MasterPackageHOC(
                           />
                         )}
                         name='printPanelName'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
 
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Package Interpretation'
                             hasError={!!errors.packageInterpretation}
@@ -984,12 +994,12 @@ const MasterPackage = MasterPackageHOC(
                           />
                         )}
                         name='packageInterpretation'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Panel Interpretation'
                             hasError={!!errors.panelInterpretation}
@@ -1003,7 +1013,7 @@ const MasterPackage = MasterPackageHOC(
                           />
                         )}
                         name='panelInterpretation'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -1014,18 +1024,21 @@ const MasterPackage = MasterPackageHOC(
                       <Table striped bordered className='max-h-5' size='sm'>
                         <thead>
                           <tr className='text-xs'>
-                            <th className='text-white' style={{minWidth: 150}}>
+                            <th
+                              className='text-white'
+                              style={{ minWidth: 150 }}
+                            >
                               Panel
                             </th>
                             <th
                               className='text-white flex flex-row gap-2 items-center'
-                              style={{minWidth: 150}}
+                              style={{ minWidth: 150 }}
                             >
                               Order
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
@@ -1049,7 +1062,7 @@ const MasterPackage = MasterPackageHOC(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
@@ -1088,7 +1101,7 @@ const MasterPackage = MasterPackageHOC(
                                   <td>{`${index + 1}. ${
                                     item.panelName + ' - ' + item.panelCode
                                   }`}</td>
-                                  <td style={{width: 150}}>
+                                  <td style={{ width: 150 }}>
                                     {txtDisable ? (
                                       <span
                                         className={
@@ -1126,7 +1139,7 @@ const MasterPackage = MasterPackageHOC(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Active'
                           placeholder={
@@ -1140,13 +1153,13 @@ const MasterPackage = MasterPackageHOC(
                         />
                       )}
                       name='dateActive'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Expire'
                           placeholder={
@@ -1166,12 +1179,12 @@ const MasterPackage = MasterPackageHOC(
                         />
                       )}
                       name='dateExpire'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Version'
                           placeholder={
@@ -1183,12 +1196,12 @@ const MasterPackage = MasterPackageHOC(
                         />
                       )}
                       name='version'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Environment'
                           hasError={!!errors.environment}
@@ -1267,7 +1280,7 @@ const MasterPackage = MasterPackageHOC(
                         </Form.InputWrapper>
                       )}
                       name='environment'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </List>
@@ -1317,10 +1330,10 @@ const MasterPackage = MasterPackageHOC(
               switch (action) {
                 case 'Delete': {
                   masterPackageStore.masterPackageService
-                    .deletePackageMaster({input: {id: modalConfirm.id}})
+                    .deletePackageMaster({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removePackageMaster.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removePackageMaster.message}`,
                         });
@@ -1354,7 +1367,7 @@ const MasterPackage = MasterPackageHOC(
                     })
                     .then((res: any) => {
                       if (res.updatePackageMaster.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePackageMaster.message}`,
                         });
@@ -1388,7 +1401,7 @@ const MasterPackage = MasterPackageHOC(
                     })
                     .then((res: any) => {
                       if (res.updatePackageMaster.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePackageMaster.message}`,
                         });
@@ -1447,7 +1460,7 @@ const MasterPackage = MasterPackageHOC(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

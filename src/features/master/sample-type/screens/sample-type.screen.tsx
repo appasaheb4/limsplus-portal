@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -15,23 +15,23 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {SampleTypeList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {SampleTypeHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { SampleTypeList } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { SampleTypeHoc } from '../hoc';
+import { useStores } from '@/stores';
 import _ from 'lodash';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetSampleType} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetSampleType } from '../startup';
 import * as XLSX from 'xlsx';
 const SampleType = SampleTypeHoc(
   observer(() => {
-    const {loginStore, sampleTypeStore, routerStore} = useStores();
+    const { loginStore, sampleTypeStore, routerStore } = useStores();
     const {
       control,
-      formState: {errors},
+      formState: { errors },
       handleSubmit,
       setValue,
       reset,
@@ -54,8 +54,8 @@ const SampleType = SampleTypeHoc(
         sampleTypeStore.sampleTypeService
           .addSampleType({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...sampleTypeStore.sampleType},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...sampleTypeStore.sampleType },
           })
           .then(res => {
             if (res.createSampleType.success) {
@@ -78,12 +78,12 @@ const SampleType = SampleTypeHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             sampleCode: item['Sample Code'],
@@ -103,24 +103,34 @@ const SampleType = SampleTypeHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'sampleCode',
+        'sampleType',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return sampleTypeStore.sampleTypeService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'sampleCode',
-                'sampleType',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
         .then(res => {
           if (
-            res.findByFieldsDesignation?.success &&
-            res.findByFieldsDesignation.data?.length > length
+            res.findByFieldsReferenceRanges?.success &&
+            res.findByFieldsReferenceRanges.data?.length > length
           ) {
             //setIsExistsRecord(true);
             Toast.error({
@@ -163,7 +173,7 @@ const SampleType = SampleTypeHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sample Code'
                         hasError={!!errors.sampleCode}
@@ -200,7 +210,7 @@ const SampleType = SampleTypeHoc(
                       />
                     )}
                     name='sampleCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {sampleTypeStore.checkExitsEnvCode && (
@@ -210,7 +220,7 @@ const SampleType = SampleTypeHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sample Type'
                         hasError={!!errors.sampleType}
@@ -230,12 +240,12 @@ const SampleType = SampleTypeHoc(
                       />
                     )}
                     name='sampleType'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sample Group'
                         placeholder={
@@ -255,12 +265,12 @@ const SampleType = SampleTypeHoc(
                       />
                     )}
                     name='sampleGroup'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={5}
                         label='Descriptions'
@@ -281,14 +291,14 @@ const SampleType = SampleTypeHoc(
                       />
                     )}
                     name='descriptions'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -319,12 +329,12 @@ const SampleType = SampleTypeHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -383,7 +393,7 @@ const SampleType = SampleTypeHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -453,18 +463,18 @@ const SampleType = SampleTypeHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update items!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 sampleTypeStore.fetchSampleTypeList(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 sampleTypeStore.sampleTypeService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
                 global.filter = {
                   mode: 'filter',
@@ -475,16 +485,16 @@ const SampleType = SampleTypeHoc(
                 };
               }}
               onApproval={async records => {
-                // const isExists = await checkExistsRecords(records, 1);
-                // if (!isExists) {
-                setModalConfirm({
-                  show: true,
-                  type: 'Update',
-                  data: {value: 'A', dataField: 'status', id: records._id},
-                  title: 'Are you sure?',
-                  body: 'Update deginisation!',
-                });
-                // }
+                const isExists = await checkExistsRecords(records, 1);
+                if (!isExists) {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: { value: 'A', dataField: 'status', id: records._id },
+                    title: 'Are you sure?',
+                    body: 'Update deginisation!',
+                  });
+                }
               }}
             />
           </div>
@@ -494,10 +504,10 @@ const SampleType = SampleTypeHoc(
               switch (action) {
                 case 'Delete': {
                   sampleTypeStore.sampleTypeService
-                    .deleteSampleType({input: {id: modalConfirm.id}})
+                    .deleteSampleType({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeSampleType.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeSampleType.message}`,
                         });
@@ -530,7 +540,7 @@ const SampleType = SampleTypeHoc(
                     })
                     .then((res: any) => {
                       if (res.updateSampleType.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateSampleType.message}`,
                         });
@@ -556,7 +566,7 @@ const SampleType = SampleTypeHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

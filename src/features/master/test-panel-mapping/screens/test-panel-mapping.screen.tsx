@@ -1,7 +1,7 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
-import {Table} from 'reactstrap';
+import { Table } from 'reactstrap';
 import {
   Toast,
   Header,
@@ -19,21 +19,21 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {TestPanelMappingList} from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {AutoCompleteFilterSingleSelectPanelCode} from '../components';
-import {IconContext} from 'react-icons';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { TestPanelMappingList } from '../components';
+import { useForm, Controller } from 'react-hook-form';
+import { AutoCompleteFilterSingleSelectPanelCode } from '../components';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
-import {TestPanelMappingHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetTestPanelMapping} from '../startup';
-import {SelectedItems} from '../models';
+import { TestPanelMappingHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetTestPanelMapping } from '../startup';
+import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 
@@ -51,7 +51,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -128,7 +128,7 @@ const TestPanelMapping = TestPanelMappingHoc(
           testPanelMappingStore.testPanelMappingService
             .addTestPanelMapping({
               input: isImport
-                ? {isImport, arrImportRecords}
+                ? { isImport, arrImportRecords }
                 : {
                     isImport,
                     ...testPanelMappingStore.testPanelMapping,
@@ -227,7 +227,7 @@ const TestPanelMapping = TestPanelMappingHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update items!',
             });
@@ -236,7 +236,7 @@ const TestPanelMapping = TestPanelMappingHoc(
             setModalConfirm({
               show: true,
               type: 'updateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records',
             });
@@ -261,7 +261,7 @@ const TestPanelMapping = TestPanelMappingHoc(
           }}
           onUpdateOrderSeq={orderSeq => {
             testPanelMappingStore.testPanelMappingService
-              .updateOrderSeq({input: {filter: {orderSeq}}})
+              .updateOrderSeq({ input: { filter: { orderSeq } } })
               .then(res => {
                 Toast.success({
                   message: `😊 ${res.updateROTestPanelMapping.message}`,
@@ -271,11 +271,11 @@ const TestPanelMapping = TestPanelMappingHoc(
           }}
           onPageSizeChange={(page, limit) => {
             testPanelMappingStore.fetchTestPanelMapping(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             testPanelMappingStore.testPanelMappingService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -291,7 +291,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update TestPanelMapping!',
               });
@@ -308,12 +308,12 @@ const TestPanelMapping = TestPanelMappingHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           const methodFlags = item['Method Flags'];
           const methodFlagPMValue = methodFlags?.includes('MethodFlag PM:Yes');
@@ -359,17 +359,27 @@ const TestPanelMapping = TestPanelMappingHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'panelCode',
+        'testName',
+        'status',
+        'environment',
+        'lab',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return testPanelMappingStore.testPanelMappingService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'panelCode',
-                'testName',
-                'status',
-                'environment',
-                'lab',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -420,7 +430,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                           <AutoCompleteFilterSingleSelect
                             loader={loading}
@@ -497,13 +507,13 @@ const TestPanelMapping = TestPanelMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='lab'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Panel Code'
                           hasError={!!errors.panelCode}
@@ -560,7 +570,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='panelCode'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     {testPanelMappingStore.checkExitsLabEnvCode && (
@@ -571,7 +581,7 @@ const TestPanelMapping = TestPanelMappingHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Test Code'
                           placeholder={
@@ -592,12 +602,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                         />
                       )}
                       name='testCode'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Test Name'
                           hasError={!!errors.testName}
@@ -712,12 +722,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='testName'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Status'
                           hasError={!!errors.status}
@@ -748,12 +758,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='status'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Entered By'
                           placeholder={
@@ -771,12 +781,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                         />
                       )}
                       name='userId'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Creation'
                           placeholder={
@@ -790,14 +800,14 @@ const TestPanelMapping = TestPanelMappingHoc(
                         />
                       )}
                       name='dateCreation'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Grid cols={4}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Bill'
                             id='modeBill'
@@ -813,12 +823,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                           />
                         )}
                         name='bill'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Test Name'
                             hasError={!!errors.printTestName}
@@ -833,12 +843,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                           />
                         )}
                         name='printTestName'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Analyte Name'
                             hasError={!!errors.printAnalyteName}
@@ -853,12 +863,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                           />
                         )}
                         name='printAnalyteName'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Print Panel Name'
                             hasError={!!errors.printPanelName}
@@ -873,7 +883,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           />
                         )}
                         name='printPanelName'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -926,7 +936,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     <Grid cols={3}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Panel Interpretation'
                             hasError={!!errors.panelInterpretation}
@@ -941,12 +951,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                           />
                         )}
                         name='panelInterpretation'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Test Interpretation'
                             hasError={!!errors.testInterpretation}
@@ -961,12 +971,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                           />
                         )}
                         name='testInterpretation'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Analyte Interpretation'
                             hasError={!!errors.analyteInterpretation}
@@ -981,7 +991,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           />
                         )}
                         name='analyteInterpretation'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -992,18 +1002,21 @@ const TestPanelMapping = TestPanelMappingHoc(
                       <Table striped bordered className='max-h-5' size='sm'>
                         <thead>
                           <tr className='text-xs'>
-                            <th className='text-white' style={{minWidth: 150}}>
+                            <th
+                              className='text-white'
+                              style={{ minWidth: 150 }}
+                            >
                               Test
                             </th>
                             <th
                               className='text-white flex flex-row gap-2 items-center'
-                              style={{minWidth: 150}}
+                              style={{ minWidth: 150 }}
                             >
                               Order
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
@@ -1027,7 +1040,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
@@ -1067,7 +1080,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                                   <td>{`${index + 1}. ${
                                     item.testName + ' - ' + item.testCode
                                   }`}</td>
-                                  <td style={{width: 150}}>
+                                  <td style={{ width: 150 }}>
                                     {txtDisable ? (
                                       <span
                                         className={
@@ -1105,7 +1118,7 @@ const TestPanelMapping = TestPanelMappingHoc(
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Active'
                           placeholder={
@@ -1119,12 +1132,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                         />
                       )}
                       name='dateActive'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Expire'
                           placeholder={
@@ -1144,12 +1157,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                         />
                       )}
                       name='dateExpire'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Version'
                           placeholder={
@@ -1161,13 +1174,13 @@ const TestPanelMapping = TestPanelMappingHoc(
                         />
                       )}
                       name='version'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Environment'
                           hasError={!!errors.environment}
@@ -1248,7 +1261,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='environment'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     {/* <Grid cols={5}> */}
@@ -1301,10 +1314,10 @@ const TestPanelMapping = TestPanelMappingHoc(
               switch (action) {
                 case 'Delete': {
                   testPanelMappingStore.testPanelMappingService
-                    .deleteTestPanelMapping({input: {id: modalConfirm.id}})
+                    .deleteTestPanelMapping({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeTestPanelMapping.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeTestPanelMapping.message}`,
                         });
@@ -1338,7 +1351,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestPanelMapping.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateTestPanelMapping.message}`,
                         });
@@ -1372,7 +1385,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestPanelMapping.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateTestPanelMapping.message}`,
                         });
@@ -1437,7 +1450,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

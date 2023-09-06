@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -15,23 +15,23 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {SampleContainerList} from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { SampleContainerList } from '../components';
 
-import {useForm, Controller} from 'react-hook-form';
-import {SampleContainerHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { SampleContainerHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {resetSampleContainer} from '../startup';
+import { RouterFlow } from '@/flows';
+import { resetSampleContainer } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 const SampleContainer = SampleContainerHoc(
   observer(() => {
-    const {loginStore, sampleContainerStore, routerStore} = useStores();
+    const { loginStore, sampleContainerStore, routerStore } = useStores();
     const {
       control,
-      formState: {errors},
+      formState: { errors },
       handleSubmit,
       setValue,
       reset,
@@ -56,8 +56,8 @@ const SampleContainer = SampleContainerHoc(
         sampleContainerStore.sampleContainerService
           .addSampleContainer({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...sampleContainerStore.sampleContainer},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...sampleContainerStore.sampleContainer },
           })
           .then(res => {
             if (res.createSampleContainer.success) {
@@ -80,12 +80,12 @@ const SampleContainer = SampleContainerHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             containerCode: item['Container Code'],
@@ -106,17 +106,27 @@ const SampleContainer = SampleContainerHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'containerCode',
+        'containerName',
+        'environment',
+        'status',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return sampleContainerStore.sampleContainerService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'containerCode',
-                'containerName',
-                'environment',
-                'status',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -162,7 +172,7 @@ const SampleContainer = SampleContainerHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Container Code'
                         hasError={!!errors.containerCode}
@@ -203,7 +213,7 @@ const SampleContainer = SampleContainerHoc(
                       />
                     )}
                     name='containerCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {sampleContainerStore.checkExitsEnvCode && (
@@ -213,7 +223,7 @@ const SampleContainer = SampleContainerHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Container Name'
                         hasError={!!errors.containerName}
@@ -233,12 +243,12 @@ const SampleContainer = SampleContainerHoc(
                       />
                     )}
                     name='containerName'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputFile
                         label='Image'
                         placeholder={
@@ -257,12 +267,12 @@ const SampleContainer = SampleContainerHoc(
                       />
                     )}
                     name='image'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={5}
                         label='Description'
@@ -283,7 +293,7 @@ const SampleContainer = SampleContainerHoc(
                       />
                     )}
                     name='description'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
@@ -291,7 +301,7 @@ const SampleContainer = SampleContainerHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -322,12 +332,12 @@ const SampleContainer = SampleContainerHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -391,7 +401,7 @@ const SampleContainer = SampleContainerHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -461,7 +471,7 @@ const SampleContainer = SampleContainerHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update item!',
                 });
@@ -470,18 +480,18 @@ const SampleContainer = SampleContainerHoc(
                 setModalConfirm({
                   show: true,
                   type: 'UpdateImage',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Record update!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 sampleContainerStore.fetchListSampleContainer(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 sampleContainerStore.sampleContainerService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
                 global.filter = {
                   mode: 'filter',
@@ -497,7 +507,7 @@ const SampleContainer = SampleContainerHoc(
                   setModalConfirm({
                     show: true,
                     type: 'Update',
-                    data: {value: 'A', dataField: 'status', id: records._id},
+                    data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
                     body: 'Update deginisation!',
                   });
@@ -510,10 +520,10 @@ const SampleContainer = SampleContainerHoc(
             click={(action: string) => {
               if (action === 'Delete') {
                 sampleContainerStore.sampleContainerService
-                  .deleteSampleContainer({input: {id: modalConfirm.id}})
+                  .deleteSampleContainer({ input: { id: modalConfirm.id } })
                   .then((res: any) => {
                     if (res.removeSampleContainer.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.removeSampleContainer.message}`,
                       });
@@ -544,7 +554,7 @@ const SampleContainer = SampleContainerHoc(
                   })
                   .then((res: any) => {
                     if (res.updateSampleContainer.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.updateSampleContainer.message}`,
                       });
@@ -597,7 +607,7 @@ const SampleContainer = SampleContainerHoc(
                   });
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

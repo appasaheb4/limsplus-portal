@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -18,18 +18,18 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {TestSampleMappingList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {TestSampleMappingHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { TestSampleMappingList } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { TestSampleMappingHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetTestSampleMapping} from '../startup';
-import {LocalInput} from '../models';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetTestSampleMapping } from '../startup';
+import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
-import {pick} from 'lodash';
+import _ from 'lodash';
 const TestSampleMapping = TestSampleMappingHoc(
   observer(() => {
     const {
@@ -45,7 +45,7 @@ const TestSampleMapping = TestSampleMappingHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -81,8 +81,8 @@ const TestSampleMapping = TestSampleMappingHoc(
         testSampleMappingStore.testSampleMappingService
           .addTestSampleMapping({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...testSampleMappingStore.testSampleMapping},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...testSampleMappingStore.testSampleMapping },
           })
           .then(res => {
             if (res.createTestSampleMapping.success) {
@@ -141,18 +141,18 @@ const TestSampleMapping = TestSampleMappingHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update items!',
             });
           }}
           onPageSizeChange={(page, limit) => {
             testSampleMappingStore.fetchSampleTypeList(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             testSampleMappingStore.testSampleMappingService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -168,7 +168,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update TestSampleMapping!',
               });
@@ -184,12 +184,12 @@ const TestSampleMapping = TestSampleMappingHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             testCode: item['Test Code'],
@@ -233,12 +233,27 @@ const TestSampleMapping = TestSampleMappingHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'containerCode',
+        'containerName',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return testSampleMappingStore.testSampleMappingService
         .findByFields({
           input: {
             filter: {
-              ...pick({...fields, status}, [
+              ..._.pick({ ...fields, status }, [
                 'containerCode',
                 'containerName',
                 'status',
@@ -293,7 +308,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   {testMasterStore.listTestMaster && (
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Test Code'
                           hasError={!!errors.testCode}
@@ -362,7 +377,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='testCode'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   )}
@@ -375,7 +390,7 @@ const TestSampleMapping = TestSampleMappingHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Sample Code'
                         hasError={!!errors.sampleCode}
@@ -416,13 +431,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='sampleCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {sampleTypeStore.listSampleType && (
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Sample Group'
                           hasError={!!errors.sampleGroup}
@@ -465,13 +480,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='sampleGroup'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Coll Container'
                         hasError={!!errors.collContainerCode}
@@ -514,13 +529,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='collContainerCode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Test Container'
                         hasError={!!errors.testContainerCode}
@@ -563,12 +578,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='testContainerCode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Min Draw Vol'
                         placeholder={
@@ -588,12 +603,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       />
                     )}
                     name='minDrawVol'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Min Draw Vol Unit'
                         hasError={!!errors.minDrawVolUnit}
@@ -623,12 +638,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='minDrawVolUnit'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Min Test Vol'
                         placeholder={
@@ -648,12 +663,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       />
                     )}
                     name='minTestVol'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Min Test Vol Unit'
                         hasError={!!errors.minTestVolUnit}
@@ -683,7 +698,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='minTestVolUnit'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   {testSampleMappingStore.testSampleMapping.sharedSample && (
@@ -692,7 +707,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                         <div className='mt-1'>
                           <Controller
                             control={control}
-                            render={({field: {onChange, value}}) => (
+                            render={({ field: { onChange, value } }) => (
                               <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                                 loader={loading}
                                 placeholder='Search by code or name'
@@ -731,13 +746,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                               />
                             )}
                             name='code'
-                            rules={{required: false}}
+                            rules={{ required: false }}
                             defaultValue=''
                           />
                         </div>
                         <Controller
                           control={control}
-                          render={({field: {onChange, value}}) => (
+                          render={({ field: { onChange, value } }) => (
                             <Form.Input
                               placeholder='Prefrence'
                               type='number'
@@ -755,12 +770,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                             />
                           )}
                           name='prefrence'
-                          rules={{required: false}}
+                          rules={{ required: false }}
                           defaultValue=''
                         />
                         <Controller
                           control={control}
-                          render={({field: {onChange, value}}) => (
+                          render={({ field: { onChange, value } }) => (
                             <Form.Input
                               placeholder='TAT IN MIN'
                               type='number'
@@ -778,7 +793,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             />
                           )}
                           name='value'
-                          rules={{required: false}}
+                          rules={{ required: false }}
                           defaultValue=''
                         />
                         <div className='mt-1 flex flex-row justify-between'>
@@ -882,7 +897,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   <Grid cols={4}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Shared Sample'
                           hasError={!!errors.sharedSample}
@@ -919,12 +934,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='sharedSample'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Primary Container'
                           hasError={!!errors.primaryContainer}
@@ -939,12 +954,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='primaryContainer'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Unique Container'
                           hasError={!!errors.uniqueContainer}
@@ -971,12 +986,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='uniqueContainer'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Centrifue'
                           hasError={!!errors.centerIfuge}
@@ -991,7 +1006,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='centerIfuge'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -999,7 +1014,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Condition'
                         placeholder={
@@ -1019,12 +1034,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       />
                     )}
                     name='condition'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Retention Period'
                         placeholder={
@@ -1044,12 +1059,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       />
                     )}
                     name='repentionPeriod'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Repention Units'
                         hasError={!!errors.repentionUnits}
@@ -1079,12 +1094,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='repentionUnits'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Label Inst'
                         placeholder={
@@ -1104,12 +1119,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       />
                     )}
                     name='labelInst'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Info'
                         placeholder={errors.info ? 'Please Enter info' : 'Info'}
@@ -1125,12 +1140,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       />
                     )}
                     name='info'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -1161,12 +1176,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -1234,13 +1249,13 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Grid cols={4}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Lab Specfic'
                           hasError={!!errors.labSpecfic}
@@ -1255,12 +1270,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='labSpecfic'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Department Specfic'
                           hasError={!!errors.departmentSpecfic}
@@ -1275,12 +1290,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='departmentSpecfic'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Aliquot'
                           hasError={!!errors.aliquot}
@@ -1295,12 +1310,12 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='aliquot'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Print Label'
                           hasError={!!errors.printLabels}
@@ -1315,7 +1330,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                         />
                       )}
                       name='printLabels'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -1364,10 +1379,10 @@ const TestSampleMapping = TestSampleMappingHoc(
             click={(action?: string) => {
               if (action === 'Delete') {
                 testSampleMappingStore.testSampleMappingService
-                  .deleteTestSampleMapping({input: {id: modalConfirm.id}})
+                  .deleteTestSampleMapping({ input: { id: modalConfirm.id } })
                   .then((res: any) => {
                     if (res.removeTestSampleMapping.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.removeTestSampleMapping.message}`,
                       });
@@ -1398,7 +1413,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                   })
                   .then((res: any) => {
                     if (res.updateTestSampleMapping.success) {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.updateTestSampleMapping.message}`,
                       });
@@ -1422,7 +1437,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

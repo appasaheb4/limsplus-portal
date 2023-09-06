@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -18,16 +18,16 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {CorporateClient} from '../components';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
-import {dayjs, lookupItems, lookupValue} from '@/library/utils';
+import { CorporateClient } from '../components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 
-import {useForm, Controller} from 'react-hook-form';
-import {CorporateClientsHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {FormHelper} from '@/helper';
-import {RouterFlow} from '@/flows';
-import {resetCorporateClient} from '../startup';
+import { useForm, Controller } from 'react-hook-form';
+import { CorporateClientsHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { FormHelper } from '@/helper';
+import { RouterFlow } from '@/flows';
+import { resetCorporateClient } from '../startup';
 import * as XLSX from 'xlsx';
 const CorporateClients = CorporateClientsHoc(
   observer(() => {
@@ -45,7 +45,7 @@ const CorporateClients = CorporateClientsHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
       resetField,
@@ -122,7 +122,7 @@ const CorporateClients = CorporateClientsHoc(
           corporateClientsStore.corporateClientsService
             .addCorporateClients({
               input: isImport
-                ? {isImport, arrImportRecords}
+                ? { isImport, arrImportRecords }
                 : {
                     isImport,
                     ...corporateClientsStore.corporateClients,
@@ -256,7 +256,7 @@ const CorporateClients = CorporateClientsHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update Section!',
             });
@@ -265,18 +265,18 @@ const CorporateClients = CorporateClientsHoc(
             setModalConfirm({
               show: true,
               type: 'UpdateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
             });
           }}
           onPageSizeChange={(page, limit) => {
             corporateClientsStore.fetchCorporateClients(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             corporateClientsStore.corporateClientsService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -292,7 +292,7 @@ const CorporateClients = CorporateClientsHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Corporate Client!',
               });
@@ -309,12 +309,12 @@ const CorporateClients = CorporateClientsHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             corporateCode: item['Client Code'],
@@ -378,17 +378,27 @@ const CorporateClients = CorporateClientsHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'corporateCode',
+        'corporateName',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return corporateClientsStore.corporateClientsService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'corporateCode',
-                'corporateName',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -436,7 +446,7 @@ const CorporateClients = CorporateClientsHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Client Code'
                         placeholder={
@@ -486,7 +496,7 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='corporateCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {corporateClientsStore.checkExistsEnvCode && (
@@ -496,7 +506,7 @@ const CorporateClients = CorporateClientsHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Client Name'
                         placeholder={
@@ -516,13 +526,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='corporateName'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Invoice Ac'
                         placeholder={
@@ -543,12 +553,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='invoiceAc'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Ac Type'
                         hasError={!!errors.acType}
@@ -579,12 +589,12 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='acType'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Ac Class'
                         hasError={!!errors.acClass}
@@ -615,13 +625,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='acClass'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Billing on'
                         hasError={!!errors.billingOn}
@@ -655,13 +665,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='billingOn'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Billing Frequency'
                         hasError={!!errors.billingFrequency}
@@ -695,12 +705,12 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='billingFrequency'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Customer Group'
                         hasError={!!errors.customerGroup}
@@ -734,13 +744,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='customerGroup'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Category'
                         hasError={!!errors.category}
@@ -771,13 +781,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='category'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Postal Code'
                         id='postalCode'
@@ -824,13 +834,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='postalCode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Country'
                         hasError={!!errors.country}
@@ -847,13 +857,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='country'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='State'
                         hasError={!!errors.state}
@@ -870,13 +880,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='state'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='District'
                         hasError={!!errors.district}
@@ -893,13 +903,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='district'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='City'
                         hasError={!!errors.city}
@@ -916,12 +926,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='city'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Area'
                         hasError={!!errors.area}
@@ -938,14 +948,14 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='area '
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={2}
                         label='Address'
@@ -964,12 +974,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='address'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Credit Limit'
                         placeholder={
@@ -998,7 +1008,7 @@ const CorporateClients = CorporateClientsHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Consumed Limit'
                         placeholder={
@@ -1028,7 +1038,7 @@ const CorporateClients = CorporateClientsHoc(
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='SBU'
                         placeholder={errors.sbu ? 'Please Enter sbu' : 'SBU'}
@@ -1044,12 +1054,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='sbu'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Zone'
                         placeholder={errors.zone ? 'Please Enter Zone' : 'Zone'}
@@ -1065,12 +1075,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='zone'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Sales Territory'
                         hasError={!!errors.salesTerritory}
@@ -1113,13 +1123,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='salesTerritory'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Telephone'
                         placeholder={
@@ -1139,12 +1149,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='telephone'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Mobile No'
                         placeholder={
@@ -1174,7 +1184,7 @@ const CorporateClients = CorporateClientsHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Email'
                         placeholder={
@@ -1192,12 +1202,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='email'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Report Priority'
                         hasError={!!errors.reportPriority}
@@ -1231,12 +1241,12 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='reportPriority'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Delivery Mode'
                         hasError={!!errors.deliveryMode}
@@ -1254,13 +1264,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='deliveryMode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Template for Import'
                         hasError={!!errors.templateForImport}
@@ -1298,13 +1308,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='templateForImport'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Template for Export'
                         hasError={!!errors.templateForExport}
@@ -1342,13 +1352,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='templateForExport'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.InputWrapper
                         label='Panel List'
                         hasError={!!errors.panelList}
@@ -1425,7 +1435,7 @@ const CorporateClients = CorporateClientsHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Info'
                         placeholder={errors.info ? 'Please Enter INFO' : 'INFO'}
@@ -1441,13 +1451,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='info'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Grid cols={4}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Confidential'
                           hasError={!!errors.confidential}
@@ -1462,12 +1472,12 @@ const CorporateClients = CorporateClientsHoc(
                         />
                       )}
                       name='confidential'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Urgent'
                           hasError={!!errors.urgent}
@@ -1482,12 +1492,12 @@ const CorporateClients = CorporateClientsHoc(
                         />
                       )}
                       name='urgent'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Report Format'
                           hasError={!!errors.reportFormat}
@@ -1502,12 +1512,12 @@ const CorporateClients = CorporateClientsHoc(
                         />
                       )}
                       name='reportFormat'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Predefined Panel'
                           hasError={!!errors.isPredefinedPanel}
@@ -1528,12 +1538,12 @@ const CorporateClients = CorporateClientsHoc(
                         />
                       )}
                       name='isPredefinedPanel'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Employee Code'
                           hasError={!!errors.isEmployeeCode}
@@ -1548,7 +1558,7 @@ const CorporateClients = CorporateClientsHoc(
                         />
                       )}
                       name='isEmployeeCode'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -1556,7 +1566,7 @@ const CorporateClients = CorporateClientsHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='FYI Line'
                         placeholder={
@@ -1574,13 +1584,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='fyiLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Work Line'
                         placeholder={
@@ -1598,12 +1608,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='workLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Creation'
                         placeholder={
@@ -1617,13 +1627,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Active'
                         hasError={!!errors.dateActive}
@@ -1637,13 +1647,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='dateActive'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Expire'
                         hasError={!!errors.dateExpire}
@@ -1662,12 +1672,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='dateExpire'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Version'
                         placeholder={
@@ -1679,13 +1689,13 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='version'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         label='Entered By'
                         hasError={!!errors.enteredBy}
@@ -1699,12 +1709,12 @@ const CorporateClients = CorporateClientsHoc(
                       />
                     )}
                     name='enteredBy'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -1735,12 +1745,12 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -1811,13 +1821,13 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Grid cols={4}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Specific Format'
                           hasError={!!errors.specificFormat}
@@ -1832,12 +1842,12 @@ const CorporateClients = CorporateClientsHoc(
                         />
                       )}
                       name='specificFormat'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Balance Check'
                           hasError={!!errors.isBalanceCheck}
@@ -1852,7 +1862,7 @@ const CorporateClients = CorporateClientsHoc(
                         />
                       )}
                       name='isBalanceCheck'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -1903,9 +1913,9 @@ const CorporateClients = CorporateClientsHoc(
               switch (action) {
                 case 'Delete': {
                   corporateClientsStore.corporateClientsService
-                    .deleteCorporateClients({input: {id: modalConfirm.id}})
+                    .deleteCorporateClients({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.removeCorporateClient.success) {
                         Toast.success({
                           message: `😊 ${res.removeCorporateClient.message}`,
@@ -1939,7 +1949,7 @@ const CorporateClients = CorporateClientsHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (global?.filter?.mode == 'pagination')
                         corporateClientsStore.fetchCorporateClients(
                           global?.filter?.page,
@@ -1968,7 +1978,7 @@ const CorporateClients = CorporateClientsHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.updateCorporateClient.success) {
                         Toast.success({
                           message: `😊 ${res.updateCorporateClient.message}`,
@@ -2030,7 +2040,7 @@ const CorporateClients = CorporateClientsHoc(
                 // No default
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

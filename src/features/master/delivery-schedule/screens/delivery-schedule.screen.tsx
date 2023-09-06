@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -15,25 +15,25 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {DeliverySchduleList} from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {ScheduleFrequency} from '../components';
-import {DeliveryScheduleHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { DeliverySchduleList } from '../components';
+import { useForm, Controller } from 'react-hook-form';
+import { ScheduleFrequency } from '../components';
+import { DeliveryScheduleHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetDeliverySchedule} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetDeliverySchedule } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
-    const {loginStore, deliveryScheduleStore, routerStore} = useStores();
+    const { loginStore, deliveryScheduleStore, routerStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -57,8 +57,8 @@ const DeliverySchedule = DeliveryScheduleHoc(
         deliveryScheduleStore.deliveryScheduleService
           .addDeliverySchdule({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...deliveryScheduleStore.deliverySchedule},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...deliveryScheduleStore.deliverySchedule },
           })
           .then(res => {
             if (res.createDeliverySchdule.success)
@@ -81,19 +81,20 @@ const DeliverySchedule = DeliveryScheduleHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             schCode: item['Sch Code'],
             sundayProcessing:
               item['Sunday Processing'] === 'Yes' ? true : false,
-            holidayProcessing: item['Holiday Processing'],
-            sundayReporting: item['Sunday Reporting'],
+            holidayProcessing:
+              item['Holiday Processing'] === 'Yes' ? true : false,
+            sundayReporting: item['Sunday Reporting'] === 'Yes' ? true : false,
             holidayReporting:
               item['Holiday Reporting'] === 'Yes' ? true : false,
             pStartTime: item['P Start Time'],
@@ -122,16 +123,22 @@ const DeliverySchedule = DeliveryScheduleHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = ['schCode', 'environment', 'status'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return deliveryScheduleStore.deliveryScheduleService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'schCode',
-                'environment',
-                'status',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -181,7 +188,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sch Code'
                         placeholder={
@@ -222,7 +229,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='schCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {deliveryScheduleStore.checkExistsEnvCode && (
@@ -232,7 +239,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='P Start Time'
                         hasError={!!errors.pStartTime}
@@ -247,12 +254,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='pStartTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='P End Time'
                         hasError={!!errors.pEndTime}
@@ -267,12 +274,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='pEndTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='Cutof Time'
                         hasError={!!errors.cutofTime}
@@ -287,12 +294,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='cutofTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='Secound Cutof Time'
                         hasError={!!errors.secoundCutofTime}
@@ -307,12 +314,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='secoundCutofTime'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Processing Type'
                         hasError={!!errors.processingType}
@@ -347,13 +354,13 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       </Form.InputWrapper>
                     )}
                     name='processingType'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <ScheduleFrequency
                         type={value || ''}
                         onChnage={schFrequency => {
@@ -366,12 +373,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='schFrequency'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Report on'
                         placeholder={
@@ -389,12 +396,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='reportOn'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Dynamic RT'
                         placeholder={
@@ -414,7 +421,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='dynamicRT'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
@@ -422,7 +429,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Dynamic TU'
                         hasError={!!errors.dynamicTU}
@@ -456,13 +463,13 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       </Form.InputWrapper>
                     )}
                     name='dynamicTU'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Fixed RT'
                         placeholder={
@@ -480,12 +487,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='fixedRT'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sch For DEPT'
                         placeholder={
@@ -505,12 +512,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='schForDept'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sch For PAT'
                         placeholder={
@@ -530,12 +537,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       />
                     )}
                     name='schForPat'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -566,12 +573,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -637,13 +644,13 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Grid cols={5}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Sunday Processing'
                           hasError={!!errors.sundayProcessing}
@@ -658,12 +665,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         />
                       )}
                       name='sundayProcessing'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Holiday Processing'
                           hasError={!!errors.holidayProcessing}
@@ -678,12 +685,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         />
                       )}
                       name='holidayProcessing'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           hasError={!!errors.sundayReporting}
                           label='Sunday Reporting'
@@ -698,12 +705,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         />
                       )}
                       name='sundayReporting'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Holiday Reporting'
                           hasError={!!errors.holidayReporting}
@@ -718,12 +725,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         />
                       )}
                       name='holidayReporting'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='On Time'
                           hasError={!!errors.onTime}
@@ -738,7 +745,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         />
                       )}
                       name='onTime'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -809,18 +816,18 @@ const DeliverySchedule = DeliveryScheduleHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update items!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 deliveryScheduleStore.fetchDeliverySchedule(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 deliveryScheduleStore.deliveryScheduleService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
                 global.filter = {
                   mode: 'filter',
@@ -836,7 +843,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   setModalConfirm({
                     show: true,
                     type: 'Update',
-                    data: {value: 'A', dataField: 'status', id: records._id},
+                    data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
                     body: 'Update Delivery!',
                   });
@@ -850,9 +857,9 @@ const DeliverySchedule = DeliveryScheduleHoc(
               switch (action) {
                 case 'Delete': {
                   deliveryScheduleStore.deliveryScheduleService
-                    .deleteDeliverySchdule({input: {id: modalConfirm.id}})
+                    .deleteDeliverySchdule({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.removeDeliverySchdule.success) {
                         Toast.success({
                           message: `😊 ${res.removeDeliverySchdule.message}`,
@@ -887,7 +894,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     })
                     .then((res: any) => {
                       if (res.updateDeliverySchdule.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateDeliverySchdule.message}`,
                         });
@@ -913,7 +920,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

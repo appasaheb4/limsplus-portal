@@ -302,28 +302,38 @@ export const Users = UsersHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'defaultLab',
+        'defaultDepartment',
+        'userGroup',
+        'userModule',
+        'userId',
+        'fullName',
+        'empCode',
+        'deginisation',
+        'role',
+        'lab',
+        'department',
+        'mobileNo',
+        'email',
+        'dateOfBirth',
+        'exipreDate',
+        'environment',
+        'status',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return userStore.UsersService.findByFields({
         input: {
           filter: {
-            ..._.pick({ ...fields, status }, [
-              'defaultLab',
-              'defaultDepartment',
-              'userGroup',
-              'userModule',
-              'userId',
-              'fullName',
-              'empCode',
-              'deginisation',
-              'role',
-              'lab',
-              'department',
-              'mobileNo',
-              'email',
-              'dateOfBirth',
-              'exipreDate',
-              'environment',
-              'status',
-            ]),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
