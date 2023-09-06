@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -17,17 +17,17 @@ import {
   ManualImportTabs,
 } from '@/library/components';
 
-import {dayjs, lookupItems, lookupValue} from '@/library/utils';
-import {PriceListList} from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {AutoCompleteFilterSingleSelectPanelCode} from '../components';
-import {PriceListHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { dayjs, lookupItems, lookupValue } from '@/library/utils';
+import { PriceListList } from '../components';
+import { useForm, Controller } from 'react-hook-form';
+import { AutoCompleteFilterSingleSelectPanelCode } from '../components';
+import { PriceListHoc } from '../hoc';
+import { useStores } from '@/stores';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetPriceList} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetPriceList } from '../startup';
 
 export const PriceList = PriceListHoc(
   observer(() => {
@@ -44,7 +44,7 @@ export const PriceList = PriceListHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       setError,
       clearErrors,
@@ -78,7 +78,7 @@ export const PriceList = PriceListHoc(
           priceListStore.priceListService
             .addPriceList({
               input: isImport
-                ? {isImport, arrImportRecords}
+                ? { isImport, arrImportRecords }
                 : {
                     isImport,
                     ...priceListStore.priceList,
@@ -183,7 +183,7 @@ export const PriceList = PriceListHoc(
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update item!',
             });
@@ -192,7 +192,7 @@ export const PriceList = PriceListHoc(
             setModalConfirm({
               show: true,
               type: 'updateFields',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
             });
@@ -217,13 +217,13 @@ export const PriceList = PriceListHoc(
           }}
           onPageSizeChange={(page, limit) => {
             priceListStore.fetchListPriceList(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             priceListStore.priceListService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, page, limit, filter};
+            global.filter = { mode: 'filter', type, page, limit, filter };
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -231,7 +231,7 @@ export const PriceList = PriceListHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Price List!',
               });
@@ -248,12 +248,12 @@ export const PriceList = PriceListHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             priceGroup: item['Price Group'],
@@ -287,19 +287,29 @@ export const PriceList = PriceListHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'priceGroup',
+        'priceList',
+        'panelCode',
+        'price',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return priceListStore.priceListService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'priceGroup',
-                'priceList',
-                'panelCode',
-                'price',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -349,7 +359,7 @@ export const PriceList = PriceListHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Price Group'
                         hasError={!!errors.priceGroup}
@@ -388,10 +398,10 @@ export const PriceList = PriceListHoc(
                                 })
                                 .then(res => {
                                   if (res.checkPriceListExistsRecord.success) {
-                                    setError('priceGroup', {type: 'onBlur'});
-                                    setError('panelCode', {type: 'onBlur'});
-                                    setError('version', {type: 'onBlur'});
-                                    setError('environment', {type: 'onBlur'});
+                                    setError('priceGroup', { type: 'onBlur' });
+                                    setError('panelCode', { type: 'onBlur' });
+                                    setError('version', { type: 'onBlur' });
+                                    setError('environment', { type: 'onBlur' });
                                     priceListStore.updateExitsPriceGEnvLabCode(
                                       true,
                                     );
@@ -409,7 +419,7 @@ export const PriceList = PriceListHoc(
                                   }
                                 });
                             }
-                            setError('priceList', {type: 'onBlur'});
+                            setError('priceList', { type: 'onBlur' });
                           }}
                         >
                           <option selected>Select</option>
@@ -425,12 +435,12 @@ export const PriceList = PriceListHoc(
                       </Form.InputWrapper>
                     )}
                     name='priceGroup'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Price List'
                         hasError={!!errors.priceList}
@@ -492,11 +502,15 @@ export const PriceList = PriceListHoc(
                                     if (
                                       res.checkPriceListExistsRecord.success
                                     ) {
-                                      setError('priceGroup', {type: 'onBlur'});
-                                      setError('priceList', {type: 'onBlur'});
-                                      setError('panelCode', {type: 'onBlur'});
-                                      setError('version', {type: 'onBlur'});
-                                      setError('environment', {type: 'onBlur'});
+                                      setError('priceGroup', {
+                                        type: 'onBlur',
+                                      });
+                                      setError('priceList', { type: 'onBlur' });
+                                      setError('panelCode', { type: 'onBlur' });
+                                      setError('version', { type: 'onBlur' });
+                                      setError('environment', {
+                                        type: 'onBlur',
+                                      });
                                       priceListStore.updateExitsPriceGEnvLabCode(
                                         true,
                                       );
@@ -551,13 +565,13 @@ export const PriceList = PriceListHoc(
                       </Form.InputWrapper>
                     )}
                     name='priceList'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={3}
                         label='Description'
@@ -579,12 +593,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='description'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Panel Code'
                         hasError={!!errors.panelCode}
@@ -622,11 +636,11 @@ export const PriceList = PriceListHoc(
                                 })
                                 .then(res => {
                                   if (res.checkPriceListExistsRecord.success) {
-                                    setError('priceGroup', {type: 'onBlur'});
-                                    setError('priceList', {type: 'onBlur'});
-                                    setError('panelCode', {type: 'onBlur'});
-                                    setError('version', {type: 'onBlur'});
-                                    setError('environment', {type: 'onBlur'});
+                                    setError('priceGroup', { type: 'onBlur' });
+                                    setError('priceList', { type: 'onBlur' });
+                                    setError('panelCode', { type: 'onBlur' });
+                                    setError('version', { type: 'onBlur' });
+                                    setError('environment', { type: 'onBlur' });
                                     priceListStore.updateExitsPriceGEnvLabCode(
                                       true,
                                     );
@@ -650,7 +664,7 @@ export const PriceList = PriceListHoc(
                       </Form.InputWrapper>
                     )}
                     name='panelCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {priceListStore.checkExitsPriceGEnvLabCode && (
@@ -660,7 +674,7 @@ export const PriceList = PriceListHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Panel Name'
                         name='txtPanelName'
@@ -678,12 +692,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='panelName'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Price'
                         name='txtPrice'
@@ -704,14 +718,14 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='price'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Min Sales Price'
                         name='txtMinSp'
@@ -733,12 +747,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='minSp'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Max Sales Price'
                         name='txtMaxSp'
@@ -760,12 +774,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='maxSp'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Max Dis%'
                         name='txtMaxDis'
@@ -783,12 +797,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='maxDis'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -819,13 +833,13 @@ export const PriceList = PriceListHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Entered By'
                         placeholder={
@@ -839,13 +853,13 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='userId'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Grid cols={5}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Fixed Price'
                           hasError={!!errors.fixedPrice}
@@ -860,7 +874,7 @@ export const PriceList = PriceListHoc(
                         />
                       )}
                       name='fixedPrice'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
@@ -868,7 +882,7 @@ export const PriceList = PriceListHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Creation'
                         placeholder={
@@ -882,12 +896,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='dateCreation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Active'
                         placeholder={
@@ -901,12 +915,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='dateActive'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
                         label='Date Expire'
                         placeholder={
@@ -926,12 +940,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='dateExpire'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Version'
                         placeholder={
@@ -943,12 +957,12 @@ export const PriceList = PriceListHoc(
                       />
                     )}
                     name='version'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Environment'
                         hasError={!!errors.environment}
@@ -991,11 +1005,11 @@ export const PriceList = PriceListHoc(
                                 })
                                 .then(res => {
                                   if (res.checkPriceListExistsRecord.success) {
-                                    setError('priceGroup', {type: 'onBlur'});
-                                    setError('priceList', {type: 'onBlur'});
-                                    setError('panelCode', {type: 'onBlur'});
-                                    setError('version', {type: 'onBlur'});
-                                    setError('environment', {type: 'onBlur'});
+                                    setError('priceGroup', { type: 'onBlur' });
+                                    setError('priceList', { type: 'onBlur' });
+                                    setError('panelCode', { type: 'onBlur' });
+                                    setError('version', { type: 'onBlur' });
+                                    setError('environment', { type: 'onBlur' });
                                     priceListStore.updateExitsPriceGEnvLabCode(
                                       true,
                                     );
@@ -1035,7 +1049,7 @@ export const PriceList = PriceListHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -1084,10 +1098,10 @@ export const PriceList = PriceListHoc(
               switch (action) {
                 case 'delete': {
                   priceListStore.priceListService
-                    .deletePriceList({input: {id: modalConfirm.id}})
+                    .deletePriceList({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removePriceList.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removePriceList.message}`,
                         });
@@ -1121,7 +1135,7 @@ export const PriceList = PriceListHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePriceList.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePriceList.message}`,
                         });
@@ -1158,7 +1172,7 @@ export const PriceList = PriceListHoc(
                         Toast.success({
                           message: `😊 ${res.updatePriceList.message}`,
                         });
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         priceListStore.fetchListPriceList();
                       }
                     });
@@ -1176,7 +1190,7 @@ export const PriceList = PriceListHoc(
                     dateCreation: new Date(),
                   });
                   setHideAddLab(!hideAddLab);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('panelName', modalConfirm.data.panelName);
                   setValue('billTo', modalConfirm.data.billTo);
@@ -1199,7 +1213,7 @@ export const PriceList = PriceListHoc(
                     dateCreation: new Date(),
                   });
                   setHideAddLab(!hideAddLab);
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('panelName', modalConfirm.data.panelName);
                   setValue('billTo', modalConfirm.data.billTo);
@@ -1215,7 +1229,7 @@ export const PriceList = PriceListHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

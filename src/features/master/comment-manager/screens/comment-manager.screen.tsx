@@ -289,7 +289,7 @@ const CommentManager = CommentManagerHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
             ),
-            version: item.Versions,
+            versions: item.Versions,
             environment: item?.Environment,
             status: 'D',
           };
@@ -304,25 +304,35 @@ const CommentManager = CommentManagerHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'libraryCode',
+        'lab',
+        'department',
+        'investigationType',
+        'investigationCode',
+        'species',
+        'sex',
+        'instType',
+        'commentsType',
+        'commentsFor',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return commentManagerStore.commentManagerService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({ ...fields, status }, [
-                'libraryCode',
-                'lab',
-                'department',
-                'investigationType',
-                'investigationCode',
-                'species',
-                'sex',
-                'instType',
-                'commentsType',
-                'commentsFor',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })

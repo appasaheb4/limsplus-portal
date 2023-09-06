@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -15,27 +15,27 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
 
-import {SectionList} from '../components';
-import {AutoCompleteFilterSingleSelectDepartment} from '../components';
-import {SectionHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { SectionList } from '../components';
+import { AutoCompleteFilterSingleSelectDepartment } from '../components';
+import { SectionHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {FormHelper} from '@/helper';
-import {resetSection} from '../startup';
+import { RouterFlow } from '@/flows';
+import { FormHelper } from '@/helper';
+import { resetSection } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 const Section = SectionHoc(
   observer(() => {
-    const {loginStore, sectionStore, departmentStore, routerStore} =
+    const { loginStore, sectionStore, departmentStore, routerStore } =
       useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -55,8 +55,8 @@ const Section = SectionHoc(
         sectionStore.sectionService
           .addSection({
             input: isImport
-              ? {isImport, arrImportRecords}
-              : {isImport, ...sectionStore.section},
+              ? { isImport, arrImportRecords }
+              : { isImport, ...sectionStore.section },
           })
           .then(res => {
             if (res.createSection.success) {
@@ -110,18 +110,18 @@ const Section = SectionHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update Section!',
             });
           }}
           onPageSizeChange={(page, limit) => {
             sectionStore.fetchSections(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             sectionStore.sectionService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -137,7 +137,7 @@ const Section = SectionHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Section!',
               });
@@ -153,12 +153,12 @@ const Section = SectionHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             departmentCode: item['Department Code'],
@@ -183,18 +183,28 @@ const Section = SectionHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'departmentCode',
+        'code',
+        'name',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       //Pass required Field in Array
       return sectionStore.sectionService
         .findByFields({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'departmentCode',
-                'code',
-                'name',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -241,7 +251,7 @@ const Section = SectionHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Department Code'
                         hasError={!!errors.departmentCode}
@@ -262,13 +272,13 @@ const Section = SectionHoc(
                       </Form.InputWrapper>
                     )}
                     name='departmentCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Code'
                         id='code'
@@ -304,7 +314,7 @@ const Section = SectionHoc(
                       />
                     )}
                     name='code'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {sectionStore.checkExitsEnvCode && (
@@ -314,7 +324,7 @@ const Section = SectionHoc(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Name'
                         hasError={!!errors.name}
@@ -332,13 +342,13 @@ const Section = SectionHoc(
                       />
                     )}
                     name='name'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Short Name'
                         placeholder={
@@ -358,12 +368,12 @@ const Section = SectionHoc(
                       />
                     )}
                     name='shortName'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Section In Charge'
                         placeholder={
@@ -383,12 +393,12 @@ const Section = SectionHoc(
                       />
                     )}
                     name='sectionInCharge'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         type='number'
                         label='Mobile No'
@@ -418,7 +428,7 @@ const Section = SectionHoc(
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         type='number'
                         label='Contact No'
@@ -450,7 +460,7 @@ const Section = SectionHoc(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={3}
                         label='FYI line'
@@ -468,12 +478,12 @@ const Section = SectionHoc(
                       />
                     )}
                     name='fyiLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={3}
                         label='Work line'
@@ -494,12 +504,12 @@ const Section = SectionHoc(
                       />
                     )}
                     name='workLine'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -530,12 +540,12 @@ const Section = SectionHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
                         <select
                           value={value}
@@ -592,7 +602,7 @@ const Section = SectionHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </List>
@@ -642,10 +652,10 @@ const Section = SectionHoc(
               switch (action) {
                 case 'Delete': {
                   sectionStore.sectionService
-                    .deleteSection({input: {id: modalConfirm.id}})
+                    .deleteSection({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeSection.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeSection.message}`,
                         });
@@ -678,7 +688,7 @@ const Section = SectionHoc(
                     })
                     .then((res: any) => {
                       if (res.updateSection.success) {
-                        setModalConfirm({show: false});
+                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateSection.message}`,
                         });
@@ -703,7 +713,7 @@ const Section = SectionHoc(
                 }
               }
             }}
-            onClose={() => setModalConfirm({show: false})}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

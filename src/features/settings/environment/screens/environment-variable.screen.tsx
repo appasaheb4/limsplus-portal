@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Buttons,
@@ -11,17 +11,17 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 
-import {EnvironmentVariableList} from '../components';
+import { EnvironmentVariableList } from '../components';
 import '@/library/assets/css/accordion.css';
-import {useForm, Controller} from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetEnvironmentVariable} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetEnvironmentVariable } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
 interface EnvironmentVariableProps {
@@ -33,11 +33,11 @@ export const EnvironmentVariable = observer(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
-    const {loginStore, environmentStore, routerStore} = useStores();
+    const { loginStore, environmentStore, routerStore } = useStores();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
@@ -47,7 +47,7 @@ export const EnvironmentVariable = observer(
       if (!environmentStore.checkExistsEnvVariable) {
         environmentStore.EnvironmentService.addEnvironment({
           input: isImport
-            ? {isImport, arrImportRecords}
+            ? { isImport, arrImportRecords }
             : {
                 isImport,
                 ...environmentStore.environmentVariable,
@@ -76,12 +76,12 @@ export const EnvironmentVariable = observer(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             environmentVariable: item['Environment Variable'],
@@ -104,21 +104,26 @@ export const EnvironmentVariable = observer(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = ['variable', 'value', 'environment', 'status'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return environmentStore.EnvironmentService.findByFields({
         input: {
           filter: {
-            ..._.pick({...fields, status}, [
-              'variable',
-              'value',
-              'environment',
-              'status',
-            ]),
+            ..._.pick({ ...fields, status }, requiredFields),
           },
         },
       }).then(res => {
         if (
-          res.findByFieldsUser?.success &&
-          res.findByFieldsUser?.data?.length > length
+          res.findByFieldsEnviroment?.success &&
+          res.findByFieldsEnviroment?.data?.length > length
         ) {
           //setIsExistsRecord(true);
           Toast.error({
@@ -132,7 +137,7 @@ export const EnvironmentVariable = observer(
       <>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemoveBottom
-            style={{bottom: 40}}
+            style={{ bottom: 40 }}
             show={hideInputView}
             onClick={() => setHideInputView(!hideInputView)}
           />
@@ -155,7 +160,7 @@ export const EnvironmentVariable = observer(
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Environment Variables'
                         name='txtEnvironmentVariable'
@@ -198,7 +203,7 @@ export const EnvironmentVariable = observer(
                       />
                     )}
                     name='environmentVariable'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   {environmentStore.checkExistsEnvVariable && (
@@ -209,7 +214,7 @@ export const EnvironmentVariable = observer(
                   )}
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Category'
                         hasError={!!errors.category}
@@ -241,12 +246,12 @@ export const EnvironmentVariable = observer(
                       </Form.InputWrapper>
                     )}
                     name='category'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         rows={3}
                         label='Description'
@@ -268,14 +273,14 @@ export const EnvironmentVariable = observer(
                       />
                     )}
                     name='descriptions'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Entered By'
                         placeholder={
@@ -289,12 +294,12 @@ export const EnvironmentVariable = observer(
                       />
                     )}
                     name='userId'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -325,14 +330,14 @@ export const EnvironmentVariable = observer(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Form.InputWrapper label='Scope'>
                     <Grid cols={4}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Lab'
                             hasError={!!errors.lab}
@@ -347,13 +352,13 @@ export const EnvironmentVariable = observer(
                           />
                         )}
                         name='lab'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
 
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='User'
                             value={value}
@@ -367,12 +372,12 @@ export const EnvironmentVariable = observer(
                           />
                         )}
                         name='user'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Departmetn'
                             value={value}
@@ -386,7 +391,7 @@ export const EnvironmentVariable = observer(
                           />
                         )}
                         name='department'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -432,7 +437,7 @@ export const EnvironmentVariable = observer(
 
         <div
           className='p-1 rounded-lg shadow-xl overflow-scroll'
-          style={{overflowX: 'scroll'}}
+          style={{ overflowX: 'scroll' }}
         >
           <EnvironmentVariableList
             data={environmentStore.environmentVariableList}
@@ -466,14 +471,14 @@ export const EnvironmentVariable = observer(
                 props.onModalConfirm({
                   show: true,
                   type: 'update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update recoard!',
                 });
             }}
             onPageSizeChange={(page, limit) => {
               environmentStore.fetchEnvironment(
-                {documentType: 'environmentVariable'},
+                { documentType: 'environmentVariable' },
                 page,
                 limit,
               );
@@ -487,7 +492,7 @@ export const EnvironmentVariable = observer(
             onFilter={(type, filter, page, limit) => {
               environmentStore.EnvironmentService.filter(
                 {
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 },
                 'environmentVariable',
               );
@@ -501,16 +506,16 @@ export const EnvironmentVariable = observer(
               };
             }}
             onApproval={async records => {
-              // const isExists = await checkExistsRecords(records);
-              // if (!isExists) {
-              setModalConfirm({
-                show: true,
-                type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
-                title: 'Are you sure?',
-                body: 'Update User!',
-              });
-              // }
+              const isExists = await checkExistsRecords(records);
+              if (!isExists) {
+                setModalConfirm({
+                  show: true,
+                  type: 'Update',
+                  data: { value: 'A', dataField: 'status', id: records._id },
+                  title: 'Are you sure?',
+                  body: 'Update User!',
+                });
+              }
             }}
           />
         </div>
