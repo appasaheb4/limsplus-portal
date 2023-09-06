@@ -14,10 +14,11 @@ export class TestAnalyteMapping {
   variable: string;
   calculationFlag: boolean;
   calculationFormula: any;
-  reportable: any;
+  reportable: boolean;
   defaultResult: any;
   testCode: string;
   testName: string;
+  instantResult: boolean;
   bill: boolean;
   testMethod: boolean;
   analyteMethod: boolean;
@@ -31,7 +32,7 @@ export class TestAnalyteMapping {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -51,6 +52,7 @@ export class TestAnalyteMapping {
     this.defaultResult = rawData.defaultResult;
     this.testCode = rawData.testCode;
     this.testName = rawData.testName;
+    this.instantResult = rawData.instantResult;
     this.bill = rawData.bill;
     this.testMethod = rawData.testMethod;
     this.analyteMethod = rawData.analyteMethod;
@@ -69,7 +71,7 @@ export class TestAnalyteMapping {
 export class SelectedItems {
   lab: any[];
   analyteCode: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.lab = rawData.lab;
     this.analyteCode = rawData.analyteCode;
   }
