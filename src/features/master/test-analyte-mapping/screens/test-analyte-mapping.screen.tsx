@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -18,23 +18,23 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {Table} from 'reactstrap';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {TestAnalyteMappingList} from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {AutoCompleteFilterSingleSelectTestName} from '../components';
-import {TestAnalyteMappingHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {IconContext} from 'react-icons';
+import { Table } from 'reactstrap';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { TestAnalyteMappingList } from '../components';
+import { useForm, Controller } from 'react-hook-form';
+import { AutoCompleteFilterSingleSelectTestName } from '../components';
+import { TestAnalyteMappingHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetTestAnalyteMapping} from '../startup';
-import {SelectedItems} from '../models';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetTestAnalyteMapping } from '../startup';
+import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 
@@ -52,7 +52,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -102,7 +102,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           testAnalyteMappingStore.testAnalyteMappingService
             .addTestAnalyteMapping({
               input: isImport
-                ? {isImport, arrImportRecords}
+                ? { isImport, arrImportRecords }
                 : {
                     arrImportRecords,
                     ...testAnalyteMappingStore.testAnalyteMapping,
@@ -205,7 +205,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             setModalConfirm({
               show: true,
               type: 'Update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update items!',
             });
@@ -214,7 +214,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             setModalConfirm({
               show: true,
               type: 'updateFileds',
-              data: {fileds, id},
+              data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records',
             });
@@ -239,11 +239,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           }}
           onPageSizeChange={(page, limit) => {
             testAnalyteMappingStore.fetchTestAnalyteMapping(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onUpdateOrderSeq={orderSeq => {
             testAnalyteMappingStore.testAnalyteMappingService
-              .updateOrderSeq({input: {filter: {orderSeq}}})
+              .updateOrderSeq({ input: { filter: { orderSeq } } })
               .then(res => {
                 Toast.success({
                   message: `😊 ${res.updateRROTestAnalyteMapping.message}`,
@@ -253,7 +253,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           }}
           onFilter={(type, filter, page, limit) => {
             testAnalyteMappingStore.testAnalyteMappingService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
             global.filter = {
               mode: 'filter',
@@ -269,7 +269,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value: 'A', dataField: 'status', id: records._id},
+                data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Test Analyte Mapping!',
               });
@@ -284,12 +284,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     const fetchSegmentMappingKeysValue = () => {
       instResultMappingStore.instResultMappingService
         .fetchKeysValue({
-          input: {keys: ['instType', 'instId', 'assayCode']},
+          input: { keys: ['instType', 'instId', 'assayCode'] },
         })
         .then(res => {
           if (res.fetchKeysValueInstResultMapping.success) {
             const values = res.fetchKeysValueInstResultMapping.result.map(
-              ({_id}) => _id,
+              ({ _id }) => _id,
             );
             setInstResultMappingRecords(values);
           } else {
@@ -308,25 +308,25 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
             lab: item.Lab,
             testCode: item['Test Code'],
             testName: item['Test Name'],
-            analyteCode: [],
-            analyteName: [],
-            variable: [],
-            calculationFlag: item['Calculation Flag'],
+            analyteCode: undefined,
+            analyteName: undefined,
+            variable: undefined,
+            calculationFlag: item['Calculation Flag'] === 'Yes' ? true : false,
             calculationFormula: item['Calculation Formula'],
-            reportable: item.Reportable,
+            reportable: item.Reportable === 'Yes' ? true : false,
             defaultResult: item['Default Result'],
-            instantResult: item['Instant Result'],
+            instantResult: item['Instant Result'] === 'Yes' ? true : false,
             bill: item.Bill === 'Yes' ? true : false,
             testMethod: item['Test Method'] === 'Yes' ? true : false,
             analyteMethod: item['Analyte Method'] === 'Yes' ? true : false,
@@ -353,17 +353,27 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       length = 0,
       status = 'A',
     ) => {
+      const requiredFields = [
+        'lab',
+        'testName',
+        'analyteCode',
+        'status',
+        'environment',
+      ];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
       return testAnalyteMappingStore.testAnalyteMappingService
         .findByFileds({
           input: {
             filter: {
-              ..._.pick({...fields, status}, [
-                'lab',
-                'testName',
-                'analyteCode',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -415,7 +425,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     {labStore.listLabs && (
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.InputWrapper
                             label='Lab'
                             hasError={!!errors.lab}
@@ -497,14 +507,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           </Form.InputWrapper>
                         )}
                         name='lab'
-                        rules={{required: true}}
+                        rules={{ required: true }}
                         defaultValue=''
                       />
                     )}
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Test Code'
                           name='txtTestCode'
@@ -522,7 +532,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         />
                       )}
                       name='testCode'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     {testAnalyteMappingStore.checkExitsLabEnvCode && (
@@ -532,7 +542,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     )}
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Test Name'
                           hasError={!!errors.testName}
@@ -590,12 +600,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='testName'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Analyte Code'
                           hasError={!!errors.analyteCode}
@@ -743,13 +753,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='analyteCode'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Analyte Name'
                           placeholder={
@@ -771,12 +781,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         />
                       )}
                       name='analyteName'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <>
                           <Form.InputWrapper label='Variable'>
                             <Table
@@ -789,13 +799,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 <tr className='text-xs'>
                                   <th
                                     className='text-white'
-                                    style={{minWidth: 150}}
+                                    style={{ minWidth: 150 }}
                                   >
                                     Analyte
                                   </th>
                                   <th
                                     className='text-white flex flex-row gap-2 items-center'
-                                    style={{minWidth: 150}}
+                                    style={{ minWidth: 150 }}
                                   >
                                     Variable
                                   </th>
@@ -818,7 +828,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         ' - ' +
                                         item.analyteCode
                                       }`}</td>
-                                      <td style={{width: 150, height: 40}}>
+                                      <td style={{ width: 150, height: 40 }}>
                                         {txtDisable ? (
                                           <span
                                             className={
@@ -857,13 +867,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         </>
                       )}
                       name='variable'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
                           label='Status'
                           hasError={!!errors.status}
@@ -894,12 +904,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='status'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Entered By'
                           placeholder={
@@ -917,12 +927,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         />
                       )}
                       name='userId'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Creation'
                           placeholder={
@@ -935,12 +945,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         />
                       )}
                       name='dateCreation'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Active'
                           hasError={!!errors.dateActive}
@@ -954,12 +964,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         />
                       )}
                       name='dateActive'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
                           label='Date Expire'
                           placeholder={
@@ -978,14 +988,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         />
                       )}
                       name='dateExpire'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
 
                     <Grid cols={3}>
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Bill'
                             id='modeBill'
@@ -1001,12 +1011,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           />
                         )}
                         name='bill'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Test Method'
                             id='testMethod'
@@ -1022,12 +1032,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           />
                         )}
                         name='testMethod'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <Form.Toggle
                             label='Analyte Method'
                             id='analyteMethod'
@@ -1043,7 +1053,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           />
                         )}
                         name='analyteMethod'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </Grid>
@@ -1053,18 +1063,18 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       <Table striped bordered className='max-h-5' size='sm'>
                         <thead>
                           <tr className='text-xs'>
-                            <th className='text-white' style={{minWidth: 25}}>
+                            <th className='text-white' style={{ minWidth: 25 }}>
                               Analyte
                             </th>
                             <th
                               className='text-white flex flex-row gap-2 items-center'
-                              style={{minWidth: 10}}
+                              style={{ minWidth: 10 }}
                             >
                               Order
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
@@ -1090,7 +1100,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
@@ -1114,13 +1124,13 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 }}
                               />
                             </th>
-                            <th className='text-white' style={{minWidth: 25}}>
+                            <th className='text-white' style={{ minWidth: 25 }}>
                               Inst Type
                             </th>
-                            <th className='text-white' style={{minWidth: 25}}>
+                            <th className='text-white' style={{ minWidth: 25 }}>
                               Inst Id
                             </th>
-                            <th className='text-white' style={{minWidth: 25}}>
+                            <th className='text-white' style={{ minWidth: 25 }}>
                               Assay Code
                             </th>
                           </tr>
@@ -1141,7 +1151,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   <td>{`${index + 1}. ${
                                     item.analyteName + ' - ' + item.analyteCode
                                   }`}</td>
-                                  <td style={{width: 10}}>
+                                  <td style={{ width: 10 }}>
                                     {txtDisable ? (
                                       <span
                                         className={
@@ -1272,18 +1282,21 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       <Table striped bordered className='max-h-5' size='sm'>
                         <thead>
                           <tr className='text-xs'>
-                            <th className='text-white' style={{minWidth: 150}}>
+                            <th
+                              className='text-white'
+                              style={{ minWidth: 150 }}
+                            >
                               Analyte
                             </th>
                             <th
                               className='text-white flex flex-row gap-2 items-center'
-                              style={{minWidth: 150}}
+                              style={{ minWidth: 150 }}
                             >
                               Order
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
@@ -1309,7 +1322,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
@@ -1351,7 +1364,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   <td>{`${index + 1}. ${
                                     item.analyteName + ' - ' + item.analyteCode
                                   }`}</td>
-                                  <td style={{width: 150}}>
+                                  <td style={{ width: 150 }}>
                                     {txtDisable ? (
                                       <span
                                         className={
@@ -1388,7 +1401,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     </Form.InputWrapper>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Version'
                           hasError={!!errors.version}
@@ -1406,12 +1419,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         />
                       )}
                       name='version'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Environment'>
                           <select
                             value={value}
@@ -1485,7 +1498,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='environment'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </List>
@@ -1535,9 +1548,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               switch (action) {
                 case 'Delete': {
                   testAnalyteMappingStore.testAnalyteMappingService
-                    .deleteTestAnalyteMapping({input: {id: modalConfirm.id}})
+                    .deleteTestAnalyteMapping({
+                      input: { id: modalConfirm.id },
+                    })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.removeTestAnalyteMapping.success) {
                         Toast.success({
                           message: `😊 ${res.removeTestAnalyteMapping.message}`,
@@ -1572,7 +1587,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.updateTestAnalyteMapping.success) {
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
@@ -1608,7 +1623,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({show: false});
+                      setModalConfirm({ show: false });
                       if (res.updateTestAnalyteMapping.success) {
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
@@ -1635,7 +1650,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   break;
                 }
                 case 'versionUpgrade': {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   testAnalyteMappingStore.updateTestAnalyteMapping({
                     ...modalConfirm.data,
                     _id: undefined,
@@ -1653,7 +1668,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   break;
                 }
                 case 'duplicate': {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   testAnalyteMappingStore.updateTestAnalyteMapping({
                     ...modalConfirm.data,
                     _id: undefined,
@@ -1674,7 +1689,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               }
             }}
             onClose={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>
