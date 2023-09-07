@@ -5,8 +5,8 @@
  * @author limsplus
  */
 import * as Models from '../models';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -30,7 +30,7 @@ export class TestPanelMappingService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
           stores.testPanelMappingStore.updateTestPanelMappingList(
@@ -191,7 +191,7 @@ export class TestPanelMappingService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.findByFieldsTestPanelMappings.success) return [];
+          // don't add empty array condition here buz we check checkExistsRecords for not
           stores.uploadLoadingFlag(false);
           resolve(response.data);
         })

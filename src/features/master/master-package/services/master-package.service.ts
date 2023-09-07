@@ -5,8 +5,8 @@
  * @author limsplus
  */
 import * as Models from '../models';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -31,7 +31,7 @@ export class MasterPackageService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
           stores.masterPackageStore.updatePackageMasterList(response.data);
@@ -213,7 +213,7 @@ export class MasterPackageService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.findByFieldsPackageMaster.success) return [];
+          // don't add empty array condition here buz we check checkExistsRecords for not
           stores.uploadLoadingFlag(false);
           resolve(response.data);
         })

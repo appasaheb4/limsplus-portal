@@ -75,6 +75,7 @@ const TestMater = TestMasterHOC(
       setValue('dateActive', testMasterStore.testMaster?.dateActive);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [testMasterStore.testMaster]);
+
     const onSubmitTestMaster = () => {
       if (!testMasterStore.checkExitsLabEnvCode) {
         if (
@@ -97,6 +98,7 @@ const TestMater = TestMasterHOC(
                 Toast.success({
                   message: `😊 ${res.createTestMaster.message}`,
                 });
+                setArrImportRecords([]);
               }
             });
         } else if (
@@ -261,14 +263,14 @@ const TestMater = TestMasterHOC(
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
-        const list = data.map((item: any) => {
+        const data: Array<any> = XLSX.utils.sheet_to_json(ws, { raw: true });
+        const list = data.map((item: any, index: number) => {
           return {
             rLab: item?.RLab,
             pLab: item.PLab,
             department: item.Department,
             section: '',
-            testCode: item['Test  Code'],
+            testCode: item['Test Code'],
             testName: item['Test Name'],
             description: item.Description,
             method: item.Method === 'Yes' ? true : false,
@@ -370,6 +372,7 @@ const TestMater = TestMasterHOC(
           } else return false;
         });
     };
+
     return (
       <>
         <Header>

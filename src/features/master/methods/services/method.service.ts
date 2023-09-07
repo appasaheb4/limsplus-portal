@@ -5,8 +5,8 @@
  * @author limsplus
  */
 import * as Models from '../models';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -27,7 +27,7 @@ export class MethodsService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.methodsStore.updateMethodsList(response.data);
@@ -37,6 +37,7 @@ export class MethodsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   addMethods = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -52,6 +53,7 @@ export class MethodsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   deleteMethods = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

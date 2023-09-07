@@ -65,6 +65,7 @@ const SampleType = SampleTypeHoc(
               setHideAddLab(true);
               reset();
               resetSampleType();
+              setArrImportRecords([]);
             }
           });
       } else {
@@ -73,6 +74,7 @@ const SampleType = SampleTypeHoc(
         });
       }
     };
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -98,6 +100,7 @@ const SampleType = SampleTypeHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = sampleTypeStore.sampleType,
       length = 0,
@@ -129,8 +132,8 @@ const SampleType = SampleTypeHoc(
         })
         .then(res => {
           if (
-            res.findByFieldsReferenceRanges?.success &&
-            res.findByFieldsReferenceRanges.data?.length > length
+            res.findByFieldsSampleTypes?.success &&
+            res.findByFieldsSampleTypes.data?.length > length
           ) {
             //setIsExistsRecord(true);
             Toast.error({
@@ -485,14 +488,14 @@ const SampleType = SampleTypeHoc(
                 };
               }}
               onApproval={async records => {
-                const isExists = await checkExistsRecords(records, 1);
+                const isExists = await checkExistsRecords(records);
                 if (!isExists) {
                   setModalConfirm({
                     show: true,
                     type: 'Update',
                     data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
-                    body: 'Update deginisation!',
+                    body: 'Update sample type!',
                   });
                 }
               }}

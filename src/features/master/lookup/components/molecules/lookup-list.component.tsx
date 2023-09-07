@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   AutocompleteGroupBy,
   Buttons,
@@ -10,9 +10,9 @@ import {
   Tooltip,
   sortCaret,
 } from '@/library/components';
-import {TableBootstrap} from '../organsims/table-bootstrap.component';
-import {Confirm} from '@/library/models';
-import {dashboardRouter as dashboardRoutes} from '@/routes';
+import { TableBootstrap } from '../organsims/table-bootstrap.component';
+import { Confirm } from '@/library/models';
+import { dashboardRouter as dashboardRoutes } from '@/routes';
 let router = dashboardRoutes;
 
 let documentName;
@@ -61,7 +61,7 @@ export const LookupList = (props: LookupListProps) => {
   }, []);
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         editorId={props.uiVariable?.editorId}
@@ -91,7 +91,7 @@ export const LookupList = (props: LookupListProps) => {
               },
             }),
             formatter: (cell, row) => {
-              return <>{`${row.documentName?.children.title}`}</>;
+              return <>{`${row.documentName?.children?.title || ''}`}</>;
             },
             editorRenderer: (
               editorProps,
@@ -132,8 +132,8 @@ export const LookupList = (props: LookupListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            style: {textTransform: 'uppercase'},
-            editorStyle: {textTransform: 'uppercase'},
+            style: { textTransform: 'uppercase' },
+            editorStyle: { textTransform: 'uppercase' },
             filter: textFilter({
               getFilter: filter => {
                 fieldName = filter;
@@ -442,7 +442,7 @@ export const LookupList = (props: LookupListProps) => {
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

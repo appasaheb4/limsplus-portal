@@ -44,6 +44,7 @@ const Section = SectionHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     useEffect(() => {
       setValue('environment', sectionStore.section?.environment);
       setValue('status', sectionStore.section?.status);
@@ -66,6 +67,7 @@ const Section = SectionHoc(
               setHideAddSection(true);
               reset();
               resetSection();
+              setArrImportRecords([]);
             } else {
               Toast.error({
                 message: '😔 Please try again',
@@ -209,6 +211,8 @@ const Section = SectionHoc(
           },
         })
         .then(res => {
+          console.log({ res });
+
           if (
             res.findByFieldsSections?.success &&
             res.findByFieldsSections.data?.length > length

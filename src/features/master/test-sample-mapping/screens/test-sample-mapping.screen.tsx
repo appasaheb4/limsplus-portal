@@ -30,6 +30,7 @@ import { resetTestSampleMapping } from '../startup';
 import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+
 const TestSampleMapping = TestSampleMappingHoc(
   observer(() => {
     const {
@@ -93,6 +94,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               reset();
               resetTestSampleMapping();
               testSampleMappingStore.updateLocalInput(new LocalInput({}));
+              setArrImportRecords([]);
             }
           });
       } else {
@@ -228,14 +230,15 @@ const TestSampleMapping = TestSampleMappingHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = testSampleMappingStore.testSampleMapping,
       length = 0,
       status = 'A',
     ) => {
       const requiredFields = [
-        'containerCode',
-        'containerName',
+        'testCode',
+        'sampleCode',
         'status',
         'environment',
       ];
@@ -253,12 +256,7 @@ const TestSampleMapping = TestSampleMappingHoc(
         .findByFields({
           input: {
             filter: {
-              ..._.pick({ ...fields, status }, [
-                'containerCode',
-                'containerName',
-                'status',
-                'environment',
-              ]),
+              ..._.pick({ ...fields, status }, requiredFields),
             },
           },
         })
@@ -1176,7 +1174,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

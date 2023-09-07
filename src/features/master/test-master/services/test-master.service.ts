@@ -4,9 +4,9 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {SectionService} from '@/features/master/section/services';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { SectionService } from '@/features/master/section/services';
+import { stores } from '@/stores';
 import _ from 'lodash';
 import {
   LIST,
@@ -33,7 +33,7 @@ export class TestMasterService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
           stores.testMasterStore.updateTestMasterList(response.data);
@@ -148,7 +148,7 @@ export class TestMasterService {
   findSectionListByDeptCode = (code: string) =>
     new Promise<any>(resolve => {
       new SectionService()
-        .findSectionListByDeptCode({input: {code}})
+        .findSectionListByDeptCode({ input: { code } })
         .then(res => {
           stores.testMasterStore.updateSectionListByDeptCode(res);
           resolve(res);

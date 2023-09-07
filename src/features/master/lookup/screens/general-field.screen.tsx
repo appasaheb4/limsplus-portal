@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useForm, Controller} from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useForm, Controller } from 'react-hook-form';
 
 import {
   Toast,
@@ -13,26 +13,27 @@ import {
   Icons,
   Svg,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 
-import {dashboardRouter as dashboardRoutes} from '@/routes';
+import { dashboardRouter as dashboardRoutes } from '@/routes';
 const router = dashboardRoutes;
-import {GeneralFieldHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {toJS} from 'mobx';
-import {resetLookup} from '../startup';
+import { GeneralFieldHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { toJS } from 'mobx';
+import { resetLookup } from '../startup';
 
 interface GeneralFieldProps {
+  onClose: () => void;
   onModalConfirm?: (item: any) => void;
 }
 
 export const GeneralField = GeneralFieldHoc(
   observer((props: GeneralFieldProps) => {
-    const {lookupStore, routerStore, loginStore} = useStores();
+    const { lookupStore, routerStore, loginStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -49,6 +50,7 @@ export const GeneralField = GeneralFieldHoc(
           });
           reset();
           resetLookup();
+          props.onClose();
         }
       });
     };
@@ -65,7 +67,7 @@ export const GeneralField = GeneralFieldHoc(
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Form.InputWrapper
                   hasError={!!errors.documentList}
                   label='Document Name'
@@ -90,12 +92,12 @@ export const GeneralField = GeneralFieldHoc(
                 </Form.InputWrapper>
               )}
               name='documentList'
-              rules={{required: true}}
+              rules={{ required: true }}
               defaultValue=''
             />
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Form.InputWrapper
                   hasError={!!errors.filedName}
                   label='Global Filed'
@@ -123,14 +125,14 @@ export const GeneralField = GeneralFieldHoc(
                 </Form.InputWrapper>
               )}
               name='filedName'
-              rules={{required: true}}
+              rules={{ required: true }}
               defaultValue=''
             />
             <Form.InputWrapper label='Code & Value'>
               <Grid cols={3}>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       placeholder='Code'
                       hasError={!!errors.code}
@@ -147,12 +149,12 @@ export const GeneralField = GeneralFieldHoc(
                     />
                   )}
                   name='code'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       placeholder='Value'
                       hasError={!!errors.value}
@@ -167,7 +169,7 @@ export const GeneralField = GeneralFieldHoc(
                     />
                   )}
                   name='value'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <div className='mt-2 flex flex-row justify-between'>
@@ -259,7 +261,7 @@ export const GeneralField = GeneralFieldHoc(
             </Form.InputWrapper>
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Form.InputWrapper
                   hasError={!!errors.defaulItem}
                   label='Default Item'
@@ -298,14 +300,14 @@ export const GeneralField = GeneralFieldHoc(
                 </Form.InputWrapper>
               )}
               name='defaulItem'
-              rules={{required: false}}
+              rules={{ required: false }}
               defaultValue=''
             />
           </List>
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Form.MultilineInput
                   rows={4}
                   label='Description'
@@ -322,13 +324,13 @@ export const GeneralField = GeneralFieldHoc(
                 />
               )}
               name='description'
-              rules={{required: false}}
+              rules={{ required: false }}
               defaultValue=''
             />
 
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Form.InputWrapper
                   label='Environment'
                   hasError={!!errors.environment}
@@ -368,7 +370,7 @@ export const GeneralField = GeneralFieldHoc(
                 </Form.InputWrapper>
               )}
               name='environment'
-              rules={{required: true}}
+              rules={{ required: true }}
               defaultValue=''
             />
           </List>

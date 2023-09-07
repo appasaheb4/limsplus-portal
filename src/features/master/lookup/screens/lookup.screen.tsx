@@ -26,12 +26,13 @@ import { toJS } from 'mobx';
 
 const Lookup = observer(() => {
   const { loginStore, lookupStore, routerStore } = useStores();
-  const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [hideAddLab, setHideAddLab] = useState<boolean>(true);
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalLookupValuesModify, setModalLookupValuesModify] = useState<any>();
 
@@ -66,6 +67,7 @@ const Lookup = observer(() => {
       }
     });
   };
+
   const checkExistsRecords = async (
     fields = lookupStore.lookup,
     length = 0,
@@ -136,12 +138,16 @@ const Lookup = observer(() => {
                   >
                     {item.title === 'DOCUMENT SETTING' && (
                       <>
-                        <DocumentSettings />
+                        <DocumentSettings
+                          onClose={() => setHideAddLab(!hideAddLab)}
+                        />
                       </>
                     )}
                     {item.title === 'GENERAL SETTING' && (
                       <>
-                        <GeneralField />
+                        <GeneralField
+                          onClose={() => setHideAddLab(!hideAddLab)}
+                        />
                       </>
                     )}
                   </AccordionItem>
@@ -213,14 +219,14 @@ const Lookup = observer(() => {
                 };
               }}
               onApproval={async records => {
-                const isExists = await checkExistsRecords(records, 1);
+                const isExists = await checkExistsRecords(records);
                 if (!isExists) {
                   setModalConfirm({
                     show: true,
                     type: 'Update',
                     data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
-                    body: 'Update deginisation!',
+                    body: 'Update lookup!',
                   });
                 }
               }}

@@ -130,6 +130,7 @@ const MasterPackage = MasterPackageHOC(
                 reset();
                 resetMasterPackage();
                 masterPackageStore.updateSelectedItems(new SelectedItems({}));
+                setArrImportRecords([]);
               }
             });
         } else if (
@@ -306,8 +307,8 @@ const MasterPackage = MasterPackageHOC(
             packageCode: item['Package Code'],
             packageName: item['Package Name'],
             serviceType: item['Service Type'],
-            panelName: [],
-            panelCode: [],
+            panelName: undefined,
+            panelCode: undefined,
             reportOrder: '',
             bill: item.Bill === 'Yes' ? true : false,
             printPackageName:
@@ -386,7 +387,7 @@ const MasterPackage = MasterPackageHOC(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={isInputView}
+            show={!isInputView}
             onClick={() => setIsInputView(!isInputView)}
           />
         )}

@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LOOKUPITEM_BY_PATH = gql`
   mutation ($path: String!) {
@@ -24,6 +24,7 @@ export const LOOKUPITEM_BY_PATH = gql`
           value
           flagUpperCase
         }
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -56,6 +57,7 @@ export const LOOKUPITEM_BY_PATH_N_FIELD = gql`
           value
           flagUpperCase
         }
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -91,6 +93,7 @@ export const LIST = gql`
           value
           flagUpperCase
         }
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -162,6 +165,7 @@ export const FILTER = gql`
           value
           flagUpperCase
         }
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -197,6 +201,7 @@ export const FIND_BY_FIELDS = gql`
           value
           flagUpperCase
         }
+        status
         environment
         dateOfEntry
         lastUpdated
