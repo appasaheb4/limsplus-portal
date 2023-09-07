@@ -51,6 +51,7 @@ const SampleContainer = SampleContainerHoc(
       setValue('status', sampleContainerStore.sampleContainer?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sampleContainerStore.sampleContainer]);
+
     const onSubmitSampleContainer = () => {
       if (!sampleContainerStore.checkExitsEnvCode) {
         sampleContainerStore.sampleContainerService
@@ -67,6 +68,7 @@ const SampleContainer = SampleContainerHoc(
               setHideAddBanner(true);
               reset();
               resetSampleContainer();
+              setArrImportRecords([]);
             }
           });
       } else {
@@ -75,6 +77,7 @@ const SampleContainer = SampleContainerHoc(
         });
       }
     };
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {

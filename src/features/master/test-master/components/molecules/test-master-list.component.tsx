@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
   DateFilter,
@@ -12,7 +12,7 @@ import {
   Tooltip,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectDepartment,
@@ -21,7 +21,6 @@ import {
   AutoCompleteInterpretation,
   AutoCompleteTestBottomMarker,
 } from '../index';
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let dateCreation;
 let dateActive;
@@ -98,7 +97,7 @@ export const TestMasterList = (props: TestMasterProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -293,7 +292,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             },
             {
               dataField: 'testCode',
-              text: 'Test  Code',
+              text: 'Test Code',
               headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
@@ -310,7 +309,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             },
             {
               dataField: 'testName',
-              text: 'Test  Name',
+              text: 'Test Name',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -383,8 +382,8 @@ export const TestMasterList = (props: TestMasterProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
-              style: {textTransform: 'uppercase'},
-              editorStyle: {textTransform: 'uppercase'},
+              style: { textTransform: 'uppercase' },
+              editorStyle: { textTransform: 'uppercase' },
             },
             {
               dataField: 'price',
@@ -1902,7 +1901,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>

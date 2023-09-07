@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -26,7 +26,7 @@ export class SectionService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.sectionStore.updateSectionList(response.data);

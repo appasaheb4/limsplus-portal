@@ -65,6 +65,7 @@ const Methods = MethodsHoc(
               setHideAddSection(true);
               reset();
               resetMethod();
+              setArrImportRecords([]);
             }
           });
       } else {
@@ -106,9 +107,9 @@ const Methods = MethodsHoc(
     ) => {
       const requiredFields = [
         'methodsCode',
-        'environment',
+        'methodsName',
         'status',
-        'methodName',
+        'environment',
       ];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item])) return item;

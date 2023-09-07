@@ -146,6 +146,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 testPanelMappingStore.updateSelectedItems(
                   new SelectedItems({}),
                 );
+                setArrImportRecords([]);
               }
             });
         } else if (
@@ -322,8 +323,8 @@ const TestPanelMapping = TestPanelMappingHoc(
           return {
             lab: item?.Lab,
             panelCode: item['Panel Code'],
-            testCode: [],
-            testName: [],
+            testCode: undefined,
+            testName: undefined,
             bill: item.Bill === 'Yes' ? true : false,
             printPanelName: item['Print Panel Name'] === 'Yes' ? true : false,
             printTestName: item['Print Test Name'] === 'Yes' ? true : false,

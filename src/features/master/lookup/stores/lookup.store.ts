@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {LocalInput, Lookup, GlobalSettings} from '../models';
-import {LookupService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { LocalInput, Lookup, GlobalSettings } from '../models';
+import { LookupService } from '../services';
 
 export class LookupStore {
   listLookup!: Lookup[];
@@ -8,19 +8,12 @@ export class LookupStore {
   lookup!: Lookup;
   globalSettings!: GlobalSettings;
   localInput!: LocalInput;
-  flagUpperCase: boolean;
+  flagUpperCase!: boolean;
   uiVariable!: {
     editorId: string;
   };
 
   constructor() {
-    this.listLookup = [];
-    this.lookup = new Lookup({});
-    this.globalSettings = new GlobalSettings({});
-    this.localInput = new LocalInput({
-      flagUpperCase: true,
-    });
-    this.flagUpperCase = true;
     this.reset();
     makeObservable<LookupStore, any>(this, {
       listLookup: observable,
@@ -30,7 +23,6 @@ export class LookupStore {
       localInput: observable,
       flagUpperCase: observable,
       uiVariable: observable,
-
       LookupService: computed,
       fetchListLookup: action,
       updateLookupList: action,
@@ -49,10 +41,16 @@ export class LookupStore {
   }
 
   reset() {
-    this.lookup = new Lookup({});
     this.listLookup = [];
+    this.lookup = new Lookup({
+      arrValue: [],
+    });
     this.listLookupCount = 0;
-    this.localInput = new LocalInput({});
+    this.localInput = new LocalInput({
+      flagUpperCase: true,
+    });
+    this.globalSettings = new GlobalSettings({});
+    this.flagUpperCase = true;
   }
 
   fetchListLookup(page?, limit?) {

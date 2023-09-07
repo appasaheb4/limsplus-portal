@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: SampleTypeInput!) {
@@ -14,6 +14,7 @@ export const LIST = gql`
         sampleType
         descriptions
         sampleGroup
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -81,6 +82,7 @@ export const FILTER = gql`
         sampleType
         descriptions
         sampleGroup
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -103,6 +105,7 @@ export const FILTER_BY_FIELDS = gql`
         sampleType
         descriptions
         sampleGroup
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -112,8 +115,8 @@ export const FILTER_BY_FIELDS = gql`
 `;
 
 export const FIND_BY_FIELDS = gql`
-  mutation ($input: ReferenceRangeInput!) {
-    findByFieldsReferenceRanges(input: $input) {
+  mutation ($input: SampleTypeInput!) {
+    findByFieldsSampleTypes(input: $input) {
       paginatorInfo {
         count
       }
@@ -125,6 +128,7 @@ export const FIND_BY_FIELDS = gql`
         sampleType
         descriptions
         sampleGroup
+        status
         environment
         dateOfEntry
         lastUpdated

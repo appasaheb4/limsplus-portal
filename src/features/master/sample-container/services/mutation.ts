@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: SampleContainerInput!) {
@@ -14,6 +14,7 @@ export const LIST = gql`
         containerName
         description
         image
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -81,6 +82,7 @@ export const FILTER = gql`
         containerName
         description
         image
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -103,6 +105,7 @@ export const FILTER_BY_FIELDS = gql`
         containerName
         description
         image
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -122,6 +125,7 @@ export const FIND_BY_FIELDS = gql`
         containerName
         description
         image
+        status
         environment
         dateOfEntry
         lastUpdated

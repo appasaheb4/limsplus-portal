@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
-import {useForm, Controller} from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { useForm, Controller } from 'react-hook-form';
 
 import {
   Toast,
@@ -15,78 +15,81 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 
-import {dashboardRouter as dashboardRoutes} from '@/routes';
+import { dashboardRouter as dashboardRoutes } from '@/routes';
 const router = dashboardRoutes;
-import {DocumentSettingHoc} from '../hoc';
-import {useStores} from '@/stores';
-import {resetLookup} from '../startup';
-import {LocalInput} from '../models';
+import { DocumentSettingHoc } from '../hoc';
+import { useStores } from '@/stores';
+import { resetLookup } from '../startup';
+import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
-interface NewFieldProps {
+interface DocumentSettingsProps {
+  onClose: () => void;
   onModalConfirm?: (item: any) => void;
 }
 
 export const DocumentSettings = DocumentSettingHoc(
-  observer((props: NewFieldProps) => {
-    const {loginStore, lookupStore, routerStore} = useStores();
+  observer(({ onClose, onModalConfirm }: DocumentSettingsProps) => {
+    const { loginStore, lookupStore, routerStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     const onSubmitNewField = (data: any) => {
-      if (
-        lookupStore.localInput.value === '' &&
-        lookupStore.localInput.value === ''
-      ) {
-        lookupStore.LookupService.addLookup({
-          input: isImport
-            ? {isImport, arrImportRecords}
-            : {isImport, ...lookupStore.lookup},
-        }).then(res => {
-          if (res.createLookup.success) {
-            Toast.success({
-              message: `😊 ${res.createLookup.message}`,
-            });
-            reset();
-            resetLookup();
-            lookupStore.updateLocalInput(new LocalInput({}));
-          }
-        });
-      } else {
-        Toast.warning({
+      if (lookupStore.lookup.arrValue?.length == 0 && !isImport) {
+        return Toast.warning({
           message: '😔 Please add code and value then submit.',
         });
       }
+      lookupStore.LookupService.addLookup({
+        input: isImport
+          ? { isImport, arrImportRecords }
+          : { isImport, ...lookupStore.lookup },
+      }).then(res => {
+        if (res.createLookup.success) {
+          Toast.success({
+            message: `😊 ${res.createLookup.message}`,
+          });
+          reset();
+          resetLookup();
+          lookupStore.updateLocalInput(new LocalInput({}));
+          setArrImportRecords([]);
+          onClose();
+        }
+      });
     };
 
-    setValue('environment', lookupStore.lookup?.environment);
-    setValue('status', lookupStore.lookup?.status);
+    useEffect(() => {
+      setValue('environment', lookupStore.lookup?.environment);
+      setValue('status', lookupStore.lookup?.status);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [lookupStore.lookup]);
 
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            documentName: '',
+            documentName: undefined,
             fieldName: item['Field Name'],
-            arrValue: [],
+            arrValue: undefined,
             description: item.Description,
-            defaultItem: [],
+            defaultItem: undefined,
             environment: item?.Environment,
             status: 'D',
           };
@@ -109,7 +112,7 @@ export const DocumentSettings = DocumentSettingHoc(
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
                     hasError={!!errors.documentName}
                     label='Document Name'
@@ -135,12 +138,12 @@ export const DocumentSettings = DocumentSettingHoc(
                   </Form.InputWrapper>
                 )}
                 name='documentName'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.Input
                     label='Field Name'
                     placeholder='Field Name'
@@ -156,14 +159,14 @@ export const DocumentSettings = DocumentSettingHoc(
                   />
                 )}
                 name='fieldName'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
               <Form.InputWrapper label='Code & Value'>
                 <Grid cols={3}>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         placeholder='Code'
                         value={value}
@@ -179,13 +182,13 @@ export const DocumentSettings = DocumentSettingHoc(
                       />
                     )}
                     name='code'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
 
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         placeholder='Value'
                         value={lookupStore.localInput.value || ''}
@@ -199,7 +202,7 @@ export const DocumentSettings = DocumentSettingHoc(
                       />
                     )}
                     name='value'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <div className='mt-2 flex flex-row justify-between'>
@@ -290,7 +293,7 @@ export const DocumentSettings = DocumentSettingHoc(
               </Form.InputWrapper>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
                     hasError={!!errors.defaulItem}
                     label='Default Item'
@@ -303,7 +306,7 @@ export const DocumentSettings = DocumentSettingHoc(
                       onChange={e => {
                         let defaultItem = JSON.parse(e.target.value);
                         defaultItem = [
-                          {code: defaultItem.code, value: defaultItem.value},
+                          { code: defaultItem.code, value: defaultItem.value },
                         ];
                         onChange(defaultItem);
                         lookupStore.updateLookup({
@@ -329,7 +332,7 @@ export const DocumentSettings = DocumentSettingHoc(
                   </Form.InputWrapper>
                 )}
                 name='defaulItem'
-                rules={{required: false}}
+                rules={{ required: false }}
                 defaultValue=''
               />
             </List>
@@ -337,7 +340,7 @@ export const DocumentSettings = DocumentSettingHoc(
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.MultilineInput
                     rows={4}
                     label='Description'
@@ -354,12 +357,12 @@ export const DocumentSettings = DocumentSettingHoc(
                   />
                 )}
                 name='description'
-                rules={{required: false}}
+                rules={{ required: false }}
                 defaultValue=''
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper label='Status' hasError={!!errors.status}>
                     <select
                       value={value}
@@ -387,12 +390,12 @@ export const DocumentSettings = DocumentSettingHoc(
                   </Form.InputWrapper>
                 )}
                 name='status'
-                rules={{required: false}}
+                rules={{ required: false }}
                 defaultValue=''
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper label='Environment'>
                     <select
                       // value={value}
@@ -430,7 +433,7 @@ export const DocumentSettings = DocumentSettingHoc(
                   </Form.InputWrapper>
                 )}
                 name='environment'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
             </List>

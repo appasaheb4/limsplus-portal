@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: TestSampleMappingInput!) {
@@ -37,6 +37,7 @@ export const LIST = gql`
         printLabels
         info
         departments
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -118,6 +119,7 @@ export const FILTER = gql`
         printLabels
         info
         departments
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -160,6 +162,7 @@ export const FIND_BY_FIELDS = gql`
         printLabels
         info
         departments
+        status
         environment
         dateOfEntry
         lastUpdated
