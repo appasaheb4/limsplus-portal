@@ -69,35 +69,35 @@ export const PossibleResults = PossibleResultHoc(
     }, [possibleResultsStore.possibleResults]);
 
     const onSubmitPossibleResult = () => {
-      if (!possibleResultsStore.checkExistsRecords) {
-        possibleResultsStore.possibleResultsService
-          .addPossibleResults({
-            input: isImport
-              ? { isImport, arrImportRecords }
-              : {
-                  isImport,
-                  ...possibleResultsStore.possibleResults,
-                  enteredBy:
-                    possibleResultsStore.possibleResults.enteredBy ||
-                    loginStore.login.userId,
-                  __typename: undefined,
-                },
-          })
-          .then(res => {
-            if (res.createPossibleResult.success) {
-              Toast.success({
-                message: `😊 ${res.createPossibleResult.message}`,
-              });
-              setHideAddLookup(true);
-              reset();
-              resetPossibleResult();
-            }
-          });
-      } else {
-        Toast.warning({
+      if (possibleResultsStore.checkExistsRecords && !isImport) {
+        return Toast.warning({
           message: '😔 Please use diff code',
         });
       }
+      possibleResultsStore.possibleResultsService
+        .addPossibleResults({
+          input: isImport
+            ? { isImport, arrImportRecords }
+            : {
+                isImport,
+                ...possibleResultsStore.possibleResults,
+                enteredBy:
+                  possibleResultsStore.possibleResults.enteredBy ||
+                  loginStore.login.userId,
+                __typename: undefined,
+              },
+        })
+        .then(res => {
+          if (res.createPossibleResult.success) {
+            Toast.success({
+              message: `😊 ${res.createPossibleResult.message}`,
+            });
+            setHideAddLookup(true);
+            reset();
+            resetPossibleResult();
+            setArrImportRecords([]);
+          }
+        });
     };
 
     const tableView = useMemo(
@@ -202,7 +202,7 @@ export const PossibleResults = PossibleResultHoc(
           return {
             analyteCode: item['Analyte Code'],
             analyteName: item['Analyte Name'],
-            conclusionResult: [],
+            conclusionResult: undefined,
             defaultConclusion: '',
             dateCreation: new Date(),
             dateActive: new Date(),
@@ -225,7 +225,7 @@ export const PossibleResults = PossibleResultHoc(
       length = 0,
       status = 'A',
     ) => {
-      const requiredFields = ['analyteCode', 'environment', 'status'];
+      const requiredFields = ['analyteCode', 'status', 'environment'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item])) return item;
       });

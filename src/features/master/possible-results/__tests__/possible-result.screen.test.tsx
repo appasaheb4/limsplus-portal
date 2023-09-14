@@ -1,6 +1,7 @@
+/* eslint-disable folders/match-regex */
 import React from 'react';
-import {render} from '@testing-library/react';
-import {PossibleResults} from '.';
+import { render } from '@testing-library/react';
+import { PossibleResults } from '../screens';
 
 describe('PossibleResults Screen', () => {
   it('render possibleResults correctly', () => {

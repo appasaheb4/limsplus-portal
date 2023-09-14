@@ -238,7 +238,8 @@ export const Library = LibraryHoc(
         'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        console.log({ item });
+        if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
       });
       if (isEmpty) {
         Toast.error({
