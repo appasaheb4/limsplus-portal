@@ -74,7 +74,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
-    const onSubmitMasterAnalyte = () => {
+    const onSubmitMasterAnalyte = async () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {
         if (
           !masterAnalyteStore.masterAnalyte?.existsVersionId &&
@@ -113,6 +113,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               input: {
                 ...masterAnalyteStore.masterAnalyte,
                 enteredBy: loginStore.login.userId,
+                isImport: false,
                 __typename: undefined,
               },
             })
@@ -121,27 +122,37 @@ const MasterAnalyte = MasterAnalyteHoc(
                 Toast.success({
                   message: `😊 ${res.versionUpgradeAnalyteMaster.message}`,
                 });
+                setIsInputView(true);
+                reset();
+                resetMasterAnalyte();
               }
             });
         } else if (
           !masterAnalyteStore.masterAnalyte?.existsVersionId &&
           masterAnalyteStore.masterAnalyte?.existsRecordId
         ) {
-          masterAnalyteStore.masterAnalyteService
-            .duplicateAnalyteMaster({
-              input: {
-                ...masterAnalyteStore.masterAnalyte,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicateAnalyteMaster.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicateAnalyteMaster.message}`,
-                });
-              }
-            });
+          const isExists = await checkExistsRecords();
+          if (!isExists) {
+            masterAnalyteStore.masterAnalyteService
+              .duplicateAnalyteMaster({
+                input: {
+                  ...masterAnalyteStore.masterAnalyte,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicateAnalyteMaster.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicateAnalyteMaster.message}`,
+                  });
+                  setIsInputView(true);
+                  reset();
+                  resetMasterAnalyte();
+                }
+              });
+          }
         }
       } else {
         Toast.warning({

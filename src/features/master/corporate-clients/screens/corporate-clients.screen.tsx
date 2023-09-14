@@ -56,6 +56,7 @@ const CorporateClients = CorporateClientsHoc(
     const [interfaceManagerList, setInterfaceManagerList] = useState([]);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     useEffect(() => {
       // Default value initialization
       setValue('status', corporateClientsStore.corporateClients?.status);
@@ -137,6 +138,7 @@ const CorporateClients = CorporateClientsHoc(
                 setHideAddSection(true);
                 reset();
                 resetCorporateClient();
+                setArrImportRecords([]);
               }
             });
         } else if (
@@ -342,7 +344,7 @@ const CorporateClients = CorporateClientsHoc(
             mobileNo: item['Mobile No'],
             email: item.Email,
             reportPriority: item['Report Priority'],
-            deliveryMode: [],
+            deliveryMode: undefined,
             confidential: item.Confidential === 'Yes' ? true : false,
             specificFormat: item['Specific Format'] === 'Yes' ? true : false,
             isEmployeeCode: item['Employee Code'] === 'Yes' ? true : false,
@@ -352,7 +354,7 @@ const CorporateClients = CorporateClientsHoc(
             urgent: item.Urgent === 'Yes' ? true : false,
             templateForImport: item['Template For Import'],
             templateForExport: item['Template For Export'],
-            panelList: [],
+            panelList: undefined,
             info: item.Info,
             fyiLine: item['FYI Line'],
             workLine: item['Work line'],

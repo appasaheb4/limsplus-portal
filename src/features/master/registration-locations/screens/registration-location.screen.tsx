@@ -32,6 +32,7 @@ import { FormHelper } from '@/helper';
 import { resetRegistrationLocation } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
+
 const RegistrationLocation = RegistrationLocationHoc(
   observer(() => {
     const {
@@ -56,6 +57,7 @@ const RegistrationLocation = RegistrationLocationHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     useEffect(() => {
       // Default value initialization
       setValue(
@@ -162,6 +164,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 registrationLocationsStore.updateSelectedItems(
                   new SelectedItems({}),
                 );
+                setArrImportRecords([]);
               }
             });
         } else if (
@@ -303,6 +306,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [registrationLocationsStore.listRegistrationLocations],
     );
+
     const checkExistsRecords = async (
       fields = registrationLocationsStore.registrationLocations,
       length = 0,
@@ -337,8 +341,8 @@ const RegistrationLocation = RegistrationLocationHoc(
         })
         .then(res => {
           if (
-            res.findByFieldsReferenceRanges?.success &&
-            res.findByFieldsReferenceRanges.data?.length > length
+            res.findByFieldsRegistrationLocation?.success &&
+            res.findByFieldsRegistrationLocation.data?.length > length
           ) {
             //setIsExistsRecord(true);
             Toast.error({
@@ -366,7 +370,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             locationName: item['Location Name'],
             corporateCode: item['Client Code'],
             invoiceAc: item['Invoice Ac'],
-            priceList: [],
+            priceList: undefined,
             speciality: item.Speciality,
             acClass: item['Ac Class'],
             accountType: item['Account Type'],
@@ -387,7 +391,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             mobileNo: item['Mobile No'],
             email: item.Email,
             reportPriority: item['Report Priority'],
-            deliveryMode: [],
+            deliveryMode: undefined,
             route: item.Route,
             lab: item.Lab,
             info: item.Info,

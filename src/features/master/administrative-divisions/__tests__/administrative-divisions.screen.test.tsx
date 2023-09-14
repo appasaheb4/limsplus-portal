@@ -1,7 +1,7 @@
 // eslint-disable-next-line folders/match-regex
 import React from 'react';
-import {render} from '@testing-library/react';
-import {AdministrativeDivisions} from '..';
+import { render } from '@testing-library/react';
+import { AdministrativeDivisions } from '../screens';
 
 describe('Administrative Division Screen', () => {
   it('render administrativeDiv correctly', () => {

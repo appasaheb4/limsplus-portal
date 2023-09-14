@@ -104,7 +104,7 @@ const Deginisation = DeginisationHoc(
       length = 0,
       status = 'A',
     ) => {
-      const requiredFields = ['code', 'environment'];
+      const requiredFields = ['code', 'status', 'environment'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item])) return item;
       });
@@ -122,6 +122,8 @@ const Deginisation = DeginisationHoc(
           },
         },
       }).then(res => {
+        console.log({ res });
+
         if (
           res.findByFieldsDesignation?.success &&
           res.findByFieldsDesignation.data?.length > length
