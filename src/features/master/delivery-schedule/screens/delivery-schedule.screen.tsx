@@ -42,6 +42,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     useEffect(() => {
       // Default value initialization
       setValue(
@@ -68,6 +69,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
             setHideAddLab(true);
             reset();
             resetDeliverySchedule();
+            setArrImportRecords([]);
           });
       } else {
         Toast.warning({
@@ -118,6 +120,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = deliveryScheduleStore.deliverySchedule,
       length = 0,

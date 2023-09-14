@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
-import {Toast, Buttons, ModalConfirm, ImportFile} from '@/library/components';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { Toast, Buttons, ModalConfirm, ImportFile } from '@/library/components';
 import * as XLSX from 'xlsx';
-import {FileImportExportList} from '../components';
-import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {useForm} from 'react-hook-form';
-import {PreviewImportTable} from '../components';
+import { FileImportExportList } from '../components';
+import { useStores } from '@/stores';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { useForm } from 'react-hook-form';
+import { PreviewImportTable } from '../components';
 
 export const FileImportExport = observer(() => {
   const {
@@ -21,7 +21,7 @@ export const FileImportExport = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const [isInputView, setInputView] = useState<boolean>(false);
@@ -56,12 +56,12 @@ export const FileImportExport = observer(() => {
     reader.addEventListener('load', (evt: any) => {
       /* Parse data */
       const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, {type: 'binary'});
+      const wb = XLSX.read(bstr, { type: 'binary' });
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_json(ws, {raw: true});
+      const data = XLSX.utils.sheet_to_json(ws, { raw: true });
       const segmentMappings = segmentMappingList?.map(item => {
         return {
           elementName: item.elementName,
@@ -89,7 +89,7 @@ export const FileImportExport = observer(() => {
 
   const onUpload = () => {
     importFromFileStore.fileImportExportService
-      .create({input: {...importFromFileStore.fileImportExport}})
+      .create({ input: { ...importFromFileStore.fileImportExport } })
       .then(res => {
         if (res.createFileImportExport.success) {
           Toast.success({
@@ -114,57 +114,10 @@ export const FileImportExport = observer(() => {
       >
         {previewRecords?.length == 0 && (
           <div className='flex flex-col items-center gap-2 mb-4'>
-            {/* <div className='flex flex-wrap'>
-              <Form.InputWrapper
-                label='Transfer Type'
-                hasError={!!errors.transferType}
-              >
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <select
-                      value={value}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.transferType ? 'border-red  ' : 'border-gray-300'
-                      } rounded-md`}
-                      onChange={e => {
-                        const transferType = e.target.value;
-                        onChange(transferType);
-                        importFromFileStore.updateFileImpExport({
-                          ...importFromFileStore.fileImportExport,
-                          transferType,
-                        });
-                        if (isInputView) getSegmentMappingList(transferType);
-                        importFromFileStore.fileImportExportService.listFileImportExport(
-                          transferType,
-                        );
-                        importFromFileStore.updateDefaultValue({
-                          ...importFromFileStore.defaultValue,
-                          transferType,
-                        });
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {lookupItems(
-                        routerStore.lookupItems,
-                        'TRANSFER_TYPE',
-                      )?.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                  name='transferType'
-                  rules={{required: true}}
-                  defaultValue=''
-                />
-              </Form.InputWrapper>
-            </div> */}
             <ImportFile
               accepts={['.csv', '.xlsx', '.xls']}
               onClick={file => {
-                console.log({file});
+                console.log({ file });
                 handleFileUpload(file[0]);
               }}
             />
@@ -229,7 +182,7 @@ export const FileImportExport = observer(() => {
             }}
             onFilter={filter => {
               importFromFileStore.fileImportExportService
-                .filterByFields({input: {filter}})
+                .filterByFields({ input: { filter } })
                 .then(res => {
                   console.log(res);
                 });
@@ -243,11 +196,12 @@ export const FileImportExport = observer(() => {
                 .createPatientManagerByFileImportExport({
                   input: {
                     filter: list?.map(e => {
-                      return {...e, enteredBy: loginStore.login?.userId};
+                      return { ...e, enteredBy: loginStore.login?.userId };
                     }),
                   },
                 })
                 .then(res => {
+                  console.log({ res });
                   if (res.createByFileImportExportPatientManager.success) {
                     Toast.success({
                       message: `😊 ${res.createByFileImportExportPatientManager.message}`,
@@ -277,11 +231,11 @@ export const FileImportExport = observer(() => {
       <ModalConfirm
         {...modalConfirm}
         click={(action?: string) => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
           switch (action) {
             case 'delete': {
               importFromFileStore.fileImportExportService
-                .delete({input: {id: modalConfirm.id}})
+                .delete({ input: { id: modalConfirm.id } })
                 .then(res => {
                   if (res.removeFileImportExport.success) {
                     Toast.success({
@@ -332,7 +286,7 @@ export const FileImportExport = observer(() => {
           }
         }}
         close={() => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
         }}
       />
     </>

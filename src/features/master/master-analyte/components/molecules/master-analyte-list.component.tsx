@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
   DateFilter,
@@ -13,7 +13,7 @@ import {
   Toast,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectAnalayteMethod,
@@ -21,8 +21,8 @@ import {
   AutoCompleteInterpretation,
   AutoCompleteAnalyteBottomMarker,
 } from '../index';
-import {FormHelper} from '@/helper';
-import {InputResult} from '@/core-components';
+import { FormHelper } from '@/helper';
+import { InputResult } from '@/core-components';
 
 let lab;
 let analyteCode;
@@ -86,7 +86,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -330,8 +330,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
-              style: {textTransform: 'uppercase'},
-              editorStyle: {textTransform: 'uppercase'},
+              style: { textTransform: 'uppercase' },
+              editorStyle: { textTransform: 'uppercase' },
             },
             {
               dataField: 'price',
@@ -1118,7 +1118,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <Form.MultilineInput
                     label=''
-                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    style={{ color: '#ffffff', backgroundColor: '#000000' }}
                     placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
                     onBlur={abnormalHighlighterCSS => {
                       props.onUpdateItem &&
@@ -1150,7 +1150,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <Form.MultilineInput
                     label=''
-                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    style={{ color: '#ffffff', backgroundColor: '#000000' }}
                     placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
                     onBlur={criticalHighlighterCSS => {
                       props.onUpdateItem &&
@@ -1181,7 +1181,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -1200,13 +1200,13 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                      (item: any, index: number) => (
+                    {lookupItems(props.extraData.lookupItems, 'STATUS')
+                      .filter(item => item.code != 'D')
+                      .map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ),
-                    )}
+                      ))}
                   </select>
                 </>
               ),
@@ -1625,7 +1625,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== 'I' && (
+                    {row.status === 'A' && (
                       <>
                         <Tooltip tooltipText='Version Upgrade'>
                           <Icons.IconContext
@@ -1650,16 +1650,17 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                             {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                           </Icons.IconContext>
                         </Tooltip>
-                        {row.status == 'D' && (
-                          <Tooltip tooltipText='Approval'>
-                            <Icons.RIcon
-                              nameIcon='AiOutlineCheckCircle'
-                              propsIcon={{size: 24, color: '#ffffff'}}
-                              onClick={() => props.onApproval(row)}
-                            />
-                          </Tooltip>
-                        )}
                       </>
+                    )}
+
+                    {row.status == 'D' && (
+                      <Tooltip tooltipText='Approval'>
+                        <Icons.RIcon
+                          nameIcon='AiOutlineCheckCircle'
+                          propsIcon={{ size: 24, color: '#ffffff' }}
+                          onClick={() => props.onApproval(row)}
+                        />
+                      </Tooltip>
                     )}
                   </div>
                 </>

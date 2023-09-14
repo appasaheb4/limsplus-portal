@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import * as Model from '../models';
 import {
   LIST,
@@ -27,7 +27,7 @@ class DeginisationService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.deginisationStore.updateListDeginisation(response.data);
@@ -154,6 +154,8 @@ class DeginisationService {
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables });
+
       client
         .mutate({
           mutation: FIND_BY_FIELDS,

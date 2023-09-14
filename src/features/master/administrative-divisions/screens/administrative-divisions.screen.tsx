@@ -53,9 +53,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     const onSubmitAdministrativeDivision = () => {
       if (administrativeDivisions.administrativeDiv) {
-        if (!administrativeDivisions.administrativeDiv.postalCode)
+        if (!administrativeDivisions.administrativeDiv.postalCode && !isImport)
           return Toast.warning({
             message: '😔 Please enter postal code!',
           });
@@ -73,6 +74,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               setHideAddSection(true);
               reset();
               resetBanner();
+              setArrImportRecords([]);
             }
           });
       } else {
@@ -81,6 +83,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
         });
       }
     };
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -94,7 +97,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            postalCode: [],
+            postalCode: undefined,
             country: item?.Country,
             state: item?.State,
             district: item?.District,

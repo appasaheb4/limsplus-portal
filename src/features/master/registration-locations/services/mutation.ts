@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: RegistrationLocationInput!) {
@@ -319,8 +319,8 @@ export const FIND_BY_ARRAY_ITEMS = gql`
 `;
 
 export const FIND_BY_FIELDS = gql`
-  mutation ($input: ReferenceRangeInput!) {
-    findByFieldsReferenceRanges(input: $input) {
+  mutation ($input: RegistrationLocationInput!) {
+    findByFieldsRegistrationLocation(input: $input) {
       paginatorInfo {
         count
       }

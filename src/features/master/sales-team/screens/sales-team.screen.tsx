@@ -51,6 +51,7 @@ export const SalesTeam = SalesTeamHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     useEffect(() => {
       // Default value initialization
       setValue('environment', salesTeamStore.salesTeam?.environment);
@@ -85,6 +86,7 @@ export const SalesTeam = SalesTeamHoc(
               setHideAddSection(true);
               reset();
               resetSalesTeam();
+              setArrImportRecords([]);
             }
           });
       } else {
@@ -197,8 +199,8 @@ export const SalesTeam = SalesTeamHoc(
             description: item.Description,
             empCode: item['Employee Code'],
             empName: item['Employee Name'],
-            salesHierarchy: [],
-            targets: [],
+            salesHierarchy: undefined,
+            targets: undefined,
             dateCreation: new Date(),
             dateActive: new Date(),
             dateExpire: new Date(

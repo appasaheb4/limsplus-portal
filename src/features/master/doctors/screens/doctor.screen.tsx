@@ -99,6 +99,7 @@ const Doctors = DoctorsHoc(
                 setHideAddSection(true);
                 reset();
                 resetDoctor();
+                setArrImportRecords([]);
               }
             });
         } else if (
@@ -246,6 +247,7 @@ const Doctors = DoctorsHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [doctorsStore.listDoctors],
     );
+
     const checkExistsRecords = async (
       fields = doctorsStore.doctors,
       length = 0,
@@ -322,7 +324,7 @@ const Doctors = DoctorsHoc(
             mobileNo: item['Mobile No'],
             email: item.Email,
             reportPriority: item['Report Priority'],
-            deliveryMode: [],
+            deliveryMode: undefined,
             registrationLocation: item['Registration Location'],
             lab: item.Lab,
             info: item.Info,

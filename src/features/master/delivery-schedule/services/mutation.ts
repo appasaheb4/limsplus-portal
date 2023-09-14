@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: DeliverySchduleInput!) {
@@ -28,6 +28,7 @@ export const LIST = gql`
         onTime
         schForDept
         schForPat
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -118,6 +119,7 @@ export const FILTER = gql`
         onTime
         schForDept
         schForPat
+        status
         environment
         dateOfEntry
         lastUpdated
@@ -154,6 +156,7 @@ export const FIND_BY_FIELDS = gql`
         onTime
         schForDept
         schForPat
+        status
         environment
         dateOfEntry
         lastUpdated

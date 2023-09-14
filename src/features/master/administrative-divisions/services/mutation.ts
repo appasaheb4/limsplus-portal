@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: AdministrativeDevisionInput!) {
@@ -18,6 +18,7 @@ export const LIST = gql`
         postalCode
         sbu
         zone
+        status
         environment
       }
     }
@@ -69,6 +70,7 @@ export const FILTER = gql`
         postalCode
         sbu
         zone
+        status
         environment
       }
     }
@@ -93,6 +95,7 @@ export const FIND_BY_FIELDS = gql`
         postalCode
         sbu
         zone
+        status
         environment
       }
     }
