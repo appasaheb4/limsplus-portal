@@ -318,6 +318,8 @@ export const LookupList = (props: LookupListProps) => {
                 status = filter;
               },
             }),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -7,7 +7,7 @@ import {
   Tooltip,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 
 let sampleCode;
 let sampleType;
@@ -38,7 +38,7 @@ interface SampleTypeListProps {
 export const SampleTypeList = (props: SampleTypeListProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -130,6 +130,8 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   status = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -245,7 +247,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>

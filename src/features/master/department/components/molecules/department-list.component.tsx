@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -8,14 +8,14 @@ import {
   Tooltip,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectHod,
   AutoCompleteAuthorizedSignatory,
 } from '../index';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { FormHelper } from '@/helper';
 let lab;
 let code;
 let name;
@@ -64,7 +64,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     reset,
   } = useForm();
@@ -72,7 +72,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
     return row.status !== 'I' ? true : false;
   };
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -164,8 +164,8 @@ export const DepartmentList = (props: DepartmentListProps) => {
                 shortName = filter;
               },
             }),
-            style: {textTransform: 'uppercase'},
-            editorStyle: {textTransform: 'uppercase'},
+            style: { textTransform: 'uppercase' },
+            editorStyle: { textTransform: 'uppercase' },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -272,7 +272,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.reportOrder
@@ -331,7 +331,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'MobileNo'
@@ -386,7 +386,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.contactNo
@@ -605,7 +605,8 @@ export const DepartmentList = (props: DepartmentListProps) => {
                 status = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -718,7 +719,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

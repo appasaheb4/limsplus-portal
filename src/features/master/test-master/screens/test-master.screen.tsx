@@ -76,7 +76,7 @@ const TestMater = TestMasterHOC(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [testMasterStore.testMaster]);
 
-    const onSubmitTestMaster = () => {
+    const onSubmitTestMaster = async () => {
       if (!testMasterStore.checkExitsLabEnvCode) {
         if (
           !testMasterStore.testMaster?.existsVersionId &&
@@ -125,22 +125,26 @@ const TestMater = TestMasterHOC(
           !testMasterStore.testMaster?.existsVersionId &&
           testMasterStore.testMaster?.existsRecordId
         ) {
-          testMasterStore.testMasterService
-            .duplicateTestMaster({
-              input: {
-                ...testMasterStore.testMaster,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-                disableTestName: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicateTestMaster.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicateTestMaster.message}`,
-                });
-              }
-            });
+          const isExits = await checkExistsRecords();
+          if (!isExits) {
+            testMasterStore.testMasterService
+              .duplicateTestMaster({
+                input: {
+                  ...testMasterStore.testMaster,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                  disableTestName: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicateTestMaster.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicateTestMaster.message}`,
+                  });
+                }
+              });
+          }
         }
         setIsInputView(true);
         reset();

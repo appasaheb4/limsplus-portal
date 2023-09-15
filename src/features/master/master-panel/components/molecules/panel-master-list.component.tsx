@@ -1,6 +1,6 @@
 import React from 'react';
 import daysjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -13,7 +13,7 @@ import {
   Toast,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectPlabs,
   AutoCompleteFilterSingleSelectDepartment,
@@ -22,7 +22,7 @@ import {
   AutoCompleteFilterSingleSelectReportTemplate,
   AutoCompletePanelBottomMarker,
 } from '../index';
-import {FormHelper} from '@/helper';
+import { FormHelper } from '@/helper';
 
 let rLab;
 let pLab;
@@ -98,7 +98,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -1448,7 +1448,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
-              style: {textTransform: 'uppercase'},
+              style: { textTransform: 'uppercase' },
               editorStyle: {
                 textTransform: 'uppercase',
               },
@@ -1594,7 +1594,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                   status = filter;
                 },
               }),
-              editable: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -1886,7 +1887,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== 'I' && (
+                    {row.status === 'A' && (
                       <>
                         <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
@@ -1917,7 +1918,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>

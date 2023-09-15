@@ -93,7 +93,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [testAnalyteMappingStore.testAnalyteMapping]);
 
-    const onSubmitTestAnalyteMapping = () => {
+    const onSubmitTestAnalyteMapping = async () => {
       if (!testAnalyteMappingStore.checkExitsLabEnvCode) {
         if (
           !testAnalyteMappingStore.testAnalyteMapping?.existsVersionId &&
@@ -150,21 +150,25 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           !testAnalyteMappingStore.testAnalyteMapping?.existsVersionId &&
           testAnalyteMappingStore.testAnalyteMapping?.existsRecordId
         ) {
-          testAnalyteMappingStore.testAnalyteMappingService
-            .duplicateTestAnalyteMapping({
-              input: {
-                ...testAnalyteMappingStore.testAnalyteMapping,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicateTestAnalyteMappings.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicateTestAnalyteMappings.message}`,
-                });
-              }
-            });
+          const isExists = await checkExistsRecords();
+          if (!isExists) {
+            testAnalyteMappingStore.testAnalyteMappingService
+              .duplicateTestAnalyteMapping({
+                input: {
+                  ...testAnalyteMappingStore.testAnalyteMapping,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicateTestAnalyteMappings.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicateTestAnalyteMappings.message}`,
+                  });
+                }
+              });
+          }
         }
       } else {
         Toast.warning({
