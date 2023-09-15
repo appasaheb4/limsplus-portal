@@ -7,7 +7,7 @@ import {
   Icons,
   Form,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 
 let title;
 let environment;
@@ -113,6 +113,8 @@ export const BannerList = (props: BannerListProps) => {
               status = filter;
             },
           }),
+          editable: (content, row, rowIndex, columnIndex) =>
+            row.status != 'D' ? true : false,
           editorRenderer: (
             editorProps,
             value,
@@ -222,7 +224,7 @@ export const BannerList = (props: BannerListProps) => {
                   <Tooltip tooltipText='Approval'>
                     <Icons.RIcon
                       nameIcon='AiOutlineCheckCircle'
-                      propsIcon={{size: 24, color: '#ffffff'}}
+                      propsIcon={{ size: 24, color: '#ffffff' }}
                       onClick={() => props.onApproval(row)}
                     />
                   </Tooltip>

@@ -85,7 +85,7 @@ const MasterPanel = MasterPanelHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [masterPanelStore.masterPanel]);
 
-    const onSubmitMasterPanel = () => {
+    const onSubmitMasterPanel = async () => {
       if (!masterPanelStore.checkExitsLabEnvCode) {
         if (
           !masterPanelStore.masterPanel?.existsVersionId &&
@@ -135,21 +135,25 @@ const MasterPanel = MasterPanelHoc(
           !masterPanelStore.masterPanel?.existsVersionId &&
           masterPanelStore.masterPanel?.existsRecordId
         ) {
-          masterPanelStore.masterPanelService
-            .duplicatePanelMaster({
-              input: {
-                ...masterPanelStore.masterPanel,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicatePanelMaster.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicatePanelMaster.message}`,
-                });
-              }
-            });
+          const isExits = await checkExistsRecords();
+          if (!isExits) {
+            masterPanelStore.masterPanelService
+              .duplicatePanelMaster({
+                input: {
+                  ...masterPanelStore.masterPanel,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicatePanelMaster.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicatePanelMaster.message}`,
+                  });
+                }
+              });
+          }
         }
       } else {
         Toast.warning({
