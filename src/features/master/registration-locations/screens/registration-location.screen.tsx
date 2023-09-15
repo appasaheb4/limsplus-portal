@@ -137,7 +137,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [registrationLocationsStore.registrationLocations]);
 
-    const onSubmitRegistrationLocation = () => {
+    const onSubmitRegistrationLocation = async () => {
       if (!registrationLocationsStore.checkExitsLabEnvCode) {
         if (
           !registrationLocationsStore.registrationLocations?.existsVersionId &&
@@ -190,21 +190,25 @@ const RegistrationLocation = RegistrationLocationHoc(
           !registrationLocationsStore.registrationLocations?.existsVersionId &&
           registrationLocationsStore.registrationLocations?.existsRecordId
         ) {
-          registrationLocationsStore.registrationLocationsService
-            .duplicateRegistrationLocations({
-              input: {
-                ...registrationLocationsStore.registrationLocations,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicateRegistrationLocation.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicateRegistrationLocation.message}`,
-                });
-              }
-            });
+          const isExits = await checkExistsRecords();
+          if (!isExits) {
+            registrationLocationsStore.registrationLocationsService
+              .duplicateRegistrationLocations({
+                input: {
+                  ...registrationLocationsStore.registrationLocations,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicateRegistrationLocation.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicateRegistrationLocation.message}`,
+                  });
+                }
+              });
+          }
         }
       } else {
         Toast.warning({

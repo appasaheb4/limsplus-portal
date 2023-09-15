@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
   DateFilter,
@@ -13,16 +13,16 @@ import {
   Type,
   sortCaret,
 } from '@/library/components';
-import {FormHelper} from '@/helper';
-import {useForm, Controller} from 'react-hook-form';
-import {Confirm} from '@/library/models';
+import { FormHelper } from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectCorparateCode,
   AutoCompleteFilterSingleSelectPostalCode,
   AutoCompleteSalesTerritory,
   PriceListTableForRegLocationsList,
 } from '../..';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -92,14 +92,14 @@ export const RegistrationLocationsList = (
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -528,7 +528,7 @@ export const RegistrationLocationsList = (
               },
             }),
             headerClasses: 'textHeader4',
-            style: {textTransform: 'uppercase'},
+            style: { textTransform: 'uppercase' },
           },
           {
             dataField: 'state',
@@ -714,7 +714,7 @@ export const RegistrationLocationsList = (
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.telephone
@@ -775,7 +775,7 @@ export const RegistrationLocationsList = (
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
@@ -1454,7 +1454,8 @@ export const RegistrationLocationsList = (
                 status = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -1563,7 +1564,7 @@ export const RegistrationLocationsList = (
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {row.status !== 'I' && (
+                  {row.status === 'A' && (
                     <>
                       <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                         <Icons.IconContext
@@ -1594,7 +1595,7 @@ export const RegistrationLocationsList = (
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

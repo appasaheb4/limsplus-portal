@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -7,7 +7,7 @@ import {
   Icons,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 
 let methodsCode;
 let methodsName;
@@ -99,8 +99,8 @@ export const MethodsList = (props: MethodsListProps) => {
               description = filter;
             },
           }),
-          style: {textTransform: 'uppercase'},
-          editorStyle: {textTransform: 'uppercase'},
+          style: { textTransform: 'uppercase' },
+          editorStyle: { textTransform: 'uppercase' },
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
         },
         {
@@ -118,7 +118,8 @@ export const MethodsList = (props: MethodsListProps) => {
               status = filter;
             },
           }),
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: (content, row, rowIndex, columnIndex) =>
+            row.status != 'D' ? true : false,
           editorRenderer: (
             editorProps,
             value,
@@ -228,7 +229,7 @@ export const MethodsList = (props: MethodsListProps) => {
                   <Tooltip tooltipText='Approval'>
                     <Icons.RIcon
                       nameIcon='AiOutlineCheckCircle'
-                      propsIcon={{size: 24, color: '#ffffff'}}
+                      propsIcon={{ size: 24, color: '#ffffff' }}
                       onClick={() => props.onApproval(row)}
                     />
                   </Tooltip>

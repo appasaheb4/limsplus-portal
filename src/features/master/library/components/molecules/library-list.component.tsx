@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Tooltip,
   Icons,
@@ -11,10 +11,10 @@ import {
   NumberFilter,
   DepartmentList,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import ModalDetails from './modal-details.component';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 
 let code;
 let libraryCode;
@@ -63,7 +63,7 @@ export const LibraryList = (props: LibraryListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -143,11 +143,12 @@ export const LibraryList = (props: LibraryListProps) => {
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const lab = e.target.value;
-                      props.onUpdateItem && props.onUpdateItem({lab}, row._id);
+                      props.onUpdateItem &&
+                        props.onUpdateItem({ lab }, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {[{code: 'Default'}]
+                    {[{ code: 'Default' }]
                       .concat(props.extraData?.loginDetails?.labList)
                       ?.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -188,7 +189,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     row={row}
                     onUpdate={department =>
                       props.onUpdateItem &&
-                      props.onUpdateItem({department}, row._id)
+                      props.onUpdateItem({ department }, row._id)
                     }
                   />
                 </>
@@ -225,7 +226,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const position = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({position}, row._id);
+                        props.onUpdateItem({ position }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -271,7 +272,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const groups = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({groups}, row._id);
+                        props.onUpdateItem({ groups }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -317,7 +318,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const libraryType = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({libraryType}, row._id);
+                        props.onUpdateItem({ libraryType }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -363,7 +364,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const parameter = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({parameter}, row._id);
+                        props.onUpdateItem({ parameter }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -395,7 +396,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       value={row.editable}
                       onChange={editable => {
                         props.onUpdateItem &&
-                          props.onUpdateItem({editable}, row._id);
+                          props.onUpdateItem({ editable }, row._id);
                       }}
                     />
                   </>
@@ -415,7 +416,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     <Tooltip tooltipText='Details Content'>
                       <Icons.RIcon
                         nameIcon='AiFillHtml5'
-                        propsIcon={{size: 30}}
+                        propsIcon={{ size: 30 }}
                         onClick={() => {
                           setModalDetails({
                             visible: true,
@@ -445,7 +446,7 @@ export const LibraryList = (props: LibraryListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -460,7 +461,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const status = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({status}, row._id);
+                        props.onUpdateItem({ status }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -614,7 +615,7 @@ export const LibraryList = (props: LibraryListProps) => {
                     onChange={e => {
                       const environment = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({environment}, row._id);
+                        props.onUpdateItem({ environment }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -657,7 +658,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== 'I' && (
+                    {row.status === 'A' && (
                       <>
                         <Tooltip tooltipText='Version Upgrade'>
                           <Icons.IconContext
@@ -686,7 +687,7 @@ export const LibraryList = (props: LibraryListProps) => {
                           <Tooltip tooltipText='Approval'>
                             <Icons.RIcon
                               nameIcon='AiOutlineCheckCircle'
-                              propsIcon={{size: 24, color: '#ffffff'}}
+                              propsIcon={{ size: 24, color: '#ffffff' }}
                               onClick={() => props.onApproval(row)}
                             />
                           </Tooltip>
@@ -715,7 +716,7 @@ export const LibraryList = (props: LibraryListProps) => {
               props.onSelectedRow(rows.map((item: any) => item._id));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem({dataField: value}, id);
+            props.onUpdateItem && props.onUpdateItem({ dataField: value }, id);
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size);
@@ -751,12 +752,12 @@ export const LibraryList = (props: LibraryListProps) => {
         <ModalDetails
           {...modalDetails}
           onUpdate={details => {
-            setModalDetails({visible: false});
+            setModalDetails({ visible: false });
             props.onUpdateItem &&
-              props.onUpdateItem({details}, modalDetails._id);
+              props.onUpdateItem({ details }, modalDetails._id);
           }}
           onClose={() => {
-            setModalDetails({visible: false});
+            setModalDetails({ visible: false });
           }}
         />
       </div>

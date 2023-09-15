@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -12,7 +12,7 @@ import {
   Form,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectSalesTerrority,
   SalesHierarchyTableForSalesTeam,
@@ -58,7 +58,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
     return row.status !== 'I' ? true : false;
   };
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -450,7 +450,8 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                 status = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -559,7 +560,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {row.status !== 'I' && (
+                  {row.status === 'A' && (
                     <>
                       <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                         <Icons.IconContext
@@ -588,7 +589,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                         <Tooltip tooltipText='Approval'>
                           <Icons.RIcon
                             nameIcon='AiOutlineCheckCircle'
-                            propsIcon={{size: 24, color: '#ffffff'}}
+                            propsIcon={{ size: 24, color: '#ffffff' }}
                             onClick={() => props.onApproval(row)}
                           />
                         </Tooltip>
