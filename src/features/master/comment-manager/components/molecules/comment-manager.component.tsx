@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   Tooltip,
@@ -13,10 +13,10 @@ import {
   Form,
   Toast,
 } from '@/library/components';
-import {InvestigationDetails, InstType} from '..';
-import {Confirm} from '@/library/models';
+import { InvestigationDetails, InstType } from '..';
+import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
-import {FormHelper} from '@/helper';
+import { FormHelper } from '@/helper';
 
 let code;
 let libraryCode;
@@ -72,7 +72,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
   };
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -148,11 +148,12 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const lab = e.target.value;
-                      props.onUpdateItem && props.onUpdateItem({lab}, row._id);
+                      props.onUpdateItem &&
+                        props.onUpdateItem({ lab }, row._id);
                     }}
                   >
                     <option selected>Select</option>
-                    {[{code: 'Default'}]
+                    {[{ code: 'Default' }]
                       .concat(props.extraData?.loginDetails?.labList)
                       ?.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -193,7 +194,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     row={row}
                     onUpdate={department =>
                       props.onUpdateItem &&
-                      props.onUpdateItem({department}, row._id)
+                      props.onUpdateItem({ department }, row._id)
                     }
                   />
                 </>
@@ -230,7 +231,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const investigationType = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({investigationType}, row._id);
+                        props.onUpdateItem({ investigationType }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -337,7 +338,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const species = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({species}, row._id);
+                        props.onUpdateItem({ species }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -382,7 +383,8 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const sex = e.target.value;
-                      props.onUpdateItem && props.onUpdateItem({sex}, row._id);
+                      props.onUpdateItem &&
+                        props.onUpdateItem({ sex }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -427,7 +429,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     hasError={false}
                     onSelect={instType => {
                       props.onUpdateItem &&
-                        props.onUpdateItem({instType}, row._id);
+                        props.onUpdateItem({ instType }, row._id);
                     }}
                   />
                 </>
@@ -464,7 +466,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const commentsType = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({commentsType}, row._id);
+                        props.onUpdateItem({ commentsType }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -511,7 +513,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const commentsFor = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({commentsFor}, row._id);
+                        props.onUpdateItem({ commentsFor }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -563,7 +565,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onBlur={ageFrom => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          {ageFrom: Number.parseFloat(ageFrom)},
+                          { ageFrom: Number.parseFloat(ageFrom) },
                           row._id,
                         );
                     }}
@@ -602,7 +604,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const ageFromUnit = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({ageFromUnit}, row._id);
+                        props.onUpdateItem({ ageFromUnit }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -654,7 +656,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onBlur={ageTo => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          {ageTo: Number.parseFloat(ageTo)},
+                          { ageTo: Number.parseFloat(ageTo) },
                           row._id,
                         );
                     }}
@@ -693,7 +695,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const ageToUnit = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({ageToUnit}, row._id);
+                        props.onUpdateItem({ ageToUnit }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -745,7 +747,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         FormHelper.isNumberAvailable(low)
                       ) {
                         props.onUpdateItem &&
-                          props.onUpdateItem({low}, row._id);
+                          props.onUpdateItem({ low }, row._id);
                       } else {
                         Toast.warning({
                           message:
@@ -792,7 +794,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         FormHelper.isNumberAvailable(high)
                       ) {
                         props.onUpdateItem &&
-                          props.onUpdateItem({high}, row._id);
+                          props.onUpdateItem({ high }, row._id);
                       } else {
                         Toast.warning({
                           message:
@@ -840,7 +842,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onBlur={alpha => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          {alpha: Number.parseFloat(alpha)},
+                          { alpha: Number.parseFloat(alpha) },
                           row._id,
                         );
                     }}
@@ -864,7 +866,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -879,7 +881,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const status = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({status}, row._id);
+                        props.onUpdateItem({ status }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -1025,7 +1027,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     onChange={e => {
                       const environment = e.target.value;
                       props.onUpdateItem &&
-                        props.onUpdateItem({environment}, row._id);
+                        props.onUpdateItem({ environment }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -1068,7 +1070,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== 'I' && (
+                    {row.status === 'A' && (
                       <>
                         <Tooltip tooltipText='Version Upgrade'>
                           <Icons.IconContext
@@ -1099,7 +1101,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>
@@ -1126,7 +1128,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               props.onSelectedRow(rows.map((item: any) => item._id));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem({dataField: value}, id);
+            props.onUpdateItem && props.onUpdateItem({ dataField: value }, id);
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size);

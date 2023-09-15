@@ -75,7 +75,7 @@ const Doctors = DoctorsHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
-    const onSubmitDoctors = () => {
+    const onSubmitDoctors = async () => {
       if (!doctorsStore.checkExitsLabEnvCode) {
         if (
           !doctorsStore.doctors?.existsVersionId &&
@@ -125,21 +125,25 @@ const Doctors = DoctorsHoc(
           !doctorsStore.doctors?.existsVersionId &&
           doctorsStore.doctors?.existsRecordId
         ) {
-          doctorsStore.doctorsService
-            .duplicateDoctors({
-              input: {
-                ...doctorsStore.doctors,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicateDoctors.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicateDoctors.message}`,
-                });
-              }
-            });
+          const isExits = await checkExistsRecords();
+          if (!isExits) {
+            doctorsStore.doctorsService
+              .duplicateDoctors({
+                input: {
+                  ...doctorsStore.doctors,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicateDoctors.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicateDoctors.message}`,
+                  });
+                }
+              });
+          }
         }
       } else {
         Toast.warning({

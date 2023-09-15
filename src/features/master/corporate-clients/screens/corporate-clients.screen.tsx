@@ -114,7 +114,7 @@ const CorporateClients = CorporateClientsHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [corporateClientsStore.corporateClients]);
 
-    const onSubmitCoporateClients = () => {
+    const onSubmitCoporateClients = async () => {
       if (!corporateClientsStore.checkExistsEnvCode) {
         if (
           !corporateClientsStore.corporateClients?.existsVersionId &&
@@ -164,24 +164,28 @@ const CorporateClients = CorporateClientsHoc(
           !corporateClientsStore.corporateClients?.existsVersionId &&
           corporateClientsStore.corporateClients?.existsRecordId
         ) {
-          corporateClientsStore.corporateClientsService
-            .duplicateCorporateClient({
-              input: {
-                ...corporateClientsStore.corporateClients,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicateCorporateClient.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicateCorporateClient.message}`,
-                });
-                setHideAddSection(true);
-                reset();
-                resetCorporateClient();
-              }
-            });
+          const isExits = await checkExistsRecords();
+          if (!isExits) {
+            corporateClientsStore.corporateClientsService
+              .duplicateCorporateClient({
+                input: {
+                  ...corporateClientsStore.corporateClients,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicateCorporateClient.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicateCorporateClient.message}`,
+                  });
+                  setHideAddSection(true);
+                  reset();
+                  resetCorporateClient();
+                }
+              });
+          }
         }
       } else {
         Toast.warning({

@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   textFilter,
   TableBootstrap,
@@ -8,7 +8,7 @@ import {
   Icons,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 let schCode;
 let pStartTime;
 let pEndTime;
@@ -45,7 +45,7 @@ interface DeliverySchduleListProps {
 export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -459,6 +459,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   status = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -574,7 +576,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>
