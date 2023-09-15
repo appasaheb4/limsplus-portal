@@ -119,6 +119,7 @@ export const Library = LibraryHoc(
               reset();
               resetLibrary();
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

@@ -96,6 +96,7 @@ export const PossibleResults = PossibleResultHoc(
             reset();
             resetPossibleResult();
             setArrImportRecords([]);
+            setIsImport(false);
           }
         });
     };

@@ -32,6 +32,7 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { FormHelper } from '@/helper';
 import * as XLSX from 'xlsx';
+
 const CommentManager = CommentManagerHoc(
   observer(() => {
     const {
@@ -118,6 +119,8 @@ const CommentManager = CommentManagerHoc(
                 message: `😊 ${res.createCommentManager.message}`,
               });
               setIsHideAddView(!isHideAddView);
+              setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: ReferenceRangeInput!) {
@@ -61,7 +61,7 @@ export const REMOVE_RECORD = gql`
 `;
 
 export const CREATE_RECORD = gql`
-  mutation ($input: ReferenceRangeInput!) {
+  mutation ($input: CreateReferenceRangeInput!) {
     createReferenceRange(input: $input) {
       success
       message
