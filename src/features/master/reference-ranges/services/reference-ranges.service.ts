@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   REMOVE_RECORD,
@@ -27,7 +27,7 @@ export class ReferenceRangesService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
           stores.refernceRangesStore.updateReferenceRangesList(response.data);
@@ -40,8 +40,6 @@ export class ReferenceRangesService {
 
   addReferenceRanges = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -60,14 +58,14 @@ export class ReferenceRangesService {
 
   deleteReferenceRanges = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
+      console.log({ variables });
       client
         .mutate({
           mutation: REMOVE_RECORD,
           variables,
         })
         .then((response: any) => {
-          console.log({response});
+          console.log({ response });
           resolve(response.data);
         })
         .catch(error =>

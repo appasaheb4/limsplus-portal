@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import {
   LIST,
   REMOVE_RECORD,
@@ -18,7 +18,7 @@ import {
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
 } from './mutation';
-import {stores} from '@/stores';
+import { stores } from '@/stores';
 import * as Models from '../models';
 
 export class PriceListService {
@@ -31,7 +31,6 @@ export class PriceListService {
         })
         .then((response: any) => {
           resolve(response.data);
-          stores.priceListStore.updatePriceList(new Models.PriceList({}));
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),
@@ -47,7 +46,7 @@ export class PriceListService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
           stores.priceListStore.updatePriceListRecords(response.data);

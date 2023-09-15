@@ -52,9 +52,10 @@ export const PriceList = PriceListHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [hideAddView, setHideAddView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     useEffect(() => {
       // Default value initialization
       setValue('priceGroup', priceListStore.priceList?.priceGroup);
@@ -70,57 +71,67 @@ export const PriceList = PriceListHoc(
     }, [priceListStore.priceList]);
 
     const onSubmitPriceList = async () => {
-      if (!priceListStore.checkExitsPriceGEnvLabCode) {
-        if (
-          !priceListStore.priceList?.existsVersionId &&
-          !priceListStore.priceList?.existsRecordId
-        ) {
-          priceListStore.priceListService
-            .addPriceList({
-              input: isImport
-                ? { isImport, arrImportRecords }
-                : {
-                    isImport,
-                    ...priceListStore.priceList,
-                    enteredBy: loginStore.login.userId,
-                  },
-            })
-            .then(res => {
-              if (res.createPriceList.success) {
-                Toast.success({
-                  message: `😊 ${res.createPriceList.message}`,
-                });
-              }
-            });
-        } else if (
-          priceListStore.priceList?.existsVersionId &&
-          !priceListStore.priceList?.existsRecordId
-        ) {
-          priceListStore.priceListService
-            .versionUpgradePriceList({
-              input: {
-                ...priceListStore.priceList,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.versionUpgradePriceList.success) {
-                Toast.success({
-                  message: `😊 ${res.versionUpgradePriceList.message}`,
-                });
-              }
-            });
-        } else if (
-          !priceListStore.priceList?.existsVersionId &&
-          priceListStore.priceList?.existsRecordId
-        ) {
+      if (priceListStore.checkExitsPriceGEnvLabCode) {
+        return Toast.warning({
+          message: '😔 Please enter diff code',
+        });
+      }
+      if (
+        !priceListStore.priceList?.existsVersionId &&
+        !priceListStore.priceList?.existsRecordId
+      ) {
+        priceListStore.priceListService
+          .addPriceList({
+            input: isImport
+              ? { isImport, arrImportRecords }
+              : {
+                  isImport,
+                  ...priceListStore.priceList,
+                  enteredBy: loginStore.login.userId,
+                },
+          })
+          .then(res => {
+            if (res.createPriceList.success) {
+              Toast.success({
+                message: `😊 ${res.createPriceList.message}`,
+              });
+              setArrImportRecords([]);
+              setIsImport(false);
+            }
+          });
+      } else if (
+        priceListStore.priceList?.existsVersionId &&
+        !priceListStore.priceList?.existsRecordId
+      ) {
+        priceListStore.priceListService
+          .versionUpgradePriceList({
+            input: {
+              ...priceListStore.priceList,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+              isImport: false,
+            },
+          })
+          .then(res => {
+            if (res.versionUpgradePriceList.success) {
+              Toast.success({
+                message: `😊 ${res.versionUpgradePriceList.message}`,
+              });
+            }
+          });
+      } else if (
+        !priceListStore.priceList?.existsVersionId &&
+        priceListStore.priceList?.existsRecordId
+      ) {
+        const isExists = await checkExistsRecords();
+        if (!isExists) {
           priceListStore.priceListService
             .duplicatePriceList({
               input: {
                 ...priceListStore.priceList,
                 enteredBy: loginStore.login.userId,
                 __typename: undefined,
+                isImport: false,
               },
             })
             .then(res => {
@@ -131,14 +142,10 @@ export const PriceList = PriceListHoc(
               }
             });
         }
-        setHideAddLab(true);
-        reset();
-        resetPriceList();
-      } else {
-        Toast.warning({
-          message: '😔 Please enter diff code',
-        });
       }
+      setHideAddView(true);
+      reset();
+      resetPriceList();
     };
 
     const getPriceList = priceList => {
@@ -230,7 +237,7 @@ export const PriceList = PriceListHoc(
             if (!isExists) {
               setModalConfirm({
                 show: true,
-                type: 'Update',
+                type: 'update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Price List!',
@@ -296,7 +303,7 @@ export const PriceList = PriceListHoc(
         'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
       });
       if (isEmpty) {
         Toast.error({
@@ -338,14 +345,14 @@ export const PriceList = PriceListHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={hideAddView}
+            onClick={() => setHideAddView(!hideAddView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
@@ -1122,7 +1129,6 @@ export const PriceList = PriceListHoc(
                         else priceListStore.fetchListPriceList();
                       }
                     });
-
                   break;
                 }
                 case 'update': {
@@ -1156,7 +1162,6 @@ export const PriceList = PriceListHoc(
                         else priceListStore.fetchListPriceList();
                       }
                     });
-
                   break;
                 }
                 case 'updateFields': {
@@ -1176,7 +1181,6 @@ export const PriceList = PriceListHoc(
                         priceListStore.fetchListPriceList();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -1189,7 +1193,7 @@ export const PriceList = PriceListHoc(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setHideAddView(!hideAddView);
                   setModalConfirm({ show: false });
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('panelName', modalConfirm.data.panelName);
@@ -1199,7 +1203,6 @@ export const PriceList = PriceListHoc(
                   setValue('price', modalConfirm.data.price);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
                   break;
                 }
                 case 'duplicate': {
@@ -1212,7 +1215,7 @@ export const PriceList = PriceListHoc(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
                   });
-                  setHideAddLab(!hideAddLab);
+                  setHideAddView(!hideAddView);
                   setModalConfirm({ show: false });
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('panelName', modalConfirm.data.panelName);
@@ -1222,7 +1225,6 @@ export const PriceList = PriceListHoc(
                   setValue('price', modalConfirm.data.price);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
                   break;
                 }
                 // No default
