@@ -40,58 +40,64 @@ const ReferenceRanges = ReferenceRangesHoc(
     } = useStores();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [hideAddView, setHideAddView] = useState<boolean>(true);
     const [dupExistsRecords, setDupExistsRecords] = useState<any>();
     const [isCommonTableReload, setIsCommonTableReload] = useState(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
     const onSubmitReferenceRanges = () => {
-      if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
-        if (!refernceRangesStore.checkExitsRecord) {
-          if (
-            !_.isEqual(
-              JSON.stringify(
-                refernceRangesStore.referenceRanges?.refRangesInputList,
-              ),
-              dupExistsRecords,
-            )
-          ) {
-            refernceRangesStore.referenceRangesService
-              .addReferenceRanges({
-                input: isImport
-                  ? { isImport, arrImportRecords }
-                  : {
-                      filter: {
-                        isImport,
-                        refRangesInputList: _.filter(
-                          refernceRangesStore.referenceRanges
-                            ?.refRangesInputList,
-                          (a: any) => {
-                            a._id = undefined;
-                            return a;
-                          },
-                        ),
-                      },
+      if (!isImport) {
+        if (
+          refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0
+        ) {
+          if (!refernceRangesStore.checkExitsRecord) {
+            if (
+              !_.isEqual(
+                JSON.stringify(
+                  refernceRangesStore.referenceRanges?.refRangesInputList,
+                ),
+                dupExistsRecords,
+              )
+            ) {
+              refernceRangesStore.referenceRangesService
+                .addReferenceRanges({
+                  input: {
+                    isImport,
+                    filter: {
+                      refRangesInputList: _.filter(
+                        refernceRangesStore.referenceRanges?.refRangesInputList,
+                        (a: any) => {
+                          a._id = undefined;
+                          return a;
+                        },
+                      ),
                     },
-              })
-              .then(res => {
-                if (res.createReferenceRange.success) {
-                  Toast.success({
-                    message: `😊 ${res.createReferenceRange.message}`,
-                  });
-                  setHideAddLab(true);
-                  resetReferenceRange();
-                  setIsCommonTableReload(!isCommonTableReload);
-                  refernceRangesStore.updateReferenceRanges({
-                    ...refernceRangesStore.referenceRanges,
-                    refRangesInputList: [],
-                  });
-                } else {
-                  Toast.error({
-                    message: `😔 ${res.createReferenceRange.message}`,
-                  });
-                }
+                  },
+                })
+                .then(res => {
+                  if (res.createReferenceRange.success) {
+                    Toast.success({
+                      message: `😊 ${res.createReferenceRange.message}`,
+                    });
+                    setHideAddView(true);
+                    resetReferenceRange();
+                    setIsCommonTableReload(!isCommonTableReload);
+                    refernceRangesStore.updateReferenceRanges({
+                      ...refernceRangesStore.referenceRanges,
+                      refRangesInputList: [],
+                    });
+                  } else {
+                    Toast.error({
+                      message: `😔 ${res.createReferenceRange.message}`,
+                    });
+                  }
+                });
+            } else {
+              Toast.warning({
+                message: '😔 Duplicate record found!',
               });
+            }
           } else {
             Toast.warning({
               message: '😔 Duplicate record found!',
@@ -99,13 +105,32 @@ const ReferenceRanges = ReferenceRangesHoc(
           }
         } else {
           Toast.warning({
-            message: '😔 Duplicate record found!',
+            message: '😔 Records not found.',
           });
         }
       } else {
-        Toast.warning({
-          message: '😔 Records not found.',
-        });
+        refernceRangesStore.referenceRangesService
+          .addReferenceRanges({
+            input: { isImport, arrImportRecords },
+          })
+          .then(res => {
+            console.log({ res });
+            if (res.createReferenceRange.success) {
+              Toast.success({
+                message: `😊 ${res.createReferenceRange.message}`,
+              });
+              setHideAddView(true);
+              setIsImport(false);
+              resetReferenceRange();
+              setIsCommonTableReload(!isCommonTableReload);
+              setArrImportRecords([]);
+              setIsImport(false);
+            } else {
+              Toast.error({
+                message: `😔 ${res.createReferenceRange.message}`,
+              });
+            }
+          });
       }
     };
 
@@ -190,7 +215,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             if (!isExists) {
               setModalConfirm({
                 show: true,
-                type: 'Update',
+                type: 'update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Reference Ranges!',
@@ -359,10 +384,19 @@ const ReferenceRanges = ReferenceRangesHoc(
           <PageHeading title={routerStore.selectedComponents?.title || ''} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
+        {RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          'Add',
+        ) && (
+          <Buttons.ButtonCircleAddRemove
+            show={hideAddView}
+            onClick={() => setHideAddView(!hideAddView)}
+          />
+        )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'shown' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddView ? 'hide' : 'shown')
             }
           >
             <ManualImportTabs
@@ -444,7 +478,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                         else refernceRangesStore.fetchListReferenceRanges();
                       }
                     });
-
                   break;
                 }
                 case 'update': {
@@ -478,7 +511,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                         else refernceRangesStore.fetchListReferenceRanges();
                       }
                     });
-
                   break;
                 }
                 case 'UpdateFileds': {
@@ -512,7 +544,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                         else refernceRangesStore.fetchListReferenceRanges();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -531,8 +562,8 @@ const ReferenceRanges = ReferenceRangesHoc(
                     ...refernceRangesStore.referenceRanges,
                     refRangesInputList,
                   });
+                  setHideAddView(!hideAddView);
                   setModalConfirm({ show: false });
-
                   break;
                 }
                 case 'duplicate': {
@@ -553,9 +584,8 @@ const ReferenceRanges = ReferenceRangesHoc(
                     ...refernceRangesStore.referenceRanges,
                     refRangesInputList,
                   });
-                  setHideAddLab(!hideAddLab);
+                  setHideAddView(!hideAddView);
                   setModalConfirm({ show: false });
-
                   break;
                 }
                 // No default
