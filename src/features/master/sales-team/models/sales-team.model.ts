@@ -1,5 +1,7 @@
 export class SalesTeam {
   _id: string;
+  existsVersionId: string;
+  existsRecordId: string;
   salesTerritory: string;
   description: string;
   empCode: string;
@@ -15,8 +17,10 @@ export class SalesTeam {
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
+    this.existsVersionId = rawData.existsVersionId;
+    this.existsRecordId = rawData.existsRecordId;
     this.salesTerritory = rawData.salesTerritory;
     this.description = rawData.description;
     this.empCode = rawData.empCode;
