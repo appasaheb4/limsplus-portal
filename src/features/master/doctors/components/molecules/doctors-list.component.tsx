@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
   DateFilter,
@@ -12,15 +12,15 @@ import {
   Form,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {FormHelper} from '@/helper';
-import {useForm, Controller} from 'react-hook-form';
+import { Confirm } from '@/library/models';
+import { FormHelper } from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
 import {
   AutoCompleteRegistrationLocation,
   AutoCompleteSalesTerritory,
   AutoCompleteFilterSingleSelectPostalCode,
 } from '../index';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -82,7 +82,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -92,7 +92,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
   };
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -414,7 +414,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 <AutoCompleteFilterSingleSelectPostalCode
                   onSelect={item => {
                     props.onUpdateFileds &&
-                      props.onUpdateFileds({...item}, row._id);
+                      props.onUpdateFileds({ ...item }, row._id);
                   }}
                 />
               </>
@@ -435,7 +435,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               },
             }),
             headerClasses: 'textHeader4',
-            style: {textTransform: 'uppercase'},
+            style: { textTransform: 'uppercase' },
           },
           {
             dataField: 'state',
@@ -602,7 +602,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.telephone
@@ -662,7 +662,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
@@ -1264,7 +1264,8 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 status = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -1374,7 +1375,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {row.status !== 'I' && (
+                  {row.status === 'A' && (
                     <>
                       <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                         <Icons.IconContext
@@ -1405,7 +1406,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useRef } from 'react';
+import { observer } from 'mobx-react';
 import {
   NumberFilter,
   DateFilter,
@@ -12,19 +12,19 @@ import {
   Type,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useStores} from '@/stores';
+import { Confirm } from '@/library/models';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useStores } from '@/stores';
 
 import {
   AutoCompleteFilterSingleSelectPostalCode,
   AutoCompleteFilterMultiSelectPanelList,
 } from '../..';
 import dayjs from 'dayjs';
-import {FormHelper} from '@/helper';
-import {useForm, Controller} from 'react-hook-form';
-import {AutoCompleteSalesTerritory} from '@/features/master/registration-locations/components';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
+import { FormHelper } from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { AutoCompleteSalesTerritory } from '@/features/master/registration-locations/components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -89,10 +89,10 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
-  const {interfaceManagerStore} = useStores();
+  const { interfaceManagerStore } = useStores();
   // const [interfaceManagerList, setInterfaceManagerList] = useState([]);
   const interfaceManagerListImportRef = useRef([]);
   const interfaceManagerListExportRef = useRef([]);
@@ -129,7 +129,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
   }, []);
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -538,7 +538,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               },
             }),
             headerClasses: 'textHeader4',
-            style: {textTransform: 'uppercase'},
+            style: { textTransform: 'uppercase' },
           },
           {
             dataField: 'state',
@@ -774,7 +774,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       placeholder={
                         errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
@@ -1477,13 +1477,14 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               fontSize: 0,
             },
             sortCaret: (order, column) => sortCaret(order, column),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
                 status = filter;
               },
             }),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -1593,7 +1594,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {row.status !== 'I' && (
+                  {row.status === 'A' && (
                     <>
                       <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                         <Icons.IconContext
@@ -1624,7 +1625,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

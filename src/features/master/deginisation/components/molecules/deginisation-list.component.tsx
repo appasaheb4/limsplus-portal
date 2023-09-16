@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   textFilter,
   TableBootstrap,
@@ -7,7 +7,7 @@ import {
   Icons,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 
 let code;
 let description;
@@ -77,8 +77,8 @@ export const DeginisationList = (props: DeginisationListProps) => {
               description = filter;
             },
           }),
-          style: {textTransform: 'uppercase'},
-          editorStyle: {textTransform: 'uppercase'},
+          style: { textTransform: 'uppercase' },
+          editorStyle: { textTransform: 'uppercase' },
         },
         {
           dataField: 'status',
@@ -94,6 +94,8 @@ export const DeginisationList = (props: DeginisationListProps) => {
               status = filter;
             },
           }),
+          editable: (content, row, rowIndex, columnIndex) =>
+            row.status != 'D' ? true : false,
           editorRenderer: (
             editorProps,
             value,
@@ -204,7 +206,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
                   <Tooltip tooltipText='Approval'>
                     <Icons.RIcon
                       nameIcon='AiOutlineCheckCircle'
-                      propsIcon={{size: 24, color: '#ffffff'}}
+                      propsIcon={{ size: 24, color: '#ffffff' }}
                       onClick={() => props.onApproval(row)}
                     />
                   </Tooltip>

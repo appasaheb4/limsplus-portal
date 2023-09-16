@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
   customFilter,
@@ -12,13 +12,13 @@ import {
   TableBootstrap,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectPanelCode,
   AutoCompleteFilterSingleSelectTestName,
 } from '../index';
-import {ModalReportOrder} from './modal-report-order.component';
+import { ModalReportOrder } from './modal-report-order.component';
 
 let dateCreation;
 let dateActive;
@@ -82,7 +82,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -566,7 +566,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -857,7 +857,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== 'I' && (
+                    {row.status === 'A' && (
                       <>
                         <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
@@ -888,7 +888,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>
@@ -950,10 +950,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
           {...modalResultOrder}
           onClick={orderSeq => {
             props.onUpdateOrderSeq && props.onUpdateOrderSeq(orderSeq);
-            setModalResultOrder({isVisible: false});
+            setModalResultOrder({ isVisible: false });
           }}
           onClose={() => {
-            setModalResultOrder({isVisible: false});
+            setModalResultOrder({ isVisible: false });
           }}
         />
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   Icons,
@@ -13,7 +13,7 @@ import {
   Svg,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectTestCode,
   AutoCompleteFilterSingleSelectSampleCode,
@@ -65,7 +65,7 @@ interface TestSampleMappingListProps {
 export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -1030,6 +1030,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                   status = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -1146,7 +1148,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>

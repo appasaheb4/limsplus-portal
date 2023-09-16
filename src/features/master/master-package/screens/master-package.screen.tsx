@@ -105,7 +105,7 @@ const MasterPackage = MasterPackageHOC(
       }
       return [];
     };
-    const onSubmitMasterPackage = () => {
+    const onSubmitMasterPackage = async () => {
       if (!masterPackageStore.checkExitsLabEnvCode) {
         if (
           !masterPackageStore.masterPackage?.existsVersionId &&
@@ -156,21 +156,25 @@ const MasterPackage = MasterPackageHOC(
           !masterPackageStore.masterPackage?.existsVersionId &&
           masterPackageStore.masterPackage?.existsRecordId
         ) {
-          masterPackageStore.masterPackageService
-            .duplicatePackageMaster({
-              input: {
-                ...masterPackageStore.masterPackage,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicatePackageMaster.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicatePackageMaster.message}`,
-                });
-              }
-            });
+          const isExits = await checkExistsRecords();
+          if (!isExits) {
+            masterPackageStore.masterPackageService
+              .duplicatePackageMaster({
+                input: {
+                  ...masterPackageStore.masterPackage,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicatePackageMaster.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicatePackageMaster.message}`,
+                  });
+                }
+              });
+          }
         }
       } else {
         Toast.warning({

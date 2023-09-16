@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -8,10 +8,10 @@ import {
   Form,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {AutoCompleteFilterSingleSelectDepartment} from '../index';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import { Confirm } from '@/library/models';
+import { AutoCompleteFilterSingleSelectDepartment } from '../index';
+import { useForm, Controller } from 'react-hook-form';
+import { FormHelper } from '@/helper';
 let departmentCode;
 let code;
 let name;
@@ -47,14 +47,14 @@ export const SectionList = (props: SectionListProps) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -150,8 +150,8 @@ export const SectionList = (props: SectionListProps) => {
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            style: {textTransform: 'uppercase'},
-            editorStyle: {textTransform: 'uppercase'},
+            style: { textTransform: 'uppercase' },
+            editorStyle: { textTransform: 'uppercase' },
           },
           {
             dataField: 'sectionInCharge',
@@ -197,7 +197,7 @@ export const SectionList = (props: SectionListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       type='number'
                       placeholder={
@@ -256,7 +256,7 @@ export const SectionList = (props: SectionListProps) => {
               <>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       type='number'
                       placeholder={
@@ -339,7 +339,8 @@ export const SectionList = (props: SectionListProps) => {
                 status = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -452,7 +453,7 @@ export const SectionList = (props: SectionListProps) => {
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

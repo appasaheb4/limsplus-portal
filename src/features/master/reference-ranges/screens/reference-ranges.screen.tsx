@@ -578,7 +578,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                     version: 1,
                     type: 'duplicate',
                   });
-                  console.log({ refRangesInputList });
                   setDupExistsRecords(JSON.stringify(refRangesInputList));
                   refernceRangesStore.updateReferenceRanges({
                     ...refernceRangesStore.referenceRanges,
