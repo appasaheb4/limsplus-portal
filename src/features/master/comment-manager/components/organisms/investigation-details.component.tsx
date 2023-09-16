@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
-import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
-import {useStores} from '@/stores';
+import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from '@/library/components';
+import { useStores } from '@/stores';
 
 interface InvestigationDetailsProps {
   investigationType: string;
@@ -11,7 +11,7 @@ interface InvestigationDetailsProps {
 }
 
 export const InvestigationDetails = observer(
-  ({investigationType, isError, onSelect}: InvestigationDetailsProps) => {
+  ({ investigationType, isError, onSelect }: InvestigationDetailsProps) => {
     const {
       loading,
       masterPanelStore,
@@ -38,7 +38,7 @@ export const InvestigationDetails = observer(
           case 'ANALYTE':
             return masterAnalyteStore.masterAnalyteService.listAnalyteMaster();
           default:
-            alert('Not found data. Please contact to admin');
+            return alert('Not found data. Please contact to admin');
         }
     };
 
@@ -115,9 +115,10 @@ export const InvestigationDetails = observer(
                 }),
             };
           default:
-            alert('Not found data. Please contact to admin');
+            return alert('Not found data. Please contact to admin');
         }
     };
+
     return (
       <div>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay

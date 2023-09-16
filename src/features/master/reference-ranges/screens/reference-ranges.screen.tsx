@@ -94,17 +94,17 @@ const ReferenceRanges = ReferenceRangesHoc(
                   }
                 });
             } else {
-              Toast.warning({
+              Toast.error({
                 message: '😔 Duplicate record found!',
               });
             }
           } else {
-            Toast.warning({
+            Toast.error({
               message: '😔 Duplicate record found!',
             });
           }
         } else {
-          Toast.warning({
+          Toast.error({
             message: '😔 Records not found.',
           });
         }

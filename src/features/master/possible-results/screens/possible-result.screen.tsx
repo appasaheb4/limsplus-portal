@@ -68,11 +68,17 @@ export const PossibleResults = PossibleResultHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [possibleResultsStore.possibleResults]);
 
-    const onSubmitPossibleResult = () => {
+    const onSubmitPossibleResult = async () => {
       if (possibleResultsStore.checkExistsRecords && !isImport) {
         return Toast.warning({
           message: '😔 Please use diff code',
         });
+      }
+      if (!_.isEmpty(possibleResultsStore.possibleResults.existsRecordId)) {
+        const isExists = await checkExistsRecords();
+        if (isExists) {
+          return;
+        }
       }
       possibleResultsStore.possibleResultsService
         .addPossibleResults({

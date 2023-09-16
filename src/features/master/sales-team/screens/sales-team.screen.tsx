@@ -30,6 +30,7 @@ import { AutoCompleteFilterSingleSelectEmpolyeCode } from '../components';
 import { RouterFlow } from '@/flows';
 import { resetSalesTeam } from '../startup';
 import * as XLSX from 'xlsx';
+
 export const SalesTeam = SalesTeamHoc(
   observer(() => {
     const {
@@ -63,8 +64,15 @@ export const SalesTeam = SalesTeamHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [salesTeamStore.salesTeam]);
 
-    const onSubmitSalesTeam = () => {
+    const onSubmitSalesTeam = async () => {
       if (!salesTeamStore.checkExistsRecord) {
+        if (!_.isEmpty(salesTeamStore.salesTeam.existsRecordId)) {
+          const isExists = await checkExistsRecords();
+          if (isExists) {
+            return;
+          }
+        }
+
         salesTeamStore.salesTeamService
           .addSalesTeam({
             input: isImport
@@ -772,7 +780,6 @@ export const SalesTeam = SalesTeamHoc(
                         else salesTeamStore.fetchSalesTeam();
                       }
                     });
-
                   break;
                 }
                 case 'Update': {
@@ -806,7 +813,6 @@ export const SalesTeam = SalesTeamHoc(
                         else salesTeamStore.fetchSalesTeam();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -822,7 +828,6 @@ export const SalesTeam = SalesTeamHoc(
                   setValue('status', modalConfirm.data.status);
                   setHideAddSection(!hideAddSection);
                   setModalConfirm({ show: false });
-
                   break;
                 }
                 case 'duplicate': {
@@ -838,7 +843,6 @@ export const SalesTeam = SalesTeamHoc(
                   setValue('status', modalConfirm.data.status);
                   setHideAddSection(!hideAddSection);
                   setModalConfirm({ show: false });
-
                   break;
                 }
                 // No default
