@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -9,7 +9,7 @@ import {
   Buttons,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 let country;
@@ -44,7 +44,7 @@ interface AdminstrativeDivListProps {
 
 export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -66,8 +66,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            editorStyle: {textTransform: 'uppercase'},
-            style: {textTransform: 'uppercase'},
+            editorStyle: { textTransform: 'uppercase' },
+            style: { textTransform: 'uppercase' },
             filter: textFilter({
               getFilter: filter => {
                 country = filter;
@@ -84,8 +84,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            editorStyle: {textTransform: 'uppercase'},
-            style: {textTransform: 'uppercase'},
+            editorStyle: { textTransform: 'uppercase' },
+            style: { textTransform: 'uppercase' },
             filter: textFilter({
               getFilter: filter => {
                 state = filter;
@@ -102,8 +102,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            editorStyle: {textTransform: 'uppercase'},
-            style: {textTransform: 'uppercase'},
+            editorStyle: { textTransform: 'uppercase' },
+            style: { textTransform: 'uppercase' },
             filter: textFilter({
               getFilter: filter => {
                 district = filter;
@@ -120,8 +120,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            editorStyle: {textTransform: 'uppercase'},
-            style: {textTransform: 'uppercase'},
+            editorStyle: { textTransform: 'uppercase' },
+            style: { textTransform: 'uppercase' },
             filter: textFilter({
               getFilter: filter => {
                 city = filter;
@@ -138,8 +138,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            editorStyle: {textTransform: 'uppercase'},
-            style: {textTransform: 'uppercase'},
+            editorStyle: { textTransform: 'uppercase' },
+            style: { textTransform: 'uppercase' },
             filter: textFilter({
               getFilter: filter => {
                 area = filter;
@@ -284,6 +284,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                 status = filter;
               },
             }),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -398,7 +400,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

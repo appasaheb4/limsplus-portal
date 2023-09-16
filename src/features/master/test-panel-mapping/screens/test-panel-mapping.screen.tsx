@@ -119,7 +119,7 @@ const TestPanelMapping = TestPanelMappingHoc(
       },
     ]);
 
-    const onSubmitTestPanelMapping = () => {
+    const onSubmitTestPanelMapping = async () => {
       if (!testPanelMappingStore.checkExitsLabEnvCode) {
         if (
           !testPanelMappingStore.testPanelMapping?.existsVersionId &&
@@ -172,21 +172,25 @@ const TestPanelMapping = TestPanelMappingHoc(
           !testPanelMappingStore.testPanelMapping?.existsVersionId &&
           testPanelMappingStore.testPanelMapping?.existsRecordId
         ) {
-          testPanelMappingStore.testPanelMappingService
-            .duplicateTestPanelMapping({
-              input: {
-                ...testPanelMappingStore.testPanelMapping,
-                enteredBy: loginStore.login.userId,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.duplicateTestPanelMappings.success) {
-                Toast.success({
-                  message: `😊 ${res.duplicateTestPanelMappings.message}`,
-                });
-              }
-            });
+          const isExits = await checkExistsRecords();
+          if (!isExits) {
+            testPanelMappingStore.testPanelMappingService
+              .duplicateTestPanelMapping({
+                input: {
+                  ...testPanelMappingStore.testPanelMapping,
+                  isImport: false,
+                  enteredBy: loginStore.login.userId,
+                  __typename: undefined,
+                },
+              })
+              .then(res => {
+                if (res.duplicateTestPanelMappings.success) {
+                  Toast.success({
+                    message: `😊 ${res.duplicateTestPanelMappings.message}`,
+                  });
+                }
+              });
+          }
         }
       } else {
         Toast.warning({

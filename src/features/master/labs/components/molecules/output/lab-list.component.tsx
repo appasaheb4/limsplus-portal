@@ -1,6 +1,6 @@
 import React from 'react';
-import {Stores} from '../../../stores';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { Stores } from '../../../stores';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   textFilter,
   TableBootstrap,
@@ -9,15 +9,15 @@ import {
   Tooltip,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {useStores} from '@/stores';
+import { Confirm } from '@/library/models';
+import { useStores } from '@/stores';
 import {
   AutoCompleteFilterSingleSelectPostalCode,
   PriceListTableForLabList,
   AutoCompleteDefaultLab,
 } from '../..';
-import {FormHelper} from '@/helper';
-import {useForm, Controller} from 'react-hook-form';
+import { FormHelper } from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
 let code;
 let name;
 let country;
@@ -75,11 +75,11 @@ const dynamicStylingFields = [
 ];
 const hideExcelSheet = ['_id', 'opration', 'image'];
 export const LabList = (props: LabListProps) => {
-  const {administrativeDivisions, salesTeamStore} = useStores();
+  const { administrativeDivisions, salesTeamStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -90,7 +90,7 @@ export const LabList = (props: LabListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -164,7 +164,7 @@ export const LabList = (props: LabListProps) => {
                   <AutoCompleteFilterSingleSelectPostalCode
                     onSelect={item => {
                       props.onUpdateFileds &&
-                        props.onUpdateFileds({...item}, row._id);
+                        props.onUpdateFileds({ ...item }, row._id);
                     }}
                   />
                 </>
@@ -186,7 +186,7 @@ export const LabList = (props: LabListProps) => {
                 },
               }),
 
-              style: {textTransform: 'uppercase'},
+              style: { textTransform: 'uppercase' },
             },
             {
               dataField: 'state',
@@ -287,7 +287,7 @@ export const LabList = (props: LabListProps) => {
                     placeholder='Address'
                     onBlur={address => {
                       props.onUpdateFileds &&
-                        props.onUpdateFileds({address}, row._id);
+                        props.onUpdateFileds({ address }, row._id);
                     }}
                     defaultValue={row.address}
                   />
@@ -467,7 +467,7 @@ export const LabList = (props: LabListProps) => {
                   labLicence = filter;
                 },
               }),
-              style: {textTransform: 'uppercase'},
+              style: { textTransform: 'uppercase' },
               editorStyle: {
                 textTransform: 'uppercase',
               },
@@ -490,7 +490,7 @@ export const LabList = (props: LabListProps) => {
                   director = filter;
                 },
               }),
-              style: {textTransform: 'uppercase'},
+              style: { textTransform: 'uppercase' },
               editorStyle: {
                 textTransform: 'uppercase',
               },
@@ -541,7 +541,7 @@ export const LabList = (props: LabListProps) => {
                 <>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         placeholder={
                           errors.mobileNo
@@ -603,7 +603,7 @@ export const LabList = (props: LabListProps) => {
                 <>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         placeholder={
                           errors.contactNo
@@ -1182,7 +1182,6 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'status',
               text: 'Status',
-
               sort: true,
               headerClasses: 'textHeader1',
               headerStyle: {
@@ -1190,7 +1189,7 @@ export const LabList = (props: LabListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                row.status != 'D' ? true : false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
@@ -1314,7 +1313,7 @@ export const LabList = (props: LabListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>

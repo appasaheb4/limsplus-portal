@@ -1513,7 +1513,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                row.status != 'D' ? true : false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -1870,7 +1870,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== 'I' && (
+                    {row.status === 'A' && (
                       <>
                         <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext

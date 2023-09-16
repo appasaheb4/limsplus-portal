@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   Tooltip,
@@ -15,8 +15,8 @@ import {
   customFilter,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {AutoCompleteFilterSingleSelectAnalyteCode} from '../index';
+import { Confirm } from '@/library/models';
+import { AutoCompleteFilterSingleSelectAnalyteCode } from '../index';
 let analyteCode;
 let analyteName;
 let conclusionResult;
@@ -55,7 +55,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
     return row.status !== 'I' ? true : false;
   };
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -389,7 +389,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       abNormal: defaultItem.abNormal,
                       critical: defaultItem.critical,
                     };
-                    console.log({defaultItem});
+                    console.log({ defaultItem });
 
                     props.onUpdateItem &&
                       props.onUpdateItem(
@@ -664,7 +664,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                 status = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.status != 'D' ? true : false,
             editorRenderer: (
               editorProps,
               value,
@@ -722,7 +723,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {row.status !== 'I' && (
+                  {row.status === 'A' && (
                     <>
                       <Tooltip tooltipText='Version Upgrade'>
                         <Icons.IconContext
@@ -753,7 +754,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
                         nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{size: 24, color: '#ffffff'}}
+                        propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
                     </Tooltip>

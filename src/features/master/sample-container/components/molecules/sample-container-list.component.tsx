@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   Icons,
@@ -8,7 +8,7 @@ import {
   textFilter,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 
 let containerCode;
 let containerName;
@@ -107,7 +107,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
               <>
                 <img
                   src={row.image}
-                  style={{width: 200, height: 150}}
+                  style={{ width: 200, height: 150 }}
                   alt='sampleContainer'
                   className='object-contain'
                 />
@@ -149,6 +149,8 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
               status = filter;
             },
           }),
+          editable: (content, row, rowIndex, columnIndex) =>
+            row.status != 'D' ? true : false,
           editorRenderer: (
             editorProps,
             value,
@@ -259,7 +261,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
                   <Tooltip tooltipText='Approval'>
                     <Icons.RIcon
                       nameIcon='AiOutlineCheckCircle'
-                      propsIcon={{size: 24, color: '#ffffff'}}
+                      propsIcon={{ size: 24, color: '#ffffff' }}
                       onClick={() => props.onApproval(row)}
                     />
                   </Tooltip>
