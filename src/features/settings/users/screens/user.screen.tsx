@@ -268,7 +268,7 @@ export const Users = UsersHoc(
             defaultDepartment: item['Default Department'],
             userGroup: item['User Group'],
             userModule: item['User Module'],
-            userId: item.UserId,
+            userId: item.UserId?.toUpperCase(),
             fullName: item['Full Name'],
             empCode: item['Emp Code'],
             reportingTo: item['Reporting To'],
