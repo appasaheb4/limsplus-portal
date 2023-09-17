@@ -11,9 +11,6 @@ import {
   Svg,
   Toast,
   ModalConfirm,
-  ManualImportTabs,
-  StaticInputTable,
-  ImportFile,
 } from '@/library/components';
 import { RoleList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -24,6 +21,7 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { resetRole } from '../startup';
 import * as XLSX from 'xlsx';
+
 const Role = RolesHoc(
   observer(() => {
     const { loginStore, roleStore, routerStore } = useStores();
@@ -148,38 +146,140 @@ const Role = RolesHoc(
               (hideAddRole ? 'hidden' : 'shown')
             }
           >
-            <ManualImportTabs
-              isImport={isImport}
-              onClick={flag => {
-                setIsImport(flag);
-              }}
-            />
-            {!isImport ? (
-              <Grid cols={2}>
-                <List direction='col' space={4} justify='stretch' fill>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Code'
-                        id='code'
-                        hasError={!!errors.code}
-                        placeholder={
-                          errors.code ? 'Please Enter Code ' : 'Code'
-                        }
+            <Grid cols={2}>
+              <List direction='col' space={4} justify='stretch' fill>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.Input
+                      label='Code'
+                      id='code'
+                      hasError={!!errors.code}
+                      placeholder={errors.code ? 'Please Enter Code ' : 'Code'}
+                      value={value}
+                      onChange={code => {
+                        onChange(code);
+                        roleStore.updateRole({
+                          ...roleStore.role,
+                          code: code.toUpperCase(),
+                        });
+                      }}
+                      onBlur={code => {
+                        roleStore.RoleService.checkExitsEnvCode({
+                          input: {
+                            code,
+                            env: roleStore.role?.environment,
+                          },
+                        }).then(res => {
+                          if (res.checkRoleExistsEnvCode.success) {
+                            roleStore.setExitsCode(true);
+                            Toast.error({
+                              message: `😔 ${res.checkRoleExistsEnvCode.message}`,
+                            });
+                          } else roleStore.setExitsCode(false);
+                        });
+                      }}
+                    />
+                  )}
+                  name='code'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
+                {roleStore.checkExitsCode && (
+                  <span className='text-red-600 font-medium relative'>
+                    Code already exits. Please use other code.
+                  </span>
+                )}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.Input
+                      label='Description'
+                      name='description'
+                      hasError={!!errors.description}
+                      placeholder={
+                        errors.description
+                          ? 'Please Enter Description'
+                          : 'Description'
+                      }
+                      value={value}
+                      onChange={description => {
+                        onChange(description);
+                        roleStore.updateRole({
+                          ...roleStore.role,
+                          description: description.toUpperCase(),
+                        });
+                      }}
+                    />
+                  )}
+                  name='description'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper
+                      label='Status'
+                      hasError={!!errors.status}
+                    >
+                      <select
                         value={value}
-                        onChange={code => {
-                          onChange(code);
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.status ? 'border-red  ' : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const status = e.target.value;
+                          onChange(status);
                           roleStore.updateRole({
                             ...roleStore.role,
-                            code: code.toUpperCase(),
+                            status,
                           });
                         }}
-                        onBlur={code => {
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='status'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper label='Environment'>
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.environment
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        disabled={
+                          loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
+                            ? true
+                            : false
+                        }
+                        onChange={e => {
+                          const environment = e.target.value;
+                          onChange(environment);
+                          roleStore.updateRole({
+                            ...roleStore.role,
+                            environment,
+                          });
                           roleStore.RoleService.checkExitsEnvCode({
                             input: {
-                              code,
-                              env: roleStore.role?.environment,
+                              code: roleStore.role?.code,
+                              env: environment,
                             },
                           }).then(res => {
                             if (res.checkRoleExistsEnvCode.success) {
@@ -190,156 +290,31 @@ const Role = RolesHoc(
                             } else roleStore.setExitsCode(false);
                           });
                         }}
-                      />
-                    )}
-                    name='code'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  {roleStore.checkExitsCode && (
-                    <span className='text-red-600 font-medium relative'>
-                      Code already exits. Please use other code.
-                    </span>
-                  )}
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Description'
-                        name='description'
-                        hasError={!!errors.description}
-                        placeholder={
-                          errors.description
-                            ? 'Please Enter Description'
-                            : 'Description'
-                        }
-                        value={value}
-                        onChange={description => {
-                          onChange(description);
-                          roleStore.updateRole({
-                            ...roleStore.role,
-                            description: description.toUpperCase(),
-                          });
-                        }}
-                      />
-                    )}
-                    name='description'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Status'
-                        hasError={!!errors.status}
                       >
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.status ? 'border-red  ' : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const status = e.target.value;
-                            onChange(status);
-                            roleStore.updateRole({
-                              ...roleStore.role,
-                              status,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ),
-                          )}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='status'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            roleStore.updateRole({
-                              ...roleStore.role,
-                              environment,
-                            });
-                            roleStore.RoleService.checkExitsEnvCode({
-                              input: {
-                                code: roleStore.role?.code,
-                                env: environment,
-                              },
-                            }).then(res => {
-                              if (res.checkRoleExistsEnvCode.success) {
-                                roleStore.setExitsCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkRoleExistsEnvCode.message}`,
-                                });
-                              } else roleStore.setExitsCode(false);
-                            });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : roleStore.role?.environment || 'Select'}
+                        <option selected>
+                          {loginStore.login &&
+                          loginStore.login.role !== 'SYSADMIN'
+                            ? 'Select'
+                            : roleStore.role?.environment || 'Select'}
+                        </option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'ENVIRONMENT',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
                           </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                </List>
-              </Grid>
-            ) : (
-              <>
-                {arrImportRecords?.length > 0 ? (
-                  <StaticInputTable data={arrImportRecords} />
-                ) : (
-                  <ImportFile
-                    onClick={file => {
-                      handleFileUpload(file[0]);
-                    }}
-                  />
-                )}
-              </>
-            )}
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='environment'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
+              </List>
+            </Grid>
             <br />
-
             <List direction='row' space={3} align='center'>
               <Buttons.Button
                 size='medium'

@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const USER_LIST = gql`
   mutation ($input: UserInput!) {
@@ -142,9 +142,29 @@ export const FILTER_BY_FIELDS = gql`
   }
 `;
 
+export const GET_USER_BY_MATCH_USER_ID = gql`
+  mutation ($input: UserInput!) {
+    getUserByMatchUserId(input: $input) {
+      success
+      message
+      data
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: UserInput!) {
     findByFieldsUser(input: $input) {
+      success
+      message
+      data
+    }
+  }
+`;
+
+export const FIND_BY_FIELDS_AND_UNIQUE_USER_ID = gql`
+  mutation ($input: UserInput!) {
+    findByFieldsAndUniqueUserIdUser(input: $input) {
       success
       message
       data

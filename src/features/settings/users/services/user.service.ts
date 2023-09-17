@@ -4,13 +4,12 @@
  * @author limsplus
  */
 
-import {Http, http} from '@/library/modules/http';
-import {stores} from '@/stores';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
+import { Http, http } from '@/library/modules/http';
+import { stores } from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import * as Models from '../models';
 
 import {
-  UserService as ServiceUser,
   USER_LIST,
   UPDATE_USER,
   REMOVE_USER,
@@ -26,7 +25,9 @@ import {
   FILTER_BY_FIELDS,
   FIND_BY_FIELDS,
   GET_USER_BY_MATCH_USER_ID,
-} from '@/lp-core-service/settings/users';
+  FIND_BY_FIELDS_AND_UNIQUE_USER_ID,
+} from './mutation';
+import { UserService as ServiceUser } from '@/lp-core-service/settings/users';
 
 export class UserService {
   env = stores.loginStore.login && stores.loginStore.login.environment;
@@ -58,21 +59,6 @@ export class UserService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
-
-  // checkExitsUserId = (userId: string) =>
-  //   new Promise<any>((resolve, reject) => {
-  //     client
-  //       .mutate({
-  //         mutation: CHECK_EXISTS_USERID,
-  //         variables: {userId},
-  //       })
-  //       .then((response: any) => {
-  //         resolve(response.data);
-  //       })
-  //       .catch(error =>
-  //         reject(new ServiceResponse<any>(0, error.message, undefined)),
-  //       );
-  //   });
 
   addUser = async (variables: any) =>
     new Promise((resolve, reject) => {
@@ -126,7 +112,7 @@ export class UserService {
       client
         .mutate({
           mutation: CHECK_EXISTS_EMPCODE,
-          variables: {empCode},
+          variables: { empCode },
         })
         .then((response: any) => {
           resolve(response.data);
@@ -295,6 +281,21 @@ export class UserService {
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFieldsAndUniqueUserId = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS_AND_UNIQUE_USER_ID,
           variables,
         })
         .then((response: any) => {

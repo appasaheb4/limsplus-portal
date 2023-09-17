@@ -1,8 +1,7 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {Icons} from '@/library/components';
-import {useStores} from '@/stores';
+import React, { useState, useEffect, useRef } from 'react';
+import { observer } from 'mobx-react';
+import { Icons } from '@/library/components';
+import { useStores } from '@/stores';
 
 interface AutoCompleteProps {
   selected: any[];
@@ -10,8 +9,8 @@ interface AutoCompleteProps {
 }
 
 export const AutoCompleteFilterMutiSelectRoles = observer(
-  ({selected, onUpdate}: AutoCompleteProps) => {
-    const {loading, userStore, roleStore} = useStores();
+  ({ selected, onUpdate }: AutoCompleteProps) => {
+    const { loading, userStore, roleStore } = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
     const [originalOptions, setOriginalOptions] = useState<any[]>();
@@ -105,13 +104,15 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
         },
       });
     };
+
     const onSelect = item => {
       let roles = userStore.selectedItems?.roles;
       if (!item.selected) {
         if (roles && roles.length > 0) {
-          roles.push(item);
+          roles.push({ ...item, selected: true });
+        } else {
+          roles = [{ ...item, selected: true }];
         }
-        if (!roles) roles = [item];
       } else {
         roles = roles.filter(items => {
           return items._id !== item._id;
@@ -161,7 +162,7 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />
-            {loading && <Spinner animation='border' className='mr-2 h-4 w-4' />}
+            {loading && <span>loading</span>}
             {isListOpen ? (
               <Icons.IconFa.FaChevronUp />
             ) : (

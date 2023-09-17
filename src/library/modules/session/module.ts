@@ -9,10 +9,10 @@ class Session {
   };
   saveSession = async value => {
     this.hasSession = true;
-    await window.localStorage.setItem('session', JSON.stringify(value));
+    await window.sessionStorage.setItem('session', JSON.stringify(value));
   };
   getSession = async () => {
-    const isSession = await window.localStorage.getItem('session');
+    const isSession = await window.sessionStorage.getItem('session');
     if (isSession) {
       this.hasSession = true;
       return JSON.parse(isSession);
@@ -21,7 +21,7 @@ class Session {
   };
   deleteSession = async () => {
     this.hasSession = false;
-    await window.localStorage.removeItem('session');
+    await window.sessionStorage.removeItem('session');
   };
 }
 export default new Session();

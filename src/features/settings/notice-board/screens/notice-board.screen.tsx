@@ -12,9 +12,6 @@ import {
   Toast,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
-  ManualImportTabs,
-  StaticInputTable,
-  ImportFile,
 } from '@/library/components';
 import { NoticeBoardsList } from '../components';
 import '@/library/assets/css/accordion.css';
@@ -209,258 +206,231 @@ const NoticeBoard = NoticeBoardHoc(
           <PageHeadingLabDetails store={loginStore} />
         </Header>
         <div className='p-2 rounded-lg shadow-xl'>
-          <ManualImportTabs
-            isImport={isImport}
-            onClick={flag => {
-              setIsImport(flag);
-            }}
-          />
-          {!isImport ? (
-            <Grid cols={2}>
-              <List direction='col' space={4} justify='stretch' fill>
-                {labStore.listLabs && (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Lab'
-                        id='labs'
-                        hasError={!!errors.lab}
-                      >
-                        <AutoCompleteFilterSingleSelect
-                          loader={loading}
-                          placeholder='Search by name'
-                          disable={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          data={{
-                            list: labStore.listLabs,
-                            displayKey: 'name',
-                            findKey: 'name',
-                          }}
-                          // displayValue={value}
-                          hasError={!!errors.name}
-                          onFilter={(value: string) => {
-                            labStore.LabService.filter({
-                              input: {
-                                type: 'filter',
-                                filter: {
-                                  name: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            });
-                          }}
-                          onSelect={item => {
-                            onChange(item.name);
-                            noticeBoardStore.updateNoticeBoard({
-                              ...noticeBoardStore.noticeBoard,
-                              lab: item.code,
-                            });
-                            labStore.updateLabList(labStore.listLabsCopy);
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='lab'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                )}
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Header'
-                      name='lblHeader'
-                      placeholder={
-                        errors.header ? 'Please Enter Header' : 'Header'
-                      }
-                      hasError={!!errors.header}
-                      value={value}
-                      onChange={header => {
-                        onChange(header);
-                        noticeBoardStore.updateNoticeBoard({
-                          ...noticeBoardStore.noticeBoard,
-                          header,
-                        });
-                      }}
-                    />
-                  )}
-                  name='header'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
+          <Grid cols={2}>
+            <List direction='col' space={4} justify='stretch' fill>
+              {labStore.listLabs && (
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper
-                      label='Action'
-                      id='lblAction'
-                      hasError={!!errors.action}
+                      label='Lab'
+                      id='labs'
+                      hasError={!!errors.lab}
                     >
-                      <select
-                        name='action'
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.action ? 'border-red' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const action = e.target.value as 'login' | 'logout';
-                          onChange(action);
-                          noticeBoardStore.updateNoticeBoard({
-                            ...noticeBoardStore.noticeBoard,
-                            action,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {['login', 'logout'].map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='action'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper
-                      label='Environment'
-                      hasError={!!errors.environment}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        disabled={
+                      <AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        placeholder='Search by name'
+                        disable={
                           loginStore.login &&
                           loginStore.login.role !== 'SYSADMIN'
                             ? true
                             : false
                         }
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          noticeBoardStore.updateNoticeBoard({
-                            ...noticeBoardStore.noticeBoard,
-                            environment,
+                        data={{
+                          list: labStore.listLabs,
+                          displayKey: 'name',
+                          findKey: 'name',
+                        }}
+                        // displayValue={value}
+                        hasError={!!errors.name}
+                        onFilter={(value: string) => {
+                          labStore.LabService.filter({
+                            input: {
+                              type: 'filter',
+                              filter: {
+                                name: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
                           });
                         }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : noticeBoardStore.noticeBoard?.environment ||
-                              'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
+                        onSelect={item => {
+                          onChange(item.name);
+                          noticeBoardStore.updateNoticeBoard({
+                            ...noticeBoardStore.noticeBoard,
+                            lab: item.code,
+                          });
+                          labStore.updateLabList(labStore.listLabsCopy);
+                        }}
+                      />
                     </Form.InputWrapper>
                   )}
-                  name='environment'
+                  name='lab'
                   rules={{ required: true }}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper
-                      label='Status'
-                      hasError={!!errors.status}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const status = e.target.value;
-                          onChange(status);
-                          noticeBoardStore.updateNoticeBoard({
-                            ...noticeBoardStore.noticeBoard,
-                            status,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='status'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      rows={7}
-                      label='Message'
-                      name='lblMessage'
-                      hasError={!!errors.message}
-                      placeholder={
-                        errors.message ? 'Please Enter Message' : 'Message'
-                      }
+              )}
+
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Form.Input
+                    label='Header'
+                    name='lblHeader'
+                    placeholder={
+                      errors.header ? 'Please Enter Header' : 'Header'
+                    }
+                    hasError={!!errors.header}
+                    value={value}
+                    onChange={header => {
+                      onChange(header);
+                      noticeBoardStore.updateNoticeBoard({
+                        ...noticeBoardStore.noticeBoard,
+                        header,
+                      });
+                    }}
+                  />
+                )}
+                name='header'
+                rules={{ required: true }}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Form.InputWrapper
+                    label='Action'
+                    id='lblAction'
+                    hasError={!!errors.action}
+                  >
+                    <select
+                      name='action'
                       value={value}
-                      onChange={message => {
-                        onChange(message);
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.action ? 'border-red' : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const action = e.target.value as 'login' | 'logout';
+                        onChange(action);
                         noticeBoardStore.updateNoticeBoard({
                           ...noticeBoardStore.noticeBoard,
-                          message,
+                          action,
                         });
                       }}
-                    />
-                  )}
-                  name='message'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-              </List>
-            </Grid>
-          ) : (
-            <>
-              {arrImportRecords?.length > 0 ? (
-                <StaticInputTable data={arrImportRecords} />
-              ) : (
-                <ImportFile
-                  onClick={file => {
-                    handleFileUpload(file[0]);
-                  }}
-                />
-              )}
-            </>
-          )}
+                    >
+                      <option selected>Select</option>
+                      {['login', 'logout'].map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </Form.InputWrapper>
+                )}
+                name='action'
+                rules={{ required: true }}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Form.InputWrapper
+                    label='Environment'
+                    hasError={!!errors.environment}
+                  >
+                    <select
+                      value={value}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment ? 'border-red  ' : 'border-gray-300'
+                      } rounded-md`}
+                      disabled={
+                        loginStore.login && loginStore.login.role !== 'SYSADMIN'
+                          ? true
+                          : false
+                      }
+                      onChange={e => {
+                        const environment = e.target.value;
+                        onChange(environment);
+                        noticeBoardStore.updateNoticeBoard({
+                          ...noticeBoardStore.noticeBoard,
+                          environment,
+                        });
+                      }}
+                    >
+                      <option selected>
+                        {loginStore.login &&
+                        loginStore.login.role !== 'SYSADMIN'
+                          ? 'Select'
+                          : noticeBoardStore.noticeBoard?.environment ||
+                            'Select'}
+                      </option>
+                      {lookupItems(routerStore.lookupItems, 'ENVIRONMENT').map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </Form.InputWrapper>
+                )}
+                name='environment'
+                rules={{ required: true }}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Form.InputWrapper label='Status' hasError={!!errors.status}>
+                    <select
+                      value={value}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status ? 'border-red  ' : 'border-gray-300'
+                      } rounded-md`}
+                      onChange={e => {
+                        const status = e.target.value;
+                        onChange(status);
+                        noticeBoardStore.updateNoticeBoard({
+                          ...noticeBoardStore.noticeBoard,
+                          status,
+                        });
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  </Form.InputWrapper>
+                )}
+                name='status'
+                rules={{ required: false }}
+                defaultValue=''
+              />
+            </List>
+            <List direction='col' space={4} justify='stretch' fill>
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Form.MultilineInput
+                    rows={7}
+                    label='Message'
+                    name='lblMessage'
+                    hasError={!!errors.message}
+                    placeholder={
+                      errors.message ? 'Please Enter Message' : 'Message'
+                    }
+                    value={value}
+                    onChange={message => {
+                      onChange(message);
+                      noticeBoardStore.updateNoticeBoard({
+                        ...noticeBoardStore.noticeBoard,
+                        message,
+                      });
+                    }}
+                  />
+                )}
+                name='message'
+                rules={{ required: false }}
+                defaultValue=''
+              />
+            </List>
+          </Grid>
           <br />
           <List direction='row' space={3} align='center'>
             <Buttons.Button
@@ -489,7 +459,6 @@ const NoticeBoard = NoticeBoardHoc(
         >
           {tableView}
         </div>
-
         <ModalConfirm
           {...modalConfirm}
           click={(action?: string) => {

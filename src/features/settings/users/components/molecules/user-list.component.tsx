@@ -14,7 +14,6 @@ import {
   Form,
   customFilter,
   Buttons,
-  Toast,
   sortCaret,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
@@ -78,6 +77,7 @@ interface UserListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  reSendPassword: (details: any) => void;
 }
 
 export const UserList = (props: UserListProps) => {
@@ -1437,24 +1437,11 @@ export const UserList = (props: UserListProps) => {
                     type='outline'
                     icon={Svg.ReSendPassword}
                     onClick={async () => {
-                      props.extraData.userStore.UsersService.reSendPassword({
-                        input: {
-                          userId: row.userId,
-                          lab: row.lab[0].code,
-                          role: row.role[0].code,
-                          email: row.email,
-                        },
-                      }).then(res => {
-                        if (res.reSendUserPassword.success) {
-                          Toast.success({
-                            message: `😊 ${res.reSendUserPassword.message}`,
-                          });
-                        } else {
-                          Toast.error({
-                            message:
-                              '😔 Password re-send not successfully please try again.',
-                          });
-                        }
+                      props.reSendPassword({
+                        userId: row.userId,
+                        // lab: row.lab[0].code,
+                        // role: row.role[0].code,
+                        email: row.email,
                       });
                     }}
                   >
