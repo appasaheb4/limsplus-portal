@@ -1,6 +1,7 @@
+/* eslint-disable folders/match-regex */
 import React from 'react';
-import {render} from '@testing-library/react';
-import {NoticeBoard} from '.';
+import { render } from '@testing-library/react';
+import { NoticeBoard } from '../screens';
 
 describe('NoticeBoard Screen', () => {
   it('render noticeBoard correctly', () => {

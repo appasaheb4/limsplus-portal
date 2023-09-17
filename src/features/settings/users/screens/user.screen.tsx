@@ -101,6 +101,7 @@ export const Users = UsersHoc(
               reset();
               resetUser();
               userStore.updateSelectedItems(new SelectedItems({}));
+              setArrImportRecords([]);
             } else {
               Toast.error({
                 message: `😔 ${res.createUser.message}`,
@@ -216,6 +217,22 @@ export const Users = UsersHoc(
               limit,
             };
           }}
+          reSendPassword={details => {
+            userStore.UsersService.reSendPassword({
+              input: { ...details },
+            }).then(res => {
+              if (res.reSendUserPassword.success) {
+                Toast.success({
+                  message: `😊 ${res.reSendUserPassword.message}`,
+                });
+              } else {
+                Toast.error({
+                  message:
+                    '😔 Password re-send not successfully please try again.',
+                });
+              }
+            });
+          }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
             if (!isExists) {
@@ -260,8 +277,8 @@ export const Users = UsersHoc(
             mobileNo: item['Mobile No'],
             contactNo: item['Contact No'],
             email: item.Email,
-            signature: '',
-            picture: '',
+            signature: undefined,
+            picture: undefined,
             validationLevel: item['Validation Level'],
             dateOfBirth: item['Birth Date'],
             marriageAnniversary: item['Marriage Anniversary'],
@@ -276,11 +293,11 @@ export const Users = UsersHoc(
                   item['Desktop Access Permission'] === 'Yes' ? true : false,
               },
             },
-            role: [],
-            lab: [],
-            department: [],
-            corporateClient: [],
-            registrationLocation: [],
+            role: undefined,
+            lab: undefined,
+            department: undefined,
+            corporateClient: undefined,
+            registrationLocation: undefined,
             enteredBy: loginStore.login?.userId,
             dateCreation: new Date(),
             dateActive: new Date(),
@@ -330,7 +347,7 @@ export const Users = UsersHoc(
         });
         return true;
       }
-      return userStore.UsersService.findByFields({
+      return userStore.UsersService.findByFieldsAndUniqueUserId({
         input: {
           filter: {
             ..._.pick({ ...fields, status }, requiredFields),
@@ -338,8 +355,8 @@ export const Users = UsersHoc(
         },
       }).then(res => {
         if (
-          res.findByFieldsUser?.success &&
-          res.findByFieldsUser?.data?.length > length
+          res.findByFieldsAndUniqueUserIdUser?.success &&
+          res.findByFieldsAndUniqueUserIdUser?.data?.length > length
         ) {
           //setIsExistsRecord(true);
           Toast.error({
@@ -1900,9 +1917,6 @@ export const Users = UsersHoc(
                             },
                           });
                         else userStore.UsersService.userList();
-                        // setTimeout(() => {
-                        //   userStore.UsersService.userList();
-                        // }, 2000);
                       }
                     });
 
@@ -1966,12 +1980,8 @@ export const Users = UsersHoc(
                           },
                         });
                       else userStore.loadUser();
-                      // setTimeout(() => {
-                      //   window.location.reload();
-                      // }, 2000);
                     }
                   });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -2008,7 +2018,6 @@ export const Users = UsersHoc(
                   setValue('status', modalConfirm.data?.status);
                   setValue('environment', modalConfirm.data?.environment);
                   setValue('userGroup', modalConfirm.data?.userGroup);
-
                   break;
                 }
                 case 'duplicate': {
@@ -2045,7 +2054,6 @@ export const Users = UsersHoc(
                   setValue('status', modalConfirm.data?.status);
                   setValue('environment', modalConfirm.data?.environment);
                   setValue('userGroup', modalConfirm.data?.userGroup);
-
                   break;
                 }
                 default: {
@@ -2075,9 +2083,6 @@ export const Users = UsersHoc(
                             },
                           });
                         else userStore.loadUser();
-                        // setTimeout(() => {
-                        //   window.location.reload();
-                        // }, 1000);
                       }
                     });
                 }

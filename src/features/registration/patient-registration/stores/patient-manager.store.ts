@@ -1,7 +1,7 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {PatientManagerService} from '../services';
-import {PatientManger} from '../models';
-
+import { makeObservable, action, observable, computed } from 'mobx';
+import { PatientManagerService } from '../services';
+import { PatientManger } from '../models';
+import dayjs from 'dayjs';
 export class PatientManagerStore {
   patientManger!: PatientManger;
   listPatientManger!: PatientManger[];
@@ -34,6 +34,9 @@ export class PatientManagerStore {
       ...this.patientManger,
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
+      birthDate: new Date(
+        dayjs(new Date()).add(-365, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      ),
       isPatientMobileNo: true,
       isVIP: false,
       isAddress: false,
