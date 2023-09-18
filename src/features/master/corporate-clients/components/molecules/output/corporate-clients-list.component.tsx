@@ -186,11 +186,36 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
+            filter: customFilter({
               getFilter: filter => {
-                invoiceAc = filter;
+                postalCode = filter;
               },
             }),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  placeholder={row?.invoiceAc}
+                  onBlur={invoiceAc => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        Number.parseInt(invoiceAc),
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'acType',

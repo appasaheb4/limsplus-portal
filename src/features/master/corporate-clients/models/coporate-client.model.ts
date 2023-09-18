@@ -1,11 +1,11 @@
-import {PriceList} from '@/models';
+import { PriceList } from '@/models';
 export class CorporateClients {
   _id: string;
   existsVersionId: string;
   existsRecordId: string;
   corporateCode: string;
   corporateName: string;
-  invoiceAc: string;
+  invoiceAc: number;
   priceList: Array<PriceList>;
   clientSpecificPrice: boolean;
   acType: string;
@@ -55,7 +55,7 @@ export class CorporateClients {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -116,7 +116,7 @@ export class CorporateClients {
 export class SelectedItems {
   deliveryMode: any[];
   panelList: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.deliveryMode = rawData.deliveryMode;
     this.panelList = rawData.panelList;
   }
