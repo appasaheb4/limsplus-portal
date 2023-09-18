@@ -1022,7 +1022,10 @@ const Lab = LabHoc(
                         />
                       )}
                       name='email'
-                      rules={{ required: false }}
+                      rules={{
+                        required: false,
+                        pattern: FormHelper.patterns.email,
+                      }}
                       defaultValue=''
                     />
                     <Controller
@@ -1031,7 +1034,7 @@ const Lab = LabHoc(
                         <Form.Input
                           label='Web'
                           placeholder='Web'
-                          hasError={!!errors.email}
+                          hasError={!!errors.web}
                           value={value}
                           onChange={web => {
                             onChange(web);

@@ -1,5 +1,5 @@
-import React, {useState, useEffect, Ref} from 'react';
-import {ModalClock} from '../..';
+import React, { useState, useEffect, Ref } from 'react';
+import { ModalClock } from '../..';
 import dayjs from 'dayjs';
 import '../css/toggle.css';
 import classNames from 'classnames';
@@ -19,7 +19,7 @@ export const Label: React.FunctionComponent<LabelProps> = props => (
       className={`${
         props.hasError ? 'text-red-400' : 'text-gray-700'
       } block text-3xs font-medium  mb-1`}
-      style={{...props.style}}
+      style={{ ...props.style }}
     >
       {props.children}
     </label>
@@ -43,7 +43,7 @@ export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
     <Label
       htmlFor={props.id || ''}
       hasError={props.hasError}
-      style={{...props.style}}
+      style={{ ...props.style }}
     >
       {props.label}
     </Label>
@@ -299,7 +299,7 @@ export const InputRadio = (props: InputRadioProps) => (
           onChange={() => props.onChange && props.onChange(item.value)}
           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
         />
-        <Label htmlFor={props.id || ''} style={{marginTop: 6}}>
+        <Label htmlFor={props.id || ''} style={{ marginTop: 6 }}>
           {item.label}
         </Label>
       </div>
@@ -544,7 +544,7 @@ interface ToggleProps extends InputWrapperProps {
 
 export const Toggle = (props: ToggleProps) => {
   const [toggle, setToggle] = useState(props.value);
-  const {onChange, disabled, className, isToggleLabel = true} = props;
+  const { onChange, disabled, className, isToggleLabel = true } = props;
 
   useEffect(() => {
     setToggle(props.value);
