@@ -158,12 +158,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 Toast.success({
                   message: `😊 ${res.createRegistrationLocation.message}`,
                 });
-                setHideAddSection(true);
-                reset();
-                resetRegistrationLocation();
-                registrationLocationsStore.updateSelectedItems(
-                  new SelectedItems({}),
-                );
+
                 setArrImportRecords([]);
               }
             });
@@ -176,6 +171,7 @@ const RegistrationLocation = RegistrationLocationHoc(
               input: {
                 ...registrationLocationsStore.registrationLocations,
                 enteredBy: loginStore.login.userId,
+                isImport: false,
                 __typename: undefined,
               },
             })
@@ -196,8 +192,8 @@ const RegistrationLocation = RegistrationLocationHoc(
               .duplicateRegistrationLocations({
                 input: {
                   ...registrationLocationsStore.registrationLocations,
-                  isImport: false,
                   enteredBy: loginStore.login.userId,
+                  isImport: false,
                   __typename: undefined,
                 },
               })
@@ -210,6 +206,10 @@ const RegistrationLocation = RegistrationLocationHoc(
               });
           }
         }
+        setHideAddSection(true);
+        reset();
+        resetRegistrationLocation();
+        registrationLocationsStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
           message: '😔 Please enter diff code!',
@@ -2007,6 +2007,7 @@ const RegistrationLocation = RegistrationLocationHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   registrationLocationsStore.registrationLocationsService
@@ -2015,7 +2016,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                     })
                     .then((res: any) => {
                       if (res.removeRegistrationLocation.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeRegistrationLocation.message}`,
                         });
@@ -2052,7 +2052,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                     })
                     .then((res: any) => {
                       if (res.updateRegistrationLocation.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateRegistrationLocation.message}`,
                         });
@@ -2089,7 +2088,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                     })
                     .then((res: any) => {
                       if (res.updateRegistrationLocation.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateRegistrationLocation.message}`,
                         });
@@ -2123,14 +2121,20 @@ const RegistrationLocation = RegistrationLocationHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
+                  setHideAddSection(false);
                   setValue('locationCode', modalConfirm.data.locationCode);
                   setValue('locationName', modalConfirm.data.locationName);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
                   break;
                 }
                 case 'duplicate': {
@@ -2140,9 +2144,15 @@ const RegistrationLocation = RegistrationLocationHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
-                  setHideAddSection(!hideAddSection);
+                  setHideAddSection(false);
                   setValue('locationCode', modalConfirm.data.locationCode);
                   setValue('locationName', modalConfirm.data.locationName);
                   setValue('lab', modalConfirm.data.lab);

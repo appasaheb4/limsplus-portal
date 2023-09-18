@@ -105,6 +105,7 @@ const MasterPackage = MasterPackageHOC(
       }
       return [];
     };
+
     const onSubmitMasterPackage = async () => {
       if (!masterPackageStore.checkExitsLabEnvCode) {
         if (
@@ -126,10 +127,7 @@ const MasterPackage = MasterPackageHOC(
                 Toast.success({
                   message: `😊 ${res.createPackageMaster.message}`,
                 });
-                setIsInputView(true);
-                reset();
-                resetMasterPackage();
-                masterPackageStore.updateSelectedItems(new SelectedItems({}));
+
                 setArrImportRecords([]);
               }
             });
@@ -142,6 +140,7 @@ const MasterPackage = MasterPackageHOC(
               input: {
                 ...masterPackageStore.masterPackage,
                 enteredBy: loginStore.login.userId,
+                isImport: false,
                 __typename: undefined,
               },
             })
@@ -176,6 +175,10 @@ const MasterPackage = MasterPackageHOC(
               });
           }
         }
+        setIsInputView(true);
+        reset();
+        resetMasterPackage();
+        masterPackageStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -294,6 +297,7 @@ const MasterPackage = MasterPackageHOC(
         reportOrder: items,
       });
     };
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -305,7 +309,7 @@ const MasterPackage = MasterPackageHOC(
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
-        const list = data.map((item: any) => {
+        const list = data?.map((item: any) => {
           return {
             lab: item?.Lab,
             packageCode: item['Package Code'],
@@ -337,6 +341,7 @@ const MasterPackage = MasterPackageHOC(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
       fields = masterPackageStore.masterPackage,
       length = 0,
@@ -380,6 +385,7 @@ const MasterPackage = MasterPackageHOC(
           } else return false;
         });
     };
+
     return (
       <>
         <Header>
@@ -548,7 +554,7 @@ const MasterPackage = MasterPackageHOC(
                                 routerStore.lookupItems.find(item => {
                                   return item.fieldName === 'SERVICE_TYPE';
                                 }),
-                              ).map((item: any, index: number) => (
+                              )?.map((item: any, index: number) => (
                                 <option
                                   key={index}
                                   value={JSON.stringify(item)}
@@ -631,7 +637,7 @@ const MasterPackage = MasterPackageHOC(
                                     masterPackageStore.masterPackage?.lab
                                 );
                               })
-                              .map((item: any, index: number) => (
+                              ?.map((item: any, index: number) => (
                                 <option
                                   key={index}
                                   value={JSON.stringify(item)}
@@ -813,9 +819,10 @@ const MasterPackage = MasterPackageHOC(
                             } rounded-md`}
                           >
                             <option selected>
-                              {masterPackageStore.masterPackage?.panelName?.join(
+                              {/* {masterPackageStore.masterPackage?.panelName?.join(
                                 ',',
-                              ) || 'Select'}
+                              ) || 'Select'} */}
+                              Select
                             </option>
                           </select>
                         </Form.InputWrapper>
@@ -846,13 +853,14 @@ const MasterPackage = MasterPackageHOC(
                             }}
                           >
                             <option selected>Select</option>
-                            {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                              (item: any, index: number) => (
-                                <option key={index} value={item.code}>
-                                  {lookupValue(item)}
-                                </option>
-                              ),
-                            )}
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'STATUS',
+                            )?.map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
                           </select>
                         </Form.InputWrapper>
                       )}
@@ -1091,9 +1099,9 @@ const MasterPackage = MasterPackageHOC(
                             </th>
                           </tr>
                         </thead>
-                        <tbody className='text-xs'>
+                        {/* <tbody className='text-xs'>
                           {masterPackageStore.masterPackage?.reportOrder &&
-                            masterPackageStore.masterPackage?.reportOrder.map(
+                            masterPackageStore.masterPackage?.reportOrder?.map(
                               (item, index) => (
                                 <tr
                                   onMouseEnter={() => {
@@ -1138,7 +1146,7 @@ const MasterPackage = MasterPackageHOC(
                                 </tr>
                               ),
                             )}
-                        </tbody>
+                        </tbody> */}
                       </Table>
                     </Form.InputWrapper>
 
@@ -1276,7 +1284,7 @@ const MasterPackage = MasterPackageHOC(
                             {lookupItems(
                               routerStore.lookupItems,
                               'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
+                            )?.map((item: any, index: number) => (
                               <option key={index} value={item.code}>
                                 {lookupValue(item)}
                               </option>
@@ -1332,13 +1340,13 @@ const MasterPackage = MasterPackageHOC(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   masterPackageStore.masterPackageService
                     .deletePackageMaster({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removePackageMaster.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removePackageMaster.message}`,
                         });
@@ -1372,7 +1380,6 @@ const MasterPackage = MasterPackageHOC(
                     })
                     .then((res: any) => {
                       if (res.updatePackageMaster.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePackageMaster.message}`,
                         });
@@ -1406,7 +1413,6 @@ const MasterPackage = MasterPackageHOC(
                     })
                     .then((res: any) => {
                       if (res.updatePackageMaster.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePackageMaster.message}`,
                         });
@@ -1427,7 +1433,6 @@ const MasterPackage = MasterPackageHOC(
                         else masterPackageStore.fetchPackageMaster();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -1437,12 +1442,18 @@ const MasterPackage = MasterPackageHOC(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActive: dayjs().unix(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
+                  setIsInputView(true);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
-
                   break;
                 }
                 case 'duplicate': {
@@ -1452,13 +1463,18 @@ const MasterPackage = MasterPackageHOC(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActive: dayjs().unix(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
-                  setIsInputView(!isInputView);
+                  setIsInputView(true);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
-
                   break;
                 }
                 // No default
