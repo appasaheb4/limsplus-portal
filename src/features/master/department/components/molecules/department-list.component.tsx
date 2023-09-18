@@ -625,13 +625,13 @@ export const DepartmentList = (props: DepartmentListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                    (item: any, index: number) => (
+                  {lookupItems(props.extraData.lookupItems, 'STATUS')
+                    .filter(item => item.code != 'D')
+                    .map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    ),
-                  )}
+                    ))}
                 </select>
               </>
             ),

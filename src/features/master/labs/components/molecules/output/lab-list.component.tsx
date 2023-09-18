@@ -8,6 +8,7 @@ import {
   Icons,
   Tooltip,
   sortCaret,
+  Toast,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { useStores } from '@/stores';
@@ -792,6 +793,30 @@ export const LabList = (props: LabListProps) => {
                   email = filter;
                 },
               }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <Form.Input
+                    placeholder={row.email}
+                    onBlur={email => {
+                      if (FormHelper.isEmailValid(email)) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(email, column.dataField, row._id);
+                      } else {
+                        Toast.error({
+                          message: 'Please Enter Valid Email',
+                        });
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'web',
@@ -1217,13 +1242,13 @@ export const LabList = (props: LabListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                      (item: any, index: number) => (
+                    {lookupItems(props.extraData.lookupItems, 'STATUS')
+                      .filter(item => item.code != 'D')
+                      .map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ),
-                    )}
+                      ))}
                   </select>
                 </>
               ),
