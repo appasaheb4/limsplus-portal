@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Header,
@@ -7,25 +7,25 @@ import {
   PageHeadingLabDetails,
   Toast,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
+import { useForm } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
 import {
   ReportDeliveryList,
   OrderDeliveredList,
   ModalGenerateReports,
 } from '../components';
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const DeliveryQueue = observer(() => {
-  const {deliveryQueueStore, routerStore, loginStore, reportSettingStore} =
+  const { deliveryQueueStore, routerStore, loginStore, reportSettingStore } =
     useStores();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
 
@@ -76,7 +76,7 @@ const DeliveryQueue = observer(() => {
     // console.log({filterKeys});
     return array.filter(item => {
       return filterKeys.every(key => {
-        console.log({key});
+        console.log({ key });
         if (!filters[key].length) return true;
         return filters[key].find(
           filter => getValue(filter) === getValue(item[key]),
@@ -149,8 +149,6 @@ const DeliveryQueue = observer(() => {
         }
       });
     }
-    console.log({list});
-
     return list;
   };
 
@@ -196,7 +194,7 @@ const DeliveryQueue = observer(() => {
     });
 
   const updateRecords = async (payload: any) => {
-    const {type, id, visitId, ids} = payload;
+    const { type, id, visitId, ids } = payload;
     if (type == 'cancel' || type == 'hold' || type == 'done') {
       await deliveryQueueStore.deliveryQueueService
         .updateDeliveryQueue({
@@ -283,7 +281,7 @@ const DeliveryQueue = observer(() => {
           };
           if (loginStore.login?.role == 'SYSADMIN') {
             deliveryQueueStore.deliveryQueueService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
           } else {
             if (type == 'filter') {
@@ -372,7 +370,7 @@ const DeliveryQueue = observer(() => {
                               e.templateCode ==
                               item.patientResult.reportTemplate.split(' -')[0],
                           );
-                        return Object.assign(item, {reportSettings});
+                        return Object.assign(item, { reportSettings });
                       });
 
                       const grouped = _.groupBy(
@@ -409,7 +407,7 @@ const DeliveryQueue = observer(() => {
             100,
           );
           deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
-          global.filter = {mode: 'pagination', pageNo, limit: 100};
+          global.filter = { mode: 'pagination', pageNo, limit: 100 };
         }}
       />
     ),
@@ -441,7 +439,7 @@ const DeliveryQueue = observer(() => {
       <ModalGenerateReports
         {...modalGenerateReports}
         onClose={() => {
-          setModalGenerateReports({show: false});
+          setModalGenerateReports({ show: false });
         }}
       />
     </>

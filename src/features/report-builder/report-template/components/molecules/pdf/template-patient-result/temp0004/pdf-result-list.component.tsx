@@ -1,8 +1,13 @@
 import React from 'react';
-import {Text, View, StyleSheet, Font} from '@react-pdf/renderer';
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import _ from 'lodash';
-import {Style} from '@react-pdf/types';
-import {PdfSmall, PdfBorderView, PdfView, PdfImage} from '@/library/components';
+import { Style } from '@react-pdf/types';
+import {
+  PdfSmall,
+  PdfBorderView,
+  PdfView,
+  PdfImage,
+} from '@/library/components';
 
 Font.register({
   family: 'arimaBold',
@@ -203,7 +208,6 @@ export const PdfResultList = ({
           },
         });
       }
-      console.log({patientResultList});
       return patientResultList;
     }
     return [];
@@ -227,15 +231,15 @@ export const PdfResultList = ({
 
   return (
     <>
-      <View style={[styles.table, {...style}]}>
-        <View style={[styles.tableRow, {...headerStyle}]} fixed={headerFixed}>
+      <View style={[styles.table, { ...style }]}>
+        <View style={[styles.tableRow, { ...headerStyle }]} fixed={headerFixed}>
           {fields?.map((item, index) => (
-            <View key={index} style={[{width: item.width + '%'}]}>
+            <View key={index} style={[{ width: item.width + '%' }]}>
               {index == 0 ? (
                 <Text
                   style={[
                     styles.tableCellHeader,
-                    {textAlign: 'left', marginLeft: 20},
+                    { textAlign: 'left', marginLeft: 20 },
                   ]}
                 >
                   {item?.title}
@@ -337,14 +341,14 @@ export const PdfResultList = ({
                       {/* Patient Result List */}
                       {panelItem.panelHeader?.analyteType === 'H' ? (
                         <PdfSmall
-                          style={{marginLeft: 10, fontFamily: 'Arima-Bold'}}
+                          style={{ marginLeft: 10, fontFamily: 'Arima-Bold' }}
                         >
                           {panelItem.panelHeader?.analyteDescription}
                         </PdfSmall>
                       ) : (
                         <View key={testIndex}>
                           {testItem.patientResultList?.map(
-                            ({value: _item}: any, _idx) => (
+                            ({ value: _item }: any, _idx) => (
                               <>
                                 {_item?.reportable ? (
                                   <>
@@ -532,7 +536,7 @@ export const PdfResultList = ({
                           bw={0}
                           borderColor='transparent'
                         >
-                          <PdfSmall style={{marginLeft: 10}}>
+                          <PdfSmall style={{ marginLeft: 10 }}>
                             {testItem?.testFooter?.testInterpretation || ''}
                           </PdfSmall>
                         </PdfBorderView>
@@ -552,7 +556,7 @@ export const PdfResultList = ({
                       bw={0}
                       borderColor='transparent'
                     >
-                      <PdfSmall style={{marginLeft: 10}}>
+                      <PdfSmall style={{ marginLeft: 10 }}>
                         {panelItem?.panelFooter?.panelInterpretation}
                       </PdfSmall>
                     </PdfBorderView>
@@ -587,8 +591,10 @@ export const PdfResultList = ({
                   }}
                 />
                 <PdfSmall>{item?.fullName}</PdfSmall>
-                <PdfSmall style={{marginTop: -4}}>{item?.userDegree}</PdfSmall>
-                <PdfSmall style={{marginTop: -4}}>
+                <PdfSmall style={{ marginTop: -4 }}>
+                  {item?.userDegree}
+                </PdfSmall>
+                <PdfSmall style={{ marginTop: -4 }}>
                   {item?.deginisation}
                 </PdfSmall>
               </PdfView>
@@ -596,7 +602,7 @@ export const PdfResultList = ({
           </PdfBorderView>
         )}
       </View>
-      <PdfView style={{marginTop: 10}}>
+      <PdfView style={{ marginTop: 10 }}>
         <Text
           style={{
             fontWeight: 'normal',
@@ -605,7 +611,7 @@ export const PdfResultList = ({
             lineHeight: 0,
             textAlign: 'center',
           }}
-          render={({pageNumber, totalPages}) =>
+          render={({ pageNumber, totalPages }) =>
             pageNumber == totalPages &&
             ' ---------------------- End of report ----------------------'
           }
