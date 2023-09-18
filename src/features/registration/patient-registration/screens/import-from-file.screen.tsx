@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
+import _ from 'lodash';
 import { Toast, Buttons, ModalConfirm, ImportFile } from '@/library/components';
 import * as XLSX from 'xlsx';
 import { FileImportExportList } from '../components';
@@ -194,59 +195,69 @@ export const FileImportExport = observer(() => {
             }}
             onSend={records => {
               const list = records.filter(n => n);
-              const objDate = {
-                birthDate: new Date(),
-                collectionDate: new Date(),
+              const objDate: any = {
+                birthDate: dayjs(),
+                collectionDate: dayjs(),
               };
+              console.log({ list });
+
               list.map(item => {
                 Object.entries(item).map((e: any) => {
                   if (e[1].field?.toLowerCase() == 'birthdate') {
-                    console.log('found');
                     Object.assign(objDate, { birthDate: e[1].value });
                   }
                   if (e[1].field?.toLowerCase() == 'collection date')
                     Object.assign(objDate, { collectionDate: e[1].value });
                 });
               });
-
-              if (!dayjs(objDate.birthDate).isValid())
+              if (
+                !_.isEmpty(objDate.birthDate) &&
+                objDate.birthDate?.split('-').length - 1 < 2
+              ) {
                 return Toast.error({
                   message: '😌 Please enter correctly birthrate',
                 });
-              const date1 = dayjs(objDate.birthDate);
-              const diffDay = date1.diff(objDate.collectionDate, 'day');
-              console.log({ diffDay });
-
-              if (diffDay > 0) {
-                console.log('run');
               }
-              console.log({ objDate });
-              // patientManagerStore.patientManagerService
-              //   .createPatientManagerByFileImportExport({
-              //     input: {
-              //       filter: list?.map(e => {
-              //         return { ...e, enteredBy: loginStore.login?.userId };
-              //       }),
-              //     },
-              //   })
-              //   .then(res => {
-              //     console.log({ res });
-              //     if (res.createByFileImportExportPatientManager.success) {
-              //       Toast.success({
-              //         message: `😊 ${res.createByFileImportExportPatientManager.message}`,
-              //       });
-              //       importFromFileStore.fileImportExportService.listFileImportExport();
-              //     } else {
-              //       Toast.error({
-              //         message: `😌 ${res.createByFileImportExportPatientManager.message}`,
-              //       });
-              //     }
-              //   })
-              //   .catch(error => {
-              //     Toast.error({
-              //       message: '😌 Please enter correctly data like birthrate',
-              //     });
-              //   });
+              const date1 = dayjs(
+                dayjs(objDate.birthDate, 'DD-MM-YYYY').toDate(),
+              );
+              const date2 = dayjs(
+                dayjs(objDate.collectionDate, 'DD-MM-YYYY').toDate(),
+              );
+              const diffDay = date1.diff(date2, 'day');
+              console.log({ diffDay });
+              if (diffDay > 0) {
+                return Toast.error({
+                  message:
+                    '😌 Please enter correctly birthrate and collection date',
+                });
+              }
+              patientManagerStore.patientManagerService
+                .createPatientManagerByFileImportExport({
+                  input: {
+                    filter: list?.map(e => {
+                      return { ...e, enteredBy: loginStore.login?.userId };
+                    }),
+                  },
+                })
+                .then(res => {
+                  console.log({ res });
+                  if (res.createByFileImportExportPatientManager.success) {
+                    Toast.success({
+                      message: `😊 ${res.createByFileImportExportPatientManager.message}`,
+                    });
+                    importFromFileStore.fileImportExportService.listFileImportExport();
+                  } else {
+                    Toast.error({
+                      message: `😌 ${res.createByFileImportExportPatientManager.message}`,
+                    });
+                  }
+                })
+                .catch(error => {
+                  Toast.error({
+                    message: '😌 Please enter correctly data like birthrate',
+                  });
+                });
             }}
           />
         ) : (

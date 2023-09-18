@@ -548,12 +548,12 @@ const CorporateClients = CorporateClientsHoc(
                         }
                         disabled={true}
                         hasError={!!errors.invoiceAc}
-                        value={value}
+                        value={value.toString()}
                         onChange={invoiceAc => {
                           onChange(invoiceAc);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            invoiceAc,
+                            invoiceAc: Number.parseInt(invoiceAc),
                           });
                         }}
                       />

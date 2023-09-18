@@ -260,7 +260,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             deltaType: item['Delta Type'],
             deltaInterval: item['Delta Interval'],
             intervalUnit: item['Interval Unit'],
-            enteredBy: loginStore.login?.userId,
+            enterBy: loginStore.login?.userId,
             dateCreation: new Date(),
             dateActive: new Date(),
             dateExpire: new Date(
