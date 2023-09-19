@@ -11,6 +11,7 @@ import {
   Icons,
   Type,
   sortCaret,
+  Toast,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -22,7 +23,7 @@ import {
 } from '../..';
 import dayjs from 'dayjs';
 import { FormHelper } from '@/helper';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { AutoCompleteSalesTerritory } from '@/features/master/registration-locations/components';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 let dateCreation;
@@ -771,6 +772,47 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                 telephone = filter;
               },
             }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  placeholder={row.telephone}
+                  defaultValue={row.telephone}
+                  type='number'
+                  onBlur={telephone => {
+                    if (telephone === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          telephone,
+                          column.dataField,
+                          row._id,
+                        );
+                    } else if (
+                      FormHelper.isMobileNoValid(String(telephone)) &&
+                      telephone?.length === 10
+                    ) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          telephone,
+                          column.dataField,
+                          row._id,
+                        );
+                    } else {
+                      Toast.error({
+                        message: 'Please Enter a Valid 10-Digit Mobile Number',
+                      });
+                    }
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'mobileNo',
@@ -797,36 +839,27 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               columnIndex,
             ) => (
               <>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
-                      placeholder={
-                        errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
-                      }
-                      hasError={!!errors.mobileNo}
-                      type='number'
-                      pattern={FormHelper.patterns.mobileNo}
-                      defaultValue={row.mobileNo}
-                      onChange={mobileNo => {
-                        onChange(mobileNo);
-                      }}
-                      onBlur={mobileNo => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            mobileNo,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
-                  )}
-                  name='mobileNo'
-                  rules={{
-                    required: true,
-                    pattern: FormHelper.patterns.mobileNo,
+                <Form.Input
+                  placeholder={row.mobileNo}
+                  defaultValue={row.mobileNo}
+                  type='number'
+                  onBlur={mobileNo => {
+                    if (mobileNo === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(mobileNo, column.dataField, row._id);
+                    } else if (
+                      FormHelper.isMobileNoValid(String(mobileNo)) &&
+                      mobileNo?.length === 10
+                    ) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(mobileNo, column.dataField, row._id);
+                    } else {
+                      Toast.error({
+                        message: 'Please Enter a Valid 10-Digit Mobile Number',
+                      });
+                    }
                   }}
-                  defaultValue=''
                 />
               </>
             ),
@@ -847,6 +880,34 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                 email = filter;
               },
             }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  defaultValue={row.email}
+                  onBlur={email => {
+                    if (email === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(email, column.dataField, row._id);
+                    } else if (FormHelper.isEmailValid(email)) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(email, column.dataField, row._id);
+                    } else {
+                      Toast.error({
+                        message: 'Please enter a valid email address.',
+                      });
+                    }
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'reportPriority',

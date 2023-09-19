@@ -12,9 +12,10 @@ import {
   TableBootstrap,
   Type,
   sortCaret,
+  Toast,
 } from '@/library/components';
 import { FormHelper } from '@/helper';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Confirm } from '@/library/models';
 import {
   AutoCompleteFilterSingleSelectCorparateCode,
@@ -712,38 +713,35 @@ export const RegistrationLocationsList = (
               columnIndex,
             ) => (
               <>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
-                      placeholder={
-                        errors.telephone
-                          ? 'Please Enter Telephone No'
-                          : 'Telephone No'
-                      }
-                      hasError={!!errors.telephone}
-                      type='number'
-                      defaultValue={row.telephone}
-                      pattern={FormHelper.patterns.mobileNo}
-                      onChange={telephone => {
-                        onChange(telephone);
-                      }}
-                      onBlur={telephone => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            telephone,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
-                  )}
-                  name='telephone'
-                  rules={{
-                    required: true,
-                    pattern: FormHelper.patterns.mobileNo,
+                <Form.Input
+                  placeholder={row.telephone}
+                  defaultValue={row.telephone}
+                  type='number'
+                  onBlur={telephone => {
+                    if (telephone === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          telephone,
+                          column.dataField,
+                          row._id,
+                        );
+                    } else if (
+                      FormHelper.isMobileNoValid(String(telephone)) &&
+                      telephone?.length === 10
+                    ) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          telephone,
+                          column.dataField,
+                          row._id,
+                        );
+                    } else {
+                      Toast.error({
+                        message: 'Please Enter a Valid 10-Digit Mobile Number',
+                      });
+                    }
                   }}
-                  defaultValue=''
                 />
               </>
             ),
@@ -773,36 +771,27 @@ export const RegistrationLocationsList = (
               columnIndex,
             ) => (
               <>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
-                      placeholder={
-                        errors.mobileNo ? 'Please Enter MobileNo' : 'Mobile No'
-                      }
-                      hasError={!!errors.mobileNo}
-                      type='number'
-                      defaultValue={row.mobileNo}
-                      pattern={FormHelper.patterns.mobileNo}
-                      onChange={mobileNo => {
-                        onChange(mobileNo);
-                      }}
-                      onBlur={mobileNo => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            mobileNo,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
-                  )}
-                  name='mobileNo'
-                  rules={{
-                    required: true,
-                    pattern: FormHelper.patterns.mobileNo,
+                <Form.Input
+                  placeholder={row.mobileNo}
+                  defaultValue={row.mobileNo}
+                  type='number'
+                  onBlur={mobileNo => {
+                    if (mobileNo === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(mobileNo, column.dataField, row._id);
+                    } else if (
+                      FormHelper.isMobileNoValid(String(mobileNo)) &&
+                      mobileNo?.length === 10
+                    ) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(mobileNo, column.dataField, row._id);
+                    } else {
+                      Toast.error({
+                        message: 'Please Enter a Valid 10-Digit Mobile Number',
+                      });
+                    }
                   }}
-                  defaultValue=''
                 />
               </>
             ),
@@ -823,6 +812,34 @@ export const RegistrationLocationsList = (
               },
             }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  defaultValue={row.email}
+                  onBlur={email => {
+                    if (email === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(email, column.dataField, row._id);
+                    } else if (FormHelper.isEmailValid(email)) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(email, column.dataField, row._id);
+                    } else {
+                      Toast.error({
+                        message: 'Please enter a valid email address.',
+                      });
+                    }
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'reportPriority',
