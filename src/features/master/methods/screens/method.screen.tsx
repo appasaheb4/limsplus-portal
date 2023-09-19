@@ -88,8 +88,8 @@ const Methods = MethodsHoc(
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            methodsCode: item['Methods Code'],
-            methodsName: item['Methods Name'],
+            methodsCode: item['Methods Code']?.toUpperCase(),
+            methodsName: item['Methods Name']?.toUpperCase(),
             description: item.Description,
             environment: item?.Environment,
             status: 'D',

@@ -88,8 +88,8 @@ const Deginisation = DeginisationHoc(
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            code: item?.Code,
-            description: item?.Description,
+            code: item?.Code?.toUpperCase(),
+            description: item?.Description?.toUpperCase(),
             environment: item?.Environment,
             status: 'D',
           };
@@ -122,8 +122,6 @@ const Deginisation = DeginisationHoc(
           },
         },
       }).then(res => {
-        console.log({ res });
-
         if (
           res.findByFieldsDesignation?.success &&
           res.findByFieldsDesignation.data?.length > length

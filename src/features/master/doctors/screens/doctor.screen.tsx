@@ -308,19 +308,19 @@ const Doctors = DoctorsHoc(
         const list = data.map((item: any) => {
           return {
             title: item?.Title,
-            doctorCode: item['Doctor Code'],
-            doctorName: item['Doctor Name'],
+            doctorCode: item['Doctor Code']?.toUpperCase(),
+            doctorName: item['Doctor Name']?.toUpperCase(),
             reportName: item['Report Name'],
             sex: item.Sex,
             doctorType: item['Doctor Type'],
             speciality: item.Speciality,
             category: item.Category,
             postalCode: item['Postal Code'],
-            country: item?.Country,
-            state: item?.State,
-            district: item?.District,
-            city: item?.City,
-            area: item?.Area,
+            country: item?.Country?.toUpperCase(),
+            state: item?.State?.toUpperCase(),
+            district: item?.District?.toUpperCase(),
+            city: item?.City?.toUpperCase(),
+            area: item?.Area?.toUpperCase(),
             sbu: item.SBU,
             zone: item.Zone,
             salesTerritoRy: item['Sales Territory'],
@@ -960,6 +960,20 @@ const Doctors = DoctorsHoc(
                             telephone,
                           });
                         }}
+                        onBlur={telephone => {
+                          if (telephone && telephone?.length === 10) {
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              telephone,
+                            });
+                          } else if (telephone) {
+                            // Show an error message only if the input has a value (not empty)
+                            Toast.error({
+                              message:
+                                'Telephone Number should be exactly 10 digits',
+                            });
+                          }
+                        }}
                       />
                     )}
                     name='telephone'
@@ -984,12 +998,25 @@ const Doctors = DoctorsHoc(
                         hasError={!!errors.mobileNo}
                         value={value}
                         onChange={mobileNo => {
-                          console.log({ mobileNo });
                           onChange(mobileNo);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
                             mobileNo,
                           });
+                        }}
+                        onBlur={mobileNo => {
+                          if (mobileNo && mobileNo?.length === 10) {
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              mobileNo,
+                            });
+                          } else if (mobileNo) {
+                            // Show an error message only if the input has a value (not empty)
+                            Toast.error({
+                              message:
+                                'Mobile Number should be exactly 10 digits',
+                            });
+                          }
                         }}
                       />
                     )}
@@ -1017,10 +1044,24 @@ const Doctors = DoctorsHoc(
                             email,
                           });
                         }}
+                        onBlur={email => {
+                          if (FormHelper.isEmailValid(email)) {
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              email,
+                            });
+                          } else if (email) {
+                            return Toast.error({
+                              message: 'Please enter a valid email address.',
+                            });
+                          }
+                        }}
                       />
                     )}
                     name='email'
-                    rules={{ required: false }}
+                    rules={{
+                      required: false,
+                    }}
                     defaultValue=''
                   />
 
