@@ -188,6 +188,15 @@ export const PossibleResults = PossibleResultHoc(
               });
             }
           }}
+          onUpdateFileds={(fileds: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'UpdateFileds',
+              data: { fileds, id },
+              title: 'Are you sure?',
+              body: 'Update records!',
+            });
+          }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -964,6 +973,38 @@ export const PossibleResults = PossibleResultHoc(
                   setModalConfirm({ show: false });
 
                   break;
+                }
+                case 'UpdateFileds': {
+                  possibleResultsStore.possibleResultsService
+                    .updateSingleFiled({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      if (res.updatePossibleResult.success) {
+                        setModalConfirm({ show: false });
+                        Toast.success({
+                          message: `😊 ${res.updatePossibleResult.message}`,
+                        });
+                        if (global?.filter?.mode == 'pagination')
+                          possibleResultsStore.fetchListPossibleResults(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          possibleResultsStore.possibleResultsService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else possibleResultsStore.fetchListPossibleResults();
+                      }
+                    });
                 }
                 // No default
               }

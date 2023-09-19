@@ -172,10 +172,10 @@ export const Department = DeginisationHoc(
         const list = data.map((item: any) => {
           return {
             lab: item.Lab,
-            code: item?.Code,
-            name: item.Name,
-            shortName: item['Short Name'],
-            hod: item.HOD,
+            code: item?.Code?.toUpperCase(),
+            name: item.Name?.toUpperCase(),
+            shortName: item['Short Name']?.toUpperCase(),
+            hod: item.HOD?.toUpperCase(),
             authorizedSignatory: [],
             reportOrder: item['Report Order'],
             mobileNo: item['Mobile No'],
@@ -554,6 +554,7 @@ export const Department = DeginisationHoc(
                         type='number'
                         hasError={!!errors.mobileNo}
                         pattern={FormHelper.patterns.mobileNo}
+                        maxLength={10}
                         value={value}
                         onChange={mobileNo => {
                           onChange(mobileNo);
@@ -561,6 +562,14 @@ export const Department = DeginisationHoc(
                             ...departmentStore.department,
                             mobileNo,
                           });
+                        }}
+                        onBlur={mobileNo => {
+                          if (mobileNo && mobileNo?.length === 10) {
+                            Toast.error({
+                              message:
+                                'Mobile Number should be exactly 10 digits',
+                            });
+                          }
                         }}
                       />
                     )}
@@ -585,12 +594,21 @@ export const Department = DeginisationHoc(
                         pattern={FormHelper.patterns.mobileNo}
                         hasError={!!errors.contactNo}
                         value={value}
+                        maxLength={10}
                         onChange={contactNo => {
                           onChange(contactNo);
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
                             contactNo,
                           });
+                        }}
+                        onBlur={contactNo => {
+                          if (contactNo && contactNo?.length === 10) {
+                            Toast.error({
+                              message:
+                                'Contact Number should be exactly 10 digits',
+                            });
+                          }
                         }}
                       />
                     )}

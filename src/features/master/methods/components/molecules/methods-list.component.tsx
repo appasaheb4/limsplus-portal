@@ -66,6 +66,7 @@ export const MethodsList = (props: MethodsListProps) => {
             },
           }),
           editable: false,
+          style: { textTransform: 'uppercase' },
         },
         {
           dataField: 'methodsName',
@@ -83,6 +84,7 @@ export const MethodsList = (props: MethodsListProps) => {
             },
           }),
           editable: false,
+          style: { textTransform: 'uppercase' },
         },
         {
           dataField: 'description',

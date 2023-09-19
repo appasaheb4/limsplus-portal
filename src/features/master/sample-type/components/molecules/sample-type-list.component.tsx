@@ -65,6 +65,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleCode = filter;
                 },
               }),
+              style: { textTransform: 'uppercase' },
               editable: false,
             },
             {
@@ -82,6 +83,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleType = filter;
                 },
               }),
+              style: { textTransform: 'uppercase' },
               editable: false,
             },
             {
@@ -108,6 +110,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              style: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({

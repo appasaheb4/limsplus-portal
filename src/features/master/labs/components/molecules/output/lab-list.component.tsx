@@ -18,7 +18,7 @@ import {
   AutoCompleteDefaultLab,
 } from '../..';
 import { FormHelper } from '@/helper';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 let code;
 let name;
 let country;
@@ -111,6 +111,9 @@ export const LabList = (props: LabListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              style: {
+                textTransform: 'uppercase',
+              },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {
@@ -126,6 +129,9 @@ export const LabList = (props: LabListProps) => {
               headerClasses: 'textHeader2',
               headerStyle: {
                 fontSize: 0,
+              },
+              style: {
+                textTransform: 'uppercase',
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
@@ -205,6 +211,9 @@ export const LabList = (props: LabListProps) => {
                   state = filter;
                 },
               }),
+              style: {
+                textTransform: 'uppercase',
+              },
             },
             {
               dataField: 'district',
@@ -222,6 +231,9 @@ export const LabList = (props: LabListProps) => {
                   district = filter;
                 },
               }),
+              style: {
+                textTransform: 'uppercase',
+              },
             },
             {
               dataField: 'city',
@@ -239,6 +251,9 @@ export const LabList = (props: LabListProps) => {
                   city = filter;
                 },
               }),
+              style: {
+                textTransform: 'uppercase',
+              },
             },
             {
               dataField: 'area',
@@ -256,6 +271,9 @@ export const LabList = (props: LabListProps) => {
                   area = filter;
                 },
               }),
+              style: {
+                textTransform: 'uppercase',
+              },
             },
 
             {
@@ -540,38 +558,35 @@ export const LabList = (props: LabListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Input
-                        placeholder={
-                          errors.mobileNo
-                            ? 'Please Enter MobileNo'
-                            : 'Mobile No'
-                        }
-                        hasError={!!errors.mobileNo}
-                        pattern={FormHelper.patterns.mobileNo}
-                        defaultValue={row.mobileNo}
-                        type='number'
-                        onChange={mobileNo => {
-                          onChange(mobileNo);
-                        }}
-                        onBlur={mobileNo => {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(
-                              mobileNo,
-                              column.dataField,
-                              row._id,
-                            );
-                        }}
-                      />
-                    )}
-                    name='mobileNo'
-                    rules={{
-                      required: true,
-                      pattern: FormHelper.patterns.mobileNo,
+                  <Form.Input
+                    placeholder={row.mobileNo}
+                    type='number'
+                    onBlur={mobileNo => {
+                      if (mobileNo === '') {
+                        // Handle the case when the input is empty
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            mobileNo,
+                            column.dataField,
+                            row._id,
+                          );
+                      } else if (
+                        FormHelper.isMobileNoValid(String(mobileNo)) &&
+                        mobileNo?.length === 10
+                      ) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            mobileNo,
+                            column.dataField,
+                            row._id,
+                          );
+                      } else {
+                        Toast.error({
+                          message:
+                            'Please Enter a Valid 10-Digit Mobile Number',
+                        });
+                      }
                     }}
-                    defaultValue=''
                   />
                 </>
               ),
@@ -602,38 +617,35 @@ export const LabList = (props: LabListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Form.Input
-                        placeholder={
-                          errors.contactNo
-                            ? 'Please Enter ContactNo'
-                            : 'Contact No'
-                        }
-                        hasError={!!errors.contactNo}
-                        pattern={FormHelper.patterns.mobileNo}
-                        defaultValue={row.contactNo}
-                        type='number'
-                        onChange={contactNo => {
-                          onChange(contactNo);
-                        }}
-                        onBlur={contactNo => {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(
-                              contactNo,
-                              column.dataField,
-                              row._id,
-                            );
-                        }}
-                      />
-                    )}
-                    name='contactNo'
-                    rules={{
-                      required: true,
-                      pattern: FormHelper.patterns.mobileNo,
+                  <Form.Input
+                    placeholder={row.contactNo}
+                    type='number'
+                    onBlur={contactNo => {
+                      if (contactNo === '') {
+                        // Handle the case when the input is empty
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            contactNo,
+                            column.dataField,
+                            row._id,
+                          );
+                      } else if (
+                        FormHelper.isMobileNoValid(String(contactNo)) &&
+                        contactNo?.length === 10
+                      ) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            contactNo,
+                            column.dataField,
+                            row._id,
+                          );
+                      } else {
+                        Toast.error({
+                          message:
+                            'Please Enter a Valid 10-Digit Contact Number',
+                        });
+                      }
                     }}
-                    defaultValue=''
                   />
                 </>
               ),

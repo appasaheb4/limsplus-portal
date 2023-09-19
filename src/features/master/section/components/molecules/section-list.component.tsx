@@ -7,10 +7,11 @@ import {
   Tooltip,
   Form,
   sortCaret,
+  Toast,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteFilterSingleSelectDepartment } from '../index';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FormHelper } from '@/helper';
 let departmentCode;
 let code;
@@ -195,36 +196,27 @@ export const SectionList = (props: SectionListProps) => {
               columnIndex,
             ) => (
               <>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
-                      type='number'
-                      placeholder={
-                        errors.mobieNo ? 'Please Enter mobile no' : 'Mobile No'
-                      }
-                      pattern={FormHelper.patterns.mobileNo}
-                      defaultValue={row?.mobileNo}
-                      hasError={!!errors.mobieNo}
-                      onChange={mobileNo => {
-                        onChange(mobileNo);
-                      }}
-                      onBlur={mobileNo => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            mobileNo,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
-                  )}
-                  name='mobieNo'
-                  rules={{
-                    required: false,
-                    pattern: FormHelper.patterns.mobileNo,
+                <Form.Input
+                  placeholder={row.mobileNo}
+                  defaultValue={row.mobileNo}
+                  type='number'
+                  onBlur={mobileNo => {
+                    if (mobileNo === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(mobileNo, column.dataField, row._id);
+                    } else if (
+                      FormHelper.isMobileNoValid(String(mobileNo)) &&
+                      mobileNo?.length === 10
+                    ) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(mobileNo, column.dataField, row._id);
+                    } else {
+                      Toast.error({
+                        message: 'Please Enter a Valid 10-Digit Mobile Number',
+                      });
+                    }
                   }}
-                  defaultValue=''
                 />
               </>
             ),
@@ -254,38 +246,35 @@ export const SectionList = (props: SectionListProps) => {
               columnIndex,
             ) => (
               <>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Form.Input
-                      type='number'
-                      placeholder={
-                        errors.contactNo
-                          ? 'Please Enter contactNo'
-                          : 'Contact No'
-                      }
-                      hasError={!!errors.contactNo}
-                      pattern={FormHelper.patterns.mobileNo}
-                      defaultValue={row?.contactNo}
-                      onChange={contactNo => {
-                        onChange(contactNo);
-                      }}
-                      onBlur={contactNo => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            contactNo,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    />
-                  )}
-                  name='contactNo'
-                  rules={{
-                    required: false,
-                    pattern: FormHelper.patterns.mobileNo,
+                <Form.Input
+                  placeholder={row.contactNo}
+                  defaultValue={row.contactNo}
+                  type='number'
+                  onBlur={contactNo => {
+                    if (contactNo === '') {
+                      // Handle the case when the input is empty
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          contactNo,
+                          column.dataField,
+                          row._id,
+                        );
+                    } else if (
+                      FormHelper.isMobileNoValid(String(contactNo)) &&
+                      contactNo?.length === 10
+                    ) {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          contactNo,
+                          column.dataField,
+                          row._id,
+                        );
+                    } else {
+                      Toast.error({
+                        message: 'Please Enter a Valid 10-Digit Contact Number',
+                      });
+                    }
                   }}
-                  defaultValue=''
                 />
               </>
             ),

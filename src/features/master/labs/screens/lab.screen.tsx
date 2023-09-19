@@ -236,13 +236,13 @@ const Lab = LabHoc(
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            code: item?.Code,
-            name: item?.Name,
-            country: item?.Country,
-            state: item?.State,
-            district: item?.District,
-            city: item?.City,
-            area: item?.Area,
+            code: item?.Code?.toUpperCase(),
+            name: item?.Name?.toUpperCase(),
+            country: item?.Country?.toUpperCase(),
+            state: item?.State?.toUpperCase(),
+            district: item?.District?.toUpperCase(),
+            city: item?.City?.toUpperCase(),
+            area: item?.Area?.toUpperCase(),
             postalCode: item['Postal Code'],
             address: item?.Address,
             deliveryType: item.DeliveryType,
@@ -790,6 +790,7 @@ const Lab = LabHoc(
                               ? 'Please Enter mobileNo'
                               : 'Mobile Number'
                           }
+                          maxLength={10}
                           pattern={FormHelper.patterns.mobileNo}
                           hasError={!!errors.mobileNo}
                           value={value}
@@ -799,6 +800,20 @@ const Lab = LabHoc(
                               ...labStore.labs,
                               mobileNo,
                             });
+                          }}
+                          onBlur={mobileNo => {
+                            if (mobileNo && mobileNo.length === 10) {
+                              labStore.updateLabs({
+                                ...labStore.labs,
+                                mobileNo,
+                              });
+                            } else if (mobileNo) {
+                              // Show an error message only if the input has a value (not empty)
+                              Toast.error({
+                                message:
+                                  'Mobile Number should be exactly 10 digits',
+                              });
+                            }
                           }}
                         />
                       )}
@@ -820,6 +835,7 @@ const Lab = LabHoc(
                               ? 'Please Enter contactNo'
                               : 'Contact Number'
                           }
+                          maxLength={10}
                           pattern={FormHelper.patterns.mobileNo}
                           hasError={!!errors.contactNo}
                           value={value}
@@ -829,6 +845,20 @@ const Lab = LabHoc(
                               ...labStore.labs,
                               contactNo,
                             });
+                          }}
+                          onBlur={contactNo => {
+                            if (contactNo && contactNo?.length === 10) {
+                              labStore.updateLabs({
+                                ...labStore.labs,
+                                contactNo,
+                              });
+                            } else if (contactNo) {
+                              // Show an error message only if the input has a value (not empty)
+                              Toast.error({
+                                message:
+                                  'Contact Number should be exactly 10 digits',
+                              });
+                            }
                           }}
                         />
                       )}
@@ -959,7 +989,7 @@ const Lab = LabHoc(
                         </Form.InputWrapper>
                       )}
                       name='defaultLab'
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller

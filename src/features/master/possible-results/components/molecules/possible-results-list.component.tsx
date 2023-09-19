@@ -48,6 +48,7 @@ interface PossibleResultsListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  onUpdateFileds?: (fields: any, id: string) => void;
 }
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
@@ -93,10 +94,12 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <>
                 <AutoCompleteFilterSingleSelectAnalyteCode
                   onSelect={item => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(
-                        item.analyteCode,
-                        column.dataField,
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          analyteCode: item.analyteCode,
+                          analyteName: item.analyteName,
+                        },
                         row._id,
                       );
                   }}

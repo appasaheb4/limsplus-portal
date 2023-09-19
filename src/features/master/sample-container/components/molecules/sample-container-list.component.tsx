@@ -64,6 +64,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             },
           }),
           editable: false,
+          style: { textTransform: 'uppercase' },
         },
         {
           dataField: 'containerName',
@@ -81,6 +82,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             },
           }),
           editable: false,
+          style: { textTransform: 'uppercase' },
         },
         {
           dataField: 'description',
