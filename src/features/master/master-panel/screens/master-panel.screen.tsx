@@ -56,7 +56,7 @@ const MasterPanel = MasterPanelHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -65,6 +65,9 @@ const MasterPanel = MasterPanelHoc(
       setValue('status', masterPanelStore.masterPanel?.status);
       setValue('rLab', loginStore.login?.lab);
       setValue('pLab', loginStore.login?.lab);
+      setValue('panelCode', masterPanelStore.masterPanel?.panelCode);
+      setValue('panelName', masterPanelStore.masterPanel?.panelName);
+      setValue('department', masterPanelStore.masterPanel?.department);
       setValue('environment', masterPanelStore.masterPanel?.environment);
       setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
       setValue(
@@ -106,9 +109,6 @@ const MasterPanel = MasterPanelHoc(
                 Toast.success({
                   message: `😊 ${res.createPanelMaster.message}`,
                 });
-                setIsInputView(true);
-                reset();
-                resetMasterPanel();
                 setArrImportRecords([]);
               }
             });
@@ -121,6 +121,7 @@ const MasterPanel = MasterPanelHoc(
               input: {
                 ...masterPanelStore.masterPanel,
                 enteredBy: loginStore.login.userId,
+                isImport: false,
                 __typename: undefined,
               },
             })
@@ -155,6 +156,9 @@ const MasterPanel = MasterPanelHoc(
               });
           }
         }
+        setIsInputView(false);
+        reset();
+        resetMasterPanel();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -391,14 +395,14 @@ const MasterPanel = MasterPanelHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={isInputView}
+            show={!isInputView}
             onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
@@ -2193,12 +2197,12 @@ const MasterPanel = MasterPanelHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   masterPanelStore.masterPanelService
                     .deletePanelMaster({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.removePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.removePanelMaster.message}`,
@@ -2231,7 +2235,6 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.updatePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
@@ -2264,7 +2267,6 @@ const MasterPanel = MasterPanelHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.updatePanelMaster.success) {
                         Toast.success({
                           message: `😊 ${res.updatePanelMaster.message}`,
@@ -2292,27 +2294,24 @@ const MasterPanel = MasterPanelHoc(
                   masterPanelStore.updateMasterPanel({
                     ...modalConfirm.data,
                     _id: undefined,
-                    existsVersionId: modalConfirm.data._id,
+                    existsVersionId: modalConfirm?.data._id,
                     existsRecordId: undefined,
-                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    version: Number.parseInt(modalConfirm?.data.version + 1),
+                    dateActive: new Date(),
+                    dateCreation: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setValue('rLab', modalConfirm.data.rLab);
-                  setValue('pLab', modalConfirm.data.pLab);
-                  setValue('panelCode', modalConfirm.data.panelCode);
-                  setValue('panelName', modalConfirm.data.panelName);
-                  setValue('department', modalConfirm.data.department);
-                  setValue('serviceType', modalConfirm.data.serviceType);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
-                  setModalConfirm({ show: false });
+                  setIsInputView(true);
                   break;
                 }
                 case 'duplicate': {
                   masterPanelStore.updateMasterPanel({
-                    ...modalConfirm.data,
+                    ...modalConfirm?.data,
                     _id: undefined,
                     existsVersionId: undefined,
-                    existsRecordId: modalConfirm.data._id,
+                    existsRecordId: modalConfirm?.data._id,
                     version: 1,
                     dateActive: new Date(),
                     dateCreation: new Date(),
@@ -2320,16 +2319,7 @@ const MasterPanel = MasterPanelHoc(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
                   });
-                  setIsInputView(!isInputView);
-                  setValue('rLab', modalConfirm.data.rLab);
-                  setValue('pLab', modalConfirm.data.pLab);
-                  setValue('panelCode', modalConfirm.data.panelCode);
-                  setValue('panelName', modalConfirm.data.panelName);
-                  setValue('department', modalConfirm.data.department);
-                  setValue('serviceType', modalConfirm.data.serviceType);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
-                  setModalConfirm({ show: false });
+                  setIsInputView(true);
                   break;
                 }
               }

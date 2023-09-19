@@ -58,7 +58,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
+    const [isInputView, setInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
     const [instResultMappingRecords, setInstResultMappingRecords] =
       useState<any>();
@@ -68,6 +68,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     useEffect(() => {
       // Default value initialization
       setValue('lab', loginStore.login.lab);
+      setValue(
+        'testCode',
+        testAnalyteMappingStore.testAnalyteMapping?.testCode,
+      );
+      setValue(
+        'testName',
+        testAnalyteMappingStore.testAnalyteMapping?.testName,
+      );
       setValue('status', testAnalyteMappingStore.testAnalyteMapping?.status);
       setValue(
         'environment',
@@ -114,13 +122,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 Toast.success({
                   message: `😊 ${res.createTestAnalyteMapping.message}`,
                 });
-                setHideAddLab(true);
-                reset();
-                resetTestAnalyteMapping();
+
                 setArrImportRecords([]);
-                testAnalyteMappingStore.updateSelectedItems(
-                  new SelectedItems({}),
-                );
                 testAnalyteMappingStore.updateTestAnalyteMapping({
                   ...testAnalyteMappingStore.testAnalyteMapping,
                   analyteName: [],
@@ -136,6 +139,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               input: {
                 ...testAnalyteMappingStore.testAnalyteMapping,
                 enteredBy: loginStore.login.userId,
+                isImport: false,
                 __typename: undefined,
               },
             })
@@ -170,6 +174,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               });
           }
         }
+        setInputView(false);
+        reset();
+        resetTestAnalyteMapping();
+        testAnalyteMappingStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -325,17 +333,19 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             testName: item['Test Name'],
             analyteCode: undefined,
             analyteName: undefined,
-            variable: undefined,
-            calculationFlag: item['Calculation Flag'] === 'Yes' ? true : false,
-            calculationFormula: item['Calculation Formula'],
-            reportable: item.Reportable === 'Yes' ? true : false,
-            defaultResult: item['Default Result'],
-            instantResult: item['Instant Result'] === 'Yes' ? true : false,
+            variable: {
+              calculationFlag:
+                item['Calculation Flag'] === 'Yes' ? true : false,
+              calculationFormula: item['Calculation Formula'],
+              reportable: item.Reportable === 'Yes' ? true : false,
+              defaultResult: item['Default Result'],
+              instantResult: item['Instant Result'] === 'Yes' ? true : false,
+            },
             bill: item.Bill === 'Yes' ? true : false,
             testMethod: item['Test Method'] === 'Yes' ? true : false,
             analyteMethod: item['Analyte Method'] === 'Yes' ? true : false,
-            resultOrder: '',
-            reportOrder: '',
+            resultOrder: undefined,
+            reportOrder: undefined,
             enteredBy: loginStore.login.userId,
             dateCreation: new Date(),
             dateActive: new Date(),
@@ -406,14 +416,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
+            show={!isInputView}
+            onClick={() => setInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
@@ -1549,6 +1559,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   testAnalyteMappingStore.testAnalyteMappingService
@@ -1556,7 +1567,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       input: { id: modalConfirm.id },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.removeTestAnalyteMapping.success) {
                         Toast.success({
                           message: `😊 ${res.removeTestAnalyteMapping.message}`,
@@ -1591,7 +1601,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.updateTestAnalyteMapping.success) {
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
@@ -1627,7 +1636,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.updateTestAnalyteMapping.success) {
                         Toast.success({
                           message: `😊 ${res.updateTestAnalyteMapping.message}`,
@@ -1661,14 +1669,28 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    analyteCode: [],
+                    analyteName: [],
+                    resultOrder: [],
+                    reportOrder: [],
+                    variables: undefined,
+                    variable: undefined,
+                    calculationFlag: undefined,
+                    calculationFormula: undefined,
+                    reportable: undefined,
+                    defaultResult: undefined,
+                    numeric: undefined,
+                    alpha: undefined,
+                    abnFlag: undefined,
+                    critical: undefined,
+                    instantResult: undefined,
                     dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('testCode', modalConfirm.data.testCode);
-                  setValue('testName', modalConfirm.data.testName);
-                  setValue('analyteCode', 'default');
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
+                  setInputView(true);
                   break;
                 }
                 case 'duplicate': {
@@ -1679,15 +1701,28 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    analyteCode: [],
+                    analyteName: [],
+                    resultOrder: [],
+                    reportOrder: [],
+                    variables: undefined,
+                    variable: undefined,
+                    calculationFlag: undefined,
+                    calculationFormula: undefined,
+                    reportable: undefined,
+                    defaultResult: undefined,
+                    numeric: undefined,
+                    alpha: undefined,
+                    abnFlag: undefined,
+                    critical: undefined,
+                    instantResult: undefined,
                     dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setHideAddLab(!hideAddLab);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('testCode', modalConfirm.data.testCode);
-                  setValue('testName', modalConfirm.data.testName);
-                  setValue('analyteCode', 'default');
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
+                  setInputView(true);
                   break;
                 }
               }

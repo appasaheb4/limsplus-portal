@@ -20,7 +20,7 @@ import {
 } from '@/library/components';
 import _ from 'lodash';
 import { lookupItems, lookupValue } from '@/library/utils';
-import { PackageMasterList } from '../components';
+import { PackageMasterList, ServiceType } from '../components';
 import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
@@ -73,6 +73,7 @@ const MasterPackage = MasterPackageHOC(
 
     useEffect(() => {
       setValue('lab', loginStore.login.lab);
+      setValue('serviceType', masterPackageStore.masterPackage?.serviceType);
       setValue('status', masterPackageStore.masterPackage?.status);
       setValue('environment', masterPackageStore.masterPackage?.environment);
       setValue('dateCreation', masterPackageStore.masterPackage?.dateCreation);
@@ -96,16 +97,6 @@ const MasterPackage = MasterPackageHOC(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [masterPackageStore.masterPackage]);
 
-    const getServiceTypes = (fileds: any) => {
-      if (fileds) {
-        const finalArray = fileds.arrValue.filter(fileds => {
-          if (fileds.code === 'K' || fileds.code === 'M') return fileds;
-        });
-        return finalArray;
-      }
-      return [];
-    };
-
     const onSubmitMasterPackage = async () => {
       if (!masterPackageStore.checkExitsLabEnvCode) {
         if (
@@ -127,7 +118,6 @@ const MasterPackage = MasterPackageHOC(
                 Toast.success({
                   message: `😊 ${res.createPackageMaster.message}`,
                 });
-
                 setArrImportRecords([]);
               }
             });
@@ -175,7 +165,7 @@ const MasterPackage = MasterPackageHOC(
               });
           }
         }
-        setIsInputView(true);
+        setIsInputView(false);
         reset();
         resetMasterPackage();
         masterPackageStore.updateSelectedItems(new SelectedItems({}));
@@ -317,7 +307,7 @@ const MasterPackage = MasterPackageHOC(
             serviceType: item['Service Type'],
             panelName: undefined,
             panelCode: undefined,
-            reportOrder: '',
+            reportOrder: undefined,
             bill: item.Bill === 'Yes' ? true : false,
             printPackageName:
               item['Print Package Name'] === 'Yes' ? true : false,
@@ -498,7 +488,6 @@ const MasterPackage = MasterPackageHOC(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -506,63 +495,20 @@ const MasterPackage = MasterPackageHOC(
                           label='Service Type'
                           hasError={!!errors.serviceType}
                         >
-                          <select
+                          <ServiceType
                             value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.serviceType
-                                ? 'border-red'
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            onChange={e => {
-                              const serviceItem = JSON.parse(e.target.value);
+                            isError={!!errors.serviceType}
+                            onUpdate={serviceItem => {
                               onChange(serviceItem);
                               masterPackageStore.updateMasterPackage({
                                 ...masterPackageStore.masterPackage,
                                 serviceType: serviceItem.code,
                                 packageName: undefined,
+                                panelCode: [],
                                 panelName: [],
                               });
                             }}
-                          >
-                            <option selected>
-                              {(routerStore.lookupItems.length > 0 &&
-                                getServiceTypes(
-                                  routerStore?.lookupItems?.find(item => {
-                                    return item.fieldName === 'SERVICE_TYPE';
-                                  }),
-                                ).find(
-                                  item =>
-                                    item?.code ===
-                                    masterPackageStore.masterPackage
-                                      ?.serviceType,
-                                )?.value +
-                                  ' - ' +
-                                  getServiceTypes(
-                                    routerStore?.lookupItems?.find(item => {
-                                      return item.fieldName === 'SERVICE_TYPE';
-                                    }),
-                                  ).find(
-                                    item =>
-                                      item?.code ===
-                                      masterPackageStore.masterPackage
-                                        ?.serviceType,
-                                  )?.code) ||
-                                'Select'}
-                            </option>
-                            {routerStore.lookupItems.length > 0 &&
-                              getServiceTypes(
-                                routerStore.lookupItems.find(item => {
-                                  return item.fieldName === 'SERVICE_TYPE';
-                                }),
-                              )?.map((item: any, index: number) => (
-                                <option
-                                  key={index}
-                                  value={JSON.stringify(item)}
-                                >
-                                  {lookupValue(item)}
-                                </option>
-                              ))}
-                          </select>
+                          />
                         </Form.InputWrapper>
                       )}
                       name='serviceType'
@@ -686,6 +632,7 @@ const MasterPackage = MasterPackageHOC(
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
+                            hasError={!!errors.panelCode}
                             data={{
                               list:
                                 masterPanelStore.listMasterPanel.filter(
@@ -705,7 +652,6 @@ const MasterPackage = MasterPackageHOC(
                                 masterPackageStore.selectedItems?.panelCode,
                               displayKey: ['panelCode', 'panelName'],
                             }}
-                            hasError={!!errors.testName}
                             onUpdate={item => {
                               const items =
                                 masterPackageStore.selectedItems?.panelCode;
@@ -1099,8 +1045,9 @@ const MasterPackage = MasterPackageHOC(
                             </th>
                           </tr>
                         </thead>
-                        {/* <tbody className='text-xs'>
-                          {masterPackageStore.masterPackage?.reportOrder &&
+                        <tbody className='text-xs'>
+                          {masterPackageStore.masterPackage?.reportOrder
+                            ?.length > 0 &&
                             masterPackageStore.masterPackage?.reportOrder?.map(
                               (item, index) => (
                                 <tr
@@ -1146,7 +1093,7 @@ const MasterPackage = MasterPackageHOC(
                                 </tr>
                               ),
                             )}
-                        </tbody> */}
+                        </tbody>
                       </Table>
                     </Form.InputWrapper>
 
@@ -1367,7 +1314,6 @@ const MasterPackage = MasterPackageHOC(
                         else masterPackageStore.fetchPackageMaster();
                       }
                     });
-
                   break;
                 }
                 case 'Update': {
@@ -1400,7 +1346,6 @@ const MasterPackage = MasterPackageHOC(
                         else masterPackageStore.fetchPackageMaster();
                       }
                     });
-
                   break;
                 }
                 case 'updateFileds': {
@@ -1439,6 +1384,9 @@ const MasterPackage = MasterPackageHOC(
                   masterPackageStore.updateMasterPackage({
                     ...modalConfirm.data,
                     _id: undefined,
+                    reportOrder: [],
+                    panelCode: [],
+                    panelName: [],
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
@@ -1451,15 +1399,15 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   break;
                 }
                 case 'duplicate': {
                   masterPackageStore.updateMasterPackage({
                     ...modalConfirm.data,
                     _id: undefined,
+                    reportOrder: [],
+                    panelCode: [],
+                    panelName: [],
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
@@ -1472,9 +1420,6 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   break;
                 }
                 // No default

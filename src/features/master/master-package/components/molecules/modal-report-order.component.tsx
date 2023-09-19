@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Container} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'reactstrap';
 import _ from 'lodash';
-import {Table} from 'reactstrap';
-import {observer} from 'mobx-react';
-import {Form, Toast, Buttons} from '@/library/components';
-import {useStores} from '@/stores';
+import { Table } from 'reactstrap';
+import { observer } from 'mobx-react';
+import { Form, Toast, Buttons } from '@/library/components';
+import { useStores } from '@/stores';
 
-import {IconContext} from 'react-icons';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
@@ -28,25 +28,27 @@ export const ModalReportOrder = observer(
     onClick,
     onClose,
   }: ModalReportOrderProps) => {
-    const {masterPackageStore} = useStores();
+    const { masterPackageStore } = useStores();
     const [order, setOrder] = useState<any>([]);
     const [txtDisable, setTxtDisable] = useState(true);
     useEffect(() => {
-      masterPackageStore.masterPackageService
-        .findByFields({
-          input: {filter: {packageCode}},
-        })
-        .then(res => {
-          if (!res.findByFieldsPackageMaster.success)
-            return Toast.warning({
-              message: `😔 ${res.findByFieldsPackageMaster.message}`,
-            });
-          setOrder(
-            _.map(res.findByFieldsPackageMaster.data, o =>
-              _.pick(o, ['_id', 'panelCode', 'panelName', 'reportOrder']),
-            ),
-          );
-        });
+      if (!_.isEmpty(packageCode)) {
+        masterPackageStore.masterPackageService
+          .findByFields({
+            input: { filter: { packageCode } },
+          })
+          .then(res => {
+            if (!res.findByFieldsPackageMaster.success)
+              return Toast.warning({
+                message: `😔 ${res.findByFieldsPackageMaster.message}`,
+              });
+            setOrder(
+              _.map(res.findByFieldsPackageMaster.data, o =>
+                _.pick(o, ['_id', 'panelCode', 'panelName', 'reportOrder']),
+              ),
+            );
+          });
+      }
     }, [masterPackageStore.masterPackageService, packageCode]);
 
     return (
@@ -91,7 +93,7 @@ export const ModalReportOrder = observer(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
@@ -106,7 +108,7 @@ export const ModalReportOrder = observer(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
@@ -135,7 +137,7 @@ export const ModalReportOrder = observer(
                             <td>{`${index + 1}. ${
                               item.panelName + ' - ' + item.panelCode
                             }`}</td>
-                            <td style={{width: 150}}>
+                            <td style={{ width: 150 }}>
                               {txtDisable ? (
                                 <span
                                   className={
@@ -167,7 +169,7 @@ export const ModalReportOrder = observer(
                     <button
                       className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         onClose && onClose();
                         // setShowModal(false)
@@ -178,7 +180,7 @@ export const ModalReportOrder = observer(
                     <button
                       className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         //setShowModal(false)
                         onClick && onClick(order);
