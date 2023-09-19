@@ -564,7 +564,7 @@ export const Department = DeginisationHoc(
                           });
                         }}
                         onBlur={mobileNo => {
-                          if (mobileNo && mobileNo?.length === 10) {
+                          if (mobileNo && mobileNo?.length !== 10) {
                             Toast.error({
                               message:
                                 'Mobile Number should be exactly 10 digits',
@@ -603,7 +603,7 @@ export const Department = DeginisationHoc(
                           });
                         }}
                         onBlur={contactNo => {
-                          if (contactNo && contactNo?.length === 10) {
+                          if (contactNo && contactNo?.length !== 10) {
                             Toast.error({
                               message:
                                 'Contact Number should be exactly 10 digits',
