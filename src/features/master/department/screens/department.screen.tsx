@@ -176,7 +176,7 @@ export const Department = DeginisationHoc(
             name: item.Name,
             shortName: item['Short Name'],
             hod: item.HOD,
-            authorizedSignatory: [],
+            authorizedSignatory: undefined,
             reportOrder: item['Report Order'],
             mobileNo: item['Mobile No'],
             contactNo: item['Contact No'],
@@ -207,7 +207,7 @@ export const Department = DeginisationHoc(
         'lab',
         'code',
         'name',
-        'description',
+        'name',
         'status',
         'environment',
       ];
@@ -904,7 +904,6 @@ export const Department = DeginisationHoc(
                 type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
-                  //rootStore.departmentStore.clear();
                   window.location.reload();
                 }}
               >
@@ -916,13 +915,13 @@ export const Department = DeginisationHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   departmentStore.DepartmentService.deletedepartment({
                     input: { id: modalConfirm.id },
                   }).then((res: any) => {
                     if (res.removeDepartment.success) {
-                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.removeDepartment.message}`,
                       });
@@ -945,7 +944,6 @@ export const Department = DeginisationHoc(
                   });
                   break;
                 }
-
                 case 'Update': {
                   departmentStore.DepartmentService.updateSingleFiled({
                     input: {
@@ -953,7 +951,6 @@ export const Department = DeginisationHoc(
                       [modalConfirm.data.dataField]: modalConfirm.data.value,
                     },
                   }).then((res: any) => {
-                    setModalConfirm({ show: false });
                     if (res.updateDepartment.success) {
                       Toast.success({
                         message: `😊 ${res.updateDepartment.message}`,
