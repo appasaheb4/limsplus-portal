@@ -7,8 +7,8 @@ import {
   Form,
   sortCaret,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {Confirm} from '@/library/models';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { Confirm } from '@/library/models';
 import {
   AutoCompleteUsers,
   AutoCompleteLabs,
@@ -47,7 +47,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -118,7 +118,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   {row?.allLabs ? (
                     '*'
                   ) : (
-                    <ul style={{listStyle: 'inside'}}>
+                    <ul style={{ listStyle: 'inside' }}>
                       {row?.lab.map((item, index) => (
                         <li key={index}>{item.name}</li>
                       ))}
@@ -175,7 +175,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   {row?.allUsers ? (
                     '*'
                   ) : (
-                    <ul style={{listStyle: 'inside'}}>
+                    <ul style={{ listStyle: 'inside' }}>
                       {row?.user.map((item, index) => (
                         <li key={index}>{item.fullName}</li>
                       ))}
@@ -231,7 +231,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   {row?.allDepartment ? (
                     '*'
                   ) : (
-                    <ul style={{listStyle: 'inside'}}>
+                    <ul style={{ listStyle: 'inside' }}>
                       {row.department &&
                         row?.department.map((item, index) => (
                           <li key={index}>{item.name}</li>
@@ -290,7 +290,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 <>
                   <Form.Input
                     placeholder={row.value}
-                    style={{textTransform: 'uppercase'}}
+                    style={{ textTransform: 'uppercase' }}
                     onBlur={value => {
                       if (row.value !== value) {
                         props.onUpdateItem &&
@@ -382,13 +382,13 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                      (item: any, index: number) => (
+                    {lookupItems(props.extraData.lookupItems, 'STATUS')
+                      .filter(item => item.code != 'D')
+                      .map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ),
-                    )}
+                      ))}
                   </select>
                 </>
               ),
@@ -476,7 +476,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>

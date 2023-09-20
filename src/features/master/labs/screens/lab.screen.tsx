@@ -1049,6 +1049,18 @@ const Lab = LabHoc(
                               email,
                             });
                           }}
+                          onBlur={email => {
+                            if (FormHelper.isEmailValid(email)) {
+                              labStore.updateLabs({
+                                ...labStore.labs,
+                                email,
+                              });
+                            } else if (email) {
+                              return Toast.error({
+                                message: 'Please enter a valid email address.',
+                              });
+                            }
+                          }}
                         />
                       )}
                       name='email'
