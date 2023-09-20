@@ -56,6 +56,8 @@ const MasterAnalyte = MasterAnalyteHoc(
     useEffect(() => {
       // Default value initialization
       setValue('lab', loginStore.login.lab);
+      setValue('analyteCode', masterAnalyteStore.masterAnalyte?.analyteCode);
+      setValue('analyteName', masterAnalyteStore.masterAnalyte?.analyteName);
       setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
       setValue('status', masterAnalyteStore.masterAnalyte?.status);
       setValue('resultType', masterAnalyteStore.masterAnalyte?.resultType);
@@ -70,7 +72,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     }, [masterAnalyteStore.masterAnalyte]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -98,9 +100,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 Toast.success({
                   message: `😊 ${res.createAnalyteMaster.message}`,
                 });
-                setIsInputView(true);
-                reset();
-                resetMasterAnalyte();
+
                 setArrImportRecords([]);
               }
             });
@@ -122,9 +122,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                 Toast.success({
                   message: `😊 ${res.versionUpgradeAnalyteMaster.message}`,
                 });
-                setIsInputView(true);
-                reset();
-                resetMasterAnalyte();
               }
             });
         } else if (
@@ -147,13 +144,13 @@ const MasterAnalyte = MasterAnalyteHoc(
                   Toast.success({
                     message: `😊 ${res.duplicateAnalyteMaster.message}`,
                   });
-                  setIsInputView(true);
-                  reset();
-                  resetMasterAnalyte();
                 }
               });
           }
         }
+        setIsInputView(false);
+        reset();
+        resetMasterAnalyte();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -400,14 +397,14 @@ const MasterAnalyte = MasterAnalyteHoc(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={isInputView}
+            show={!isInputView}
             onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
@@ -920,7 +917,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           </select>
                         </Form.InputWrapper>
                       )}
-                      name=' resultType'
+                      name='resultType'
                       rules={{ required: false }}
                       defaultValue=''
                     />
@@ -1999,15 +1996,15 @@ const MasterAnalyte = MasterAnalyteHoc(
                     _id: undefined,
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
+                    resultType: undefined, // input-result error coming
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('analyteCode', modalConfirm.data.analyteCode);
-                  setValue('analyteName', modalConfirm.data.analyteName);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
-
+                  setIsInputView(true);
                   break;
                 }
                 case 'duplicate': {
@@ -2015,17 +2012,16 @@ const MasterAnalyte = MasterAnalyteHoc(
                     ...modalConfirm.data,
                     _id: undefined,
                     existsVersionId: undefined,
+                    resultType: undefined, // input-result error coming
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setIsInputView(!isInputView);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('analyteCode', modalConfirm.data.analyteCode);
-                  setValue('analyteName', modalConfirm.data.analyteName);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
-
+                  setIsInputView(true);
                   break;
                 }
                 // No default
