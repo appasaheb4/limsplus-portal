@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
-import {ModalIdleTimeout} from '@/library/components';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { ModalIdleTimeout } from '@/library/components';
 import Wrapper from './components/wrapper.component';
 import Sidebar from './components/sidebar.component';
 import Main from './components/main.component';
@@ -9,17 +9,17 @@ import Navbar from './components/navbar.component';
 import Content from './components/content.component';
 import Footer from './components/footer.component';
 import Settings from './components/setting.component';
-import {useHistory} from 'react-router-dom';
-import {useIdleTimer} from 'react-idle-timer';
+import { useHistory } from 'react-router-dom';
+import { useIdleTimer } from 'react-idle-timer';
 
-import {toJS} from 'mobx';
+import { toJS } from 'mobx';
 
 import Storage from '@/library/modules/storage';
 
-import {stores, useStores} from '@/stores';
+import { stores, useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {eventEmitter} from '@/core-utils';
+import { RouterFlow } from '@/flows';
+import { eventEmitter } from '@/core-utils';
 
 // master
 import * as Banner from '@/features/master/banner';
@@ -91,8 +91,8 @@ export const RouterService = () => {
   return refreshPage();
 };
 
-const Dashboard = observer(({children}) => {
-  const {loginStore} = useStores();
+const Dashboard = observer(({ children }) => {
+  const { loginStore } = useStores();
   const history: any = useHistory();
   const [isLogined, setIsLogined] = useState<boolean>(false);
   const [modalIdleTime, setModalIdleTime] = useState<any>();
@@ -122,7 +122,7 @@ const Dashboard = observer(({children}) => {
         stores.routerStore.updateLookupItems(items);
       });
       // footer view update
-      stores.appStore.updateFooterView({visible: true});
+      stores.appStore.updateFooterView({ visible: true });
       // specific api load
       if (pathname === '/settings/users') {
         await CorporateClients.startup();
@@ -184,8 +184,9 @@ const Dashboard = observer(({children}) => {
         await TestAnalyteMapping.startup();
       if (pathname === '/collection/test-panel-mapping')
         await TestPanelMapping.startup();
-      if (pathname === '/collection/master-package')
+      if (pathname === '/collection/master-package') {
         await PackageMaster.startup();
+      }
       if (pathname === '/collection/methods') await Methods.startup();
       if (pathname === '/collection/doctors') {
         await Doctors.startup();
@@ -284,12 +285,12 @@ const Dashboard = observer(({children}) => {
       }
 
       if (pathname === '/patient-reports/generate-report') {
-        stores.appStore.updateFooterView({visible: false});
+        stores.appStore.updateFooterView({ visible: false });
         stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();
         await GenerateReport.startup();
         //await ReportSettings.startup();
       } else {
-        stores.appStore.updateFooterView({visible: true});
+        stores.appStore.updateFooterView({ visible: true });
       }
       if (pathname === '/account-receivable/transaction-details') {
         await TransactionDetails.startup();
@@ -307,7 +308,7 @@ const Dashboard = observer(({children}) => {
       }
       stores;
     }
-    stores.appStore.updateLoadApi({count: 1});
+    stores.appStore.updateLoadApi({ count: 1 });
   };
 
   const router = async () => {
@@ -400,7 +401,7 @@ const Dashboard = observer(({children}) => {
       });
   };
 
-  const {getLastActiveTime} = useIdleTimer({
+  const { getLastActiveTime } = useIdleTimer({
     timeout: 1000 * 60 * (loginStore.login?.sessionTimeoutCount || 10),
     onIdle: handleOnIdle,
     debounce: 500,

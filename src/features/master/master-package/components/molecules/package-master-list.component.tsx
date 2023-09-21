@@ -16,6 +16,7 @@ import { lookupItems, lookupValue } from '@/library/utils';
 import {
   AutoCompleteFilterSingleSelectLabs,
   AutoCompleteFilterSingleSelectPanelCode,
+  ServiceType,
 } from '../index';
 import { ModalReportOrder } from './modal-report-order.component';
 
@@ -119,13 +120,39 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               fontSize: 0,
             },
             sortCaret: (order, column) => sortCaret(order, column),
-            editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
                 serviceType = filter;
               },
             }),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <ServiceType
+                  value={row?.serviceType}
+                  isError={false}
+                  onUpdate={serviceItem => {
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          serviceType: serviceItem.code,
+                          packageName: undefined,
+                          panelCode: [],
+                          panelName: [],
+                        },
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'packageCode',

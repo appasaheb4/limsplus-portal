@@ -52,7 +52,7 @@ const CorporateClients = CorporateClientsHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+    const [hideAddView, setHideAddView] = useState<boolean>(true);
     const [interfaceManagerList, setInterfaceManagerList] = useState([]);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
@@ -135,9 +135,7 @@ const CorporateClients = CorporateClientsHoc(
                 Toast.success({
                   message: `😊 ${res.createCorporateClient.message}`,
                 });
-                setHideAddSection(true);
-                reset();
-                resetCorporateClient();
+
                 setArrImportRecords([]);
               }
             });
@@ -150,6 +148,7 @@ const CorporateClients = CorporateClientsHoc(
               input: {
                 ...corporateClientsStore.corporateClients,
                 enteredBy: loginStore.login.userId,
+                isImport: false,
                 __typename: undefined,
               },
             })
@@ -180,13 +179,13 @@ const CorporateClients = CorporateClientsHoc(
                   Toast.success({
                     message: `😊 ${res.duplicateCorporateClient.message}`,
                   });
-                  setHideAddSection(true);
-                  reset();
-                  resetCorporateClient();
                 }
               });
           }
         }
+        setHideAddView(true);
+        reset();
+        resetCorporateClient();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -430,15 +429,14 @@ const CorporateClients = CorporateClientsHoc(
         </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
+            show={hideAddView}
+            onClick={() => setHideAddView(!hideAddView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' +
-              (hideAddSection ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (hideAddView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
@@ -1956,12 +1954,12 @@ const CorporateClients = CorporateClientsHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   corporateClientsStore.corporateClientsService
                     .deleteCorporateClients({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.removeCorporateClient.success) {
                         Toast.success({
                           message: `😊 ${res.removeCorporateClient.message}`,
@@ -1983,7 +1981,6 @@ const CorporateClients = CorporateClientsHoc(
                         else corporateClientsStore.fetchCorporateClients();
                       }
                     });
-
                   break;
                 }
                 case 'Update': {
@@ -1995,7 +1992,6 @@ const CorporateClients = CorporateClientsHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (global?.filter?.mode == 'pagination')
                         corporateClientsStore.fetchCorporateClients(
                           global?.filter?.page,
@@ -2012,7 +2008,6 @@ const CorporateClients = CorporateClientsHoc(
                         });
                       else corporateClientsStore.fetchCorporateClients();
                     });
-
                   break;
                 }
                 case 'UpdateFileds': {
@@ -2024,7 +2019,6 @@ const CorporateClients = CorporateClientsHoc(
                       },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.updateCorporateClient.success) {
                         Toast.success({
                           message: `😊 ${res.updateCorporateClient.message}`,
@@ -2047,7 +2041,6 @@ const CorporateClients = CorporateClientsHoc(
                         else corporateClientsStore.fetchCorporateClients();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -2057,14 +2050,20 @@ const CorporateClients = CorporateClientsHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
+                  setHideAddView(false);
                   setValue('corporateCode', modalConfirm.data.corporateCode);
                   setValue('corporateName', modalConfirm.data.corporateName);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
                   //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
-
                   break;
                 }
                 case 'duplicate': {
@@ -2074,9 +2073,15 @@ const CorporateClients = CorporateClientsHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
-                  setHideAddSection(!hideAddSection);
+                  setHideAddView(false);
                   setValue('corporateCode', modalConfirm.data.corporateCode);
                   setValue('corporateName', modalConfirm.data.corporateName);
                   setValue('status', modalConfirm.data.status);

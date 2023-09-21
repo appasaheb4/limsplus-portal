@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import {
   Form,
   Toast,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { FormHelper } from '@/helper';
 
 interface InputResultProps {
   label?: string;
@@ -18,7 +18,7 @@ interface InputResultProps {
 }
 
 export const InputResult = observer(
-  ({label = '', row, onSelect, onError}: InputResultProps) => {
+  ({ label = '', row, onSelect, onError }: InputResultProps) => {
     const {
       possibleResultsStore,
       labStore,
@@ -29,7 +29,7 @@ export const InputResult = observer(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
     } = useForm();
@@ -56,8 +56,8 @@ export const InputResult = observer(
                   res.findByFieldsPossibleResult?.data[0]?.conclusionResult,
                 );
               } else {
-                Toast.warning({
-                  message: `😔 ${res.findByFieldsPossibleResult.message}`,
+                Toast.error({
+                  message: '😔 Possible result records not founds',
                 });
               }
             });
@@ -81,8 +81,8 @@ export const InputResult = observer(
               if (res.findByFieldsLibrarys.success) {
                 setLibraryList(res.findByFieldsLibrarys?.data);
               } else {
-                Toast.warning({
-                  message: `😔 ${res.findByFieldsLibrarys.message}`,
+                Toast.error({
+                  message: '😔 Library records not founds',
                 });
               }
             });
@@ -97,7 +97,7 @@ export const InputResult = observer(
         {row?.resultType === 'V' && (
           <Controller
             control={control}
-            render={({field: {onChange}}) => (
+            render={({ field: { onChange } }) => (
               <Form.Input
                 label={label}
                 type='number'
@@ -190,7 +190,7 @@ export const InputResult = observer(
         {row.resultType === 'F' && (
           <Controller
             control={control}
-            render={({field: {onChange}}) => (
+            render={({ field: { onChange } }) => (
               <Form.MultilineInput
                 rows={2}
                 label={label}
@@ -206,13 +206,13 @@ export const InputResult = observer(
               />
             )}
             name='result'
-            rules={{required: false}}
+            rules={{ required: false }}
           />
         )}
         {row.resultType === 'M' && (
           <Controller
             control={control}
-            render={({field: {onChange}}) => (
+            render={({ field: { onChange } }) => (
               <Form.InputWrapper label={label}>
                 <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                   loader={false}
@@ -267,7 +267,7 @@ export const InputResult = observer(
               </Form.InputWrapper>
             )}
             name='result'
-            rules={{required: false}}
+            rules={{ required: false }}
             defaultValue={libraryList}
           />
         )}

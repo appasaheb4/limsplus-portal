@@ -1,6 +1,8 @@
-import {PriceList} from '@/models';
+import { PriceList } from '@/models';
 export class Labs {
   _id: string;
+  existsVersionId: string;
+  existsRecordId: string;
   code: string;
   name: string;
   country: string;
@@ -44,13 +46,19 @@ export class Labs {
   workLine: string;
   priceList: Array<PriceList>;
   specificFormat: boolean;
+  version: number;
   status: string;
   environment: string;
+  dateCreation: Date;
+  dateActive: Date;
+  dateExpire: Date;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
+    this.existsRecordId = rawData.existsRecordId;
+    this.existsVersionId = rawData.existsVersionId;
     this.code = rawData.code;
     this.name = rawData.name;
     this.country = rawData.country;
@@ -94,8 +102,12 @@ export class Labs {
     this.workLine = rawData.workLine;
     this.priceList = rawData.priceList;
     this.specificFormat = rawData.specificFormat;
+    this.version = rawData.version;
     this.status = rawData.status;
     this.environment = rawData.environment;
+    this.dateCreation = rawData.dateCreation;
+    this.dateActive = rawData.dateActive;
+    this.dateExpire = rawData.dateExpire;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }
@@ -108,7 +120,7 @@ export class SelectedItems {
   city: any[];
   area: any[];
   postalCode: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.country = rawData.country;
     this.state = rawData.state;
     this.district = rawData.district;

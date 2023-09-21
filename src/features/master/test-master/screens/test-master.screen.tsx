@@ -52,14 +52,18 @@ const TestMater = TestMasterHOC(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
     useEffect(() => {
       // Default value initialization
       setValue('rLab', loginStore.login.lab);
+      setValue('pLab', testMasterStore.testMaster?.pLab);
       setValue('status', testMasterStore.testMaster?.status);
+      setValue('department', testMasterStore.testMaster?.department);
+      setValue('testCode', testMasterStore.testMaster?.testCode);
+      setValue('testName', testMasterStore.testMaster?.testName);
       setValue('environment', testMasterStore.testMaster?.environment);
       setValue('validationLevel', testMasterStore.testMaster?.validationLevel);
       setValue('processing', testMasterStore.testMaster?.processing);
@@ -109,6 +113,7 @@ const TestMater = TestMasterHOC(
             .versionUpgradeTestMaster({
               input: {
                 ...testMasterStore.testMaster,
+                isImport: false,
                 enteredBy: loginStore.login.userId,
                 __typename: undefined,
                 disableTestName: undefined,
@@ -146,7 +151,7 @@ const TestMater = TestMasterHOC(
               });
           }
         }
-        setIsInputView(true);
+        setIsInputView(false);
         reset();
         resetTestMaster();
       } else {
@@ -273,7 +278,7 @@ const TestMater = TestMasterHOC(
             rLab: item?.RLab,
             pLab: item.PLab,
             department: item.Department,
-            section: '',
+            section: undefined,
             testCode: item['Test Code'],
             testName: item['Test Name'],
             description: item.Description,
@@ -312,7 +317,7 @@ const TestMater = TestMasterHOC(
             allowPartial: item['Allow Partial'] === 'Yes' ? true : false,
             internalComments: item['Internal Comments'],
             externalComments: item['External Comments'],
-            testBottomMarker: '',
+            testBottomMarker: undefined,
             testRightMarker: item['Test Right Marker'],
             enteredBy: loginStore.login?.userId,
             dateCreation: new Date(),
@@ -388,14 +393,14 @@ const TestMater = TestMasterHOC(
           'Add',
         ) && (
           <Buttons.ButtonCircleAddRemove
-            show={isInputView}
+            show={!isInputView}
             onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
@@ -2240,13 +2245,13 @@ const TestMater = TestMasterHOC(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   testMasterStore.testMasterService
                     .deleteTestMaster({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeTestMaster.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeTestMaster.message}`,
                         });
@@ -2280,7 +2285,6 @@ const TestMater = TestMasterHOC(
                     })
                     .then((res: any) => {
                       if (res.updateTestMaster.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateTestMaster.message}`,
                         });
@@ -2314,7 +2318,6 @@ const TestMater = TestMasterHOC(
                     })
                     .then((res: any) => {
                       if (res.updateTestMaster.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateTestMaster.message}`,
                         });
@@ -2345,17 +2348,13 @@ const TestMater = TestMasterHOC(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setValue('rLab', modalConfirm.data.rLab);
-                  setValue('pLab', modalConfirm.data.pLab);
-                  setValue('department', modalConfirm.data.department);
-                  setValue('testCode', modalConfirm.data.testCode);
-                  setValue('testName', modalConfirm.data.testName);
-                  setValue('department', modalConfirm.data.department);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
-
+                  setIsInputView(true);
                   break;
                 }
                 case 'duplicate': {
@@ -2365,18 +2364,13 @@ const TestMater = TestMasterHOC(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setIsInputView(!isInputView);
-                  setValue('rLab', modalConfirm.data.rLab);
-                  setValue('pLab', modalConfirm.data.pLab);
-                  setValue('department', modalConfirm.data.department);
-                  setValue('testCode', modalConfirm.data.testCode);
-                  setValue('testName', modalConfirm.data.testName);
-                  setValue('department', modalConfirm.data.department);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
-
+                  setIsInputView(true);
                   break;
                 }
                 // No default
