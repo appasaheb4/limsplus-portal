@@ -54,7 +54,10 @@ const Lab = LabHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
     useEffect(() => {
+      setValue('code', labStore.labs?.code);
+      setValue('name', labStore.labs?.name);
       setValue('environment', labStore.labs?.environment);
+      setValue('defaultLab', labStore.labs?.defaultLab);
       setValue('version', labStore.labs?.version);
       setValue('status', labStore.labs?.status);
       setValue('country', labStore.labs?.country);
@@ -71,7 +74,7 @@ const Lab = LabHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [labStore.labs]);
 
-    const onSubmitLab = () => {
+    const onSubmitLab = async () => {
       if (!labStore.checkExitsEnvCode) {
         if (isImport) {
           labStore.LabService.addLab({
@@ -81,13 +84,17 @@ const Lab = LabHoc(
               Toast.success({
                 message: `😊 ${res.createLab.message}`,
               });
-              setHideAddLab(true);
-              reset();
-              resetLab();
+
               setArrImportRecords([]);
             }
           });
         } else {
+          if (!_.isEmpty(labStore.labs.existsRecordId)) {
+            const isExists = await checkExistsRecords();
+            if (isExists) {
+              return;
+            }
+          }
           if (
             labStore.labs?.priceList?.filter(item => {
               return (
@@ -105,9 +112,6 @@ const Lab = LabHoc(
                 Toast.success({
                   message: `😊 ${res.createLab.message}`,
                 });
-                setHideAddLab(true);
-                reset();
-                resetLab();
               }
             });
           } else {
@@ -116,6 +120,9 @@ const Lab = LabHoc(
             });
           }
         }
+        setHideAddLab(true);
+        reset();
+        resetLab();
       } else {
         Toast.warning({
           message: '😔 Please enter diff code and environment',
@@ -285,8 +292,8 @@ const Lab = LabHoc(
             gst: item.Gst,
             sacCode: item['Sac Code'],
             cinNo: item['CIN No'],
-            labLog: '',
-            image: '',
+            labLog: undefined,
+            image: undefined,
             environment: item?.Environment,
             autoRelease: item['Auto Release'] === 'Yes' ? true : false,
             requireReceveInLab:
@@ -299,7 +306,7 @@ const Lab = LabHoc(
             critical: item.Critical == 'Yes' ? true : false,
             fyiLine: item['Fyi Line'],
             workLine: item['Work Line'],
-            priceList: [],
+            priceList: undefined,
             specificFormat: item['Specific Format'] === 'Yes' ? true : false,
             status: 'D',
           };
@@ -1731,6 +1738,9 @@ const Lab = LabHoc(
                     _id: undefined,
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
+                    image: undefined,
+                    labLog: undefined,
+                    __v: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
                     dateActive: new Date(),
@@ -1746,6 +1756,9 @@ const Lab = LabHoc(
                     ...modalConfirm.data,
                     _id: undefined,
                     existsVersionId: undefined,
+                    image: undefined,
+                    labLog: undefined,
+                    __v: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version),
                     dateCreation: new Date(),
