@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Labs, SelectedItems} from '../models';
-import {LabService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Labs, SelectedItems } from '../models';
+import { LabService } from '../services';
 
 export class LabStore {
   listLabs!: Labs[];
@@ -48,8 +48,14 @@ export class LabStore {
       printLable: false,
       abnFlag: false,
       critical: false,
-      priceList: [{id: 0, maxDis: 0}],
+      priceList: [{ id: 0, maxDis: 0 }],
       specificFormat: true,
+      version: 1,
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
     };
   }
 

@@ -8,10 +8,10 @@ import {
   from,
   ApolloLink,
 } from '@apollo/client';
-import {onError} from '@apollo/client/link/error';
-import {stores} from '@/stores';
-import {setContext} from '@apollo/client/link/context';
-import {createUploadLink} from 'apollo-upload-client';
+import { onError } from '@apollo/client/link/error';
+import { stores } from '@/stores';
+import { setContext } from '@apollo/client/link/context';
+import { createUploadLink } from 'apollo-upload-client';
 
 let apiCount = 0;
 const customFetch = async (uri, options): Promise<any> => {
@@ -48,7 +48,7 @@ const getBaseUrl = env => {
   }
 };
 
-const authLink = setContext(async (_, {headers}) => {
+const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
@@ -59,7 +59,7 @@ const authLink = setContext(async (_, {headers}) => {
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
-  operation.setContext(({headers = {}}) => ({
+  operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -78,9 +78,9 @@ const UploadLinkLocal = createUploadLink({
   fetch: customFetch,
 });
 
-const errorLink = onError(({graphQLErrors, networkError}) => {
+const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({message, locations, path, extensions}) => {
+    graphQLErrors.forEach(({ message, locations, path, extensions }) => {
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
       );
@@ -111,4 +111,4 @@ export const clientLocal = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export {ApolloProvider};
+export { ApolloProvider };

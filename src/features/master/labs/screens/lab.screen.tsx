@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
+import dayjs from 'dayjs';
 import {
   Toast,
   Header,
@@ -54,6 +55,7 @@ const Lab = LabHoc(
 
     useEffect(() => {
       setValue('environment', labStore.labs?.environment);
+      setValue('version', labStore.labs?.version);
       setValue('status', labStore.labs?.status);
       setValue('country', labStore.labs?.country);
       setValue('state', labStore.labs?.state);
@@ -183,6 +185,24 @@ const Lab = LabHoc(
               data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update lab!',
+            });
+          }}
+          onVersionUpgrade={item => {
+            setModalConfirm({
+              show: true,
+              type: 'versionUpgrade',
+              data: item,
+              title: 'Are you version upgrade?',
+              body: 'Version upgrade this record',
+            });
+          }}
+          onDuplicate={item => {
+            setModalConfirm({
+              show: true,
+              type: 'duplicate',
+              data: item,
+              title: 'Are you duplicate?',
+              body: 'Duplicate this record',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -1376,6 +1396,23 @@ const Lab = LabHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
+                    <Controller
+                      control={control}
+                      render={({ field: { value } }) => (
+                        <Form.Input
+                          label='Version'
+                          placeholder={
+                            errors.version ? 'Please Enter Version' : 'Version'
+                          }
+                          hasError={!!errors.version}
+                          value={value}
+                          disabled={true}
+                        />
+                      )}
+                      name='version'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
 
                     <Controller
                       control={control}
@@ -1642,13 +1679,13 @@ const Lab = LabHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   labStore.LabService.deleteLab({
                     input: { id: modalConfirm.id },
                   }).then((res: any) => {
                     if (res.removeLab.success) {
-                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.removeLab.message}`,
                       });
@@ -1680,7 +1717,6 @@ const Lab = LabHoc(
                     },
                   }).then((res: any) => {
                     if (res.updateLab.success) {
-                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
                       });
@@ -1711,7 +1747,6 @@ const Lab = LabHoc(
                       _id: modalConfirm.data.id,
                     },
                   }).then((res: any) => {
-                    setModalConfirm({ show: false });
                     if (res.updateLab.success) {
                       Toast.success({
                         message: `😊 ${res.updateLab.message}`,
@@ -1733,7 +1768,38 @@ const Lab = LabHoc(
                       else labStore.fetchListLab();
                     }
                   });
-
+                  break;
+                }
+                case 'versionUpgrade': {
+                  labStore.updateLabs({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
+                  });
+                  setHideAddLab(false);
+                  break;
+                }
+                case 'duplicate': {
+                  labStore.updateLabs({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: undefined,
+                    existsRecordId: modalConfirm.data._id,
+                    version: Number.parseInt(modalConfirm.data.version),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
+                  });
+                  setHideAddLab(false);
                   break;
                 }
                 default: {
@@ -1744,7 +1810,6 @@ const Lab = LabHoc(
                     },
                   }).then((res: any) => {
                     if (res.updateLabImages.success) {
-                      setModalConfirm({ show: false });
                       Toast.success({
                         message: `😊 ${res.updateLabImages.message}`,
                       });

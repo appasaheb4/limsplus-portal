@@ -56,6 +56,27 @@ const TestPanelMapping = TestPanelMappingHoc(
       reset,
     } = useForm();
 
+    const [modalConfirm, setModalConfirm] = useState<any>();
+    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [txtDisable, setTxtDisable] = useState(true);
+    const [isImport, setIsImport] = useState<boolean>(false);
+    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [masterFlag, setMasgterFlag] = useState<any>([
+      {
+        title: 'PM',
+        isSelected: false,
+        icon: 'Icons.IconFa.FaSolarPanel',
+      },
+      {
+        title: 'TM',
+        isSelected: false,
+      },
+      {
+        title: 'AM',
+        isSelected: true,
+      },
+    ]);
+
     useEffect(() => {
       // Default value initialization
       setValue('lab', loginStore.login.lab);
@@ -98,27 +119,6 @@ const TestPanelMapping = TestPanelMappingHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [testPanelMappingStore.testPanelMapping]);
 
-    const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
-    const [txtDisable, setTxtDisable] = useState(true);
-    const [isImport, setIsImport] = useState<boolean>(false);
-    const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
-    const [masterFlag, setMasgterFlag] = useState<any>([
-      {
-        title: 'PM',
-        isSelected: false,
-        icon: 'Icons.IconFa.FaSolarPanel',
-      },
-      {
-        title: 'TM',
-        isSelected: false,
-      },
-      {
-        title: 'AM',
-        isSelected: true,
-      },
-    ]);
-
     const onSubmitTestPanelMapping = async () => {
       if (!testPanelMappingStore.checkExitsLabEnvCode) {
         if (
@@ -140,12 +140,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                 Toast.success({
                   message: `😊 ${res.createTestPanelMapping.message}`,
                 });
-                setIsInputView(true);
-                reset();
-                resetTestPanelMapping();
-                testPanelMappingStore.updateSelectedItems(
-                  new SelectedItems({}),
-                );
                 setArrImportRecords([]);
               }
             });
@@ -158,6 +152,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               input: {
                 ...testPanelMappingStore.testPanelMapping,
                 enteredBy: loginStore.login.userId,
+                isImport: false,
                 __typename: undefined,
               },
             })
@@ -192,6 +187,10 @@ const TestPanelMapping = TestPanelMappingHoc(
               });
           }
         }
+        setIsInputView(false);
+        reset();
+        resetTestPanelMapping();
+        testPanelMappingStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
           message: '😔 Please enter diff code',
@@ -1316,13 +1315,13 @@ const TestPanelMapping = TestPanelMappingHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   testPanelMappingStore.testPanelMappingService
                     .deleteTestPanelMapping({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeTestPanelMapping.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeTestPanelMapping.message}`,
                         });
@@ -1356,7 +1355,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestPanelMapping.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateTestPanelMapping.message}`,
                         });
@@ -1390,7 +1388,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                     })
                     .then((res: any) => {
                       if (res.updateTestPanelMapping.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateTestPanelMapping.message}`,
                         });
@@ -1421,15 +1418,19 @@ const TestPanelMapping = TestPanelMappingHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
+                  setIsInputView(true);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('testCode', modalConfirm.data.testCode);
                   setValue('testName', modalConfirm.data.testName);
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
-
                   break;
                 }
                 case 'duplicate': {
@@ -1439,16 +1440,19 @@ const TestPanelMapping = TestPanelMappingHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    dateActiveFrom: new Date(),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
-                  setIsInputView(!isInputView);
+                  setIsInputView(true);
                   setValue('lab', modalConfirm.data.lab);
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('testCode', modalConfirm.data.testCode);
                   setValue('testName', modalConfirm.data.testName);
                   setValue('environment', modalConfirm.data.environment);
                   setValue('status', modalConfirm.data.status);
-
                   break;
                 }
                 // No default

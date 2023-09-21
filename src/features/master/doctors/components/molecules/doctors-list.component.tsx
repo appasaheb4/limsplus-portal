@@ -1394,7 +1394,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {row.status === 'A' && (
+                  {/* {row.status === 'A' && (
                     <>
                       <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                         <Icons.IconContext
@@ -1420,7 +1420,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     </>
-                  )}
+                  )} */}
                   {row.status == 'D' && (
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
