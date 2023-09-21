@@ -1258,6 +1258,22 @@ const RegistrationLocation = RegistrationLocationHoc(
                               },
                             );
                           }}
+                          onBlur={telephone => {
+                            if (telephone && telephone?.length === 10) {
+                              registrationLocationsStore.updateRegistrationLocations(
+                                {
+                                  ...registrationLocationsStore.registrationLocations,
+                                  telephone,
+                                },
+                              );
+                            } else if (telephone) {
+                              // Show an error message only if the input has a value (not empty)
+                              Toast.error({
+                                message:
+                                  'Telephone Number should be exactly 10 digits',
+                              });
+                            }
+                          }}
                         />
                       )}
                       name='telephone'
@@ -1290,6 +1306,22 @@ const RegistrationLocation = RegistrationLocationHoc(
                               },
                             );
                           }}
+                          onBlur={mobileNo => {
+                            if (mobileNo && mobileNo?.length === 10) {
+                              registrationLocationsStore.updateRegistrationLocations(
+                                {
+                                  ...registrationLocationsStore.registrationLocations,
+                                  mobileNo,
+                                },
+                              );
+                            } else if (mobileNo) {
+                              // Show an error message only if the input has a value (not empty)
+                              Toast.error({
+                                message:
+                                  'Mobile Number should be exactly 10 digits',
+                              });
+                            }
+                          }}
                         />
                       )}
                       name='mobileNo'
@@ -1317,6 +1349,20 @@ const RegistrationLocation = RegistrationLocationHoc(
                                 email,
                               },
                             );
+                          }}
+                          onBlur={email => {
+                            if (FormHelper.isEmailValid(email)) {
+                              registrationLocationsStore.updateRegistrationLocations(
+                                {
+                                  ...registrationLocationsStore.registrationLocations,
+                                  email,
+                                },
+                              );
+                            } else if (email) {
+                              return Toast.error({
+                                message: 'Please enter a valid email address.',
+                              });
+                            }
                           }}
                         />
                       )}

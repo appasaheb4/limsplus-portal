@@ -61,6 +61,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
               code = filter;
             },
           }),
+          style: { textTransform: 'uppercase' },
           editable: false,
         },
         {
@@ -95,7 +96,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             },
           }),
           editable: (content, row, rowIndex, columnIndex) =>
-            row.status != 'D' ? true : false,
+            row.status == 'D' || row.status == 'I' ? false : true,
           editorRenderer: (
             editorProps,
             value,
@@ -117,13 +118,13 @@ export const DeginisationList = (props: DeginisationListProps) => {
                 }}
               >
                 <option selected>Select</option>
-                {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                  (item: any, index: number) => (
+                {lookupItems(props.extraData.lookupItems, 'STATUS')
+                  .filter(item => item.code != 'D')
+                  .map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {lookupValue(item)}
                     </option>
-                  ),
-                )}
+                  ))}
               </select>
             </>
           ),

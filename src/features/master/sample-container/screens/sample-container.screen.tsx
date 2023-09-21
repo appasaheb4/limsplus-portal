@@ -91,8 +91,8 @@ const SampleContainer = SampleContainerHoc(
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            containerCode: item['Container Code'],
-            containerName: item['Container Name'],
+            containerCode: item['Container Code']?.toUpperCase(),
+            containerName: item['Container Name']?.toUpperCase(),
             description: item.Description,
             image: '',
             environment: item?.Environment,

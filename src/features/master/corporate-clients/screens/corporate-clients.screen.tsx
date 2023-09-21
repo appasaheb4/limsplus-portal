@@ -1150,6 +1150,20 @@ const CorporateClients = CorporateClientsHoc(
                             telephone,
                           });
                         }}
+                        onBlur={telephone => {
+                          if (telephone && telephone?.length === 10) {
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              telephone,
+                            });
+                          } else if (telephone) {
+                            // Show an error message only if the input has a value (not empty)
+                            Toast.error({
+                              message:
+                                'Telephone Number should be exactly 10 digits',
+                            });
+                          }
+                        }}
                       />
                     )}
                     name='telephone'
@@ -1177,6 +1191,20 @@ const CorporateClients = CorporateClientsHoc(
                             mobileNo,
                           });
                         }}
+                        onBlur={mobileNo => {
+                          if (mobileNo && mobileNo?.length === 10) {
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              mobileNo,
+                            });
+                          } else if (mobileNo) {
+                            // Show an error message only if the input has a value (not empty)
+                            Toast.error({
+                              message:
+                                'Mobile Number should be exactly 10 digits',
+                            });
+                          }
+                        }}
                       />
                     )}
                     name='mobileNo'
@@ -1202,6 +1230,18 @@ const CorporateClients = CorporateClientsHoc(
                             ...corporateClientsStore.corporateClients,
                             email,
                           });
+                        }}
+                        onBlur={email => {
+                          if (FormHelper.isEmailValid(email)) {
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              email,
+                            });
+                          } else if (email) {
+                            return Toast.error({
+                              message: 'Please enter a valid email address.',
+                            });
+                          }
                         }}
                       />
                     )}

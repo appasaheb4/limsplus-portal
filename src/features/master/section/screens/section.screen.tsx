@@ -407,19 +407,26 @@ const Section = SectionHoc(
                         type='number'
                         label='Mobile No'
                         placeholder={
-                          errors.mobieNo
+                          errors.mobileNo
                             ? 'Please Enter mobile no'
                             : 'Mobile No'
                         }
                         pattern={FormHelper.patterns.mobileNo}
                         value={value}
-                        hasError={!!errors.mobieNo}
+                        hasError={!!errors.mobileNo}
                         onChange={mobileNo => {
                           onChange(mobileNo);
                           sectionStore.updateSection({
                             ...sectionStore.section,
                             mobileNo,
                           });
+                        }}
+                        onBlur={mobileNo => {
+                          if (mobileNo && mobileNo.length !== 10) {
+                            return Toast.error({
+                              message: 'Mobile No Should Be exactly 10 Digit',
+                            });
+                          }
                         }}
                       />
                     )}
@@ -450,6 +457,14 @@ const Section = SectionHoc(
                             ...sectionStore.section,
                             contactNo,
                           });
+                        }}
+                        onBlur={contactNo => {
+                          onChange(contactNo);
+                          if (contactNo && contactNo.length !== 10) {
+                            return Toast.error({
+                              message: 'Contact No Should Be exactly 10 Digit',
+                            });
+                          }
                         }}
                       />
                     )}
