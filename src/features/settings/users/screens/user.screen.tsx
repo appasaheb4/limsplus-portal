@@ -1991,6 +1991,7 @@ export const Users = UsersHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
                   });
                   userStore.updateSelectedItems({
@@ -2027,6 +2028,7 @@ export const Users = UsersHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
                   });
                   userStore.updateSelectedItems({

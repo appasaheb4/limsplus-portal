@@ -1228,7 +1228,7 @@ export const LabList = (props: LabListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
-                row.status != 'D' ? true : false,
+                row.status == 'D' || row.status == 'I' ? false : true,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {

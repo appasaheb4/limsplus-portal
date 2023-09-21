@@ -151,6 +151,8 @@ export const EnvironmentVariableList = observer(
                     status = filter;
                   },
                 }),
+                editable: (content, row, rowIndex, columnIndex) =>
+                  row.status == 'D' || row.status == 'I' ? false : true,
                 editorRenderer: (
                   editorProps,
                   value,

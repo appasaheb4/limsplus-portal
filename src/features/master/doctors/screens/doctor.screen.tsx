@@ -1777,7 +1777,11 @@ const Doctors = DoctorsHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
                   setValue('doctorCode', modalConfirm.data.doctorCode);
                   setValue('doctorName', modalConfirm.data.doctorName);
@@ -1794,7 +1798,11 @@ const Doctors = DoctorsHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
                   setHideAddSection(!hideAddSection);
                   setValue('doctorCode', modalConfirm.data.doctorCode);

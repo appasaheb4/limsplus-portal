@@ -96,7 +96,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             },
           }),
           editable: (content, row, rowIndex, columnIndex) =>
-            row.status != 'D' ? true : false,
+            row.status == 'D' || row.status == 'I' ? false : true,
           editorRenderer: (
             editorProps,
             value,

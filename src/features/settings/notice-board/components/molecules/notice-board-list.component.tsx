@@ -165,7 +165,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                   status = filter;
                 },
               }),
-
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.status == 'D' || row.status == 'I' ? false : true,
               editorRenderer: (
                 editorProps,
                 value,
