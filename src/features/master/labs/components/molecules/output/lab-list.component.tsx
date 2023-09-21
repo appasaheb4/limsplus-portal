@@ -296,70 +296,6 @@ export const LabList = (props: LabListProps) => {
                 </>
               ),
             },
-            // {
-            //   dataField: 'registeredOffice',
-            //   text: 'Registered Office',
-            //   sort: true,
-            //   // headerClasses: 'textHeader2',
-            //   // headerStyle: {
-            //   //   fontSize: 0,
-            //   // },
-            //   // sortCaret: (order, column) => sortCaret(order, column),
-            //   editable: (content, row, rowIndex, columnIndex) =>
-            //     editorCell(row),
-            //   editorRenderer: (
-            //     editorProps,
-            //     value,
-            //     row,
-            //     column,
-            //     rowIndex,
-            //     columnIndex,
-            //   ) => (
-            //     <>
-            //       <Form.MultilineInput
-            //         label=''
-            //         placeholder='Registered Office'
-            //         onBlur={registeredOffice => {
-            //           props.onUpdateFileds &&
-            //             props.onUpdateFileds({registeredOffice}, row._id);
-            //         }}
-            //         defaultValue={row.registeredOffice}
-            //       />
-            //     </>
-            //   ),
-            // },
-            // {
-            //   dataField: 'corporateOffice',
-            //   text: 'Corporate Office',
-            //   sort: true,
-            //   // headerClasses: 'textHeader2',
-            //   // headerStyle: {
-            //   //   fontSize: 0,
-            //   // },
-            //   // sortCaret: (order, column) => sortCaret(order, column),
-            //   editable: (content, row, rowIndex, columnIndex) =>
-            //     editorCell(row),
-            //   editorRenderer: (
-            //     editorProps,
-            //     value,
-            //     row,
-            //     column,
-            //     rowIndex,
-            //     columnIndex,
-            //   ) => (
-            //     <>
-            //       <Form.MultilineInput
-            //         label=''
-            //         placeholder='Corporate Office'
-            //         onBlur={corporateOffice => {
-            //           props.onUpdateFileds &&
-            //             props.onUpdateFileds({corporateOffice}, row._id);
-            //         }}
-            //         defaultValue={row.corporateOffice}
-            //       />
-            //     </>
-            //   ),
-            // },
             {
               dataField: 'priceList',
               text: 'Price List',
@@ -388,6 +324,7 @@ export const LabList = (props: LabListProps) => {
                   <>
                     {row?.priceList ? (
                       <PriceListTableForLabList
+                        key={row?._id}
                         data={row?.priceList}
                         onUpdate={data => {
                           props.onUpdateItem &&

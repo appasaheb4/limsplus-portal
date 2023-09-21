@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useForm, Controller } from 'react-hook-form';
+import _ from 'lodash';
 
 import {
   Toast,
@@ -12,7 +13,7 @@ import {
   Form,
   Svg,
   ManualImportTabs,
-  StaticInputTable,
+  StaticInputLookupTable,
   ImportFile,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -83,9 +84,21 @@ export const DocumentSettings = DocumentSettingHoc(
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
-        const list = data.map((item: any) => {
+
+        let list = data.map((item: any) => {
+          const record: any = {};
+          router.filter(r => {
+            r.children?.find((e: any) => {
+              record.name = e?.name;
+              record.title = e?.title || e?.name;
+              record.path = e?.path;
+              if (e.name == item['Document Name']) {
+                record.children = e;
+              }
+            });
+          });
           return {
-            documentName: undefined,
+            documentName: record,
             fieldName: item['Field Name'],
             arrValue: undefined,
             description: item.Description,
@@ -94,6 +107,9 @@ export const DocumentSettings = DocumentSettingHoc(
             status: 'D',
           };
         });
+        list = list.filter(item => !_.isEmpty(item.documentName));
+        console.log({ list });
+
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);
@@ -441,7 +457,7 @@ export const DocumentSettings = DocumentSettingHoc(
         ) : (
           <>
             {arrImportRecords?.length > 0 ? (
-              <StaticInputTable data={arrImportRecords} />
+              <StaticInputLookupTable data={arrImportRecords} />
             ) : (
               <ImportFile
                 onClick={file => {
