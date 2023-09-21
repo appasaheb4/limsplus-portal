@@ -58,6 +58,8 @@ interface LabListProps {
   onUpdateFields?: (items: any, id: string) => void;
   onUpdateImage?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
+  onVersionUpgrade?: (item: any) => void;
+  onDuplicate?: (item: any) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -1309,6 +1311,33 @@ export const LabList = (props: LabListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
+                    {row.status === 'A' && (
+                      <>
+                        <Tooltip tooltipText='Version Upgrade'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onVersionUpgrade &&
+                              props.onVersionUpgrade(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                        <Tooltip tooltipText='Duplicate'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onDuplicate && props.onDuplicate(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      </>
+                    )}
                     {row.status == 'D' && (
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
