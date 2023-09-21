@@ -1,6 +1,6 @@
 export class FormHelper {
   static patterns = {
-    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     emptySpace: /^\S$|^\S[\s\S]*\S$/,
     emptyString: /^\s*$/,
     nonEmptyString: /^(?!\s*$).+/,

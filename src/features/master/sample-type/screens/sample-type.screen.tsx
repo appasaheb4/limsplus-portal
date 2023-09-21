@@ -88,10 +88,10 @@ const SampleType = SampleTypeHoc(
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            sampleCode: item['Sample Code'],
-            sampleType: item['Sample Type'],
-            description: item.Descriptions,
-            sampleGroup: item['Sample Group'],
+            sampleCode: item['Sample Code']?.toUpperCase(),
+            sampleType: item['Sample Type']?.toUpperCase(),
+            descriptions: item.Descriptions,
+            sampleGroup: item['Sample Group']?.toUpperCase(),
             environment: item?.Environment,
             status: 'D',
           };

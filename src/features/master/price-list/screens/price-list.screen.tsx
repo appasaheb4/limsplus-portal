@@ -1192,6 +1192,10 @@ export const PriceList = PriceListHoc(
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
                   setHideAddView(!hideAddView);
                   setModalConfirm({ show: false });
@@ -1214,6 +1218,10 @@ export const PriceList = PriceListHoc(
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
                   });
                   setHideAddView(!hideAddView);
                   setModalConfirm({ show: false });

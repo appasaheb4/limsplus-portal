@@ -48,6 +48,7 @@ interface PossibleResultsListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  onUpdateFileds?: (fields: any, id: string) => void;
 }
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
@@ -93,10 +94,12 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <>
                 <AutoCompleteFilterSingleSelectAnalyteCode
                   onSelect={item => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(
-                        item.analyteCode,
-                        column.dataField,
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          analyteCode: item.analyteCode,
+                          analyteName: item.analyteName,
+                        },
                         row._id,
                       );
                   }}
@@ -665,7 +668,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               },
             }),
             editable: (content, row, rowIndex, columnIndex) =>
-              row.status != 'D' ? true : false,
+              row.status == 'D' || row.status == 'I' ? false : true,
             editorRenderer: (
               editorProps,
               value,
@@ -684,13 +687,13 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                    (item: any, index: number) => (
+                  {lookupItems(props.extraData.lookupItems, 'STATUS')
+                    .filter(item => item.code != 'D')
+                    .map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
                       </option>
-                    ),
-                  )}
+                    ))}
                 </select>
               </>
             ),

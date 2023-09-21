@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 
 import {
   TableBootstrap,
@@ -10,7 +10,7 @@ import {
   sortCaret,
 } from '@/library/components';
 
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 
 let lab;
 let header;
@@ -19,8 +19,8 @@ let action;
 let status;
 let environment;
 
-import {AutoCompleteFilterSingleSelectLabs} from '../index';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { AutoCompleteFilterSingleSelectLabs } from '../index';
+import { lookupItems, lookupValue } from '@/library/utils';
 interface NoticeBoardsListProps {
   data: any;
   extraData: any;
@@ -43,7 +43,7 @@ interface NoticeBoardsListProps {
 export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -165,7 +165,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                   status = filter;
                 },
               }),
-
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.status == 'D' || row.status == 'I' ? false : true,
               editorRenderer: (
                 editorProps,
                 value,
@@ -184,13 +185,13 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                      (item: any, index: number) => (
+                    {lookupItems(props.extraData.lookupItems, 'STATUS')
+                      .filter(item => item.code != 'D')
+                      .map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ),
-                    )}
+                      ))}
                   </select>
                 </>
               ),
@@ -319,7 +320,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
                           nameIcon='AiOutlineCheckCircle'
-                          propsIcon={{size: 24, color: '#ffffff'}}
+                          propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
                       </Tooltip>

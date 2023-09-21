@@ -65,6 +65,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleCode = filter;
                 },
               }),
+              style: { textTransform: 'uppercase' },
               editable: false,
             },
             {
@@ -82,6 +83,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleType = filter;
                 },
               }),
+              style: { textTransform: 'uppercase' },
               editable: false,
             },
             {
@@ -108,6 +110,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              style: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -131,7 +134,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                row.status != 'D' ? true : false,
+                row.status == 'D' || row.status == 'I' ? false : true,
               editorRenderer: (
                 editorProps,
                 value,
@@ -153,13 +156,13 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                      (item: any, index: number) => (
+                    {lookupItems(props.extraData.lookupItems, 'STATUS')
+                      .filter(item => item.code != 'D')
+                      .map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ),
-                    )}
+                      ))}
                   </select>
                 </>
               ),

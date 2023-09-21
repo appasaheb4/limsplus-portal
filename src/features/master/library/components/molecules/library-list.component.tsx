@@ -446,7 +446,7 @@ export const LibraryList = (props: LibraryListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                row.status != 'D' ? true : false,
+                row.status == 'D' || row.status == 'I' ? false : true,
               editorRenderer: (
                 editorProps,
                 value,
@@ -465,13 +465,13 @@ export const LibraryList = (props: LibraryListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData?.lookupItems, 'STATUS').map(
-                      (item: any, index: number) => (
+                    {lookupItems(props.extraData.lookupItems, 'STATUS')
+                      .filter(item => item.code != 'D')
+                      .map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
                         </option>
-                      ),
-                    )}
+                      ))}
                   </select>
                 </>
               ),
