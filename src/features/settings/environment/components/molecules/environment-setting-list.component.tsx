@@ -361,6 +361,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   status = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                row.status == 'D' || row.status == 'I' ? false : true,
               editorRenderer: (
                 editorProps,
                 value,

@@ -942,7 +942,13 @@ export const Library = LibraryHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     versions: Number.parseInt(modalConfirm.data.versions + 1),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
                   setHideAddLab(false);
                   break;
@@ -956,7 +962,13 @@ export const Library = LibraryHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     versions: Number.parseInt(modalConfirm.data.versions),
+                    dateCreation: new Date(),
                     dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date())
+                        .add(365, 'days')
+                        .format('YYYY-MM-DD hh:mm:ss'),
+                    ),
                   });
                   setHideAddLab(false);
                   break;
