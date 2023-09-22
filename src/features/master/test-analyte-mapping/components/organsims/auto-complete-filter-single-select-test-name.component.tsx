@@ -1,11 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectTestNameProps {
   lab?: string;
+  isDisabled?: boolean;
   hasError?: boolean;
   displayValue: string;
   onSelect: (item: any) => void;
@@ -16,9 +17,10 @@ export const AutoCompleteFilterSingleSelectTestName = observer(
     lab,
     hasError,
     displayValue,
+    isDisabled = false,
     onSelect,
   }: AutoCompleteFilterSingleSelectTestNameProps) => {
-    const {loading, testMasterStore} = useStores();
+    const { loading, testMasterStore } = useStores();
     const [value, setValue] = useState<string>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -98,6 +100,7 @@ export const AutoCompleteFilterSingleSelectTestName = observer(
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
+              disabled={isDisabled}
             />
             {loading && <Spinner animation='border' className='mr-2 h-4 w-4' />}
             {isListOpen ? (

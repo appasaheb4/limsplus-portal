@@ -3,12 +3,14 @@ import { Stores } from '../../../stores';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
   textFilter,
+  customFilter,
   TableBootstrap,
   Form,
   Icons,
   Tooltip,
   sortCaret,
   Toast,
+  NumberFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { useStores } from '@/stores';
@@ -43,6 +45,7 @@ let closingTime;
 let email;
 let fyiLine;
 let workLine;
+let version;
 let status;
 let environment;
 
@@ -682,6 +685,7 @@ export const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   <AutoCompleteDefaultLab
+                    key={row?._id}
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(item, column.dataField, row._id);
@@ -1154,6 +1158,26 @@ export const LabList = (props: LabListProps) => {
                   workLine = filter;
                 },
               }),
+            },
+            {
+              dataField: 'version',
+              editable: false,
+              text: 'Version',
+              headerClasses: 'textHeader5',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: customFilter({
+                getFilter: filter => {
+                  version = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
             },
             {
               dataField: 'status',

@@ -1,7 +1,7 @@
 // eslint-disable-next-line folders/match-regex
 import React from 'react';
-import {render} from '@testing-library/react';
-import {TestMater} from '..';
+import { render } from '@testing-library/react';
+import { TestMater } from '../screens';
 
 describe('TestMater Screen', () => {
   it('render testMater correctly', () => {

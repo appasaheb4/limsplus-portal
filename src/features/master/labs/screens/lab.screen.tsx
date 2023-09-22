@@ -1744,7 +1744,6 @@ const Lab = LabHoc(
                       else labStore.fetchListLab();
                     }
                   });
-
                   break;
                 }
                 case 'UpdateFileds': {
@@ -1785,6 +1784,9 @@ const Lab = LabHoc(
                     existsRecordId: undefined,
                     image: undefined,
                     labLog: undefined,
+                    priceList: modalConfirm.data?.priceList || [
+                      { id: 0, maxDis: 0 },
+                    ],
                     __v: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
@@ -1803,6 +1805,9 @@ const Lab = LabHoc(
                     existsVersionId: undefined,
                     image: undefined,
                     labLog: undefined,
+                    priceList: modalConfirm.data?.priceList || [
+                      { id: 0, maxDis: 0 },
+                    ],
                     __v: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version),
