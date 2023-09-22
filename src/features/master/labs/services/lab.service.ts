@@ -5,13 +5,13 @@
  * @author limsplus
  */
 import * as Model from '../models';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import {
   Service,
   BASE_URL_POSTAL_PIN_CODE,
   endpoints,
 } from '@/core-services/rest-api';
-import {stores} from '@/stores';
+import { stores } from '@/stores';
 import {
   LABS_LIST,
   REMOVE_LABS,
@@ -34,7 +34,7 @@ export class LabService {
       client
         .mutate({
           mutation: LABS_LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
           stores.labStore.updateLabList(response.data);
@@ -142,7 +142,7 @@ export class LabService {
         );
     });
 
-  filterByFields = (variables: any) =>
+  filterByFields = (variables: any, updateStore = true) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false);
       client
@@ -152,14 +152,16 @@ export class LabService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsLab.success) return this.listLabs();
-          stores.labStore.filterLabList({
-            filterLabs: {
-              data: response.data.filterByFieldsLab.data,
-              paginatorInfo: {
-                count: response.data.filterByFieldsLab.paginatorInfo.count,
+          if (updateStore) {
+            stores.labStore.filterLabList({
+              filterLabs: {
+                data: response.data.filterByFieldsLab.data,
+                paginatorInfo: {
+                  count: response.data.filterByFieldsLab.paginatorInfo.count,
+                },
               },
-            },
-          });
+            });
+          }
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

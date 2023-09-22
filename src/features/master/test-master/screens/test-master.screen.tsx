@@ -327,7 +327,7 @@ const TestMater = TestMasterHOC(
             ),
             interpretation: item.Interpretation,
             testResultDate: item['Test Result Date'],
-            version: item.Version,
+            version: Number.parseInt(item?.Version || 1),
             environment: item.Environment,
             status: 'D',
           };

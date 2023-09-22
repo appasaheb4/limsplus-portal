@@ -64,6 +64,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       useState<any>();
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isEditableCode, setIsEditableCode] = useState(true);
 
     useEffect(() => {
       // Default value initialization
@@ -333,7 +334,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             testName: item['Test Name'],
             analyteCode: undefined,
             analyteName: undefined,
-            variable: {
+            variables: {
               calculationFlag:
                 item['Calculation Flag'] === 'Yes' ? true : false,
               calculationFormula: item['Calculation Formula'],
@@ -566,6 +567,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             lab={
                               testAnalyteMappingStore.testAnalyteMapping?.lab
                             }
+                            isDisabled={!isEditableCode}
                             hasError={!!errors.testName}
                             onSelect={item => {
                               onChange(item.testName);
@@ -627,6 +629,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
+                            disable={!isEditableCode}
                             data={{
                               list:
                                 _.uniqBy(
@@ -1669,11 +1672,37 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    analyteCode: [],
-                    analyteName: [],
-                    resultOrder: [],
-                    reportOrder: [],
-                    variables: undefined,
+                    analyteCode: [modalConfirm.data?.analyteCode],
+                    analyteName: [modalConfirm.data?.analyteName],
+                    resultOrder: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                        order: modalConfirm.data?.resultOrder,
+                      },
+                    ],
+                    reportOrder: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                        order: modalConfirm.data?.reportOrder,
+                      },
+                    ],
+                    variables: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                        calculationFlag: modalConfirm.data?.calculationFlag,
+                        calculationFormula: modalConfirm.data?.calcyName,
+                        reportable: modalConfirm.data?.reportable,
+                        defaultResult: modalConfirm.data?.defaultResult,
+                        numeric: modalConfirm.data?.numeric,
+                        alpha: modalConfirm.data?.alpha,
+                        abnFlag: modalConfirm.data?.abnFlag,
+                        critical: modalConfirm.data?.critical,
+                        instantResult: modalConfirm.data?.instantResult,
+                      },
+                    ],
                     variable: undefined,
                     calculationFlag: undefined,
                     calculationFormula: undefined,
@@ -1691,6 +1720,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     ),
                   });
                   setInputView(true);
+                  setIsEditableCode(false);
+                  setValue('analyteCode', [modalConfirm.data?.analyteCode]);
                   break;
                 }
                 case 'duplicate': {
@@ -1701,11 +1732,37 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
-                    analyteCode: [],
-                    analyteName: [],
-                    resultOrder: [],
-                    reportOrder: [],
-                    variables: undefined,
+                    analyteCode: [modalConfirm.data?.analyteCode],
+                    analyteName: [modalConfirm.data?.analyteName],
+                    resultOrder: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                        order: modalConfirm.data?.resultOrder,
+                      },
+                    ],
+                    reportOrder: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                        order: modalConfirm.data?.reportOrder,
+                      },
+                    ],
+                    variables: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                        calculationFlag: modalConfirm.data?.calculationFlag,
+                        calculationFormula: modalConfirm.data?.calcyName,
+                        reportable: modalConfirm.data?.reportable,
+                        defaultResult: modalConfirm.data?.defaultResult,
+                        numeric: modalConfirm.data?.numeric,
+                        alpha: modalConfirm.data?.alpha,
+                        abnFlag: modalConfirm.data?.abnFlag,
+                        critical: modalConfirm.data?.critical,
+                        instantResult: modalConfirm.data?.instantResult,
+                      },
+                    ],
                     variable: undefined,
                     calculationFlag: undefined,
                     calculationFormula: undefined,
@@ -1723,6 +1780,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     ),
                   });
                   setInputView(true);
+                  setValue('analyteCode', [modalConfirm.data?.analyteCode]);
                   break;
                 }
               }

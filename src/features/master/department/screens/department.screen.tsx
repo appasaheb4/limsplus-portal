@@ -172,10 +172,10 @@ export const Department = DeginisationHoc(
         const list = data.map((item: any) => {
           return {
             lab: item.Lab,
-            code: item?.Code.toUpperCase(),
-            name: item.Name.toUpperCase(),
-            shortName: item['Short Name'].toUpperCase(),
-            hod: item.HOD.toUpperCase(),
+            code: item?.Code?.toUpperCase(),
+            name: item.Name?.toUpperCase(),
+            shortName: item['Short Name']?.toUpperCase(),
+            hod: item.HOD?.toUpperCase(),
             authorizedSignatory: undefined,
             reportOrder: item['Report Order'],
             mobileNo: item['Mobile No'],
