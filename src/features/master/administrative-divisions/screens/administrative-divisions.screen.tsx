@@ -75,6 +75,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               reset();
               resetBanner();
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

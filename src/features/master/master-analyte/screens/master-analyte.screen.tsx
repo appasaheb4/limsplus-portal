@@ -100,8 +100,8 @@ const MasterAnalyte = MasterAnalyteHoc(
                 Toast.success({
                   message: `😊 ${res.createAnalyteMaster.message}`,
                 });
-
                 setArrImportRecords([]);
+                setIsImport(false);
               }
             });
         } else if (
