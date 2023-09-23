@@ -120,7 +120,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                 message: `😊 ${res.createReferenceRange.message}`,
               });
               setHideAddView(true);
-              setIsImport(false);
               resetReferenceRange();
               setIsCommonTableReload(!isCommonTableReload);
               setArrImportRecords([]);
