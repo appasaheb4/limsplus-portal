@@ -72,7 +72,10 @@ const MasterPackage = MasterPackageHOC(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
     useEffect(() => {
-      setValue('lab', loginStore.login.lab);
+      setValue(
+        'lab',
+        masterPackageStore.masterPackage?.lab || loginStore.login.lab,
+      );
       setValue('serviceType', masterPackageStore.masterPackage?.serviceType);
       setValue('status', masterPackageStore.masterPackage?.status);
       setValue('environment', masterPackageStore.masterPackage?.environment);
@@ -92,6 +95,7 @@ const MasterPackage = MasterPackageHOC(
         'panelInterpretation',
         masterPackageStore.masterPackage?.panelInterpretation,
       );
+      setValue('panelCode', masterPackageStore.masterPackage?.panelCode);
       setValue('panelName', masterPackageStore.masterPackage?.panelName);
       setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1384,9 +1388,15 @@ const MasterPackage = MasterPackageHOC(
                   masterPackageStore.updateMasterPackage({
                     ...modalConfirm.data,
                     _id: undefined,
-                    reportOrder: [],
-                    panelCode: [],
-                    panelName: [],
+                    panelCode: [modalConfirm.data?.panelCode],
+                    panelName: [modalConfirm.data?.panelName],
+                    reportOrder: [
+                      {
+                        panelCode: modalConfirm.data?.panelCode,
+                        panelName: modalConfirm.data?.panelName,
+                        order: modalConfirm.data?.reportOrder,
+                      },
+                    ],
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
@@ -1405,9 +1415,15 @@ const MasterPackage = MasterPackageHOC(
                   masterPackageStore.updateMasterPackage({
                     ...modalConfirm.data,
                     _id: undefined,
-                    reportOrder: [],
-                    panelCode: [],
-                    panelName: [],
+                    panelCode: [modalConfirm.data?.panelCode],
+                    panelName: [modalConfirm.data?.panelName],
+                    reportOrder: [
+                      {
+                        panelCode: modalConfirm.data?.panelCode,
+                        panelName: modalConfirm.data?.panelName,
+                        order: modalConfirm.data?.reportOrder,
+                      },
+                    ],
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version + 1),
