@@ -59,6 +59,7 @@ const MasterPanel = MasterPanelHoc(
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isEditable, setIsEditable] = useState<boolean>(true);
 
     useEffect(() => {
       // Default value initialization
@@ -74,6 +75,8 @@ const MasterPanel = MasterPanelHoc(
         'validationLevel',
         masterPanelStore.masterPanel?.validationLevel,
       );
+      setValue('schedule', masterPanelStore.masterPanel?.schedule);
+      setValue('reportTemplate', masterPanelStore.masterPanel?.reportTemplate);
       setValue('processing', masterPanelStore.masterPanel?.processing);
       setValue('category', masterPanelStore.masterPanel?.category);
       setValue('panelType', masterPanelStore.masterPanel?.panelType);
@@ -425,10 +428,12 @@ const MasterPanel = MasterPanelHoc(
                           <select
                             value={value}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
+                              isEditable
+                                ? loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
+                                  ? true
+                                  : false
+                                : true
                             }
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.rLab ? 'border-red' : 'border-gray-300'
@@ -498,12 +503,7 @@ const MasterPanel = MasterPanelHoc(
                           <AutoCompleteFilterSingleSelect
                             loader={loading}
                             placeholder='Search by name'
-                            // disable={
-                            //   loginStore.login &&
-                            //   loginStore.login.role !== 'SYSADMIN'
-                            //     ? true
-                            //     : false
-                            // }
+                            disable={isEditable ? false : true}
                             data={{
                               list:
                                 loginStore.login.role !== 'SYSADMIN'
@@ -670,6 +670,7 @@ const MasterPanel = MasterPanelHoc(
                       render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Panel Code'
+                          disabled={isEditable ? false : true}
                           placeholder={
                             errors.panelCode
                               ? 'Please Enter Panel  Code'
@@ -740,8 +741,10 @@ const MasterPanel = MasterPanelHoc(
                           }
                           hasError={!!errors.panelName}
                           disabled={
-                            masterPanelStore.masterPanelActivity
-                              ?.disablePanelName
+                            isEditable
+                              ? masterPanelStore.masterPanelActivity
+                                  ?.disablePanelName
+                              : true
                           }
                           value={value}
                           onChange={panelName => {
@@ -1517,6 +1520,7 @@ const MasterPanel = MasterPanelHoc(
                           hasError={!!errors.reportTemplate}
                         >
                           <AutoCompleteFilterSingleSelectReportTemplate
+                            isError={!!errors.reportTemplate}
                             onSelect={item => {
                               onChange(item?.reportTemplate);
                               masterPanelStore.updateMasterPanel({
@@ -1529,7 +1533,7 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='reportTemplate'
-                      rules={{ required: false }}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
@@ -2304,6 +2308,7 @@ const MasterPanel = MasterPanelHoc(
                     ),
                   });
                   setIsInputView(true);
+                  setIsEditable(false);
                   break;
                 }
                 case 'duplicate': {

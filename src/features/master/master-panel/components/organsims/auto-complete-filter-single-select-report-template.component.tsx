@@ -1,18 +1,23 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectReportTemplateProps {
+  isError?: boolean;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectReportTemplate = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectReportTemplateProps) => {
-    const {loading, reportSettingStore} = useStores();
+  ({
+    isError = false,
+    onSelect,
+  }: AutoCompleteFilterSingleSelectReportTemplateProps) => {
+    const { loading, reportSettingStore } = useStores();
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+          hasError={isError}
           loader={loading}
           placeholder='Report Template'
           data={{

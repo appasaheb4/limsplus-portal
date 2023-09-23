@@ -79,7 +79,13 @@ const TestPanelMapping = TestPanelMappingHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue('lab', loginStore.login.lab);
+      setValue(
+        'lab',
+        testPanelMappingStore.testPanelMapping?.lab || loginStore.login.lab,
+      );
+      setValue('panelCode', testPanelMappingStore.testPanelMapping?.panelCode);
+      setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
+      setValue('testName', testPanelMappingStore.testPanelMapping?.testName);
       setValue('status', testPanelMappingStore.testPanelMapping?.status);
       setValue(
         'environment',
@@ -98,7 +104,6 @@ const TestPanelMapping = TestPanelMappingHoc(
         'dateActive',
         testPanelMappingStore.testPanelMapping?.dateActive,
       );
-
       setValue(
         'printPanelName',
         testPanelMappingStore.testPanelMapping?.printPanelName,
@@ -115,7 +120,6 @@ const TestPanelMapping = TestPanelMappingHoc(
         'analyteInterpretation',
         testPanelMappingStore.testPanelMapping?.analyteInterpretation,
       );
-      setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [testPanelMappingStore.testPanelMapping]);
 
@@ -1342,7 +1346,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                         else testPanelMappingStore.fetchTestPanelMapping();
                       }
                     });
-
                   break;
                 }
                 case 'Update': {
@@ -1425,12 +1428,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                     ),
                   });
                   setIsInputView(true);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('panelCode', modalConfirm.data.panelCode);
-                  setValue('testCode', modalConfirm.data.testCode);
-                  setValue('testName', modalConfirm.data.testName);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   break;
                 }
                 case 'duplicate': {
@@ -1439,7 +1436,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     _id: undefined,
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
-                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    version: Number.parseInt(modalConfirm.data.version),
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(
@@ -1447,15 +1444,8 @@ const TestPanelMapping = TestPanelMappingHoc(
                     ),
                   });
                   setIsInputView(true);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('panelCode', modalConfirm.data.panelCode);
-                  setValue('testCode', modalConfirm.data.testCode);
-                  setValue('testName', modalConfirm.data.testName);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   break;
                 }
-                // No default
               }
             }}
             onClose={() => {
