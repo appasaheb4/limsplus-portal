@@ -69,6 +69,7 @@ const SampleContainer = SampleContainerHoc(
               reset();
               resetSampleContainer();
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

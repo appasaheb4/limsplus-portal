@@ -125,6 +125,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 });
 
                 setArrImportRecords([]);
+                setIsImport(false);
                 testAnalyteMappingStore.updateTestAnalyteMapping({
                   ...testAnalyteMappingStore.testAnalyteMapping,
                   analyteName: [],
