@@ -160,6 +160,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                 });
 
                 setArrImportRecords([]);
+                setIsImport(false);
               }
             });
         } else if (

@@ -79,6 +79,7 @@ export const Department = DeginisationHoc(
         reset();
         resetDepartment();
         setArrImportRecords([]);
+        setIsImport(false);
       } else {
         Toast.warning({
           message: '😔 Please enter diff code!',

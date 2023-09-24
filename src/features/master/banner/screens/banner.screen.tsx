@@ -58,6 +58,7 @@ const Banner = BannerHoc(
           reset();
           resetBanner();
           setArrImportRecords([]);
+          setIsImport(false);
         }
       });
     };

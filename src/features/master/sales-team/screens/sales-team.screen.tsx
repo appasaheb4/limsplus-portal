@@ -95,6 +95,7 @@ export const SalesTeam = SalesTeamHoc(
               reset();
               resetSalesTeam();
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

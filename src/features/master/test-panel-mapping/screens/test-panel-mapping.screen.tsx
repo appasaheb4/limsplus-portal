@@ -145,6 +145,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   message: `😊 ${res.createTestPanelMapping.message}`,
                 });
                 setArrImportRecords([]);
+                setIsImport(false);
               }
             });
         } else if (
