@@ -53,6 +53,17 @@ export const getDefaultLookupItem = (arrLookup, key): string => {
   return result;
 };
 
+export const getDefaultLookupItems = (arrLookup, key) => {
+  const result =
+    arrLookup.find(item => {
+      return item.fieldName === key;
+    }) &&
+    arrLookup.find(item => {
+      return item.fieldName === key;
+    }).defaultItem;
+  return result;
+};
+
 export const lookupValue = (item: any): string => {
   return `${
     _.isEqual(item.value.toUpperCase(), item.code.toUpperCase())

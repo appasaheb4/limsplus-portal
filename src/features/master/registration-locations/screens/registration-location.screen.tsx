@@ -61,6 +61,10 @@ const RegistrationLocation = RegistrationLocationHoc(
     useEffect(() => {
       // Default value initialization
       setValue(
+        'deliveryMode',
+        registrationLocationsStore.registrationLocations?.deliveryMode,
+      );
+      setValue(
         'status',
         registrationLocationsStore.registrationLocations?.status,
       );
@@ -1411,6 +1415,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
+
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1421,6 +1426,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           <AutoCompleteFilterDeliveryMode
                             hasError={!!errors.deliveryMode}
                             onSelect={deliveryMode => {
+                              console.log({ deliveryMode });
                               onChange(deliveryMode);
                               registrationLocationsStore.updateRegistrationLocations(
                                 {
