@@ -135,7 +135,7 @@ const CorporateClients = CorporateClientsHoc(
                 Toast.success({
                   message: `😊 ${res.createCorporateClient.message}`,
                 });
-
+                setIsImport(false);
                 setArrImportRecords([]);
               }
             });

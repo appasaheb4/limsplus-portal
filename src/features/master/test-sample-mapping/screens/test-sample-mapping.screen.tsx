@@ -95,6 +95,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               resetTestSampleMapping();
               testSampleMappingStore.updateLocalInput(new LocalInput({}));
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

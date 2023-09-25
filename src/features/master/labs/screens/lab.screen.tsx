@@ -86,6 +86,7 @@ const Lab = LabHoc(
               });
 
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
         } else {

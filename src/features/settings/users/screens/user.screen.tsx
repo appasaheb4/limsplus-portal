@@ -102,6 +102,7 @@ export const Users = UsersHoc(
               resetUser();
               userStore.updateSelectedItems(new SelectedItems({}));
               setArrImportRecords([]);
+              setIsImport(false);
             } else {
               Toast.error({
                 message: `😔 ${res.createUser.message}`,

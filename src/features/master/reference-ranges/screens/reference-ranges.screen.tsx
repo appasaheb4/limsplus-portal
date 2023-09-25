@@ -83,6 +83,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                     setHideAddView(true);
                     resetReferenceRange();
                     setIsCommonTableReload(!isCommonTableReload);
+                    setIsImport(false);
                     refernceRangesStore.updateReferenceRanges({
                       ...refernceRangesStore.referenceRanges,
                       refRangesInputList: [],

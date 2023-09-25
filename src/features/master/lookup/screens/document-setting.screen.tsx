@@ -63,6 +63,7 @@ export const DocumentSettings = DocumentSettingHoc(
           lookupStore.updateLocalInput(new LocalInput({}));
           setArrImportRecords([]);
           onClose();
+          setIsImport(false);
         }
       });
     };

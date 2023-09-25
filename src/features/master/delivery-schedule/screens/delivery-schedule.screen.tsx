@@ -70,6 +70,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
             reset();
             resetDeliverySchedule();
             setArrImportRecords([]);
+            setIsImport(false);
           });
       } else {
         Toast.warning({

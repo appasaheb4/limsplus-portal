@@ -66,6 +66,7 @@ const SampleType = SampleTypeHoc(
               reset();
               resetSampleType();
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

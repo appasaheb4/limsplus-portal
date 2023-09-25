@@ -63,6 +63,7 @@ const NoticeBoard = NoticeBoardHoc(
           });
           reset();
           resetNoticeBoard();
+          setIsImport(false);
         } else {
           Toast.warning({
             message: '😔 Notice not create.Please try again',

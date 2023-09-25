@@ -113,6 +113,7 @@ const MasterPanel = MasterPanelHoc(
                   message: `😊 ${res.createPanelMaster.message}`,
                 });
                 setArrImportRecords([]);
+                setIsImport(false);
               }
             });
         } else if (
