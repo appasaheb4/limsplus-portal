@@ -68,6 +68,7 @@ const Section = SectionHoc(
               reset();
               resetSection();
               setArrImportRecords([]);
+              setIsImport(false);
             } else {
               Toast.error({
                 message: '😔 Please try again',

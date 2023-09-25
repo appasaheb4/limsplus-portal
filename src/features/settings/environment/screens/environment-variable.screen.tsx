@@ -52,6 +52,7 @@ export const EnvironmentVariable = observer(
             setHideInputView(true);
             reset();
             resetEnvironmentVariable();
+            setIsImport(false);
           }
         });
       } else {

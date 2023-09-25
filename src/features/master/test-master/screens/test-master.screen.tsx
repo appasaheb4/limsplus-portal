@@ -103,6 +103,7 @@ const TestMater = TestMasterHOC(
                   message: `😊 ${res.createTestMaster.message}`,
                 });
                 setArrImportRecords([]);
+                setIsImport(false);
               }
             });
         } else if (

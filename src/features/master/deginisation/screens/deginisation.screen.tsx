@@ -64,6 +64,7 @@ const Deginisation = DeginisationHoc(
             setHideAddDeginisation(true);
             reset();
             resetDesignation();
+            setIsImport(false);
           } else {
             Toast.error({ message: '😔 Please try again' });
           }

@@ -100,6 +100,7 @@ const Doctors = DoctorsHoc(
                 reset();
                 resetDoctor();
                 setArrImportRecords([]);
+                setIsImport(false);
               }
             });
         } else if (

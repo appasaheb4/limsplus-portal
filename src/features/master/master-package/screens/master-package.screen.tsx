@@ -123,6 +123,7 @@ const MasterPackage = MasterPackageHOC(
                   message: `😊 ${res.createPackageMaster.message}`,
                 });
                 setArrImportRecords([]);
+                setIsImport(false);
               }
             });
         } else if (

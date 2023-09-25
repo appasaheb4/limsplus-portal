@@ -66,6 +66,7 @@ const Methods = MethodsHoc(
               reset();
               resetMethod();
               setArrImportRecords([]);
+              setIsImport(false);
             }
           });
       } else {

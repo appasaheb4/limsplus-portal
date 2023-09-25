@@ -75,6 +75,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
             setHideInputView(true);
             reset();
             resetEnvironmentSettings();
+            setIsImport(false);
           }
         });
       }
