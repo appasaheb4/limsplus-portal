@@ -84,7 +84,6 @@ const Lab = LabHoc(
               Toast.success({
                 message: `😊 ${res.createLab.message}`,
               });
-
               setArrImportRecords([]);
               setIsImport(false);
             }

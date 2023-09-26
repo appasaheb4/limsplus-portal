@@ -73,7 +73,7 @@ export const PriceListTableForLabList = observer(
 
     const addItem = () => {
       priceList.push({
-        id: priceList.length + 1,
+        id: priceList?.length + 1,
         maxDis: 0,
       });
       setPriceList(JSON.parse(JSON.stringify(priceList)));
