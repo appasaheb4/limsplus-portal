@@ -182,6 +182,7 @@ const TestSampleMapping = TestSampleMappingHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [testSampleMappingStore.listTestSampleMapping],
     );
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -222,7 +223,7 @@ const TestSampleMapping = TestSampleMappingHoc(
             labelInst: item['Label Inst'],
             printLabels: item['Print Labels'] === 'Yes' ? true : false,
             info: item.Info,
-            departments: [],
+            departments: undefined,
             environment: item?.Environment,
             status: 'D',
           };
@@ -274,6 +275,7 @@ const TestSampleMapping = TestSampleMappingHoc(
           } else return false;
         });
     };
+
     return (
       <>
         <Header>

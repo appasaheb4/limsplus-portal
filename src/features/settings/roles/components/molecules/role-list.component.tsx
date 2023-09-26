@@ -1,5 +1,5 @@
 import React from 'react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   Icons,
@@ -7,7 +7,7 @@ import {
   textFilter,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 
 let code;
 let description;
@@ -76,8 +76,8 @@ export const RoleList = (props: RoleListProps) => {
               description = filter;
             },
           }),
-          style: {textTransform: 'uppercase'},
-          editorStyle: {textTransform: 'uppercase'},
+          style: { textTransform: 'uppercase' },
+          editorStyle: { textTransform: 'uppercase' },
         },
         {
           dataField: 'status',
@@ -114,13 +114,13 @@ export const RoleList = (props: RoleListProps) => {
                 }}
               >
                 <option selected>Select</option>
-                {lookupItems(props.extraData.lookupItems, 'STATUS').map(
-                  (item: any, index: number) => (
+                {lookupItems(props.extraData.lookupItems, 'STATUS')
+                  .filter(item => item.code != 'D')
+                  .map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {lookupValue(item)}
                     </option>
-                  ),
-                )}
+                  ))}
               </select>
             </>
           ),
@@ -202,7 +202,7 @@ export const RoleList = (props: RoleListProps) => {
                   <Tooltip tooltipText='Approval'>
                     <Icons.RIcon
                       nameIcon='AiOutlineCheckCircle'
-                      propsIcon={{size: 24, color: '#ffffff'}}
+                      propsIcon={{ size: 24, color: '#ffffff' }}
                       onClick={() => props.onApproval(row)}
                     />
                   </Tooltip>

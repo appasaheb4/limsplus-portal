@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: EnviromentInput!) {
@@ -24,6 +24,7 @@ export const LIST = gql`
         category
         enteredBy
         isModify
+        status
         documentType
         dateOfEntry
         lastUpdated
@@ -83,6 +84,7 @@ export const FILTER = gql`
         category
         isModify
         enteredBy
+        status
         documentType
         dateOfEntry
         lastUpdated
@@ -115,6 +117,7 @@ export const FILTER_BY_FIELDS = gql`
         category
         isModify
         enteredBy
+        status
         documentType
         dateOfEntry
         lastUpdated
@@ -166,6 +169,7 @@ export const FIND_BY_FIELDS = gql`
         category
         enteredBy
         isModify
+        status
         documentType
         dateOfEntry
         lastUpdated

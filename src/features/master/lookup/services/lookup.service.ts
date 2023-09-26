@@ -5,8 +5,8 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LOOKUPITEM_BY_PATH,
   LOOKUPITEM_BY_PATH_N_FIELD,
@@ -17,6 +17,7 @@ import {
   GENERAL_SETTINGS_UPDATE,
   FILTER,
   FIND_BY_FIELDS,
+  FIND_BY_DOCUMENT,
 } from './mutation';
 import * as Model from '../models';
 
@@ -29,7 +30,7 @@ export class LookupService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.lookupStore.updateLookupList(response.data);
@@ -107,7 +108,7 @@ export class LookupService {
       client
         .mutate({
           mutation: LOOKUPITEM_BY_PATH,
-          variables: {path},
+          variables: { path },
         })
         .then((response: any) => {
           resolve(response.data);
@@ -156,6 +157,21 @@ export class LookupService {
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByDocument = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_DOCUMENT,
           variables,
         })
         .then((response: any) => {

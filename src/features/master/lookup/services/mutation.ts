@@ -209,3 +209,39 @@ export const FIND_BY_FIELDS = gql`
     }
   }
 `;
+
+export const FIND_BY_DOCUMENT = gql`
+  mutation ($input: LookupInput!) {
+    findByDocumentLookup(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        defaultItem {
+          code
+          value
+          flagUpperCase
+        }
+        documentName {
+          name
+          title
+          path
+          children
+        }
+        fieldName
+        arrValue {
+          code
+          value
+          flagUpperCase
+        }
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

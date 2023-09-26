@@ -62,6 +62,10 @@ export const PossibleResults = PossibleResultHoc(
       );
       setValue('dateActive', possibleResultsStore.possibleResults?.dateActive);
       setValue(
+        'analyteCode',
+        possibleResultsStore.possibleResults?.analyteCode,
+      );
+      setValue(
         'analyteName',
         possibleResultsStore.possibleResults?.analyteName,
       );
@@ -219,7 +223,7 @@ export const PossibleResults = PossibleResultHoc(
             analyteCode: item['Analyte Code'],
             analyteName: item['Analyte Name'],
             conclusionResult: undefined,
-            defaultConclusion: '',
+            defaultConclusion: undefined,
             dateCreation: new Date(),
             dateActive: new Date(),
             dateExpire: new Date(
@@ -876,13 +880,13 @@ export const PossibleResults = PossibleResultHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   possibleResultsStore.possibleResultsService
                     .deletePossibleResults({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removePossibleResult.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removePossibleResult.message}`,
                         });
@@ -916,7 +920,6 @@ export const PossibleResults = PossibleResultHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePossibleResult.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePossibleResult.message}`,
                         });
@@ -937,7 +940,6 @@ export const PossibleResults = PossibleResultHoc(
                         else possibleResultsStore.fetchListPossibleResults();
                       }
                     });
-
                   break;
                 }
                 case 'versionUpgrade': {
@@ -953,12 +955,7 @@ export const PossibleResults = PossibleResultHoc(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
                   });
-                  setValue('analyteCode', modalConfirm.data.analyteCode);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   setHideAddLookup(!hideAddLookup);
-                  setModalConfirm({ show: false });
-
                   break;
                 }
                 case 'duplicate': {
@@ -974,12 +971,7 @@ export const PossibleResults = PossibleResultHoc(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
                   });
-                  setValue('analyteCode', modalConfirm.data.analyteCode);
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   setHideAddLookup(!hideAddLookup);
-                  setModalConfirm({ show: false });
-
                   break;
                 }
                 case 'UpdateFileds': {
@@ -1014,7 +1006,6 @@ export const PossibleResults = PossibleResultHoc(
                       }
                     });
                 }
-                // No default
               }
             }}
             onClose={() => setModalConfirm({ show: false })}

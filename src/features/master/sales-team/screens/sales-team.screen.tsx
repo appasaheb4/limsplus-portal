@@ -72,7 +72,6 @@ export const SalesTeam = SalesTeamHoc(
             return;
           }
         }
-
         salesTeamStore.salesTeamService
           .addSalesTeam({
             input: isImport
@@ -754,13 +753,13 @@ export const SalesTeam = SalesTeamHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   salesTeamStore.salesTeamService
                     .deleteSalesTeam({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeSalesTeam.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeSalesTeam.message}`,
                         });
@@ -793,7 +792,6 @@ export const SalesTeam = SalesTeamHoc(
                     })
                     .then((res: any) => {
                       if (res.updateSalesTeam.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateSalesTeam.message}`,
                         });
@@ -829,10 +827,7 @@ export const SalesTeam = SalesTeamHoc(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
                   });
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   setHideAddSection(!hideAddSection);
-                  setModalConfirm({ show: false });
                   break;
                 }
                 case 'duplicate': {
@@ -848,10 +843,7 @@ export const SalesTeam = SalesTeamHoc(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
                   });
-                  setValue('environment', modalConfirm.data.environment);
-                  setValue('status', modalConfirm.data.status);
                   setHideAddSection(!hideAddSection);
-                  setModalConfirm({ show: false });
                   break;
                 }
                 // No default
