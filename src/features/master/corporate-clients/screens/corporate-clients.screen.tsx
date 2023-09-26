@@ -18,8 +18,7 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import { CorporateClient } from '../components';
-import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import { CorporateClient, DeliveryMode } from '../components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 
 import { useForm, Controller } from 'react-hook-form';
@@ -59,6 +58,14 @@ const CorporateClients = CorporateClientsHoc(
 
     useEffect(() => {
       // Default value initialization
+      setValue(
+        'corporateCode',
+        corporateClientsStore.corporateClients?.corporateCode,
+      );
+      setValue(
+        'corporateName',
+        corporateClientsStore.corporateClients?.corporateName,
+      );
       setValue('status', corporateClientsStore.corporateClients?.status);
       setValue(
         'environment',
@@ -1295,8 +1302,8 @@ const CorporateClients = CorporateClientsHoc(
                         label='Delivery Mode'
                         hasError={!!errors.deliveryMode}
                       >
-                        <AutoCompleteFilterDeliveryMode
-                          lookupField='CORPORATE CLIENTS - DELIVERY_MODE'
+                        <DeliveryMode
+                          lookupField='DELIVERY_METHOD'
                           onSelect={deliveryMode => {
                             onChange(deliveryMode);
                             corporateClientsStore.updateCorporateClients({
@@ -2059,11 +2066,10 @@ const CorporateClients = CorporateClientsHoc(
                     ),
                   });
                   setHideAddView(false);
-                  setValue('corporateCode', modalConfirm.data.corporateCode);
-                  setValue('corporateName', modalConfirm.data.corporateName);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
-                  //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
+                  corporateClientsStore.updateSelectedItems({
+                    ...corporateClientsStore.selectedItems,
+                    deliveryMode: modalConfirm.data?.deliveryMode,
+                  });
                   break;
                 }
                 case 'duplicate': {
@@ -2082,10 +2088,10 @@ const CorporateClients = CorporateClientsHoc(
                     ),
                   });
                   setHideAddView(false);
-                  setValue('corporateCode', modalConfirm.data.corporateCode);
-                  setValue('corporateName', modalConfirm.data.corporateName);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
+                  corporateClientsStore.updateSelectedItems({
+                    ...corporateClientsStore.selectedItems,
+                    deliveryMode: modalConfirm.data?.deliveryMode,
+                  });
                   break;
                 }
                 // No default

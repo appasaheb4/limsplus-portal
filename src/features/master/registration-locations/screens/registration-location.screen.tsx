@@ -45,6 +45,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       corporateClientsStore,
       salesTeamStore,
     } = useStores();
+
     const {
       control,
       handleSubmit,
@@ -60,6 +61,15 @@ const RegistrationLocation = RegistrationLocationHoc(
 
     useEffect(() => {
       // Default value initialization
+      setValue(
+        'locationCode',
+        registrationLocationsStore.registrationLocations?.locationCode,
+      );
+      setValue(
+        'locationName',
+        registrationLocationsStore.registrationLocations?.locationName,
+      );
+      setValue('lab', registrationLocationsStore.registrationLocations?.lab);
       setValue(
         'deliveryMode',
         registrationLocationsStore.registrationLocations?.deliveryMode,
@@ -143,58 +153,49 @@ const RegistrationLocation = RegistrationLocationHoc(
 
     const onSubmitRegistrationLocation = async () => {
       if (!registrationLocationsStore.checkExitsLabEnvCode) {
-        if (
-          !registrationLocationsStore.registrationLocations?.existsVersionId &&
-          !registrationLocationsStore.registrationLocations?.existsRecordId
-        ) {
+        if (isImport) {
           registrationLocationsStore.registrationLocationsService
             .addRegistrationLocations({
-              input: isImport
-                ? { isImport, arrImportRecords }
-                : {
-                    arrImportRecords,
-                    ...registrationLocationsStore.registrationLocations,
-                    enteredBy: loginStore.login.userId,
-                  },
+              input: { isImport, arrImportRecords },
             })
             .then(res => {
               if (res.createRegistrationLocation.success) {
                 Toast.success({
                   message: `😊 ${res.createRegistrationLocation.message}`,
                 });
-
                 setArrImportRecords([]);
                 setIsImport(false);
               }
             });
-        } else if (
-          registrationLocationsStore.registrationLocations?.existsVersionId &&
-          !registrationLocationsStore.registrationLocations?.existsRecordId
-        ) {
-          registrationLocationsStore.registrationLocationsService
-            .versionUpgradeRegistrationLocations({
-              input: {
-                ...registrationLocationsStore.registrationLocations,
-                enteredBy: loginStore.login.userId,
-                isImport: false,
-                __typename: undefined,
-              },
-            })
-            .then(res => {
-              if (res.versionUpgradeRegistrationLocation.success) {
-                Toast.success({
-                  message: `😊 ${res.versionUpgradeRegistrationLocation.message}`,
-                });
-              }
-            });
-        } else if (
-          !registrationLocationsStore.registrationLocations?.existsVersionId &&
-          registrationLocationsStore.registrationLocations?.existsRecordId
-        ) {
-          const isExits = await checkExistsRecords();
-          if (!isExits) {
+        } else {
+          if (
+            !registrationLocationsStore.registrationLocations
+              ?.existsVersionId &&
+            !registrationLocationsStore.registrationLocations?.existsRecordId
+          ) {
             registrationLocationsStore.registrationLocationsService
-              .duplicateRegistrationLocations({
+              .addRegistrationLocations({
+                input: {
+                  ...registrationLocationsStore.registrationLocations,
+                  isImport,
+                  enteredBy: loginStore.login.userId,
+                },
+              })
+              .then(res => {
+                if (res.createRegistrationLocation.success) {
+                  Toast.success({
+                    message: `😊 ${res.createRegistrationLocation.message}`,
+                  });
+                  setArrImportRecords([]);
+                  setIsImport(false);
+                }
+              });
+          } else if (
+            registrationLocationsStore.registrationLocations?.existsVersionId &&
+            !registrationLocationsStore.registrationLocations?.existsRecordId
+          ) {
+            registrationLocationsStore.registrationLocationsService
+              .versionUpgradeRegistrationLocations({
                 input: {
                   ...registrationLocationsStore.registrationLocations,
                   enteredBy: loginStore.login.userId,
@@ -203,12 +204,36 @@ const RegistrationLocation = RegistrationLocationHoc(
                 },
               })
               .then(res => {
-                if (res.duplicateRegistrationLocation.success) {
+                if (res.versionUpgradeRegistrationLocation.success) {
                   Toast.success({
-                    message: `😊 ${res.duplicateRegistrationLocation.message}`,
+                    message: `😊 ${res.versionUpgradeRegistrationLocation.message}`,
                   });
                 }
               });
+          } else if (
+            !registrationLocationsStore.registrationLocations
+              ?.existsVersionId &&
+            registrationLocationsStore.registrationLocations?.existsRecordId
+          ) {
+            const isExits = await checkExistsRecords();
+            if (!isExits) {
+              registrationLocationsStore.registrationLocationsService
+                .duplicateRegistrationLocations({
+                  input: {
+                    ...registrationLocationsStore.registrationLocations,
+                    enteredBy: loginStore.login.userId,
+                    isImport: false,
+                    __typename: undefined,
+                  },
+                })
+                .then(res => {
+                  if (res.duplicateRegistrationLocation.success) {
+                    Toast.success({
+                      message: `😊 ${res.duplicateRegistrationLocation.message}`,
+                    });
+                  }
+                });
+            }
           }
         }
         setHideAddSection(true);
@@ -2183,11 +2208,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                     ),
                   });
                   setHideAddSection(false);
-                  setValue('locationCode', modalConfirm.data.locationCode);
-                  setValue('locationName', modalConfirm.data.locationName);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
+                  registrationLocationsStore.updateSelectedItems({
+                    ...registrationLocationsStore.selectedItems,
+                    deliveryMode: modalConfirm.data?.deliveryMode,
+                  });
                   break;
                 }
                 case 'duplicate': {
@@ -2206,11 +2230,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                     ),
                   });
                   setHideAddSection(false);
-                  setValue('locationCode', modalConfirm.data.locationCode);
-                  setValue('locationName', modalConfirm.data.locationName);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
+                  registrationLocationsStore.updateSelectedItems({
+                    ...registrationLocationsStore.selectedItems,
+                    deliveryMode: modalConfirm.data?.deliveryMode,
+                  });
                   break;
                 }
               }

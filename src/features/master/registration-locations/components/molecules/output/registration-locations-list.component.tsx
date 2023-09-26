@@ -224,8 +224,9 @@ export const RegistrationLocationsList = (
                 <>
                   {row?.priceList ? (
                     <PriceListTableForRegLocationsList
+                      key={row?._id}
                       invoiceAc={row?.invoiceAc}
-                      data={row?.priceList}
+                      data={row?.priceList || []}
                       onUpdate={data => {
                         props.onUpdateItem &&
                           props.onUpdateItem(data, 'priceList', row._id);

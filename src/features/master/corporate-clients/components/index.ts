@@ -1,5 +1,6 @@
 export * from './molecules/input/price-list-table.component';
 export * from './molecules/input/price-list-table-for-cop-client-list.component';
+export * from './molecules/input/delivery-mode.component';
 
 export * from './molecules/output/corporate-clients-list.component';
 

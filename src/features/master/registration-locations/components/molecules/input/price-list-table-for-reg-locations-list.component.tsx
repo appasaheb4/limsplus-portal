@@ -1,16 +1,16 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {Table} from 'reactstrap';
-import {Icons, Buttons, Form} from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
-import {IconContext} from 'react-icons';
+import React, { useEffect, useState } from 'react';
+import { Table } from 'reactstrap';
+import { Icons, Buttons, Form } from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
-import {RouterFlow} from '@/flows';
-import {lookupValue} from '@/library/utils';
+import { RouterFlow } from '@/flows';
+import { lookupValue } from '@/library/utils';
 
 interface PriceListTableForRegLocationsListProps {
   data?: any;
@@ -19,19 +19,25 @@ interface PriceListTableForRegLocationsListProps {
 }
 
 export const PriceListTableForRegLocationsList = observer(
-  ({data, invoiceAc, onUpdate}: PriceListTableForRegLocationsListProps) => {
-    const {loading, corporateClientsStore, priceListStore} = useStores();
+  ({
+    data = [],
+    invoiceAc,
+    onUpdate,
+  }: PriceListTableForRegLocationsListProps) => {
+    const { loading, corporateClientsStore, priceListStore } = useStores();
 
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
     } = useForm();
-    const priceList = useRef(data);
+    const [priceList, setPriceList] = useState<any>(data);
     const [reload, setReload] = useState(false);
-    const [displayPriceList, setDisplayPriceList] = useState('');
+    const [displayPriceList, setDisplayPriceList] = useState(
+      data?.length == 0 ? false : true,
+    );
 
     const [priceGroupItems, setPriceGroupItems] = useState<any>();
     const [priceListItems, setPriceListItems] = useState<any>();
@@ -71,17 +77,19 @@ export const PriceListTableForRegLocationsList = observer(
     }, []);
 
     const addItem = () => {
-      priceList.current.push({
-        id: priceList.current.length + 1,
+      priceList.push({
+        id: priceList?.length + 1,
         maxDis: 0,
       });
+      setPriceList(JSON.parse(JSON.stringify(priceList)));
+      setDisplayPriceList(true);
     };
 
     const removeItem = (index: number) => {
-      const firstArr = priceList.current?.slice(0, index) || [];
-      const secondArr = priceList.current?.slice(index + 1) || [];
+      const firstArr = priceList?.slice(0, index) || [];
+      const secondArr = priceList?.slice(index + 1) || [];
       const finalArray = [...firstArr, ...secondArr];
-      priceList.current = finalArray;
+      setPriceList(JSON.parse(JSON.stringify(finalArray)));
       setReload(!reload);
     };
 
@@ -90,43 +98,43 @@ export const PriceListTableForRegLocationsList = observer(
         <Table striped bordered>
           <thead>
             <tr className='p-0 text-xs z-0'>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Price Group
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Price List
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Description
               </th>
-              <th className='text-white' style={{minWidth: 100}}>
+              <th className='text-white' style={{ minWidth: 100 }}>
                 Priority
               </th>
-              <th className='text-white' style={{minWidth: 100}}>
+              <th className='text-white' style={{ minWidth: 100 }}>
                 Max Dis%
               </th>
               <th className='text-white sticky right-0  flex flex-row gap-2'>
                 Action
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
                   title=''
                   onClick={() => {
-                    setDisplayPriceList('');
+                    setDisplayPriceList(false);
                   }}
                 />
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
                   title=''
                   onClick={() => {
-                    setDisplayPriceList('display');
+                    setDisplayPriceList(true);
                   }}
                 />
               </th>
@@ -134,12 +142,12 @@ export const PriceListTableForRegLocationsList = observer(
           </thead>
           {displayPriceList && (
             <tbody className='text-xs'>
-              {priceList.current?.map((item, index) => (
+              {priceList?.map((item, index) => (
                 <tr>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <select
                           value={item?.priceGroup}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -150,12 +158,13 @@ export const PriceListTableForRegLocationsList = observer(
                           onChange={e => {
                             const priceGroup = e.target.value as string;
                             onChange(priceGroup);
-                            priceList.current[index] = {
-                              ...priceList.current[index],
+                            priceList[index] = {
+                              ...priceList[index],
                               priceGroup,
                               priceList: '',
                               description: '',
                             };
+                            setPriceList(JSON.parse(JSON.stringify(priceList)));
                           }}
                         >
                           <option selected>Select</option>
@@ -167,14 +176,14 @@ export const PriceListTableForRegLocationsList = observer(
                         </select>
                       )}
                       name='priceGroup'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <select
                           value={item?.priceList || ''}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -185,11 +194,12 @@ export const PriceListTableForRegLocationsList = observer(
                           onChange={e => {
                             const priceItem = JSON.parse(e.target.value);
                             onChange(priceItem.code);
-                            priceList.current[index] = {
-                              ...priceList.current[index],
+                            priceList[index] = {
+                              ...priceList[index],
                               priceList: priceItem?.code,
                               description: priceItem?.value,
                             };
+                            setPriceList(JSON.parse(JSON.stringify(priceList)));
                           }}
                         >
                           <option selected>{item.priceList || 'Select'}</option>
@@ -203,14 +213,14 @@ export const PriceListTableForRegLocationsList = observer(
                         </select>
                       )}
                       name='priceList'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label=''
@@ -228,14 +238,14 @@ export const PriceListTableForRegLocationsList = observer(
                         />
                       )}
                       name='description'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input
                           label=''
                           value={item?.priority}
@@ -247,22 +257,23 @@ export const PriceListTableForRegLocationsList = observer(
                           hasError={!!errors.priority}
                           onChange={priority => {
                             onChange(priority);
-                            priceList.current[index] = {
-                              ...priceList.current[index],
+                            priceList[index] = {
+                              ...priceList[index],
                               priority: Number.parseInt(priority),
                             };
+                            setPriceList(JSON.parse(JSON.stringify(priceList)));
                           }}
                         />
                       )}
                       name='priority'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input
                           label=''
                           type='number'
@@ -273,15 +284,16 @@ export const PriceListTableForRegLocationsList = observer(
                           hasError={!!errors.maxDis}
                           onChange={maxDis => {
                             onChange(maxDis);
-                            priceList.current[index] = {
-                              ...priceList.current[index],
+                            priceList[index] = {
+                              ...priceList[index],
                               maxDis: Number.parseFloat(maxDis),
                             };
+                            setPriceList(JSON.parse(JSON.stringify(priceList)));
                           }}
                         />
                       )}
                       name='maxDis'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
@@ -315,21 +327,20 @@ export const PriceListTableForRegLocationsList = observer(
               ))}
             </tbody>
           )}
-          {priceList.current?.length === 0 && (
-            <Buttons.Button
-              size='small'
-              type='outline'
-              onClick={handleSubmit(addItem)}
-            >
-              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
-            </Buttons.Button>
-          )}
+
+          <Buttons.Button
+            size='small'
+            type='outline'
+            onClick={handleSubmit(addItem)}
+          >
+            <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
+          </Buttons.Button>
         </Table>
         {displayPriceList && (
           <Buttons.Button
             size='small'
             type='solid'
-            onClick={() => onUpdate && onUpdate(priceList.current)}
+            onClick={() => onUpdate && onUpdate(priceList)}
           >
             Update
           </Buttons.Button>
