@@ -89,7 +89,7 @@ const Lookup = observer(() => {
       return true;
     }
     //Pass required Field in Array
-    return lookupStore.LookupService.findByFields({
+    return lookupStore.LookupService.findByDocument({
       input: {
         filter: {
           ..._.pick({ ...fields, status }, requiredFields),
@@ -97,10 +97,9 @@ const Lookup = observer(() => {
       },
     }).then(res => {
       if (
-        res.findByFieldsLookup?.success &&
-        res.findByFieldsLookup.data?.length > length
+        res.findByDocumentLookup?.success &&
+        res.findByDocumentLookup.data?.length > length
       ) {
-        //setIsExistsRecord(true);
         Toast.error({
           message: '😔 Already some record exists.',
         });

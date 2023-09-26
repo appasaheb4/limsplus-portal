@@ -683,16 +683,16 @@ export const LibraryList = (props: LibraryListProps) => {
                             {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
                           </Icons.IconContext>
                         </Tooltip>
-                        {row.status == 'D' && (
-                          <Tooltip tooltipText='Approval'>
-                            <Icons.RIcon
-                              nameIcon='AiOutlineCheckCircle'
-                              propsIcon={{ size: 24, color: '#ffffff' }}
-                              onClick={() => props.onApproval(row)}
-                            />
-                          </Tooltip>
-                        )}
                       </>
+                    )}
+                    {row.status == 'D' && (
+                      <Tooltip tooltipText='Approval'>
+                        <Icons.RIcon
+                          nameIcon='AiOutlineCheckCircle'
+                          propsIcon={{ size: 24, color: '#ffffff' }}
+                          onClick={() => props.onApproval(row)}
+                        />
+                      </Tooltip>
                     )}
                   </div>
                 </>

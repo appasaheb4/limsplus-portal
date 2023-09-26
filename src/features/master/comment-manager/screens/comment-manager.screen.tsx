@@ -214,7 +214,7 @@ const CommentManager = CommentManagerHoc(
               setModalConfirm({
                 show: true,
                 type: 'Update',
-                data: { value: 'A', dataField: 'status', id: records._id },
+                data: { fields: { status: 'A' }, id: records._id },
                 title: 'Are you sure?',
                 body: 'Update Comment Manager!',
               });
@@ -321,7 +321,10 @@ const CommentManager = CommentManagerHoc(
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 

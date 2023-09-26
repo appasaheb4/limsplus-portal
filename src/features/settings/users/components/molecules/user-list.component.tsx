@@ -1498,7 +1498,7 @@ export const UserList = (props: UserListProps) => {
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
                     </Tooltip>
-                    {row.status !== 'I' && (
+                    {row?.status == 'A' && (
                       <>
                         <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
