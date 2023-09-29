@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -12,16 +12,16 @@ import {
   ModalSessionAllowed,
 } from '@/library/components';
 
-import {ModalForgotPassword, ModalNoticeBoard} from '../components';
-import {Col, Row} from 'reactstrap';
-import {Carousel} from 'react-bootstrap';
+import { ModalForgotPassword, ModalNoticeBoard } from '../components';
+import { Col, Row } from 'reactstrap';
+import { Carousel } from 'react-bootstrap';
 import dayjs from 'dayjs';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { FormHelper } from '@/helper';
 
-import {useHistory} from 'react-router-dom';
-import {useStores} from '@/stores';
-import {t} from '@/localization';
+import { useHistory } from 'react-router-dom';
+import { useStores } from '@/stores';
+import { t } from '@/localization';
 import * as Assets from '@/library/assets';
 import LogRocket from 'logrocket';
 
@@ -42,7 +42,7 @@ export const Login = observer(() => {
   const history = useHistory();
   const [noticeBoard, setNoticeBoard] = useState<any>({});
   const [width, setWidth] = useState<number>(window.innerWidth);
-  const [labRoleList, setlabRoleList] = useState({labList: [], roleList: []});
+  const [labRoleList, setlabRoleList] = useState({ labList: [], roleList: [] });
 
   const refUserId = useRef<any>();
 
@@ -53,7 +53,7 @@ export const Login = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors, isDirty},
+    formState: { errors, isDirty },
     setValue,
     clearErrors,
   } = useForm();
@@ -89,7 +89,7 @@ export const Login = observer(() => {
       loginStore.LoginService.accountStatusUpdate({
         input: {
           userId: loginStore.inputLogin?.userId,
-          status: 'D',
+          status: 'DI',
         },
       }).then(res => {
         if (res.userAccountStatusUpdate.success) {
@@ -113,7 +113,7 @@ export const Login = observer(() => {
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0);
             if (!res.login.data.user.passChanged) {
-              setModalChangePassword({show: true});
+              setModalChangePassword({ show: true });
             } else {
               if (res.login.data.user.noticeBoard !== undefined) {
                 setNoticeBoard({
@@ -222,7 +222,7 @@ export const Login = observer(() => {
           height='100%'
           viewBox='0 0 100 100'
           preserveAspectRatio='none'
-          style={{position: 'absolute', left: 0, right: 0}}
+          style={{ position: 'absolute', left: 0, right: 0 }}
         >
           <path
             d='M0,0 
@@ -234,7 +234,7 @@ export const Login = observer(() => {
 
         <div
           className='flex flex-col w-fit mt-14 rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r '
-          style={{minWidth: '80%'}}
+          style={{ minWidth: '80%' }}
         >
           <div
             style={{
@@ -246,7 +246,7 @@ export const Login = observer(() => {
             <img
               src={Assets.images.limsplusTran}
               alt='appIcon'
-              style={{width: 200}}
+              style={{ width: 200 }}
             />
           </div>
           <div className='sm:flex-col md:flex-col xl:flex-row w-full '>
@@ -255,7 +255,7 @@ export const Login = observer(() => {
                 <div>
                   <div className='flex justify-center items-center '>
                     <Carousel
-                      style={{width: carouselSize, height: carouselSize}}
+                      style={{ width: carouselSize, height: carouselSize }}
                       indicators={false}
                     >
                       {bannerStore.listAllBanner.map((item, key) => (
@@ -280,7 +280,7 @@ export const Login = observer(() => {
                 <div className='flex justify-center items-end'>
                   <div
                     className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'
-                    style={{width: '350px'}}
+                    style={{ width: '350px' }}
                   >
                     <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
                       Sign In
@@ -294,13 +294,13 @@ export const Login = observer(() => {
                       <List direction='col' space={4} justify='stretch' fill>
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({ field: { onChange } }) => (
                             <Form.Input
                               label='User Id'
                               id='userId'
                               name='userId'
                               inputRef={refUserId}
-                              wrapperStyle={{color: 'black'}}
+                              wrapperStyle={{ color: 'black' }}
                               placeholder={
                                 errors.userId ? 'Please enter userId' : 'UserId'
                               }
@@ -320,7 +320,7 @@ export const Login = observer(() => {
                                     .then(async res => {
                                       if (res.checkUserExitsUserId?.success) {
                                         const {
-                                          data: {user},
+                                          data: { user },
                                         } = res.checkUserExitsUserId;
                                         setValue('lab', user.defaultLab);
                                         clearErrors('lab');
@@ -385,17 +385,17 @@ export const Login = observer(() => {
                             />
                           )}
                           name='userId'
-                          rules={{required: true}}
+                          rules={{ required: true }}
                           defaultValue={loginStore.inputLogin?.userId}
                         />
 
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({ field: { onChange } }) => (
                             <Form.Input
                               type='password'
                               label='Password'
-                              wrapperStyle={{color: 'black'}}
+                              wrapperStyle={{ color: 'black' }}
                               placeholder={
                                 errors.password
                                   ? 'Please enter password'
@@ -422,14 +422,14 @@ export const Login = observer(() => {
 
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({ field: { onChange } }) => (
                             <Form.InputWrapper
                               label={
                                 loginStore.inputLogin.userModuleCategory ||
                                 'Lab'
                               }
                               hasError={!!errors.lab}
-                              style={{color: 'black'}}
+                              style={{ color: 'black' }}
                             >
                               <select
                                 value={loginStore.inputLogin?.lab}
@@ -455,17 +455,17 @@ export const Login = observer(() => {
                             </Form.InputWrapper>
                           )}
                           name='lab'
-                          rules={{required: true}}
+                          rules={{ required: true }}
                           defaultValue={loginStore.inputLogin?.lab}
                         />
 
                         <Controller
                           control={control}
-                          render={({field: {onChange}}) => (
+                          render={({ field: { onChange } }) => (
                             <Form.InputWrapper
                               label='Role'
                               hasError={!!errors.role}
-                              style={{color: 'black'}}
+                              style={{ color: 'black' }}
                             >
                               <select
                                 value={loginStore.inputLogin?.role}
@@ -491,7 +491,7 @@ export const Login = observer(() => {
                             </Form.InputWrapper>
                           )}
                           name='role'
-                          rules={{required: true}}
+                          rules={{ required: true }}
                           defaultValue={loginStore.inputLogin?.role}
                         />
                       </List>
@@ -511,7 +511,7 @@ export const Login = observer(() => {
                       <div className='flex p-4 flex-row  w-full justify-between gap-4'>
                         <a
                           href='#'
-                          onClick={() => setModalForgotPassword({show: true})}
+                          onClick={() => setModalForgotPassword({ show: true })}
                           className='text-black text-sm cursor-pointer'
                         >
                           {'Forgot Password'}
@@ -578,10 +578,10 @@ export const Login = observer(() => {
           {...modalForgotPassword}
           onClick={(userInfo: any) => {
             loginStore.LoginService.forgotPassword({
-              input: {...userInfo},
+              input: { ...userInfo },
             }).then(res => {
               if (res.userForgotPassword.success) {
-                setModalForgotPassword({show: false});
+                setModalForgotPassword({ show: false });
                 loginStore.updateForgotPassword();
                 Toast.success({
                   message: `😊 ${res.userForgotPassword.message}`,
@@ -594,7 +594,7 @@ export const Login = observer(() => {
             });
           }}
           onClose={() => {
-            setModalForgotPassword({show: false});
+            setModalForgotPassword({ show: false });
           }}
         />
         <ModalChangePassword
@@ -611,7 +611,7 @@ export const Login = observer(() => {
               ...body,
               exipreDate,
             };
-            userStore.UsersService.changePassword({input: {...body}}).then(
+            userStore.UsersService.changePassword({ input: { ...body } }).then(
               res => {
                 if (res.userChnagePassword.success) {
                   loginStore.updateLogin({
@@ -626,7 +626,7 @@ export const Login = observer(() => {
                   Toast.success({
                     message: `😊 ${res.userChnagePassword.message}`,
                   });
-                  setModalChangePassword({show: false});
+                  setModalChangePassword({ show: false });
                 } else {
                   Toast.error({
                     message: `😔 ${res.userChnagePassword.message}`,
@@ -644,7 +644,7 @@ export const Login = observer(() => {
               ...userStore.changePassword,
               tempHide: true,
             });
-            setModalChangePassword({show: false});
+            setModalChangePassword({ show: false });
           }}
         />
         <ModalSessionAllowed

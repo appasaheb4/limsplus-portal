@@ -1,13 +1,10 @@
-import React, { useRef, useState} from 'react';
-import {Table} from 'reactstrap';
-import {
-  Buttons,
-  Form,
-} from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
-import {IconContext} from 'react-icons';
+import React, { useRef, useState } from 'react';
+import { Table } from 'reactstrap';
+import { Buttons, Form } from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
@@ -17,13 +14,13 @@ interface TargetTableForSalesTeamProps {
   onUpdate?: (item: any) => void;
 }
 export const TargetTableForSalesTeam = observer(
-  ({data, onUpdate}: TargetTableForSalesTeamProps) => {
-    const {loading, salesTeamStore, routerStore} = useStores();
+  ({ data, onUpdate }: TargetTableForSalesTeamProps) => {
+    const { loading, salesTeamStore, routerStore } = useStores();
 
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
     } = useForm();
@@ -41,23 +38,23 @@ export const TargetTableForSalesTeam = observer(
         <Table striped bordered>
           <thead>
             <tr className='p-0 text-xs'>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 FY-Year
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Sr No
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Month
               </th>
               <th
                 className='text-white sticky right-0 flex flex-row gap-2'
-                style={{minWidth: 170}}
+                style={{ minWidth: 170 }}
               >
                 Targeted Sale
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
@@ -68,7 +65,7 @@ export const TargetTableForSalesTeam = observer(
                 />
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
@@ -87,7 +84,7 @@ export const TargetTableForSalesTeam = observer(
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         // <select
                         //   value={item.fyYear}
                         //   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -125,7 +122,7 @@ export const TargetTableForSalesTeam = observer(
                         <Form.Input disabled={true} value={`${item.fyYear}`} />
                       )}
                       name='priceGroup'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </td>
@@ -138,7 +135,7 @@ export const TargetTableForSalesTeam = observer(
                     onMouseLeave={() => {
                       setDisplayTargetSale(false);
                     }}
-                    style={{width: 150}}
+                    style={{ width: 150 }}
                   >
                     {!displayTargetSale && (
                       <span
@@ -152,13 +149,13 @@ export const TargetTableForSalesTeam = observer(
                     {displayTargetSale && (
                       <Controller
                         control={control}
-                        render={({field: {onChange}}) => (
+                        render={({ field: { onChange } }) => (
                           <Form.Input
                             label=''
                             type='number'
                             placeholder={item.targetSale}
                             className={
-                              'leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md'
+                              'leading-4 p-2 h-10 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2  rounded-md'
                             }
                             hasError={!!errors.targetSale}
                             onChange={targetSale => {
@@ -176,7 +173,7 @@ export const TargetTableForSalesTeam = observer(
                           />
                         )}
                         name='targetSale'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue={item.fyYear}
                       />
                     )}

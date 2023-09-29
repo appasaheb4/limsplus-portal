@@ -66,8 +66,18 @@ export const Users = UsersHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue('status', userStore.user?.status);
-      setValue('environment', userStore.user?.environment);
+      setValue('defaultLab', userStore.user?.defaultLab);
+      setValue('defaultDepartment', userStore.user?.defaultDepartment);
+      setValue('role', userStore.user?.role);
+      setValue('labs', userStore.user?.lab);
+      setValue('department', userStore.user?.department);
+      setValue('userId', userStore.user?.userId);
+      setValue('fullName', userStore.user?.fullName);
+      setValue('empCode', userStore.user?.empCode);
+      setValue('reportingTo', userStore.user?.reportingTo);
+      setValue('deginisation', userStore.user?.deginisation);
+      setValue('mobileNo', userStore.user?.mobileNo);
+      setValue('email', userStore.user?.email);
       setValue('userGroup', userStore.user?.userGroup);
       setValue('userModule', userStore.user?.userModule);
       setValue('dateCreation', userStore.user?.dateCreation);
@@ -75,11 +85,19 @@ export const Users = UsersHoc(
       setValue('exipreDate', userStore.user?.exipreDate);
       setValue('dateOfBirth', userStore.user?.dateOfBirth);
       setValue('marriageAnniversary', userStore.user?.marriageAnniversary);
+      setValue('status', userStore.user?.status);
+      setValue('environment', userStore.user?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userStore.user]);
 
-    const onSubmitUser = (data: any) => {
+    const onSubmitUser = async (data: any) => {
       if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
+        if (!_.isEmpty(userStore.user.existsRecordId)) {
+          const isExists = await checkExistsRecords();
+          if (isExists) {
+            return;
+          }
+        }
         userStore &&
           userStore.UsersService.addUser({
             input: isImport
@@ -1920,7 +1938,6 @@ export const Users = UsersHoc(
                         else userStore.UsersService.userList();
                       }
                     });
-
                   break;
                 }
                 case 'update': {
@@ -1961,7 +1978,6 @@ export const Users = UsersHoc(
                       _id: modalConfirm.data.id,
                     },
                   }).then((res: any) => {
-                    setModalConfirm({ show: false });
                     if (res.updateUser.success) {
                       Toast.success({
                         message: `😊 ${res.updateUser.message}`,
@@ -1991,6 +2007,9 @@ export const Users = UsersHoc(
                     _id: undefined,
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
+                    signature: undefined,
+                    picture: undefined,
+                    expireDays: Number.parseInt(modalConfirm.data?.expireDays),
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
                     dateActive: new Date(),
@@ -2002,24 +2021,6 @@ export const Users = UsersHoc(
                     department: modalConfirm.data?.department,
                   });
                   setHideAddUser(!hideAddUser);
-                  setValue('defaultLab', modalConfirm.data?.defaultLab);
-                  setValue(
-                    'defaultDepartment',
-                    modalConfirm.data?.defaultDepartment,
-                  );
-                  setValue('role', modalConfirm.data?.role);
-                  setValue('labs', modalConfirm.data?.lab);
-                  setValue('department', modalConfirm.data?.department);
-                  setValue('userId', modalConfirm.data?.userId);
-                  setValue('fullName', modalConfirm.data?.fullName);
-                  setValue('empCode', modalConfirm.data?.empCode);
-                  setValue('reportingTo', modalConfirm.data?.reportingTo);
-                  setValue('deginisation', modalConfirm.data?.deginisation);
-                  setValue('mobileNo', modalConfirm.data?.mobileNo);
-                  setValue('email', modalConfirm.data?.email);
-                  setValue('status', modalConfirm.data?.status);
-                  setValue('environment', modalConfirm.data?.environment);
-                  setValue('userGroup', modalConfirm.data?.userGroup);
                   break;
                 }
                 case 'duplicate': {
@@ -2027,6 +2028,9 @@ export const Users = UsersHoc(
                     ...modalConfirm.data,
                     _id: undefined,
                     existsVersionId: undefined,
+                    signature: undefined,
+                    picture: undefined,
+                    expireDays: Number.parseInt(modalConfirm.data?.expireDays),
                     existsRecordId: modalConfirm.data._id,
                     version: Number.parseInt(modalConfirm.data.version),
                     dateCreation: new Date(),
@@ -2039,24 +2043,6 @@ export const Users = UsersHoc(
                     department: modalConfirm.data?.department,
                   });
                   setHideAddUser(!hideAddUser);
-                  setValue('defaultLab', modalConfirm.data?.defaultLab);
-                  setValue(
-                    'defaultDepartment',
-                    modalConfirm.data?.defaultDepartment,
-                  );
-                  setValue('role', modalConfirm.data?.role);
-                  setValue('labs', modalConfirm.data?.lab);
-                  setValue('department', modalConfirm.data?.department);
-                  setValue('userId', modalConfirm.data?.userId);
-                  setValue('fullName', modalConfirm.data?.fullName);
-                  setValue('empCode', modalConfirm.data?.empCode);
-                  setValue('reportingTo', modalConfirm.data?.reportingTo);
-                  setValue('deginisation', modalConfirm.data?.deginisation);
-                  setValue('mobileNo', modalConfirm.data?.mobileNo);
-                  setValue('email', modalConfirm.data?.email);
-                  setValue('status', modalConfirm.data?.status);
-                  setValue('environment', modalConfirm.data?.environment);
-                  setValue('userGroup', modalConfirm.data?.userGroup);
                   break;
                 }
                 default: {
