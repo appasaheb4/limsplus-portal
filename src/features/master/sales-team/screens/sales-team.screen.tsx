@@ -55,6 +55,10 @@ export const SalesTeam = SalesTeamHoc(
 
     useEffect(() => {
       // Default value initialization
+      setValue('salesTerritory', salesTeamStore.salesTeam?.salesTerritory);
+      setValue('description', salesTeamStore.salesTeam?.description);
+      setValue('empCode', salesTeamStore.salesTeam?.empCode);
+      setValue('targets', salesTeamStore.salesTeam?.targets);
       setValue('environment', salesTeamStore.salesTeam?.environment);
       setValue('status', salesTeamStore.salesTeam?.status);
       setValue('dateExpire', salesTeamStore.salesTeam?.dateExpire);

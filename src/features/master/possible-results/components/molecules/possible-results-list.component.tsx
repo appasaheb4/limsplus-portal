@@ -177,111 +177,119 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               columnIndex,
             ) => (
               <>
-                <div className='flex flex-row gap-4'>
-                  <Form.Input
-                    placeholder='Result'
-                    value={
-                      props.extraData.possibleResultsStore?.possibleResults
-                        .result
-                    }
-                    onChange={result => {
-                      props.updatePossibleResults &&
-                        props.updatePossibleResults({
-                          ...props.extraData.possibleResultsStore
-                            .possibleResults,
-                          result,
-                        });
-                    }}
-                  />
-                  <Form.Input
-                    placeholder='Possible Value'
-                    value={
-                      props.extraData.possibleResultsStore?.possibleResults
-                        .possibleValue
-                    }
-                    onChange={possibleValue => {
-                      props.updatePossibleResults &&
-                        props.updatePossibleResults({
-                          ...props.extraData.possibleResultsStore
-                            .possibleResults,
-                          possibleValue,
-                        });
-                    }}
-                  />
-                  <Form.Toggle
-                    label='AbNormal'
-                    value={
-                      props.extraData.possibleResultsStore?.possibleResults
-                        .abNormal
-                    }
-                    onChange={abNormal => {
-                      props.updatePossibleResults &&
-                        props.updatePossibleResults({
-                          ...props.extraData.possibleResultsStore
-                            .possibleResults,
-                          abNormal,
-                        });
-                    }}
-                  />
-                  <Form.Toggle
-                    label='Critical'
-                    value={
-                      props.extraData.possibleResultsStore?.possibleResults
-                        .critical
-                    }
-                    onChange={critical => {
-                      props.updatePossibleResults &&
-                        props.updatePossibleResults({
-                          ...props.extraData.possibleResultsStore
-                            .possibleResults,
-                          critical,
-                        });
-                    }}
-                  />
+                <div className='flex flex-col gap-4'>
+                  <div className='flex flex-col'>
+                    <Form.Input
+                      placeholder='Result'
+                      value={
+                        props.extraData.possibleResultsStore?.possibleResults
+                          .result
+                      }
+                      onChange={result => {
+                        props.updatePossibleResults &&
+                          props.updatePossibleResults({
+                            ...props.extraData.possibleResultsStore
+                              .possibleResults,
+                            result,
+                          });
+                      }}
+                    />
+                    <Form.Input
+                      placeholder='Possible Value'
+                      value={
+                        props.extraData.possibleResultsStore?.possibleResults
+                          .possibleValue
+                      }
+                      onChange={possibleValue => {
+                        props.updatePossibleResults &&
+                          props.updatePossibleResults({
+                            ...props.extraData.possibleResultsStore
+                              .possibleResults,
+                            possibleValue,
+                          });
+                      }}
+                    />
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <Form.Toggle
+                      label='AbNormal'
+                      value={
+                        props.extraData.possibleResultsStore?.possibleResults
+                          .abNormal
+                      }
+                      onChange={abNormal => {
+                        props.updatePossibleResults &&
+                          props.updatePossibleResults({
+                            ...props.extraData.possibleResultsStore
+                              .possibleResults,
+                            abNormal,
+                          });
+                      }}
+                    />
+                    <Form.Toggle
+                      label='Critical'
+                      value={
+                        props.extraData.possibleResultsStore?.possibleResults
+                          .critical
+                      }
+                      onChange={critical => {
+                        props.updatePossibleResults &&
+                          props.updatePossibleResults({
+                            ...props.extraData.possibleResultsStore
+                              .possibleResults,
+                            critical,
+                          });
+                      }}
+                    />
 
-                  <div className='mt-2'>
-                    <Buttons.Button
-                      size='medium'
-                      type='solid'
-                      onClick={() => {
-                        const result =
-                          props.extraData.possibleResultsStore?.possibleResults
-                            .result;
-                        const possibleValue =
-                          props.extraData.possibleResultsStore?.possibleResults
-                            .possibleValue;
-                        const conclusionResult = row.conclusionResult || [];
-                        if (result === undefined || possibleValue === undefined)
-                          return alert('Please enter value and code.');
-                        if (result !== undefined) {
-                          conclusionResult !== undefined
-                            ? conclusionResult.push({
-                                result,
-                                possibleValue,
-                                abNormal: false,
-                                critical: false,
-                              })
-                            : [
-                                {
+                    <div className='mt-2'>
+                      <Buttons.Button
+                        size='medium'
+                        type='solid'
+                        onClick={() => {
+                          const result =
+                            props.extraData.possibleResultsStore
+                              ?.possibleResults.result;
+                          const possibleValue =
+                            props.extraData.possibleResultsStore
+                              ?.possibleResults.possibleValue;
+                          const conclusionResult = row.conclusionResult || [];
+                          if (
+                            result === undefined ||
+                            possibleValue === undefined
+                          )
+                            return alert('Please enter value and code.');
+                          if (result !== undefined) {
+                            conclusionResult !== undefined
+                              ? conclusionResult.push({
                                   result,
                                   possibleValue,
                                   abNormal: false,
                                   critical: false,
-                                },
-                              ];
-                          props.onUpdateItem &&
-                            props.onUpdateItem(
-                              conclusionResult,
-                              'conclusionResult',
-                              row._id,
-                            );
-                        }
-                      }}
-                    >
-                      <Icons.EvaIcon icon='plus-circle-outline' />
-                      {'Add'}
-                    </Buttons.Button>
+                                })
+                              : [
+                                  {
+                                    result,
+                                    possibleValue,
+                                    abNormal: false,
+                                    critical: false,
+                                  },
+                                ];
+                            props.onUpdateItem &&
+                              props.onUpdateItem(
+                                conclusionResult,
+                                'conclusionResult',
+                                row._id,
+                              );
+                          }
+                        }}
+                      >
+                        <Icons.EvaIcon icon='plus-circle-outline' />
+                        {'Add'}
+                      </Buttons.Button>
+                    </div>
                   </div>
+
                   <div className='clearfix'></div>
                 </div>
                 <List space={2} direction='row' justify='center'>

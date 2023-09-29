@@ -1,12 +1,10 @@
-import React, { useState} from 'react';
-import {Table} from 'reactstrap';
-import {
-  Form,
-} from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
-import {lookupItems, lookupValue} from '@/library/utils';
+import React, { useState } from 'react';
+import { Table } from 'reactstrap';
+import { Form } from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { lookupItems, lookupValue } from '@/library/utils';
 
 interface TargetSaleProps {
   onSelectItem: (item: any) => void;
@@ -14,13 +12,13 @@ interface TargetSaleProps {
 }
 
 export const TargetsTable = observer(
-  ({onSelectItem, hasError}: TargetSaleProps) => {
-    const {loading, salesTeamStore, routerStore} = useStores();
+  ({ onSelectItem, hasError }: TargetSaleProps) => {
+    const { loading, salesTeamStore, routerStore } = useStores();
 
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
     } = useForm();
@@ -36,16 +34,16 @@ export const TargetsTable = observer(
         <Table striped bordered>
           <thead>
             <tr className='p-0 text-xs'>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 FY-Year
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Sr No
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Month
               </th>
-              <th className='text-white' style={{minWidth: 100}}>
+              <th className='text-white' style={{ minWidth: 100 }}>
                 Targeted Sale
               </th>
             </tr>
@@ -56,7 +54,7 @@ export const TargetsTable = observer(
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <select
                         value={item.fyYear}
                         className={
@@ -69,18 +67,18 @@ export const TargetsTable = observer(
                           salesTeamStore.updateSalesTeam({
                             ...salesTeamStore.salesTeam,
                             targets: [
-                              {fyYear, month: 'APR'},
-                              {fyYear, month: 'MAY'},
-                              {fyYear, month: 'JUN'},
-                              {fyYear, month: 'JUL'},
-                              {fyYear, month: 'AUG'},
-                              {fyYear, month: 'SEP'},
-                              {fyYear, month: 'OCT'},
-                              {fyYear, month: 'NOV'},
-                              {fyYear, month: 'DEC'},
-                              {fyYear, month: 'JAN'},
-                              {fyYear, month: 'FEB'},
-                              {fyYear, month: 'MAR'},
+                              { fyYear, month: 'APR' },
+                              { fyYear, month: 'MAY' },
+                              { fyYear, month: 'JUN' },
+                              { fyYear, month: 'JUL' },
+                              { fyYear, month: 'AUG' },
+                              { fyYear, month: 'SEP' },
+                              { fyYear, month: 'OCT' },
+                              { fyYear, month: 'NOV' },
+                              { fyYear, month: 'DEC' },
+                              { fyYear, month: 'JAN' },
+                              { fyYear, month: 'FEB' },
+                              { fyYear, month: 'MAR' },
                             ],
                           });
                         }}
@@ -96,7 +94,7 @@ export const TargetsTable = observer(
                       </select>
                     )}
                     name='priceGroup'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </td>
@@ -109,7 +107,7 @@ export const TargetsTable = observer(
                   onMouseLeave={() => {
                     setDisplayTargetSale(false);
                   }}
-                  style={{width: 150}}
+                  style={{ width: 150 }}
                 >
                   {!displayTargetSale && (
                     <span
@@ -123,13 +121,13 @@ export const TargetsTable = observer(
                   {displayTargetSale && (
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input
                           label=''
                           type='number'
                           placeholder={item.targetSale}
                           className={
-                            'leading-4 p-2 h-10 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md'
+                            'leading-4 p-2 h-10 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2  rounded-md'
                           }
                           hasError={!!errors.targetSale}
                           onChange={targetSale => {
@@ -147,7 +145,7 @@ export const TargetsTable = observer(
                         />
                       )}
                       name='targetSale'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue={item.fyYear}
                     />
                   )}

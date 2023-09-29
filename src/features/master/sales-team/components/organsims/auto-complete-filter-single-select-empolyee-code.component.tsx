@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectEmpolyeCodeProps {
   hasError?: boolean;
@@ -16,7 +16,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
     displayValue,
     onSelect,
   }: AutoCompleteFilterSingleSelectEmpolyeCodeProps) => {
-    const {loading, userStore} = useStores();
+    const { loading, userStore } = useStores();
     const [value, setValue] = useState<string>(displayValue || '');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -46,7 +46,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
 
     const loadUsers = () => {
       userStore.UsersService.findByFields({
-        input: {filter: {userGroup: 'S'}},
+        input: { filter: { userGroup: 'S' } },
       }).then(res => {
         if (!res.findByFieldsUser.success)
           return alert(res.findByFieldsUser.message);
@@ -100,7 +100,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
           >
             <input
               placeholder='Search  by emp code'
-              value={!isListOpen ? value : value}
+              value={value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
