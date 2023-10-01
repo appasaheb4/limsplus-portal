@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {Toast, List, Form} from '../../..';
-import {FormHelper} from '@/helper';
-import {Container} from 'reactstrap';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { Toast, List, Form } from '../../..';
+import { FormHelper } from '@/helper';
+import { Container } from 'reactstrap';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
 
 interface ModalProps {
   show: boolean;
@@ -14,11 +14,11 @@ interface ModalProps {
 }
 
 export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
-  const {userStore} = useStores();
+  const { userStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     // setValue,
   } = useForm();
   const [showModal, setShowModal] = React.useState(props.show);
@@ -67,9 +67,8 @@ export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.Input
-                          type='password'
+                      render={({ field: { onChange } }) => (
+                        <Form.InputPassword
                           label='New Password'
                           name='newPassword'
                           hasError={!!errors.newPassword}
@@ -97,9 +96,8 @@ export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.Input
-                          type='password'
+                      render={({ field: { onChange } }) => (
+                        <Form.InputPassword
                           label='Confirm Password'
                           name='confirmPassword'
                           hasError={!!errors.confirmPassword}
@@ -134,7 +132,7 @@ export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
                   <button
                     className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={() => props.onClose && props.onClose()}
                   >
                     Later
@@ -142,7 +140,7 @@ export const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
                   <button
                     className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={handleSubmit(onSubmitModalChangePasswordByAdmin)}
                   >
                     Change

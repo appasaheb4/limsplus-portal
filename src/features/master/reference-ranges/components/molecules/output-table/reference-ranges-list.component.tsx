@@ -32,6 +32,7 @@ let rangeSetOn;
 let instType;
 let lab;
 let rangType;
+let validationLevel;
 let age;
 let ageFromUnit;
 let ageToUnit;
@@ -516,6 +517,57 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         </option>
                       ),
                     )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'validationLevel',
+              text: 'Validation Level',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  validationLevel = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const validationLevel = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          Number.parseInt(validationLevel),
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'VALIDATION_LEVEL',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
@@ -1330,6 +1382,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             instType('');
             lab('');
             rangType('');
+            validationLevel('');
             age('');
             ageFromUnit('');
             ageToUnit('');

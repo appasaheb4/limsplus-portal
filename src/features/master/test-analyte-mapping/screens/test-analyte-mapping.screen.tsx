@@ -1723,6 +1723,15 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   setInputView(true);
                   setIsEditableCode(false);
                   setValue('analyteCode', [modalConfirm.data?.analyteCode]);
+                  testAnalyteMappingStore.updateSelectedItems({
+                    ...testAnalyteMappingStore.selectedItems,
+                    analyteCode: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                      },
+                    ],
+                  });
                   break;
                 }
                 case 'duplicate': {
@@ -1782,6 +1791,15 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   });
                   setInputView(true);
                   setValue('analyteCode', [modalConfirm.data?.analyteCode]);
+                  testAnalyteMappingStore.updateSelectedItems({
+                    ...testAnalyteMappingStore.selectedItems,
+                    analyteCode: [
+                      {
+                        analyteCode: modalConfirm.data?.analyteCode,
+                        analyteName: modalConfirm.data?.analyteName,
+                      },
+                    ],
+                  });
                   break;
                 }
               }

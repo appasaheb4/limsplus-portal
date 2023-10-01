@@ -40,7 +40,7 @@ const ServiceType = observer(
             onUpdate(serviceItem);
           }}
         >
-          <option selected>{'Select'}</option>
+          <option selected>{value || 'Select'}</option>
           {routerStore.lookupItems.length > 0 &&
             getServiceTypes(
               routerStore.lookupItems.find(item => {

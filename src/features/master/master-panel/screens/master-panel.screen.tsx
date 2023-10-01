@@ -64,8 +64,14 @@ const MasterPanel = MasterPanelHoc(
     useEffect(() => {
       // Default value initialization
       setValue('status', masterPanelStore.masterPanel?.status);
-      setValue('rLab', loginStore.login?.lab);
-      setValue('pLab', loginStore.login?.lab);
+      setValue(
+        'rLab',
+        masterPanelStore.masterPanel?.rLab || loginStore.login?.lab,
+      );
+      setValue(
+        'pLab',
+        masterPanelStore.masterPanel?.pLab || loginStore.login?.lab,
+      );
       setValue('panelCode', masterPanelStore.masterPanel?.panelCode);
       setValue('panelName', masterPanelStore.masterPanel?.panelName);
       setValue('department', masterPanelStore.masterPanel?.department);
@@ -75,6 +81,7 @@ const MasterPanel = MasterPanelHoc(
         'validationLevel',
         masterPanelStore.masterPanel?.validationLevel,
       );
+      setValue('panelMethod', masterPanelStore.masterPanel?.panelMethodCode);
       setValue('schedule', masterPanelStore.masterPanel?.schedule);
       setValue('reportTemplate', masterPanelStore.masterPanel?.reportTemplate);
       setValue('processing', masterPanelStore.masterPanel?.processing);
@@ -553,6 +560,7 @@ const MasterPanel = MasterPanelHoc(
                           <AutoCompleteFilterSingleSelectDepartment
                             lab={masterPanelStore.masterPanel?.pLab}
                             hasError={!!errors.department}
+                            displayValue={value}
                             onSelect={item => {
                               onChange(item.name);
                               masterPanelStore.updateMasterPanel({
@@ -964,18 +972,19 @@ const MasterPanel = MasterPanelHoc(
                             }}
                           >
                             <option selected>Select</option>
-                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
-                              (item: any, index: number) => (
-                                <option key={index} value={item}>
-                                  {item}
-                                </option>
-                              ),
-                            )}
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'VALIDATION_LEVEL',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
                           </select>
                         </Form.InputWrapper>
                       )}
                       name='validationLevel'
-                      rules={{ required: false }}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
@@ -1522,6 +1531,7 @@ const MasterPanel = MasterPanelHoc(
                         >
                           <AutoCompleteFilterSingleSelectReportTemplate
                             isError={!!errors.reportTemplate}
+                            displayValue={value}
                             onSelect={item => {
                               onChange(item?.reportTemplate);
                               masterPanelStore.updateMasterPanel({

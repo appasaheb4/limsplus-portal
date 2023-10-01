@@ -547,6 +547,7 @@ const TestMater = TestMasterHOC(
                           <AutoCompleteFilterSingleSelectDepartment
                             lab={testMasterStore.testMaster?.pLab}
                             hasError={!!errors.department}
+                            displayValue={value}
                             onSelect={item => {
                               onChange(item.name);
                               testMasterStore.updateTestMaster({

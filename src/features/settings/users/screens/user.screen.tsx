@@ -907,9 +907,8 @@ export const Users = UsersHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.Input
+                      <Form.InputPassword
                         label='Password'
-                        type='password'
                         placeholder={
                           errors.password ? 'Please enter password' : 'Password'
                         }
@@ -1489,16 +1488,19 @@ export const Users = UsersHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
-                            <option key={item.description} value={item}>
-                              {item}
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'VALIDATION_LEVEL',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
                             </option>
                           ))}
                         </select>
                       </Form.InputWrapper>
                     )}
                     name='validationLevel'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

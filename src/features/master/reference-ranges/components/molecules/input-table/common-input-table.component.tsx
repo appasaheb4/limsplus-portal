@@ -1,22 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {Table} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Table } from 'reactstrap';
 import dayjs from 'dayjs';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,
   Buttons,
 } from '@/library/components';
-import {lookupItems, getDefaultLookupItem, lookupValue} from '@/library/utils';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
+import {
+  lookupItems,
+  getDefaultLookupItem,
+  lookupValue,
+} from '@/library/utils';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
 interface CommonInputTableProps {
   data?: any;
   isReload?: boolean;
 }
 
 export const CommonInputTable = observer(
-  ({data, isReload = false}: CommonInputTableProps) => {
+  ({ data, isReload = false }: CommonInputTableProps) => {
     const {
       loading,
       refernceRangesStore,
@@ -31,12 +35,12 @@ export const CommonInputTable = observer(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
       setError,
       reset,
-    } = useForm({mode: 'all'});
+    } = useForm({ mode: 'all' });
 
     const [isDisableLab, setIsDisableLab] = useState<boolean>(false);
     const [isDisableEquipmentType, setIsDisableEquipmentType] =
@@ -55,7 +59,7 @@ export const CommonInputTable = observer(
       switch (refernceRangesStore.referenceRanges?.rangeSetOn) {
         case 'I':
           setIsDisableEquipmentType(false);
-          setError('equipmentType', {type: 'onBlur'});
+          setError('equipmentType', { type: 'onBlur' });
           setIsDisableLab(true);
           clearErrors('lab');
           refernceRangesStore.updateReferenceRanges({
@@ -67,7 +71,7 @@ export const CommonInputTable = observer(
           setIsDisableEquipmentType(true);
           clearErrors('equipmentType');
           setIsDisableLab(false);
-          setError('lab', {type: 'onBlur'});
+          setError('lab', { type: 'onBlur' });
           refernceRangesStore.updateReferenceRanges({
             ...refernceRangesStore.referenceRanges,
             instType: undefined,
@@ -75,9 +79,9 @@ export const CommonInputTable = observer(
           break;
         case 'B':
           setIsDisableEquipmentType(false);
-          setError('equipmentType', {type: 'onBlur'});
+          setError('equipmentType', { type: 'onBlur' });
           setIsDisableLab(false);
-          setError('lab', {type: 'onBlur'});
+          setError('lab', { type: 'onBlur' });
           break;
         case 'A':
           setIsDisableEquipmentType(true);
@@ -127,6 +131,9 @@ export const CommonInputTable = observer(
         ),
         type: 'insert',
         rangeType: getDefaultLookupItem(routerStore.lookupItems, 'RANGE_TYPE'),
+        validationLevel: Number.parseInt(
+          getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
+        ),
       });
       refernceRangesStore.updateReferenceRanges({
         ...refernceRangesStore.referenceRanges,
@@ -137,30 +144,30 @@ export const CommonInputTable = observer(
     return (
       <div
         className='flex flex-row gap-2 items-center'
-        style={{minWidth: '500px'}}
+        style={{ minWidth: '500px' }}
       >
         <Table striped bordered>
           <thead>
             <tr className='p-0 text-xs'>
-              <th className='text-white' style={{minWidth: '190px'}}>
+              <th className='text-white' style={{ minWidth: '190px' }}>
                 Analyte
               </th>
-              <th className='text-white' style={{minWidth: '190px'}}>
+              <th className='text-white' style={{ minWidth: '190px' }}>
                 Department
               </th>
-              <th className='text-white' style={{minWidth: '150px'}}>
+              <th className='text-white' style={{ minWidth: '150px' }}>
                 Species
               </th>
-              <th className='text-white' style={{minWidth: '150px'}}>
+              <th className='text-white' style={{ minWidth: '150px' }}>
                 Sex
               </th>
-              <th className='text-white' style={{minWidth: '150px'}}>
+              <th className='text-white' style={{ minWidth: '150px' }}>
                 Range_Set_On
               </th>
-              <th className='text-white' style={{minWidth: '190px'}}>
+              <th className='text-white' style={{ minWidth: '190px' }}>
                 Lab
               </th>
-              <th className='text-white' style={{minWidth: '190px'}}>
+              <th className='text-white' style={{ minWidth: '190px' }}>
                 Inst Type
               </th>
             </tr>{' '}
@@ -170,7 +177,7 @@ export const CommonInputTable = observer(
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       hasError={!!errors.analyte}
@@ -219,14 +226,14 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='analyte'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       hasError={!!errors.department}
@@ -270,14 +277,14 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='department'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <select
                       value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -303,14 +310,14 @@ export const CommonInputTable = observer(
                     </select>
                   )}
                   name='species'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <select
                       value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -336,14 +343,14 @@ export const CommonInputTable = observer(
                     </select>
                   )}
                   name='sex'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <select
                       value={value}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -377,14 +384,14 @@ export const CommonInputTable = observer(
                     </select>
                   )}
                   name='rangeSetOn'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       placeholder='Search by code or name'
@@ -418,14 +425,14 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='lab'
-                  rules={{required: !isDisableLab}}
+                  rules={{ required: !isDisableLab }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       placeholder='Search by inst type'
@@ -463,7 +470,7 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='equipmentType'
-                  rules={{required: !isDisableEquipmentType}}
+                  rules={{ required: !isDisableEquipmentType }}
                   defaultValue=''
                 />
               </td>

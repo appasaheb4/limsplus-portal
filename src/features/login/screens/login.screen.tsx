@@ -253,7 +253,7 @@ export const Login = observer(() => {
             <Row className='mt-10'>
               <Col md='6' sm='12' xs='12'>
                 <div>
-                  <div className='flex justify-center items-center '>
+                  <div className='flex justify-center items-center'>
                     <Carousel
                       style={{ width: carouselSize, height: carouselSize }}
                       indicators={false}
@@ -392,8 +392,7 @@ export const Login = observer(() => {
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
-                            <Form.Input
-                              type='password'
+                            <Form.InputPassword
                               label='Password'
                               wrapperStyle={{ color: 'black' }}
                               placeholder={
@@ -611,8 +610,11 @@ export const Login = observer(() => {
               ...body,
               exipreDate,
             };
+            console.log({ body });
+
             userStore.UsersService.changePassword({ input: { ...body } }).then(
               res => {
+                console.log({ res });
                 if (res.userChnagePassword.success) {
                   loginStore.updateLogin({
                     ...loginStore.login,

@@ -331,8 +331,8 @@ const TestPanelMapping = TestPanelMappingHoc(
           return {
             lab: item?.Lab,
             panelCode: item['Panel Code'],
-            testCode: undefined,
-            testName: undefined,
+            testCode: item['Test Code'],
+            testName: item['Test Name'],
             bill: item.Bill === 'Yes' ? true : false,
             printPanelName: item['Print Panel Name'] === 'Yes' ? true : false,
             printTestName: item['Print Test Name'] === 'Yes' ? true : false,
