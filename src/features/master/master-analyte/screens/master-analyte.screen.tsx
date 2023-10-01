@@ -348,13 +348,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       length = 0,
       status = 'A',
     ) => {
-      const requiredFields = [
-        'lab',
-        'analyteCode',
-        'analyteName',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['lab', 'analyteCode', 'status', 'environment'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item])) return item;
       });

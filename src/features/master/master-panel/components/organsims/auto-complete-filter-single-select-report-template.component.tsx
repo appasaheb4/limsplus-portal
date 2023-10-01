@@ -6,12 +6,14 @@ import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from '@/library/comp
 interface AutoCompleteFilterSingleSelectReportTemplateProps {
   isError?: boolean;
   onSelect: (item: any) => void;
+  displayValue?: string;
 }
 
 export const AutoCompleteFilterSingleSelectReportTemplate = observer(
   ({
     isError = false,
     onSelect,
+    displayValue = '',
   }: AutoCompleteFilterSingleSelectReportTemplateProps) => {
     const { loading, reportSettingStore } = useStores();
     return (
@@ -20,6 +22,7 @@ export const AutoCompleteFilterSingleSelectReportTemplate = observer(
           hasError={isError}
           loader={loading}
           placeholder='Report Template'
+          displayValue={displayValue}
           data={{
             list: reportSettingStore?.templatePatientResultList,
             displayKey: ['templateCode', 'templateTitle'],

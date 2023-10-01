@@ -6,6 +6,11 @@ module.exports = {
   darkMode: 'media',
   theme: {
     extend: {
+      screens: {
+        ...defaultTheme.screens,
+        sm: { min: '0px', max: '767px' },
+        md: { min: '768px', max: '2000px' },
+      },
       colors: {
         'text-base': '#ffffff',
         primary: '#454cbf',
@@ -76,7 +81,7 @@ module.exports = {
     require('@tailwindcss/forms')({
       strategy: 'class', // only generate classes
     }),
-    plugin(function ({addUtilities}) {
+    plugin(function ({ addUtilities }) {
       addUtilities({
         '.scrollbar-hide': {
           '-ms-overflow-style': 'none',

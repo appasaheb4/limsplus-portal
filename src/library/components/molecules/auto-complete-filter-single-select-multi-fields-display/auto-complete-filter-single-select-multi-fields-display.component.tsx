@@ -1,8 +1,9 @@
 /* eslint-disable  */
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import _ from 'lodash';
+import { Spinner } from 'react-bootstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import {Icons} from '../..';
+import { Icons } from '../..';
 
 interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   loader?: boolean;
@@ -58,7 +59,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   }, [data]);
 
   useEffect(() => {
-    setValue(displayValue);
+    if (!_.isEmpty(displayValue)) setValue(displayValue);
   }, [displayValue]);
 
   const onChange = e => {
@@ -85,7 +86,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
         >
           <input
             placeholder={placeholder}
-            value={!isListOpen ? value : value}
+            value={value}
             className={`${className} w-full focus:outline-none bg-none`}
             onKeyUp={onKeyUp}
             onChange={onChange}
@@ -106,7 +107,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
           ? options.length > 0 && (
               <div
                 className={`mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm `}
-                style={{zIndex: 500}}
+                style={{ zIndex: 500 }}
               >
                 <ul>
                   <PerfectScrollbar>

@@ -6,13 +6,17 @@ import {
   Icons,
   Toast,
 } from '@/library/components';
-import {lookupItems, getDefaultLookupItem, lookupValue} from '@/library/utils';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import {
+  lookupItems,
+  getDefaultLookupItem,
+  lookupValue,
+} from '@/library/utils';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {TableBootstrap} from './TableBootstrap';
-import {FormHelper} from '@/helper';
-import {getDays} from '../../../utils';
+import { TableBootstrap } from './TableBootstrap';
+import { FormHelper } from '@/helper';
+import { getDays } from '../../../utils';
 
 interface RefRangesInputTableProps {
   data: any;
@@ -22,7 +26,7 @@ interface RefRangesInputTableProps {
 }
 
 export const RefRangesInputTable = observer(
-  ({data, extraData, onDelete, onUpdateItems}: RefRangesInputTableProps) => {
+  ({ data, extraData, onDelete, onUpdateItems }: RefRangesInputTableProps) => {
     const {
       masterAnalyteStore,
       loading,
@@ -32,7 +36,7 @@ export const RefRangesInputTable = observer(
     } = useStores();
 
     const duplicateCombination = () => {
-      const {refRangesInputList} = refernceRangesStore.referenceRanges;
+      const { refRangesInputList } = refernceRangesStore.referenceRanges;
       const arr: any = _.map(refRangesInputList, o =>
         _.pick(o, [
           'analyteCode',
@@ -57,7 +61,7 @@ export const RefRangesInputTable = observer(
     };
 
     return (
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='rangeId'
           data={data}
@@ -113,6 +117,50 @@ export const RefRangesInputTable = observer(
                   >
                     <option selected>Select</option>
                     {lookupItems(extraData.lookupItems, 'RANGE_TYPE').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'validationLevel',
+              text: 'Validation Level',
+              headerClasses: 'textHeaderm',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    disabled={row?.rangeType != 'V' ? true : false}
+                    value={row.validationLevel}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const validationLevel = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            validationLevel: Number.parseInt(validationLevel),
+                          },
+                          row.rangeId,
+                        );
+                      setTimeout(() => {
+                        duplicateCombination();
+                      }, 1000);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, 'VALIDATION_LEVEL').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -328,7 +376,7 @@ export const RefRangesInputTable = observer(
                               );
                           } else {
                             onUpdateItems &&
-                              onUpdateItems({low: low}, row.rangeId);
+                              onUpdateItems({ low: low }, row.rangeId);
                           }
                         } else {
                           Toast.warning({
@@ -372,7 +420,8 @@ export const RefRangesInputTable = observer(
                                 row.rangeId,
                               );
                           } else {
-                            onUpdateItems && onUpdateItems({high}, row.rangeId);
+                            onUpdateItems &&
+                              onUpdateItems({ high }, row.rangeId);
                           }
                         } else {
                           Toast.warning({
@@ -397,7 +446,7 @@ export const RefRangesInputTable = observer(
                     <Form.Input
                       placeholder={row?.alpha}
                       onBlur={alpha => {
-                        onUpdateItems && onUpdateItems({alpha}, row.rangeId);
+                        onUpdateItems && onUpdateItems({ alpha }, row.rangeId);
                       }}
                     />
                   </>
@@ -496,7 +545,7 @@ export const RefRangesInputTable = observer(
                     }}
                     onSelect={item => {
                       onUpdateItems &&
-                        onUpdateItems({department: item.code}, row.rangeId);
+                        onUpdateItems({ department: item.code }, row.rangeId);
                       departmentStore.updateDepartmentList(
                         departmentStore.listDepartmentCopy,
                       );
@@ -526,7 +575,7 @@ export const RefRangesInputTable = observer(
                     }
                     onChange={e => {
                       const species = e.target.value as string;
-                      onUpdateItems && onUpdateItems({species}, row.rangeId);
+                      onUpdateItems && onUpdateItems({ species }, row.rangeId);
                       setTimeout(() => {
                         duplicateCombination();
                       }, 1000);
@@ -562,7 +611,7 @@ export const RefRangesInputTable = observer(
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const sex = e.target.value;
-                      onUpdateItems && onUpdateItems({sex}, row.rangeId);
+                      onUpdateItems && onUpdateItems({ sex }, row.rangeId);
                       setTimeout(() => {
                         duplicateCombination();
                       }, 1000);
@@ -670,7 +719,7 @@ export const RefRangesInputTable = observer(
                     onSelect={item => {
                       onUpdateItems &&
                         onUpdateItems(
-                          {equipmentType: item.instrumentType},
+                          { equipmentType: item.instrumentType },
                           row.rangeId,
                         );
                       interfaceManagerStore.updateInterfaceManagerList(
@@ -739,7 +788,7 @@ export const RefRangesInputTable = observer(
                       placeholder={row?.deltaType}
                       onBlur={deltaType => {
                         onUpdateItems &&
-                          onUpdateItems({deltaType}, row.rangeId);
+                          onUpdateItems({ deltaType }, row.rangeId);
                       }}
                     />
                   </>
@@ -758,7 +807,7 @@ export const RefRangesInputTable = observer(
                       placeholder={row?.deltaInterval}
                       onBlur={deltaInterval => {
                         onUpdateItems &&
-                          onUpdateItems({deltaInterval}, row.rangeId);
+                          onUpdateItems({ deltaInterval }, row.rangeId);
                       }}
                     />
                   </>
@@ -784,7 +833,7 @@ export const RefRangesInputTable = observer(
                     onChange={e => {
                       const intervalUnit = e.target.value;
                       onUpdateItems &&
-                        onUpdateItems({intervalUnit}, row.rangeId);
+                        onUpdateItems({ intervalUnit }, row.rangeId);
                     }}
                   >
                     <option selected>Select</option>
@@ -830,7 +879,7 @@ export const RefRangesInputTable = observer(
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const colorLo = e.target.value;
-                      onUpdateItems && onUpdateItems({colorLo}, row.rangeId);
+                      onUpdateItems && onUpdateItems({ colorLo }, row.rangeId);
                     }}
                   >
                     <option selected>Select</option>
@@ -877,7 +926,7 @@ export const RefRangesInputTable = observer(
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const colorHi = e.target.value;
-                      onUpdateItems && onUpdateItems({colorHi}, row.rangeId);
+                      onUpdateItems && onUpdateItems({ colorHi }, row.rangeId);
                     }}
                   >
                     <option selected>Select</option>
@@ -925,7 +974,7 @@ export const RefRangesInputTable = observer(
                     onChange={e => {
                       const colorNormal = e.target.value;
                       onUpdateItems &&
-                        onUpdateItems({colorNormal}, row.rangeId);
+                        onUpdateItems({ colorNormal }, row.rangeId);
                     }}
                   >
                     <option selected>Select</option>
@@ -966,7 +1015,7 @@ export const RefRangesInputTable = observer(
                     onChange={e => {
                       const environment = e.target.value;
                       onUpdateItems &&
-                        onUpdateItems({environment}, row.rangeId);
+                        onUpdateItems({ environment }, row.rangeId);
                       setTimeout(() => {
                         duplicateCombination();
                       }, 1000);
@@ -1022,7 +1071,8 @@ export const RefRangesInputTable = observer(
                   <Form.InputDateTime
                     value={new Date(row.dateExpire)}
                     onFocusRemove={dateExpire => {
-                      onUpdateItems && onUpdateItems({dateExpire}, row.rangeId);
+                      onUpdateItems &&
+                        onUpdateItems({ dateExpire }, row.rangeId);
                     }}
                   />
                 </>

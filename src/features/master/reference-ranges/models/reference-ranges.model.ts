@@ -10,6 +10,7 @@ class CommonInput {
   instType: string | undefined;
   lab: string | undefined;
   rangeType?: string;
+  validationLevel?: number;
   sex?: string;
   ageFrom?: number;
   ageFromUnit?: string;
@@ -35,7 +36,7 @@ class CommonInput {
   status: string;
   environment: string;
   type: string;
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.rangeId = rawData.rangeId;
     this.existsRecordId = rawData.existsRecordId;
     this.analyteCode = rawData.analyteCode;
@@ -47,6 +48,7 @@ class CommonInput {
     this.instType = rawData.instType;
     this.lab = rawData.lab;
     this.rangeType = rawData.rangeType;
+    this.validationLevel = rawData.validationLevel;
     this.sex = rawData.sex;
     this.ageFrom = rawData.ageFrom;
     this.ageFromUnit = rawData.ageFromUnit;
@@ -79,7 +81,7 @@ export class ReferenceRanges extends CommonInput {
   lastUpdated: Date;
   refRangesInputList: CommonInput[];
   refreshList: boolean;
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     super(rawData);
     this._id = rawData._id;
     this.dateOfEntry = rawData.dateOfEntry;

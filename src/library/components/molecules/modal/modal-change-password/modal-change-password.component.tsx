@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {Toast, List, Form} from '../../..';
-import {FormHelper} from '@/helper';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { Toast, List, Form } from '../../..';
+import { FormHelper } from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
 
 interface ModalProps {
   show: boolean;
@@ -13,11 +13,11 @@ interface ModalProps {
 }
 
 export const ModalChangePassword = observer((props: ModalProps) => {
-  const {userStore} = useStores();
+  const { userStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     // setValue,
   } = useForm();
   const [showModal, setShowModal] = React.useState(props.show);
@@ -40,7 +40,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
     <>
       {showModal && (
         <>
-          <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+          <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none sm:p-4'>
             <div className='relative w-full my-6 mx-auto max-w-3xl'>
               {/*content*/}
               <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
@@ -67,9 +67,8 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.Input
-                          type='password'
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputPassword
                           label='Old Password'
                           name='oldPassword'
                           hasError={!!errors.oldPassword}
@@ -78,7 +77,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                               ? 'Please Enter Old Password'
                               : 'Old Password'
                           }
-                          value={userStore.changePassword?.oldPassword}
+                          value={value}
                           onChange={oldPassword => {
                             onChange(oldPassword);
                             userStore.updateChangePassword({
@@ -97,9 +96,8 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.Input
-                          type='password'
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputPassword
                           label='New Password'
                           name='newPassword'
                           placeholder={
@@ -108,7 +106,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                               : 'New Password'
                           }
                           hasError={!!errors.newPassword}
-                          value={userStore.changePassword?.newPassword}
+                          value={value}
                           onChange={newPassword => {
                             onChange(newPassword);
                             userStore.updateChangePassword({
@@ -127,9 +125,8 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
-                        <Form.Input
-                          type='password'
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputPassword
                           label='Confirm Password'
                           name='confirmPassword'
                           placeholder={
@@ -138,7 +135,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                               : 'Confirm Password'
                           }
                           hasError={!!errors.confirmPassword}
-                          value={userStore.changePassword?.confirmPassword}
+                          value={value}
                           onChange={confirmPassword => {
                             onChange(confirmPassword);
                             userStore.updateChangePassword({
@@ -164,7 +161,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                   <button
                     className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={() => props.onClose && props.onClose()}
                   >
                     Later
@@ -172,7 +169,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                   <button
                     className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={handleSubmit(onSubmitModalChangePassword)}
                   >
                     Change

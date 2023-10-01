@@ -21,6 +21,7 @@ export const LIST = gql`
         instType
         lab
         rangeType
+        validationLevel
         sex
         ageFrom
         ageFromUnit
@@ -108,6 +109,7 @@ export const FILTER = gql`
         instType
         lab
         rangeType
+        validationLevel
         sex
         ageFrom
         ageFromUnit
@@ -159,6 +161,7 @@ export const FILTER_BY_FIELDS = gql`
         instType
         lab
         rangeType
+        validationLevel
         sex
         ageFrom
         ageFromUnit
@@ -210,6 +213,7 @@ export const FIND_BY_FIELDS = gql`
         instType
         lab
         rangeType
+        validationLevel
         sex
         ageFrom
         ageFromUnit

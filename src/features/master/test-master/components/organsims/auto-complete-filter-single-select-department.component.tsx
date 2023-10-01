@@ -1,14 +1,16 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
+import _ from 'lodash';
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
   lab?: string;
   posstion?: string;
   onSelect: (item: any) => void;
   hasError?: boolean;
+  displayValue?: string;
 }
 
 export const AutoCompleteFilterSingleSelectDepartment = observer(
@@ -17,11 +19,16 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
     onSelect,
     hasError = false,
     posstion = 'absolute',
+    displayValue = '',
   }: AutoCompleteFilterSingleSelectDepartmentProps) => {
-    const {loading, departmentStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const { loading, departmentStore } = useStores();
+    const [value, setValue] = useState<string>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+      if (!_.isEmpty(displayValue)) setValue(displayValue);
+    }, [displayValue]);
 
     const useOutsideAlerter = ref => {
       useEffect(() => {
@@ -78,6 +85,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
         onFilter(search);
       }
     };
+    console.log({ value });
 
     return (
       <>
@@ -89,7 +97,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
           >
             <input
               placeholder='Search by department name'
-              value={!isListOpen ? value : value}
+              value={value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}

@@ -1,12 +1,14 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import _ from 'lodash';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
   hasError?: boolean;
   lab?: string;
+  displayValue?: string;
   onSelect: (item: any) => void;
 }
 
@@ -14,10 +16,11 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
   ({
     hasError,
     lab,
+    displayValue = '',
     onSelect,
   }: AutoCompleteFilterSingleSelectDepartmentProps) => {
-    const {loading, departmentStore} = useStores();
-    const [value, setValue] = useState<string>('');
+    const { loading, departmentStore } = useStores();
+    const [value, setValue] = useState<string>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -42,6 +45,10 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
+
+    useEffect(() => {
+      if (!_.isEmpty(displayValue)) setValue(displayValue);
+    }, [displayValue]);
 
     useEffect(() => {
       setOptions(
@@ -86,7 +93,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
           >
             <input
               placeholder='Search by department name'
-              value={!isListOpen ? value : value}
+              value={value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}

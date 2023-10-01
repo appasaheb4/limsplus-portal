@@ -250,6 +250,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             instType: item['Inst Type'],
             lab: item.Lab,
             rangeType: item['Range Type'],
+            validationLevel: item['Validation Level'] || 0,
             ageFrom: item['Age From'],
             ageFromUnit: item['Age From Unit'],
             ageTo: item['Age To'],
@@ -406,7 +407,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               }}
             />
             {!isImport ? (
-              <div className='p-2 rounded-lg shadow-xl '>
+              <div className='flex flex-col p-2 rounded-lg shadow-xl '>
                 <CommonInputTable isReload={isCommonTableReload} />
                 {refRangesInputTable}
               </div>

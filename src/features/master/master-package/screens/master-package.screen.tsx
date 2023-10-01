@@ -310,8 +310,8 @@ const MasterPackage = MasterPackageHOC(
             packageCode: item['Package Code'],
             packageName: item['Package Name'],
             serviceType: item['Service Type'],
-            panelName: undefined,
-            panelCode: undefined,
+            panelName: item['Panel Code'],
+            panelCode: item['Panel Name'],
             reportOrder: undefined,
             bill: item.Bill === 'Yes' ? true : false,
             printPackageName:
@@ -368,6 +368,8 @@ const MasterPackage = MasterPackageHOC(
           },
         })
         .then(res => {
+          console.log({ res });
+
           if (
             res.findByFieldsPackageMaster?.success &&
             res.findByFieldsPackageMaster?.data?.length > length
@@ -504,7 +506,7 @@ const MasterPackage = MasterPackageHOC(
                             value={value}
                             isError={!!errors.serviceType}
                             onUpdate={serviceItem => {
-                              onChange(serviceItem);
+                              onChange(serviceItem.code);
                               masterPackageStore.updateMasterPackage({
                                 ...masterPackageStore.masterPackage,
                                 serviceType: serviceItem.code,
@@ -536,7 +538,6 @@ const MasterPackage = MasterPackageHOC(
                             } rounded-md`}
                             onChange={e => {
                               const packageItem = JSON.parse(e.target.value);
-
                               onChange(packageItem.panelCode);
                               masterPackageStore.updateMasterPackage({
                                 ...masterPackageStore.masterPackage,
@@ -577,7 +578,7 @@ const MasterPackage = MasterPackageHOC(
                               }
                             }}
                           >
-                            <option selected>Select</option>
+                            <option selected>{value || 'Select'}</option>
                             {masterPanelStore.listMasterPanel
                               .filter(item => {
                                 return (
@@ -1437,6 +1438,15 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
+                  masterPackageStore.updateSelectedItems({
+                    ...masterPackageStore.selectedItems,
+                    panelCode: [
+                      {
+                        panelCode: modalConfirm.data?.panelCode,
+                        panelName: modalConfirm.data?.panelName,
+                      },
+                    ],
+                  });
                   break;
                 }
                 // No default
