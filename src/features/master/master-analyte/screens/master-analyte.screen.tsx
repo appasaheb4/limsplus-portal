@@ -75,6 +75,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     const onSubmitMasterAnalyte = async () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {
@@ -124,6 +125,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !masterAnalyteStore.masterAnalyte?.existsVersionId &&
           masterAnalyteStore.masterAnalyte?.existsRecordId
@@ -419,8 +421,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                             loader={loading}
                             placeholder='Search by name'
                             disable={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -495,6 +499,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           label='Analyte Code'
                           name='txtAnalyteCode'
                           hasError={!!errors.analyteCode}
+                          disabled={isVersionUpgrade}
                           placeholder={
                             errors.analyteCode
                               ? 'Please Enter Analyte Code'
@@ -1275,42 +1280,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Status'
-                          hasError={!!errors.status}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.status ? 'border-red  ' : 'border-gray-300'
-                            } rounded-md`}
-                            onChange={e => {
-                              const status = e.target.value;
-                              onChange(status);
-                              masterAnalyteStore.updateMasterAnalyte({
-                                ...masterAnalyteStore.masterAnalyte,
-                                status,
-                              });
-                            }}
-                          >
-                            <option selected>Select</option>
-                            {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                              (item: any, index: number) => (
-                                <option key={index} value={item.code}>
-                                  {lookupValue(item)}
-                                </option>
-                              ),
-                            )}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='status'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    />
 
                     <Controller
                       control={control}
@@ -1455,6 +1424,50 @@ const MasterAnalyte = MasterAnalyteHoc(
                         />
                       )}
                       name='eqChannel'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputWrapper label='Interpretation'>
+                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                            loader={loading}
+                            placeholder='Search by code'
+                            hasError={!!errors.interpretation}
+                            data={{
+                              list: libraryStore.listLibrary.filter(
+                                item => item.libraryType === 'I',
+                              ),
+                              displayKey: ['code'],
+                            }}
+                            displayValue={value}
+                            onFilter={(value: string) => {
+                              libraryStore.libraryService.filterByFields({
+                                input: {
+                                  filter: {
+                                    fields: ['code'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              });
+                            }}
+                            onSelect={item => {
+                              onChange(item.code);
+                              masterAnalyteStore.updateMasterAnalyte({
+                                ...masterAnalyteStore.masterAnalyte,
+                                interpretation: item.code,
+                              });
+                              libraryStore.updateLibraryList(
+                                libraryStore.listLibraryCopy,
+                              );
+                            }}
+                          />
+                        </Form.InputWrapper>
+                      )}
+                      name='interpretation'
                       rules={{ required: false }}
                       defaultValue=''
                     />
@@ -1718,48 +1731,42 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                       defaultValue=''
                     />
+
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper label='Interpretation'>
-                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                            loader={loading}
-                            placeholder='Search by code'
-                            hasError={!!errors.interpretation}
-                            data={{
-                              list: libraryStore.listLibrary.filter(
-                                item => item.libraryType === 'I',
-                              ),
-                              displayKey: ['code'],
-                            }}
-                            displayValue={value}
-                            onFilter={(value: string) => {
-                              libraryStore.libraryService.filterByFields({
-                                input: {
-                                  filter: {
-                                    fields: ['code'],
-                                    srText: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              });
-                            }}
-                            onSelect={item => {
-                              onChange(item.code);
+                        <Form.InputWrapper
+                          label='Status'
+                          hasError={!!errors.status}
+                        >
+                          <select
+                            value={value}
+                            disabled={isVersionUpgrade}
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.status ? 'border-red  ' : 'border-gray-300'
+                            } rounded-md`}
+                            onChange={e => {
+                              const status = e.target.value;
+                              onChange(status);
                               masterAnalyteStore.updateMasterAnalyte({
                                 ...masterAnalyteStore.masterAnalyte,
-                                interpretation: item.code,
+                                status,
                               });
-                              libraryStore.updateLibraryList(
-                                libraryStore.listLibraryCopy,
-                              );
                             }}
-                          />
+                          >
+                            <option selected>Select</option>
+                            {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                              (item: any, index: number) => (
+                                <option key={index} value={item.code}>
+                                  {lookupValue(item)}
+                                </option>
+                              ),
+                            )}
+                          </select>
                         </Form.InputWrapper>
                       )}
-                      name='interpretation'
-                      rules={{ required: false }}
+                      name='status'
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller
@@ -1777,8 +1784,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -1999,6 +2008,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     ),
                   });
                   setIsInputView(true);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {
