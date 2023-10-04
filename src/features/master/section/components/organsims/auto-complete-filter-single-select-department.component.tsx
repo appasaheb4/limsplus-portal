@@ -1,17 +1,22 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
   displayValue?: string;
+  disable?: boolean;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectDepartment = observer(
-  ({displayValue, onSelect}: AutoCompleteFilterSingleSelectDepartmentProps) => {
-    const {loading, departmentStore} = useStores();
+  ({
+    displayValue,
+    disable = false,
+    onSelect,
+  }: AutoCompleteFilterSingleSelectDepartmentProps) => {
+    const { loading, departmentStore } = useStores();
     const [value, setValue] = useState<string | undefined>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -83,6 +88,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
             }
           >
             <input
+              disabled={disable}
               placeholder='Search by Code'
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}

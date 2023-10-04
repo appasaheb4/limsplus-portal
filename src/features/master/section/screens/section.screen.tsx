@@ -44,6 +44,7 @@ const Section = SectionHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       setValue('environment', sectionStore.section?.environment);
@@ -69,6 +70,7 @@ const Section = SectionHoc(
               resetSection();
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             } else {
               Toast.error({
                 message: '😔 Please try again',
@@ -263,6 +265,7 @@ const Section = SectionHoc(
                       >
                         <AutoCompleteFilterSingleSelectDepartment
                           displayValue={value}
+                          disable={isVersionUpgrade}
                           onSelect={item => {
                             onChange(item.name);
                             sectionStore.updateSection({
@@ -288,6 +291,7 @@ const Section = SectionHoc(
                         label='Code'
                         id='code'
                         hasError={!!errors.code}
+                        disabled={isVersionUpgrade}
                         placeholder={
                           !!errors.code ? 'Please Enter Code' : 'Code'
                         }
@@ -536,6 +540,7 @@ const Section = SectionHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -575,8 +580,10 @@ const Section = SectionHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }

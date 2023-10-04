@@ -41,6 +41,7 @@ const Deginisation = DeginisationHoc(
       useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -65,6 +66,7 @@ const Deginisation = DeginisationHoc(
             reset();
             resetDesignation();
             setIsImport(false);
+            setIsVersionUpgrade(false);
           } else {
             Toast.error({ message: '😔 Please try again' });
           }
@@ -176,6 +178,7 @@ const Deginisation = DeginisationHoc(
                           }
                           hasError={!!errors.code}
                           value={value}
+                          disabled={isVersionUpgrade}
                           onChange={code => {
                             onChange(code);
                             deginisationStore.updateDescription({
@@ -254,6 +257,7 @@ const Deginisation = DeginisationHoc(
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
+                            disabled={isVersionUpgrade}
                             onChange={e => {
                               const status = e.target.value;
                               onChange(status);
@@ -285,8 +289,10 @@ const Deginisation = DeginisationHoc(
                           <select
                             value={value}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }

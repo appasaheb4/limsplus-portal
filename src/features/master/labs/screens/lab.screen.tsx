@@ -52,6 +52,7 @@ const Lab = LabHoc(
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       setValue('code', labStore.labs?.code);
@@ -121,6 +122,7 @@ const Lab = LabHoc(
           }
         }
         setHideAddLab(true);
+        setIsVersionUpgrade(false);
         reset();
         resetLab();
       } else {
@@ -394,6 +396,7 @@ const Lab = LabHoc(
                         <Form.Input
                           label='Code'
                           id='code'
+                          disabled={isVersionUpgrade}
                           hasError={!!errors.code}
                           placeholder={
                             errors.code ? 'Please Enter Code' : 'Code'
@@ -1433,6 +1436,7 @@ const Lab = LabHoc(
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
+                            disabled={isVersionUpgrade}
                             onChange={e => {
                               const status = e.target.value;
                               onChange(status);
@@ -1473,8 +1477,10 @@ const Lab = LabHoc(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -1796,6 +1802,7 @@ const Lab = LabHoc(
                     ),
                   });
                   setHideAddLab(false);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

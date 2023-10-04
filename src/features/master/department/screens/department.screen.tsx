@@ -50,6 +50,7 @@ export const Department = DeginisationHoc(
     const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -80,6 +81,7 @@ export const Department = DeginisationHoc(
         resetDepartment();
         setArrImportRecords([]);
         setIsImport(false);
+        setIsVersionUpgrade(false);
       } else {
         Toast.warning({
           message: '😔 Please enter diff code!',
@@ -281,8 +283,10 @@ export const Department = DeginisationHoc(
                           loader={loading}
                           placeholder='Search by name'
                           disable={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
@@ -343,6 +347,7 @@ export const Department = DeginisationHoc(
                       <Form.Input
                         label='Code'
                         id='code'
+                        disabled={isVersionUpgrade}
                         hasError={!!errors.labCode}
                         placeholder={
                           errors.labCode ? 'Please Enter Code' : 'Code'
@@ -802,6 +807,7 @@ export const Department = DeginisationHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -841,8 +847,10 @@ export const Department = DeginisationHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
