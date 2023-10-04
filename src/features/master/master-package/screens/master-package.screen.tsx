@@ -70,6 +70,7 @@ const MasterPackage = MasterPackageHOC(
     const [txtDisable, setTxtDisable] = useState(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       setValue(
@@ -146,6 +147,7 @@ const MasterPackage = MasterPackageHOC(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !masterPackageStore.masterPackage?.existsVersionId &&
           masterPackageStore.masterPackage?.existsRecordId
@@ -422,8 +424,10 @@ const MasterPackage = MasterPackageHOC(
                             placeholder='Search by name'
                             loader={loading}
                             disable={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -504,6 +508,7 @@ const MasterPackage = MasterPackageHOC(
                         >
                           <ServiceType
                             value={value}
+                            disable={isVersionUpgrade}
                             isError={!!errors.serviceType}
                             onUpdate={serviceItem => {
                               onChange(serviceItem.code);
@@ -531,6 +536,7 @@ const MasterPackage = MasterPackageHOC(
                         >
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.packageCode
                                 ? 'border-red'
@@ -639,6 +645,7 @@ const MasterPackage = MasterPackageHOC(
                             loader={loading}
                             placeholder='Search by code or name'
                             hasError={!!errors.panelCode}
+                            disable={isVersionUpgrade}
                             data={{
                               list:
                                 masterPanelStore.listMasterPanel.filter(
@@ -792,6 +799,7 @@ const MasterPackage = MasterPackageHOC(
                         >
                           <select
                             // value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
@@ -1180,8 +1188,10 @@ const MasterPackage = MasterPackageHOC(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -1411,6 +1421,7 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

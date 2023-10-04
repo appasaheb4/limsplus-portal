@@ -55,6 +55,7 @@ const TestMater = TestMasterHOC(
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -127,6 +128,7 @@ const TestMater = TestMasterHOC(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !testMasterStore.testMaster?.existsVersionId &&
           testMasterStore.testMaster?.existsRecordId
@@ -424,8 +426,10 @@ const TestMater = TestMasterHOC(
                           <select
                             value={value}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -498,8 +502,10 @@ const TestMater = TestMasterHOC(
                             loader={loading}
                             placeholder='Search by name'
                             disable={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -548,6 +554,7 @@ const TestMater = TestMasterHOC(
                             lab={testMasterStore.testMaster?.pLab}
                             hasError={!!errors.department}
                             displayValue={value}
+                            disable={isVersionUpgrade}
                             onSelect={item => {
                               onChange(item.name);
                               testMasterStore.updateTestMaster({
@@ -582,6 +589,7 @@ const TestMater = TestMasterHOC(
                           >
                             <select
                               value={value}
+                              disabled={isVersionUpgrade}
                               className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                 errors.section
                                   ? 'border-red  '
@@ -624,6 +632,7 @@ const TestMater = TestMasterHOC(
                       render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Test Code'
+                          disabled={isVersionUpgrade}
                           placeholder={
                             errors.testCode
                               ? 'Please Enter testCode'
@@ -1799,6 +1808,7 @@ const TestMater = TestMasterHOC(
                         >
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
@@ -2006,8 +2016,10 @@ const TestMater = TestMasterHOC(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -2357,6 +2369,7 @@ const TestMater = TestMasterHOC(
                     ),
                   });
                   setIsInputView(true);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

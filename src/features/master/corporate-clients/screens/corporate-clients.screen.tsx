@@ -55,6 +55,7 @@ const CorporateClients = CorporateClientsHoc(
     const [interfaceManagerList, setInterfaceManagerList] = useState([]);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -166,6 +167,7 @@ const CorporateClients = CorporateClientsHoc(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !corporateClientsStore.corporateClients?.existsVersionId &&
           corporateClientsStore.corporateClients?.existsRecordId
@@ -460,6 +462,7 @@ const CorporateClients = CorporateClientsHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Client Code'
+                        disabled={isVersionUpgrade}
                         placeholder={
                           errors.corporateCode
                             ? 'Please Enter Coporate Code'
@@ -520,6 +523,7 @@ const CorporateClients = CorporateClientsHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Client Name'
+                        disabled={isVersionUpgrade}
                         placeholder={
                           errors.corporateName
                             ? 'Please Enter Coporate Name'
@@ -1772,6 +1776,7 @@ const CorporateClients = CorporateClientsHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -1806,8 +1811,10 @@ const CorporateClients = CorporateClientsHoc(
                         <select
                           value={value}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
@@ -2066,6 +2073,7 @@ const CorporateClients = CorporateClientsHoc(
                     ),
                   });
                   setHideAddView(false);
+                  setIsVersionUpgrade(false);
                   corporateClientsStore.updateSelectedItems({
                     ...corporateClientsStore.selectedItems,
                     deliveryMode: modalConfirm.data?.deliveryMode,

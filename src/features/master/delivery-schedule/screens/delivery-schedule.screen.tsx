@@ -42,6 +42,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -71,6 +72,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
             resetDeliverySchedule();
             setArrImportRecords([]);
             setIsImport(false);
+            setIsVersionUpgrade(false);
           });
       } else {
         Toast.warning({
@@ -195,6 +197,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Sch Code'
+                        disabled={isVersionUpgrade}
                         placeholder={
                           errors.schCode ? 'Please Enter Sch Code' : 'Sch Code'
                         }
@@ -553,6 +556,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -592,8 +596,10 @@ const DeliverySchedule = DeliveryScheduleHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
