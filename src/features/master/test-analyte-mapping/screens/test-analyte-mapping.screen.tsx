@@ -1741,7 +1741,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     _id: undefined,
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
-                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    version: 1,
                     analyteCode: [modalConfirm.data?.analyteCode],
                     analyteName: [modalConfirm.data?.analyteName],
                     resultOrder: [

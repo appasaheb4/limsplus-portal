@@ -2220,7 +2220,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     _id: undefined,
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
-                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    version: 1,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(

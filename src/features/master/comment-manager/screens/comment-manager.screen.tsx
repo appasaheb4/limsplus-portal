@@ -1292,7 +1292,7 @@ const CommentManager = CommentManagerHoc(
                     code: undefined,
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
-                    versions: Number.parseInt(modalConfirm.data.versions),
+                    versions: 1,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(

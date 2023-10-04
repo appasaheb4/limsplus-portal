@@ -2008,7 +2008,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                     existsVersionId: undefined,
                     resultType: undefined, // input-result error coming
                     existsRecordId: modalConfirm.data._id,
-                    version: Number.parseInt(modalConfirm.data.version),
+                    version: 1,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(

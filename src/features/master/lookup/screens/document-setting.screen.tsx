@@ -85,32 +85,30 @@ export const DocumentSettings = DocumentSettingHoc(
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
-
         let list = data.map((item: any) => {
           const record: any = {};
-          router.filter(r => {
-            r.children?.find((e: any) => {
-              record.name = e?.name;
-              record.title = e?.title || e?.name;
-              record.path = e?.path;
-              if (e.name == item['Document Name']) {
+          router.filter((r: any) => {
+            r?.children?.find((e: any) => {
+              if (e?.name == item['Document Name']) {
+                record.name = r?.name;
+                record.title = r?.title || r?.name;
+                record.path = r?.path;
                 record.children = e;
-              }
+              } else return;
             });
           });
           return {
             documentName: record,
             fieldName: item['Field Name'],
             arrValue: undefined,
-            description: item.Description,
+            description: item?.Description,
             defaultItem: undefined,
             environment: item?.Environment,
             status: 'D',
           };
         });
         list = list.filter(item => !_.isEmpty(item.documentName));
-        console.log({ list });
-
+        //console.log({ list });
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);

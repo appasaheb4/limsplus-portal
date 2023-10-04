@@ -2034,7 +2034,7 @@ export const Users = UsersHoc(
                     picture: undefined,
                     expireDays: Number.parseInt(modalConfirm.data?.expireDays),
                     existsRecordId: modalConfirm.data._id,
-                    version: Number.parseInt(modalConfirm.data.version),
+                    version: 1,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                   });
