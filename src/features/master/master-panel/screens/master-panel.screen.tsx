@@ -59,7 +59,7 @@ const MasterPanel = MasterPanelHoc(
     const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
-    const [isEditable, setIsEditable] = useState<boolean>(true);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -143,6 +143,7 @@ const MasterPanel = MasterPanelHoc(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !masterPanelStore.masterPanel?.existsVersionId &&
           masterPanelStore.masterPanel?.existsRecordId
@@ -436,12 +437,12 @@ const MasterPanel = MasterPanelHoc(
                           <select
                             value={value}
                             disabled={
-                              isEditable
-                                ? loginStore.login &&
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
                                   loginStore.login.role !== 'SYSADMIN'
-                                  ? true
-                                  : false
-                                : true
+                                ? true
+                                : false
                             }
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.rLab ? 'border-red' : 'border-gray-300'
@@ -511,7 +512,7 @@ const MasterPanel = MasterPanelHoc(
                           <AutoCompleteFilterSingleSelect
                             loader={loading}
                             placeholder='Search by name'
-                            disable={isEditable ? false : true}
+                            disable={isVersionUpgrade}
                             data={{
                               list:
                                 loginStore.login.role !== 'SYSADMIN'
@@ -561,6 +562,7 @@ const MasterPanel = MasterPanelHoc(
                             lab={masterPanelStore.masterPanel?.pLab}
                             hasError={!!errors.department}
                             displayValue={value}
+                            disable={isVersionUpgrade}
                             onSelect={item => {
                               onChange(item.name);
                               masterPanelStore.updateMasterPanel({
@@ -599,6 +601,7 @@ const MasterPanel = MasterPanelHoc(
                           >
                             <AutoCompleteFilterSingleSelect
                               loader={loading}
+                              disable={isVersionUpgrade}
                               data={{
                                 list: masterPanelStore.sectionListByDeptCode,
                                 displayKey: 'name',
@@ -643,6 +646,7 @@ const MasterPanel = MasterPanelHoc(
                         >
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.serviceType
                                 ? 'border-red'
@@ -679,7 +683,7 @@ const MasterPanel = MasterPanelHoc(
                       render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Panel Code'
-                          disabled={isEditable ? false : true}
+                          disabled={isVersionUpgrade}
                           placeholder={
                             errors.panelCode
                               ? 'Please Enter Panel  Code'
@@ -750,10 +754,10 @@ const MasterPanel = MasterPanelHoc(
                           }
                           hasError={!!errors.panelName}
                           disabled={
-                            isEditable
-                              ? masterPanelStore.masterPanelActivity
+                            isVersionUpgrade
+                              ? true
+                              : masterPanelStore.masterPanelActivity
                                   ?.disablePanelName
-                              : true
                           }
                           value={value}
                           onChange={panelName => {
@@ -1875,6 +1879,7 @@ const MasterPanel = MasterPanelHoc(
                         >
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
@@ -2062,8 +2067,10 @@ const MasterPanel = MasterPanelHoc(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -2319,7 +2326,7 @@ const MasterPanel = MasterPanelHoc(
                     ),
                   });
                   setIsInputView(true);
-                  setIsEditable(false);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

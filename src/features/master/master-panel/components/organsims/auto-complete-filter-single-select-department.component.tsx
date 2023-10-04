@@ -7,6 +7,7 @@ import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
   hasError?: boolean;
+  disable?: boolean;
   lab?: string;
   displayValue?: string;
   onSelect: (item: any) => void;
@@ -16,6 +17,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
   ({
     hasError,
     lab,
+    disable = false,
     displayValue = '',
     onSelect,
   }: AutoCompleteFilterSingleSelectDepartmentProps) => {
@@ -96,6 +98,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
               value={value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
+              disabled={disable}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />

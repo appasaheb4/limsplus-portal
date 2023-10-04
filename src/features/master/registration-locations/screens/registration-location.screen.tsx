@@ -58,6 +58,7 @@ const RegistrationLocation = RegistrationLocationHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -210,6 +211,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   });
                 }
               });
+            setIsVersionUpgrade(false);
           } else if (
             !registrationLocationsStore.registrationLocations
               ?.existsVersionId &&
@@ -494,6 +496,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.lab ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
@@ -583,6 +586,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         <Form.Input
                           label='Location Code'
                           hasError={!!errors.locationCode}
+                          disabled={isVersionUpgrade}
                           placeholder={
                             errors.locationCode
                               ? 'Please Enter Location Code'
@@ -648,6 +652,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       render={({ field: { onChange, value } }) => (
                         <Form.Input
                           label='Location Name'
+                          disabled={isVersionUpgrade}
                           hasError={!!errors.locationName}
                           placeholder={
                             errors.locationName
@@ -678,9 +683,9 @@ const RegistrationLocation = RegistrationLocationHoc(
                           hasError={!!errors.corporateCode}
                         >
                           <AutoCompleteFilterSingleSelectCorparateCode
+                            disable={isVersionUpgrade}
                             onSelect={item => {
                               onChange(item.corporateCode);
-
                               registrationLocationsStore.updateRegistrationLocations(
                                 {
                                   ...registrationLocationsStore.registrationLocations,
@@ -712,6 +717,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by invoiceAc'
+                            disable={isVersionUpgrade}
                             data={{
                               list: corporateClientsStore.listCorporateClients,
                               displayKey: ['invoiceAc'],
@@ -1815,6 +1821,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                         >
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               !!errors.status
                                 ? 'border-red  '
@@ -1861,8 +1868,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -2208,6 +2217,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                     ),
                   });
                   setHideAddSection(false);
+                  setIsVersionUpgrade(true);
                   registrationLocationsStore.updateSelectedItems({
                     ...registrationLocationsStore.selectedItems,
                     deliveryMode: modalConfirm.data?.deliveryMode,

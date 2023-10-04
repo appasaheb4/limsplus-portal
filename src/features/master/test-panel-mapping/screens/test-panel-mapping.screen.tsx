@@ -76,6 +76,7 @@ const TestPanelMapping = TestPanelMappingHoc(
         isSelected: true,
       },
     ]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -168,6 +169,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !testPanelMappingStore.testPanelMapping?.existsVersionId &&
           testPanelMappingStore.testPanelMapping?.existsRecordId
@@ -445,8 +447,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                             loader={loading}
                             placeholder='Search by name'
                             disable={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -530,6 +534,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           <AutoCompleteFilterSingleSelectPanelCode
                             hasError={!!errors.panelCode}
                             displayValue={value}
+                            disable={isVersionUpgrade}
                             lab={testPanelMappingStore.testPanelMapping?.lab}
                             onSelect={item => {
                               onChange(item.panelName);
@@ -624,6 +629,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
+                            disable={isVersionUpgrade}
                             data={{
                               list:
                                 testMasterStore.listTestMaster.filter(
@@ -743,6 +749,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                         >
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
@@ -1202,8 +1209,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -1429,6 +1438,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     ),
                   });
                   setIsInputView(true);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

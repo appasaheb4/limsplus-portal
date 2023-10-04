@@ -55,6 +55,7 @@ const TestSampleMapping = TestSampleMappingHoc(
     const [hideAddLab, setHideAddLab] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -96,6 +97,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               testSampleMappingStore.updateLocalInput(new LocalInput({}));
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             }
           });
       } else {
@@ -317,6 +319,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                           <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
+                            disable={isVersionUpgrade}
                             displayValue={
                               value?.testCode
                                 ? `${value?.testCode} - ${value?.testName}`
@@ -403,6 +406,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             list: sampleTypeStore.listSampleType,
                             displayKey: ['sampleCode', 'sampleType'],
                           }}
+                          disable={isVersionUpgrade}
                           hasError={!!errors.sampleCode}
                           displayValue={value}
                           onFilter={(value: string) => {
@@ -1153,6 +1157,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -1192,8 +1197,10 @@ const TestSampleMapping = TestSampleMappingHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }

@@ -1,12 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectPanelCodeProps {
   hasError?: boolean;
   posstion?: string;
+  disable?: boolean;
   lab?: string;
   displayValue?: string;
   onSelect: (item: any) => void;
@@ -16,11 +17,12 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
   ({
     posstion = 'absolute',
     hasError,
+    disable = false,
     lab,
     displayValue,
     onSelect,
   }: AutoCompleteFilterSingleSelectPanelCodeProps) => {
-    const {loading, masterPanelStore} = useStores();
+    const { loading, masterPanelStore } = useStores();
     const [value, setValue] = useState<string | undefined>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -98,6 +100,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
+              disabled={disable}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />

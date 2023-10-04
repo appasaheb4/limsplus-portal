@@ -74,6 +74,7 @@ const Doctors = DoctorsHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     const onSubmitDoctors = async () => {
       if (!doctorsStore.checkExitsLabEnvCode) {

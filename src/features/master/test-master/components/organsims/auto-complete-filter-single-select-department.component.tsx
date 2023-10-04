@@ -11,6 +11,7 @@ interface AutoCompleteFilterSingleSelectDepartmentProps {
   onSelect: (item: any) => void;
   hasError?: boolean;
   displayValue?: string;
+  disable?: boolean;
 }
 
 export const AutoCompleteFilterSingleSelectDepartment = observer(
@@ -19,6 +20,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
     onSelect,
     hasError = false,
     posstion = 'absolute',
+    disable = false,
     displayValue = '',
   }: AutoCompleteFilterSingleSelectDepartmentProps) => {
     const { loading, departmentStore } = useStores();
@@ -100,6 +102,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
               value={value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
+              disabled={disable}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />

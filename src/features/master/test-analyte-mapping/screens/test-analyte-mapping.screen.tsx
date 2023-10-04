@@ -64,7 +64,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       useState<any>();
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
-    const [isEditableCode, setIsEditableCode] = useState(true);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -152,6 +152,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !testAnalyteMappingStore.testAnalyteMapping?.existsVersionId &&
           testAnalyteMappingStore.testAnalyteMapping?.existsRecordId
@@ -450,8 +451,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               loader={loading}
                               placeholder='Search by name'
                               disable={
-                                loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
+                                isVersionUpgrade
+                                  ? true
+                                  : loginStore.login &&
+                                    loginStore.login.role !== 'SYSADMIN'
                                   ? true
                                   : false
                               }
@@ -568,7 +571,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             lab={
                               testAnalyteMappingStore.testAnalyteMapping?.lab
                             }
-                            isDisabled={!isEditableCode}
+                            isDisabled={isVersionUpgrade}
                             hasError={!!errors.testName}
                             onSelect={item => {
                               onChange(item.testName);
@@ -630,7 +633,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
-                            disable={!isEditableCode}
+                            disable={isVersionUpgrade}
                             data={{
                               list:
                                 _.uniqBy(
@@ -898,6 +901,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         >
                           <select
                             value={value}
+                            disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'
                             } rounded-md`}
@@ -1452,8 +1456,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 : 'border-gray-300'
                             } rounded-md`}
                             disabled={
-                              loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
+                              isVersionUpgrade
+                                ? true
+                                : loginStore.login &&
+                                  loginStore.login.role !== 'SYSADMIN'
                                 ? true
                                 : false
                             }
@@ -1721,7 +1727,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     ),
                   });
                   setInputView(true);
-                  setIsEditableCode(false);
+                  setIsVersionUpgrade(true);
                   setValue('analyteCode', [modalConfirm.data?.analyteCode]);
                   testAnalyteMappingStore.updateSelectedItems({
                     ...testAnalyteMappingStore.selectedItems,

@@ -41,6 +41,7 @@ const Methods = MethodsHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -67,6 +68,7 @@ const Methods = MethodsHoc(
               resetMethod();
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             }
           });
       } else {
@@ -177,6 +179,7 @@ const Methods = MethodsHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Method Code'
+                        disabled={isVersionUpgrade}
                         placeholder={
                           errors.methodsCode
                             ? 'Please Enter Method Code'
@@ -224,6 +227,7 @@ const Methods = MethodsHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Method Name'
+                        disabled={isVersionUpgrade}
                         placeholder={
                           errors.methodName
                             ? 'Please Enter Methods Name'
@@ -282,6 +286,7 @@ const Methods = MethodsHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -321,8 +326,10 @@ const Methods = MethodsHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }

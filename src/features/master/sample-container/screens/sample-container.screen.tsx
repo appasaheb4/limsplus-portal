@@ -26,6 +26,7 @@ import { RouterFlow } from '@/flows';
 import { resetSampleContainer } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+
 const SampleContainer = SampleContainerHoc(
   observer(() => {
     const { loginStore, sampleContainerStore, routerStore } = useStores();
@@ -41,6 +42,7 @@ const SampleContainer = SampleContainerHoc(
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -70,6 +72,7 @@ const SampleContainer = SampleContainerHoc(
               resetSampleContainer();
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             }
           });
       } else {
@@ -180,6 +183,7 @@ const SampleContainer = SampleContainerHoc(
                       <Form.Input
                         label='Container Code'
                         hasError={!!errors.containerCode}
+                        disabled={isVersionUpgrade}
                         placeholder={
                           errors.containerCode
                             ? 'Please Enter Container Code '
@@ -312,6 +316,7 @@ const SampleContainer = SampleContainerHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -351,8 +356,10 @@ const SampleContainer = SampleContainerHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }

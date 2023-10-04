@@ -6,11 +6,12 @@ import { lookupValue } from '@/library/utils';
 interface ServiceTypeProps {
   value: string;
   isError: boolean;
+  disable?: boolean;
   onUpdate: (details: any) => void;
 }
 
 const ServiceType = observer(
-  ({ value, isError, onUpdate }: ServiceTypeProps) => {
+  ({ value, isError, disable = false, onUpdate }: ServiceTypeProps) => {
     const {
       loginStore,
       masterPackageStore,
@@ -32,6 +33,7 @@ const ServiceType = observer(
     return (
       <div>
         <select
+          disabled={disable}
           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
             isError ? 'border-red' : 'border-gray-300'
           } rounded-md`}
