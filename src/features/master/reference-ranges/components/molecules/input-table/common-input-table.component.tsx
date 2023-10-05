@@ -16,11 +16,16 @@ import { useStores } from '@/stores';
 import { useForm, Controller } from 'react-hook-form';
 interface CommonInputTableProps {
   data?: any;
+  isVersionUpgrade?: boolean;
   isReload?: boolean;
 }
 
 export const CommonInputTable = observer(
-  ({ data, isReload = false }: CommonInputTableProps) => {
+  ({
+    data,
+    isVersionUpgrade = false,
+    isReload = false,
+  }: CommonInputTableProps) => {
     const {
       loading,
       refernceRangesStore,
@@ -182,6 +187,7 @@ export const CommonInputTable = observer(
                       loader={loading}
                       hasError={!!errors.analyte}
                       placeholder='Search by code or name'
+                      disable={isVersionUpgrade}
                       displayValue={value}
                       data={{
                         list: masterAnalyteStore.listMasterAnalyte,
@@ -248,7 +254,9 @@ export const CommonInputTable = observer(
                         displayKey: ['code', 'name'],
                       }}
                       disable={
-                        refernceRangesStore.referenceRanges?.analyteCode
+                        isVersionUpgrade
+                          ? true
+                          : refernceRangesStore.referenceRanges?.analyteCode
                           ? false
                           : true
                       }
@@ -287,6 +295,7 @@ export const CommonInputTable = observer(
                   render={({ field: { onChange, value } }) => (
                     <select
                       value={value}
+                      disabled={isVersionUpgrade}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.species ? 'border-red  ' : 'border-gray-300'
                       } rounded-md`}

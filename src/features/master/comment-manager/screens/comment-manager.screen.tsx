@@ -50,6 +50,8 @@ const CommentManager = CommentManagerHoc(
     const [isExistsRecord, setIsExistsRecord] = useState(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+
     const {
       control,
       handleSubmit,
@@ -127,6 +129,7 @@ const CommentManager = CommentManagerHoc(
               setIsHideAddView(!isHideAddView);
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             }
           });
       } else {
@@ -367,6 +370,7 @@ const CommentManager = CommentManagerHoc(
                       >
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
+                          disable={isVersionUpgrade}
                           data={{
                             list: _.uniqBy(
                               libraryStore.listLibrary?.filter(item => {
@@ -419,6 +423,7 @@ const CommentManager = CommentManagerHoc(
                       <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.lab ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -467,6 +472,7 @@ const CommentManager = CommentManagerHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.department
                               ? 'border-red  '
@@ -509,6 +515,7 @@ const CommentManager = CommentManagerHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.investigationType
                               ? 'border-red  '
@@ -552,6 +559,7 @@ const CommentManager = CommentManagerHoc(
                           investigationType={
                             commentManagerStore.commentManager.investigationType
                           }
+                          disable={isVersionUpgrade}
                           isError={!!errors.investigationCode}
                           onSelect={items => {
                             onChange(items.investigationCode);
@@ -1020,6 +1028,7 @@ const CommentManager = CommentManagerHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -1125,7 +1134,7 @@ const CommentManager = CommentManagerHoc(
                               ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
-                          disabled={true}
+                          disabled={isVersionUpgrade}
                           onChange={e => {
                             const environment = e.target.value;
                             onChange(environment);
@@ -1282,6 +1291,7 @@ const CommentManager = CommentManagerHoc(
                     ),
                   });
                   setIsHideAddView(!isHideAddView);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

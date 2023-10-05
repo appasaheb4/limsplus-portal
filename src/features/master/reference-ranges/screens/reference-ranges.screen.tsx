@@ -45,6 +45,7 @@ const ReferenceRanges = ReferenceRangesHoc(
     const [isCommonTableReload, setIsCommonTableReload] = useState(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     const onSubmitReferenceRanges = () => {
       if (!isImport) {
@@ -84,6 +85,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                     resetReferenceRange();
                     setIsCommonTableReload(!isCommonTableReload);
                     setIsImport(false);
+                    setIsVersionUpgrade(false);
                     refernceRangesStore.updateReferenceRanges({
                       ...refernceRangesStore.referenceRanges,
                       refRangesInputList: [],
@@ -125,6 +127,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               setIsCommonTableReload(!isCommonTableReload);
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             } else {
               Toast.error({
                 message: `😔 ${res.createReferenceRange.message}`,
@@ -327,6 +330,7 @@ const ReferenceRanges = ReferenceRangesHoc(
         refernceRangesStore.referenceRanges?.refRangesInputList.length > 0 && (
           <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             <RefRangesInputTable
+              isVersionUpgrade={isVersionUpgrade}
               data={toJS(
                 refernceRangesStore.referenceRanges?.refRangesInputList,
               )}
@@ -408,7 +412,10 @@ const ReferenceRanges = ReferenceRangesHoc(
             />
             {!isImport ? (
               <div className='flex flex-col p-2 rounded-lg shadow-xl '>
-                <CommonInputTable isReload={isCommonTableReload} />
+                <CommonInputTable
+                  isVersionUpgrade={isVersionUpgrade}
+                  isReload={isCommonTableReload}
+                />
                 {refRangesInputTable}
               </div>
             ) : (
@@ -452,13 +459,13 @@ const ReferenceRanges = ReferenceRangesHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'delete': {
                   refernceRangesStore.referenceRangesService
                     .deleteReferenceRanges({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removeReferenceRange.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removeReferenceRange.message}`,
                         });
@@ -491,7 +498,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                     })
                     .then((res: any) => {
                       if (res.updateReferenceRange.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateReferenceRange.message}`,
                         });
@@ -524,7 +530,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                     })
                     .then((res: any) => {
                       if (res.updateReferenceRange.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updateReferenceRange.message}`,
                         });
@@ -564,7 +569,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                     refRangesInputList,
                   });
                   setHideAddView(!hideAddView);
-                  setModalConfirm({ show: false });
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {
@@ -585,7 +590,6 @@ const ReferenceRanges = ReferenceRangesHoc(
                     refRangesInputList,
                   });
                   setHideAddView(!hideAddView);
-                  setModalConfirm({ show: false });
                   break;
                 }
                 // No default

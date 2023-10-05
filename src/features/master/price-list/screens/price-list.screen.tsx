@@ -55,6 +55,7 @@ export const PriceList = PriceListHoc(
     const [hideAddView, setHideAddView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -119,6 +120,7 @@ export const PriceList = PriceListHoc(
               });
             }
           });
+        setIsVersionUpgrade(false);
       } else if (
         !priceListStore.priceList?.existsVersionId &&
         priceListStore.priceList?.existsRecordId
@@ -373,6 +375,7 @@ export const PriceList = PriceListHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceGroup
                               ? 'border-red  '
@@ -456,6 +459,7 @@ export const PriceList = PriceListHoc(
                           <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
+                            disable={isVersionUpgrade}
                             data={{
                               list: corporateClientsStore?.listCorporateClients,
                               displayKey: ['invoiceAc', 'corporateName'],
@@ -613,6 +617,7 @@ export const PriceList = PriceListHoc(
                         <AutoCompleteFilterSingleSelectPanelCode
                           hasError={!!errors.panelCode}
                           displayValue={value}
+                          disable={isVersionUpgrade}
                           onSelect={item => {
                             onChange(item.panelCode);
                             setValue('panelName', item.panelName);
@@ -816,6 +821,7 @@ export const PriceList = PriceListHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -982,8 +988,10 @@ export const PriceList = PriceListHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
@@ -1102,13 +1110,13 @@ export const PriceList = PriceListHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'delete': {
                   priceListStore.priceListService
                     .deletePriceList({ input: { id: modalConfirm.id } })
                     .then((res: any) => {
                       if (res.removePriceList.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.removePriceList.message}`,
                         });
@@ -1141,7 +1149,6 @@ export const PriceList = PriceListHoc(
                     })
                     .then((res: any) => {
                       if (res.updatePriceList.success) {
-                        setModalConfirm({ show: false });
                         Toast.success({
                           message: `😊 ${res.updatePriceList.message}`,
                         });
@@ -1177,7 +1184,6 @@ export const PriceList = PriceListHoc(
                         Toast.success({
                           message: `😊 ${res.updatePriceList.message}`,
                         });
-                        setModalConfirm({ show: false });
                         priceListStore.fetchListPriceList();
                       }
                     });
@@ -1198,7 +1204,8 @@ export const PriceList = PriceListHoc(
                     ),
                   });
                   setHideAddView(!hideAddView);
-                  setModalConfirm({ show: false });
+
+                  setIsVersionUpgrade(true);
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('panelName', modalConfirm.data.panelName);
                   setValue('billTo', modalConfirm.data.billTo);
@@ -1224,7 +1231,6 @@ export const PriceList = PriceListHoc(
                     ),
                   });
                   setHideAddView(!hideAddView);
-                  setModalConfirm({ show: false });
                   setValue('panelCode', modalConfirm.data.panelCode);
                   setValue('panelName', modalConfirm.data.panelName);
                   setValue('billTo', modalConfirm.data.billTo);

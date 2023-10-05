@@ -55,6 +55,8 @@ export const Users = UsersHoc(
       useState<any>();
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+
     const {
       control,
       handleSubmit,
@@ -121,6 +123,7 @@ export const Users = UsersHoc(
               userStore.updateSelectedItems(new SelectedItems({}));
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             } else {
               Toast.error({
                 message: `😔 ${res.createUser.message}`,
@@ -431,6 +434,7 @@ export const Users = UsersHoc(
                             displayKey: ['code', 'name'],
                           }}
                           displayValue={value}
+                          disable={isVersionUpgrade}
                           hasError={!!errors.defaultLab}
                           onFilter={(value: string) => {
                             labStore.LabService.filter({
@@ -501,6 +505,7 @@ export const Users = UsersHoc(
                             ),
                             displayKey: ['code', 'name'],
                           }}
+                          disable={isVersionUpgrade}
                           displayValue={value}
                           hasError={!!errors.defaultDepartment}
                           onFilter={(value: string) => {
@@ -593,6 +598,7 @@ export const Users = UsersHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.userModule
                               ? 'border-red  '
@@ -629,6 +635,7 @@ export const Users = UsersHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='User Id'
+                        disabled={isVersionUpgrade}
                         placeholder={
                           errors.userId ? 'Please enter userId' : 'UserId'
                         }
@@ -696,6 +703,7 @@ export const Users = UsersHoc(
                         placeholder={
                           errors.empCode ? 'Please enter emp code' : 'Emp Code'
                         }
+                        disabled={isVersionUpgrade}
                         hasError={!!errors.empCode}
                         value={value}
                         onChange={empCode => {
@@ -744,6 +752,7 @@ export const Users = UsersHoc(
                             list: userStore.userList,
                             displayKey: ['empCode', 'fullName'],
                           }}
+                          disable={isVersionUpgrade}
                           displayValue={value}
                           hasError={!!errors.reportingTo}
                           onFilter={(value: string) => {
@@ -2023,6 +2032,7 @@ export const Users = UsersHoc(
                     department: modalConfirm.data?.department,
                   });
                   setHideAddUser(!hideAddUser);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

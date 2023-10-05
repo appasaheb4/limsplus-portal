@@ -21,12 +21,19 @@ import { getDays } from '../../../utils';
 interface RefRangesInputTableProps {
   data: any;
   extraData?: any;
+  isVersionUpgrade?: boolean;
   onDelete?: (id: number) => void;
   onUpdateItems?: (item: any, id) => void;
 }
 
 export const RefRangesInputTable = observer(
-  ({ data, extraData, onDelete, onUpdateItems }: RefRangesInputTableProps) => {
+  ({
+    data,
+    extraData,
+    isVersionUpgrade = false,
+    onDelete,
+    onUpdateItems,
+  }: RefRangesInputTableProps) => {
     const {
       masterAnalyteStore,
       loading,
@@ -88,6 +95,7 @@ export const RefRangesInputTable = observer(
                 <>
                   <select
                     value={row.rangeType}
+                    disabled={isVersionUpgrade}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const rangeType = e.target.value;
@@ -1011,6 +1019,7 @@ export const RefRangesInputTable = observer(
               ) => (
                 <>
                   <select
+                    disabled={isVersionUpgrade}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const environment = e.target.value;

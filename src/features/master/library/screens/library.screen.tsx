@@ -68,6 +68,7 @@ export const Library = LibraryHoc(
     const [isExistsRecord, setIsExistsRecord] = useState(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     const {
       control,
@@ -120,6 +121,7 @@ export const Library = LibraryHoc(
               resetLibrary();
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             }
           });
       } else {
@@ -351,6 +353,7 @@ export const Library = LibraryHoc(
                         placeholder={
                           !!errors.libraryCode ? 'Please Enter code' : 'Code'
                         }
+                        disabled={isVersionUpgrade}
                         hasError={!!errors.libraryCode}
                         value={value?.toString()}
                         onChange={libraryCode => {
@@ -381,6 +384,7 @@ export const Library = LibraryHoc(
                       <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.lab ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -431,6 +435,7 @@ export const Library = LibraryHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.department
                               ? 'border-red  '
@@ -475,6 +480,7 @@ export const Library = LibraryHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.position ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -515,6 +521,7 @@ export const Library = LibraryHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.groups ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -552,6 +559,7 @@ export const Library = LibraryHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.libraryType
                               ? 'border-red  '
@@ -593,6 +601,7 @@ export const Library = LibraryHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.parameter
                               ? 'border-red  '
@@ -687,6 +696,7 @@ export const Library = LibraryHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -794,7 +804,7 @@ export const Library = LibraryHoc(
                               ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
-                          disabled={true}
+                          disabled={isVersionUpgrade}
                           onChange={e => {
                             const environment = e.target.value;
                             onChange(environment);
@@ -951,6 +961,7 @@ export const Library = LibraryHoc(
                     ),
                   });
                   setHideAddLab(false);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

@@ -1,12 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 interface AutoCompleteFilterSingleSelectAnalyteCodeProps {
   hasError?: boolean;
+  disable?: boolean;
   displayValue?: string;
   onSelect: (item: any) => void;
 }
@@ -14,10 +15,11 @@ interface AutoCompleteFilterSingleSelectAnalyteCodeProps {
 export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
   ({
     hasError,
+    disable = false,
     displayValue,
     onSelect,
   }: AutoCompleteFilterSingleSelectAnalyteCodeProps) => {
-    const {loading, masterAnalyteStore} = useStores();
+    const { loading, masterAnalyteStore } = useStores();
     const [value, setValue] = useState<string | undefined>(displayValue || '');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -46,7 +48,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
 
     const getAnalyteList = () => {
       masterAnalyteStore.masterAnalyteService
-        .findByFields({input: {filter: {resultType: 'D'}}})
+        .findByFields({ input: { filter: { resultType: 'D' } } })
         .then(res => {
           if (!res.findByFieldsAnalyteMaster.success)
             return alert(res.findByFieldsAnalyteMaster.message);
@@ -79,7 +81,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
           },
         })
         .then(res => {
-          console.log({res});
+          console.log({ res });
           if (!res.filterAnalyteMaster.success) return getAnalyteList();
           setOptions(_.uniqBy(res.filterAnalyteMaster.data, 'analyteCode'));
         });
@@ -112,6 +114,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
+              disabled={disable}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
             />
@@ -128,7 +131,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
                 <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
                   <ul>
                     <PerfectScrollbar>
-                      <div style={{height: 'auto', maxHeight: '350px'}}>
+                      <div style={{ height: 'auto', maxHeight: '350px' }}>
                         {options?.map((item, index) => (
                           <>
                             <li

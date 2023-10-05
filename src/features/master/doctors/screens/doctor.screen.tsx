@@ -123,6 +123,7 @@ const Doctors = DoctorsHoc(
                 });
               }
             });
+          setIsVersionUpgrade(false);
         } else if (
           !doctorsStore.doctors?.existsVersionId &&
           doctorsStore.doctors?.existsRecordId
@@ -436,6 +437,7 @@ const Doctors = DoctorsHoc(
                             ? 'Please Enter Code'
                             : 'Doctor Code'
                         }
+                        disabled={isVersionUpgrade}
                         value={value}
                         onChange={doctorCode => {
                           onChange(doctorCode);
@@ -1453,6 +1455,7 @@ const Doctors = DoctorsHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -1495,8 +1498,10 @@ const Doctors = DoctorsHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
@@ -1790,7 +1795,7 @@ const Doctors = DoctorsHoc(
                   setValue('lab', modalConfirm.data.lab);
                   setValue('status', modalConfirm.data.status);
                   setValue('environment', modalConfirm.data.environment);
-
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

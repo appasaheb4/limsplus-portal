@@ -7,6 +7,7 @@ import { Icons } from '@/library/components';
 interface AutoCompleteFilterSingleSelectEmpolyeCodeProps {
   hasError?: boolean;
   displayValue?: string;
+  disable?: boolean;
   onSelect: (item: any) => void;
 }
 
@@ -14,6 +15,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
   ({
     hasError,
     displayValue,
+    disable = false,
     onSelect,
   }: AutoCompleteFilterSingleSelectEmpolyeCodeProps) => {
     const { loading, userStore } = useStores();
@@ -101,6 +103,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
             <input
               placeholder='Search  by emp code'
               value={value}
+              disabled={disable}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}
               onChange={onChange}
