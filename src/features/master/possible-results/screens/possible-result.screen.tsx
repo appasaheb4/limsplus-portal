@@ -47,6 +47,8 @@ export const PossibleResults = PossibleResultHoc(
     const [hideAddLookup, setHideAddLookup] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+
     useEffect(() => {
       // Default value initialization
       setValue(
@@ -107,6 +109,7 @@ export const PossibleResults = PossibleResultHoc(
             resetPossibleResult();
             setArrImportRecords([]);
             setIsImport(false);
+            setIsVersionUpgrade(false);
           }
         });
     };
@@ -315,6 +318,7 @@ export const PossibleResults = PossibleResultHoc(
                         <AutoCompleteFilterSingleSelectAnalyteCode
                           hasError={!!errors.analyteCode}
                           displayValue={value}
+                          disable={isVersionUpgrade}
                           onSelect={item => {
                             onChange(item.analyteCode);
                             possibleResultsStore.updatePossibleResults({
@@ -639,8 +643,10 @@ export const PossibleResults = PossibleResultHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
@@ -809,6 +815,7 @@ export const PossibleResults = PossibleResultHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -956,6 +963,7 @@ export const PossibleResults = PossibleResultHoc(
                     ),
                   });
                   setHideAddLookup(!hideAddLookup);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

@@ -52,6 +52,7 @@ export const SalesTeam = SalesTeamHoc(
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -99,6 +100,7 @@ export const SalesTeam = SalesTeamHoc(
               resetSalesTeam();
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             }
           });
       } else {
@@ -307,6 +309,7 @@ export const SalesTeam = SalesTeamHoc(
                       <Form.Input
                         label='Sales Territory'
                         placeholder='Sales Territory'
+                        disabled={isVersionUpgrade}
                         hasError={!!errors.salesTerritory}
                         value={value}
                         onChange={salesTerritory => {
@@ -366,6 +369,7 @@ export const SalesTeam = SalesTeamHoc(
                         <AutoCompleteFilterSingleSelectEmpolyeCode
                           hasError={!!errors.empCode}
                           displayValue={value}
+                          disable={isVersionUpgrade}
                           onSelect={item => {
                             onChange(item.empCode);
                             setValue('empName', item.fullName);
@@ -619,6 +623,7 @@ export const SalesTeam = SalesTeamHoc(
                       >
                         <select
                           value={value}
+                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
@@ -658,8 +663,10 @@ export const SalesTeam = SalesTeamHoc(
                               : 'border-gray-300'
                           } rounded-md`}
                           disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            isVersionUpgrade
+                              ? true
+                              : loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                               ? true
                               : false
                           }
@@ -832,6 +839,7 @@ export const SalesTeam = SalesTeamHoc(
                     ),
                   });
                   setHideAddSection(!hideAddSection);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

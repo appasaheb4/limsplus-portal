@@ -7,11 +7,17 @@ import { useStores } from '@/stores';
 interface InvestigationDetailsProps {
   investigationType: string;
   isError?: boolean;
+  disable?: boolean;
   onSelect: (items: any) => void;
 }
 
 export const InvestigationDetails = observer(
-  ({ investigationType, isError, onSelect }: InvestigationDetailsProps) => {
+  ({
+    investigationType,
+    disable = false,
+    isError,
+    onSelect,
+  }: InvestigationDetailsProps) => {
     const {
       loading,
       masterPanelStore,
@@ -123,6 +129,7 @@ export const InvestigationDetails = observer(
       <div>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
           loader={loading}
+          disable={disable}
           data={{
             list: getInvestigationDetails()?.list,
             displayKey: getInvestigationDetails()?.fields,
