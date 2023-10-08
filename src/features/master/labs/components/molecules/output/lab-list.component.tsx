@@ -81,7 +81,7 @@ const dynamicStylingFields = [
 ];
 const hideExcelSheet = ['_id', 'opration', 'image'];
 export const LabList = (props: LabListProps) => {
-  const { administrativeDivisions, salesTeamStore } = useStores();
+  const { salesTeamStore } = useStores();
   const {
     control,
     handleSubmit,
@@ -347,6 +347,7 @@ export const LabList = (props: LabListProps) => {
                     {row?.priceList ? (
                       <PriceListTableForLabList
                         key={row?._id}
+                        rowStatus={!editorCell(row)}
                         data={row?.priceList}
                         onUpdate={data => {
                           props.onUpdateItem &&
@@ -782,6 +783,8 @@ export const LabList = (props: LabListProps) => {
               //   fontSize: 0,
               // },
               // sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -793,6 +796,8 @@ export const LabList = (props: LabListProps) => {
               //   fontSize: 0,
               // },
               // sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -804,6 +809,8 @@ export const LabList = (props: LabListProps) => {
               //   fontSize: 0,
               // },
               // sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -815,6 +822,8 @@ export const LabList = (props: LabListProps) => {
               //   fontSize: 0,
               // },
               // sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -826,6 +835,8 @@ export const LabList = (props: LabListProps) => {
               //   fontSize: 0,
               // },
               // sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -838,6 +849,9 @@ export const LabList = (props: LabListProps) => {
               //   fontSize: 0,
               // },
               // sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -849,6 +863,8 @@ export const LabList = (props: LabListProps) => {
               //   fontSize: 0,
               // },
               // sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: col => (col ? col : ''),
             },
             {
@@ -901,6 +917,7 @@ export const LabList = (props: LabListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.reportFormat}
                       onChange={reportFormat => {
                         props.onUpdateItem &&
@@ -925,6 +942,7 @@ export const LabList = (props: LabListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.printLable}
                       onChange={printLable => {
                         props.onUpdateItem &&
@@ -945,6 +963,7 @@ export const LabList = (props: LabListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.abnFlag}
                       onChange={abnFlag => {
                         props.onUpdateItem &&
@@ -965,6 +984,7 @@ export const LabList = (props: LabListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.critical}
                       onChange={critical => {
                         props.onUpdateItem &&

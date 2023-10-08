@@ -35,6 +35,9 @@ interface BannerListProps {
 const dynamicStylingFields = ['title', 'environment'];
 const hideExcelSheet = ['_id', 'image', 'operation'];
 export const BannerList = (props: BannerListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <TableBootstrap
       id='_id'
@@ -55,6 +58,7 @@ export const BannerList = (props: BannerListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
@@ -67,6 +71,7 @@ export const BannerList = (props: BannerListProps) => {
           text: 'Image',
           csvExport: false,
           headerClasses: 'textHeader',
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           formatter: (cell, row) => {
             return (
               <>
@@ -155,6 +160,7 @@ export const BannerList = (props: BannerListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {

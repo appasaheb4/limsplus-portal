@@ -1,31 +1,28 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Table} from 'reactstrap';
-import {
-  Icons,
-  Buttons,
-  Form,
-} from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
-import {IconContext} from 'react-icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { Table } from 'reactstrap';
+import { Icons, Buttons, Form } from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
 interface SalesHierarchyTableForSalesTeamProps {
+  rowStatus?: boolean;
   data?: any;
   onUpdate?: (item: any) => void;
 }
 
 export const SalesHierarchyTableForSalesTeam = observer(
-  ({data, onUpdate}: SalesHierarchyTableForSalesTeamProps) => {
-    const {loading, userStore, salesTeamStore, routerStore} = useStores();
+  ({ rowStatus, data, onUpdate }: SalesHierarchyTableForSalesTeamProps) => {
+    const { loading, userStore, salesTeamStore, routerStore } = useStores();
 
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
     } = useForm();
@@ -35,7 +32,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
     const [displaySalesHierarchy, setDisplaySalesHierarchy] = useState('');
     const loadEmployee = () => {
       userStore.UsersService.findByFields({
-        input: {filter: {role: 'SALES'}},
+        input: { filter: { role: 'SALES' } },
       }).then(res => {
         if (!res.findByFieldsUser.success)
           return alert(res.findByFieldsUser.message);
@@ -87,7 +84,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
                 Level
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
@@ -98,7 +95,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
                 />
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
@@ -117,33 +114,33 @@ export const SalesHierarchyTableForSalesTeam = observer(
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input disabled={true} value={`${item.empCode}`} />
                       )}
                       name='designation'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue={employeeList}
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input disabled={true} value={item.designation} />
                       )}
                       name='designation'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input disabled={true} value={item.level} />
                       )}
                       name='level'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
@@ -151,7 +148,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
               ))}
             </tbody>
           )}
-          {salesHierarchy.current?.length === 0 && (
+          {salesHierarchy.current?.length === 0 && rowStatus && (
             <Buttons.Button
               size='small'
               type='outline'

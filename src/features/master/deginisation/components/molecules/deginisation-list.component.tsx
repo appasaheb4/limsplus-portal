@@ -35,6 +35,9 @@ interface DeginisationListProps {
 const dynamicStylingFields = ['code', 'description', 'environment'];
 const hideExcelSheet = ['_id', 'opration'];
 export const DeginisationList = (props: DeginisationListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <TableBootstrap
       id='_id'
@@ -80,6 +83,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
           }),
           style: { textTransform: 'uppercase' },
           editorStyle: { textTransform: 'uppercase' },
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
         },
         {
           dataField: 'status',
@@ -143,6 +147,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
               environment = filter;
             },
           }),
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           editorRenderer: (
             editorProps,
             value,

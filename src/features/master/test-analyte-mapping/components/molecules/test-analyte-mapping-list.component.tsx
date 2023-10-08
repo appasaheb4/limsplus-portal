@@ -426,6 +426,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: 'resultOrder',
               text: 'Result Order',
               headerClasses: 'textHeader2',
+              editable: false,
               sort: true,
               formatter: (cell, row) => {
                 return (
@@ -433,6 +434,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                     <div className=' flex flex-row justify-around'>
                       <span>{row?.resultOrder}</span>
                       <button
+                        disabled={!editorCell(row)}
                         className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded'
                         onClick={() => {
                           setModalResultOrder({
@@ -457,11 +459,13 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               text: 'Report Order',
               headerClasses: 'textHeader5',
               sort: true,
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <div className=' flex flex-row justify-around'>
                     <span>{row?.reportOrder}</span>
                     <button
+                      disabled={!editorCell(row)}
                       className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded'
                       onClick={() => {
                         setModalResultOrder({

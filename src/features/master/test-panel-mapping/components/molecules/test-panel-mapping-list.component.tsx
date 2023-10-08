@@ -381,6 +381,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                     {getMasterFlags(row).map((item, index) => (
                       <button
                         type='button'
+                        disabled={!editorCell(row)}
                         className={
                           'inline-flex items-center py-2 px-4 text-sm font-medium text-white ' +
                           (item.isSelected ? 'bg-green-800 ' : 'bg-red ') +
@@ -530,11 +531,13 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               text: 'Report Order',
               headerClasses: 'textHeader4',
               sort: true,
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <div className=' flex flex-row justify-around'>
                     <span>{row?.reportOrder}</span>
                     <button
+                      disabled={!editorCell(row)}
                       className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded'
                       onClick={() => {
                         setModalResultOrder({
