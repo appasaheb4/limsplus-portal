@@ -41,6 +41,9 @@ interface NoticeBoardsListProps {
 }
 
 export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -70,6 +73,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                   lab = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -100,6 +105,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -115,6 +122,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -204,6 +213,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
