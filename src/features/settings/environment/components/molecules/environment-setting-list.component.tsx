@@ -44,6 +44,9 @@ interface SessionManagementListProps {
 
 export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
   // const userList = React.useMemo(()=> ,[])
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
 
   return (
     <>
@@ -72,6 +75,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   variable = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
@@ -169,6 +174,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   user = filter;
                 },
               }),
+
               headerClasses: 'textHeader4',
               formatter: (cellContent, row) => (
                 <>
@@ -278,6 +284,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   value = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               headerClasses: 'textHeader3',
               editorRenderer: (
                 editorProps,
@@ -312,6 +320,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -404,6 +414,8 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {

@@ -34,6 +34,9 @@ interface RoleListProps {
 }
 
 export const RoleList = (props: RoleListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <TableBootstrap
       id='_id'
@@ -76,6 +79,7 @@ export const RoleList = (props: RoleListProps) => {
               description = filter;
             },
           }),
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           style: { textTransform: 'uppercase' },
           editorStyle: { textTransform: 'uppercase' },
         },
@@ -87,6 +91,8 @@ export const RoleList = (props: RoleListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          editable: (content, row, rowIndex, columnIndex) =>
+            row.status == 'D' || row.status == 'I' ? false : true,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
@@ -139,6 +145,7 @@ export const RoleList = (props: RoleListProps) => {
               environment = filter;
             },
           }),
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           editorRenderer: (
             editorProps,
             value,
