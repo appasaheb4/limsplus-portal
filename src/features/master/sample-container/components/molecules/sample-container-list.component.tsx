@@ -36,6 +36,9 @@ interface SampleContainerListProps {
 }
 
 export const SampleContainerList = (props: SampleContainerListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <TableBootstrap
       id='_id'
@@ -92,6 +95,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
@@ -104,6 +108,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           dataField: 'image',
           text: 'Image',
           csvExport: false,
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           formatter: (cell, row) => {
             return (
               <>
@@ -192,6 +197,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           sortCaret: (order, column) => sortCaret(order, column),
           sort: true,
           csvFormatter: col => (col ? col : ''),

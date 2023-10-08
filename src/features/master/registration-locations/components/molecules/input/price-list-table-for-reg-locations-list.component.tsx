@@ -14,6 +14,7 @@ import { lookupValue } from '@/library/utils';
 
 interface PriceListTableForRegLocationsListProps {
   data?: any;
+  rowStatus?: boolean;
   invoiceAc: string | undefined;
   onUpdate?: (item: any) => void;
 }
@@ -23,6 +24,7 @@ export const PriceListTableForRegLocationsList = observer(
     data = [],
     invoiceAc,
     onUpdate,
+    rowStatus,
   }: PriceListTableForRegLocationsListProps) => {
     const { loading, corporateClientsStore, priceListStore } = useStores();
 
@@ -149,6 +151,7 @@ export const PriceListTableForRegLocationsList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <select
+                          disabled={rowStatus}
                           value={item?.priceGroup}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceGroup
@@ -185,6 +188,7 @@ export const PriceListTableForRegLocationsList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <select
+                          disabled={rowStatus}
                           value={item?.priceList || ''}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceList
@@ -247,6 +251,7 @@ export const PriceListTableForRegLocationsList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <Form.Input
+                          disabled={rowStatus}
                           label=''
                           value={item?.priority}
                           type='number'
@@ -275,6 +280,7 @@ export const PriceListTableForRegLocationsList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <Form.Input
+                          disabled={rowStatus}
                           label=''
                           type='number'
                           placeholder={item?.maxDis?.toString()}
@@ -298,45 +304,48 @@ export const PriceListTableForRegLocationsList = observer(
                     />
                   </td>
                   <td className='sticky right-0 z-10 bg-gray-500'>
-                    <div className='flex flex-col gap-1'>
-                      <Buttons.Button
-                        size='small'
-                        type='outline'
-                        onClick={() => {
-                          removeItem(index);
-                        }}
-                      >
-                        <Icons.EvaIcon
-                          icon='minus-circle-outline'
-                          color='#fff'
-                        />
-                      </Buttons.Button>
-                      <Buttons.Button
-                        size='small'
-                        type='outline'
-                        onClick={handleSubmit(addItem)}
-                      >
-                        <Icons.EvaIcon
-                          icon='plus-circle-outline'
-                          color='#fff'
-                        />
-                      </Buttons.Button>
-                    </div>
+                    {!rowStatus && (
+                      <div className='flex flex-col gap-1'>
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          onClick={() => {
+                            removeItem(index);
+                          }}
+                        >
+                          <Icons.EvaIcon
+                            icon='minus-circle-outline'
+                            color='#fff'
+                          />
+                        </Buttons.Button>
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          onClick={handleSubmit(addItem)}
+                        >
+                          <Icons.EvaIcon
+                            icon='plus-circle-outline'
+                            color='#fff'
+                          />
+                        </Buttons.Button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           )}
-
-          <Buttons.Button
-            size='small'
-            type='outline'
-            onClick={handleSubmit(addItem)}
-          >
-            <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
-          </Buttons.Button>
+          {!rowStatus && (
+            <Buttons.Button
+              size='small'
+              type='outline'
+              onClick={handleSubmit(addItem)}
+            >
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
+            </Buttons.Button>
+          )}
         </Table>
-        {displayPriceList && (
+        {displayPriceList && !rowStatus && (
           <Buttons.Button
             size='small'
             type='solid'

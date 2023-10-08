@@ -43,6 +43,9 @@ interface DeliverySchduleListProps {
 }
 
 export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -92,6 +95,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   <>
                     {' '}
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.sundayProcessing}
                       onChange={sundayProcessing => {
                         props.onUpdateItem &&
@@ -150,6 +154,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   <>
                     {' '}
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.holidayReporting}
                       onChange={holidayReporting => {
                         props.onUpdateItem &&
@@ -173,6 +178,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -189,6 +196,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -205,6 +214,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -228,6 +239,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   secoundCutofTime = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
               dataField: 'processingType',
@@ -237,6 +250,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -291,6 +306,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               formatter: (cell, row) => {
                 return <>{JSON.stringify(row.schFrequency)}</>;
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
               dataField: 'reportOn',
@@ -300,6 +317,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -316,6 +335,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -332,6 +353,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -383,6 +406,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -403,6 +428,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   <>
                     {' '}
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.onTime}
                       onChange={onTime => {
                         props.onUpdateItem &&
@@ -428,6 +454,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   schForDept = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
               dataField: 'schForPat',
@@ -444,6 +472,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   schForPat = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
               dataField: 'status',
@@ -501,6 +531,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({

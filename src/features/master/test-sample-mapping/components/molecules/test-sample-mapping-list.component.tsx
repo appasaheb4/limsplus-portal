@@ -63,6 +63,9 @@ interface TestSampleMappingListProps {
 }
 
 export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -92,6 +95,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                   testCode = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -122,6 +127,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -159,6 +166,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -196,6 +205,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -233,6 +244,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -270,6 +283,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -307,6 +322,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -344,6 +361,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -377,6 +396,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'primaryContainer',
               text: 'Primary Container',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${
                   row.primaryContainer
@@ -389,6 +409,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.primaryContainer}
                       onChange={primaryContainer => {
                         props.onUpdateItem &&
@@ -407,6 +428,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'uniqueContainer',
               text: 'Unique Container',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${
                   row.uniqueContainer
@@ -419,6 +441,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.uniqueContainer}
                       onChange={uniqueContainer => {
                         props.onUpdateItem &&
@@ -438,12 +461,14 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'centerIfuge',
               text: 'CenterIfuge',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${row.centerIfuge ? (row.centerIfuge ? 'Yes' : 'No') : 'No'}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.centerIfuge}
                       onChange={centerIfuge => {
                         props.onUpdateItem &&
@@ -462,6 +487,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'aliquot',
               text: 'Aliquot',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${row.aliquot ? (row.aliquot ? 'Yes' : 'No') : 'No'}`,
               formatter: (cell, row) => {
@@ -469,6 +495,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                   <>
                     {' '}
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.aliquot}
                       onChange={aliquot => {
                         props.onUpdateItem &&
@@ -484,12 +511,14 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'labSpecfic',
               text: 'Lab Specfic',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${row.labSpecfic ? (row.labSpecfic ? 'Yes' : 'No') : 'No'}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.labSpecfic}
                       onChange={labSpecfic => {
                         props.onUpdateItem &&
@@ -505,6 +534,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'departmentSpecfic',
               text: 'Department Specfic',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${
                   row.departmentSpecfic
@@ -517,6 +547,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.departmentSpecfic}
                       onChange={departmentSpecfic => {
                         props.onUpdateItem &&
@@ -535,6 +566,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'sharedSample',
               text: 'Shared Sample',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${
                   row.sharedSample ? (row.sharedSample ? 'Yes' : 'No') : 'No'
@@ -543,6 +575,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.sharedSample}
                       onChange={sharedSample => {
                         props.onUpdateItem &&
@@ -565,6 +598,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -582,6 +617,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -631,6 +668,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -647,6 +686,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -696,6 +737,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -712,6 +755,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -729,6 +774,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -778,6 +825,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -791,12 +840,14 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: 'printLabels',
               text: 'Print Labels',
               sort: true,
+              editable: false,
               csvFormatter: (col, row) =>
                 `${row.printLabels ? (row.printLabels ? 'Yes' : 'No') : 'No'}`,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
+                      disabled={!editorCell(row)}
                       value={row.printLabels}
                       onChange={printLabels => {
                         props.onUpdateItem &&
@@ -819,6 +870,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -832,6 +885,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               text: 'Departments',
               headerClasses: 'textHeader2',
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: (cell, row, rowIndex) =>
                 `Prefrence:${row.departments?.map(
                   item => item.prefrence,
@@ -1079,6 +1134,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                   environment = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,

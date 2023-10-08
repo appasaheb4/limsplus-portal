@@ -490,6 +490,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   departments = filter;
                 },
               }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -1107,6 +1109,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: 'Abnormal Highlighter CSS',
               headerClasses: 'textHeader4',
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -1138,6 +1142,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: 'Critical Highlighter CSS',
               headerClasses: 'textHeader4',
               sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               editorRenderer: (
                 editorProps,
@@ -1422,6 +1428,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -1475,6 +1483,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,

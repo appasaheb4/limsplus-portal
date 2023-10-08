@@ -12,9 +12,10 @@ import {
 interface TargetTableForSalesTeamProps {
   data?: any;
   onUpdate?: (item: any) => void;
+  rowStatus?: boolean;
 }
 export const TargetTableForSalesTeam = observer(
-  ({ data, onUpdate }: TargetTableForSalesTeamProps) => {
+  ({ data, onUpdate, rowStatus }: TargetTableForSalesTeamProps) => {
     const { loading, salesTeamStore, routerStore } = useStores();
 
     const {
@@ -157,6 +158,7 @@ export const TargetTableForSalesTeam = observer(
                             className={
                               'leading-4 p-2 h-10 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2  rounded-md'
                             }
+                            disabled={rowStatus}
                             hasError={!!errors.targetSale}
                             onChange={targetSale => {
                               onChange(targetSale);
@@ -183,7 +185,7 @@ export const TargetTableForSalesTeam = observer(
             </tbody>
           )}
         </Table>
-        {displayTargetTable && (
+        {displayTargetTable && !rowStatus && (
           <Buttons.Button
             size='small'
             type='solid'
