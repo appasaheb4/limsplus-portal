@@ -235,6 +235,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                 <>
                   {row?.salesHierarchy ? (
                     <SalesHierarchyTableForSalesTeam
+                      rowStatus={!editorCell(row)}
                       data={row?.salesHierarchy}
                       onUpdate={data => {
                         props.onUpdateItem &&
@@ -272,6 +273,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                 <>
                   {row?.targets ? (
                     <TargetTableForSalesTeam
+                      rowStatus={!editorCell(row)}
                       data={row?.targets}
                       onUpdate={data => {
                         props.onUpdateItem &&

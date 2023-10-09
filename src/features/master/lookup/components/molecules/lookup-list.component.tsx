@@ -59,7 +59,9 @@ export const LookupList = (props: LookupListProps) => {
       }
     });
   }, []);
-
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <div style={{ position: 'relative' }}>
       <TableBootstrap
@@ -79,6 +81,7 @@ export const LookupList = (props: LookupListProps) => {
             text: 'Document Name',
             headerClasses: 'textHeader4',
             sort: true,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             headerStyle: {
               fontSize: 0,
             },
@@ -130,6 +133,7 @@ export const LookupList = (props: LookupListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             style: { textTransform: 'uppercase' },
@@ -215,6 +219,7 @@ export const LookupList = (props: LookupListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -231,6 +236,7 @@ export const LookupList = (props: LookupListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `Value:${row.defaultItem.map(
@@ -367,6 +373,7 @@ export const LookupList = (props: LookupListProps) => {
                 environment = filter;
               },
             }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -428,18 +435,21 @@ export const LookupList = (props: LookupListProps) => {
                       {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                     </Icons.IconContext>
                   </Tooltip>
-                  <Tooltip tooltipText='Edit'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() =>
-                        props.onUpdateValues &&
-                        props.onUpdateValues(row.arrValue, row._id)
-                      }
-                    >
-                      {Icons.getIconTag(Icons.IconBi.BiEdit)}
-                    </Icons.IconContext>
-                  </Tooltip>
+                  {row.status !== 'I' && (
+                    <Tooltip tooltipText='Edit'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onUpdateValues &&
+                          props.onUpdateValues(row.arrValue, row._id)
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+
                   {row.status == 'D' && (
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon

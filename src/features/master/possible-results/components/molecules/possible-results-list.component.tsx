@@ -81,6 +81,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorRenderer: (
@@ -148,6 +149,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                 conclusionResult = filter;
               },
             }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cellContent, row) => (
               <div className='flex flex-wrap max-w-2xl overflow-scroll'>
                 <List space={2} justify='center'>
@@ -343,6 +345,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (cell, row, rowIndex) =>
               `Result:${
@@ -400,7 +403,6 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       abNormal: defaultItem.abNormal,
                       critical: defaultItem.critical,
                     };
-                    console.log({ defaultItem });
 
                     props.onUpdateItem &&
                       props.onUpdateItem(
@@ -436,6 +438,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({

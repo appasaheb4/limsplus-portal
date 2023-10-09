@@ -119,6 +119,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -162,6 +163,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -178,6 +180,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -195,6 +198,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -236,6 +240,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -273,12 +278,14 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'reportOrder',
             text: 'Report Order',
             headerClasses: 'textHeader5',
+            editable: false,
             sort: true,
             formatter: (cell, row) => {
               return (
                 <div className=' flex flex-row justify-around'>
                   <span>{row?.reportOrder}</span>
                   <button
+                    disabled={!editorCell(row)}
                     className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded'
                     onClick={() => {
                       setModalResultOrder({

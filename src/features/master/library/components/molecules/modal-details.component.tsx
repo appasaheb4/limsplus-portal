@@ -1,15 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {Container} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'reactstrap';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const modules = {
   toolbar: [
-    [{header: '1'}, {header: '2'}, {font: []}],
-    [{size: []}],
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ size: [] }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' },
+    ],
     ['link'],
     ['clean'],
   ],
@@ -22,6 +27,7 @@ const modules = {
 interface ModalDetailsProps {
   visible: boolean;
   details: string;
+  status: boolean;
   onUpdate: (details: string) => void;
   onClose: () => void;
 }
@@ -29,6 +35,7 @@ interface ModalDetailsProps {
 const ModalDetails = ({
   visible,
   details,
+  status,
   onUpdate,
   onClose,
 }: ModalDetailsProps) => {
@@ -77,7 +84,7 @@ const ModalDetails = ({
                         }}
                       />
                     </div>
-                    <div dangerouslySetInnerHTML={{__html: value}} />
+                    <div dangerouslySetInnerHTML={{ __html: value }} />
                   </div>
                 </div>
                 {/*footer*/}
@@ -85,7 +92,7 @@ const ModalDetails = ({
                   <button
                     className='text-red-500 background-transparent font-bold uppercase p-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={() => {
                       setShowModal(false);
                       onClose && onClose();
@@ -93,16 +100,18 @@ const ModalDetails = ({
                   >
                     Close
                   </button>
-                  <button
-                    className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
-                    type='button'
-                    style={{transition: 'all .15s ease'}}
-                    onClick={() => {
-                      onUpdate && onUpdate(value);
-                    }}
-                  >
-                    Upload
-                  </button>
+                  {!status && (
+                    <button
+                      className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
+                      type='button'
+                      style={{ transition: 'all .15s ease' }}
+                      onClick={() => {
+                        onUpdate && onUpdate(value);
+                      }}
+                    >
+                      Upload
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

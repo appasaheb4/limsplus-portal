@@ -225,6 +225,7 @@ export const RegistrationLocationsList = (
                   {row?.priceList ? (
                     <PriceListTableForRegLocationsList
                       key={row?._id}
+                      rowStatus={!editorCell(row)}
                       invoiceAc={row?.invoiceAc}
                       data={row?.priceList || []}
                       onUpdate={data => {
@@ -609,6 +610,7 @@ export const RegistrationLocationsList = (
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({

@@ -37,6 +37,9 @@ interface EnvironmentVariableProps {
 }
 export const EnvironmentVariableList = observer(
   (props: EnvironmentVariableProps) => {
+    const editorCell = (row: any) => {
+      return row.status !== 'I' ? true : false;
+    };
     return (
       <>
         <div style={{ position: 'relative' }}>
