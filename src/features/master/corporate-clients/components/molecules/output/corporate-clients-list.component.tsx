@@ -646,6 +646,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editor: {
               type: Type.TEXTAREA,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {

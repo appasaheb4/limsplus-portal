@@ -14,11 +14,16 @@ import { lookupValue } from '@/library/utils';
 
 interface PriceListTableForLabListProps {
   data?: any;
+  rowStatus?: boolean;
   onUpdate?: (item: any) => void;
 }
 
 export const PriceListTableForLabList = observer(
-  ({ data = [], onUpdate }: PriceListTableForLabListProps) => {
+  ({
+    data = [],
+    rowStatus = false,
+    onUpdate,
+  }: PriceListTableForLabListProps) => {
     const { loading, corporateClientsStore, priceListStore } = useStores();
 
     const {
@@ -144,6 +149,7 @@ export const PriceListTableForLabList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <select
+                          disabled={rowStatus}
                           value={item?.priceGroup}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceGroup
@@ -180,6 +186,7 @@ export const PriceListTableForLabList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <select
+                          disabled={rowStatus}
                           value={item?.priceList || ''}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.priceList
@@ -242,6 +249,7 @@ export const PriceListTableForLabList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <Form.Input
+                          disabled={rowStatus}
                           label=''
                           value={item?.priority}
                           type='number'
@@ -272,6 +280,7 @@ export const PriceListTableForLabList = observer(
                         <Form.Input
                           label=''
                           type='number'
+                          disabled={rowStatus}
                           placeholder={item?.maxDis?.toString()}
                           className={
                             'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
@@ -293,45 +302,48 @@ export const PriceListTableForLabList = observer(
                     />
                   </td>
                   <td className='sticky right-0 z-10 bg-gray-500'>
-                    <div className='flex flex-col gap-1'>
-                      <Buttons.Button
-                        size='small'
-                        type='outline'
-                        onClick={() => {
-                          removeItem(index);
-                        }}
-                      >
-                        <Icons.EvaIcon
-                          icon='minus-circle-outline'
-                          color='#fff'
-                        />
-                      </Buttons.Button>
-                      <Buttons.Button
-                        size='small'
-                        type='outline'
-                        onClick={handleSubmit(addItem)}
-                      >
-                        <Icons.EvaIcon
-                          icon='plus-circle-outline'
-                          color='#fff'
-                        />
-                      </Buttons.Button>
-                    </div>
+                    {!rowStatus && (
+                      <div className='flex flex-col gap-1'>
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          onClick={() => {
+                            removeItem(index);
+                          }}
+                        >
+                          <Icons.EvaIcon
+                            icon='minus-circle-outline'
+                            color='#fff'
+                          />
+                        </Buttons.Button>
+                        <Buttons.Button
+                          size='small'
+                          type='outline'
+                          onClick={handleSubmit(addItem)}
+                        >
+                          <Icons.EvaIcon
+                            icon='plus-circle-outline'
+                            color='#fff'
+                          />
+                        </Buttons.Button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           )}
-
-          <Buttons.Button
-            size='small'
-            type='outline'
-            onClick={handleSubmit(addItem)}
-          >
-            <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
-          </Buttons.Button>
+          {!rowStatus && (
+            <Buttons.Button
+              size='small'
+              type='outline'
+              onClick={handleSubmit(addItem)}
+            >
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
+            </Buttons.Button>
+          )}
         </Table>
-        {displayPriceList && (
+        {displayPriceList && !rowStatus && (
           <Buttons.Button
             size='small'
             type='solid'

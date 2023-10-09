@@ -43,6 +43,9 @@ interface AdminstrativeDivListProps {
 }
 
 export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <div style={{ position: 'relative' }}>
       <TableBootstrap
@@ -64,6 +67,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: { textTransform: 'uppercase' },
@@ -83,6 +87,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
               fontSize: 0,
             },
             sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
@@ -100,6 +105,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: { textTransform: 'uppercase' },
@@ -118,6 +124,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: { textTransform: 'uppercase' },
@@ -136,6 +143,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             editorStyle: { textTransform: 'uppercase' },
@@ -154,6 +162,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -187,6 +196,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -232,6 +242,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -326,6 +337,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({

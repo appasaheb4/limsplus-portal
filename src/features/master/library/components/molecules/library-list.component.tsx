@@ -421,6 +421,7 @@ export const LibraryList = (props: LibraryListProps) => {
                           setModalDetails({
                             visible: true,
                             details: row?.details,
+                            status: !editorCell(row),
                             _id: row?._id,
                           });
                         }}

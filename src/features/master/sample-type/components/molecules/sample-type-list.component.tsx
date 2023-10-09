@@ -36,6 +36,9 @@ interface SampleTypeListProps {
 }
 
 export const SampleTypeList = (props: SampleTypeListProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== 'I' ? true : false;
+  };
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -94,6 +97,8 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -110,6 +115,8 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               style: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
@@ -175,6 +182,8 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
