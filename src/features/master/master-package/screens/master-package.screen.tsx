@@ -99,6 +99,7 @@ const MasterPackage = MasterPackageHOC(
       setValue('panelCode', masterPackageStore.masterPackage?.panelCode);
       setValue('panelName', masterPackageStore.masterPackage?.panelName);
       setValue('packageCode', masterPackageStore.masterPackage?.packageCode);
+      setValue('packageName', masterPackageStore.masterPackage?.packageName);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [masterPackageStore.masterPackage]);
 

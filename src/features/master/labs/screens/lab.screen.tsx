@@ -116,7 +116,7 @@ const Lab = LabHoc(
               }
             });
           } else {
-            return Toast.warning({
+            return Toast.error({
               message: '😔 Price list min 1 record required.',
             });
           }

@@ -348,6 +348,7 @@ export const LabList = (props: LabListProps) => {
                       <PriceListTableForLabList
                         key={row?._id}
                         rowStatus={!editorCell(row)}
+                        isAddRemoveItem={false}
                         data={row?.priceList}
                         onUpdate={data => {
                           props.onUpdateItem &&

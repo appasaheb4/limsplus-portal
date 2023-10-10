@@ -226,6 +226,7 @@ export const RegistrationLocationsList = (
                     <PriceListTableForRegLocationsList
                       key={row?._id}
                       rowStatus={!editorCell(row)}
+                      isAddRemoveItem={false}
                       invoiceAc={row?.invoiceAc}
                       data={row?.priceList || []}
                       onUpdate={data => {
