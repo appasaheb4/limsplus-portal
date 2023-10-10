@@ -196,11 +196,14 @@ export const RegistrationLocationsList = (
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
+            filter: customFilter({
               getFilter: filter => {
                 invoiceAc = filter;
               },
             }),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
             editable: false,
           },
           {

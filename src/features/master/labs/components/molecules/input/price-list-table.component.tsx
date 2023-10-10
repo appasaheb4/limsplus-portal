@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {Table} from 'reactstrap';
-import {Icons, Buttons, Form} from '@/library/components';
-import {lookupValue} from '@/library/utils';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
+import React, { useEffect, useState } from 'react';
+import { Table } from 'reactstrap';
+import { Icons, Buttons, Form } from '@/library/components';
+import { lookupValue } from '@/library/utils';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
 
 export const PriceListTable = observer(() => {
-  const {loading, labStore, priceListStore, corporateClientsStore} =
+  const { loading, labStore, priceListStore, corporateClientsStore } =
     useStores();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     clearErrors,
   } = useForm();
@@ -83,19 +83,19 @@ export const PriceListTable = observer(() => {
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white' style={{minWidth: 150}}>
+            <th className='text-white' style={{ minWidth: 150 }}>
               Price Group
             </th>
-            <th className='text-white' style={{minWidth: 150}}>
+            <th className='text-white' style={{ minWidth: 150 }}>
               Price List
             </th>
-            <th className='text-white' style={{minWidth: 150}}>
+            <th className='text-white' style={{ minWidth: 150 }}>
               Description
             </th>
-            <th className='text-white' style={{minWidth: 100}}>
+            <th className='text-white' style={{ minWidth: 100 }}>
               Priority
             </th>
-            <th className='text-white' style={{minWidth: 100}}>
+            <th className='text-white' style={{ minWidth: 100 }}>
               Max Dis%
             </th>
             <th className='text-white sticky right-0 z-10'>Action</th>
@@ -107,9 +107,8 @@ export const PriceListTable = observer(() => {
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <select
-                      value={item?.priceGroup}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.priceGroup ? 'border-red  ' : 'border-gray-300'
                       } rounded-md`}
@@ -117,6 +116,12 @@ export const PriceListTable = observer(() => {
                         const priceGroup = e.target.value as string;
                         onChange(priceGroup);
                         const priceList = labStore.labs?.priceList;
+                        const finalList = priceGroupItems?.filter(
+                          item => item.code != priceGroup,
+                        );
+                        setPriceGroupItems(
+                          JSON.parse(JSON.stringify(finalList)),
+                        );
                         priceList[index] = {
                           ...priceList[index],
                           priceGroup: priceGroup,
@@ -125,7 +130,9 @@ export const PriceListTable = observer(() => {
                         };
                       }}
                     >
-                      <option selected>Select</option>
+                      <option selected>
+                        {labStore.labs?.priceList[index].priceGroup || 'Select'}
+                      </option>
                       {priceGroupItems?.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
@@ -134,14 +141,14 @@ export const PriceListTable = observer(() => {
                     </select>
                   )}
                   name='priceGroup'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue={priceGroupItems}
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <select
                       value={item?.priceList || ''}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -169,14 +176,14 @@ export const PriceListTable = observer(() => {
                     </select>
                   )}
                   name='priceList'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue={priceListItems}
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.MultilineInput
                       rows={2}
                       label=''
@@ -194,14 +201,14 @@ export const PriceListTable = observer(() => {
                     />
                   )}
                   name='description'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       label=''
                       value={item?.priority}
@@ -226,14 +233,14 @@ export const PriceListTable = observer(() => {
                     />
                   )}
                   name='priority'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </td>
               <td>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       label=''
                       type='number'
@@ -257,7 +264,7 @@ export const PriceListTable = observer(() => {
                     />
                   )}
                   name='maxDis'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
               </td>

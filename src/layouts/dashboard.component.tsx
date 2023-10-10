@@ -9,7 +9,7 @@ import Navbar from './components/navbar.component';
 import Content from './components/content.component';
 import Footer from './components/footer.component';
 import Settings from './components/setting.component';
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { useIdleTimer } from 'react-idle-timer';
 
 import { toJS } from 'mobx';
@@ -91,9 +91,9 @@ export const RouterService = () => {
   return refreshPage();
 };
 
-const Dashboard = observer(({ children }) => {
+const Dashboard = observer(({ children, history }) => {
   const { loginStore } = useStores();
-  const history: any = useHistory();
+  // const history: any = useHistory();
   const [isLogined, setIsLogined] = useState<boolean>(false);
   const [modalIdleTime, setModalIdleTime] = useState<any>();
 
@@ -102,6 +102,7 @@ const Dashboard = observer(({ children }) => {
   };
 
   const loadApi = async (pathname?: string) => {
+    console.log('loading api');
     const currentLocation = window.location;
     pathname = pathname || currentLocation.pathname;
     //console.log({ beforeStore: pathname })
@@ -364,22 +365,40 @@ const Dashboard = observer(({ children }) => {
   }, []);
 
   // issue come realod then going default dashboard page so added dependancy
-  useEffect(() => {
-    setTimeout(() => {
-      stores.rootStore.isLogin().then(isLogin => {
-        if (!isLogin && !isLogined) history.push('/');
-        else {
-          let count = 0;
-          history.listen(async (location, action) => {
-            loadApi();
-            count = 1;
-          });
-          count == 0 && loadApi();
-        }
-      });
-      window.scrollTo(0, 0);
-    }, 1000);
-  }, [loginStore.login]);
+  // useEffect(() => {
+  //   stores.rootStore.isLogin().then(isLogin => {
+  //     loadApi();
+  //     // if (!isLogin && !isLogined) history.push('/');
+  //     // else {
+  //     //   let count = 0;
+  //     //   history.listen(async (location, action) => {
+  //     //     await loadApi();
+  //     //     count = 1;
+  //     //   });
+  //     //   count == 0 && loadApi();
+  //     // }
+  //   });
+  //   window.scrollTo(0, 0);
+  // }, [history.pathname]);
+
+  useEffect(
+    () =>
+      history.listen(() => {
+        stores.rootStore.isLogin().then(isLogin => {
+          loadApi();
+          // if (!isLogin && !isLogined) history.push('/');
+          // else {
+          //   let count = 0;
+          //   history.listen(async (location, action) => {
+          //     await loadApi();
+          //     count = 1;
+          //   });
+          //   count == 0 && loadApi();
+          // }
+        });
+      }),
+    [],
+  );
 
   // idle item session time
   const handleOnIdle = event => {
@@ -428,4 +447,4 @@ const Dashboard = observer(({ children }) => {
   );
 });
 
-export default Dashboard;
+export default withRouter(Dashboard);
