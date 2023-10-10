@@ -82,6 +82,7 @@ export const Users = UsersHoc(
       setValue('email', userStore.user?.email);
       setValue('userGroup', userStore.user?.userGroup);
       setValue('userModule', userStore.user?.userModule);
+      setValue('password', userStore.user?.password);
       setValue('dateCreation', userStore.user?.dateCreation);
       setValue('dateActive', userStore.user?.dateActive);
       setValue('exipreDate', userStore.user?.exipreDate);
@@ -2020,6 +2021,7 @@ export const Users = UsersHoc(
                     existsRecordId: undefined,
                     signature: undefined,
                     picture: undefined,
+                    password: 'Admin@123',
                     expireDays: Number.parseInt(modalConfirm.data?.expireDays),
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
@@ -2042,6 +2044,7 @@ export const Users = UsersHoc(
                     existsVersionId: undefined,
                     signature: undefined,
                     picture: undefined,
+                    password: 'Admin@123',
                     expireDays: Number.parseInt(modalConfirm.data?.expireDays),
                     existsRecordId: modalConfirm.data._id,
                     version: 1,

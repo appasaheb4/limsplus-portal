@@ -537,7 +537,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                editorCell(row) && row?.rangeType == 'V',
               editorRenderer: (
                 editorProps,
                 value,

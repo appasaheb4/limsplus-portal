@@ -15,6 +15,7 @@ import { lookupValue } from '@/library/utils';
 interface PriceListTableForRegLocationsListProps {
   data?: any;
   rowStatus?: boolean;
+  isAddRemoveItem?: boolean;
   invoiceAc: string | undefined;
   onUpdate?: (item: any) => void;
 }
@@ -23,6 +24,7 @@ export const PriceListTableForRegLocationsList = observer(
   ({
     data = [],
     invoiceAc,
+    isAddRemoveItem = true,
     onUpdate,
     rowStatus,
   }: PriceListTableForRegLocationsListProps) => {
@@ -115,31 +117,33 @@ export const PriceListTableForRegLocationsList = observer(
               <th className='text-white' style={{ minWidth: 100 }}>
                 Max Dis%
               </th>
-              <th className='text-white sticky right-0  flex flex-row gap-2'>
-                Action
-                <Buttons.ButtonIcon
-                  icon={
-                    <IconContext.Provider value={{ color: '#ffffff' }}>
-                      <BsFillArrowUpCircleFill />
-                    </IconContext.Provider>
-                  }
-                  title=''
-                  onClick={() => {
-                    setDisplayPriceList(false);
-                  }}
-                />
-                <Buttons.ButtonIcon
-                  icon={
-                    <IconContext.Provider value={{ color: '#ffffff' }}>
-                      <BsFillArrowDownCircleFill />
-                    </IconContext.Provider>
-                  }
-                  title=''
-                  onClick={() => {
-                    setDisplayPriceList(true);
-                  }}
-                />
-              </th>
+              {isAddRemoveItem && (
+                <th className='text-white sticky right-0  flex flex-row gap-2'>
+                  Action
+                  <Buttons.ButtonIcon
+                    icon={
+                      <IconContext.Provider value={{ color: '#ffffff' }}>
+                        <BsFillArrowUpCircleFill />
+                      </IconContext.Provider>
+                    }
+                    title=''
+                    onClick={() => {
+                      setDisplayPriceList(false);
+                    }}
+                  />
+                  <Buttons.ButtonIcon
+                    icon={
+                      <IconContext.Provider value={{ color: '#ffffff' }}>
+                        <BsFillArrowDownCircleFill />
+                      </IconContext.Provider>
+                    }
+                    title=''
+                    onClick={() => {
+                      setDisplayPriceList(true);
+                    }}
+                  />
+                </th>
+              )}
             </tr>
           </thead>
           {displayPriceList && (
@@ -303,8 +307,9 @@ export const PriceListTableForRegLocationsList = observer(
                       defaultValue=''
                     />
                   </td>
-                  <td className='sticky right-0 z-10 bg-gray-500'>
-                    {!rowStatus && (
+
+                  {!rowStatus && isAddRemoveItem && (
+                    <td className='sticky right-0 z-10 bg-gray-500'>
                       <div className='flex flex-col gap-1'>
                         <Buttons.Button
                           size='small'
@@ -329,13 +334,13 @@ export const PriceListTableForRegLocationsList = observer(
                           />
                         </Buttons.Button>
                       </div>
-                    )}
-                  </td>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           )}
-          {!rowStatus && (
+          {/* {!rowStatus && (
             <Buttons.Button
               size='small'
               type='outline'
@@ -343,9 +348,9 @@ export const PriceListTableForRegLocationsList = observer(
             >
               <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
             </Buttons.Button>
-          )}
+          )} */}
         </Table>
-        {displayPriceList && !rowStatus && (
+        {/* {displayPriceList && !rowStatus && (
           <Buttons.Button
             size='small'
             type='solid'
@@ -353,7 +358,7 @@ export const PriceListTableForRegLocationsList = observer(
           >
             Update
           </Buttons.Button>
-        )}
+        )} */}
       </div>
     );
   },
