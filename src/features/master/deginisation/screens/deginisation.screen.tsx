@@ -38,7 +38,7 @@ const Deginisation = DeginisationHoc(
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddDeginisation, setHideAddDeginisation] =
-      useState<boolean>(false);
+      useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
