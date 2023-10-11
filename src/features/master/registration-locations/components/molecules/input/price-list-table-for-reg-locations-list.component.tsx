@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Table } from 'reactstrap';
 import { Icons, Buttons, Form } from '@/library/components';
 import { observer } from 'mobx-react';
@@ -9,7 +9,6 @@ import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
-import { RouterFlow } from '@/flows';
 import { lookupValue } from '@/library/utils';
 
 interface PriceListTableForRegLocationsListProps {
@@ -55,30 +54,31 @@ export const PriceListTableForRegLocationsList = observer(
       return list || [];
     };
 
-    useEffect(() => {
-      (async function () {
-        try {
-          await RouterFlow.getLookupValuesByPathNField(
-            '/collection/price-list',
-            'PRICE_GROUP',
-          ).then(async res => {
-            if (res?.length > 0) {
-              setPriceGroupItems(res.filter(item => item.code !== 'CSP'));
-              await RouterFlow.getLookupValuesByPathNField(
-                '/collection/price-list',
-                'PRICE_LIST',
-              ).then(items => {
-                if (items?.length > 0) {
-                  setPriceListItems(items);
-                }
-              });
-            }
-          });
-        } catch (e) {
-          console.error(e);
-        }
-      })();
-    }, []);
+    // TODO: again again fetch data
+    // useEffect(() => {
+    //   (async function () {
+    //     try {
+    //       await RouterFlow.getLookupValuesByPathNField(
+    //         '/collection/price-list',
+    //         'PRICE_GROUP',
+    //       ).then(async res => {
+    //         if (res?.length > 0) {
+    //           setPriceGroupItems(res.filter(item => item.code !== 'CSP'));
+    //           await RouterFlow.getLookupValuesByPathNField(
+    //             '/collection/price-list',
+    //             'PRICE_LIST',
+    //           ).then(items => {
+    //             if (items?.length > 0) {
+    //               setPriceListItems(items);
+    //             }
+    //           });
+    //         }
+    //       });
+    //     } catch (e) {
+    //       console.error(e);
+    //     }
+    //   })();
+    // }, []);
 
     const addItem = () => {
       priceList.push({

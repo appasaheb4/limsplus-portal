@@ -54,11 +54,38 @@ const RegistrationLocation = RegistrationLocationHoc(
       reset,
     } = useForm();
 
+    const [priceGroupItems, setPriceGroupItems] = useState<any>();
+    const [priceListItems, setPriceListItems] = useState<any>();
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+
+    useEffect(() => {
+      (async function () {
+        try {
+          await RouterFlow.getLookupValuesByPathNField(
+            '/collection/price-list',
+            'PRICE_GROUP',
+          ).then(async res => {
+            if (res?.length > 0) {
+              setPriceGroupItems(res.filter(item => item.code !== 'CSP'));
+              await RouterFlow.getLookupValuesByPathNField(
+                '/collection/price-list',
+                'PRICE_LIST',
+              ).then(items => {
+                if (items?.length > 0) {
+                  setPriceListItems(items);
+                }
+              });
+            }
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    }, []);
 
     useEffect(() => {
       // Default value initialization
@@ -461,6 +488,16 @@ const RegistrationLocation = RegistrationLocationHoc(
       });
       reader.readAsBinaryString(file);
     };
+
+    const getPriceListTable = useMemo(
+      () => (
+        <PriceListTable
+          priceGroup={priceGroupItems}
+          priceList={priceListItems}
+        />
+      ),
+      [priceGroupItems, priceListItems],
+    );
     return (
       <>
         <Header>
@@ -2043,7 +2080,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                           label='Price List'
                           hasError={!!errors.priceList}
                         >
-                          <PriceListTable />
+                          {getPriceListTable}
                         </Form.InputWrapper>
                       )}
                       name='priceList'

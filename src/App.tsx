@@ -1,17 +1,18 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
-import {ToastContainer, ModalLoader} from '@/library/components';
-import {Provider} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { ToastContainer, ModalLoader } from '@/library/components';
+import { Provider } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
-import {configure} from 'mobx';
-import {I18nextProvider} from 'react-i18next';
-import {Alert, Snackbar} from '@mui/material';
+import { configure } from 'mobx';
+import { I18nextProvider } from 'react-i18next';
+import { Alert, Snackbar } from '@mui/material';
 
-import i18next, {setLanguage} from './localization';
+import i18next, { setLanguage } from './localization';
 import store from './redux/store/index';
 import Routes from './routes/root-route';
+import { eventEmitter } from '@/core-utils';
 
-import {Toast} from 'react-bootstrap';
+import { Toast } from 'react-bootstrap';
 
 // import {getToken, onMessageListener} from './firebase';
 // import LogRocket from 'logrocket';
@@ -22,10 +23,10 @@ import {Toast} from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
-import {stores} from '@/stores';
+import { stores } from '@/stores';
 
 import hydrateStore from '@/library/modules/startup';
-import {ApolloProvider, client} from '@/core-services/graphql/apollo-client';
+import { ApolloProvider, client } from '@/core-services/graphql/apollo-client';
 
 // setup again new method
 configure({
@@ -36,7 +37,7 @@ configure({
 
 const App = observer(() => {
   const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState({title: '', body: ''});
+  const [notification, setNotification] = useState({ title: '', body: '' });
   setLanguage();
 
   const loader = async () => {
@@ -81,19 +82,12 @@ const App = observer(() => {
   //     .catch(err => console.log('failed:', err));
   // };
 
-  React.useEffect(() => {
+  useEffect(() => {
     loader();
+    eventEmitter.emit('loadApi', {});
     // loaderNotification();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const environments = {
-    Local: 'error',
-    Development: 'error',
-    Qa: 'warning',
-    Uat: 'info',
-    Production: 'success',
-  };
 
   return (
     <>
