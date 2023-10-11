@@ -48,11 +48,38 @@ const Lab = LabHoc(
       reset,
     } = useForm();
 
+    const [priceGroupItems, setPriceGroupItems] = useState<any>();
+    const [priceListItems, setPriceListItems] = useState<any>();
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+
+    useEffect(() => {
+      (async function () {
+        try {
+          await RouterFlow.getLookupValuesByPathNField(
+            '/collection/price-list',
+            'PRICE_GROUP',
+          ).then(async res => {
+            if (res?.length > 0) {
+              setPriceGroupItems(res.filter(item => item.code !== 'CSP'));
+              await RouterFlow.getLookupValuesByPathNField(
+                '/collection/price-list',
+                'PRICE_LIST',
+              ).then(items => {
+                if (items?.length > 0) {
+                  setPriceListItems(items);
+                }
+              });
+            }
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    }, []);
 
     useEffect(() => {
       setValue('code', labStore.labs?.code);
@@ -358,6 +385,16 @@ const Lab = LabHoc(
         } else return false;
       });
     };
+
+    const getPriceListTable = useMemo(
+      () => (
+        <PriceListTable
+          priceGroup={priceGroupItems}
+          priceList={priceListItems}
+        />
+      ),
+      [priceGroupItems, priceListItems],
+    );
 
     return (
       <>
@@ -1641,7 +1678,7 @@ const Lab = LabHoc(
                         label='Price List'
                         hasError={!!errors.priceList}
                       >
-                        <PriceListTable />
+                        {getPriceListTable}
                       </Form.InputWrapper>
                     )}
                     name='priceList'

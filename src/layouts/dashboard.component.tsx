@@ -93,8 +93,6 @@ export const RouterService = () => {
 
 const Dashboard = observer(({ children, history }) => {
   const { loginStore } = useStores();
-  // const history: any = useHistory();
-  const [isLogined, setIsLogined] = useState<boolean>(false);
   const [modalIdleTime, setModalIdleTime] = useState<any>();
 
   const refreshPage = () => {
@@ -102,15 +100,11 @@ const Dashboard = observer(({ children, history }) => {
   };
 
   const loadApi = async (pathname?: string) => {
-    console.log('loading api');
     const currentLocation = window.location;
     pathname = pathname || currentLocation.pathname;
-    //console.log({ beforeStore: pathname })
-    // console.log({pathname});
     if (pathname !== '/' && stores && loginStore.login) {
       // for every table filer access filter data
       global.filter = undefined;
-      //console.log({ loginafter: pathname })
       // common use api
       await Deginisation.startup();
       await Lab.startup();
@@ -362,6 +356,9 @@ const Dashboard = observer(({ children, history }) => {
     eventEmitter.on('reload', data => {
       refreshPage();
     });
+    eventEmitter.on('loadApi', data => {
+      loadApi();
+    });
   }, []);
 
   // issue come realod then going default dashboard page so added dependancy
@@ -385,16 +382,10 @@ const Dashboard = observer(({ children, history }) => {
     () =>
       history.listen(() => {
         stores.rootStore.isLogin().then(isLogin => {
-          loadApi();
-          // if (!isLogin && !isLogined) history.push('/');
-          // else {
-          //   let count = 0;
-          //   history.listen(async (location, action) => {
-          //     await loadApi();
-          //     count = 1;
-          //   });
-          //   count == 0 && loadApi();
-          // }
+          if (!isLogin) history.push('/');
+          else {
+            loadApi();
+          }
         });
       }),
     [],
@@ -402,8 +393,6 @@ const Dashboard = observer(({ children, history }) => {
 
   // idle item session time
   const handleOnIdle = event => {
-    console.log('session logout', getLastActiveTime());
-    setIsLogined(true);
     loginStore
       .removeUser()
       .then(async res => {

@@ -1,9 +1,9 @@
-import {toJS} from 'mobx';
+import { toJS } from 'mobx';
 import Storage from '@/library/modules/storage';
 import hydrateStore from '@/library/modules/startup';
 /* eslint-disable */
-import {LookupService} from '@/features/master/lookup/services';
-import {stores} from '@/stores';
+import { LookupService } from '@/features/master/lookup/services';
+import { stores } from '@/stores';
 
 export const selectedComponents = (store, category, subCategory) => {
   if (store) {
@@ -78,7 +78,7 @@ export const updateSelectedCategory = async (
     item,
   );
   await hydrateStore('routerStore', stores.routerStore);
-  return {permission, selectedComp};
+  return { permission, selectedComp };
 };
 
 export const getLookupValues = async (path: string): Promise<any> => {
@@ -107,7 +107,7 @@ export const getLookupValuesByPathNField = async (
 ) => {
   let lookupItems: Array<any> = [];
   await new LookupService()
-    .lookupItemsByPathNField({input: {path, field}})
+    .lookupItemsByPathNField({ input: { path, field } })
     .then(res => {
       if (!res.lookupItemsByPathNField.success)
         return alert(res.lookupItemsByPathNField.message);
