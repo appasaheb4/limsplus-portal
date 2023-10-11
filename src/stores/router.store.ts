@@ -1,5 +1,5 @@
-import {makeObservable, action, observable} from 'mobx';
-import {SelectedCategory, SelectedComponent} from '../library/models';
+import { makeObservable, action, observable } from 'mobx';
+import { SelectedCategory, SelectedComponent } from '../library/models';
 
 export class RouterStore {
   userRouter!: any[];
@@ -38,7 +38,7 @@ export class RouterStore {
     });
   }
 
-  updateUserRouter(router?) {
+  updateUserRouter(router?: any) {
     this.userRouter = router || undefined;
   }
 

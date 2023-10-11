@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { observer } from 'mobx-react';
 import { ToastContainer, ModalLoader } from '@/library/components';
 import { Provider } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
@@ -35,7 +34,7 @@ configure({
   },
 });
 
-const App = observer(() => {
+const App = () => {
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState({ title: '', body: '' });
   setLanguage();
@@ -88,7 +87,6 @@ const App = observer(() => {
     // loaderNotification();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <>
       <Toast
@@ -140,7 +138,7 @@ const App = observer(() => {
       </ApolloProvider>
     </>
   );
-});
+};
 // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);

@@ -1,30 +1,30 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
-import {NavLink, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {observer} from 'mobx-react';
-import {useHistory} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { observer } from 'mobx-react';
+import { useHistory } from 'react-router-dom';
 
-import {Badge} from 'reactstrap';
+import { Badge } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import {Icons, AutocompleteGroupBy} from '@/library/components';
+import { Icons, AutocompleteGroupBy } from '@/library/components';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCircle} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import * as Assets from '@/library/assets';
 
-import {stores, useStores} from '@/stores';
+import { stores, useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toggleSidebar} from '@/redux/actions/sidebar-action';
+import { RouterFlow } from '@/flows';
+import { toggleSidebar } from '@/redux/actions/sidebar-action';
 
 const initOpenRoutes = location => {
   /* Open collapse element that matches current url */
   const pathName = location.pathname;
   let _routes = {};
   if (stores.routerStore.userRouter)
-    stores.routerStore.userRouter.forEach((route: any, index) => {
+    stores.routerStore.userRouter?.forEach((route: any, index) => {
       const isActive = pathName.indexOf(route.path) === 0;
       const isOpen = route.open;
       const isHome = route.containsHome && pathName === '/' ? true : false;
@@ -65,7 +65,7 @@ const SidebarCategory = withRouter(
         >
           <Icons.RIcon
             nameIcon={icon}
-            propsIcon={{color: '#ffffff', size: 20}}
+            propsIcon={{ color: '#ffffff', size: 20 }}
           />
           <span className='align-middle'>{title}</span>
           {badgeColor && badgeText ? (
@@ -77,7 +77,9 @@ const SidebarCategory = withRouter(
         {isOpen && (
           <ul id='item' className={`sidebar-dropdown list-unstyled `}>
             <PerfectScrollbar>
-              <div style={{height: 'auto', maxHeight: '350px'}}>{children}</div>
+              <div style={{ height: 'auto', maxHeight: '350px' }}>
+                {children}
+              </div>
             </PerfectScrollbar>
           </ul>
         )}
@@ -106,7 +108,8 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
   return (
     <li
       className={'sidebar-item ' + getSidebarItemClass(props.to)}
-      onClick={() => {
+      onClick={e => {
+        e.preventDefault();
         props.onChangeItem && props.onChangeItem(props.category, props.name);
       }}
     >
@@ -114,7 +117,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
         <div className='flex items-center p-0 m-0'>
           <Icons.RIcon
             nameIcon={props.icon || 'VscListSelection'}
-            propsIcon={{color: '#ffffff', size: 18}}
+            propsIcon={{ color: '#ffffff', size: 18 }}
           />
           <span className='flex items-center'>{props.title}</span>
         </div>
@@ -128,10 +131,11 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
   );
 });
 
-const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
-  const {routerStore} = useStores();
+const Sidebar = ({ location, sidebar, layout, dispatch }) => {
   const history = useHistory();
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location));
+
+  console.log({ router: global.router });
 
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location));
@@ -141,11 +145,11 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
     for (const item of Object.keys(openRoutes))
       openRoutes[index] ||
         setOpenRoutes(openRoutes =>
-          Object.assign({}, openRoutes, {[item]: false}),
+          Object.assign({}, openRoutes, { [item]: false }),
         );
     // Toggle selected element
     setOpenRoutes(openRoutes =>
-      Object.assign({}, openRoutes, {[index]: !openRoutes[index]}),
+      Object.assign({}, openRoutes, { [index]: !openRoutes[index] }),
     );
   };
 
@@ -169,27 +173,27 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
               <img
                 src={Assets.images.limsplusTran}
                 alt='appIcon'
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
               />
             </a>
             <div className='p-2'>
               <AutocompleteGroupBy
                 data={stores.routerStore.userRouter}
                 onChange={async (item: any, children: any) => {
-                  const {permission, selectedComp} =
+                  const { permission, selectedComp } =
                     await RouterFlow.updateSelectedCategory(
                       item.name,
                       children.name,
                     );
-                  routerStore.updateSelectedComponents(selectedComp);
-                  routerStore.updateUserPermission(permission);
-                  history.push(children.path);
+                  stores.routerStore.updateSelectedComponents(selectedComp);
+                  stores.routerStore.updateUserPermission(permission);
+                  history.replace(children.path);
                 }}
               />
             </div>
             {stores.routerStore.userRouter && (
               <ul className='sidebar-nav'>
-                {stores.routerStore.userRouter.map((category: any, index) => {
+                {stores.routerStore.userRouter?.map((category: any, index) => {
                   return (
                     <React.Fragment key={index}>
                       {category.children ? (
@@ -215,15 +219,17 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
                                 badgeText={route.badgeText}
                                 icon={route.icon}
                                 onChangeItem={async (category, item) => {
-                                  const {permission, selectedComp} =
+                                  const { permission, selectedComp } =
                                     await RouterFlow.updateSelectedCategory(
                                       category,
                                       item,
                                     );
-                                  routerStore.updateSelectedComponents(
+                                  stores.routerStore.updateSelectedComponents(
                                     selectedComp,
                                   );
-                                  routerStore.updateUserPermission(permission);
+                                  stores.routerStore.updateUserPermission(
+                                    permission,
+                                  );
                                   if (!sidebar.isOpen) {
                                     dispatch(toggleSidebar());
                                   }
@@ -243,15 +249,17 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
                             badgeColor={category.badgeColor}
                             badgeText={category.badgeText}
                             onChangeItem={async (category, item) => {
-                              const {permission, selectedComp} =
+                              const { permission, selectedComp } =
                                 await RouterFlow.updateSelectedCategory(
                                   category,
                                   item,
                                 );
-                              routerStore.updateSelectedComponents(
+                              stores.routerStore.updateSelectedComponents(
                                 selectedComp,
                               );
-                              routerStore.updateUserPermission(permission);
+                              stores.routerStore.updateUserPermission(
+                                permission,
+                              );
                             }}
                           />
                         </>
@@ -293,7 +301,7 @@ const Sidebar = observer(({location, sidebar, layout, dispatch}) => {
       </nav>
     </>
   );
-});
+};
 
 export default withRouter(
   connect((store: any) => ({
@@ -302,3 +310,5 @@ export default withRouter(
     app: store.app,
   }))(Sidebar),
 );
+
+// export default Sidebar;
