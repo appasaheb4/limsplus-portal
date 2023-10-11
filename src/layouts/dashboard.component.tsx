@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import { ModalIdleTimeout } from '@/library/components';
 import Wrapper from './components/wrapper.component';
@@ -91,9 +91,9 @@ export const RouterService = () => {
   return refreshPage();
 };
 
-const Dashboard = observer(({ children, history }) => {
-  const { loginStore } = useStores();
+const Dashboard = ({ children }) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>();
+  const history = useHistory();
 
   const refreshPage = () => {
     history.replace(window.location.pathname);
@@ -102,7 +102,7 @@ const Dashboard = observer(({ children, history }) => {
   const loadApi = async (pathname?: string) => {
     const currentLocation = window.location;
     pathname = pathname || currentLocation.pathname;
-    if (pathname !== '/' && stores && loginStore.login) {
+    if (pathname !== '/' && stores && stores.loginStore.login) {
       // for every table filer access filter data
       global.filter = undefined;
       // common use api
@@ -307,15 +307,15 @@ const Dashboard = observer(({ children, history }) => {
   };
 
   const router = async () => {
-    let router: any = toJS(loginStore.login);
-
+    let router: any = toJS(stores.loginStore.login);
     if (router?.userId) {
       if (router && !stores.routerStore.userRouter) {
         router = router.roleMapping.router;
         stores.routerStore.updateUserRouter(router);
+        global.router = router;
       }
     } else {
-      loginStore.removeLocalSession().then(() => {
+      stores.loginStore.removeLocalSession().then(() => {
         history.push('/');
       });
     }
@@ -393,7 +393,7 @@ const Dashboard = observer(({ children, history }) => {
 
   // idle item session time
   const handleOnIdle = event => {
-    loginStore
+    stores.loginStore
       .removeUser()
       .then(async res => {
         if (res.logout.success) {
@@ -410,10 +410,12 @@ const Dashboard = observer(({ children, history }) => {
   };
 
   const { getLastActiveTime } = useIdleTimer({
-    timeout: 1000 * 60 * (loginStore.login?.sessionTimeoutCount || 10),
+    timeout: 1000 * 60 * (stores.loginStore.login?.sessionTimeoutCount || 10),
     onIdle: handleOnIdle,
     debounce: 500,
   });
+
+  console.log('dashboard reload');
 
   return (
     <React.Fragment>
@@ -434,6 +436,6 @@ const Dashboard = observer(({ children, history }) => {
       />
     </React.Fragment>
   );
-});
+};
 
-export default withRouter(Dashboard);
+export default Dashboard;

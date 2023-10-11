@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
-
-import {toggleSidebar} from '../../redux/actions/sidebar-action';
-import {useHistory} from 'react-router-dom';
-import {stores, useStores} from '@/stores';
+import DarkModeSwitcher from './dark-mode-switcher';
+import { toggleSidebar } from '../../redux/actions/sidebar-action';
+import { useHistory } from 'react-router-dom';
+import { stores, useStores } from '@/stores';
 
 import * as Assets from '@/library/assets';
 import {
@@ -17,9 +17,9 @@ import {
   ModalChangePassword,
   ModalSessionAllowed,
 } from '@/library/components';
-import {ModalAccount} from '.';
+import { ModalAccount } from '.';
 
-import {RouterFlow} from '@/flows';
+import { RouterFlow } from '@/flows';
 
 import {
   Collapse,
@@ -35,9 +35,9 @@ import {
   Card,
 } from 'reactstrap';
 
-const NavbarComponent = observer(({dispatch}) => {
+const NavbarComponent = observer(({ dispatch }) => {
   const [userId, serUserId] = useState<string>('');
-  const {appStore, userStore, routerStore, loginStore} = useStores();
+  const { appStore, userStore, routerStore, loginStore } = useStores();
   const history = useHistory();
   const [modalAccount, setModalAccount] = useState<any>();
   const [modalChangePassword, setModalChangePassword] = useState<any>();
@@ -99,7 +99,7 @@ const NavbarComponent = observer(({dispatch}) => {
                           size='medium'
                           type='outline'
                           onClick={async () => {
-                            const {permission, selectedComp} =
+                            const { permission, selectedComp } =
                               await RouterFlow.updateSelectedCategory(
                                 item.category,
                                 item.name,
@@ -109,11 +109,11 @@ const NavbarComponent = observer(({dispatch}) => {
                             history.push(item.path);
                           }}
                         >
-                          <div style={{position: 'relative', zIndex: 999}}>
+                          <div style={{ position: 'relative', zIndex: 999 }}>
                             <Tooltip tooltipText={item.title}>
                               <Icons.RIcon
                                 nameIcon={item.icon || 'VscListSelection'}
-                                propsIcon={{color: '#000000', size: 18}}
+                                propsIcon={{ color: '#000000', size: 18 }}
                               />
                             </Tooltip>
                           </div>
@@ -179,7 +179,7 @@ const NavbarComponent = observer(({dispatch}) => {
                   </Icons.IconContext>
                 </Tooltip>
               </Buttons.Button>
-              <div className='ml-2' />
+              <div className='mx-2'>{/* <DarkModeSwitcher /> */}</div>
               <Buttons.Button
                 size='medium'
                 type='outline'
@@ -214,7 +214,7 @@ const NavbarComponent = observer(({dispatch}) => {
               >
                 <label
                   className='inline w-8 text-center'
-                  style={{width: '40px'}}
+                  style={{ width: '40px' }}
                 >
                   {loginStore.login?.sessionAllowed}
                 </label>
@@ -226,7 +226,7 @@ const NavbarComponent = observer(({dispatch}) => {
           <span>
             <DropdownToggle nav>
               <div className='flex flex-row gap-2'>
-                <div style={{width: '40px', height: '40px'}}>
+                <div style={{ width: '40px', height: '40px' }}>
                   <img
                     className='rounded-full'
                     src={loginStore.login?.picture || Assets.defaultAvatar}
@@ -242,11 +242,11 @@ const NavbarComponent = observer(({dispatch}) => {
           </span>
           <div className='test'>
             <DropdownMenu right>
-              <DropdownItem onClick={() => setModalAccount({show: true})}>
+              <DropdownItem onClick={() => setModalAccount({ show: true })}>
                 Account
               </DropdownItem>
               <DropdownItem
-                onClick={() => setModalChangePassword({show: true})}
+                onClick={() => setModalChangePassword({ show: true })}
               >
                 Change Password
               </DropdownItem>
@@ -276,7 +276,7 @@ const NavbarComponent = observer(({dispatch}) => {
       </Navbar>
       <ModalAccount
         {...modalAccount}
-        onClose={() => setModalAccount({show: false})}
+        onClose={() => setModalAccount({ show: false })}
       />
       <ModalChangePassword
         {...modalChangePassword}
@@ -294,7 +294,7 @@ const NavbarComponent = observer(({dispatch}) => {
             newPassword: body.confirmPassword,
             exipreDate,
           };
-          userStore.UsersService.changePassword({input: {...body}}).then(
+          userStore.UsersService.changePassword({ input: { ...body } }).then(
             res => {
               if (res.userChnagePassword.success) {
                 loginStore.updateLogin({
@@ -309,7 +309,7 @@ const NavbarComponent = observer(({dispatch}) => {
                 Toast.success({
                   message: `😊 ${res.userChnagePassword.message}`,
                 });
-                setModalChangePassword({show: false});
+                setModalChangePassword({ show: false });
                 setTimeout(() => {
                   window.location.reload();
                 }, 2000);
@@ -330,7 +330,7 @@ const NavbarComponent = observer(({dispatch}) => {
             ...userStore.changePassword,
             tempHide: true,
           });
-          setModalChangePassword({show: false});
+          setModalChangePassword({ show: false });
         }}
       />
       <ModalSessionAllowed
@@ -364,7 +364,7 @@ const NavbarComponent = observer(({dispatch}) => {
           });
         }}
         onClose={() => {
-          setModalSessionAllowed({show: false});
+          setModalSessionAllowed({ show: false });
         }}
       />
     </>

@@ -1,8 +1,14 @@
-import {makeObservable, action, observable, runInAction, computed} from 'mobx';
+import {
+  makeObservable,
+  action,
+  observable,
+  runInAction,
+  computed,
+} from 'mobx';
 import Session from '@/library/modules/session';
-import {Login, ForgotPassword} from '../models';
+import { Login, ForgotPassword } from '../models';
 import * as Services from '../services';
-import {stores} from '@/stores';
+import { stores } from '@/stores';
 import Storage from '@/library/modules/storage';
 
 export class LoginStore {
@@ -33,7 +39,7 @@ export class LoginStore {
       updateForgotPassword: action,
       isLoggedIn: action,
     });
-    Session.initialize({name: 'limsplus'});
+    Session.initialize({ name: 'limsplus' });
     runInAction(async () => {
       const session = await Session.getSession();
       if (session && stores) stores.rootStore.updateSesssion(session);

@@ -29,6 +29,7 @@ module.exports = {
         mono: '#754c00',
         'border-red': '#ff0000',
         bgGrey: '#808080',
+        stroke: '#E2E8F0',
       },
       fontFamily: {
         arimaRegular: ['Arima Regular'],
