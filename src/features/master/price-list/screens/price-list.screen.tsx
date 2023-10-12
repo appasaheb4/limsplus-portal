@@ -59,6 +59,9 @@ export const PriceList = PriceListHoc(
 
     useEffect(() => {
       // Default value initialization
+      setValue('panelCode', priceListStore.priceList?.panelCode);
+      setValue('panelName', priceListStore.priceList?.panelName);
+      setValue('price', priceListStore.priceList?.price);
       setValue('priceGroup', priceListStore.priceList?.priceGroup);
       setValue('priceList', priceListStore.priceList?.priceList);
       setValue('status', priceListStore.priceList?.status);
@@ -432,7 +435,7 @@ export const PriceList = PriceListHoc(
                             setError('priceList', { type: 'onBlur' });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option selected>{value || 'Select'}</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'PRICE_GROUP',
@@ -464,7 +467,7 @@ export const PriceList = PriceListHoc(
                               list: corporateClientsStore?.listCorporateClients,
                               displayKey: ['invoiceAc', 'corporateName'],
                             }}
-                            // displayValue={value}
+                            displayValue={value}
                             hasError={!!errors.priceList}
                             onFilter={(value: string) => {
                               corporateClientsStore.corporateClientsService.filterByFields(
@@ -560,7 +563,7 @@ export const PriceList = PriceListHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option selected>{value || 'Select'}</option>
                             {getPriceList(
                               lookupItems(
                                 routerStore.lookupItems,
@@ -1204,16 +1207,7 @@ export const PriceList = PriceListHoc(
                     ),
                   });
                   setHideAddView(!hideAddView);
-
                   setIsVersionUpgrade(true);
-                  setValue('panelCode', modalConfirm.data.panelCode);
-                  setValue('panelName', modalConfirm.data.panelName);
-                  setValue('billTo', modalConfirm.data.billTo);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('priceGroup', modalConfirm.data.priceGroup);
-                  setValue('price', modalConfirm.data.price);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
                   break;
                 }
                 case 'duplicate': {
@@ -1231,14 +1225,6 @@ export const PriceList = PriceListHoc(
                     ),
                   });
                   setHideAddView(!hideAddView);
-                  setValue('panelCode', modalConfirm.data.panelCode);
-                  setValue('panelName', modalConfirm.data.panelName);
-                  setValue('billTo', modalConfirm.data.billTo);
-                  setValue('lab', modalConfirm.data.lab);
-                  setValue('priceGroup', modalConfirm.data.priceGroup);
-                  setValue('price', modalConfirm.data.price);
-                  setValue('status', modalConfirm.data.status);
-                  setValue('environment', modalConfirm.data.environment);
                   break;
                 }
                 // No default
