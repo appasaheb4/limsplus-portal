@@ -1,5 +1,5 @@
-import {makeObservable, action, observable} from 'mobx';
-import {EnvironmentValue} from '../models';
+import { makeObservable, action, observable } from 'mobx';
+import { EnvironmentValue } from '../models';
 
 interface ApplicationSetting {
   sideBarColor?: string;
@@ -7,6 +7,7 @@ interface ApplicationSetting {
   imageSideBarBgImage?: string;
   isSideBarBgImage?: boolean;
   isExpandScreen?: boolean;
+  theme?: 'dark' | 'light';
 }
 
 interface FooterViewProps {
@@ -15,12 +16,12 @@ interface FooterViewProps {
 
 export class AppStore {
   applicationSetting!: ApplicationSetting;
-  loadApi: {count: number; path?: string};
+  loadApi: { count: number; path?: string };
   environmentValues!: EnvironmentValue;
   footerView!: FooterViewProps;
 
   constructor() {
-    this.loadApi = {count: 0};
+    this.loadApi = { count: 0 };
     this.applicationSetting = {
       ...this.applicationSetting,
       isExpandScreen: false,
@@ -45,7 +46,7 @@ export class AppStore {
     this.applicationSetting = setting;
   }
 
-  updateLoadApi = (value: {count; path?}) => {
+  updateLoadApi = (value: { count; path? }) => {
     this.loadApi = value;
   };
 

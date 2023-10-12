@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 
 import { Badge } from 'reactstrap';
@@ -14,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import * as Assets from '@/library/assets';
 
-import { stores, useStores } from '@/stores';
+import { stores } from '@/stores';
 
 import { RouterFlow } from '@/flows';
 import { toggleSidebar } from '@/redux/actions/sidebar-action';

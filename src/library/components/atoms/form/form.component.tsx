@@ -17,7 +17,7 @@ export const Label: React.FunctionComponent<LabelProps> = props => (
     <label
       htmlFor={props.htmlFor}
       className={`${
-        props.hasError ? 'text-red-400' : 'text-gray-700'
+        props.hasError ? 'text-red-400' : 'text-current'
       } block text-3xs font-medium  mb-1`}
       style={{ ...props.style }}
     >

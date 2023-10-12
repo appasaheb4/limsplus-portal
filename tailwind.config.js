@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin');
 const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   content: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
-  darkMode: 'media',
+  darkMode: 'class',
   theme: {
     extend: {
       screens: {
@@ -12,6 +12,8 @@ module.exports = {
         md: { min: '768px', max: '2000px' },
       },
       colors: {
+        current: 'currentColor',
+        transparent: 'transparent',
         'text-base': '#ffffff',
         primary: '#454cbf',
         secondary: '#c57c85',
@@ -30,6 +32,24 @@ module.exports = {
         'border-red': '#ff0000',
         bgGrey: '#808080',
         stroke: '#E2E8F0',
+        boxdark: '#24303F',
+        'boxdark-2': '#1A222C',
+        strokedark: '#2E3A47',
+        content: '#000000',
+        'form-strokedark': '#3d4d60',
+        'form-input': '#1d2a39',
+        'meta-1': '#DC3545',
+        'meta-2': '#EFF2F7',
+        'meta-3': '#10B981',
+        'meta-4': '#313D4A',
+        'meta-5': '#259AE6',
+        'meta-6': '#FFBA00',
+        'meta-7': '#FF6766',
+        'meta-8': '#F0950C',
+        'meta-9': '#E5E7EB',
+        success: '#219653',
+        danger: '#D34053',
+        warning: '#FFA70B',
       },
       fontFamily: {
         arimaRegular: ['Arima Regular'],
@@ -37,6 +57,16 @@ module.exports = {
         nunitoSansBold: ['NunitoSans Bold'],
         dancingScriptBold: ['DancingScript-Bold'],
         dancingScriptRegular: ['DancingScript-Regular'],
+      },
+      fontSize: {
+        'title-xxl': ['44px', '55px'],
+        'title-xl': ['36px', '45px'],
+        'title-xl2': ['33px', '45px'],
+        'title-lg': ['28px', '35px'],
+        'title-md': ['24px', '30px'],
+        'title-md2': ['26px', '30px'],
+        'title-sm': ['20px', '26px'],
+        'title-xsm': ['18px', '24px'],
       },
       spacing: {
         '8xl': '96rem',
@@ -55,6 +85,52 @@ module.exports = {
         'screen/3': 'calc(100vh / 3)',
         'screen/4': 'calc(100vh / 4)',
         'screen/5': 'calc(100vh / 5)',
+      },
+      zIndex: {
+        999_999: '999999',
+        99_999: '99999',
+        9999: '9999',
+        999: '999',
+        99: '99',
+        9: '9',
+        1: '1',
+      },
+      transitionProperty: { width: 'width', stroke: 'stroke' },
+      borderWidth: {
+        6: '6px',
+      },
+      boxShadow: {
+        default: '0px 8px 13px -3px rgba(0, 0, 0, 0.07)',
+        card: '0px 1px 3px rgba(0, 0, 0, 0.12)',
+        'card-2': '0px 1px 2px rgba(0, 0, 0, 0.05)',
+        switcher:
+          '0px 2px 4px rgba(0, 0, 0, 0.2), inset 0px 2px 2px #FFFFFF, inset 0px -1px 1px rgba(0, 0, 0, 0.1)',
+        'switch-1': '0px 0px 5px rgba(0, 0, 0, 0.15)',
+        1: '0px 1px 3px rgba(0, 0, 0, 0.08)',
+        2: '0px 1px 4px rgba(0, 0, 0, 0.12)',
+        3: '0px 1px 5px rgba(0, 0, 0, 0.14)',
+        4: '0px 4px 10px rgba(0, 0, 0, 0.12)',
+        5: '0px 1px 1px rgba(0, 0, 0, 0.15)',
+        6: '0px 3px 15px rgba(0, 0, 0, 0.1)',
+        7: '-5px 0 0 #313D4A, 5px 0 0 #313D4A',
+        8: '1px 0 0 #313D4A, -1px 0 0 #313D4A, 0 1px 0 #313D4A, 0 -1px 0 #313D4A, 0 3px 13px rgb(0 0 0 / 8%)',
+      },
+      dropShadow: {
+        1: '0px 1px 0px #E2E8F0',
+        2: '0px 1px 4px rgba(0, 0, 0, 0.12)',
+      },
+      keyframes: {
+        rotating: {
+          '0%, 100%': { transform: 'rotate(360deg)' },
+          '50%': { transform: 'rotate(0deg)' },
+        },
+      },
+      animation: {
+        'ping-once': 'ping 5s cubic-bezier(0, 0, 0.2, 1)',
+        rotating: 'rotating 30s linear infinite',
+        'spin-1.5': 'spin 1.5s linear infinite',
+        'spin-2': 'spin 2s linear infinite',
+        'spin-3': 'spin 3s linear infinite',
       },
     },
     borderWidth: {
