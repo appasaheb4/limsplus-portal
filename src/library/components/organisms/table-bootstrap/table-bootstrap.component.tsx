@@ -616,7 +616,7 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center flex-wrap'>
+              <div className='flex items-center flex-wrap '>
                 <SearchBar
                   {...searchProps}
                   {...props.searchProps}
@@ -672,7 +672,7 @@ export const TableBootstrap = ({
                   />
                 </div>
               )}
-              <div className='scrollTable '>
+              <div className='scrollTable'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}

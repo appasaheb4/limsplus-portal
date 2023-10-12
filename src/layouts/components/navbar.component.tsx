@@ -48,13 +48,14 @@ const NavbarComponent = observer(({ dispatch }) => {
       serUserId(loginStore.login.userId);
     }, 100);
   }, [loginStore.login]);
+
   return (
     <>
       <Navbar
-        style={{
-          backgroundColor:
-            appStore.applicationSetting?.shortCutBarColor || 'white',
-        }}
+        // style={{
+        //   backgroundColor:
+        //     appStore.applicationSetting?.shortCutBarColor || 'white',
+        // }}
         light
         expand
         className='flex flex-row w-full xl:pr-5 sm:p-0'
@@ -70,10 +71,9 @@ const NavbarComponent = observer(({ dispatch }) => {
           </span>
         </div>
         <div className='flex flex-3  scrollbar-hide overflow-x-scroll '>
-          {/* overflow-auto */}
           <Form inline>
             <div className='flex flex-row'>
-              <div className='ml-1 m-0.5'>
+              <div>
                 <Buttons.Button
                   size='medium'
                   type='outline'
@@ -82,7 +82,14 @@ const NavbarComponent = observer(({ dispatch }) => {
                   }}
                 >
                   <Tooltip tooltipText='Dashboard'>
-                    <Icons.IconContext color='#000' size='22'>
+                    <Icons.IconContext
+                      color={
+                        stores.appStore.applicationSetting.theme === 'dark'
+                          ? '#ffffff'
+                          : '#000000'
+                      }
+                      size='18'
+                    >
                       {Icons.getIconTag(Icons.IconRi.RiDashboardFill)}
                     </Icons.IconContext>
                   </Tooltip>
@@ -113,7 +120,14 @@ const NavbarComponent = observer(({ dispatch }) => {
                             <Tooltip tooltipText={item.title}>
                               <Icons.RIcon
                                 nameIcon={item.icon || 'VscListSelection'}
-                                propsIcon={{ color: '#000000', size: 18 }}
+                                propsIcon={{
+                                  color:
+                                    stores.appStore.applicationSetting.theme ===
+                                    'dark'
+                                      ? '#ffffff'
+                                      : '#000000',
+                                  size: 18,
+                                }}
                               />
                             </Tooltip>
                           </div>
@@ -170,7 +184,14 @@ const NavbarComponent = observer(({ dispatch }) => {
                       : 'Expand'
                   }
                 >
-                  <Icons.IconContext color='#000' size='22'>
+                  <Icons.IconContext
+                    color={`${
+                      stores.appStore.applicationSetting.theme === 'dark'
+                        ? '#ffffff'
+                        : '#000000'
+                    }`}
+                    size='22'
+                  >
                     {Icons.getIconTag(
                       appStore.applicationSetting?.isExpandScreen
                         ? Icons.IconCg.CgMinimize
@@ -179,27 +200,12 @@ const NavbarComponent = observer(({ dispatch }) => {
                   </Icons.IconContext>
                 </Tooltip>
               </Buttons.Button>
-              <div className='mx-2'>{/* <DarkModeSwitcher /> */}</div>
-              <Buttons.Button
-                size='medium'
-                type='outline'
+              <div className='mx-2'>
+                <DarkModeSwitcher />
+              </div>
+              <span
+                className='flex rounded-md p-2 shadow-4 items-center'
                 onClick={() => {
-                  // userStore.UsersService.loginActivityList({
-                  //   input: {
-                  //     userId: loginStore.login.userId,
-                  //     loginActivityId: loginStore.login.loginActivityId,
-                  //   },
-                  // }).then((res) => {
-                  //   if (!res.success) alert(res.message)
-                  //   else {
-                  //     loginStore.updateLogin({
-                  //       ...loginStore.login,
-                  //       loginActivityList: res.data.loginActivityList,
-                  //       sessionAllowed: res.data.sessionAllowed,
-                  //     })
-
-                  //   }
-                  // })
                   if (loginStore.login.loginActivityList.length > 0) {
                     setModalSessionAllowed({
                       show: true,
@@ -212,13 +218,8 @@ const NavbarComponent = observer(({ dispatch }) => {
                   }
                 }}
               >
-                <label
-                  className='inline w-8 text-center'
-                  style={{ width: '40px' }}
-                >
-                  {loginStore.login?.sessionAllowed}
-                </label>
-              </Buttons.Button>
+                {loginStore.login?.sessionAllowed}
+              </span>
             </Nav>
           </div>
         </div>
@@ -233,8 +234,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                     alt={loginStore.login?.fullName}
                   />
                 </div>
-
-                <span className='text-dark  sm:mt-2 d-none d-sm-inline-block '>
+                <span className='sm:mt-2 d-none d-sm-inline-block '>
                   {loginStore.login?.fullName}
                 </span>
               </div>

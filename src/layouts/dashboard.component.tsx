@@ -16,7 +16,7 @@ import { toJS } from 'mobx';
 
 import Storage from '@/library/modules/storage';
 
-import { stores, useStores } from '@/stores';
+import { stores } from '@/stores';
 
 import { RouterFlow } from '@/flows';
 import { eventEmitter } from '@/core-utils';
@@ -421,13 +421,13 @@ const Dashboard = ({ children }) => {
     <React.Fragment>
       <Wrapper>
         <Sidebar />
-        <Main className={null}>
+        <Main className='dark:bg-boxdark  dark:text-white'>
           <Navbar />
           <Content>{children}</Content>
           <Footer />
         </Main>
       </Wrapper>
-      <Settings />
+      {/* <Settings /> */}
       <ModalIdleTimeout
         {...modalIdleTime}
         onClick={() => {
