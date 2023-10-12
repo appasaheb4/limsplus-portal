@@ -80,6 +80,7 @@ export const Users = UsersHoc(
       setValue('deginisation', userStore.user?.deginisation);
       setValue('mobileNo', userStore.user?.mobileNo);
       setValue('email', userStore.user?.email);
+      setValue('validationLevel', userStore.user?.validationLevel);
       setValue('userGroup', userStore.user?.userGroup);
       setValue('userModule', userStore.user?.userModule);
       setValue('password', userStore.user?.password);
@@ -302,7 +303,7 @@ export const Users = UsersHoc(
             email: item.Email,
             signature: undefined,
             picture: undefined,
-            validationLevel: item['Validation Level'],
+            validationLevel: Number.parseInt(item['Validation Level'] || 0),
             dateOfBirth: item['Birth Date'],
             marriageAnniversary: item['Marriage Anniversary'],
             exipreDate: item['Expire Date'],
@@ -1482,7 +1483,7 @@ export const Users = UsersHoc(
                         hasError={!!errors.validationLevel}
                       >
                         <select
-                          value={value}
+                          value={value?.toString()}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.validationLevel
                               ? 'border-red'
@@ -1947,7 +1948,7 @@ export const Users = UsersHoc(
                               limit: global?.filter?.limit,
                             },
                           });
-                        else userStore.UsersService.userList();
+                        userStore.UsersService.userList();
                       }
                     });
                   break;
@@ -2022,6 +2023,9 @@ export const Users = UsersHoc(
                     signature: undefined,
                     picture: undefined,
                     password: 'Admin@123',
+                    validationLevel: Number.parseInt(
+                      modalConfirm.data?.validationLevel,
+                    ),
                     expireDays: Number.parseInt(modalConfirm.data?.expireDays),
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
@@ -2045,6 +2049,9 @@ export const Users = UsersHoc(
                     signature: undefined,
                     picture: undefined,
                     password: 'Admin@123',
+                    validationLevel: Number.parseInt(
+                      modalConfirm.data?.validationLevel,
+                    ),
                     expireDays: Number.parseInt(modalConfirm.data?.expireDays),
                     existsRecordId: modalConfirm.data._id,
                     version: 1,
