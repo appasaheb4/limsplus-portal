@@ -1092,6 +1092,7 @@ export const RefRangesInputTable = observer(
               text: 'Version',
               csvExport: false,
               headerClasses: 'textHeader4',
+              editable: false,
             },
 
             {

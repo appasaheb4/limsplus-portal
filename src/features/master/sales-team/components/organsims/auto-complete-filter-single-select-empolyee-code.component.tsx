@@ -14,14 +14,18 @@ interface AutoCompleteFilterSingleSelectEmpolyeCodeProps {
 export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
   ({
     hasError,
-    displayValue,
+    displayValue = '',
     disable = false,
     onSelect,
   }: AutoCompleteFilterSingleSelectEmpolyeCodeProps) => {
     const { loading, userStore } = useStores();
-    const [value, setValue] = useState<string>(displayValue || '');
+    const [value, setValue] = useState<string>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+      setValue(displayValue);
+    }, [displayValue]);
 
     const useOutsideAlerter = ref => {
       useEffect(() => {
