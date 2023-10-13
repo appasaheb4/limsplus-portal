@@ -9,17 +9,17 @@ import {
   Row,
   UncontrolledDropdown,
 } from 'reactstrap';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 
-import {Calendar, Filter, RefreshCw} from 'react-feather';
-import {useStores} from '@/stores';
+import { Calendar, Filter, RefreshCw } from 'react-feather';
+import { useStores } from '@/stores';
 
 const Header = observer(() => {
-  const {loginStore} = useStores();
+  const { loginStore } = useStores();
   return (
     <Row className='mb-2 mb-xl-4'>
       <Col xs='auto' className='d-none d-sm-block'>
-        <h3>Welcome back, {loginStore.login?.fullName}</h3>
+        <span>Welcome back, {loginStore.login?.fullName}</span>
       </Col>
 
       <Col xs='auto' className='ml-auto text-right mt-n1'>

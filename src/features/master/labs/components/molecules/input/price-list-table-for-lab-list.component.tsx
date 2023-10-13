@@ -9,7 +9,6 @@ import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
-import { lookupValue } from '@/library/utils';
 
 interface PriceListTableForLabListProps {
   data?: any;
@@ -149,79 +148,10 @@ export const PriceListTableForLabList = observer(
               {priceList?.map((item, index) => (
                 <tr>
                   <td>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <select
-                          disabled={rowStatus}
-                          value={item?.priceGroup}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.priceGroup
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const priceGroup = e.target.value as string;
-                            onChange(priceGroup);
-                            priceList[index] = {
-                              ...priceList[index],
-                              priceGroup: priceGroup,
-                              priceList: '',
-                              description: '',
-                            };
-                            setPriceList(JSON.parse(JSON.stringify(priceList)));
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {priceGroupItems?.map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      )}
-                      name='priceGroup'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
+                    <Form.Input value={item.priceGroup} disabled={true} />
                   </td>
                   <td>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <select
-                          disabled={rowStatus}
-                          value={item?.priceList || ''}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.priceList
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const priceItem = JSON.parse(e.target.value);
-                            onChange(priceItem.code);
-                            priceList[index] = {
-                              ...priceList[index],
-                              priceList: priceItem?.code,
-                              description: priceItem?.value,
-                            };
-                            setPriceList(JSON.parse(JSON.stringify(priceList)));
-                          }}
-                        >
-                          <option selected>{item.priceList || 'Select'}</option>
-                          {getPriceList(priceListItems, item?.priceGroup)?.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={JSON.stringify(item)}>
-                                {lookupValue(item)}
-                              </option>
-                            ),
-                          )}
-                        </select>
-                      )}
-                      name='priceList'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
+                    <Form.Input value={item.priceList} disabled={true} />
                   </td>
                   <td>
                     <Controller
@@ -253,7 +183,7 @@ export const PriceListTableForLabList = observer(
                       control={control}
                       render={({ field: { onChange } }) => (
                         <Form.Input
-                          disabled={rowStatus}
+                          disabled={true}
                           label=''
                           value={item?.priority}
                           type='number'
@@ -284,7 +214,7 @@ export const PriceListTableForLabList = observer(
                         <Form.Input
                           label=''
                           type='number'
-                          disabled={rowStatus}
+                          disabled={true}
                           placeholder={item?.maxDis?.toString()}
                           className={
                             'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'

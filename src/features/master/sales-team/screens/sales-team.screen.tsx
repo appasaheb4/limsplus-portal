@@ -345,6 +345,7 @@ export const SalesTeam = SalesTeamHoc(
                       <Form.MultilineInput
                         label='Description'
                         placeholder='Description'
+                        disabled={isVersionUpgrade}
                         value={value}
                         onChange={description => {
                           onChange(description);
@@ -371,6 +372,8 @@ export const SalesTeam = SalesTeamHoc(
                           displayValue={value}
                           disable={isVersionUpgrade}
                           onSelect={item => {
+                            console.log({ item });
+
                             onChange(item.empCode);
                             setValue('empName', item.fullName);
                             salesTeamStore.updateSalesTeam({
@@ -395,10 +398,10 @@ export const SalesTeam = SalesTeamHoc(
                                   salesTeamStore.salesTeamService
                                     .getSalesHierarchyList({
                                       input: {
-                                        empCode: item.empCode,
-                                        fullName: item.fullName,
-                                        reportingTo: item.reportingTo,
-                                        deginisation: item.deginisation,
+                                        empCode: item?.empCode,
+                                        fullName: item?.fullName,
+                                        reportingTo: item?.reportingTo,
+                                        deginisation: item?.deginisation,
                                       },
                                     })
                                     .then((salesHieRes: any) => {

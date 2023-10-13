@@ -5,8 +5,8 @@
  * @author limsplus
  */
 import * as Models from '../models';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 
 import {
   LIST,
@@ -29,7 +29,7 @@ export class SalesTeamService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.salesTeamStore.updateSalesTeamList(response.data);
@@ -164,6 +164,8 @@ export class SalesTeamService {
 
   getSalesHierarchyList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables });
+
       client
         .mutate({
           mutation: GET_SALES_HIERARCHYLIST,
