@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: SalemTeamsInput!) {
@@ -13,6 +13,7 @@ export const LIST = gql`
         salesTerritory
         description
         empCode
+        reportingTo
         empName
         salesHierarchy
         targets
@@ -79,6 +80,7 @@ export const FILTER = gql`
         salesTerritory
         description
         empCode
+        reportingTo
         empName
         salesHierarchy
         targets
@@ -109,6 +111,7 @@ export const FILTER_BY_FIELDS = gql`
         salesTerritory
         description
         empCode
+        reportingTo
         empName
         salesHierarchy
         targets
@@ -136,6 +139,7 @@ export const FIND_BY_FIELDS = gql`
         salesTerritory
         description
         empCode
+        reportingTo
         empName
         salesHierarchy
         targets

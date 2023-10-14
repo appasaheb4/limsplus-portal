@@ -134,8 +134,6 @@ const Sidebar = ({ location, sidebar, layout, dispatch }) => {
   const history = useHistory();
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location));
 
-  console.log({ router: global.router });
-
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location));
   }, [stores.routerStore.userRouter]);

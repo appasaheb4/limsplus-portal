@@ -59,6 +59,7 @@ export const SalesTeam = SalesTeamHoc(
       setValue('salesTerritory', salesTeamStore.salesTeam?.salesTerritory);
       setValue('description', salesTeamStore.salesTeam?.description);
       setValue('empCode', salesTeamStore.salesTeam?.empCode);
+      setValue('employeeName', salesTeamStore.salesTeam?.empName);
       setValue('targets', salesTeamStore.salesTeam?.targets);
       setValue('environment', salesTeamStore.salesTeam?.environment);
       setValue('status', salesTeamStore.salesTeam?.status);
@@ -275,6 +276,35 @@ export const SalesTeam = SalesTeamHoc(
         });
     };
 
+    const setHierarchyAndTarget = item => {
+      if (_.isEmpty(item?.fullName)) item.fullName = item?.empName;
+      if (_.isEmpty(item.deginisation)) item.deginisation = item?.description;
+      salesTeamStore.salesTeamService
+        .getSalesHierarchyList({
+          input: {
+            empCode: item?.empCode,
+            fullName: item?.fullName,
+            reportingTo: item?.reportingTo,
+            deginisation: item?.deginisation,
+          },
+        })
+        .then((salesHieRes: any) => {
+          console.log({ salesHieRes });
+
+          if (!salesHieRes.getSalesHierarchyList.success)
+            return alert(salesHieRes.getSalesHierarchyList.message);
+          salesTeamStore.updateSalesTeam({
+            ...salesTeamStore.salesTeam,
+            salesHierarchy: salesHieRes.getSalesHierarchyList.list,
+            targets: [
+              {
+                id: 1,
+              },
+            ],
+          });
+        });
+      salesTeamStore.updateExistsRecord(false);
+    };
     return (
       <>
         <Header>
@@ -372,13 +402,12 @@ export const SalesTeam = SalesTeamHoc(
                           displayValue={value}
                           disable={isVersionUpgrade}
                           onSelect={item => {
-                            console.log({ item });
-
                             onChange(item.empCode);
                             setValue('empName', item.fullName);
                             salesTeamStore.updateSalesTeam({
                               ...salesTeamStore.salesTeam,
                               empCode: item.empCode,
+                              reportingTo: item.reportingTo,
                               empName: item.fullName,
                             });
                             salesTeamStore.salesTeamService
@@ -395,37 +424,7 @@ export const SalesTeam = SalesTeamHoc(
                                     message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                                   });
                                 } else {
-                                  salesTeamStore.salesTeamService
-                                    .getSalesHierarchyList({
-                                      input: {
-                                        empCode: item?.empCode,
-                                        fullName: item?.fullName,
-                                        reportingTo: item?.reportingTo,
-                                        deginisation: item?.deginisation,
-                                      },
-                                    })
-                                    .then((salesHieRes: any) => {
-                                      if (
-                                        !salesHieRes.getSalesHierarchyList
-                                          .success
-                                      )
-                                        return alert(
-                                          salesHieRes.getSalesHierarchyList
-                                            .message,
-                                        );
-                                      salesTeamStore.updateSalesTeam({
-                                        ...salesTeamStore.salesTeam,
-                                        salesHierarchy:
-                                          salesHieRes.getSalesHierarchyList
-                                            .list,
-                                        targets: [
-                                          {
-                                            id: 1,
-                                          },
-                                        ],
-                                      });
-                                    });
-                                  salesTeamStore.updateExistsRecord(false);
+                                  setHierarchyAndTarget(item);
                                 }
                               });
                           }}
@@ -465,32 +464,9 @@ export const SalesTeam = SalesTeamHoc(
                         label='Sales Hierarchy'
                         hasError={!!errors.salesHierarchy}
                       >
-                        {/* {!salesTeamStore.salesTeam?.salesHierarchy && (
-                        <Buttons.Button
-                          size="small"
-                          type="outline"
-                          onClick={() => {
-                            salesTeamStore.updateSalesTeam({
-                              ...salesTeamStore.salesTeam,
-                              salesHierarchy: [
-                                {
-                                  id: 1,
-                                },
-                              ],
-                            });
-                          }}
-                        >
-                          <Icons.EvaIcon
-                            icon="plus-circle-outline"
-                            color="#000"
-                          />
-                        </Buttons.Button>
-                      )}
-                      {salesTeamStore.salesTeam?.salesHierarchy?.length > 0 && ( */}
                         <SalesHierarchyTable
                           list={salesTeamStore.salesTeam.salesHierarchy}
                         />
-                        {/* )} */}
                       </Form.InputWrapper>
                     )}
                     name='salesHierarchy'
@@ -843,6 +819,7 @@ export const SalesTeam = SalesTeamHoc(
                   });
                   setHideAddSection(!hideAddSection);
                   setIsVersionUpgrade(true);
+                  setHierarchyAndTarget(modalConfirm.data);
                   break;
                 }
                 case 'duplicate': {
@@ -859,6 +836,7 @@ export const SalesTeam = SalesTeamHoc(
                     ),
                   });
                   setHideAddSection(!hideAddSection);
+                  setHierarchyAndTarget(modalConfirm.data);
                   break;
                 }
                 // No default

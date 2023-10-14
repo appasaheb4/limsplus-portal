@@ -5,6 +5,7 @@ export class SalesTeam {
   salesTerritory: string;
   description: string;
   empCode: string;
+  reportingTo: string;
   empName: string;
   salesHierarchy: Array<any>;
   targets: Array<any>;
@@ -24,6 +25,7 @@ export class SalesTeam {
     this.salesTerritory = rawData.salesTerritory;
     this.description = rawData.description;
     this.empCode = rawData.empCode;
+    this.reportingTo = rawData.reportingTo;
     this.empName = rawData.empName;
     this.salesHierarchy = rawData.salesHierarchy;
     this.targets = rawData.targets;
