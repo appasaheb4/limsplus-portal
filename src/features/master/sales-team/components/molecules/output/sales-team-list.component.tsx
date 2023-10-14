@@ -14,7 +14,6 @@ import {
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import {
-  AutoCompleteFilterSingleSelectSalesTerrority,
   SalesHierarchyTableForSalesTeam,
   TargetTableForSalesTeam,
 } from '../../index';
@@ -134,27 +133,27 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             // formatter: (cell, row) => {
             //   return <>{(row.salesTerritory && row.salesTerritory.area) || ""}</>
             // },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <AutoCompleteFilterSingleSelectSalesTerrority
-                  onSelect={item => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(
-                        item.country,
-                        column.dataField,
-                        row._id,
-                      );
-                  }}
-                />
-              </>
-            ),
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <AutoCompleteFilterSingleSelectSalesTerrority
+            //       onSelect={item => {
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             item.country,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     />
+            //   </>
+            // ),
           },
           {
             dataField: 'description',
@@ -229,7 +228,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                 salesHierarchy = filter;
               },
             }),
-            editable: false,
+            //editable: false,
             formatter: (cell, row) => {
               return (
                 <>
