@@ -23,9 +23,9 @@ export class EventLogsStore {
 
   updateEventLogsList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.EventLogs.success) return alert(res.EventLogs.message);
-      this.eventLogsListCount = res.EventLogs.paginatorInfo.count;
-      this.eventLogsList = res.EventLogs.data;
+      if (!res.eventLogs.success) return alert(res.eventLogs.message);
+      this.eventLogsListCount = res.eventLogs.paginatorInfo.count;
+      this.eventLogsList = res.eventLogs.data;
     } else {
       this.eventLogsList = res;
     }
