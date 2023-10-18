@@ -1,58 +1,58 @@
 import React from 'react';
 
-import {Store} from './store';
+import { Store } from './store';
 
-import {RootStore} from './root.store';
-import {RouterStore} from './router.store';
-import {AppStore} from './app.store';
-import {LoginStore} from '@/features/login/stores/login.store';
-import {UserStore} from '@/features/settings/users/stores/user.store';
-import {LookupStore} from '@/features/master/lookup/stores/lookup.store';
-import {SectionStore} from '@/features/master/section/stores/section.store';
+import { RootStore } from './root.store';
+import { RouterStore } from './router.store';
+import { AppStore } from './app.store';
+import { LoginStore } from '@/features/login/stores/login.store';
+import { UserStore } from '@/features/settings/users/stores/user.store';
+import { LookupStore } from '@/features/master/lookup/stores/lookup.store';
+import { SectionStore } from '@/features/master/section/stores/section.store';
 
 // master
-import {BannerStore} from '@/features/master/banner/stores/banner.store';
-import {LabStore} from '@/features/master/labs/stores/lab.store';
-import {SalesTeamStore} from '@/features/master/sales-team/stores/sales-team.store';
-import {DeginisationStore} from '@/features/master/deginisation/stores/deginisation.store';
-import {DepartmentStore} from '@/features/master/department/stores/department.store';
-import {AdministrativeDivisionsStore} from '@/features/master/administrative-divisions/stores/administrative-divisions.store';
-import {MasterAnalyteStore} from '@/features/master/master-analyte/stores/master-analyte.store';
-import {TestAnalyteMappingStore} from '@/features/master/test-analyte-mapping/stores/test-analyte-mapping.store';
-import {TestMasterStore} from '@/features/master/test-master/stores/test-master.store';
-import {DeliveryScheduleStore} from '@/features/master/delivery-schedule/stores/delivery-schedule.store';
-import {MasterPanelStore} from '@/features/master/master-panel/stores/master-panel.store';
-import {TestPanelMappingStore} from '@/features/master/test-panel-mapping/stores/test-panel-mapping.store';
-import {MasterPackageStore} from '@/features/master/master-package/stores/master-package.store';
-import {SampleContainerStore} from '@/features/master/sample-container/stores/sample-container.store';
-import {SampleTypeStore} from '@/features/master/sample-type/stores/sample-type.store';
-import {MethodsStore} from '@/features/master/methods/stores/method.store';
-import {TestSampleMappingStore} from '@/features/master/test-sample-mapping/stores/test-sample-mapping.store';
-import {CorporateClientsStore} from '@/features/master/corporate-clients/stores/corporate-clients.store';
-import {DoctorsStore} from '@/features/master/doctors/stores/doctor.store';
-import {RegistrationLocationsStore} from '@/features/master/registration-locations/stores/registration-location.store';
-import {PossibleResultsStore} from '@/features/master/possible-results/stores/possible-result.store';
-import {LibraryStore} from '@/features/master/library/stores/library.store';
-import {PriceListStore} from '@/features/master/price-list/stores/price-list.store';
-import {RefernceRangesStore} from '@/features/master/reference-ranges/stores/reference-ranges.store';
-import {CommentManagerStore} from '@/features/master/comment-manager/stores/comment-manager.store';
+import { BannerStore } from '@/features/master/banner/stores/banner.store';
+import { LabStore } from '@/features/master/labs/stores/lab.store';
+import { SalesTeamStore } from '@/features/master/sales-team/stores/sales-team.store';
+import { DeginisationStore } from '@/features/master/deginisation/stores/deginisation.store';
+import { DepartmentStore } from '@/features/master/department/stores/department.store';
+import { AdministrativeDivisionsStore } from '@/features/master/administrative-divisions/stores/administrative-divisions.store';
+import { MasterAnalyteStore } from '@/features/master/master-analyte/stores/master-analyte.store';
+import { TestAnalyteMappingStore } from '@/features/master/test-analyte-mapping/stores/test-analyte-mapping.store';
+import { TestMasterStore } from '@/features/master/test-master/stores/test-master.store';
+import { DeliveryScheduleStore } from '@/features/master/delivery-schedule/stores/delivery-schedule.store';
+import { MasterPanelStore } from '@/features/master/master-panel/stores/master-panel.store';
+import { TestPanelMappingStore } from '@/features/master/test-panel-mapping/stores/test-panel-mapping.store';
+import { MasterPackageStore } from '@/features/master/master-package/stores/master-package.store';
+import { SampleContainerStore } from '@/features/master/sample-container/stores/sample-container.store';
+import { SampleTypeStore } from '@/features/master/sample-type/stores/sample-type.store';
+import { MethodsStore } from '@/features/master/methods/stores/method.store';
+import { TestSampleMappingStore } from '@/features/master/test-sample-mapping/stores/test-sample-mapping.store';
+import { CorporateClientsStore } from '@/features/master/corporate-clients/stores/corporate-clients.store';
+import { DoctorsStore } from '@/features/master/doctors/stores/doctor.store';
+import { RegistrationLocationsStore } from '@/features/master/registration-locations/stores/registration-location.store';
+import { PossibleResultsStore } from '@/features/master/possible-results/stores/possible-result.store';
+import { LibraryStore } from '@/features/master/library/stores/library.store';
+import { PriceListStore } from '@/features/master/price-list/stores/price-list.store';
+import { RefernceRangesStore } from '@/features/master/reference-ranges/stores/reference-ranges.store';
+import { CommentManagerStore } from '@/features/master/comment-manager/stores/comment-manager.store';
 
 // communication
-import {InterfaceManagerStore} from '@/features/communication/interface-manager/stores/interface-manager.store';
-import {DataConversationStore} from '@/features/communication/data-conversation/stores/data-conversation.store';
-import {HostCommunicationStore} from '@/features/communication/host-communication/stores/host-communication.store';
-import {SegmentMappingStore} from '@/features/communication/segment-mapping/stores/segment-mapping.store';
-import {InstResultMappingStore} from '@/features/communication/instrument-result-mapping/stores/inst-result-mapping.store';
-import {TransmittedMessageStore} from '@/features/communication/transmitted-message/stores/transmitted-message.store';
+import { InterfaceManagerStore } from '@/features/communication/interface-manager/stores/interface-manager.store';
+import { DataConversationStore } from '@/features/communication/data-conversation/stores/data-conversation.store';
+import { HostCommunicationStore } from '@/features/communication/host-communication/stores/host-communication.store';
+import { SegmentMappingStore } from '@/features/communication/segment-mapping/stores/segment-mapping.store';
+import { InstResultMappingStore } from '@/features/communication/instrument-result-mapping/stores/inst-result-mapping.store';
+import { TransmittedMessageStore } from '@/features/communication/transmitted-message/stores/transmitted-message.store';
 
 // setting
-import {RoleStore} from '@/features/settings/roles/stores/role.store';
-import {EnvironmentStore} from '@/features/settings/environment/stores/environment.store';
-import {LoginActivityStore} from '@/features/settings/login-activity/stores/login-activity.store';
-import {RoleMappingStore} from '@/features/settings/mapping/role/stores/role-mapping.store';
-import {ShortcutMenuStore} from '@/features/settings/shortcut-menu/stores/short-cut-menu.store';
-import {NoticeBoardStore} from '@/features/settings/notice-board/stores/notice-board.store';
-import {ReportSettingStore} from '@/features/report-builder/report-settings/stores';
+import { RoleStore } from '@/features/settings/roles/stores/role.store';
+import { EnvironmentStore } from '@/features/settings/environment/stores/environment.store';
+import { LoginActivityStore } from '@/features/settings/login-activity/stores/login-activity.store';
+import { RoleMappingStore } from '@/features/settings/mapping/role/stores/role-mapping.store';
+import { ShortcutMenuStore } from '@/features/settings/shortcut-menu/stores/short-cut-menu.store';
+import { NoticeBoardStore } from '@/features/settings/notice-board/stores/notice-board.store';
+import { ReportSettingStore } from '@/features/report-builder/report-settings/stores';
 
 // registation
 import {
@@ -65,22 +65,25 @@ import {
   PatientRegistrationStore,
   ImportFromFileStore,
 } from '@/features/registration/patient-registration/stores';
-import {ClientRegistrationStore} from '@/features/registration/client-registration/stores';
+import { ClientRegistrationStore } from '@/features/registration/client-registration/stores';
 
 // Result Entry
-import {GeneralResultEntryStore} from '@/features/result-entry/general-result-entry/stores';
+import { GeneralResultEntryStore } from '@/features/result-entry/general-result-entry/stores';
 
 // Patient Report
-import {DeliveryQueueStore} from '@/features/patient-reports/delivery-queue/stores';
-import {GenerateReportsStore} from '@/features/patient-reports/generate-reports/stores';
+import { DeliveryQueueStore } from '@/features/patient-reports/delivery-queue/stores';
+import { GenerateReportsStore } from '@/features/patient-reports/generate-reports/stores';
 
 // Account Receivable
-import {TransactionDetailsStore} from '@/features/account-receivable/transaction-details/stores';
-import {PaymentStore} from '@/features/account-receivable/payment/stores';
-import {ReceiptStore} from '@/features/account-receivable/receipt/stores';
+import { TransactionDetailsStore } from '@/features/account-receivable/transaction-details/stores';
+import { PaymentStore } from '@/features/account-receivable/payment/stores';
+import { ReceiptStore } from '@/features/account-receivable/receipt/stores';
 
 // validation
-import {PanelApprovalStore} from '@/features/validation/panel-approval/stores';
+import { PanelApprovalStore } from '@/features/validation/panel-approval/stores';
+
+// enquiry
+import { EventLogsStore } from '@/features/enquiry/event-logs/stores';
 
 export class Stores extends Store {
   rootStore!: RootStore;
@@ -163,6 +166,9 @@ export class Stores extends Store {
   // validation
   panelApprovalStore!: PanelApprovalStore;
 
+  // enquiry
+  eventLogsStore!: EventLogsStore;
+
   constructor() {
     super();
     this.rootStore = new RootStore();
@@ -243,6 +249,9 @@ export class Stores extends Store {
 
     // validation
     this.panelApprovalStore = new PanelApprovalStore();
+
+    // enquiry
+    this.eventLogsStore = new EventLogsStore();
   }
 }
 
