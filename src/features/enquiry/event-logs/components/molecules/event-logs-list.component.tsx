@@ -5,6 +5,8 @@ import {
   Tooltip,
   Icons,
   sortCaret,
+  NumberFilter,
+  customFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -23,7 +25,7 @@ let event;
 let eventOn;
 let oldValue;
 let newValue;
-let eventDa;
+let eventDate;
 let eventBy;
 let comments;
 
@@ -75,6 +77,284 @@ export const EventLogsList = (props: EventLogsListProps) => {
             filter: textFilter({
               getFilter: filter => {
                 documents = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'pId',
+            text: 'PId',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: customFilter({
+              getFilter: filter => {
+                pId = filter;
+              },
+            }),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
+          },
+          {
+            dataField: 'labId',
+            text: 'Lab Id',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: customFilter({
+              getFilter: filter => {
+                labId = filter;
+              },
+            }),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
+          },
+          {
+            dataField: 'rLab',
+            text: 'RLab',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                rLab = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'sampleId',
+            text: 'Sample Id',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                sampleId = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'pLab',
+            text: 'PLab',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                pLab = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'department',
+            text: 'Department',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                department = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'panelCode',
+            text: 'Panel Code',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                panelCode = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'testCode',
+            text: 'Test Code',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                testCode = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'analyteCode',
+            text: 'Analyte Code',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                analyteCode = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'event',
+            text: 'Event',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                event = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'eventOn',
+            text: 'Event On',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                eventOn = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'oldValue',
+            text: 'Old Value',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                oldValue = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'newValue',
+            text: 'New Value',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                newValue = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'eventDate',
+            text: 'Event Date',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                eventDate = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'eventBy',
+            text: 'Event By',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                eventBy = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'comments',
+            text: 'Comments',
+            headerClasses: 'textHeader4',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                comments = filter;
               },
             }),
           },
@@ -150,7 +430,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
           eventOn('');
           oldValue('');
           newValue('');
-          eventDa('');
+          eventDate('');
           eventBy('');
           comments('');
         }}

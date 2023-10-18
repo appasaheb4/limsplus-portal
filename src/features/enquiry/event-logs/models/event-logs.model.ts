@@ -6,6 +6,7 @@ export class EventLogs {
   rLab: string;
   sampleId: string;
   pLab: string;
+  oLab: string;
   department: string;
   panelCode: string;
   testCode: string;
@@ -27,6 +28,7 @@ export class EventLogs {
     this.rLab = rawData.rLab;
     this.sampleId = rawData.sampleId;
     this.pLab = rawData.pLab;
+    this.oLab = rawData.oLab;
     this.department = rawData.department;
     this.panelCode = rawData.panelCode;
     this.testCode = rawData.testCode;

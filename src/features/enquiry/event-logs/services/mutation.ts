@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const LIST = gql`
-  mutation ($input: AdministrativeDevisionInput!) {
-    administrativeDivisions(input: $input) {
+  mutation ($input: EventLogInput!) {
+    eventLogs(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,16 +10,26 @@ export const LIST = gql`
       message
       data {
         _id
-        country
-        state
-        district
-        city
-        area
-        postalCode
-        sbu
-        zone
-        status
-        environment
+        documents
+        pId
+        labId
+        rLab
+        sampleId
+        pLab
+        oLab
+        department
+        panelCode
+        testCode
+        analyteCode
+        event
+        eventOn
+        oldValue
+        newValue
+        eventDate
+        eventBy
+        comments
+        dateOfEntry
+        lastUpdated
       }
     }
   }

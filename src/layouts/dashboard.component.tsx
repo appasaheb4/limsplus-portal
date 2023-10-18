@@ -83,6 +83,9 @@ import * as Receipt from '@/features/account-receivable/receipt';
 // Validations
 import * as PanelApproval from '@/features/validation/panel-approval';
 
+// enquiry
+import * as EventLog from '@/features/enquiry/event-logs';
+
 export const RouterService = () => {
   const history: any = useHistory();
   const refreshPage = () => {
@@ -300,6 +303,10 @@ const Dashboard = ({ children }) => {
       // validation
       if (pathname === '/validation/panel-approval') {
         await PanelApproval.startup();
+      }
+      // enquiry
+      if (pathname === '/enquiry/event-log') {
+        await EventLog.startup();
       }
       stores;
     }
