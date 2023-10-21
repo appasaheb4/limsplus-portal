@@ -73,16 +73,16 @@ export const EventLogs = observer(() => {
                 global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
-                eventLogsStore.eventLogsService.filter({
-                  input: { type, filter, page, limit },
-                });
-                global.filter = {
-                  mode: 'filter',
-                  type,
-                  filter,
-                  page,
-                  limit,
-                };
+                // eventLogsStore.eventLogsService.filter({
+                //   input: { type, filter, page, limit },
+                // });
+                // global.filter = {
+                //   mode: 'filter',
+                //   type,
+                //   filter,
+                //   page,
+                //   limit,
+                // };
               }}
             />
           </div>
@@ -97,17 +97,17 @@ export const EventLogs = observer(() => {
                     })
                     .then((res: any) => {
                       setModalConfirm({ show: false });
-                      if (res.removeAdministrativeDivision.success) {
+                      if (res.removeEventLog.success) {
                         Toast.success({
-                          message: `😊 ${res.removeAdministrativeDivision.message}`,
+                          message: `😊 ${res.removeEventLog.message}`,
                         });
                         if (global?.filter?.mode == 'pagination')
-                          eventLogsStore.eventLogsService.listEventLogs(
+                          return eventLogsStore.eventLogsService.listEventLogs(
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
                         else if (global?.filter?.mode == 'filter') return;
-                        else eventLogsStore.eventLogsService.listEventLogs();
+                        eventLogsStore.eventLogsService.listEventLogs();
                       }
                     });
                   break;

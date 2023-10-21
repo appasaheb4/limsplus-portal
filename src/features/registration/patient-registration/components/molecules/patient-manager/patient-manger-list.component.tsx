@@ -1,7 +1,7 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   NumberFilter,
@@ -13,11 +13,11 @@ import {
   Icons,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {FormHelper} from '@/helper';
-import {useForm, Controller} from 'react-hook-form';
-import {getDiffByDate, getAgeByAgeObject} from '../../../utils';
-import {dateAvailableUnits} from '@/core-utils';
+import { Confirm } from '@/library/models';
+import { FormHelper } from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { getDiffByDate, getAgeByAgeObject } from '../../../utils';
+import { dateAvailableUnits } from '@/core-utils';
 
 interface PatientMangerProps {
   data: any;
@@ -52,7 +52,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const editorCell = (row: any) => {
@@ -64,7 +64,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -170,7 +170,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 <>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         placeholder={
                           errors.mobileNo
@@ -358,11 +358,11 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   >
                     <option selected>Select</option>
                     {[
-                      {title: 'year', value: 'Y'},
-                      {title: 'month', value: 'M'},
-                      {title: 'week', value: 'W'},
-                      {title: 'day', value: 'D'},
-                      {title: 'hour', value: 'H'},
+                      { title: 'year', value: 'Y' },
+                      { title: 'month', value: 'M' },
+                      { title: 'week', value: 'W' },
+                      { title: 'day', value: 'D' },
+                      { title: 'hour', value: 'H' },
                     ].map((item: any, index: number) => (
                       <option key={index} value={item.value}>
                         {item.value}
@@ -443,7 +443,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         .find(item => item.code === title)
                         ?.value?.split('-')[0];
                       props.onUpdateFileds &&
-                        props.onUpdateFileds({title, sex}, row._id);
+                        props.onUpdateFileds({ title, sex }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -486,7 +486,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
                       ? 'XXXXXXXX'
-                      : row.firstName}
+                      : row?.firstName}
                   </>
                 );
               },
