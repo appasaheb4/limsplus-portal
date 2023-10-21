@@ -36,8 +36,8 @@ export const LIST = gql`
 `;
 
 export const REMOVE_RECORDS = gql`
-  mutation ($input: AdministrativeDevisionRemoveInput!) {
-    removeAdministrativeDivision(input: $input) {
+  mutation ($input: EventLogRemoveInput!) {
+    removeEventLog(input: $input) {
       success
       message
     }

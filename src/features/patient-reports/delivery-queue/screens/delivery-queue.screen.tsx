@@ -69,7 +69,7 @@ const DeliveryQueue = observer(() => {
   }, []);
 
   const getValue = value =>
-    typeof value === 'string' ? value.toUpperCase() : value;
+    typeof value === 'string' ? value?.toUpperCase() : value;
 
   const filterPlainArray = (array, filters) => {
     const filterKeys = Object.keys(filters);

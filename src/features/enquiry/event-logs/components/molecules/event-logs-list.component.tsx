@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {
   TableBootstrap,
   textFilter,
@@ -10,6 +11,7 @@ import {
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import dayjs from 'dayjs';
 
 let documents;
 let pId;
@@ -79,6 +81,9 @@ export const EventLogsList = (props: EventLogsListProps) => {
                 documents = filter;
               },
             }),
+            formatter: (cell, row) => {
+              return <span>{_.startCase(_.camelCase(row?.documents))}</span>;
+            },
           },
           {
             dataField: 'pId',
@@ -323,6 +328,13 @@ export const EventLogsList = (props: EventLogsListProps) => {
                 eventDate = filter;
               },
             }),
+            formatter: (cell, row) => {
+              return (
+                <span>
+                  {dayjs(row?.eventDate).format('DD-MM-YYYY HH-mm-ss')}
+                </span>
+              );
+            },
           },
           {
             dataField: 'eventBy',
