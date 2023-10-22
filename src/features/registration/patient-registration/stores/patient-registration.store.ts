@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import {makeObservable, action, observable} from 'mobx';
-import {DefaultValues, FilterOptionList} from '../models';
-import {PatientManagerStore} from '../stores/patient-manager.store';
+import { makeObservable, action, observable } from 'mobx';
+import { DefaultValues, FilterOptionList } from '../models';
+import { PatientManagerStore } from '../stores/patient-manager.store';
 
 export class PatientRegistrationStore {
   defaultValues!: DefaultValues;
@@ -62,7 +62,7 @@ export class PatientRegistrationStore {
     this.patientManagerStore.patientManagerService.getPatientRegRecords(
       {
         input: {
-          filter: {type: key, [key]: value},
+          filter: { type: key, [key]: value },
         },
       },
       type,
