@@ -5,8 +5,8 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST_PATIENT_MANAGER,
   REMOVE_PATIENT_MANAGER,
@@ -20,7 +20,7 @@ import {
   FILTER_OPTION_LIST,
   GET_PATIENT_REG_RECORDS,
 } from './mutation-pm';
-import {Toast} from '@/library/components';
+import { Toast } from '@/library/components';
 
 export class PatientManagerService {
   listPatientManager = (filter: any, page = 0, limit = 10) =>
@@ -31,7 +31,7 @@ export class PatientManagerService {
       client
         .mutate({
           mutation: LIST_PATIENT_MANAGER,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
           stores.patientManagerStore.updatePatientManagerList(response.data);
@@ -127,7 +127,7 @@ export class PatientManagerService {
         })
         .then((response: any) => {
           if (!response.data.filterPatientManager.success)
-            return this.listPatientManager({documentType: 'patientManager'});
+            return this.listPatientManager({ documentType: 'patientManager' });
           stores.patientManagerStore.filterPatientManagerList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
@@ -188,7 +188,7 @@ export class PatientManagerService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPatientManager.success)
-            return this.listPatientManager({documentType: 'patientManager'});
+            return this.listPatientManager({ documentType: 'patientManager' });
           stores.patientManagerStore.filterPatientManagerList({
             filterPatientManager: {
               data: response.data.filterByFieldsPatientManager.data,
@@ -215,6 +215,7 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
+          console.log({ response });
           stores.patientRegistrationStore.updateFilterOptionList(response.data);
           resolve(response.data);
         })
@@ -232,8 +233,10 @@ export class PatientManagerService {
           variables,
         })
         .then((res: any) => {
+          console.log({ res });
+
           if (res.data.getPatientRegRecords?.success) {
-            const {records} = res.data.getPatientRegRecords;
+            const { records } = res.data.getPatientRegRecords;
             if (records?.patientManager?.length <= 0 && type != 'delete')
               Toast.error({
                 message:

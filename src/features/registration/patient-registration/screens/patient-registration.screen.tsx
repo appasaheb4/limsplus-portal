@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
@@ -9,9 +9,9 @@ import {
   Form,
   Tabs,
 } from '@/library/components';
-import {Accordion, AccordionItem} from 'react-sanfona';
+import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
-import {icons} from '@/library/assets';
+import { icons } from '@/library/assets';
 import {
   PatientManager,
   PatientVisit,
@@ -20,18 +20,18 @@ import {
   PatientResult,
   PatientTest,
 } from './index';
-import {useStores} from '@/stores';
-import {stores} from '@/stores';
-import {FileImportExport} from './import-from-file.screen';
+import { useStores } from '@/stores';
+import { stores } from '@/stores';
+import { FileImportExport } from './import-from-file.screen';
 import FileSaver from 'file-saver';
 
 export const patientRegistrationOptions = [
-  {title: 'PATIENT MANAGER'},
-  {title: 'PATIENT VISIT'},
-  {title: 'PATIENT ORDER'},
-  {title: 'PATIENT TEST'},
-  {title: 'PATIENT RESULT'},
-  {title: 'PATIENT SAMPLE'},
+  { title: 'PATIENT MANAGER' },
+  { title: 'PATIENT VISIT' },
+  { title: 'PATIENT ORDER' },
+  { title: 'PATIENT TEST' },
+  { title: 'PATIENT RESULT' },
+  { title: 'PATIENT SAMPLE' },
 ];
 
 const PatientRegistration = observer(() => {
@@ -102,9 +102,9 @@ const PatientRegistration = observer(() => {
       <div>
         <Tabs
           tabs={[
-            {title: 'Manual Entry', icon: 'AiOutlineUnorderedList'},
-            {title: 'Import from file', icon: 'CiImport'},
-            {title: 'Export file', icon: 'CiExport'},
+            { title: 'Manual Entry', icon: 'AiOutlineUnorderedList' },
+            { title: 'Import from file', icon: 'CiImport' },
+            { title: 'Export file', icon: 'CiExport' },
           ]}
           onClick={item => {
             if (item == 'Import from file') {
@@ -301,7 +301,7 @@ const PatientRegistration = observer(() => {
               >
                 <Icons.RIcon
                   nameIcon='AiFillCloseCircle'
-                  propsIcon={{size: 24}}
+                  propsIcon={{ size: 24 }}
                 />
               </div>
             </Tooltip>
@@ -325,7 +325,7 @@ const PatientRegistration = observer(() => {
                   <div>
                     <img
                       src={item.sex == 'M' ? icons.male : icons.female}
-                      style={{width: 40, height: 40}}
+                      style={{ width: 40, height: 40 }}
                       alt='male'
                     />
                   </div>
