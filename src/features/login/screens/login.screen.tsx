@@ -13,7 +13,6 @@ import {
 } from '@/library/components';
 
 import { ModalForgotPassword, ModalNoticeBoard } from '../components';
-import { Col, Row } from 'reactstrap';
 import { Carousel } from 'react-bootstrap';
 import dayjs from 'dayjs';
 import { useForm, Controller } from 'react-hook-form';
@@ -234,7 +233,7 @@ export const Login = observer(() => {
 
         <div
           className='flex flex-col w-fit mt-14 rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r '
-          style={{ minWidth: '80%' }}
+          style={{ minWidth: '60%' }}
         >
           <div
             style={{
@@ -246,37 +245,36 @@ export const Login = observer(() => {
             <img
               src={Assets.images.limsplusTran}
               alt='appIcon'
-              style={{ width: 200 }}
+              style={{ width: 200, marginTop: -140 }}
             />
           </div>
-          <div className='sm:flex-col md:flex-col xl:flex-row w-full '>
-            <Row className='mt-10'>
-              <Col md='6' sm='12' xs='12'>
-                <div>
-                  <div className='flex justify-center items-center'>
-                    <Carousel
-                      style={{ width: carouselSize, height: carouselSize }}
-                      indicators={false}
-                    >
-                      {bannerStore.listAllBanner.map((item, key) => (
-                        <Carousel.Item interval={3000} key={key}>
-                          <img
-                            key={key}
-                            src={item.image}
-                            alt={key.toString()}
-                            style={{
-                              width: carouselSize,
-                              height: carouselSize,
-                              borderRadius: carouselSize / 2,
-                            }}
-                          />
-                        </Carousel.Item>
-                      ))}
-                    </Carousel>
-                  </div>
+          <div className='sm:flex-col md:flex-col xl:flex-row w-full'>
+            <div className='flex justify-between mx-10'>
+              <div className='flex ml-24'>
+                <div className='flex justify-center items-center'>
+                  <Carousel
+                    style={{ width: carouselSize, height: carouselSize }}
+                    indicators={false}
+                  >
+                    {bannerStore.listAllBanner.map((item, key) => (
+                      <Carousel.Item interval={3000} key={key}>
+                        <img
+                          key={key}
+                          src={item.image}
+                          alt={key.toString()}
+                          style={{
+                            width: carouselSize,
+                            height: carouselSize,
+                            borderRadius: carouselSize / 2,
+                          }}
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
                 </div>
-              </Col>
-              <Col md='6' sm='12' xs='12'>
+              </div>
+
+              <div className='flex flex-col'>
                 <div className='flex justify-center items-end'>
                   <div
                     className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'
@@ -537,8 +535,8 @@ export const Login = observer(() => {
                     Online Payment
                   </a>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
           </div>
         </div>
         <ModalNoticeBoard
