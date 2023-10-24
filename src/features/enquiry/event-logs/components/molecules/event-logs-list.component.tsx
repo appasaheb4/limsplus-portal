@@ -27,6 +27,7 @@ let event;
 let eventOn;
 let oldValue;
 let newValue;
+let deleteValue;
 let eventDate;
 let eventBy;
 let comments;
@@ -313,6 +314,23 @@ export const EventLogsList = (props: EventLogsListProps) => {
             }),
           },
           {
+            dataField: 'deleteValue',
+            text: 'Delete Value',
+            headerClasses: 'textHeader1',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                deleteValue = filter;
+              },
+            }),
+          },
+          {
             dataField: 'eventDate',
             text: 'Event Date',
             headerClasses: 'textHeader1',
@@ -442,6 +460,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
           eventOn('');
           oldValue('');
           newValue('');
+          deleteValue('');
           eventDate('');
           eventBy('');
           comments('');

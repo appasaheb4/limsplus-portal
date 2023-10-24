@@ -25,6 +25,7 @@ export const LIST = gql`
         eventOn
         oldValue
         newValue
+        deleteValue
         eventDate
         eventBy
         comments
