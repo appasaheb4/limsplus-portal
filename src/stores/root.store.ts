@@ -1,6 +1,6 @@
-import {makeObservable, action, observable} from 'mobx';
-import Session from '@/library/modules/session';
-import {stores} from '@/stores';
+import { makeObservable, action, observable } from 'mobx';
+// import Session from '@/library/modules/session';
+// import { stores } from '@/stores';
 
 export class RootStore {
   processLoading: boolean;
@@ -25,20 +25,12 @@ export class RootStore {
     this.processLoading = processLoading;
   }
 
-  isLogin(): Promise<boolean> {
-    return new Promise<boolean>(async (resolve, reject) => {
-      await Session.getSession();
-      try {
-        if (Session.initialized) {
-          if (Session.hasSession && stores.loginStore.login) {
-            resolve(true);
-          }
-          resolve(false);
-        }
-      } catch (error) {
-        reject(false);
-      }
-    });
+  async isLogin() {
+    const isSession = await window.sessionStorage.getItem('session');
+    if (isSession) {
+      return true;
+    }
+    return false;
   }
 
   updateSesssion(value: any) {

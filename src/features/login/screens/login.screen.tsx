@@ -68,6 +68,7 @@ export const Login = observer(() => {
 
   useEffect(() => {
     rootStore.isLogin().then(isLogin => {
+      console.log({ isLogin });
       if (isLogin) {
         history.push('/dashboard/default');
       } else {
@@ -215,7 +216,7 @@ export const Login = observer(() => {
 
   return (
     <>
-      <div className='flex flex-col h-screen bg-[#394D7F] w-full  justify-center items-center'>
+      <div className='flex flex-col h-screen bg-[#FF6C99] w-full  justify-center items-center'>
         <svg
           width='80%'
           height='100%'
@@ -227,7 +228,7 @@ export const Login = observer(() => {
             d='M0,0 
            L100,0
            C4,30 130,100 0,120'
-            fill='#FF6C99'
+            fill='#394D7F'
           />
         </svg>
 

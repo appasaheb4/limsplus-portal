@@ -17,7 +17,7 @@ class Session {
       this.hasSession = true;
       return JSON.parse(isSession);
     }
-    return;
+    return false;
   };
   deleteSession = async () => {
     this.hasSession = false;

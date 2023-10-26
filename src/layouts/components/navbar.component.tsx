@@ -261,6 +261,12 @@ const NavbarComponent = observer(({ dispatch }) => {
                           message: `😊 ${res.logout.message}`,
                         });
                         history.push('/');
+                        sessionStorage.removeItem('session');
+                        // setTimeout(() => {
+                        //   localStorage.clear();
+                        //   sessionStorage.clear();
+                        //   routerStore.updateUserRouter();
+                        // }, 100);
                       }
                     })
                     .catch(() => {

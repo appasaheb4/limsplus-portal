@@ -84,7 +84,6 @@ const App = () => {
   useEffect(() => {
     loader();
     eventEmitter.emit('loadApi', {});
-    // loaderNotification();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
