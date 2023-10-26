@@ -353,6 +353,7 @@ const Dashboard = ({ children }) => {
   useEffect(() => {
     // buz reload page after not showing delete and update so added settimeout
     stores.rootStore.isLogin().then(isLogin => {
+      if (!isLogin) history.push('/');
       if (isLogin) {
         router();
         setTimeout(async () => {
@@ -389,8 +390,7 @@ const Dashboard = ({ children }) => {
     () =>
       history.listen(() => {
         stores.rootStore.isLogin().then(isLogin => {
-          if (!isLogin) history.push('/');
-          else {
+          if (isLogin) {
             loadApi();
           }
         });
