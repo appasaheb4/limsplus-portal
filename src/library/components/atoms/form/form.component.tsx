@@ -5,6 +5,7 @@ import '../css/toggle.css';
 import classNames from 'classnames';
 import DateTimePicker from 'react-datetime-picker';
 import '../css/date-time-picker.css';
+
 interface LabelProps {
   htmlFor: string;
   hasError?: boolean;
@@ -505,7 +506,6 @@ export const DatePicker = ({
   onFocusRemove,
 }: InputDateProps) => {
   const [date, setDate] = useState(value);
-
   return (
     <InputWrapper label={label} id={id} hasError={hasError}>
       <div style={style}>

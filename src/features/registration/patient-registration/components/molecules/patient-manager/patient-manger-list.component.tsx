@@ -37,6 +37,7 @@ interface PatientMangerProps {
     totalSize: number,
   ) => void;
 }
+
 let pId;
 let mobileNo;
 let birthDate;
@@ -256,7 +257,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                           props.onUpdateFileds(
                             {
                               birthDate,
-                              actualDOB: true,
+                              isBirthdateAvailabe: true,
                               age:
                                 getAgeByAgeObject(getDiffByDate(birthDate))
                                   .age || 0,

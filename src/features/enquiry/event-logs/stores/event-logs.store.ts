@@ -14,6 +14,7 @@ export class EventLogsStore {
 
       eventLogsService: computed,
       updateEventLogsList: action,
+      filterEventLog: action,
     });
   }
 
@@ -26,6 +27,16 @@ export class EventLogsStore {
       if (!res.eventLogs.success) return alert(res.eventLogs.message);
       this.eventLogsListCount = res.eventLogs.paginatorInfo.count;
       this.eventLogsList = res.eventLogs.data;
+    } else {
+      this.eventLogsList = res;
+    }
+  }
+
+  filterEventLog(res: any) {
+    if (!Array.isArray(res)) {
+      if (!res.filterEventLog.success) return alert(res.filterEventLog.message);
+      this.eventLogsList = res.filterEventLog.data;
+      this.eventLogsListCount = res.filterEventLog.paginatorInfo.count;
     } else {
       this.eventLogsList = res;
     }

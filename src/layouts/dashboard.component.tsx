@@ -355,6 +355,7 @@ const Dashboard = ({ children }) => {
     stores.rootStore.isLogin().then(isLogin => {
       if (!isLogin) history.push('/');
       if (isLogin) {
+        console.log({ isLogin });
         router();
         setTimeout(async () => {
           await permission();
@@ -365,7 +366,11 @@ const Dashboard = ({ children }) => {
       refreshPage();
     });
     eventEmitter.on('loadApi', data => {
-      loadApi();
+      stores.rootStore.isLogin().then(isLogin => {
+        if (isLogin) {
+          loadApi();
+        }
+      });
     });
   }, []);
 

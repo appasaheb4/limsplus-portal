@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Buttons,
@@ -12,9 +12,9 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import '@/library/assets/css/accordion.css';
-import {useForm, Controller} from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import {
   PatientOrderList,
   ModalBarcodeLab,
@@ -22,12 +22,12 @@ import {
   TableExtraDataPackages,
   ModalAddPanel,
 } from '../components';
-import {PatientOrderHoc} from '../hoc';
+import { PatientOrderHoc } from '../hoc';
 
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 
-import {toJS} from 'mobx';
-import {RouterFlow} from '@/flows';
+import { toJS } from 'mobx';
+import { RouterFlow } from '@/flows';
 import {
   Accordion,
   AccordionItem,
@@ -36,7 +36,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {getFilterField} from '../utils';
+import { getFilterField } from '../utils';
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void;
@@ -57,7 +57,7 @@ export const PatientOrder = PatientOrderHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -81,7 +81,7 @@ export const PatientOrder = PatientOrderHoc(
       if (!_.isEmpty(barCodeLabId)) {
         setModalBarcodeLab({
           visible: true,
-          data: {value: barCodeLabId},
+          data: { value: barCodeLabId },
         });
       }
     }, []);
@@ -226,23 +226,23 @@ export const PatientOrder = PatientOrderHoc(
           }}
           onPageSizeChange={(page, limit) => {
             patientOrderStore.patientOrderService.listPatientOrder(
-              {documentType: 'patientOrder'},
+              { documentType: 'patientOrder' },
               page,
               limit,
             );
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             patientOrderStore.patientOrderService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, filter, page, limit};
+            global.filter = { mode: 'filter', type, filter, page, limit };
           }}
           onBarcode={(item: any) => {
-            setModalBarcodeLab({visible: true, data: {value: item.labId}});
+            setModalBarcodeLab({ visible: true, data: { value: item.labId } });
           }}
           onAddPanels={data => {
-            setModalAddPanel({visible: true, data});
+            setModalAddPanel({ visible: true, data });
           }}
         />
       ),
@@ -255,7 +255,7 @@ export const PatientOrder = PatientOrderHoc(
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') &&
           !patientRegistrationStore.defaultValues?.filterLock && (
             <Buttons.ButtonCircleAddRemoveBottom
-              style={{bottom: 60}}
+              style={{ bottom: 60 }}
               show={hideInputView}
               disabled={
                 patientVisitStore.listPatientVisit?.length > 0
@@ -323,7 +323,7 @@ export const PatientOrder = PatientOrderHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -395,7 +395,7 @@ export const PatientOrder = PatientOrderHoc(
                     </Form.InputWrapper>
                   )}
                   name='labId'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 {patientOrderStore.checkExistsRecord && (
@@ -406,7 +406,7 @@ export const PatientOrder = PatientOrderHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.InputWrapper label='Panel' hasError={!!errors.panel}>
                       <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                         loader={loading}
@@ -507,7 +507,7 @@ export const PatientOrder = PatientOrderHoc(
                     </Form.InputWrapper>
                   )}
                   name='panel'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue={
                     patientOrderStore.selectedItems?.panels ||
                     masterPanelStore.listMasterPanel
@@ -517,7 +517,7 @@ export const PatientOrder = PatientOrderHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Environment'>
                       <select
                         value={value}
@@ -554,14 +554,14 @@ export const PatientOrder = PatientOrderHoc(
                     </Form.InputWrapper>
                   )}
                   name='environment'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </List>
             </Grid>
             <div
               className='rounded-lg shadow-xl overflow-scroll mt-2'
-              style={{overflowX: 'scroll'}}
+              style={{ overflowX: 'scroll' }}
             >
               {patientOrderStore.packageList && (
                 <TablePackagesList data={patientOrderStore.packageList} />
@@ -569,7 +569,7 @@ export const PatientOrder = PatientOrderHoc(
             </div>
           </div>
           <br />
-          <div className='extra' style={{border: '1px solid yellow'}}>
+          <div className='extra' style={{ border: '1px solid yellow' }}>
             <Accordion allowZeroExpanded>
               <AccordionItem>
                 <AccordionItemHeading>
@@ -579,7 +579,7 @@ export const PatientOrder = PatientOrderHoc(
                   <>
                     <div
                       className='rounded-lg shadow-xl overflow-scroll mt-2'
-                      style={{overflowX: 'scroll'}}
+                      style={{ overflowX: 'scroll' }}
                     >
                       {patientOrderStore.packageList && (
                         <TableExtraDataPackages
@@ -614,20 +614,19 @@ export const PatientOrder = PatientOrderHoc(
             </Buttons.Button>
           </List>
         </div>
-
         <div
           className='p-2 rounded-lg shadow-xl overflow-scroll'
-          style={{overflowX: 'scroll'}}
+          style={{ overflowX: 'scroll' }}
         >
           {patientOrderList}
         </div>
         <ModalConfirm
           {...modalConfirm}
           click={(action?: string) => {
-            setModalConfirm({show: false});
+            setModalConfirm({ show: false });
             if (action === 'delete') {
               patientOrderStore.patientOrderService
-                .deletePatientOrder({input: {id: modalConfirm.id}})
+                .deletePatientOrder({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removePatientOrder.success) {
                     Toast.success({
@@ -649,19 +648,19 @@ export const PatientOrder = PatientOrderHoc(
                 });
             }
           }}
-          onClose={() => setModalConfirm({show: false})}
+          onClose={() => setModalConfirm({ show: false })}
         />
         <ModalBarcodeLab
           {...modalBarcodeLab}
           onClose={() => {
-            setModalBarcodeLab({visible: false});
+            setModalBarcodeLab({ visible: false });
             localStorage.setItem('barCodeLabId', '');
           }}
         />
         <ModalAddPanel
           {...modalAddPanel}
           onClose={() => {
-            setModalAddPanel({visible: false});
+            setModalAddPanel({ visible: false });
             patientOrderStore.updateSelectedItems({
               ...patientOrderStore.selectedItems,
               panels: [],
@@ -670,7 +669,7 @@ export const PatientOrder = PatientOrderHoc(
             patientOrderStore.updatePackageList([]);
           }}
           onClick={record => {
-            setModalAddPanel({visible: false});
+            setModalAddPanel({ visible: false });
             onUpdatePatientOrder(record);
           }}
         />

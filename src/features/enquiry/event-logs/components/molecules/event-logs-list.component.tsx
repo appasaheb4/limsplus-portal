@@ -8,6 +8,7 @@ import {
   sortCaret,
   NumberFilter,
   customFilter,
+  DateFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -346,6 +347,9 @@ export const EventLogsList = (props: EventLogsListProps) => {
                 eventDate = filter;
               },
             }),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
               return (
                 <span>
