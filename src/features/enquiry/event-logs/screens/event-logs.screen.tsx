@@ -23,9 +23,6 @@ export const EventLogs = observer(() => {
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
-  const [hideAddSection, setHideAddSection] = useState<boolean>(true);
-  const [isImport, setIsImport] = useState<boolean>(false);
-  const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
   return (
     <>
@@ -69,20 +66,20 @@ export const EventLogs = observer(() => {
                 });
               }}
               onPageSizeChange={(page, limit) => {
-                //eventLogsStore.eventLogsService.filter(page, limit);
+                eventLogsStore.eventLogsService.listEventLogs(page, limit);
                 global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
-                // eventLogsStore.eventLogsService.filter({
-                //   input: { type, filter, page, limit },
-                // });
-                // global.filter = {
-                //   mode: 'filter',
-                //   type,
-                //   filter,
-                //   page,
-                //   limit,
-                // };
+                eventLogsStore.eventLogsService.filter({
+                  input: { type, filter, page, limit },
+                });
+                global.filter = {
+                  mode: 'filter',
+                  type,
+                  filter,
+                  page,
+                  limit,
+                };
               }}
             />
           </div>
@@ -106,43 +103,12 @@ export const EventLogs = observer(() => {
                             global?.filter?.page,
                             global?.filter?.limit,
                           );
-                        else if (global?.filter?.mode == 'filter') return;
+                        // else if (global?.filter?.mode == 'filter') return;
                         eventLogsStore.eventLogsService.listEventLogs();
                       }
                     });
                   break;
                 }
-                // case 'Update': {
-                //   EventLogs.EventLogsService.updateSingleFiled({
-                //     input: {
-                //       _id: modalConfirm.data.id,
-                //       [modalConfirm.data.dataField]: modalConfirm.data.value,
-                //     },
-                //   }).then((res: any) => {
-                //     setModalConfirm({ show: false });
-                //     if (res.updateAdministrativeDivision.success) {
-                //       Toast.success({
-                //         message: `😊 ${res.updateAdministrativeDivision.message}`,
-                //       });
-                //       if (global?.filter?.mode == 'pagination')
-                //         EventLogs.fetchAdministrativeDiv(
-                //           global?.filter?.page,
-                //           global?.filter?.limit,
-                //         );
-                //       else if (global?.filter?.mode == 'filter')
-                //         EventLogs.EventLogsService.filter({
-                //           input: {
-                //             type: global?.filter?.type,
-                //             filter: global?.filter?.filter,
-                //             page: global?.filter?.page,
-                //             limit: global?.filter?.limit,
-                //           },
-                //         });
-                //       else EventLogs.fetchAdministrativeDiv();
-                //     }
-                //   });
-                //   break;
-                // }
               }
             }}
             close={() => setModalConfirm({ show: false })}

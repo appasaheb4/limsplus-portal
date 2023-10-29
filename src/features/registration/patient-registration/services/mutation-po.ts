@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST_PATIENT_ORDER = gql`
   mutation ($input: PatientOrderInput!) {

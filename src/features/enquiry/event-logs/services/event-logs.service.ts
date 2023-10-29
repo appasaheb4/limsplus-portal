@@ -71,9 +71,9 @@ export class EventLogsService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterEventLogs.success)
+          if (!response.data.filterEventLog.success)
             return this.listEventLogs();
-          this.listEventLogs();
+          stores.eventLogsStore.filterEventLog(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

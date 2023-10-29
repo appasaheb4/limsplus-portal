@@ -5,8 +5,8 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST_PATIENT_ORDER,
   REMOVE_PATIENT_ORDER,
@@ -32,7 +32,7 @@ export class PatientOrderService {
       client
         .mutate({
           mutation: LIST_PATIENT_ORDER,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
           stores.patientOrderStore.updatePatientOrderList(response.data);
@@ -90,8 +90,6 @@ export class PatientOrderService {
 
   updatePackageList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-
       client
         .mutate({
           mutation: UPDATE_PACKAGE_LIST,
@@ -115,7 +113,7 @@ export class PatientOrderService {
         })
         .then((response: any) => {
           if (!response.data.filterPatientOrder.success)
-            return this.listPatientOrder({documentType: 'patientOrder'});
+            return this.listPatientOrder({ documentType: 'patientOrder' });
           stores.patientOrderStore.filterPatientOrderList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
@@ -176,7 +174,7 @@ export class PatientOrderService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPatientOrder.success)
-            return this.listPatientOrder({documentType: 'patientOrder'});
+            return this.listPatientOrder({ documentType: 'patientOrder' });
           stores.patientOrderStore.filterPatientOrderList({
             filterPatientOrder: {
               data: response.data.filterByFieldsPatientOrder.data,

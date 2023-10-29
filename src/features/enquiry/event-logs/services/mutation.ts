@@ -64,8 +64,8 @@ export const UPDATE_RECORD = gql`
 `;
 
 export const FILTER = gql`
-  mutation ($input: AdministrativeDevisionInput!) {
-    filterAdministrativeDivisions(input: $input) {
+  mutation ($input: EventLogInput!) {
+    filterEventLog(input: $input) {
       paginatorInfo {
         count
       }
@@ -73,16 +73,27 @@ export const FILTER = gql`
       message
       data {
         _id
-        country
-        state
-        district
-        city
-        area
-        postalCode
-        sbu
-        zone
-        status
-        environment
+        documents
+        pId
+        labId
+        rLab
+        sampleId
+        pLab
+        oLab
+        department
+        panelCode
+        testCode
+        analyteCode
+        event
+        eventOn
+        oldValue
+        newValue
+        deleteValue
+        eventDate
+        eventBy
+        comments
+        dateOfEntry
+        lastUpdated
       }
     }
   }

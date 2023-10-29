@@ -10,5 +10,7 @@
 }
 
 .react-datetime-picker__calendar {
-  height: 29vh;
+  height: auto;
+  z-index: 9999 !important;
+  overflow: visible !important;
 }
