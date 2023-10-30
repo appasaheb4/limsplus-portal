@@ -32,6 +32,10 @@
   table tr:hover {
     @apply dark:bg-white;
   }
+
+  select {
+    @apply dark:text-black;
+  }
 }
 
 body {

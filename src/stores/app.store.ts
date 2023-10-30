@@ -6,7 +6,7 @@ interface ApplicationSetting {
   shortCutBarColor?: string;
   imageSideBarBgImage?: string;
   isSideBarBgImage?: boolean;
-  isExpandScreen?: boolean;
+  isExpandScreen: boolean;
   theme?: 'dark' | 'light';
 }
 
@@ -25,6 +25,7 @@ export class AppStore {
     this.applicationSetting = {
       ...this.applicationSetting,
       isExpandScreen: false,
+      theme: 'light',
     };
     this.footerView = {
       visible: true,

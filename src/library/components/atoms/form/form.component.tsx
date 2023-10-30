@@ -46,7 +46,7 @@ export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
       hasError={props.hasError}
       style={{ ...props.style }}
     >
-      {props.label}
+      <span className='dark:text-white'>{props.label}</span>
     </Label>
     {props.children}
   </div>
@@ -113,7 +113,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
           props.className
         } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red ' : 'border-gray-300'
-        } rounded-md`}
+        } rounded-md `}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
         onKeyDown={props.onKeyDown && props.onKeyDown}
       />
@@ -161,7 +161,7 @@ export const InputPassword = React.forwardRef(
               props.className
             } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
               props.hasError ? 'border-red ' : 'border-gray-300'
-            } rounded-md`}
+            } rounded-md dark:text-black`}
             onBlur={e => props.onBlur && props.onBlur(e.target.value)}
             onKeyDown={props.onKeyDown && props.onKeyDown}
           />
@@ -238,7 +238,7 @@ export const Input1 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
           props.className
         } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red ' : 'border-gray-300'
-        } rounded-md`}
+        } rounded-md dark:text-black`}
         onBlur={e => props.onBlur && props.onBlur(e)}
         onKeyDown={props.onKeyDown}
       />
@@ -292,7 +292,7 @@ export const Input2 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
           props.className
         } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red ' : 'border-gray-300'
-        } rounded-md`}
+        } rounded-md dark:text-black`}
         onKeyDown={(e: any) => {
           if (e.keyCode == 13) {
             setIsBlur(false);
@@ -322,7 +322,7 @@ export const MultilineInput = (props: InputProps) => (
       onBlur={e => props.onBlur && props.onBlur(e.target.value)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
         props.hasError ? 'border-red ' : 'border-gray-300'
-      } rounded-md`}
+      } rounded-md dark:text-black`}
       defaultValue={props.defaultValue}
     />
   </InputWrapper>

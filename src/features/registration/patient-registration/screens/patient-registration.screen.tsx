@@ -310,7 +310,7 @@ const PatientRegistration = observer(() => {
             {patientManagerStore.listPatientManger?.map(item => (
               <>
                 <div
-                  className='flex rounded-md shadow-md p-2 gap-1 items-center my-4'
+                  className='flex rounded-md shadow-md p-2 gap-1 items-center my-4 border-2 border-white '
                   onClick={() => {
                     patientRegistrationStore.updateDefaultValue({
                       ...patientRegistrationStore.defaultValues,
