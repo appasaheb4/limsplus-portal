@@ -18,7 +18,7 @@ import {
   ModalSessionAllowed,
 } from '@/library/components';
 import { ModalAccount } from '.';
-
+import useColorMode from '@/hooks/use-color-mode';
 import { RouterFlow } from '@/flows';
 
 import {
@@ -37,6 +37,7 @@ import {
 
 const NavbarComponent = observer(({ dispatch }) => {
   const [userId, serUserId] = useState<string>('');
+  const [colorMode, setColorMode] = useColorMode();
   const { appStore, userStore, routerStore, loginStore } = useStores();
   const history = useHistory();
   const [modalAccount, setModalAccount] = useState<any>();
@@ -62,12 +63,21 @@ const NavbarComponent = observer(({ dispatch }) => {
       >
         <div className='flex w-8 sm:ml-4'>
           <span
-            className='sidebar-toggle d-flex mr-2'
+            className='sidebar-toggle d-flex mr-2 '
             onClick={() => {
               dispatch(toggleSidebar());
             }}
           >
-            <i className='hamburger align-self-center' />
+            <Icons.RIcon
+              nameIcon='GiHamburgerMenu'
+              propsIcon={{
+                color:
+                  stores.appStore.applicationSetting.theme === 'dark'
+                    ? '#ffffff'
+                    : '#000000',
+                size: 22,
+              }}
+            />
           </span>
         </div>
         <div className='flex flex-3  scrollbar-hide overflow-x-scroll '>
@@ -148,9 +158,14 @@ const NavbarComponent = observer(({ dispatch }) => {
                 onClick={() => {
                   const elem: any = document.body;
                   function openFullscreen() {
+                    const theme = 'dark';
                     appStore.updateApplicationSetting({
                       ...appStore.applicationSetting,
                       isExpandScreen: true,
+                    });
+                    appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      theme,
                     });
                     if (elem.requestFullscreen) {
                       elem.requestFullscreen();
@@ -161,15 +176,23 @@ const NavbarComponent = observer(({ dispatch }) => {
                       /* IE11 */
                       elem.msRequestFullscreen();
                     }
+                    if (typeof setColorMode === 'function') {
+                      setColorMode(theme);
+                    }
                   }
                   function closeFullscreen() {
                     if (document.fullscreenElement) {
+                      const theme = 'light';
                       if (document.exitFullscreen) {
                         appStore.updateApplicationSetting({
                           ...appStore.applicationSetting,
                           isExpandScreen: false,
+                          theme,
                         });
                         document.exitFullscreen();
+                      }
+                      if (typeof setColorMode === 'function') {
+                        setColorMode(theme);
                       }
                     }
                   }
@@ -201,7 +224,9 @@ const NavbarComponent = observer(({ dispatch }) => {
                 </Tooltip>
               </Buttons.Button>
               <div className='mx-2'>
-                <DarkModeSwitcher />
+                <DarkModeSwitcher
+                  isDisable={appStore.applicationSetting.isExpandScreen}
+                />
               </div>
               <span
                 className='flex rounded-md p-2 shadow-4 items-center'

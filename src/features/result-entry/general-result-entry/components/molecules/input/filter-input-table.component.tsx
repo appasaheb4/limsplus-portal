@@ -1,22 +1,22 @@
 import React from 'react';
-import {Table} from 'reactstrap';
+import { Table } from 'reactstrap';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Buttons,
 } from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {useForm, Controller} from 'react-hook-form';
-import {Icons} from '@/library/components';
+import { useForm, Controller } from 'react-hook-form';
+import { Icons } from '@/library/components';
 
 export const FilterInputTable = observer(() => {
-  const {loading, patientResultStore, loginStore, generalResultEntryStore} =
+  const { loading, patientResultStore, loginStore, generalResultEntryStore } =
     useStores();
   const {
     control,
-    formState: {errors},
-  } = useForm({mode: 'all'});
+    formState: { errors },
+  } = useForm({ mode: 'all' });
 
   const getFilteredData = (searchInput, key, itemList) => {
     if (!_.isEmpty(searchInput)) {
@@ -33,27 +33,27 @@ export const FilterInputTable = observer(() => {
   return (
     <div
       className='flex flex-row gap-2 items-center '
-      style={{minWidth: '500px'}}
+      style={{ minWidth: '500px' }}
     >
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white ' style={{minWidth: 190}}>
+            <th className='text-white ' style={{ minWidth: 190 }}>
               PLab
             </th>
-            <th className='text-white' style={{minWidth: 190}}>
+            <th className='text-white' style={{ minWidth: 190 }}>
               Test Code / Name
             </th>
-            <th className='text-white' style={{minWidth: 190}}>
+            <th className='text-white' style={{ minWidth: 190 }}>
               Department
             </th>
-            <th className='text-white' style={{minWidth: 190}}>
+            <th className='text-white' style={{ minWidth: 190 }}>
               Test Status
             </th>
-            <th className='text-white' style={{minWidth: 190}}>
+            <th className='text-white' style={{ minWidth: 190 }}>
               LabId
             </th>
-            <th className='text-white' style={{minWidth: 190}}>
+            <th className='text-white' style={{ minWidth: 190 }}>
               Finish Result
             </th>
           </tr>
@@ -63,7 +63,7 @@ export const FilterInputTable = observer(() => {
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({ field: { onChange } }) => (
                   <div className='flex flex-row items-center gap-2'>
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
@@ -167,7 +167,7 @@ export const FilterInputTable = observer(() => {
                   </div>
                 )}
                 name='plab'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue={generalResultEntryStore.filterGeneralResEntry}
               />
             </td>
@@ -175,7 +175,7 @@ export const FilterInputTable = observer(() => {
               <div className='flex flex-row items-center gap-2'>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       hasError={!!errors.testCode}
@@ -239,7 +239,7 @@ export const FilterInputTable = observer(() => {
                     />
                   )}
                   name='testCode'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue={generalResultEntryStore.filterGeneralResEntry}
                 />
                 {/* <Icons.IconContext
@@ -285,7 +285,7 @@ export const FilterInputTable = observer(() => {
               <div className='flex flex-row items-center gap-2'>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       hasError={!!errors.analyte}
@@ -350,7 +350,7 @@ export const FilterInputTable = observer(() => {
                     />
                   )}
                   name='department'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
                 <Icons.IconContext
@@ -396,7 +396,7 @@ export const FilterInputTable = observer(() => {
               <div className='flex flex-row items-center gap-2'>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       hasError={!!errors.testStatus}
@@ -461,7 +461,7 @@ export const FilterInputTable = observer(() => {
                     />
                   )}
                   name='testStatus'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
                 <Icons.IconContext
@@ -507,7 +507,7 @@ export const FilterInputTable = observer(() => {
               <div className='flex flex-row items-center gap-2'>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       hasError={!!errors.labId}
@@ -569,7 +569,7 @@ export const FilterInputTable = observer(() => {
                     />
                   )}
                   name='labId'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
                 <Icons.IconContext
@@ -616,11 +616,11 @@ export const FilterInputTable = observer(() => {
               <div className='flex flex-row items-center gap-2'>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <select
                       value={value}
                       className={
-                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md '
                       }
                       onChange={e => {
                         const finishResult = e.target.value;
@@ -658,10 +658,10 @@ export const FilterInputTable = observer(() => {
                     >
                       <option selected>Select</option>
                       {[
-                        {code: 'P', value: 'Pending'},
-                        {code: 'C', value: 'Recheck'},
-                        {code: 'T', value: 'Retest'},
-                        {code: 'D', value: 'Done'},
+                        { code: 'P', value: 'Pending' },
+                        { code: 'C', value: 'Recheck' },
+                        { code: 'T', value: 'Retest' },
+                        { code: 'D', value: 'Done' },
                       ].map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {item.value}
@@ -670,7 +670,7 @@ export const FilterInputTable = observer(() => {
                     </select>
                   )}
                   name='finishResult'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue={''}
                 />
                 <Icons.IconContext
