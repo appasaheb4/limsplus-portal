@@ -98,6 +98,8 @@ const Dashboard = ({ children }) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>();
   const history = useHistory();
 
+  console.log({ mode: stores.appStore.applicationSetting.theme });
+
   const refreshPage = () => {
     history.replace(window.location.pathname);
   };
@@ -427,8 +429,6 @@ const Dashboard = ({ children }) => {
     debounce: 500,
   });
 
-  console.log('dashboard reload');
-
   return (
     <React.Fragment>
       <Wrapper>
@@ -439,7 +439,7 @@ const Dashboard = ({ children }) => {
           <Footer />
         </Main>
       </Wrapper>
-      {/* <Settings /> */}
+      <Settings />
       <ModalIdleTimeout
         {...modalIdleTime}
         onClick={() => {

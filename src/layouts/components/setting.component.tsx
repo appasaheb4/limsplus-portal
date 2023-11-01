@@ -1,96 +1,82 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { observer } from 'mobx-react';
+import { Buttons, Svg } from '@/library/components';
 
-import {toggleBoxedLayout} from '../../redux/actions/layout-action';
-import {toggleStickySidebar} from '../../redux/actions/sidebar-action';
-import {toggleSidebar} from '../../redux/actions/sidebar-action';
-import {Settings as SettingsIcon} from 'react-feather';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
-import {SideBarColorBgImages} from './sidebar-color-bg-image.component';
-import {images} from '@/library/assets';
+import { toggleBoxedLayout } from '../../redux/actions/layout-action';
+import { toggleStickySidebar } from '../../redux/actions/sidebar-action';
+import { toggleSidebar } from '../../redux/actions/sidebar-action';
+import { Settings as SettingsIcon } from 'react-feather';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { SideBarColorBgImages } from './sidebar-color-bg-image.component';
+import { images } from '@/library/assets';
 
-import {Badge, Button} from 'reactstrap';
+import { Badge } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import {stores} from '@/stores';
+import { stores, useStores } from '@/stores';
 
-// import { createThis } from "typescript"
+type Props = { layout; sidebar; dispatch };
+type State = { isOpen: boolean; colorList: any; imageList: any };
 
-type Props = {layout; sidebar; dispatch};
-type State = {isOpen: boolean; colorList: any; imageList: any};
+const Settings = observer(props => {
+  const { appStore } = useStores();
+  const { layout, sidebar, dispatch } = props;
+  const [isHidden, setIsHidden] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [colorList, setColorList] = useState([
+    { color: '#3CB371' },
+    { color: '#BDB76B' },
+    { color: '#5F9EA0' },
+    { color: '#1E90FF' },
+    { color: '#DA70D6' },
+    { color: '#FF69B4' },
+    { color: '#778899' },
+    { color: '#DEB887' },
+    { color: '#778899' },
+    { color: '#32CD32' },
+    { color: '#B0E0E6' },
+  ]);
+  const [imageList, setImageList] = useState([
+    { image: images.img1 },
+    { image: images.img2 },
+    { image: images.img3 },
+    { image: images.img4 },
+  ]);
 
-class Settings extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-      colorList: [
-        {color: '#3CB371'},
-        {color: '#BDB76B'},
-        {color: '#5F9EA0'},
-        {color: '#1E90FF'},
-        {color: '#DA70D6'},
-        {color: '#FF69B4'},
-        {color: '#778899'},
-        {color: '#DEB887'},
-        {color: '#778899'},
-        {color: '#32CD32'},
-        {color: '#B0E0E6'},
-      ],
-      imageList: [
-        {image: images.img1},
-        {image: images.img2},
-        {image: images.img3},
-        {image: images.img4},
-      ],
-    };
+  useEffect(() => {
+    if (appStore.applicationSetting.theme == 'dark') setIsHidden(true);
+    else setIsHidden(false);
+  }, [appStore.applicationSetting.theme]);
 
-    this.setWrapperRef = this.setWrapperRef.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  toggleSidebar() {
-    this.setState({isOpen: !this.state.isOpen});
-  }
-
-  // componentDidMount() {
-  //   document.addEventListener("mousedown", this.handleClickOutside)
-  // }
-
-  // componentWillUnmount() {
-  //   document.removeEventListener("mousedown", this.handleClickOutside)
-  // }
-
-  setWrapperRef() {
-    //  this.wrapperRef = node;
-    //console.log({ node })
-  }
-
-  handleClickOutside(event) {
-    console.log({event});
-    // if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-    //   this.setState({ isOpen: false });
-    // }
-  }
-
-  render() {
-    const {isOpen} = this.state;
-    const {layout, sidebar, dispatch} = this.props;
-    return (
+  return (
+    <div className={`${isHidden ? 'hidden' : 'show'}`}>
       <div
-        ref={this.setWrapperRef}
-        className={'settings ' + (isOpen ? 'open' : '')}
+        className={`settings ${isOpen ? 'open' : ''} )`}
+        style={{ width: 20 }}
       >
-        <div className='settings-toggle' onClick={() => this.toggleSidebar()}>
+        <div
+          className='settings-toggle'
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
           <SettingsIcon />
         </div>
 
         <div className='settings-panel'>
           <div className='settings-content'>
             <PerfectScrollbar>
-              <div className='settings-title'>
-                <Button close onClick={() => this.toggleSidebar()} />
+              <div className='flex items-center p-4 justify-between'>
                 <h4>Settings</h4>
+                <Buttons.Button
+                  size='medium'
+                  buttonClass='pl-4'
+                  icon={Svg.Remove}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                  }}
+                />
               </div>
 
               <div className='settings-section'>
@@ -103,7 +89,7 @@ class Settings extends React.Component<Props, State> {
                     <span
                       className='settings-layouts-item'
                       onClick={() =>
-                        dispatch(toggleStickySidebar(), this.toggleSidebar())
+                        dispatch(toggleStickySidebar(), setIsOpen(!isOpen))
                       }
                     >
                       {sidebar.isSticky ? 'Static Sidebar' : 'Sticky Sidebar'}
@@ -116,7 +102,7 @@ class Settings extends React.Component<Props, State> {
                     <span
                       className='settings-layouts-item'
                       onClick={() =>
-                        dispatch(toggleSidebar(), this.toggleSidebar())
+                        dispatch(toggleSidebar(), setIsOpen(!isOpen))
                       }
                     >
                       {sidebar.isOpen ? 'Collapsed Sidebar' : 'Visible Sidebar'}
@@ -129,7 +115,7 @@ class Settings extends React.Component<Props, State> {
                     <span
                       className='settings-layouts-item'
                       onClick={() =>
-                        dispatch(toggleBoxedLayout(), this.toggleSidebar())
+                        dispatch(toggleBoxedLayout(), setIsOpen(!isOpen))
                       }
                     >
                       {layout.isBoxed ? 'Full Layout' : 'Boxed Layout'}
@@ -140,8 +126,7 @@ class Settings extends React.Component<Props, State> {
                   </li>
                 </ul>
                 <SideBarColorBgImages
-                  data={this.state.colorList}
-                  //images={this.state.imageList}
+                  data={colorList}
                   onChangeSidebarColor={(color: string) => {
                     stores.appStore.updateApplicationSetting({
                       ...stores.appStore.applicationSetting,
@@ -154,21 +139,15 @@ class Settings extends React.Component<Props, State> {
                       shortCutBarColor: color,
                     });
                   }}
-                  // onChangeImage={(image: any)=>{
-                  //   stores.appStore.updateApplicationSetting({
-                  //     ...stores.appStore.applicationSetting,
-                  //     imageSideBarBgImage:image
-                  //   })
-                  // }}
                 />
               </div>
             </PerfectScrollbar>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+});
 
 export default connect((store: any) => ({
   layout: store.layout,
