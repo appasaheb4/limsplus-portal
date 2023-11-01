@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-indent-props */
-import React, {CSSProperties, Ref} from 'react';
-import {IconProps} from '../svg.component';
-import {Buttons, Icons} from '../..';
+import React, { CSSProperties, Ref } from 'react';
+import { IconProps } from '../svg.component';
+import { Buttons, Icons } from '../..';
 
 export interface ButtonProps {
   type?: 'solid' | 'outline';
@@ -32,7 +32,7 @@ export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
   const buttonColorClass =
     props.type === 'solid'
       ? 'text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg'
-      : 'text-gray-600 border border-gray-400 hover:shadow-lg';
+      : 'dark:text-white text-gray-600 border border-gray-400 hover:shadow-lg';
 
   const roundedClass = props.pill ? 'rounded-full' : 'rounded-lg';
 
@@ -189,7 +189,7 @@ interface ButtonIconProps {
   onClick: () => void;
 }
 
-export const ButtonIcon = ({title, icon, onClick}: ButtonIconProps) => (
+export const ButtonIcon = ({ title, icon, onClick }: ButtonIconProps) => (
   <div
     className='rounded-full  border border-gray-300 text-gray-400 flex justify-center items-center'
     onClick={() => onClick()}

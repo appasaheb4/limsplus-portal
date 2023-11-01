@@ -21,7 +21,7 @@ import { RouterFlow } from '@/flows';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
-import * as XLSX from 'xlsx';
+
 const Banner = BannerHoc(
   observer(() => {
     const { loginStore, routerStore, bannerStore } = useStores();
@@ -61,30 +61,6 @@ const Banner = BannerHoc(
           setIsImport(false);
         }
       });
-    };
-
-    const handleFileUpload = (file: any) => {
-      const reader = new FileReader();
-      reader.addEventListener('load', (evt: any) => {
-        /* Parse data */
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: 'binary' });
-        /* Get first worksheet */
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
-        const list = data.map((item: any) => {
-          return {
-            title: item?.Title,
-            image: '',
-            environment: item?.Environment,
-            status: 'D',
-          };
-        });
-        setArrImportRecords(list);
-      });
-      reader.readAsBinaryString(file);
     };
 
     return (

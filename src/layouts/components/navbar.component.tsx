@@ -53,10 +53,9 @@ const NavbarComponent = observer(({ dispatch }) => {
   return (
     <>
       <Navbar
-        // style={{
-        //   backgroundColor:
-        //     appStore.applicationSetting?.shortCutBarColor || 'white',
-        // }}
+        style={{
+          backgroundColor: appStore.applicationSetting?.shortCutBarColor,
+        }}
         light
         expand
         className='flex flex-row w-full xl:pr-5 sm:p-0'
@@ -149,7 +148,7 @@ const NavbarComponent = observer(({ dispatch }) => {
             </div>
           </Form>
         </div>
-        <div className='flex-1 ml-2 d-none d-sm-inline-block'>
+        <div className='flex-1 ml-2 d-none d-sm-inline-block mr-40'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
               <Buttons.Button
