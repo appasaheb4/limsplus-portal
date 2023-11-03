@@ -1,7 +1,7 @@
 import React from 'react';
-import {Line} from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
-import {Badge, Card, CardBody, CardHeader, CardTitle} from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, CardTitle } from 'reactstrap';
 
 const LineChart = () => {
   const theme = {
@@ -63,6 +63,11 @@ const LineChart = () => {
     hover: {
       intersect: true,
     },
+    labels: {
+      fontColor: ['#ffffff'],
+      show: false,
+    },
+
     plugins: {
       filler: {
         propagate: false,
@@ -94,17 +99,17 @@ const LineChart = () => {
   };
 
   return (
-    <Card className='flex-fill w-100'>
-      <CardHeader>
+    <Card className='flex-fill w-100 dark:bg-boxdark dark:border-2 dark:border-white dark:text-white'>
+      <CardHeader className='dark:border-b-2 dark:border-white'>
         <Badge color='primary' className='float-right'>
           Monthly
         </Badge>
         <CardTitle tag='h5' className='mb-0'>
-          Total Revenue
+          <span className='dark:text-white'>Total Revenue</span>
         </CardTitle>
       </CardHeader>
       <CardBody>
-        <div className='chart chart-lg'>
+        <div className='chart chart-lg text-white'>
           <Line data={data} options={options} />
         </div>
       </CardBody>

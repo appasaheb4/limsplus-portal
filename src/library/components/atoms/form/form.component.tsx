@@ -111,7 +111,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         onKeyPress={e => handleKeyPress(e)}
         className={`${
           props.className
-        } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+        } leading-4 p-2  dark:text-white focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red ' : 'border-gray-300'
         } rounded-md `}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
@@ -445,7 +445,7 @@ export const InputDateTime = ({
 
   return (
     <InputWrapper label={label} id={id} hasError={hasError}>
-      <div style={style}>
+      <div style={style} className=' dark:bg-white rounded-md'>
         {use12Hours ? (
           <DateTimePicker
             disabled={disabled}
@@ -508,7 +508,7 @@ export const DatePicker = ({
   const [date, setDate] = useState(value);
   return (
     <InputWrapper label={label} id={id} hasError={hasError}>
-      <div style={style}>
+      <div style={style} className=' dark:bg-white rounded-md'>
         <DateTimePicker
           disabled={disabled}
           onChange={value => {
@@ -524,7 +524,7 @@ export const DatePicker = ({
           value={value}
           amPmAriaLabel='AM/PM'
           format={format || 'dd-MM-yyyy'}
-          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm  sm:text-base border-2 ${
             hasError ? 'border-red ' : 'border-gray-300'
           } rounded-md relative z-2`}
         />
@@ -652,7 +652,8 @@ export const Toggle = (props: ToggleProps) => {
       <div onClick={triggerToggle} className={toggleClasses}>
         <div
           className={
-            'wrg-toggle-container ' + (toggle ? 'bg-green-700' : 'bg-black')
+            'wrg-toggle-container ' +
+            (toggle ? 'bg-green-700' : 'bg-black dark:bg-white')
           }
         >
           {isToggleLabel && (
@@ -661,13 +662,15 @@ export const Toggle = (props: ToggleProps) => {
                 <span className='text-white ml-1'>Yes</span>
               </div>
               <div className='wrg-toggle-uncheck'>
-                <span className='text-white'>No</span>
+                <span className='dark:text-black'>No</span>
               </div>
             </>
           )}
         </div>
         <div
-          className={`wrg-toggle-circle ${toggle ? 'ml-1' : 'mr-1'}  `}
+          className={`wrg-toggle-circle  dark:bg-black ${
+            toggle ? 'ml-1' : 'mr-1'
+          }  `}
         ></div>
         <input
           type='checkbox'

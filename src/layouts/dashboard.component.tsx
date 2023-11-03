@@ -433,7 +433,7 @@ const Dashboard = ({ children }) => {
     <React.Fragment>
       <Wrapper>
         <Sidebar />
-        <Main className='dark:bg-boxdark  dark:text-white'>
+        <Main className='main dark:bg-boxdark  dark:text-white'>
           <Navbar />
           <Content>{children}</Content>
           <Footer />
@@ -444,6 +444,7 @@ const Dashboard = ({ children }) => {
         {...modalIdleTime}
         onClick={() => {
           history.push('/');
+          sessionStorage.removeItem('session');
         }}
       />
     </React.Fragment>
