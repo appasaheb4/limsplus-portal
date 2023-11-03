@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   NumberFilter,
   Icons,
@@ -8,8 +8,8 @@ import {
   textFilter,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {PatientOrderExpand} from './patient-order-expand.component';
+import { Confirm } from '@/library/models';
+import { PatientOrderExpand } from './patient-order-expand.component';
 
 interface PatientOrderListProps {
   data: any;
@@ -42,7 +42,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
   };
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <PatientOrderExpand
           id='_id'
           data={props.data}
@@ -127,7 +127,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               }),
               formatter: (cellContent, row) => (
                 <>
-                  <ul style={{listStyle: 'inside'}}>
+                  <ul style={{ listStyle: 'inside' }}>
                     {row.panelCode.map((item, index) => (
                       <li key={index}>{item.panelCode}</li>
                     ))}
@@ -164,7 +164,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                     {row?.isApproval == false && (
                       <Tooltip tooltipText='Add/Remove Panel'>
                         <Icons.IconContext
-                          color='#000'
+                          color='#ffffff'
                           size='22'
                           onClick={() =>
                             props.onAddPanels && props.onAddPanels(row)
@@ -172,14 +172,14 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                         >
                           <Icons.RIcon
                             nameIcon='VscIssueReopened'
-                            propsIcon={{color: '#000000'}}
+                            propsIcon={{ color: '#ffffff' }}
                           />
                         </Icons.IconContext>
                       </Tooltip>
                     )}
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#000'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onDelete &&
@@ -197,7 +197,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                     </Tooltip>
                     <Tooltip tooltipText='Barcode'>
                       <Icons.IconContext
-                        color='#000'
+                        color='#ffffff'
                         size='20'
                         onClick={() => props.onBarcode && props.onBarcode(row)}
                       >

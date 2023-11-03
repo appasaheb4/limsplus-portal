@@ -68,6 +68,7 @@
 .wrg-toggle-uncheck {
   opacity: 1;
   right: 10px;
+  color: white;
 }
 
 .wrg-toggle-uncheck span,
@@ -97,7 +98,7 @@
   height: 22px;
   border: 1px solid #4d4d4d;
   border-radius: 50%;
-  background-color: #fafafa;
+  background-color: #ffffff;
   box-sizing: border-box;
   transition: all 0.25s ease;
   padding: 4;

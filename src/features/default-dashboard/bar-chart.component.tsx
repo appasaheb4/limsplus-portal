@@ -1,5 +1,5 @@
 import React from 'react';
-import {Bar} from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 import {
   Card,
@@ -12,7 +12,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 
-import {MoreHorizontal} from 'react-feather';
+import { MoreHorizontal } from 'react-feather';
 
 const BarChart = () => {
   const theme = {
@@ -92,8 +92,8 @@ const BarChart = () => {
   };
 
   return (
-    <Card className='flex-fill w-100'>
-      <CardHeader>
+    <Card className='flex-fill w-100 dark:bg-boxdark dark:border-2 dark:border-white dark:text-white'>
+      <CardHeader className='dark:border-b-2 dark:border-white'>
         <div className='card-actions float-right'>
           <UncontrolledDropdown>
             <DropdownToggle tag='a'>
@@ -107,7 +107,7 @@ const BarChart = () => {
           </UncontrolledDropdown>
         </div>
         <CardTitle tag='h5' className='mb-0'>
-          Sales / Revenue
+          <span className='dark:text-white'>Sales / Revenue</span>
         </CardTitle>
       </CardHeader>
       <CardBody className='d-flex'>

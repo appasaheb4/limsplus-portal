@@ -11,8 +11,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { Icons } from '@/library/components';
 
 export const FilterInputTable = observer(() => {
-  const { loading, patientResultStore, loginStore, generalResultEntryStore } =
-    useStores();
+  const {
+    loading,
+    patientResultStore,
+    loginStore,
+    generalResultEntryStore,
+    appStore,
+  } = useStores();
   const {
     control,
     formState: { errors },
@@ -127,43 +132,6 @@ export const FilterInputTable = observer(() => {
                         );
                       }}
                     />
-                    {/* <Icons.IconContext
-                      color='#000000'
-                      size='30'
-                      onClick={() => {
-                        const input = _.pickBy(
-                          {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                            pLab: '',
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          },
-                        );
-                        generalResultEntryStore.updateFilterGeneralResEntry({
-                          ...generalResultEntryStore.filterGeneralResEntry,
-                          pLab: '',
-                        });
-                      }}
-                    >
-                      <Icons.Iconai.AiFillCloseCircle />
-                    </Icons.IconContext> */}
                   </div>
                 )}
                 name='plab'
@@ -242,43 +210,6 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={generalResultEntryStore.filterGeneralResEntry}
                 />
-                {/* <Icons.IconContext
-                  color='#000000'
-                  size='30'
-                  onClick={() => {
-                    const input = _.pickBy(
-                      {
-                        ...generalResultEntryStore.filterGeneralResEntry,
-                        testCode: '',
-                      },
-                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                      function (value, key) {
-                        return !(
-                          value === undefined ||
-                          value === null ||
-                          value === ''
-                        );
-                      },
-                    );
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...input,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      },
-                    );
-                    generalResultEntryStore.updateFilterGeneralResEntry({
-                      ...generalResultEntryStore.filterGeneralResEntry,
-                      testCode: '',
-                    });
-                  }}
-                >
-                  <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext> */}
               </div>
             </td>
             <td>
@@ -354,7 +285,11 @@ export const FilterInputTable = observer(() => {
                   defaultValue={patientResultStore.patientResultList}
                 />
                 <Icons.IconContext
-                  color='#000000'
+                  color={
+                    appStore.applicationSetting.theme != 'dark'
+                      ? '#000000'
+                      : '#ffffff'
+                  }
                   size='30'
                   onClick={() => {
                     const input = _.pickBy(
@@ -465,7 +400,11 @@ export const FilterInputTable = observer(() => {
                   defaultValue={patientResultStore.patientResultList}
                 />
                 <Icons.IconContext
-                  color='#000000'
+                  color={
+                    appStore.applicationSetting.theme != 'dark'
+                      ? '#000000'
+                      : '#ffffff'
+                  }
                   size='30'
                   onClick={() => {
                     const input = _.pickBy(
@@ -573,7 +512,11 @@ export const FilterInputTable = observer(() => {
                   defaultValue={patientResultStore.patientResultList}
                 />
                 <Icons.IconContext
-                  color='#000000'
+                  color={
+                    appStore.applicationSetting.theme != 'dark'
+                      ? '#000000'
+                      : '#ffffff'
+                  }
                   size='30'
                   onClick={() => {
                     const input = _.pickBy(
@@ -674,7 +617,11 @@ export const FilterInputTable = observer(() => {
                   defaultValue={''}
                 />
                 <Icons.IconContext
-                  color='#000000'
+                  color={
+                    appStore.applicationSetting.theme != 'dark'
+                      ? '#000000'
+                      : '#ffffff'
+                  }
                   size='30'
                   onClick={() => {
                     const input = _.pickBy(

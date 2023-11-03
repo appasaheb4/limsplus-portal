@@ -25,6 +25,16 @@
   }
 }
 
+/* @layer base {
+  body {
+    @apply bg-white;
+
+    &.dark {
+      @apply bg-black;
+    }
+  }
+} */
+
 @layer components {
   table {
     @apply text-black dark:text-white;
@@ -35,6 +45,9 @@
 
   select {
     @apply dark:text-black;
+  }
+  .main {
+    @apply bg-white;
   }
 }
 

@@ -16,8 +16,8 @@ export const Tabs = ({ tabs, onClick }: TabsProps) => {
             <div
               className={`inline-flex items-center justify-center p-3 border-b-2 gap-1 ${
                 item.title === selected
-                  ? 'text-blue-600  border-blue-600 active'
-                  : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                  ? 'dark:border-white active'
+                  : 'border-transparent hover:text-[#27A4FE] hover:border-gray-300'
               }   `}
               onClick={() => {
                 setSelected(item.title);

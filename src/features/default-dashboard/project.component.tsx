@@ -12,11 +12,11 @@ import {
   Table,
 } from 'reactstrap';
 
-import {MoreHorizontal} from 'react-feather';
+import { MoreHorizontal } from 'react-feather';
 
 const Projects = () => (
-  <Card className='flex-fill w-100'>
-    <CardHeader>
+  <Card className='flex-fill w-100 dark:bg-boxdark dark:border-2 dark:border-white dark:text-white'>
+    <CardHeader className='dark:border-b-2 dark:border-white'>
       <div className='card-actions float-right'>
         <UncontrolledDropdown>
           <DropdownToggle tag='a'>
@@ -30,7 +30,7 @@ const Projects = () => (
         </UncontrolledDropdown>
       </div>
       <CardTitle tag='h5' className='mb-0'>
-        Latest Projects
+        <span className='dark:text-white'> Latest Projects</span>
       </CardTitle>
     </CardHeader>
     <Table striped className='my-0'>

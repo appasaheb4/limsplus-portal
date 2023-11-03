@@ -148,7 +148,7 @@ const NavbarComponent = observer(({ dispatch }) => {
             </div>
           </Form>
         </div>
-        <div className='flex-1 ml-2 d-none d-sm-inline-block mr-40'>
+        <div className='flex-1 ml-2 d-none d-sm-inline-block'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
               <Buttons.Button
@@ -224,11 +224,12 @@ const NavbarComponent = observer(({ dispatch }) => {
               </Buttons.Button>
               <div className='mx-2'>
                 <DarkModeSwitcher
-                  isDisable={appStore.applicationSetting.isExpandScreen}
+                  //isDisable={appStore.applicationSetting.isExpandScreen}
+                  isDisable={false}
                 />
               </div>
               <span
-                className='flex rounded-md p-2 shadow-4 items-center'
+                className='flex rounded-md p-2 shadow-4 items-center border-2 border-white'
                 onClick={() => {
                   if (loginStore.login.loginActivityList.length > 0) {
                     setModalSessionAllowed({
@@ -286,11 +287,6 @@ const NavbarComponent = observer(({ dispatch }) => {
                         });
                         history.push('/');
                         sessionStorage.removeItem('session');
-                        // setTimeout(() => {
-                        //   localStorage.clear();
-                        //   sessionStorage.clear();
-                        //   routerStore.updateUserRouter();
-                        // }, 100);
                       }
                     })
                     .catch(() => {

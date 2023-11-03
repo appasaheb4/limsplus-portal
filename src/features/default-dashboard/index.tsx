@@ -1,9 +1,9 @@
 /* eslint-disable */
-import React, {useState, useEffect} from 'react';
-import {Container, Row, Col} from 'reactstrap';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col } from 'reactstrap';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
-import {ModalChangePassword, Toast, ModalConfirm} from '@/library/components';
+import { ModalChangePassword, Toast, ModalConfirm } from '@/library/components';
 
 import BarChart from './bar-chart.component';
 import Feed from './feed.component';
@@ -11,14 +11,14 @@ import Header from './header.component';
 import LineChart from './line-chart.component';
 import Projects from './project.component';
 import Statistics from './statistic.component';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // registration
 
-import {stores, useStores} from '@/stores';
+import { stores, useStores } from '@/stores';
 
 const Default = observer(() => {
-  const {userStore, loginStore} = useStores();
+  const { userStore, loginStore } = useStores();
   const [modalChangePassword, setModalChangePassword] = useState<any>();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const history = useHistory();
@@ -37,7 +37,7 @@ const Default = observer(() => {
           ...userStore.changePassword,
           subTitle: `Please change you password. Your remaining exipre days ${days}`,
         });
-        setModalChangePassword({show: true});
+        setModalChangePassword({ show: true });
       }
       if (days < 0) {
         setModalConfirm({
@@ -100,7 +100,7 @@ const Default = observer(() => {
                 Toast.success({
                   message: `😊 ${res.userChnagePassword.message}`,
                 });
-                setModalChangePassword({show: false});
+                setModalChangePassword({ show: false });
               } else {
                 Toast.error({
                   message: `😔 ${res.data.data.message}`,
@@ -117,7 +117,7 @@ const Default = observer(() => {
               ...userStore.changePassword,
               tempHide: true,
             });
-            setModalChangePassword({show: false});
+            setModalChangePassword({ show: false });
           }}
         />
       </Container>
@@ -150,7 +150,7 @@ const Default = observer(() => {
           }
         }}
         close={() => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
         }}
       />
     </>
