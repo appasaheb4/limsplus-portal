@@ -3,7 +3,7 @@ import { EnvironmentValue } from '../models';
 
 interface ApplicationSetting {
   sideBarColor?: string;
-  shortCutBarColor?: string;
+  navBarColor?: string;
   imageSideBarBgImage?: string;
   isSideBarBgImage?: boolean;
   isExpandScreen: boolean;

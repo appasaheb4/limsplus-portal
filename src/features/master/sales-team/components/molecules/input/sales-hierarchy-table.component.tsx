@@ -1,24 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {Table} from 'reactstrap';
-import {
-  Form,
-} from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { Table } from 'reactstrap';
+import { Form } from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
 
 interface SalesHierarchyTableProps {
   list: any;
 }
 
 export const SalesHierarchyTable = observer(
-  ({list}: SalesHierarchyTableProps) => {
-    const {loading, userStore, salesTeamStore, routerStore} = useStores();
+  ({ list }: SalesHierarchyTableProps) => {
+    const { userStore, salesTeamStore } = useStores();
 
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
     } = useForm();
@@ -27,7 +25,7 @@ export const SalesHierarchyTable = observer(
 
     const loadEmployee = () => {
       userStore.UsersService.findByFields({
-        input: {filter: {role: 'SALES'}},
+        input: { filter: { role: 'SALES' } },
       }).then(res => {
         if (!res.findByFieldsUser.success)
           return alert(res.findByFieldsUser.message);
@@ -80,7 +78,7 @@ export const SalesHierarchyTable = observer(
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       // <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       //   loader={loading}
                       //   placeholder="Search by priceGroup or description"
@@ -144,25 +142,25 @@ export const SalesHierarchyTable = observer(
                       />
                     )}
                     name='empCode'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue={employeeList}
                   />
                 </td>
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input disabled={true} value={item.designation} />
                     )}
                     name='designation'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </td>
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       // <select
                       //   value={item.level}
                       //   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
@@ -194,7 +192,7 @@ export const SalesHierarchyTable = observer(
                       <Form.Input disabled={true} value={item.level} />
                     )}
                     name='level'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </td>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import { Table } from 'reactstrap';
-import { Icons, Buttons, Form } from '@/library/components';
+import { Icons, Buttons, Form, Toast } from '@/library/components';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import { useForm, Controller } from 'react-hook-form';
@@ -35,6 +36,20 @@ export const PriceListTable = observer(
       setPriceGroupItems(priceGroup);
       setPriceListItems(priceList);
     }, [priceGroup, priceList]);
+
+    useEffect(() => {
+      if (
+        registrationLocationsStore?.registrationLocations?.priceList?.length > 0
+      )
+        registrationLocationsStore?.registrationLocations?.priceList.map(
+          (item, index) => {
+            setValue(`priceGroup_${index}`, item.priceGroup);
+            setValue(`priceList_${index}`, item.priceList);
+            setValue(`priority_${index}`, item.priority);
+          },
+        );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [registrationLocationsStore?.registrationLocations?.priceList]);
 
     const getPriceList = (priceList, priceGroup) => {
       const list = priceList?.filter(item => {
@@ -103,26 +118,20 @@ export const PriceListTable = observer(
           <tbody className='text-xs'>
             {registrationLocationsStore?.registrationLocations?.priceList?.map(
               (item, index) => (
-                <tr>
+                <tr key={index}>
                   <td>
                     <Controller
                       control={control}
                       render={({ field: { onChange } }) => (
                         <select
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.priceGroup
+                            errors[`priceGroup_${index}`]
                               ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
                             const priceGroup = e.target.value as string;
                             onChange(priceGroup);
-                            const finalList = priceGroupItems?.filter(
-                              item => item.code != priceGroup,
-                            );
-                            setPriceGroupItems(
-                              JSON.parse(JSON.stringify(finalList)),
-                            );
                             const priceList =
                               registrationLocationsStore.registrationLocations
                                 ?.priceList;
@@ -132,12 +141,16 @@ export const PriceListTable = observer(
                               priceList: '',
                               description: '',
                             };
+                            registrationLocationsStore.updateRegistrationLocations(
+                              {
+                                ...registrationLocationsStore.registrationLocations,
+                                priceList,
+                              },
+                            );
                           }}
                         >
                           <option selected>
-                            {' '}
-                            {registrationLocationsStore?.registrationLocations
-                              ?.priceList[index].priceGroup || 'Select'}
+                            {item.priceGroup || 'Select'}
                           </option>
                           {priceGroupItems?.map((item: any, index: number) => (
                             <option key={index} value={item.code}>
@@ -146,9 +159,9 @@ export const PriceListTable = observer(
                           ))}
                         </select>
                       )}
-                      name='priceGroup'
-                      rules={{ required: false }}
-                      defaultValue={priceListStore.listPriceList}
+                      name={`priceGroup_${index}`}
+                      rules={{ required: true }}
+                      defaultValue={item.priceGroup}
                     />
                   </td>
                   <td>
@@ -158,21 +171,40 @@ export const PriceListTable = observer(
                         <select
                           value={item?.priceList || ''}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.priceList
+                            errors[`priceList_${index}`]
                               ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
                             const priceItem = JSON.parse(e.target.value);
-                            onChange(priceItem.code);
                             const priceList =
                               registrationLocationsStore.registrationLocations
                                 ?.priceList;
+                            if (
+                              _.uniqBy(
+                                priceList,
+                                obj =>
+                                  obj.priceGroup === item.priceGroup &&
+                                  obj.priceList === item.priceList,
+                              )?.length > 1
+                            )
+                              return Toast.error({
+                                message:
+                                  '😔 Price list is duplicate record found.',
+                              });
+                            onChange(priceItem.code);
+
                             priceList[index] = {
                               ...priceList[index],
                               priceList: priceItem?.code,
                               description: priceItem?.value,
                             };
+                            registrationLocationsStore.updateRegistrationLocations(
+                              {
+                                ...registrationLocationsStore.registrationLocations,
+                                priceList,
+                              },
+                            );
                           }}
                         >
                           <option selected>{item.priceList || 'Select'}</option>
@@ -185,9 +217,9 @@ export const PriceListTable = observer(
                           )}
                         </select>
                       )}
-                      name='priceList'
-                      rules={{ required: false }}
-                      defaultValue={corporateClientsStore.listCorporateClients}
+                      name={`priceList_${index}`}
+                      rules={{ required: true }}
+                      defaultValue={item.priceList}
                     />
                   </td>
                   <td>
@@ -199,7 +231,7 @@ export const PriceListTable = observer(
                           label=''
                           disabled={true}
                           placeholder={
-                            errors.description
+                            errors[`description_${index}`]
                               ? 'Please Enter description'
                               : 'Description'
                           }
@@ -210,7 +242,7 @@ export const PriceListTable = observer(
                           }}
                         />
                       )}
-                      name='description'
+                      name={`description_${index}`}
                       rules={{ required: false }}
                       defaultValue=''
                     />
@@ -227,7 +259,7 @@ export const PriceListTable = observer(
                           className={
                             'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                           }
-                          hasError={!!errors.priority}
+                          hasError={!!errors[`priority_${index}`]}
                           onChange={priority => {
                             onChange(priority);
                             const priceList =
@@ -246,7 +278,7 @@ export const PriceListTable = observer(
                           }}
                         />
                       )}
-                      name='priority'
+                      name={`priority_${index}`}
                       rules={{ required: true }}
                       defaultValue={item?.priority}
                     />
@@ -262,7 +294,7 @@ export const PriceListTable = observer(
                           className={
                             'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                           }
-                          hasError={!!errors.maxDis}
+                          hasError={!!errors[`maxDis_${index}`]}
                           onChange={maxDis => {
                             onChange(maxDis);
                             const priceList =
@@ -281,7 +313,7 @@ export const PriceListTable = observer(
                           }}
                         />
                       )}
-                      name='maxDis'
+                      name={`maxDis_${index}`}
                       rules={{ required: false }}
                       defaultValue=''
                     />

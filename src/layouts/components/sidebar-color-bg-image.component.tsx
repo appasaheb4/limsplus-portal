@@ -1,21 +1,17 @@
 import React from 'react';
+import { Icons } from '@/library/components';
 
 interface SideBarColorBgImagesProps {
-  data: Array<{color: string}>;
-  //images: Array<{ image: any }>
-  onChangeShoutcutColor?: (color: string) => void;
+  data: Array<{ color: string }>;
+  onChangeNavbarColor?: (color: string) => void;
   onChangeSidebarColor?: (color: string) => void;
-  //onChangeImage?: (image: any) => void
 }
 
 export const SideBarColorBgImages = ({
   data,
-  //images,
   onChangeSidebarColor,
-  onChangeShoutcutColor,
-}: //onChangeImage,
-SideBarColorBgImagesProps) => {
-  // console.log('Data in props',props)
+  onChangeNavbarColor,
+}: SideBarColorBgImagesProps) => {
   return (
     <React.Fragment>
       <>
@@ -25,16 +21,16 @@ SideBarColorBgImagesProps) => {
         </small>
         <div className='sideBarColorOptions my-1.5'>
           <div className='row'>
-            <div className='col-sm-5'>
-              <h4>Side Bar</h4>
+            <div className='col-sm-3'>
+              <h4>Sidebar</h4>
             </div>
-            <div className='col-md-7 d-flex theme-options overflow-x-scroll  p-0'>
+            <div className='col-md-8 d-flex theme-options overflow-x-scroll  p-0'>
               {data.map((item, index) => {
                 return (
                   <div
                     key={index}
                     className='w-5 h-5 rounded-3xl px-2.5 mx-1.5 border-solid'
-                    style={{backgroundColor: `${item.color}`}}
+                    style={{ backgroundColor: `${item.color}` }}
                     onClick={() =>
                       onChangeSidebarColor && onChangeSidebarColor(item.color)
                     }
@@ -42,53 +38,54 @@ SideBarColorBgImagesProps) => {
                 );
               })}
             </div>
+            <div className='flex col-md-1 justify-center'>
+              <Icons.RIcon
+                nameIcon='CiCircleRemove'
+                propsIcon={{
+                  color: '#000000',
+                  size: 22,
+                }}
+                onClick={() => {
+                  onChangeSidebarColor && onChangeSidebarColor('');
+                }}
+              />
+            </div>
           </div>
         </div>
         <div className='sideBarColorOptions my-1.5'>
           <div className='row'>
-            <div className='col-sm-5'>
-              <h4>Shortcut Bar</h4>
+            <div className='col-sm-3'>
+              <h4>Navbar</h4>
             </div>
-            <div className='col-md-7 d-flex theme-options overflow-x-scroll p-0'>
+            <div className='col-md-8 d-flex theme-options overflow-x-scroll p-0'>
               {data.map((item, index) => {
                 return (
                   <div
                     key={index}
                     className='w-5 h-5  rounded-3xl border-black px-2.5	mx-1.5'
-                    style={{backgroundColor: `${item.color}`}}
+                    style={{ backgroundColor: `${item.color}` }}
                     onClick={() =>
-                      onChangeShoutcutColor && onChangeShoutcutColor(item.color)
+                      onChangeNavbarColor && onChangeNavbarColor(item.color)
                     }
                   />
                 );
               })}
             </div>
+            <div className='flex col-md-1 justify-center'>
+              <Icons.RIcon
+                nameIcon='CiCircleRemove'
+                propsIcon={{
+                  color: '#000000',
+                  size: 22,
+                }}
+                onClick={() => {
+                  onChangeNavbarColor && onChangeNavbarColor('');
+                }}
+              />
+            </div>
           </div>
         </div>
-
         <hr />
-
-        {/* <small className="d-block text-uppercase font-weight-bold text-muted mb-2 my-2.5">
-          IMAGES
-        </small>
-        <div className="backImages d-flex justify-content-between">
-          <h4>Background Images</h4>
-          <LibraryComponents.Atoms.Form.Toggle />
-        </div>
-        <h4 className="title my-2.5">Background Images</h4>
-        <div className="d-flex flex-wrap justify-between">
-          {images.map((item, index) => {
-            return (
-              <img
-                key={index}
-                className="w-15 h-20 mb-2.5 rounded-md"
-                src={item.image}
-                alt=""
-                onClick={() => onChangeImage && onChangeImage(item.image)}
-              />
-            )
-          })}
-        </div> */}
       </>
     </React.Fragment>
   );

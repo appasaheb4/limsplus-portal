@@ -46,8 +46,11 @@
   select {
     @apply dark:text-black;
   }
-  .main {
+  .main .headerView {
     @apply bg-white;
+  }
+  .headerView {
+    @apply dark:bg-boxdark;
   }
 }
 

@@ -10,7 +10,6 @@ import { Settings as SettingsIcon } from 'react-feather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { SideBarColorBgImages } from './sidebar-color-bg-image.component';
-import { images } from '@/library/assets';
 
 import { Badge } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -36,12 +35,6 @@ const Settings = observer(props => {
     { color: '#778899' },
     { color: '#32CD32' },
     { color: '#B0E0E6' },
-  ]);
-  const [imageList, setImageList] = useState([
-    { image: images.img1 },
-    { image: images.img2 },
-    { image: images.img3 },
-    { image: images.img4 },
   ]);
 
   useEffect(() => {
@@ -133,10 +126,10 @@ const Settings = observer(props => {
                       sideBarColor: color,
                     });
                   }}
-                  onChangeShoutcutColor={(color: string) => {
+                  onChangeNavbarColor={(color: string) => {
                     stores.appStore.updateApplicationSetting({
                       ...stores.appStore.applicationSetting,
-                      shortCutBarColor: color,
+                      navBarColor: color,
                     });
                   }}
                 />

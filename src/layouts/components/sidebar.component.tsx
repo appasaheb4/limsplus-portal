@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
+import { observer } from 'mobx-react';
 import { Badge } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import * as Assets from '@/library/assets';
 
-import { stores } from '@/stores';
+import { stores, useStores } from '@/stores';
 
 import { RouterFlow } from '@/flows';
 import { toggleSidebar } from '@/redux/actions/sidebar-action';
@@ -130,7 +130,8 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
   );
 });
 
-const Sidebar = ({ location, sidebar, layout, dispatch }) => {
+const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
+  const { appStore } = useStores();
   const history = useHistory();
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location));
 
@@ -159,8 +160,8 @@ const Sidebar = ({ location, sidebar, layout, dispatch }) => {
           (sidebar.isSticky ? ' sidebar-sticky' : '')
         }
         style={{
-          backgroundColor: `${stores.appStore.applicationSetting?.sideBarColor}`,
-          backgroundImage: `url(${stores.appStore.applicationSetting?.imageSideBarBgImage})`,
+          backgroundColor: `${appStore.applicationSetting?.sideBarColor}`,
+          backgroundImage: `url(${appStore.applicationSetting?.imageSideBarBgImage})`,
           backgroundSize: '100% 100%',
         }}
       >
@@ -298,7 +299,7 @@ const Sidebar = ({ location, sidebar, layout, dispatch }) => {
       </nav>
     </>
   );
-};
+});
 
 export default withRouter(
   connect((store: any) => ({

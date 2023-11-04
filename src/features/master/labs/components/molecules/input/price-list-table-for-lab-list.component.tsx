@@ -39,9 +39,6 @@ export const PriceListTableForLabList = observer(
       data?.length == 0 ? false : true,
     );
 
-    const [priceGroupItems, setPriceGroupItems] = useState<any>();
-    const [priceListItems, setPriceListItems] = useState<any>();
-
     const getPriceList = (priceList, priceGroup) => {
       const list = priceList?.filter(item => {
         if (item.code.slice(0, 3) === priceGroup) {
@@ -50,32 +47,6 @@ export const PriceListTableForLabList = observer(
       });
       return list || [];
     };
-
-    // TODO: again again fetch data
-    // useEffect(() => {
-    //   (async function () {
-    //     try {
-    //       await RouterFlow.getLookupValuesByPathNField(
-    //         '/collection/price-list',
-    //         'PRICE_GROUP',
-    //       ).then(async res => {
-    //         if (res?.length > 0) {
-    //           setPriceGroupItems(res.filter(item => item.code !== 'CSP'));
-    //           await RouterFlow.getLookupValuesByPathNField(
-    //             '/collection/price-list',
-    //             'PRICE_LIST',
-    //           ).then(items => {
-    //             if (items?.length > 0) {
-    //               setPriceListItems(items);
-    //             }
-    //           });
-    //         }
-    //       });
-    //     } catch (e) {
-    //       console.error(e);
-    //     }
-    //   })();
-    // }, []);
 
     const addItem = () => {
       priceList.push({
@@ -268,25 +239,7 @@ export const PriceListTableForLabList = observer(
               ))}
             </tbody>
           )}
-          {/* {!rowStatus && (
-            <Buttons.Button
-              size='small'
-              type='outline'
-              onClick={handleSubmit(addItem)}
-            >
-              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
-            </Buttons.Button>
-          )} */}
         </Table>
-        {/* {displayPriceList && !rowStatus && (
-          <Buttons.Button
-            size='small'
-            type='solid'
-            onClick={() => onUpdate && onUpdate(priceList)}
-          >
-            Update
-          </Buttons.Button>
-        )} */}
       </div>
     );
   },
