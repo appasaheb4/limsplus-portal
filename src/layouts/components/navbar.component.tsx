@@ -54,7 +54,7 @@ const NavbarComponent = observer(({ dispatch }) => {
     <>
       <Navbar
         style={{
-          backgroundColor: appStore.applicationSetting?.shortCutBarColor,
+          backgroundColor: appStore.applicationSetting?.navBarColor,
         }}
         light
         expand

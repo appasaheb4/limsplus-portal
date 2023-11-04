@@ -1,7 +1,7 @@
-import {makeObservable, action, observable, computed} from 'mobx';
+import { makeObservable, action, observable, computed } from 'mobx';
 import dayjs from 'dayjs';
-import {SalesTeam} from '../models';
-import {SalesTeamService} from '../services';
+import { SalesTeam } from '../models';
+import { SalesTeamService } from '../services';
 
 export class SalesTeamStore {
   listSalesTeam!: SalesTeam[];
@@ -69,6 +69,8 @@ export class SalesTeamStore {
   }
 
   updateSalesTeam(team: SalesTeam) {
+    console.log({ team });
+
     this.salesTeam = team;
   }
 

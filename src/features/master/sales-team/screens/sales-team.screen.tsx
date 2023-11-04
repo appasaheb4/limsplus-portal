@@ -289,22 +289,29 @@ export const SalesTeam = SalesTeamHoc(
           },
         })
         .then((salesHieRes: any) => {
-          console.log({ salesHieRes });
-
           if (!salesHieRes.getSalesHierarchyList.success)
             return alert(salesHieRes.getSalesHierarchyList.message);
-          salesTeamStore.updateSalesTeam({
-            ...salesTeamStore.salesTeam,
-            salesHierarchy: salesHieRes.getSalesHierarchyList.list,
-            targets: [
+          let targets;
+          if (
+            salesTeamStore.salesTeam.existsRecordId ||
+            salesTeamStore.salesTeam.existsVersionId
+          )
+            targets = salesTeamStore.salesTeam.targets;
+          else
+            targets = [
               {
                 id: 1,
               },
-            ],
+            ];
+          salesTeamStore.updateSalesTeam({
+            ...salesTeamStore.salesTeam,
+            salesHierarchy: salesHieRes.getSalesHierarchyList.list,
+            targets,
           });
         });
       salesTeamStore.updateExistsRecord(false);
     };
+
     return (
       <>
         <Header>

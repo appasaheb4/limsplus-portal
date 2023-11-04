@@ -98,8 +98,6 @@ const Dashboard = ({ children }) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>();
   const history = useHistory();
 
-  console.log({ mode: stores.appStore.applicationSetting.theme });
-
   const refreshPage = () => {
     history.replace(window.location.pathname);
   };
@@ -357,7 +355,6 @@ const Dashboard = ({ children }) => {
     stores.rootStore.isLogin().then(isLogin => {
       if (!isLogin) history.push('/');
       if (isLogin) {
-        console.log({ isLogin });
         router();
         setTimeout(async () => {
           await permission();
