@@ -172,6 +172,8 @@ export class LabService {
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables });
+
       stores.uploadLoadingFlag(false);
       client
         .mutate({

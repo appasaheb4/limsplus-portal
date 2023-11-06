@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import { Table } from 'reactstrap';
 import { Icons, Buttons, Form, Toast } from '@/library/components';
 import { lookupValue } from '@/library/utils';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import { useForm, Controller } from 'react-hook-form';
+import { toJS } from 'mobx';
 
 interface PriceListTableProps {
   priceGroup: any;
@@ -139,7 +139,6 @@ export const PriceListTable = observer(
                     rules={{ required: true }}
                     defaultValue={item.priceGroup}
                   />
-                  <span>{`priceGroup_${index}` + ' ' + item.priceGroup}</span>
                 </td>
                 <td>
                   <Controller
@@ -156,12 +155,11 @@ export const PriceListTable = observer(
                           const priceItem = JSON.parse(e.target.value);
                           const priceList = labStore.labs?.priceList;
                           if (
-                            _.uniqBy(
-                              priceList,
-                              obj =>
-                                obj.priceGroup === item.priceGroup &&
-                                obj.priceList === item.priceList,
-                            )?.length > 1
+                            toJS(priceList)?.filter(
+                              dup =>
+                                dup.priceGroup === item.priceGroup &&
+                                dup.priceList === priceItem.code,
+                            )?.length > 0
                           )
                             return Toast.error({
                               message:

@@ -24,6 +24,7 @@ export const LOOKUPITEM_BY_PATH = gql`
           value
           flagUpperCase
         }
+        description
         status
         environment
         dateOfEntry
@@ -57,6 +58,7 @@ export const LOOKUPITEM_BY_PATH_N_FIELD = gql`
           value
           flagUpperCase
         }
+        description
         status
         environment
         dateOfEntry
@@ -93,6 +95,7 @@ export const LIST = gql`
           value
           flagUpperCase
         }
+        description
         status
         environment
         dateOfEntry
@@ -165,6 +168,7 @@ export const FILTER = gql`
           value
           flagUpperCase
         }
+        description
         status
         environment
         dateOfEntry
@@ -201,6 +205,7 @@ export const FIND_BY_FIELDS = gql`
           value
           flagUpperCase
         }
+        description
         status
         environment
         dateOfEntry
@@ -237,6 +242,7 @@ export const FIND_BY_DOCUMENT = gql`
           value
           flagUpperCase
         }
+        description
         status
         environment
         dateOfEntry

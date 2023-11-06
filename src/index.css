@@ -46,7 +46,10 @@
   select {
     @apply dark:text-black;
   }
-  .main .headerView {
+  .main {
+    @apply bg-white;
+  }
+  .headerView {
     @apply bg-white;
   }
   .headerView {
