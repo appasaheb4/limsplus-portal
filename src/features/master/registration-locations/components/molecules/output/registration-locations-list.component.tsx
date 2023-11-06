@@ -1660,7 +1660,7 @@ export const RegistrationLocationsList = (
           dateExpire();
           version('');
           enteredBy('');
-          locationName('');
+          locationName('registration-locations-list.component.tsx');
           locationCode('');
           openingTime('');
           closingTime('');
@@ -1676,7 +1676,6 @@ export const RegistrationLocationsList = (
           mobileNo('');
           email('');
           reportPriority('');
-          deliveryMode('');
           corporateCode('');
           invoiceAc('');
           priceList('');

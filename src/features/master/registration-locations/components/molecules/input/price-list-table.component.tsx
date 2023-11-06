@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
 import { Table } from 'reactstrap';
 import { Icons, Buttons, Form, Toast } from '@/library/components';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import { useForm, Controller } from 'react-hook-form';
 import { lookupValue } from '@/library/utils';
+import { toJS } from 'mobx';
 
 interface PriceListTableProps {
   priceGroup: any;
@@ -181,12 +181,11 @@ export const PriceListTable = observer(
                               registrationLocationsStore.registrationLocations
                                 ?.priceList;
                             if (
-                              _.uniqBy(
-                                priceList,
-                                obj =>
-                                  obj.priceGroup === item.priceGroup &&
-                                  obj.priceList === item.priceList,
-                              )?.length > 1
+                              toJS(priceList)?.filter(
+                                dup =>
+                                  dup.priceGroup === item.priceGroup &&
+                                  dup.priceList === priceItem.code,
+                              )?.length > 0
                             )
                               return Toast.error({
                                 message:

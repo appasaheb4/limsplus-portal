@@ -25,6 +25,7 @@ import { useStores } from '@/stores';
 import { resetLookup } from '../startup';
 import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
+
 interface DocumentSettingsProps {
   onClose: () => void;
   onModalConfirm?: (item: any) => void;

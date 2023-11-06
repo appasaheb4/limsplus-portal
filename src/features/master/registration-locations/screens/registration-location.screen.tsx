@@ -382,6 +382,7 @@ const RegistrationLocation = RegistrationLocationHoc(
         'acClass',
         'accountType',
         'deliveryMode',
+        'priceList',
         'status',
         'environment',
       ];
