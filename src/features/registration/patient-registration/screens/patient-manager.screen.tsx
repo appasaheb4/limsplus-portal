@@ -447,7 +447,7 @@ export const PatientManager = PatientManagerHoc(
                               patientManagerStore.updatePatientManager({
                                 ...patientManagerStore.patientManger,
                                 ageUnit,
-                                isBirthdateAvailabe: false,
+                                //isBirthdateAvailabe: false,
                                 birthDate: new Date(
                                   dayjs().add(
                                     -patientManagerStore.patientManger?.age,

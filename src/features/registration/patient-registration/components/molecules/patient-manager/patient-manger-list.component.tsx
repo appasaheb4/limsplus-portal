@@ -301,7 +301,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         props.onUpdateFileds(
                           {
                             age: Number.parseInt(age),
-                            actualDOB: false,
+                            isBirthdateAvailabe: false,
                             birthDate: new Date(
                               dayjs().add(
                                 -age,
@@ -345,7 +345,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         props.onUpdateFileds(
                           {
                             ageUnit,
-                            actualDOB: false,
                             birthDate: new Date(
                               dayjs().add(
                                 -row?.age,
