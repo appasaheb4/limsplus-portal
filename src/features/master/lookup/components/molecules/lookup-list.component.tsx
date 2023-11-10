@@ -324,8 +324,10 @@ export const LookupList = (props: LookupListProps) => {
                 status = filter;
               },
             }),
+            // editable: (content, row, rowIndex, columnIndex) =>
+            //   row.status == 'D' || row.status == 'I' ? false : true,
             editable: (content, row, rowIndex, columnIndex) =>
-              row.status == 'D' || row.status == 'I' ? false : true,
+              row.status == 'D' ? false : true,
             editorRenderer: (
               editorProps,
               value,
@@ -373,7 +375,7 @@ export const LookupList = (props: LookupListProps) => {
                 environment = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
