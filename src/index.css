@@ -61,3 +61,7 @@ body {
   font-size: 14px;
   font-family: 'Arima Regular';
 }
+
+.ps__rail-y {
+  background: none !important;
+}

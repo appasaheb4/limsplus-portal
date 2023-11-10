@@ -1,7 +1,7 @@
 /* eslint-disable  */
-import React, {useState, useEffect, useRef} from 'react';
-import {observer} from 'mobx-react';
-import {Icons} from '../..';
+import React, { useState, useEffect, useRef } from 'react';
+import { observer } from 'mobx-react';
+import { Icons } from '../..';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 interface AutocompleteGroupByProps {
@@ -84,7 +84,7 @@ export const AutocompleteGroupBy = observer(
                 }
               });
               if (isSameArray.length < 1) {
-                filterArray.push({...item, children: [children]});
+                filterArray.push({ ...item, children: [children] });
               }
               const uniqueChars = uniqByKeepFirst(filterArray, it => it.name);
               filterArray = uniqueChars;
@@ -126,6 +126,40 @@ export const AutocompleteGroupBy = observer(
               onKeyUp={onKeyUp}
               onChange={onChange}
               onClick={() => setIsListOpen(true)}
+              onKeyDown={(e: any) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+
+                  // Find the selected item and children
+                  let selectedItem = null;
+                  let selectedChildren = null;
+
+                  for (const item of options!) {
+                    for (const children of item.children) {
+                      if (
+                        children.title.toLowerCase() === value.toLowerCase() ||
+                        item.title.toLowerCase() === value.toLowerCase()
+                      ) {
+                        selectedItem = item;
+                        selectedChildren = children;
+                        break;
+                      }
+                    }
+                    if (selectedItem) {
+                      break;
+                    }
+                  }
+
+                  // Call props.onChange with the selected item and children
+                  if (props.onChange && selectedItem && selectedChildren) {
+                    props.onChange(selectedItem, selectedChildren);
+                  }
+
+                  setIsListOpen(false);
+                  setValue(value); // Set the value to what the user entered
+                  setOptions([]);
+                }
+              }}
             />
             {isListOpen ? (
               <Icons.IconFa.FaChevronUp />
@@ -136,12 +170,12 @@ export const AutocompleteGroupBy = observer(
 
           {options && isListOpen
             ? options?.length > 0 && (
-                <div className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200'>
+                <div className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200 w-100'>
                   <ul className='p-2 rounded-sm'>
                     <PerfectScrollbar>
                       <div
                         className=''
-                        style={{height: 'auto', maxHeight: '350px'}}
+                        style={{ height: 'auto', maxHeight: '350px' }}
                       >
                         {options?.map((item, index) => (
                           <>
