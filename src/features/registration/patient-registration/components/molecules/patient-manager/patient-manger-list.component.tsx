@@ -244,7 +244,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
+                  <Form.DatePicker
                     label=''
                     placeholder='BirthDate'
                     use12Hours={false}
