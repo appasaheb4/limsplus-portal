@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
@@ -12,6 +12,9 @@ import { useForm } from 'react-hook-form';
 import { useStores } from '@/stores';
 
 import { RouterFlow } from '@/flows';
+
+import * as Realm from 'realm-web';
+
 export const EventLogs = observer(() => {
   const { loginStore, eventLogsStore, routerStore } = useStores();
   const {
@@ -23,6 +26,32 @@ export const EventLogs = observer(() => {
   } = useForm();
 
   const [modalConfirm, setModalConfirm] = useState<any>();
+
+  const reloadEventLog = async () => {
+    const appId = 'limsplus-portal-prod-fezny';
+    const appConfig = {
+      id: appId,
+      timeout: 100_000,
+    };
+    const app: any = new Realm.App(appConfig);
+    const credentials = Realm.Credentials.anonymous();
+    await app.logIn(credentials);
+    const mongodb = app.currentUser.mongoClient('mongodb-atlas');
+    const collection = mongodb.db('limsplus-prod').collection('eventlogs');
+    for await (const change of collection.watch()) {
+      if (
+        change?.operationType == 'insert' &&
+        window.location.pathname === '/enquiry/event-log'
+      ) {
+        eventLogsStore.eventLogsService.listEventLogs();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (window.location.pathname === '/enquiry/event-log') reloadEventLog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

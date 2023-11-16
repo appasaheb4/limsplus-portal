@@ -1,12 +1,12 @@
 /* eslint-disable no-case-declarations */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import {Form, Buttons} from '@/library/components';
-import {DisplayResult} from './display-result.components';
+import { Form, Buttons } from '@/library/components';
+import { DisplayResult } from './display-result.components';
 
-import {GeneralResultEntryExpand} from './general-result-entry-expand.component';
-import {InputResult} from './input-result.components';
+import { GeneralResultEntryExpand } from './general-result-entry-expand.component';
+import { InputResult } from './input-result.components';
 import {
   getResultStatus,
   getTestStatus,
@@ -45,7 +45,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <GeneralResultEntryExpand
           id='_id'
           data={props.data}
@@ -79,7 +79,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       row={row}
                       onSelect={async result => {
                         await props.onUpdateValue(result, row._id);
-                        const rows = {...row, ...result};
+                        const rows = { ...row, ...result };
                         if (_.isEmpty(row?.result)) {
                           props.onSaveFields(
                             {
@@ -91,6 +91,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                               testStatus: getTestStatus(rows.resultType, rows),
                               abnFlag: getAbnFlag(rows.resultType, rows),
                               critical: getCretical(rows.resultType, rows),
+                              updateType: 'directSave',
                               ...result,
                             },
                             rows._id,
@@ -117,7 +118,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     row={row}
                     onSelect={async result => {
                       await props.onUpdateValue(result, row._id);
-                      const rows = {...row, ...result};
+                      const rows = { ...row, ...result };
                       if (_.isEmpty(row?.result)) {
                         props.onSaveFields(
                           {
@@ -129,6 +130,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             testStatus: getTestStatus(rows.resultType, rows),
                             abnFlag: getAbnFlag(rows.resultType, rows),
                             critical: getCretical(rows.resultType, rows),
+                            updateType: 'directSave',
                             ...result,
                           },
                           rows._id,
@@ -147,6 +149,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             testStatus: getTestStatus(rows.resultType, rows),
                             abnFlag: getAbnFlag(rows.resultType, rows),
                             critical: getCretical(rows.resultType, rows),
+                            updateType: 'directSave',
                             ...result,
                           },
                           rows._id,
@@ -223,6 +226,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             {
                               ...row,
                               reportable,
+                              updateType: 'save',
                             },
                             row._id,
                             'save',
@@ -263,7 +267,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       }
                       value={row.abnFlag}
                       onChange={abnFlag => {
-                        props.onUpdateValue({abnFlag}, row._id);
+                        props.onUpdateValue({ abnFlag }, row._id);
                       }}
                     />
                   </>
@@ -285,7 +289,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       }
                       value={row.critical}
                       onChange={critical => {
-                        props.onUpdateValue({critical}, row._id);
+                        props.onUpdateValue({ critical }, row._id);
                       }}
                     />
                   </>
@@ -303,7 +307,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       disabled={!editorCell(row)}
                       value={row.showRanges}
                       onChange={showRanges => {
-                        props.onUpdateValue({showRanges}, row._id);
+                        props.onUpdateValue({ showRanges }, row._id);
                       }}
                     />
                   </>
@@ -348,7 +352,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     placeholder='Conclusion'
                     onBlur={conclusion => {
                       props.onUpdateFields &&
-                        props.onUpdateFields({conclusion}, row._id);
+                        props.onUpdateFields({ conclusion }, row._id);
                     }}
                     defaultValue={row?.conclusion}
                   />
@@ -412,6 +416,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                   ),
                                   abnFlag: getAbnFlag(row.resultType, row),
                                   critical: getCretical(row.resultType, row),
+                                  updateType: 'save',
                                 },
                                 row._id,
                                 'save',
