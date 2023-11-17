@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 
 type Props = {
+  isDateTimePicker: boolean;
   visible: boolean;
   data: string;
   onUpdate: (birthDate: any) => void;
   onClose: () => void;
 };
 
-const ModalBirthDate: React.FC<Props> = ({
+export const ModalDateTime: React.FC<Props> = ({
+  isDateTimePicker,
   visible,
   data,
   onUpdate,
@@ -50,15 +52,31 @@ const ModalBirthDate: React.FC<Props> = ({
                 <div className='relative p-2 flex-auto'>
                   <div className='grid grid-cols-1 gap-2'>
                     <div>
-                      <Form.InputDateTime
-                        label=''
-                        placeholder='BirthDate'
-                        use12Hours={false}
-                        value={value}
-                        onChange={birthDate => {
-                          setValue(birthDate);
-                        }}
-                      />
+                      {isDateTimePicker ? (
+                        <>
+                          <Form.DatePicker
+                            label=''
+                            placeholder='BirthDate'
+                            use12Hours={false}
+                            value={value}
+                            onChange={birthDate => {
+                              setValue(birthDate);
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <Form.InputDateTime
+                            label=''
+                            placeholder='BirthDate'
+                            use12Hours={false}
+                            value={value}
+                            onChange={birthDate => {
+                              setValue(birthDate);
+                            }}
+                          />
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -96,5 +114,3 @@ const ModalBirthDate: React.FC<Props> = ({
     </Container>
   );
 };
-
-export default React.memo(ModalBirthDate);
