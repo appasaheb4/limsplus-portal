@@ -12,13 +12,13 @@ import {
   Tooltip,
   Icons,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { FormHelper } from '@/helper';
 import { useForm, Controller } from 'react-hook-form';
 import { getDiffByDate, getAgeByAgeObject } from '../../../utils';
 import { dateAvailableUnits } from '@/core-utils';
-import ModalBirthdateComponent from './modal-birthdate.component';
 
 interface PatientMangerProps {
   data: any;
@@ -833,10 +833,11 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             birthDate();
           }}
         />
-        <ModalBirthdateComponent
+        <ModalDateTime
           {...modalDetails}
+          isDateTimePicker={false}
           onUpdate={birthDate => {
-            setModalDetails({ ...modalDetails, visible: false });
+            setModalDetails({ visible: false });
             if (dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0) {
               props.onUpdateFileds &&
                 props.onUpdateFileds(
