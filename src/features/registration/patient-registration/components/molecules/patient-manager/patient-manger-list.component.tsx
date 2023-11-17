@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -18,6 +18,7 @@ import { FormHelper } from '@/helper';
 import { useForm, Controller } from 'react-hook-form';
 import { getDiffByDate, getAgeByAgeObject } from '../../../utils';
 import { dateAvailableUnits } from '@/core-utils';
+import ModalBirthdateComponent from './modal-birthdate.component';
 
 interface PatientMangerProps {
   data: any;
@@ -56,6 +57,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
     formState: { errors },
     setValue,
   } = useForm();
+  const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     if (row.status === 'I') return false;
     if (row.extraData?.confidental && !props.extraData.confidental)
@@ -229,51 +231,22 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row.birthDate
-                      ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
-                      : ''}
+                    <div
+                      onClick={() => {
+                        setModalDetails({
+                          visible: true,
+                          details: row?.birthDate,
+                          _id: row?._id,
+                        });
+                      }}
+                    >
+                      {row.birthDate
+                        ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
+                        : ''}
+                    </div>
                   </>
                 );
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.InputDateTime
-                    label=''
-                    placeholder='BirthDate'
-                    use12Hours={false}
-                    // value={row?.birthDate}
-                    onChange={birthDate => {
-                      if (
-                        dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
-                      ) {
-                        props.onUpdateFileds &&
-                          props.onUpdateFileds(
-                            {
-                              birthDate,
-                              isBirthdateAvailabe: true,
-                              age:
-                                getAgeByAgeObject(getDiffByDate(birthDate))
-                                  .age || 0,
-                              ageUnit: getAgeByAgeObject(
-                                getDiffByDate(birthDate),
-                              ).ageUnit,
-                            },
-                            row._id,
-                          );
-                      } else {
-                        alert('Please select correct birth date!!');
-                      }
-                    }}
-                  />
-                </>
-              ),
             },
             {
               dataField: 'age',
@@ -858,6 +831,30 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             breed('');
             usualDoctor('');
             birthDate();
+          }}
+        />
+        <ModalBirthdateComponent
+          {...modalDetails}
+          onUpdate={birthDate => {
+            setModalDetails({ ...modalDetails, visible: false });
+            if (dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0) {
+              props.onUpdateFileds &&
+                props.onUpdateFileds(
+                  {
+                    birthDate,
+                    isBirthdateAvailabe: true,
+                    age: getAgeByAgeObject(getDiffByDate(birthDate)).age || 0,
+                    ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
+                      .ageUnit,
+                  },
+                  modalDetails._id,
+                );
+            } else {
+              alert('Please select correct birth date!!');
+            }
+          }}
+          onClose={() => {
+            setModalDetails({ visible: false });
           }}
         />
       </div>
