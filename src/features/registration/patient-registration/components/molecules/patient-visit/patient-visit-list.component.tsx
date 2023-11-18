@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import {observer} from 'mobx-react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { observer } from 'mobx-react';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
   DateFilter,
@@ -13,13 +13,14 @@ import {
   Icons,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
+import { Confirm } from '@/library/models';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import {
   AutoCompleteFilterSingleSelectCollectionCenter,
   AutoCompleteFilterSingleSelectCorporateCode,
   AutoCompleteFilterSingleSelectDoctorId,
 } from '../../index';
+import { ModalPatientVisitBirthDateModify } from './modal-birthdate-age-ageunit-values';
 
 interface DeleteExtraParams extends Confirm {
   labId?: Array<number>;
@@ -64,12 +65,13 @@ let holdReason;
 let status;
 
 export const PatientVisitList = observer((props: PatientVisitProps) => {
+  const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -401,35 +403,45 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row.birthDate
-                      ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
-                      : ''}
+                    <div
+                      onClick={() =>
+                        setModalDetails({
+                          show: true,
+                          rowData: row,
+                          _id: row._id,
+                        })
+                      }
+                    >
+                      {row.birthDate
+                        ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
+                        : ''}
+                    </div>
                   </>
                 );
               },
               editable: false,
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.InputDateTime
-                    value={new Date(row.birthDate)}
-                    onFocusRemove={birthDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          birthDate,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <Form.InputDateTime
+              //       value={new Date(row.birthDate)}
+              //       onFocusRemove={birthDate => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             birthDate,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
             },
             {
               dataField: 'age',
@@ -1226,6 +1238,28 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['_id', 'opration']}
+        />
+        <ModalPatientVisitBirthDateModify
+          {...modalDetails}
+          onClick={value => {
+            setModalDetails({ show: false });
+            if (dayjs(new Date()).diff(dayjs(value.birthDate), 'hour') > 0) {
+              props.onUpdateFields &&
+                props.onUpdateFields(
+                  {
+                    birthDate: value.birthDate,
+                    age: value.age || 0,
+                    ageUnits: value.ageUnits,
+                  },
+                  modalDetails._id,
+                );
+            } else {
+              alert('Please select correct birth date!!');
+            }
+          }}
+          onClose={() => {
+            setModalDetails({ show: false });
+          }}
         />
       </div>
     </>

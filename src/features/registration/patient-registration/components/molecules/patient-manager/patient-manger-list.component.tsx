@@ -254,8 +254,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) => false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -296,8 +295,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: (content, row, rowIndex, columnIndex) => false,
               editorRenderer: (
                 editorProps,
                 value,
