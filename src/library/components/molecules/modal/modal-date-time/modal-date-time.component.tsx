@@ -54,7 +54,7 @@ export const ModalDateTime: React.FC<Props> = ({
                     <div>
                       {isDateTimePicker ? (
                         <>
-                          <Form.DatePicker
+                          <Form.InputDateTime
                             label=''
                             placeholder='BirthDate'
                             use12Hours={false}
@@ -66,7 +66,7 @@ export const ModalDateTime: React.FC<Props> = ({
                         </>
                       ) : (
                         <>
-                          <Form.InputDateTime
+                          <Form.DatePicker
                             label=''
                             placeholder='BirthDate'
                             use12Hours={false}
