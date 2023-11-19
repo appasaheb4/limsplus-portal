@@ -91,6 +91,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                               testStatus: getTestStatus(rows.resultType, rows),
                               abnFlag: getAbnFlag(rows.resultType, rows),
                               critical: getCretical(rows.resultType, rows),
+                              updateField: 'result',
                               updateType: 'directSave',
                               ...result,
                             },
@@ -117,7 +118,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   <InputResult
                     row={row}
                     onSelect={async result => {
-                      await props.onUpdateValue(result, row._id);
+                      await props.onUpdateValue(
+                        { ...result, updateField: 'result' },
+                        row._id,
+                      );
                       const rows = { ...row, ...result };
                       if (_.isEmpty(row?.result)) {
                         props.onSaveFields(
@@ -130,6 +134,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             testStatus: getTestStatus(rows.resultType, rows),
                             abnFlag: getAbnFlag(rows.resultType, rows),
                             critical: getCretical(rows.resultType, rows),
+                            updateField: 'result',
                             updateType: 'directSave',
                             ...result,
                           },
@@ -138,7 +143,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         );
                       }
                       if (!_.isEmpty(row?.result) && row.resultType == 'FR') {
-                        console.log('upload');
                         props.onSaveFields(
                           {
                             ...rows,
@@ -149,6 +153,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             testStatus: getTestStatus(rows.resultType, rows),
                             abnFlag: getAbnFlag(rows.resultType, rows),
                             critical: getCretical(rows.resultType, rows),
+                            updateField: 'result',
                             updateType: 'directSave',
                             ...result,
                           },
@@ -350,9 +355,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   <Form.MultilineInput
                     rows={3}
                     placeholder='Conclusion'
+                    className='text-black'
                     onBlur={conclusion => {
                       props.onUpdateFields &&
-                        props.onUpdateFields({ conclusion }, row._id);
+                        props.onUpdateFields(
+                          { conclusion, updateField: 'conclusion' },
+                          row._id,
+                        );
                     }}
                     defaultValue={row?.conclusion}
                   />

@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import {
   Form,
   Toast,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { FormHelper } from '@/helper';
 interface InputResultProps {
   row: any;
   onSelect: (item) => void;
 }
 
-export const InputResult = observer(({row, onSelect}: InputResultProps) => {
+export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
   const {
     possibleResultsStore,
     labStore,
@@ -25,7 +25,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     clearErrors,
   } = useForm();
@@ -88,7 +88,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
       {row?.resultType === 'V' && (
         <Controller
           control={control}
-          render={({field: {onChange}}) => (
+          render={({ field: { onChange } }) => (
             <Form.Input
               label=''
               type='text'
@@ -96,7 +96,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
               maxLength={50}
               pattern={FormHelper.patterns.decimalPatterm}
               className={
-                'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
+                'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm border-2  rounded-md text-black'
               }
               hasError={!!errors.result}
               onBlur={result => {
@@ -115,7 +115,10 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             />
           )}
           name='result'
-          rules={{required: false, pattern: FormHelper.patterns.decimalPatterm}}
+          rules={{
+            required: false,
+            pattern: FormHelper.patterns.decimalPatterm,
+          }}
         />
       )}
       {row.resultType === 'D' && (
@@ -176,7 +179,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
       {row.resultType === 'F' && (
         <Controller
           control={control}
-          render={({field: {onChange}}) => (
+          render={({ field: { onChange } }) => (
             <Form.MultilineInput
               rows={2}
               label=''
@@ -193,13 +196,13 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             />
           )}
           name='result'
-          rules={{required: false}}
+          rules={{ required: false }}
         />
       )}
       {row.resultType === 'M' && (
         <Controller
           control={control}
-          render={({field: {onChange}}) => (
+          render={({ field: { onChange } }) => (
             <AutoCompleteFilterMutiSelectMultiFieldsDisplay
               loader={false}
               placeholder='Search by code'
@@ -251,7 +254,7 @@ export const InputResult = observer(({row, onSelect}: InputResultProps) => {
             />
           )}
           name='result'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue={libraryList}
         />
       )}

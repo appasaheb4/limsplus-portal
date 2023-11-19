@@ -5,8 +5,8 @@
  * @author limsplus
  */
 import _ from 'lodash';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST_PATIENT_RESULT,
   LIST_PATIENT_RESULT_WITH_LABID,
@@ -32,7 +32,7 @@ export class PatientResultService {
       client
         .mutate({
           mutation: LIST_PATIENT_RESULT_WITH_LABID,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
           // stores.patientResultStore.updatePatientResultListWithLabId(
@@ -53,7 +53,7 @@ export class PatientResultService {
       client
         .mutate({
           mutation: LIST_PATIENT_RESULT,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResult(response.data);
@@ -72,7 +72,7 @@ export class PatientResultService {
       client
         .mutate({
           mutation: PATIENT_RESULT_RECORDS,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResultNotAutoUpdate(
@@ -180,7 +180,7 @@ export class PatientResultService {
           mutation: PATIENT_LIST_FOR_GENERAL_RES_ENTRY,
           variables: {
             ...variables,
-            input: {filter},
+            input: { filter },
           },
         })
         .then((response: any) => {
@@ -240,6 +240,8 @@ export class PatientResultService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables });
+
       client
         .mutate({
           mutation: UPDATE_RECORD,

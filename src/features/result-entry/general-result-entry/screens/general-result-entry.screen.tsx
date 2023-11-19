@@ -1,6 +1,6 @@
 /* eslint-disable */
-import React, {useMemo, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useMemo, useState } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -9,18 +9,22 @@ import {
   PageHeadingLabDetails,
   ModalConfirm,
 } from '@/library/components';
-import {FilterInputTable, GeneralResultEntryList} from '../components';
+import { FilterInputTable, GeneralResultEntryList } from '../components';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
 
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const GeneralResultEntry = observer(() => {
-  const {loginStore, routerStore, patientResultStore, generalResultEntryStore} =
-    useStores();
+  const {
+    loginStore,
+    routerStore,
+    patientResultStore,
+    generalResultEntryStore,
+  } = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
 
@@ -31,7 +35,7 @@ const GeneralResultEntry = observer(() => {
           data={
             patientResultStore.patientResultListNotAutoUpdate?.map(
               (item, index) => {
-                return {...item, index: index + 1};
+                return { ...item, index: index + 1 };
               },
             ) || []
           }
@@ -98,7 +102,7 @@ const GeneralResultEntry = observer(() => {
           onFinishResult={async ids => {
             await patientResultStore.patientResultService
               .updateFinishResultStatus({
-                input: {filter: {ids, fields: {finishResult: 'D'}}},
+                input: { filter: { ids, fields: { finishResult: 'D' } } },
               })
               .then(res => {
                 if (res.updateFinishResultFieldsByIdsPatientResult?.success) {
@@ -180,7 +184,7 @@ const GeneralResultEntry = observer(() => {
       <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
           if (type === 'save') {
             updateRecords(modalConfirm.id, modalConfirm.data);
           }
@@ -189,7 +193,7 @@ const GeneralResultEntry = observer(() => {
               .updateByFields({
                 input: {
                   fields: modalConfirm.data,
-                  condition: {_id: modalConfirm.id},
+                  condition: { _id: modalConfirm.id },
                 },
               })
               .then(res => {
@@ -222,7 +226,7 @@ const GeneralResultEntry = observer(() => {
           }
         }}
         onClose={() => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
         }}
       />
     </>
