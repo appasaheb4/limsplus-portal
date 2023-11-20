@@ -25,9 +25,11 @@ export const ModalPatientVisitBirthDateModify = observer(
         birthDate: props?.rowData?.birthDate,
         age: props?.rowData?.age,
         ageUnits: props?.rowData?.ageUnits,
+        sex: '',
+        isBirthDateUpdate: true,
       });
     }, [props]);
-    console.log(localInput);
+
     return (
       <Container>
         {showModal && (
@@ -47,88 +49,90 @@ export const ModalPatientVisitBirthDateModify = observer(
                   </div>
 
                   {/*body*/}
-                  <div className='relative ml-12 mr-12 p-2 flex-auto'>
+                  <div className='relative p-2 ml-12 flex-auto'>
                     <div className='flex flex-row  gap-2'>
-                      {/* <Form.Toggle
+                      <Form.Toggle
                         label='isBirthDateUpdate'
-                        value={localInput?.flagUpperCase}
-                        onChange={flagUpperCase => {
+                        value={localInput?.isBirthDateUpdate}
+                        onChange={isBirthDateUpdate => {
                           setLocalInput({
                             ...localInput,
-                            flagUpperCase,
+                            isBirthDateUpdate,
                           });
                         }}
-                      /> */}
-                      {/* <Form.InputWrapper label='Sex'>
+                      />
+                      <Form.InputWrapper label='Sex'>
                         <select
                           className={
-                            'leading-4 p-2 h-11 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                            'leading-4 p-2 h-11 focus:outline-none focus:ring block w-30 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
                           }
-                          value={''}
+                          value={localInput?.sex}
                           onChange={e => {
-                            const ageUnit = e.target.value as any;
-                            // patientManagerStore.updatePatientManager({
-                            //   ...patientManagerStore.patientManger,
-                            //   ageUnit,
-                            //   //isBirthdateAvailabe: false,
-                            //   birthDate: new Date(
-                            //     dayjs().add(
-                            //       -patientManagerStore.patientManger?.age,
-                            //       dateAvailableUnits(ageUnit),
-                            //     ) as any,
-                            //   ),
-                            // });
+                            const sex = e.target.value as any;
+                            setLocalInput({
+                              ...localInput,
+                              sex,
+                            });
                           }}
                         >
                           <option selected>Select</option>
                           {['Male', 'Female', 'Other'].map(
                             (item: any, index: number) => (
-                              <option key={index} value={item.value}>
+                              <option key={index} value={item}>
                                 {item}
                               </option>
                             ),
                           )}
                         </select>
-                      </Form.InputWrapper> */}
-
-                      <Form.InputDateTime
-                        label='BirthDate'
-                        placeholder={'BirthDate'}
-                        use12Hours={false}
-                        value={new Date(localInput?.birthDate)}
-                        onChange={birthDate => {
-                          if (
-                            dayjs(new Date()).diff(dayjs(birthDate), 'year') <
-                            150
-                          ) {
-                            setLocalInput({
-                              ...localInput,
-                              age: getDiffByDate(birthDate),
-                            });
-                            if (
-                              dayjs(new Date()).diff(dayjs(birthDate), 'hour') >
-                              0
-                            ) {
-                              setLocalInput({
-                                ...localInput,
-                                birthDate,
-                                age:
-                                  getAgeByAgeObject(getDiffByDate(birthDate))
-                                    .age || 0,
-                                ageUnits: getAgeByAgeObject(
-                                  getDiffByDate(birthDate),
-                                ).ageUnit,
-                              });
-                            }
-                          }
-                        }}
-                      />
+                      </Form.InputWrapper>
+                      {localInput.isBirthDateUpdate && (
+                        <>
+                          <Form.InputDateTime
+                            label='BirthDate'
+                            placeholder={'BirthDate'}
+                            use12Hours={false}
+                            value={new Date(localInput?.birthDate)}
+                            onChange={birthDate => {
+                              if (
+                                dayjs(new Date()).diff(
+                                  dayjs(birthDate),
+                                  'year',
+                                ) < 150
+                              ) {
+                                setLocalInput({
+                                  ...localInput,
+                                  age: getDiffByDate(birthDate),
+                                });
+                                if (
+                                  dayjs(new Date()).diff(
+                                    dayjs(birthDate),
+                                    'hour',
+                                  ) > 0
+                                ) {
+                                  setLocalInput({
+                                    ...localInput,
+                                    birthDate,
+                                    age:
+                                      getAgeByAgeObject(
+                                        getDiffByDate(birthDate),
+                                      ).age || 0,
+                                    ageUnits: getAgeByAgeObject(
+                                      getDiffByDate(birthDate),
+                                    ).ageUnit,
+                                  });
+                                }
+                              }
+                            }}
+                          />
+                        </>
+                      )}
                       <div className='flex flex-row gap-4'>
                         <Form.Input
                           label='Age'
                           placeholder={'Age'}
                           type='number'
                           value={localInput?.age}
+                          className='w-20'
                           onChange={age => {
                             setLocalInput({
                               ...localInput,
