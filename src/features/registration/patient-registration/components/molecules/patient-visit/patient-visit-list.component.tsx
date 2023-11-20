@@ -404,6 +404,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 return (
                   <>
                     <div
+                      style={{ cursor: 'pointer' }}
                       onClick={() =>
                         setModalDetails({
                           show: true,
