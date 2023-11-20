@@ -265,7 +265,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                                 getDiffByDate(birthDate),
                               ).ageUnit,
                             },
-                            modalDetails._id,
+                            row._id,
                           );
                       } else {
                         alert('Please select correct birth date!!');
