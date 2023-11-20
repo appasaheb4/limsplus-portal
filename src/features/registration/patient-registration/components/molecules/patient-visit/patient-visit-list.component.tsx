@@ -432,11 +432,11 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         props.onUpdateFields &&
                           props.onUpdateFields(
                             {
-                              birthDate: value.birthDate,
-                              age: value.age || 0,
-                              ageUnits: value.ageUnits,
+                              birthDate: value?.birthDate,
+                              age: value?.age || 0,
+                              ageUnits: value?.ageUnits,
                             },
-                            modalDetails._id,
+                            row._id,
                           );
                       } else {
                         alert('Please select correct birth date!!');
