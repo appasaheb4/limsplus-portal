@@ -218,8 +218,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.birthDate ? dayjs(row.birthDate).format('YYYY-MM-DD') : '',
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
               filter: customFilter({
                 getFilter: filter => {
                   birthDate = filter;
@@ -228,10 +226,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <div
+                      style={{ cursor: 'pointer' }}
                       onClick={() => {
                         setModalDetails({
                           visible: true,
@@ -254,7 +254,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
-              editable: (content, row, rowIndex, columnIndex) => false,
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -295,7 +295,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
-              editable: (content, row, rowIndex, columnIndex) => false,
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,
