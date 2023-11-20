@@ -226,27 +226,57 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
-              editable: false,
+              // editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
-                    <div
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => {
-                        setModalDetails({
-                          visible: true,
-                          details: row?.birthDate,
-                          _id: row?._id,
-                        });
-                      }}
-                    >
-                      {row.birthDate
-                        ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
-                        : ''}
-                    </div>
+                    {row.birthDate
+                      ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
                   </>
                 );
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <ModalDateTime
+                    visible={true}
+                    isSingleDatePicker={true}
+                    onUpdate={birthDate => {
+                      setModalDetails({ visible: false });
+                      if (
+                        dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
+                      ) {
+                        props.onUpdateFileds &&
+                          props.onUpdateFileds(
+                            {
+                              birthDate,
+                              isBirthdateAvailabe: true,
+                              age:
+                                getAgeByAgeObject(getDiffByDate(birthDate))
+                                  .age || 0,
+                              ageUnit: getAgeByAgeObject(
+                                getDiffByDate(birthDate),
+                              ).ageUnit,
+                            },
+                            modalDetails._id,
+                          );
+                      } else {
+                        alert('Please select correct birth date!!');
+                      }
+                    }}
+                    onClose={() => {
+                      setModalDetails({ visible: false });
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'age',
@@ -829,31 +859,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             breed('');
             usualDoctor('');
             birthDate();
-          }}
-        />
-        <ModalDateTime
-          {...modalDetails}
-          isDateTimePicker={false}
-          onUpdate={birthDate => {
-            setModalDetails({ visible: false });
-            if (dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0) {
-              props.onUpdateFileds &&
-                props.onUpdateFileds(
-                  {
-                    birthDate,
-                    isBirthdateAvailabe: true,
-                    age: getAgeByAgeObject(getDiffByDate(birthDate)).age || 0,
-                    ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
-                      .ageUnit,
-                  },
-                  modalDetails._id,
-                );
-            } else {
-              alert('Please select correct birth date!!');
-            }
-          }}
-          onClose={() => {
-            setModalDetails({ visible: false });
           }}
         />
       </div>

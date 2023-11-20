@@ -12,6 +12,7 @@ import {
   Tooltip,
   Icons,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
@@ -20,7 +21,6 @@ import {
   AutoCompleteFilterSingleSelectCorporateCode,
   AutoCompleteFilterSingleSelectDoctorId,
 } from '../../index';
-import { ModalPatientVisitBirthDateModify } from './modal-birthdate-age-ageunit-values';
 
 interface DeleteExtraParams extends Confirm {
   labId?: Array<number>;
@@ -403,46 +403,51 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <div
-                      style={{ cursor: 'pointer' }}
-                      onClick={() =>
-                        setModalDetails({
-                          show: true,
-                          rowData: row,
-                          _id: row._id,
-                        })
-                      }
-                    >
-                      {row.birthDate
-                        ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
-                        : ''}
-                    </div>
+                    {row.birthDate
+                      ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
+                      : ''}
                   </>
                 );
               },
-              editable: false,
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <Form.InputDateTime
-              //       value={new Date(row.birthDate)}
-              //       onFocusRemove={birthDate => {
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             birthDate,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     />
-              //   </>
-              // ),
+
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <ModalDateTime
+                    visible={true}
+                    rowData={row}
+                    isSingleDatePicker={false}
+                    onUpdate={value => {
+                      setModalDetails({ show: false });
+                      if (
+                        dayjs(new Date()).diff(dayjs(value.birthDate), 'hour') >
+                        0
+                      ) {
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {
+                              birthDate: value.birthDate,
+                              age: value.age || 0,
+                              ageUnits: value.ageUnits,
+                            },
+                            modalDetails._id,
+                          );
+                      } else {
+                        alert('Please select correct birth date!!');
+                      }
+                    }}
+                    onClose={() => {
+                      setModalDetails({ show: false });
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'age',
@@ -1239,28 +1244,6 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['_id', 'opration']}
-        />
-        <ModalPatientVisitBirthDateModify
-          {...modalDetails}
-          onClick={value => {
-            setModalDetails({ show: false });
-            if (dayjs(new Date()).diff(dayjs(value.birthDate), 'hour') > 0) {
-              props.onUpdateFields &&
-                props.onUpdateFields(
-                  {
-                    birthDate: value.birthDate,
-                    age: value.age || 0,
-                    ageUnits: value.ageUnits,
-                  },
-                  modalDetails._id,
-                );
-            } else {
-              alert('Please select correct birth date!!');
-            }
-          }}
-          onClose={() => {
-            setModalDetails({ show: false });
-          }}
         />
       </div>
     </>

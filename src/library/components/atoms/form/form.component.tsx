@@ -394,7 +394,9 @@ interface InputDateProps extends InputWrapperProps {
   hasError?: boolean;
   format?: string;
   use12Hours?: boolean;
+  isCalenderOpen?: boolean;
   onChange?: (e: any) => void;
+  onCalendarToggle?: (status: boolean) => void;
   onFocusRemove?: (date: any) => void;
 }
 
@@ -440,6 +442,7 @@ export const InputDateTime = ({
   className,
   onChange,
   onFocusRemove,
+  isCalenderOpen = false,
 }: InputDateProps) => {
   const [date, setDate] = useState(value);
 
@@ -448,6 +451,7 @@ export const InputDateTime = ({
       <div style={style} className=' dark:bg-white rounded-md'>
         {use12Hours ? (
           <DateTimePicker
+            isCalendarOpen={isCalenderOpen}
             disabled={disabled}
             onChange={value => {
               setDate(value);
@@ -468,6 +472,7 @@ export const InputDateTime = ({
           />
         ) : (
           <DateTimePicker
+            isCalendarOpen={isCalenderOpen}
             value={value}
             onChange={value => {
               setDate(value);
@@ -504,19 +509,28 @@ export const DatePicker = ({
   className,
   onChange,
   onFocusRemove,
+  onCalendarToggle,
+  isCalenderOpen = false,
 }: InputDateProps) => {
   const [date, setDate] = useState(value);
   return (
     <InputWrapper label={label} id={id} hasError={hasError}>
       <div style={style} className=' dark:bg-white rounded-md'>
         <DateTimePicker
+          isCalendarOpen={isCalenderOpen}
           disabled={disabled}
           onChange={value => {
             setDate(value);
             onChange && onChange(value);
           }}
+          onCalendarOpen={() => {
+            onCalendarToggle && onCalendarToggle(true);
+          }}
           onCalendarClose={() => {
-            if (value !== date) onFocusRemove && onFocusRemove(date);
+            onCalendarToggle && onCalendarToggle(false);
+            if (value !== date) {
+              onFocusRemove && onFocusRemove(date);
+            }
           }}
           onClockClose={() => {
             if (value !== date) onFocusRemove && onFocusRemove(date);
