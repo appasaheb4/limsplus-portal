@@ -43,7 +43,7 @@ const Default = observer(() => {
         setModalConfirm({
           type: 'accountexpire',
           show: true,
-          title: 'Your account expire.Please contact to admin. ',
+          title: 'Your account expire.Please contact to admin.',
         });
       }
     }
@@ -140,6 +140,7 @@ const Default = observer(() => {
                     });
                     if (res.logout.success) {
                       history.push('/');
+                      sessionStorage.removeItem('session');
                     }
                   })
                   .catch(() => {
