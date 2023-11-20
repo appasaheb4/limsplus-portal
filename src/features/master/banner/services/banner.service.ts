@@ -4,9 +4,9 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
-import {GET_BANNER_LIST_ALL} from './query';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
+import { GET_BANNER_LIST_ALL } from './query';
 import * as Model from '../models/index';
 import {
   BANNER_LIST,
@@ -34,13 +34,10 @@ export class BannerService {
     });
   listBanner = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: BANNER_LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit } },
         })
         .then((response: any) => {
           stores.bannerStore.updateBannerList(response.data);
