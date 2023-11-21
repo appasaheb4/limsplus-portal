@@ -11,8 +11,8 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 
 type Props = {
+  isDateTimePicker?: boolean;
   isSingleDatePicker?: boolean;
-
   visible?: boolean;
   data?: string;
   rowData?: any;
@@ -21,6 +21,7 @@ type Props = {
 };
 
 export const ModalDateTime: React.FC<Props> = ({
+  isDateTimePicker,
   isSingleDatePicker,
   visible,
   data,
@@ -92,25 +93,46 @@ export const ModalDateTime: React.FC<Props> = ({
                           openCalender && isSingleDatePicker ? '400px' : '66px',
                       }}
                     >
-                      <Form.DatePicker
-                        label=''
-                        placeholder='BirthDate'
-                        use12Hours={false}
-                        value={value}
-                        isCalenderOpen={isSingleDatePicker}
-                        onChange={birthDate => {
-                          setValue(birthDate);
-                        }}
-                        onCalendarToggle={isOpen => {
-                          setOpenCalender(isOpen);
-                        }}
-                      />
+                      {isDateTimePicker ? (
+                        <Form.InputDateTime
+                          label=''
+                          placeholder='BirthDate'
+                          use12Hours={false}
+                          value={value}
+                          isCalenderOpen={isSingleDatePicker}
+                          onChange={birthDate => {
+                            setValue(birthDate);
+                          }}
+                          onCalendarToggle={isOpen => {
+                            setOpenCalender(isOpen);
+                          }}
+                        />
+                      ) : (
+                        <Form.DatePicker
+                          label=''
+                          placeholder='BirthDate'
+                          use12Hours={false}
+                          value={value}
+                          isCalenderOpen={isSingleDatePicker}
+                          onChange={birthDate => {
+                            setValue(birthDate);
+                          }}
+                          onCalendarToggle={isOpen => {
+                            setOpenCalender(isOpen);
+                          }}
+                        />
+                      )}
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className='relative p-2 ml-12 flex-auto'>
-                      <div className='flex flex-row  gap-2'>
+                    <div
+                      className='relative p-2 ml-4 flex-auto'
+                      style={{
+                        height: !openCalender ? '425px' : '85px',
+                      }}
+                    >
+                      <div className='flex  gap-2'>
                         <Form.InputWrapper label='Sex'>
                           <select
                             className={
@@ -136,103 +158,109 @@ export const ModalDateTime: React.FC<Props> = ({
                             ))}
                           </select>
                         </Form.InputWrapper>
-
-                        <Form.InputDateTime
-                          label='BirthDate'
-                          isCalenderOpen={false}
-                          placeholder={'BirthDate'}
-                          use12Hours={false}
-                          value={localInput?.birthDate}
-                          onChange={birthDate => {
-                            if (
-                              dayjs(new Date()).diff(dayjs(birthDate), 'year') <
-                              150
-                            ) {
-                              setLocalInput({
-                                ...localInput,
-                                age: getDiffByDate(birthDate),
-                              });
+                        <div style={{ width: '37vh' }}>
+                          <Form.InputDateTime
+                            label='BirthDate'
+                            isCalenderOpen={false}
+                            placeholder={'BirthDate'}
+                            use12Hours={false}
+                            value={localInput?.birthDate}
+                            onCalendarToggle={isOpen => {
+                              setOpenCalender(!isOpen);
+                            }}
+                            onChange={birthDate => {
                               if (
                                 dayjs(new Date()).diff(
                                   dayjs(birthDate),
-                                  'hour',
-                                ) > 0
+                                  'year',
+                                ) < 150
                               ) {
                                 setLocalInput({
                                   ...localInput,
-                                  birthDate,
-                                  age:
-                                    getAgeByAgeObject(getDiffByDate(birthDate))
-                                      .age || 0,
-                                  ageUnits: getAgeByAgeObject(
-                                    getDiffByDate(birthDate),
-                                  ).ageUnit,
+                                  age: getDiffByDate(birthDate),
                                 });
+                                if (
+                                  dayjs(new Date()).diff(
+                                    dayjs(birthDate),
+                                    'hour',
+                                  ) > 0
+                                ) {
+                                  setLocalInput({
+                                    ...localInput,
+                                    birthDate,
+                                    age:
+                                      getAgeByAgeObject(
+                                        getDiffByDate(birthDate),
+                                      ).age || 0,
+                                    ageUnits: getAgeByAgeObject(
+                                      getDiffByDate(birthDate),
+                                    ).ageUnit,
+                                  });
+                                }
                               }
-                            }
+                            }}
+                          />
+                        </div>
+
+                        <Form.Input
+                          label='Age'
+                          placeholder={'Age'}
+                          type='number'
+                          value={localInput?.age}
+                          className='w-20 h-11'
+                          onChange={age => {
+                            setLocalInput({
+                              ...localInput,
+                              birthDate: new Date(
+                                dayjs().add(-age, 'years').format(),
+                              ),
+                            });
+                            setLocalInput({
+                              ...localInput,
+                              age: Number.parseInt(age),
+                              birthDate: new Date(
+                                dayjs().add(
+                                  -age,
+                                  dateAvailableUnits(localInput?.ageUnits),
+                                ) as any,
+                              ),
+                            });
                           }}
                         />
-                        <div className='flex flex-row gap-4'>
-                          <Form.Input
-                            label='Age'
-                            placeholder={'Age'}
-                            type='number'
-                            value={localInput?.age}
-                            className='w-20 h-11'
-                            onChange={age => {
+                        <Form.InputWrapper label='Age Units'>
+                          <select
+                            className={
+                              'leading-4 p-2 h-11 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
+                            }
+                            value={localInput?.ageUnits}
+                            onChange={e => {
+                              const ageUnit = e.target.value as any;
                               setLocalInput({
                                 ...localInput,
-                                birthDate: new Date(
-                                  dayjs().add(-age, 'years').format(),
-                                ),
-                              });
-                              setLocalInput({
-                                ...localInput,
-                                age: Number.parseInt(age),
+                                ageUnits: ageUnit,
                                 birthDate: new Date(
                                   dayjs().add(
-                                    -age,
-                                    dateAvailableUnits(localInput?.ageUnits),
+                                    -localInput?.age,
+                                    dateAvailableUnits(ageUnit),
                                   ) as any,
                                 ),
                               });
                             }}
-                          />
-                          <Form.InputWrapper label='Age Units'>
-                            <select
-                              className={
-                                'leading-4 p-2 h-11 focus:outline-none focus:ring block w-20 shadow-sm sm:text-base border-2 border-gray-300 rounded-md'
-                              }
-                              value={localInput?.ageUnits}
-                              onChange={e => {
-                                const ageUnit = e.target.value as any;
-                                setLocalInput({
-                                  ...localInput,
-                                  ageUnits: ageUnit,
-                                  birthDate: new Date(
-                                    dayjs().add(
-                                      -localInput?.age,
-                                      dateAvailableUnits(ageUnit),
-                                    ) as any,
-                                  ),
-                                });
-                              }}
-                            >
-                              <option selected>Select</option>
-                              {[
-                                { title: 'year', value: 'Y' },
-                                { title: 'month', value: 'M' },
-                                { title: 'week', value: 'W' },
-                                { title: 'day', value: 'D' },
-                                { title: 'hour', value: 'H' },
-                              ].map((item: any, index: number) => (
-                                <option key={index} value={item.value}>
-                                  {item.value}
-                                </option>
-                              ))}
-                            </select>
-                          </Form.InputWrapper>
-                        </div>
+                          >
+                            <option selected>Select</option>
+                            {[
+                              { title: 'year', value: 'Y' },
+                              { title: 'month', value: 'M' },
+                              { title: 'week', value: 'W' },
+                              { title: 'day', value: 'D' },
+                              { title: 'hour', value: 'H' },
+                            ].map((item: any, index: number) => (
+                              <option key={index} value={item.value}>
+                                {item.value}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
                       </div>
                       <div className='clearfix'></div>
                     </div>
@@ -258,7 +286,8 @@ export const ModalDateTime: React.FC<Props> = ({
                     type='button'
                     style={{ transition: 'all .15s ease' }}
                     onClick={() => {
-                      onUpdate && onUpdate(value);
+                      onUpdate &&
+                        onUpdate(isSingleDatePicker ? value : localInput);
                     }}
                   >
                     Update
