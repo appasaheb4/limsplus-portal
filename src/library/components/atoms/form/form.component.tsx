@@ -443,6 +443,7 @@ export const InputDateTime = ({
   onChange,
   onFocusRemove,
   isCalenderOpen = false,
+  onCalendarToggle,
 }: InputDateProps) => {
   const [date, setDate] = useState(value);
 
@@ -457,7 +458,11 @@ export const InputDateTime = ({
               setDate(value);
               onChange && onChange(value);
             }}
+            onCalendarOpen={() => {
+              onCalendarToggle && onCalendarToggle(true);
+            }}
             onCalendarClose={() => {
+              onCalendarToggle && onCalendarToggle(false);
               if (value !== date) onFocusRemove && onFocusRemove(date);
             }}
             onClockClose={() => {
@@ -478,7 +483,11 @@ export const InputDateTime = ({
               setDate(value);
               onChange && onChange(value);
             }}
+            onCalendarOpen={() => {
+              onCalendarToggle && onCalendarToggle(true);
+            }}
             onCalendarClose={() => {
+              onCalendarToggle && onCalendarToggle(false);
               if (value !== date) onFocusRemove && onFocusRemove(date);
             }}
             onClockClose={() => {

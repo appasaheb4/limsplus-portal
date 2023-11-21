@@ -424,7 +424,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     rowData={row}
                     isSingleDatePicker={false}
                     onUpdate={value => {
-                      setModalDetails({ show: false });
+                      setModalDetails({ visible: false });
                       if (
                         dayjs(new Date()).diff(dayjs(value.birthDate), 'hour') >
                         0
@@ -432,6 +432,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         props.onUpdateFields &&
                           props.onUpdateFields(
                             {
+                              sex: value?.sex,
                               birthDate: value?.birthDate,
                               age: value?.age || 0,
                               ageUnits: value?.ageUnits,
@@ -443,7 +444,9 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                       }
                     }}
                     onClose={() => {
-                      setModalDetails({ show: false });
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
