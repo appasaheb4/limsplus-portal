@@ -30,9 +30,13 @@ export const ModalDateTime: React.FC<Props> = ({
   rowData,
 }) => {
   const { routerStore } = useStores();
-  const [value, setValue] = useState(data);
+  const [value, setValue] = useState<any>(data);
   const [showModal, setShowModal] = React.useState(visible);
-  const [openCalender, setOpenCalender] = useState(true);
+  const [openCalender, setOpenCalender] = useState({
+    isOpenCalender: true,
+    isDropdownOpen: false,
+    isAgeUnitDropDown: false,
+  });
   const [localInput, setLocalInput] = useState<any>();
 
   useEffect(() => {
@@ -90,7 +94,9 @@ export const ModalDateTime: React.FC<Props> = ({
                       className='relative p-2 flex-auto'
                       style={{
                         height:
-                          openCalender && isSingleDatePicker ? '400px' : '66px',
+                          openCalender.isOpenCalender && isSingleDatePicker
+                            ? '400px'
+                            : '66px',
                       }}
                     >
                       {isDateTimePicker ? (
@@ -98,13 +104,16 @@ export const ModalDateTime: React.FC<Props> = ({
                           label=''
                           placeholder='BirthDate'
                           use12Hours={false}
-                          value={value}
+                          value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {
                             setValue(birthDate);
                           }}
                           onCalendarToggle={isOpen => {
-                            setOpenCalender(isOpen);
+                            setOpenCalender(prev => ({
+                              ...prev,
+                              isOpenCalender: isOpen,
+                            }));
                           }}
                         />
                       ) : (
@@ -112,13 +121,16 @@ export const ModalDateTime: React.FC<Props> = ({
                           label=''
                           placeholder='BirthDate'
                           use12Hours={false}
-                          value={value}
+                          value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {
                             setValue(birthDate);
                           }}
                           onCalendarToggle={isOpen => {
-                            setOpenCalender(isOpen);
+                            setOpenCalender(prev => ({
+                              ...prev,
+                              isOpenCalender: isOpen,
+                            }));
                           }}
                         />
                       )}
@@ -129,7 +141,13 @@ export const ModalDateTime: React.FC<Props> = ({
                     <div
                       className='relative p-2 ml-4 flex-auto'
                       style={{
-                        height: !openCalender ? '425px' : '85px',
+                        height: openCalender.isDropdownOpen
+                          ? '160px'
+                          : !openCalender.isOpenCalender
+                          ? '425px'
+                          : openCalender.isAgeUnitDropDown
+                          ? '200px'
+                          : '85px',
                       }}
                     >
                       <div className='flex  gap-2'>
@@ -145,6 +163,18 @@ export const ModalDateTime: React.FC<Props> = ({
                                 ...localInput,
                                 sex,
                               });
+                            }}
+                            onClick={() => {
+                              setOpenCalender(prev => ({
+                                ...prev,
+                                isDropdownOpen: !openCalender.isDropdownOpen,
+                              }));
+                            }}
+                            onBlur={() => {
+                              setOpenCalender(prev => ({
+                                ...prev,
+                                isDropdownOpen: false,
+                              }));
                             }}
                           >
                             <option selected>Select</option>
@@ -166,7 +196,10 @@ export const ModalDateTime: React.FC<Props> = ({
                             use12Hours={false}
                             value={localInput?.birthDate}
                             onCalendarToggle={isOpen => {
-                              setOpenCalender(!isOpen);
+                              setOpenCalender(prev => ({
+                                ...prev,
+                                isOpenCalender: !isOpen,
+                              }));
                             }}
                             onChange={birthDate => {
                               if (
@@ -245,6 +278,19 @@ export const ModalDateTime: React.FC<Props> = ({
                                   ) as any,
                                 ),
                               });
+                            }}
+                            onClick={() => {
+                              setOpenCalender(prev => ({
+                                ...prev,
+                                isAgeUnitDropDown:
+                                  !openCalender.isAgeUnitDropDown,
+                              }));
+                            }}
+                            onBlur={() => {
+                              setOpenCalender(prev => ({
+                                ...prev,
+                                isAgeUnitDropDown: false,
+                              }));
                             }}
                           >
                             <option selected>Select</option>

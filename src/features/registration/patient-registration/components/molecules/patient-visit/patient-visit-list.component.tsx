@@ -42,6 +42,7 @@ interface PatientVisitProps {
     page: number,
     totalSize: number,
   ) => void;
+  onDirectUpdateField?: (field: any, id: any) => void;
 }
 
 let labId;
@@ -429,8 +430,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         dayjs(new Date()).diff(dayjs(value.birthDate), 'hour') >
                         0
                       ) {
-                        props.onUpdateFields &&
-                          props.onUpdateFields(
+                        props.onDirectUpdateField &&
+                          props.onDirectUpdateField(
                             {
                               sex: value?.sex,
                               birthDate: value?.birthDate,

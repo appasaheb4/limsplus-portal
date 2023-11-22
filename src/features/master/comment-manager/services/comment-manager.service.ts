@@ -89,7 +89,6 @@ export class CommentManagerService {
           variables,
         })
         .then((response: any) => {
-          console.log({response});
           if (!response.data.filterCommentManager.success) return this.list();
           stores.commentManagerStore.updateCommentManagerList({
             commentManagers: {

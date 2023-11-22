@@ -37,6 +37,7 @@ interface PatientMangerProps {
     page: number,
     totalSize: number,
   ) => void;
+  onDirectUpdateField?: (id: any, fileds: any) => void;
 }
 
 let pId;
@@ -247,6 +248,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 <>
                   <ModalDateTime
                     visible={true}
+                    data={row?.birthDate}
                     isDateTimePicker={false}
                     isSingleDatePicker={true}
                     onUpdate={birthDate => {
@@ -254,20 +256,16 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                       if (
                         dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
                       ) {
-                        props.onUpdateFileds &&
-                          props.onUpdateFileds(
-                            {
-                              birthDate,
-                              isBirthdateAvailabe: true,
-                              age:
-                                getAgeByAgeObject(getDiffByDate(birthDate))
-                                  .age || 0,
-                              ageUnit: getAgeByAgeObject(
-                                getDiffByDate(birthDate),
-                              ).ageUnit,
-                            },
-                            row._id,
-                          );
+                        props.onDirectUpdateField &&
+                          props.onDirectUpdateField(row._id, {
+                            birthDate,
+                            isBirthdateAvailabe: true,
+                            age:
+                              getAgeByAgeObject(getDiffByDate(birthDate)).age ||
+                              0,
+                            ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
+                              .ageUnit,
+                          });
                       } else {
                         alert('Please select correct birth date!!');
                       }
