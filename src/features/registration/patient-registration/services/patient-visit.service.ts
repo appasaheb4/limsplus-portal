@@ -4,8 +4,8 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST_PATIENT_VISIT,
   REMOVE_PATIENT_VISIT,
@@ -31,7 +31,7 @@ export class PatientVisitService {
       client
         .mutate({
           mutation: LIST_PATIENT_VISIT,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
           stores.patientVisitStore.updatePatientVisitList(response.data);
@@ -44,7 +44,6 @@ export class PatientVisitService {
 
   addPatientVisit = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
       client
         .mutate({
           mutation: CREATE_PATIENT_VISIT,
@@ -98,7 +97,7 @@ export class PatientVisitService {
         })
         .then((response: any) => {
           if (!response.data.filterPatientVisit.success)
-            return this.listPatientVisit({documentType: 'patientVisit'});
+            return this.listPatientVisit({ documentType: 'patientVisit' });
           stores.patientVisitStore.filterPatientVisitList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);
@@ -205,7 +204,7 @@ export class PatientVisitService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsPatientVisit.success)
-            return this.listPatientVisit({documentType: 'patientVisit'});
+            return this.listPatientVisit({ documentType: 'patientVisit' });
           stores.patientVisitStore.filterPatientVisitList({
             filterPatientVisit: {
               data: response.data.filterByFieldsPatientVisit.data,

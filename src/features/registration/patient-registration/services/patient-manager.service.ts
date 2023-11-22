@@ -215,7 +215,6 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response });
           stores.patientRegistrationStore.updateFilterOptionList(response.data);
           resolve(response.data);
         })
@@ -226,15 +225,12 @@ export class PatientManagerService {
 
   getPatientRegRecords = (variables: any, type = 'fetch') =>
     new Promise<any>((resolve, reject) => {
-      // console.log({variables});
       client
         .mutate({
           mutation: GET_PATIENT_REG_RECORDS,
           variables,
         })
         .then((res: any) => {
-          console.log({ res });
-
           if (res.data.getPatientRegRecords?.success) {
             const { records } = res.data.getPatientRegRecords;
             if (records?.patientManager?.length <= 0 && type != 'delete')
@@ -243,7 +239,7 @@ export class PatientManagerService {
                   '😔 Records not available. Please enter correct details or clear filter',
               });
 
-            //console.log({records});
+        
 
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({

@@ -67,8 +67,6 @@ const RoleMapping = observer(() => {
   ];
 
   const setRouter = () => {
-    console.log({router});
-
     const routers: any = router?.filter((item: any) => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;

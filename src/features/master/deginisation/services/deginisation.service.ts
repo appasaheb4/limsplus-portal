@@ -154,7 +154,6 @@ class DeginisationService {
 
   findByFields = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables });
 
       client
         .mutate({

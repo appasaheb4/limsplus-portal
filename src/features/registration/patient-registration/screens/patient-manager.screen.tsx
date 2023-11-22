@@ -205,6 +205,30 @@ export const PatientManager = PatientManagerHoc(
       [patientManagerStore.listPatientManger],
     );
 
+    const onUpdateField = field => {
+      patientManagerStore.patientManagerService
+        .updateSingleFiled({
+          input: {
+            ...field,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePatientManager.success) {
+            Toast.success({
+              message: `😊 ${res.updatePatientManager.message}`,
+            });
+            for (const [key, value] of Object.entries(
+              patientRegistrationStore.defaultValues,
+            )) {
+              if (typeof value === 'string' && !_.isEmpty(value)) {
+                patientRegistrationStore.getPatientRegRecords(key, value);
+                break;
+              }
+            }
+          }
+        });
+    };
+
     return (
       <>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
@@ -1756,6 +1780,12 @@ export const PatientManager = PatientManagerHoc(
                 limit,
               };
             }}
+            onDirectUpdateField={(id, field) => {
+              onUpdateField({
+                _id: id,
+                ...field,
+              });
+            }}
           />
         </div>
         <hr />
@@ -1806,31 +1836,10 @@ export const PatientManager = PatientManagerHoc(
                 break;
               }
               case 'updateFileds': {
-                patientManagerStore.patientManagerService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fileds,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePatientManager.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePatientManager.message}`,
-                      });
-                      for (const [key, value] of Object.entries(
-                        patientRegistrationStore.defaultValues,
-                      )) {
-                        if (typeof value === 'string' && !_.isEmpty(value)) {
-                          patientRegistrationStore.getPatientRegRecords(
-                            key,
-                            value,
-                          );
-                          break;
-                        }
-                      }
-                    }
-                  });
+                onUpdateField({
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                });
                 break;
               }
               case 'update': {
