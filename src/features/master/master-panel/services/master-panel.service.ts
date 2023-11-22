@@ -6,9 +6,9 @@
  */
 import * as Models from '../models';
 import _ from 'lodash';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {SectionService} from '@/features/master/section/services';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { SectionService } from '@/features/master/section/services';
+import { stores } from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -26,14 +26,10 @@ import {
 export class MasterPanelService {
   listPanelMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
-      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit } },
         })
         .then((response: any) => {
           stores.masterPanelStore.updatePanelMasterList(response.data);
@@ -149,7 +145,7 @@ export class MasterPanelService {
   findSectionListByDeptCode = (code: string) =>
     new Promise<any>(resolve => {
       new SectionService()
-        .findSectionListByDeptCode({input: {code}})
+        .findSectionListByDeptCode({ input: { code } })
         .then(res => {
           stores.masterPanelStore.updateSectionListByDeptCode(res);
           resolve(res);

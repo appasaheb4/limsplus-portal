@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
@@ -11,17 +11,17 @@ import {
   Toast,
   ModalConfirm,
 } from '@/library/components';
-import {RoleMappingList} from '../components';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import { RoleMappingList } from '../components';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import 'react-dropdown-tree-select/dist/styles.css';
-import {dashboardRouter as dashboardRoutes} from '@/routes';
+import { dashboardRouter as dashboardRoutes } from '@/routes';
 const router = dashboardRoutes;
 
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -32,7 +32,7 @@ const getListStyle = isDraggingOver => ({
 });
 
 const RoleMapping = observer(() => {
-  const {loginStore, roleMappingStore, roleStore, routerStore} = useStores();
+  const { loginStore, roleMappingStore, roleStore, routerStore } = useStores();
   const [hideRole, setHideRole] = useState<boolean>(false);
   const [modalConfirm, setModalConfirm] = useState<any>();
   let roleList: any = roleStore.listRole || [];
@@ -44,7 +44,7 @@ const RoleMapping = observer(() => {
     }
   }
 
-  const [isModify, setIsModify] = useState<any>({status: false});
+  const [isModify, setIsModify] = useState<any>({ status: false });
   const [hideAddRoleMapping, setHideAddRoleMapping] = useState<boolean>(true);
 
   const permission = [
@@ -67,8 +67,6 @@ const RoleMapping = observer(() => {
   ];
 
   const setRouter = () => {
-    console.log({router});
-
     const routers: any = router?.filter((item: any) => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;
@@ -118,7 +116,10 @@ const RoleMapping = observer(() => {
         )}
         onDelete={selectedUser => setModalConfirm(selectedUser)}
         onDuplicate={async (selectedItem: any) => {
-          console.log({code: selectedItem?.code, router: selectedItem?.router});
+          console.log({
+            code: selectedItem?.code,
+            router: selectedItem?.router,
+          });
           if (selectedItem?.code !== 'SYSADMIN') {
             const routers: any = selectedItem?.router?.filter((item: any) => {
               const children = item.children?.filter(childrenItem => {
@@ -143,7 +144,7 @@ const RoleMapping = observer(() => {
                   //   });
                   // }
                   // eslint-disable-next-line no-self-assign
-                  return {...childrenItem};
+                  return { ...childrenItem };
                 }
               });
               item.children = children;
@@ -158,17 +159,17 @@ const RoleMapping = observer(() => {
           setHideAddRoleMapping(!hideAddRoleMapping);
           setHideRole(true);
           roleMappingStore.updateSelectedRole(toJS(selectedItem));
-          setIsModify({status: true, id: selectedItem.id});
+          setIsModify({ status: true, id: selectedItem.id });
         }}
         onPageSizeChange={(page, limit) => {
           roleMappingStore.fetchRoleMappingList(page, limit);
-          global.filter = {mode: 'pagination', page, limit};
+          global.filter = { mode: 'pagination', page, limit };
         }}
         onFilter={(type, filter, page, limit) => {
           roleMappingStore.roleMappingService.filter({
-            input: {type, filter, page, limit},
+            input: { type, filter, page, limit },
           });
-          global.filter = {mode: 'filter', type, filter, page, limit};
+          global.filter = { mode: 'filter', type, filter, page, limit };
         }}
       />
     ),
@@ -218,7 +219,7 @@ const RoleMapping = observer(() => {
                           childrenItem.name !== 'Environment Settings' &&
                           childrenItem.name !== 'Notice Boards'
                         ) {
-                          return {...childrenItem};
+                          return { ...childrenItem };
                         }
                       });
                       item.children = children;
@@ -620,7 +621,7 @@ const RoleMapping = observer(() => {
                       ...item,
                       toggle: false,
                       children: item.children?.map(e => {
-                        return {...e, toggle: false};
+                        return { ...e, toggle: false };
                       }),
                     };
                   });
@@ -709,9 +710,9 @@ const RoleMapping = observer(() => {
           click={(action?: string) => {
             if (action === 'Delete') {
               roleMappingStore.roleMappingService
-                .deleteRoleMapping({input: {id: modalConfirm.id}})
+                .deleteRoleMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.removeRoleMapping.success) {
                     Toast.success({
                       message: `😊 ${res.removeRoleMapping.message}`,

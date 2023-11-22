@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   REMOVE_RECORD,
@@ -24,14 +24,10 @@ import * as Model from '../models';
 export class TestAnalyteMappingService {
   listTestAnalyteMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
-      const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit } },
         })
         .then((response: any) => {
           stores.testAnalyteMappingStore.updateTestAnalyteMappingList(

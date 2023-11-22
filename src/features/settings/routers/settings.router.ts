@@ -18,6 +18,7 @@ const Environment = async(
 const NoticeBoards = async(
   () => import('../notice-board/screens/notice-board.screen'),
 );
+const Company = async(() => import('../company/screens/company.screen'));
 
 export const settingsRoutes = {
   path: '/settings',
@@ -65,6 +66,12 @@ export const settingsRoutes = {
       name: 'Notice Boards',
       icon: 'FaClipboardList',
       component: NoticeBoards,
+    },
+    {
+      path: '/settings/company',
+      name: 'Company',
+      icon: 'HiOutlineOfficeBuilding',
+      component: Company,
     },
   ],
 };
