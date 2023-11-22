@@ -45,6 +45,9 @@ import { SegmentMappingStore } from '@/features/communication/segment-mapping/st
 import { InstResultMappingStore } from '@/features/communication/instrument-result-mapping/stores/inst-result-mapping.store';
 import { TransmittedMessageStore } from '@/features/communication/transmitted-message/stores/transmitted-message.store';
 
+// report builder
+import { ReportSettingStore } from '@/features/report-builder/report-settings/stores';
+
 // setting
 import { RoleStore } from '@/features/settings/roles/stores/role.store';
 import { EnvironmentStore } from '@/features/settings/environment/stores/environment.store';
@@ -52,7 +55,7 @@ import { LoginActivityStore } from '@/features/settings/login-activity/stores/lo
 import { RoleMappingStore } from '@/features/settings/mapping/role/stores/role-mapping.store';
 import { ShortcutMenuStore } from '@/features/settings/shortcut-menu/stores/short-cut-menu.store';
 import { NoticeBoardStore } from '@/features/settings/notice-board/stores/notice-board.store';
-import { ReportSettingStore } from '@/features/report-builder/report-settings/stores';
+import { CompanyStore } from '@/features/settings/company/stores';
 
 // registation
 import {
@@ -136,8 +139,9 @@ export class Stores extends Store {
   roleMappingStore!: RoleMappingStore;
   shortcutMenuStore!: ShortcutMenuStore;
   noticeBoardStore!: NoticeBoardStore;
+  companyStore!: CompanyStore;
 
-  // registation
+  // registration
   patientManagerStore!: PatientManagerStore;
   patientVisitStore!: PatientVisitStore;
   patientOrderStore!: PatientOrderStore;
@@ -220,8 +224,9 @@ export class Stores extends Store {
     this.roleMappingStore = new RoleMappingStore();
     this.shortcutMenuStore = new ShortcutMenuStore();
     this.noticeBoardStore = new NoticeBoardStore();
+    this.companyStore = new CompanyStore();
 
-    // registation
+    // registration
     this.patientManagerStore = new PatientManagerStore();
     this.patientVisitStore = new PatientVisitStore();
     this.patientOrderStore = new PatientOrderStore();
