@@ -211,6 +211,30 @@ export const PatientVisit = PatientVisitHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patientVisitStore.patientVisit?.labId]);
 
+    const onUpdateField = payload => {
+      patientVisitStore.patientVisitService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePatientVisit.success) {
+            Toast.success({
+              message: `😊 ${res.updatePatientVisit.message}`,
+            });
+            for (const [key, value] of Object.entries(
+              patientRegistrationStore.defaultValues,
+            )) {
+              if (typeof value === 'string' && !_.isEmpty(value)) {
+                patientRegistrationStore.getPatientRegRecords(key, value);
+                break;
+              }
+            }
+          }
+        });
+    };
+
     const patientVisitList = useMemo(
       () => (
         <PatientVisitList
@@ -273,6 +297,12 @@ export const PatientVisit = PatientVisitHoc(
               input: { type, filter, page, limit },
             });
             global.filter = { mode: 'filter', type, filter, page, limit };
+          }}
+          onDirectUpdateField={(field: any, id: any) => {
+            onUpdateField({
+              _id: id,
+              ...field,
+            });
           }}
         />
       ),
@@ -2309,31 +2339,10 @@ export const PatientVisit = PatientVisitHoc(
                 break;
               }
               case 'updateFields': {
-                patientVisitStore.patientVisitService
-                  .updateSingleFiled({
-                    input: {
-                      ...modalConfirm.data.fields,
-                      _id: modalConfirm.data.id,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePatientVisit.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePatientVisit.message}`,
-                      });
-                      for (const [key, value] of Object.entries(
-                        patientRegistrationStore.defaultValues,
-                      )) {
-                        if (typeof value === 'string' && !_.isEmpty(value)) {
-                          patientRegistrationStore.getPatientRegRecords(
-                            key,
-                            value,
-                          );
-                          break;
-                        }
-                      }
-                    }
-                  });
+                onUpdateField({
+                  ...modalConfirm.data.fields,
+                  _id: modalConfirm.data.id,
+                });
                 break;
               }
             }

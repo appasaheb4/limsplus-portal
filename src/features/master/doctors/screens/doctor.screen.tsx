@@ -1189,7 +1189,7 @@ const Doctors = DoctorsHoc(
                           } rounded-md`}
                           onChange={e => {
                             const lab = e.target.value;
-                            console.log({ lab });
+                           
 
                             onChange(lab);
                             doctorsStore.updateDoctors({

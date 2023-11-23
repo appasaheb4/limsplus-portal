@@ -217,7 +217,6 @@ export const PriceListTableForCopClientList = observer(
                             corporateClientsStore.updateCorporateClientsList(
                               corporateClientsStore.listCorporateClientsCopy,
                             );
-                            console.log({priceList});
                           }}
                         />
                       )}

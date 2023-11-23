@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import {observer} from 'mobx-react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { observer } from 'mobx-react';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
   DateFilter,
@@ -12,9 +12,10 @@ import {
   Tooltip,
   Icons,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {AutoCompleteFilterDeliveryMode} from '@/core-components';
+import { Confirm } from '@/library/models';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import {
   AutoCompleteFilterSingleSelectCollectionCenter,
   AutoCompleteFilterSingleSelectCorporateCode,
@@ -41,6 +42,7 @@ interface PatientVisitProps {
     page: number,
     totalSize: number,
   ) => void;
+  onDirectUpdateField?: (field: any, id: any) => void;
 }
 
 let labId;
@@ -64,12 +66,13 @@ let holdReason;
 let status;
 
 export const PatientVisitList = observer((props: PatientVisitProps) => {
+  const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -407,7 +410,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                   </>
                 );
               },
-              editable: false,
+
               editorRenderer: (
                 editorProps,
                 value,
@@ -417,15 +420,34 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    value={new Date(row.birthDate)}
-                    onFocusRemove={birthDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          birthDate,
-                          column.dataField,
-                          row._id,
-                        );
+                  <ModalDateTime
+                    visible={true}
+                    rowData={row}
+                    isSingleDatePicker={false}
+                    onUpdate={value => {
+                      setModalDetails({ visible: false });
+                      if (
+                        dayjs(new Date()).diff(dayjs(value.birthDate), 'hour') >
+                        0
+                      ) {
+                        props.onDirectUpdateField &&
+                          props.onDirectUpdateField(
+                            {
+                              sex: value?.sex,
+                              birthDate: value?.birthDate,
+                              age: value?.age || 0,
+                              ageUnits: value?.ageUnits,
+                            },
+                            row._id,
+                          );
+                      } else {
+                        alert('Please select correct birth date!!');
+                      }
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>

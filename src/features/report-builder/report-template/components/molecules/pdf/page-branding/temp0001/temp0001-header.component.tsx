@@ -11,8 +11,6 @@ interface PdfTemp0001HeaderProps {
 }
 
 export const PdfTemp0001Header = ({data}: PdfTemp0001HeaderProps) => {
-  console.log({data});
-
   const headerTitleCSS = useRef<any>({});
   const headerMainBoxCSS = useRef<any>({});
   const imageCSS = useRef<any>({});

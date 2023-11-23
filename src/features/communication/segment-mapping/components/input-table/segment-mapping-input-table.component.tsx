@@ -36,7 +36,6 @@ export const SegmentMappingInputTable = observer(
       segmentMappingStore.segmentMappingService
         .getCollectionList()
         .then(res => {
-          console.log({res});
           if (res.getCollectionList.success) {
             setCollection(res.getCollectionList.result);
           } else {
