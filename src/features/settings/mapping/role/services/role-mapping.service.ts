@@ -71,7 +71,6 @@ export class RoleMappingService {
           resolve(response.data);
         })
         .catch(error => {
-          console.log({error});
           reject(new ServiceResponse<any>(0, error.message, undefined));
         });
     });

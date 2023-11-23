@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -12,6 +12,7 @@ import {
   Tooltip,
   Icons,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { FormHelper } from '@/helper';
@@ -36,6 +37,7 @@ interface PatientMangerProps {
     page: number,
     totalSize: number,
   ) => void;
+  onDirectUpdateField?: (id: any, fileds: any) => void;
 }
 
 let pId;
@@ -56,6 +58,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
     formState: { errors },
     setValue,
   } = useForm();
+  const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     if (row.status === 'I') return false;
     if (row.extraData?.confidental && !props.extraData.confidental)
@@ -216,8 +219,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.birthDate ? dayjs(row.birthDate).format('YYYY-MM-DD') : '',
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
               filter: customFilter({
                 getFilter: filter => {
                   birthDate = filter;
@@ -226,6 +227,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               filterRenderer: (onFilter, column) => (
                 <DateFilter onFilter={onFilter} column={column} />
               ),
+              // editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -244,32 +246,32 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    label=''
-                    placeholder='BirthDate'
-                    use12Hours={false}
-                    // value={row?.birthDate}
-                    onChange={birthDate => {
+                  <ModalDateTime
+                    visible={true}
+                    data={row?.birthDate}
+                    isDateTimePicker={false}
+                    isSingleDatePicker={true}
+                    onUpdate={birthDate => {
+                      setModalDetails({ visible: false });
                       if (
                         dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
                       ) {
-                        props.onUpdateFileds &&
-                          props.onUpdateFileds(
-                            {
-                              birthDate,
-                              isBirthdateAvailabe: true,
-                              age:
-                                getAgeByAgeObject(getDiffByDate(birthDate))
-                                  .age || 0,
-                              ageUnit: getAgeByAgeObject(
-                                getDiffByDate(birthDate),
-                              ).ageUnit,
-                            },
-                            row._id,
-                          );
+                        props.onDirectUpdateField &&
+                          props.onDirectUpdateField(row._id, {
+                            birthDate,
+                            isBirthdateAvailabe: true,
+                            age:
+                              getAgeByAgeObject(getDiffByDate(birthDate)).age ||
+                              0,
+                            ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
+                              .ageUnit,
+                          });
                       } else {
                         alert('Please select correct birth date!!');
                       }
+                    }}
+                    onClose={() => {
+                      setModalDetails({ visible: false });
                     }}
                   />
                 </>
@@ -281,8 +283,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -323,8 +324,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               editorRenderer: (
                 editorProps,
                 value,

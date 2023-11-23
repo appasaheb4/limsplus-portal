@@ -68,7 +68,6 @@ export const Login = observer(() => {
 
   useEffect(() => {
     rootStore.isLogin().then(isLogin => {
-      console.log({ isLogin });
       if (isLogin) {
         history.push('/dashboard/default');
       } else {
@@ -609,11 +608,11 @@ export const Login = observer(() => {
               ...body,
               exipreDate,
             };
-            console.log({ body });
+          
 
             userStore.UsersService.changePassword({ input: { ...body } }).then(
               res => {
-                console.log({ res });
+               
                 if (res.userChnagePassword.success) {
                   loginStore.updateLogin({
                     ...loginStore.login,

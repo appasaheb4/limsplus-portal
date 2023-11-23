@@ -37,7 +37,6 @@ export class Service {
 
     service.interceptors.request.use(
       config => {
-        console.log({config});
         stores.setLoading(true);
         config.headers = {
           ...config.headers,
@@ -46,7 +45,6 @@ export class Service {
       },
       error => {
         stores.setLoading(false);
-        console.log({error});
         const {response} = error;
         if (!response) {
           return Promise.reject({
@@ -58,12 +56,10 @@ export class Service {
 
     service.interceptors.response.use(
       response => {
-        console.log({response});
         stores.setLoading(false);
         return response;
       },
       error => {
-        console.log({error});
         stores.setLoading(false);
         const {response} = error;
         if (Axios.isCancel(error)) {

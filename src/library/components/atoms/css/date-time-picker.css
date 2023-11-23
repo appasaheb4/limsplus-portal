@@ -6,7 +6,7 @@
 }
 .react-calendar {
   overflow-y: scroll;
-  height: inherit;
+  height: 35vh;
 }
 
 .react-datetime-picker__calendar {
