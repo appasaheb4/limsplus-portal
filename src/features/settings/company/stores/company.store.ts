@@ -1,7 +1,7 @@
 import { makeObservable, action, observable, computed } from 'mobx';
 import { Company } from '../models';
 import { CompanyService } from '../services';
-
+import dayjs from 'dayjs';
 export class CompanyStore {
   company!: Company;
   companyList!: Company[];
@@ -22,7 +22,15 @@ export class CompanyStore {
   }
 
   reset() {
-    this.company = new Company({ status: 'A' });
+    this.company = new Company({
+      ...this.company,
+      status: 'A',
+      dateCreation: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+      ),
+    });
     this.companyList = [];
     this.companyListCount = 0;
   }
