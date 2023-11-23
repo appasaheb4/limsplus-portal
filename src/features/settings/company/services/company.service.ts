@@ -6,7 +6,6 @@
 
 import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
-import { GET_BANNER_LIST_ALL } from './query';
 import {
   BANNER_LIST,
   REMOVE_BANNERS,
@@ -17,21 +16,7 @@ import {
 } from './mutation';
 
 export class CompanyService {
-  listAllBanner = () =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .query({
-          query: GET_BANNER_LIST_ALL,
-        })
-        .then((response: any) => {
-          stores.bannerStore.updateListAllBanner(response.data);
-          resolve(response.data);
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
-  listBanner = (page = 0, limit = 10) =>
+  list = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -39,7 +24,7 @@ export class CompanyService {
           variables: { input: { page, limit } },
         })
         .then((response: any) => {
-          stores.bannerStore.updateBannerList(response.data);
+          stores.companyStore.updateCompanyList(response.data);
           resolve(response.data);
         })
         .catch(error =>
@@ -47,7 +32,7 @@ export class CompanyService {
         );
     });
 
-  addBanner = (banner: any) =>
+  add = (banner: any) =>
     new Promise<any>(async (resolve, reject) => {
       await client
         .mutate({
@@ -62,7 +47,7 @@ export class CompanyService {
         );
     });
 
-  deleteBanner = (variables: any) =>
+  delete = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -77,7 +62,7 @@ export class CompanyService {
         );
     });
 
-  updateSingleFiled = (variables: any) =>
+  update = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -92,7 +77,7 @@ export class CompanyService {
         );
     });
 
-  updateBannerImage = (variables: any) =>
+  updateImage = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -115,7 +100,7 @@ export class CompanyService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterBanners.success) return this.listBanner();
+          if (!response.data.filterBanners.success) return this.list();
           stores.bannerStore.filterBannerList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);

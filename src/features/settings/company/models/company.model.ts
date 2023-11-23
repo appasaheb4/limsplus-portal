@@ -25,7 +25,7 @@ export class Company {
   sacCode: string;
   cinNo: string;
   companyLogo: any;
-  friLine: string;
+  fyiLine: string;
   workLine: string;
   dateCreation: Date;
   dateActive: Date;
@@ -61,7 +61,7 @@ export class Company {
     this.gst = rawData.gst;
     this.sacCode = rawData.sacCode;
     this.cinNo = rawData.cinNo;
-    this.friLine = rawData.friLine;
+    this.fyiLine = rawData.fyiLine;
     this.workLine = rawData.workLine;
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;

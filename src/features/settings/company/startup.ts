@@ -1,9 +1,9 @@
-import { stores } from '@/stores';
+// import { stores } from '@/stores';
 // import { eventEmitter } from '@/core-utils';
 const startup = async () => {
-  setTimeout(() => {
-    stores.companyStore.companyService.listAllBanner();
-  }, 2000);
+  // setTimeout(() => {
+  //   stores.companyStore.companyService.listAllBanner();
+  // }, 2000);
 };
 
 // export const resetBanner = () => {
