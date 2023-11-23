@@ -1,6 +1,6 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
-export const BANNER_LIST = gql`
+export const COMPANY_LIST = gql`
   mutation ($input: BannerInput!) {
     banners(input: $input) {
       paginatorInfo {
@@ -19,16 +19,16 @@ export const BANNER_LIST = gql`
   }
 `;
 
-export const CREATE_BANNER = gql`
-  mutation ($input: CreateBannerInput!) {
-    createBanner(input: $input) {
+export const CREATE_COMPANY = gql`
+  mutation ($input: CreateCompanyInput!) {
+    createCompany(input: $input) {
       success
       message
     }
   }
 `;
 
-export const REMOVE_BANNERS = gql`
+export const REMOVE_COMPANY = gql`
   mutation ($input: RemoveBannerInput!) {
     removeBanner(input: $input) {
       success
@@ -37,7 +37,7 @@ export const REMOVE_BANNERS = gql`
   }
 `;
 
-export const UPDATE_BANNER = gql`
+export const UPDATE_COMPANY = gql`
   mutation ($input: UpdateBannerInput!) {
     updateBanner(input: $input) {
       success
@@ -46,7 +46,7 @@ export const UPDATE_BANNER = gql`
   }
 `;
 
-export const UPDATE_BANNER_IMAGE = gql`
+export const UPDATE_IMAGE = gql`
   mutation ($input: UpdateBannerInput!) {
     updateBannerImage(input: $input) {
       success

@@ -50,12 +50,9 @@ const NoticeBoard = NoticeBoardHoc(
 
     const onNoticeBoardSubmit = () => {
       noticeBoardStore.NoticeBoardService.addNoticeBoard({
-        input: isImport
-          ? { isImport, arrImportRecords }
-          : {
-              isImport,
-              ...noticeBoardStore.noticeBoard,
-            },
+        input: {
+          ...noticeBoardStore.noticeBoard,
+        },
       }).then(res => {
         if (res.createNoticeBoard.success) {
           Toast.success({
