@@ -117,11 +117,11 @@ const Banner = BannerHoc(
                       value={value ? value?.filename : ''}
                       hasError={!!errors.image}
                       onChange={e => {
-                        const image = e.target.files[0];
-                        onChange(image);
+                        const file = e.target.files[0];
+                        onChange(file);
                         bannerStore.updateBanner({
                           ...bannerStore.banner,
-                          image,
+                          file,
                         });
                       }}
                     />

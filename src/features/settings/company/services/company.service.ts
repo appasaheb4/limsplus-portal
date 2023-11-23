@@ -7,11 +7,11 @@
 import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
 import {
-  BANNER_LIST,
-  REMOVE_BANNERS,
-  UPDATE_BANNER,
-  CREATE_BANNER,
-  UPDATE_BANNER_IMAGE,
+  COMPANY_LIST,
+  REMOVE_COMPANY,
+  UPDATE_COMPANY,
+  CREATE_COMPANY,
+  UPDATE_IMAGE,
   FILTER,
 } from './mutation';
 
@@ -20,7 +20,7 @@ export class CompanyService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: BANNER_LIST,
+          mutation: COMPANY_LIST,
           variables: { input: { page, limit } },
         })
         .then((response: any) => {
@@ -36,7 +36,7 @@ export class CompanyService {
     new Promise<any>(async (resolve, reject) => {
       await client
         .mutate({
-          mutation: CREATE_BANNER,
+          mutation: CREATE_COMPANY,
           variables: banner,
         })
         .then((response: any) => {
@@ -51,7 +51,7 @@ export class CompanyService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: REMOVE_BANNERS,
+          mutation: REMOVE_COMPANY,
           variables,
         })
         .then((response: any) => {
@@ -66,7 +66,7 @@ export class CompanyService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: UPDATE_BANNER,
+          mutation: UPDATE_COMPANY,
           variables,
         })
         .then((response: any) => {
@@ -81,7 +81,7 @@ export class CompanyService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: UPDATE_BANNER_IMAGE,
+          mutation: UPDATE_IMAGE,
           variables,
         })
         .then((response: any) => {

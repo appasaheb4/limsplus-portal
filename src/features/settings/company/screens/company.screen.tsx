@@ -54,9 +54,9 @@ const Company = CompanyHoc(
             : { isImport, ...companyStore.company },
         })
         .then(res => {
-          if (res.createBanner.success) {
+          if (res.createCompany.success) {
             Toast.success({
-              message: `😊 ${res.createBanner.message}`,
+              message: `😊 ${res.createCompany.message}`,
             });
             setIsHideView(true);
             reset();
