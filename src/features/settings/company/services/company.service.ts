@@ -13,6 +13,7 @@ import {
   CREATE_COMPANY,
   UPDATE_IMAGE,
   FILTER,
+  FIND_BY_FIELDS,
 } from './mutation';
 
 export class CompanyService {
@@ -100,8 +101,30 @@ export class CompanyService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterBanners.success) return this.list();
-          stores.bannerStore.filterBannerList(response.data);
+          if (!response.data.filterCompany.success) return this.list();
+          stores.companyStore.updateCompanyList({
+            companies: {
+              data: response.data.filterCompany.data,
+              paginatorInfo: response.data.filterCompany.paginatorInfo,
+            },
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })

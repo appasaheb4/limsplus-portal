@@ -191,7 +191,7 @@ export const TableBootstrap = ({
 
   const exportToExcel = () => {
     const filteredColumns = columns.filter(
-      column => !hideExcelSheet.includes(column.dataField),
+      column => !hideExcelSheet?.includes(column.dataField),
     );
 
     const workbook = new ExcelJS.Workbook();
@@ -393,7 +393,7 @@ export const TableBootstrap = ({
       const newRow = worksheet.addRow(row);
 
       // Check if any of the dynamic styling fields have values that require red background
-      dynamicStylingFields.forEach(field => {
+      dynamicStylingFields?.forEach(field => {
         const columnIndex = filteredColumns.findIndex(
           column => column.dataField === field,
         );

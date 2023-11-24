@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: AnalyteMasterInput!) {
@@ -301,7 +301,6 @@ export const FIND_BY_FIELDS = gql`
         calculationFlag
         calcyName
         rangeSetOn
-
         repetition
         picture
         units
@@ -321,7 +320,6 @@ export const FIND_BY_FIELDS = gql`
         externalComments
         analyteBottomMarker
         analyteRightMarker
-
         reagentCode
         status
         minReportable

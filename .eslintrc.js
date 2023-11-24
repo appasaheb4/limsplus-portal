@@ -28,10 +28,10 @@ module.exports = {
     '@typescript-eslint',
     'prettier',
     'folders',
-    'unused-imports',
+    // 'unused-imports',
   ],
   rules: {
-    indent: [0, 'tab', {SwitchCase: 1, VariableDeclarator: 1}],
+    indent: [0, 'tab', { SwitchCase: 1, VariableDeclarator: 1 }],
     'react/jsx-filename-extension': 0,
     'import/extensions': 0,
     'react/prop-types': 0,
@@ -120,6 +120,6 @@ module.exports = {
     ],
     'no-extra-boolean-cast': 'off',
     'react/no-children-prop': 'off',
-    'unused-imports/no-unused-imports': 'error',
+    // 'unused-imports/no-unused-imports': 'error',
   },
 };
