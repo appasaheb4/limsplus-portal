@@ -1,5 +1,36 @@
 /* eslint-disable */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+
+// export const textFilter = props => {
+//   const filter = value => {
+//     props.onFilter({
+//       value,
+//     });
+//   };
+
+//   useEffect(() => {
+//     if (props.column.filter.props.getFilter) {
+//       props.column.filter.props.getFilter(filterVal => {
+//         props.onFilter(filterVal);
+//       });
+//     }
+//   }, [props.column.filter.props.getFilter]);
+//   return (
+//     <>
+//       <div className='flex-row gap-2 inline'>
+//         <input
+//           type='text'
+//           placeholder={props.column?.text || 'Enter value...'}
+//           className='leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1'
+//           onChange={e => {
+//             const value = e.target.value;
+//             filter(value);
+//           }}
+//         />
+//       </div>
+//     </>
+//   );
+// };
 
 export const NumberFilter = props => {
   const [number, setNumber] = useState('');
@@ -20,12 +51,12 @@ export const NumberFilter = props => {
     });
   };
   const comparatorList = [
-    {value: '='},
-    {value: '!='},
-    {value: '>'},
-    {value: '>='},
-    {value: '<'},
-    {value: '<='},
+    { value: '=' },
+    { value: '!=' },
+    { value: '>' },
+    { value: '>=' },
+    { value: '<' },
+    { value: '<=' },
   ];
 
   return (
@@ -98,7 +129,7 @@ export const DateFilter = props => {
       diffFlag,
     });
   };
-  const comparatorList = [{value: '='}, {value: '>='}, {value: '<'}];
+  const comparatorList = [{ value: '=' }, { value: '>=' }, { value: '<' }];
 
   const triggerToggle = () => {
     setToggle(!toggle);

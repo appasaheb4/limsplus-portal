@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 
 import {
   Toast,
@@ -12,11 +13,16 @@ import {
   Form,
   Svg,
   ModalConfirm,
+  ManualImportTabs,
+  StaticInputTable,
+  ImportFile,
 } from '@/library/components';
-import { BannerList } from '../components';
+import { CompanyList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
+import * as XLSX from 'xlsx';
 import { RouterFlow } from '@/flows';
+import { resetCompany } from '../startup';
 
 import { CompanyHoc } from '../hoc';
 import { useStores } from '@/stores';
@@ -60,10 +66,97 @@ const Company = CompanyHoc(
             });
             setIsHideView(true);
             reset();
-            // resetBanner();
+            resetCompany();
             setArrImportRecords([]);
             setIsImport(false);
           }
+        });
+    };
+
+    const handleFileUpload = (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (evt: any) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, { type: 'binary' });
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
+        const list = data.map((item: any) => {
+          return {
+            code: item.Code,
+            name: item.Name,
+            description: item.Description,
+            module: item.Module,
+            admin: item.Admin,
+            postalCode: Number.parseInt(item['Postal Code']),
+            country: item.Country,
+            state: item.State,
+            district: item.District,
+            city: item.City,
+            area: item.Area,
+            address: item.Address,
+            mobileNo: item['Mobile No'],
+            contactNo: item['Contact No'],
+            email: item.Email,
+            web: item.Web,
+            webPortal: item['Web Portal'],
+            registeredOffice: item['Registered Office'],
+            corporateOffice: item['Corporate Office'],
+            customerCare: item['Customer Care'],
+            gst: item.GST,
+            sacCode: item['SAC Code'],
+            cinNo: item['CIN No'],
+            fyiLine: item['FYI Line'],
+            workLine: item['Work Line'],
+            environment: item?.Environment,
+            status: 'D',
+          };
+        });
+        console.log({ list });
+        setArrImportRecords(list);
+      });
+      reader.readAsBinaryString(file);
+    };
+
+    const checkExistsRecords = async (
+      fields = companyStore.company,
+      length = 0,
+      status = 'A',
+    ) => {
+      const requiredFields = ['code', 'name', 'status', 'environment'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields, status }[item])) return item;
+      });
+      if (isEmpty) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
+      return companyStore.companyService
+        .findByFields({
+          input: {
+            filter: {
+              ..._.pick({ ...fields, status }, requiredFields),
+            },
+          },
+        })
+        .then(res => {
+          console.log({ res });
+
+          if (
+            res.findByFieldsCompany?.success &&
+            res.findByFieldsCompany?.data?.length > length
+          ) {
+            //setIsExistsRecord(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else return false;
         });
     };
 
@@ -75,793 +168,832 @@ const Company = CompanyHoc(
         </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
-            show={!isHideView}
+            show={isHideView}
             onClick={() => setIsHideView(!isHideView)}
           />
         )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (!isHideView ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isHideView ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={3}>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Code'
-                      placeholder={errors.code ? 'Please Enter code' : 'Code'}
-                      hasError={!!errors.code}
-                      value={value}
-                      onChange={code => {
-                        onChange(code);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          code,
-                        });
-                      }}
-                    />
-                  )}
-                  name='code'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Name'
-                      placeholder={errors.name ? 'Please Enter name' : 'Name'}
-                      hasError={!!errors.name}
-                      value={value}
-                      onChange={name => {
-                        onChange(name);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          name,
-                        });
-                      }}
-                    />
-                  )}
-                  name='name'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Description'
-                      placeholder='Description'
-                      value={value}
-                      hasError={!!errors.description}
-                      onBlur={description => {
-                        onChange(description);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          description,
-                        });
-                      }}
-                    />
-                  )}
-                  name='description'
-                  rules={{ required: false }}
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Module'
-                      placeholder={
-                        errors.module ? 'Please Enter module' : 'Module'
-                      }
-                      hasError={!!errors.module}
-                      value={value}
-                      onChange={module => {
-                        onChange(module);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          module,
-                        });
-                      }}
-                    />
-                  )}
-                  name='module'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Admin'
-                      placeholder={
-                        errors.admin ? 'Please Enter admin' : 'Admin'
-                      }
-                      hasError={!!errors.admin}
-                      value={value}
-                      onChange={admin => {
-                        onChange(admin);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          admin,
-                        });
-                      }}
-                    />
-                  )}
-                  name='admin'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputPassword
-                      label='Password'
-                      placeholder={
-                        errors.password ? 'Please Enter password' : 'Password'
-                      }
-                      hasError={!!errors.password}
-                      value={value}
-                      onChange={password => {
-                        onChange(password);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          password,
-                        });
-                      }}
-                    />
-                  )}
-                  name='password'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Postal Code'
-                      type='number'
-                      placeholder={
-                        errors.postalCode
-                          ? 'Please Enter postal code'
-                          : 'Postal Code'
-                      }
-                      hasError={!!errors.postalCode}
-                      value={value}
-                      onChange={postalCode => {
-                        onChange(postalCode);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          postalCode,
-                        });
-                      }}
-                    />
-                  )}
-                  name='postalCode'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Country'
-                      placeholder={
-                        errors.country ? 'Please Enter country' : 'Country'
-                      }
-                      hasError={!!errors.country}
-                      value={value}
-                      onChange={country => {
-                        onChange(country);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          country,
-                        });
-                      }}
-                    />
-                  )}
-                  name='country'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='State'
-                      placeholder={
-                        errors.state ? 'Please Enter state' : 'State'
-                      }
-                      hasError={!!errors.state}
-                      value={value}
-                      onChange={state => {
-                        onChange(state);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          state,
-                        });
-                      }}
-                    />
-                  )}
-                  name='state'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='District'
-                      placeholder={
-                        errors.district ? 'Please Enter state' : 'State'
-                      }
-                      hasError={!!errors.district}
-                      value={value}
-                      onChange={district => {
-                        onChange(district);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          district,
-                        });
-                      }}
-                    />
-                  )}
-                  name='district'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='City'
-                      placeholder={errors.city ? 'Please Enter city' : 'City'}
-                      hasError={!!errors.city}
-                      value={value}
-                      onChange={city => {
-                        onChange(city);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          city,
-                        });
-                      }}
-                    />
-                  )}
-                  name='city'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Area'
-                      placeholder={errors.area ? 'Please Enter area' : 'Area'}
-                      hasError={!!errors.area}
-                      value={value}
-                      onChange={area => {
-                        onChange(area);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          area,
-                        });
-                      }}
-                    />
-                  )}
-                  name='area'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Address'
-                      placeholder='Address'
-                      value={value}
-                      hasError={!!errors.address}
-                      onBlur={address => {
-                        onChange(address);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          address,
-                        });
-                      }}
-                    />
-                  )}
-                  name='address'
-                  rules={{ required: false }}
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Mobile No'
-                      placeholder={
-                        errors.mobileNo
-                          ? 'Please Enter mobile number'
-                          : 'Mobile No'
-                      }
-                      hasError={!!errors.mobileNo}
-                      value={value}
-                      onChange={mobileNo => {
-                        onChange(mobileNo);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          mobileNo,
-                        });
-                      }}
-                    />
-                  )}
-                  name='mobileNo'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Contact No'
-                      placeholder={
-                        errors.contactNo
-                          ? 'Please Enter contact number'
-                          : 'Contact No'
-                      }
-                      hasError={!!errors.contactNo}
-                      value={value}
-                      onChange={contactNo => {
-                        onChange(contactNo);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          contactNo,
-                        });
-                      }}
-                    />
-                  )}
-                  name='contactNo'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Email'
-                      type='email'
-                      placeholder={
-                        errors.email ? 'Please Enter email' : 'Email'
-                      }
-                      hasError={!!errors.email}
-                      value={value}
-                      onChange={email => {
-                        onChange(email);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          email,
-                        });
-                      }}
-                    />
-                  )}
-                  name='email'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Web'
-                      placeholder={errors.web ? 'Please enter web' : 'Web'}
-                      hasError={!!errors.web}
-                      value={value}
-                      onChange={web => {
-                        onChange(web);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          web,
-                        });
-                      }}
-                    />
-                  )}
-                  name='web'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Web Portal'
-                      placeholder={
-                        errors.webPortal
-                          ? 'Please enter web portal'
-                          : 'Web Portal'
-                      }
-                      hasError={!!errors.webPortal}
-                      value={value}
-                      onChange={webPortal => {
-                        onChange(webPortal);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          webPortal,
-                        });
-                      }}
-                    />
-                  )}
-                  name='webPortal'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Registered Office'
-                      placeholder='Registered Office'
-                      value={value}
-                      hasError={!!errors.registeredOffice}
-                      onBlur={registeredOffice => {
-                        onChange(registeredOffice);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          registeredOffice,
-                        });
-                      }}
-                    />
-                  )}
-                  name='registeredOffice'
-                  rules={{ required: false }}
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Corporate Office'
-                      placeholder='Corporate Office'
-                      value={value}
-                      hasError={!!errors.corporateOffice}
-                      onBlur={corporateOffice => {
-                        onChange(corporateOffice);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          corporateOffice,
-                        });
-                      }}
-                    />
-                  )}
-                  name='corporateOffice'
-                  rules={{ required: false }}
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='Customer Care'
-                      placeholder={
-                        errors.customerCare
-                          ? 'Please enter customer care'
-                          : 'Customer Care'
-                      }
-                      hasError={!!errors.customerCare}
-                      value={value}
-                      onChange={customerCare => {
-                        onChange(customerCare);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          customerCare,
-                        });
-                      }}
-                    />
-                  )}
-                  name='customerCare'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='GST'
-                      placeholder={errors.gst ? 'Please enter gst' : 'GST'}
-                      hasError={!!errors.gst}
-                      value={value}
-                      onChange={gst => {
-                        onChange(gst);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          gst,
-                        });
-                      }}
-                    />
-                  )}
-                  name='gst'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='SAC Code'
-                      placeholder={
-                        errors.sacCode ? 'Please enter sac code' : 'SAC Code'
-                      }
-                      hasError={!!errors.sacCode}
-                      value={value}
-                      onChange={sacCode => {
-                        onChange(sacCode);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          sacCode,
-                        });
-                      }}
-                    />
-                  )}
-                  name='sacCode'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Input
-                      label='CIN No'
-                      placeholder={
-                        errors.cinNo ? 'Please enter cin no' : 'CIN No'
-                      }
-                      hasError={!!errors.cinNo}
-                      value={value}
-                      onChange={cinNo => {
-                        onChange(cinNo);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          cinNo,
-                        });
-                      }}
-                    />
-                  )}
-                  name='cinNo'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputFile
-                      label='Company Logo'
-                      placeholder={
-                        errors.companyLogo
-                          ? 'Please insert company logo'
-                          : 'Company Logo'
-                      }
-                      value={value ? value?.companyLogo : ''}
-                      hasError={!!errors.companyLogo}
-                      onChange={e => {
-                        const companyLogo = e.target.files[0];
-                        onChange(companyLogo);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          companyLogo,
-                        });
-                      }}
-                    />
-                  )}
-                  name='companyLogo'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='FYI Line'
-                      placeholder={
-                        errors.fyiLine ? 'Please enter FYI line' : 'FYI Line'
-                      }
-                      hasError={!!errors.fyiLine}
-                      value={value}
-                      onChange={fyiLine => {
-                        onChange(fyiLine);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          fyiLine,
-                        });
-                      }}
-                    />
-                  )}
-                  name='fyiLine'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      rows={3}
-                      label='Work Line'
-                      placeholder={
-                        errors.workLine ? 'Please enter work line' : 'Work Line'
-                      }
-                      hasError={!!errors.workLine}
-                      value={value}
-                      onChange={workLine => {
-                        onChange(workLine);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          workLine,
-                        });
-                      }}
-                    />
-                  )}
-                  name='workLine'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <Form.InputDateTime
-                      label='Date Creation'
-                      placeholder={
-                        errors.dateCreation
-                          ? 'Please Enter Date Creation'
-                          : 'Date Creation'
-                      }
-                      hasError={!!errors.dateCreation}
-                      value={value}
-                      disabled={true}
-                    />
-                  )}
-                  name='dateCreation'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <Form.InputDateTime
-                      label='Date Active'
-                      placeholder={'Date Active'}
-                      hasError={!!errors.dateActive}
-                      value={value}
-                      disabled={true}
-                    />
-                  )}
-                  name='dateActive'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputDateTime
-                      label='Date Expire'
-                      placeholder={
-                        errors.dateExpire
-                          ? 'Please Enter schedule'
-                          : 'Date Expire'
-                      }
-                      hasError={!!errors.dateExpire}
-                      value={value}
-                      onChange={dateExpire => {
-                        onChange(dateExpire);
-                        companyStore.updateCompany({
-                          ...companyStore.company,
-                          dateExpire,
-                        });
-                      }}
-                    />
-                  )}
-                  name='dateExpire'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper
-                      label='Status'
-                      hasError={!!errors.status}
-                    >
-                      <select
+            <ManualImportTabs
+              isImport={isImport}
+              onClick={flag => {
+                setIsImport(flag);
+              }}
+            />
+            {!isImport ? (
+              <Grid cols={3}>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Code'
+                        placeholder={errors.code ? 'Please Enter code' : 'Code'}
+                        hasError={!!errors.code}
                         value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status ? 'border-red  ' : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const status = e.target.value;
-                          onChange(status);
+                        onChange={code => {
+                          onChange(code);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            status,
+                            code,
                           });
                         }}
+                        onBlur={async code => {
+                          if (code) {
+                            await checkExistsRecords({
+                              ...companyStore.company,
+                              code,
+                            });
+                          }
+                        }}
+                      />
+                    )}
+                    name='code'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Name'
+                        placeholder={errors.name ? 'Please Enter name' : 'Name'}
+                        hasError={!!errors.name}
+                        value={value}
+                        onChange={name => {
+                          onChange(name);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            name,
+                          });
+                        }}
+                        onBlur={async name => {
+                          if (name) {
+                            await checkExistsRecords({
+                              ...companyStore.company,
+                              name,
+                            });
+                          }
+                        }}
+                      />
+                    )}
+                    name='name'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.MultilineInput
+                        rows={3}
+                        label='Description'
+                        placeholder='Description'
+                        value={value}
+                        hasError={!!errors.description}
+                        onBlur={description => {
+                          onChange(description);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            description,
+                          });
+                        }}
+                      />
+                    )}
+                    name='description'
+                    rules={{ required: false }}
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Module'
+                        placeholder={
+                          errors.module ? 'Please Enter module' : 'Module'
+                        }
+                        hasError={!!errors.module}
+                        value={value}
+                        onChange={module => {
+                          onChange(module);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            module,
+                          });
+                        }}
+                      />
+                    )}
+                    name='module'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Admin'
+                        placeholder={
+                          errors.admin ? 'Please Enter admin' : 'Admin'
+                        }
+                        hasError={!!errors.admin}
+                        value={value}
+                        onChange={admin => {
+                          onChange(admin);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            admin,
+                          });
+                        }}
+                      />
+                    )}
+                    name='admin'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputPassword
+                        label='Password'
+                        placeholder={
+                          errors.password ? 'Please Enter password' : 'Password'
+                        }
+                        hasError={!!errors.password}
+                        value={value}
+                        onChange={password => {
+                          onChange(password);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            password,
+                          });
+                        }}
+                      />
+                    )}
+                    name='password'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Postal Code'
+                        type='number'
+                        placeholder={
+                          errors.postalCode
+                            ? 'Please Enter postal code'
+                            : 'Postal Code'
+                        }
+                        hasError={!!errors.postalCode}
+                        value={value}
+                        onChange={postalCode => {
+                          onChange(postalCode);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            postalCode: Number.parseInt(postalCode),
+                          });
+                        }}
+                      />
+                    )}
+                    name='postalCode'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Country'
+                        placeholder={
+                          errors.country ? 'Please Enter country' : 'Country'
+                        }
+                        hasError={!!errors.country}
+                        value={value}
+                        onChange={country => {
+                          onChange(country);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            country,
+                          });
+                        }}
+                      />
+                    )}
+                    name='country'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='State'
+                        placeholder={
+                          errors.state ? 'Please Enter state' : 'State'
+                        }
+                        hasError={!!errors.state}
+                        value={value}
+                        onChange={state => {
+                          onChange(state);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            state,
+                          });
+                        }}
+                      />
+                    )}
+                    name='state'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='District'
+                        placeholder={
+                          errors.district ? 'Please Enter state' : 'State'
+                        }
+                        hasError={!!errors.district}
+                        value={value}
+                        onChange={district => {
+                          onChange(district);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            district,
+                          });
+                        }}
+                      />
+                    )}
+                    name='district'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='City'
+                        placeholder={errors.city ? 'Please Enter city' : 'City'}
+                        hasError={!!errors.city}
+                        value={value}
+                        onChange={city => {
+                          onChange(city);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            city,
+                          });
+                        }}
+                      />
+                    )}
+                    name='city'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Area'
+                        placeholder={errors.area ? 'Please Enter area' : 'Area'}
+                        hasError={!!errors.area}
+                        value={value}
+                        onChange={area => {
+                          onChange(area);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            area,
+                          });
+                        }}
+                      />
+                    )}
+                    name='area'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.MultilineInput
+                        rows={3}
+                        label='Address'
+                        placeholder='Address'
+                        value={value}
+                        hasError={!!errors.address}
+                        onBlur={address => {
+                          onChange(address);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            address,
+                          });
+                        }}
+                      />
+                    )}
+                    name='address'
+                    rules={{ required: false }}
+                  />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Mobile No'
+                        placeholder={
+                          errors.mobileNo
+                            ? 'Please Enter mobile number'
+                            : 'Mobile No'
+                        }
+                        hasError={!!errors.mobileNo}
+                        value={value}
+                        onChange={mobileNo => {
+                          onChange(mobileNo);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            mobileNo,
+                          });
+                        }}
+                      />
+                    )}
+                    name='mobileNo'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Contact No'
+                        placeholder={
+                          errors.contactNo
+                            ? 'Please Enter contact number'
+                            : 'Contact No'
+                        }
+                        hasError={!!errors.contactNo}
+                        value={value}
+                        onChange={contactNo => {
+                          onChange(contactNo);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            contactNo,
+                          });
+                        }}
+                      />
+                    )}
+                    name='contactNo'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Email'
+                        type='email'
+                        placeholder={
+                          errors.email ? 'Please Enter email' : 'Email'
+                        }
+                        hasError={!!errors.email}
+                        value={value}
+                        onChange={email => {
+                          onChange(email);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            email,
+                          });
+                        }}
+                      />
+                    )}
+                    name='email'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Web'
+                        placeholder={errors.web ? 'Please enter web' : 'Web'}
+                        hasError={!!errors.web}
+                        value={value}
+                        onChange={web => {
+                          onChange(web);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            web,
+                          });
+                        }}
+                      />
+                    )}
+                    name='web'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Web Portal'
+                        placeholder={
+                          errors.webPortal
+                            ? 'Please enter web portal'
+                            : 'Web Portal'
+                        }
+                        hasError={!!errors.webPortal}
+                        value={value}
+                        onChange={webPortal => {
+                          onChange(webPortal);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            webPortal,
+                          });
+                        }}
+                      />
+                    )}
+                    name='webPortal'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.MultilineInput
+                        rows={3}
+                        label='Registered Office'
+                        placeholder='Registered Office'
+                        value={value}
+                        hasError={!!errors.registeredOffice}
+                        onBlur={registeredOffice => {
+                          onChange(registeredOffice);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            registeredOffice,
+                          });
+                        }}
+                      />
+                    )}
+                    name='registeredOffice'
+                    rules={{ required: false }}
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.MultilineInput
+                        rows={3}
+                        label='Corporate Office'
+                        placeholder='Corporate Office'
+                        value={value}
+                        hasError={!!errors.corporateOffice}
+                        onBlur={corporateOffice => {
+                          onChange(corporateOffice);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            corporateOffice,
+                          });
+                        }}
+                      />
+                    )}
+                    name='corporateOffice'
+                    rules={{ required: false }}
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Customer Care'
+                        placeholder={
+                          errors.customerCare
+                            ? 'Please enter customer care'
+                            : 'Customer Care'
+                        }
+                        hasError={!!errors.customerCare}
+                        value={value}
+                        onChange={customerCare => {
+                          onChange(customerCare);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            customerCare,
+                          });
+                        }}
+                      />
+                    )}
+                    name='customerCare'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='GST'
+                        placeholder={errors.gst ? 'Please enter gst' : 'GST'}
+                        hasError={!!errors.gst}
+                        value={value}
+                        onChange={gst => {
+                          onChange(gst);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            gst,
+                          });
+                        }}
+                      />
+                    )}
+                    name='gst'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='SAC Code'
+                        placeholder={
+                          errors.sacCode ? 'Please enter sac code' : 'SAC Code'
+                        }
+                        hasError={!!errors.sacCode}
+                        value={value}
+                        onChange={sacCode => {
+                          onChange(sacCode);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            sacCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='sacCode'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='CIN No'
+                        placeholder={
+                          errors.cinNo ? 'Please enter cin no' : 'CIN No'
+                        }
+                        hasError={!!errors.cinNo}
+                        value={value}
+                        onChange={cinNo => {
+                          onChange(cinNo);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            cinNo,
+                          });
+                        }}
+                      />
+                    )}
+                    name='cinNo'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputFile
+                        label='Company Logo'
+                        placeholder={
+                          errors.companyLogo
+                            ? 'Please insert company logo'
+                            : 'Company Logo'
+                        }
+                        value={value ? value?.companyLogo : ''}
+                        hasError={!!errors.companyLogo}
+                        onChange={e => {
+                          const companyLogo = e.target.files[0];
+                          onChange(companyLogo);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            companyLogo,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyLogo'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.MultilineInput
+                        rows={3}
+                        label='FYI Line'
+                        placeholder={
+                          errors.fyiLine ? 'Please enter FYI line' : 'FYI Line'
+                        }
+                        hasError={!!errors.fyiLine}
+                        value={value}
+                        onChange={fyiLine => {
+                          onChange(fyiLine);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            fyiLine,
+                          });
+                        }}
+                      />
+                    )}
+                    name='fyiLine'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.MultilineInput
+                        rows={3}
+                        label='Work Line'
+                        placeholder={
+                          errors.workLine
+                            ? 'Please enter work line'
+                            : 'Work Line'
+                        }
+                        hasError={!!errors.workLine}
+                        value={value}
+                        onChange={workLine => {
+                          onChange(workLine);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            workLine,
+                          });
+                        }}
+                      />
+                    )}
+                    name='workLine'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <Form.InputDateTime
+                        label='Date Creation'
+                        placeholder={
+                          errors.dateCreation
+                            ? 'Please Enter Date Creation'
+                            : 'Date Creation'
+                        }
+                        hasError={!!errors.dateCreation}
+                        value={value}
+                        disabled={true}
+                      />
+                    )}
+                    name='dateCreation'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { value } }) => (
+                      <Form.InputDateTime
+                        label='Date Active'
+                        placeholder={'Date Active'}
+                        hasError={!!errors.dateActive}
+                        value={value}
+                        disabled={true}
+                      />
+                    )}
+                    name='dateActive'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputDateTime
+                        label='Date Expire'
+                        placeholder={
+                          errors.dateExpire
+                            ? 'Please Enter schedule'
+                            : 'Date Expire'
+                        }
+                        hasError={!!errors.dateExpire}
+                        value={value}
+                        onChange={dateExpire => {
+                          onChange(dateExpire);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            dateExpire,
+                          });
+                        }}
+                      />
+                    )}
+                    name='dateExpire'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Status'
+                        hasError={!!errors.status}
                       >
-                        <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                          (item: any, index: number) => (
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.status ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const status = e.target.value;
+                            onChange(status);
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              status,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='status'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper label='Environment'>
+                        <select
+                          value={value}
+                          disabled={
+                            loginStore.login &&
+                            loginStore.login.role !== 'SYSADMIN'
+                              ? true
+                              : false
+                          }
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.environment
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const environment = e.target.value;
+                            onChange(environment);
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              environment,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
                             </option>
-                          ),
-                        )}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='status'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          companyStore.updateCompany({
-                            ...companyStore.company,
-                            environment,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-              </List>
-            </Grid>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='environment'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                </List>
+              </Grid>
+            ) : (
+              <>
+                {arrImportRecords?.length > 0 ? (
+                  <StaticInputTable data={arrImportRecords} />
+                ) : (
+                  <ImportFile
+                    onClick={file => {
+                      handleFileUpload(file[0]);
+                    }}
+                  />
+                )}
+              </>
+            )}
+
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button
@@ -878,7 +1010,7 @@ const Company = CompanyHoc(
                 icon={Svg.Remove}
                 onClick={() => {
                   reset();
-                  // resetBanner();
+                  resetCompany();
                 }}
               >
                 Clear
@@ -886,9 +1018,9 @@ const Company = CompanyHoc(
             </List>
           </div>
           <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-            <BannerList
+            <CompanyList
               data={companyStore.companyList || []}
-              totlaSize={companyStore.companyListCount}
+              totalSize={companyStore.companyListCount}
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
@@ -966,9 +1098,9 @@ const Company = CompanyHoc(
                     })
                     .then((res: any) => {
                       setModalConfirm({ show: false });
-                      if (res.removeBanner.success) {
+                      if (res.removeCompany.success) {
                         Toast.success({
-                          message: `😊 ${res.removeBanner.message}`,
+                          message: `😊 ${res.removeCompany.message}`,
                         });
                         if (global?.filter?.mode == 'pagination')
                           companyStore.companyService.list(
@@ -1000,9 +1132,9 @@ const Company = CompanyHoc(
                     })
                     .then((res: any) => {
                       setModalConfirm({ show: false });
-                      if (res.updateBanner.success) {
+                      if (res.updateCompany.success) {
                         Toast.success({
-                          message: `😊 ${res.updateBanner.message}`,
+                          message: `😊 ${res.updateCompany.message}`,
                         });
                         if (global?.filter?.mode == 'pagination')
                           companyStore.companyService.list(

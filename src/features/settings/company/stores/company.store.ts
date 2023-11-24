@@ -24,7 +24,6 @@ export class CompanyStore {
   reset() {
     this.company = new Company({
       ...this.company,
-      status: 'A',
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
@@ -44,8 +43,7 @@ export class CompanyStore {
   }
 
   updateCompanyList(res: any) {
-    if (!res.banners.success) return alert(res.banners.message);
-    this.companyList = res.banners.data;
-    this.companyListCount = res.banners.paginatorInfo.count;
+    this.companyList = res.companies.data;
+    this.companyListCount = res.companies.paginatorInfo.count;
   }
 }

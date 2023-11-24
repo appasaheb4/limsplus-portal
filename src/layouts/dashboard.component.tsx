@@ -27,7 +27,7 @@ import * as Deginisation from '@/features/master/deginisation';
 import * as Lab from '@/features/master/labs';
 import * as Role from '@/features/settings/roles';
 import * as Department from '@/features/master/department';
-import * as User from '@/features/settings/users';
+
 import * as RoleMappping from '@/features/settings/mapping/role';
 import * as Environment from '@/features/settings/environment';
 import * as Lookup from '@/features/master/lookup';
@@ -53,6 +53,10 @@ import * as Library from '@/features/master/library';
 import * as PriceList from '@/features/master/price-list';
 import * as ReferenceRanges from '@/features/master/reference-ranges';
 import * as CommentManager from '@/features/master/comment-manager';
+
+// settings
+import * as User from '@/features/settings/users';
+import * as Company from '@/features/settings/company';
 
 // communication
 import * as InterfaceManager from '@/features/communication/interface-manager';
@@ -260,6 +264,9 @@ const Dashboard = ({ children }) => {
       }
       if (pathname === '/communication/transmitted-message') {
         await TransmittedMessage.startup();
+      }
+      if (pathname === '/settings/company') {
+        await Company.startup();
       }
       // registration
       if (pathname === '/registration/patient') {

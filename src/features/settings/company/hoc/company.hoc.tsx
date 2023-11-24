@@ -6,26 +6,19 @@ import { getDefaultLookupItem } from '@/library/utils';
 export const CompanyHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { loginStore, bannerStore, routerStore } = useStores();
+    const { loginStore, companyStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-      bannerStore.updateBanner({
-        ...bannerStore.banner,
+      companyStore.updateCompany({
+        ...companyStore.company,
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',
         ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
-        bannerStore.updateBanner({
-          ...bannerStore.banner,
-          environment: loginStore.login.environment,
-        });
-      }
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
-
     return <Component {...props} />;
   });
 };
