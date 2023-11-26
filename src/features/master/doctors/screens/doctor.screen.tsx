@@ -155,6 +155,38 @@ const Doctors = DoctorsHoc(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      doctorsStore.doctorsService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateDoctor.success) {
+            setModalConfirm({ show: false });
+            Toast.success({
+              message: `😊 ${res.updateDoctor.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              doctorsStore.fetchDoctors(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              doctorsStore.doctorsService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else doctorsStore.fetchDoctors();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <DoctorsList
@@ -248,6 +280,12 @@ const Doctors = DoctorsHoc(
                 body: 'Update deginisation!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1189,7 +1227,6 @@ const Doctors = DoctorsHoc(
                           } rounded-md`}
                           onChange={e => {
                             const lab = e.target.value;
-                           
 
                             onChange(lab);
                             doctorsStore.updateDoctors({
@@ -1710,36 +1747,10 @@ const Doctors = DoctorsHoc(
                   break;
                 }
                 case 'Update': {
-                  doctorsStore.doctorsService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateDoctor.success) {
-                        setModalConfirm({ show: false });
-                        Toast.success({
-                          message: `😊 ${res.updateDoctor.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          doctorsStore.fetchDoctors(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          doctorsStore.doctorsService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else doctorsStore.fetchDoctors();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
 
                   break;
                 }

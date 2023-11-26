@@ -131,6 +131,37 @@ export const Library = LibraryHoc(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      libraryStore.libraryService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateLibrary.success) {
+            Toast.success({
+              message: `😊 ${res.updateLibrary.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              libraryStore.fetchLibrary(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              libraryStore.libraryService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else libraryStore.fetchLibrary();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <LibraryList
@@ -218,6 +249,12 @@ export const Library = LibraryHoc(
                 body: 'Update library!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -912,35 +949,11 @@ export const Library = LibraryHoc(
                 }
 
                 case 'Update': {
-                  libraryStore.libraryService
-                    .updateSingleFiled({
-                      input: {
-                        ...modalConfirm.data.fields,
-                        _id: modalConfirm.data.id,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateLibrary.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateLibrary.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          libraryStore.fetchLibrary(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          libraryStore.libraryService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else libraryStore.fetchLibrary();
-                      }
-                    });
+                  onUpdateSingleField({
+                    ...modalConfirm.data.fields,
+                    _id: modalConfirm.data.id,
+                  });
+
                   break;
                 }
                 case 'versionUpgrade': {

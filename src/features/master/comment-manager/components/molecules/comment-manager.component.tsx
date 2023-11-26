@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
@@ -12,6 +12,7 @@ import {
   DepartmentList,
   Form,
   Toast,
+  ModalDateTime,
 } from '@/library/components';
 import { InvestigationDetails, InstType } from '..';
 import { Confirm } from '@/library/models';
@@ -64,9 +65,15 @@ interface CommentManagerListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 
 export const CommentManagerList = (props: CommentManagerListProps) => {
+  const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -945,7 +952,8 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
             },
             {
               dataField: 'dateExpire',
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               text: 'Date Expire',
               headerClasses: 'textHeader11',
               sort: true,
@@ -972,6 +980,38 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                   </>
                 );
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <ModalDateTime
+                    visible={true}
+                    use12Hours={true}
+                    data={row?.dateExpire}
+                    isSingleDatePicker={true}
+                    isDateTimePicker={false}
+                    onUpdate={dateExpire => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
+                          dateExpire,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'versions',

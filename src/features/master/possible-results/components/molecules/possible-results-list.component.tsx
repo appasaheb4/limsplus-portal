@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
@@ -14,6 +14,7 @@ import {
   textFilter,
   customFilter,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteFilterSingleSelectAnalyteCode } from '../index';
@@ -49,9 +50,15 @@ interface PossibleResultsListProps {
   ) => void;
   onApproval: (record: any) => void;
   onUpdateFileds?: (fields: any, id: string) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
+  const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -591,7 +598,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           },
           {
             dataField: 'dateExpire',
-            editable: false,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             text: 'Date Expire',
             headerClasses: 'textHeader11',
             sort: true,
@@ -633,11 +640,25 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               columnIndex,
             ) => (
               <>
-                <Form.InputDateTime
-                  value={new Date(row.dateExpire)}
-                  onFocusRemove={dateExpire => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(dateExpire, column.dataField, row._id);
+                <ModalDateTime
+                  visible={true}
+                  use12Hours={true}
+                  data={row?.dateExpire}
+                  isSingleDatePicker={true}
+                  isDateTimePicker={false}
+                  onUpdate={dateExpire => {
+                    setModalDetails({ visible: false });
+                    props.onSingleDirectUpdateField &&
+                      props.onSingleDirectUpdateField(
+                        dateExpire,
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                  onClose={() => {
+                    setModalDetails({
+                      visible: false,
+                    });
                   }}
                 />
               </>

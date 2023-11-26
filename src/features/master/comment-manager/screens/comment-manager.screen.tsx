@@ -139,6 +139,38 @@ const CommentManager = CommentManagerHoc(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      commentManagerStore.commentManagerService
+        .update({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateCommentManager.success) {
+            Toast.success({
+              message: `😊 ${res.updateCommentManager.message}`,
+            });
+            commentManagerStore.commentManagerService.list();
+            // if (global?.filter?.mode == 'pagination')
+            //   libraryStore.fetchLibrary(
+            //     global?.filter?.page,
+            //     global?.filter?.limit,
+            //   );
+            // else if (global?.filter?.mode == 'filter')
+            //   libraryStore.libraryService.filter({
+            //     input: {
+            //       type: global?.filter?.type,
+            //       filter: global?.filter?.filter,
+            //       page: global?.filter?.page,
+            //       limit: global?.filter?.limit,
+            //     },
+            //   });
+            // else libraryStore.fetchLibrary();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <CommentManagerList
@@ -222,6 +254,12 @@ const CommentManager = CommentManagerHoc(
                 body: 'Update Comment Manager!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1241,36 +1279,11 @@ const CommentManager = CommentManagerHoc(
                   break;
                 }
                 case 'Update': {
-                  commentManagerStore.commentManagerService
-                    .update({
-                      input: {
-                        ...modalConfirm.data.fields,
-                        _id: modalConfirm.data.id,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateCommentManager.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateCommentManager.message}`,
-                        });
-                        commentManagerStore.commentManagerService.list();
-                        // if (global?.filter?.mode == 'pagination')
-                        //   libraryStore.fetchLibrary(
-                        //     global?.filter?.page,
-                        //     global?.filter?.limit,
-                        //   );
-                        // else if (global?.filter?.mode == 'filter')
-                        //   libraryStore.libraryService.filter({
-                        //     input: {
-                        //       type: global?.filter?.type,
-                        //       filter: global?.filter?.filter,
-                        //       page: global?.filter?.page,
-                        //       limit: global?.filter?.limit,
-                        //     },
-                        //   });
-                        // else libraryStore.fetchLibrary();
-                      }
-                    });
+                  onUpdateSingleField({
+                    ...modalConfirm.data.fields,
+                    _id: modalConfirm.data.id,
+                  });
+
                   break;
                 }
                 case 'versionUpgrade': {

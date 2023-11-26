@@ -43,6 +43,11 @@ interface PatientVisitProps {
     totalSize: number,
   ) => void;
   onDirectUpdateField?: (field: any, id: any) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 
 let labId;
@@ -212,11 +217,25 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    value={new Date(row.visitDate)}
-                    onFocusRemove={visitDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(visitDate, 'visitDate', row._id);
+                  <ModalDateTime
+                    visible={true}
+                    use12Hours={true}
+                    data={row?.visitDate}
+                    isSingleDatePicker={true}
+                    isDateTimePicker={true}
+                    onUpdate={value => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
+                          value,
+                          'visitDate',
+                          row._id,
+                        );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -265,15 +284,25 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    value={new Date(row.registrationDate)}
-                    onFocusRemove={registrationDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
+                  <ModalDateTime
+                    visible={true}
+                    use12Hours={true}
+                    data={row?.registrationDate}
+                    isSingleDatePicker={true}
+                    isDateTimePicker={true}
+                    onUpdate={registrationDate => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
                           registrationDate,
                           column.dataField,
                           row._id,
                         );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -320,15 +349,25 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    value={new Date(row.collectionDate)}
-                    onFocusRemove={collectionDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
+                  <ModalDateTime
+                    visible={true}
+                    use12Hours={true}
+                    data={row?.collectionDate}
+                    isSingleDatePicker={true}
+                    isDateTimePicker={true}
+                    onUpdate={collectionDate => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
                           collectionDate,
                           column.dataField,
                           row._id,
                         );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -373,10 +412,25 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    onFocusRemove={dueDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(dueDate, column.dataField, row._id);
+                  <ModalDateTime
+                    visible={true}
+                    use12Hours={true}
+                    data={row?.dueDate ? row?.dueDate : new Date()}
+                    isSingleDatePicker={true}
+                    isDateTimePicker={true}
+                    onUpdate={dueDate => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
+                          dueDate,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
