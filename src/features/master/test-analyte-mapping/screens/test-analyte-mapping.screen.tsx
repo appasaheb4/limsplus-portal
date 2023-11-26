@@ -187,6 +187,36 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         });
       }
     };
+    const onUpdateSingleField = payload => {
+      testAnalyteMappingStore.testAnalyteMappingService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateTestAnalyteMapping.success) {
+            Toast.success({
+              message: `😊 ${res.updateTestAnalyteMapping.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              testAnalyteMappingStore.fetchTestAnalyteMapping(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              testAnalyteMappingStore.testAnalyteMappingService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else testAnalyteMappingStore.fetchTestAnalyteMapping();
+          }
+        });
+    };
 
     const tableView = useMemo(
       () => (
@@ -289,6 +319,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 body: 'Update Test Analyte Mapping!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1603,37 +1639,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   break;
                 }
                 case 'Update': {
-                  testAnalyteMappingStore.testAnalyteMappingService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateTestAnalyteMapping.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateTestAnalyteMapping.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          testAnalyteMappingStore.fetchTestAnalyteMapping(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          testAnalyteMappingStore.testAnalyteMappingService.filter(
-                            {
-                              input: {
-                                type: global?.filter?.type,
-                                filter: global?.filter?.filter,
-                                page: global?.filter?.page,
-                                limit: global?.filter?.limit,
-                              },
-                            },
-                          );
-                        else testAnalyteMappingStore.fetchTestAnalyteMapping();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
 
                   break;
                 }

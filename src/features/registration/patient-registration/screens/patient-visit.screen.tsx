@@ -235,6 +235,30 @@ export const PatientVisit = PatientVisitHoc(
         });
     };
 
+    const onUpdateSingleField = payload => {
+      patientVisitStore.patientVisitService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePatientVisit.success) {
+            Toast.success({
+              message: `😊 ${res.updatePatientVisit.message}`,
+            });
+            for (const [key, value] of Object.entries(
+              patientRegistrationStore.defaultValues,
+            )) {
+              if (typeof value === 'string' && !_.isEmpty(value)) {
+                patientRegistrationStore.getPatientRegRecords(key, value);
+                break;
+              }
+            }
+          }
+        });
+    };
+
     const patientVisitList = useMemo(
       () => (
         <PatientVisitList
@@ -302,6 +326,12 @@ export const PatientVisit = PatientVisitHoc(
             onUpdateField({
               _id: id,
               ...field,
+            });
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
             });
           }}
         />
@@ -2266,6 +2296,12 @@ export const PatientVisit = PatientVisitHoc(
                           input: { type, filter, page, limit },
                         });
                       }}
+                      onSingleDirectUpdateField={(value, dataField, id) => {
+                        onUpdateSingleField({
+                          _id: id,
+                          [dataField]: value,
+                        });
+                      }}
                     />
                   </div>
                 </>
@@ -2310,31 +2346,10 @@ export const PatientVisit = PatientVisitHoc(
                 break;
               }
               case 'update': {
-                patientVisitStore.patientVisitService
-                  .updateSingleFiled({
-                    input: {
-                      _id: modalConfirm.data.id,
-                      [modalConfirm.data.dataField]: modalConfirm.data.value,
-                    },
-                  })
-                  .then((res: any) => {
-                    if (res.updatePatientVisit.success) {
-                      Toast.success({
-                        message: `😊 ${res.updatePatientVisit.message}`,
-                      });
-                      for (const [key, value] of Object.entries(
-                        patientRegistrationStore.defaultValues,
-                      )) {
-                        if (typeof value === 'string' && !_.isEmpty(value)) {
-                          patientRegistrationStore.getPatientRegRecords(
-                            key,
-                            value,
-                          );
-                          break;
-                        }
-                      }
-                    }
-                  });
+                onUpdateSingleField({
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                });
 
                 break;
               }

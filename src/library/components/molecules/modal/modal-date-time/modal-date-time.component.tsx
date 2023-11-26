@@ -16,6 +16,7 @@ type Props = {
   visible?: boolean;
   data?: string;
   rowData?: any;
+  use12Hours?: boolean;
   onUpdate?: (birthDate: any) => void;
   onClose?: () => void;
 };
@@ -28,6 +29,7 @@ export const ModalDateTime: React.FC<Props> = ({
   onUpdate,
   onClose,
   rowData,
+  use12Hours = false,
 }) => {
   const { routerStore } = useStores();
   const [value, setValue] = useState<any>(data);
@@ -70,11 +72,7 @@ export const ModalDateTime: React.FC<Props> = ({
               >
                 {/*header*/}
                 <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                  <h3 className='text-3xl font-semibold'>
-                    {isSingleDatePicker
-                      ? 'Update BirthDate'
-                      : 'Update Patient Visit Values'}
-                  </h3>
+                  <h3 className='text-3xl font-semibold'>Update Date</h3>
                   <button
                     className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                     onClick={() => {
@@ -103,7 +101,7 @@ export const ModalDateTime: React.FC<Props> = ({
                         <Form.InputDateTime
                           label=''
                           placeholder='BirthDate'
-                          use12Hours={false}
+                          use12Hours={use12Hours}
                           value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {
@@ -120,7 +118,7 @@ export const ModalDateTime: React.FC<Props> = ({
                         <Form.DatePicker
                           label=''
                           placeholder='BirthDate'
-                          use12Hours={false}
+                          use12Hours={use12Hours}
                           value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {

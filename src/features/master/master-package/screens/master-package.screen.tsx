@@ -184,6 +184,37 @@ const MasterPackage = MasterPackageHOC(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      masterPackageStore.masterPackageService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePackageMaster.success) {
+            Toast.success({
+              message: `😊 ${res.updatePackageMaster.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              masterPackageStore.fetchPackageMaster(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              masterPackageStore.masterPackageService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else masterPackageStore.fetchPackageMaster();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <PackageMasterList
@@ -279,6 +310,12 @@ const MasterPackage = MasterPackageHOC(
                 body: 'Update Master Package!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1334,35 +1371,11 @@ const MasterPackage = MasterPackageHOC(
                   break;
                 }
                 case 'Update': {
-                  masterPackageStore.masterPackageService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updatePackageMaster.success) {
-                        Toast.success({
-                          message: `😊 ${res.updatePackageMaster.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          masterPackageStore.fetchPackageMaster(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          masterPackageStore.masterPackageService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else masterPackageStore.fetchPackageMaster();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
+
                   break;
                 }
                 case 'updateFileds': {

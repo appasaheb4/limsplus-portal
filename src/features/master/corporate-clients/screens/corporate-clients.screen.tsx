@@ -218,6 +218,32 @@ const CorporateClients = CorporateClientsHoc(
         });
     };
 
+    const onUpdateSingleField = payload => {
+      corporateClientsStore.corporateClientsService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (global?.filter?.mode == 'pagination')
+            corporateClientsStore.fetchCorporateClients(
+              global?.filter?.page,
+              global?.filter?.limit,
+            );
+          else if (global?.filter?.mode == 'filter')
+            corporateClientsStore.corporateClientsService.filter({
+              input: {
+                type: global?.filter?.type,
+                filter: global?.filter?.filter,
+                page: global?.filter?.page,
+                limit: global?.filter?.limit,
+              },
+            });
+          else corporateClientsStore.fetchCorporateClients();
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <CorporateClient
@@ -311,6 +337,12 @@ const CorporateClients = CorporateClientsHoc(
                 body: 'Update Corporate Client!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1998,30 +2030,10 @@ const CorporateClients = CorporateClientsHoc(
                   break;
                 }
                 case 'Update': {
-                  corporateClientsStore.corporateClientsService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (global?.filter?.mode == 'pagination')
-                        corporateClientsStore.fetchCorporateClients(
-                          global?.filter?.page,
-                          global?.filter?.limit,
-                        );
-                      else if (global?.filter?.mode == 'filter')
-                        corporateClientsStore.corporateClientsService.filter({
-                          input: {
-                            type: global?.filter?.type,
-                            filter: global?.filter?.filter,
-                            page: global?.filter?.page,
-                            limit: global?.filter?.limit,
-                          },
-                        });
-                      else corporateClientsStore.fetchCorporateClients();
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
                   break;
                 }
                 case 'UpdateFileds': {

@@ -162,6 +162,37 @@ export const PriceList = PriceListHoc(
       return list || [];
     };
 
+    const onUpdateSingleField = payload => {
+      priceListStore.priceListService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePriceList.success) {
+            Toast.success({
+              message: `😊 ${res.updatePriceList.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              priceListStore.fetchListPriceList(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              priceListStore.priceListService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else priceListStore.fetchListPriceList();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <PriceListList
@@ -248,6 +279,12 @@ export const PriceList = PriceListHoc(
                 body: 'Update Price List!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1143,35 +1180,11 @@ export const PriceList = PriceListHoc(
                   break;
                 }
                 case 'update': {
-                  priceListStore.priceListService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updatePriceList.success) {
-                        Toast.success({
-                          message: `😊 ${res.updatePriceList.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          priceListStore.fetchListPriceList(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          priceListStore.priceListService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else priceListStore.fetchListPriceList();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
+
                   break;
                 }
                 case 'updateFields': {
