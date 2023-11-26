@@ -641,7 +641,6 @@ export const CompanyList = (props: CompanyListProps) => {
                 isSingleDatePicker={true}
                 isDateTimePicker={false}
                 onUpdate={dateExpire => {
-                  console.log({ dateExpire });
                   setModalDetails({ visible: false });
                   props.onSingleDirectUpdateField &&
                     props.onSingleDirectUpdateField(
