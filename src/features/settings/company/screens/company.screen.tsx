@@ -115,7 +115,6 @@ const Company = CompanyHoc(
             status: 'D',
           };
         });
-        console.log({ list });
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);
@@ -145,8 +144,6 @@ const Company = CompanyHoc(
           },
         })
         .then(res => {
-          console.log({ res });
-
           if (
             res.findByFieldsCompany?.success &&
             res.findByFieldsCompany?.data?.length > length
@@ -157,6 +154,38 @@ const Company = CompanyHoc(
             });
             return true;
           } else return false;
+        });
+    };
+
+    const onUpdateSingleField = payload => {
+      companyStore.companyService
+        .update({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          setModalConfirm({ show: false });
+          if (res.updateCompany.success) {
+            Toast.success({
+              message: `😊 ${res.updateCompany.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              companyStore.companyService.list(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              companyStore.companyService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else companyStore.companyService.list();
+          }
         });
     };
 
@@ -1085,6 +1114,12 @@ const Company = CompanyHoc(
                   body: 'Update deginisation!',
                 });
               }}
+              onSingleDirectUpdateField={(value, dataField, id) => {
+                onUpdateSingleField({
+                  _id: id,
+                  [dataField]: value,
+                });
+              }}
             />
           </div>
           <ModalConfirm
@@ -1123,36 +1158,11 @@ const Company = CompanyHoc(
                 }
 
                 case 'Update': {
-                  companyStore.companyService
-                    .update({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      setModalConfirm({ show: false });
-                      if (res.updateCompany.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateCompany.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          companyStore.companyService.list(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          companyStore.companyService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else companyStore.companyService.list();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
+
                   break;
                 }
 
