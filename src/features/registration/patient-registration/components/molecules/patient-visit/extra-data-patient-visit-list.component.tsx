@@ -337,6 +337,7 @@ export const ExtraDataPatientVisitList = observer(
                   <DateFilter onFilter={onFilter} column={column} />
                 ),
                 formatter: (cell, row) => {
+                  console.log({ row });
                   return (
                     <>
                       {dayjs(row.extraData.receivedDate).format('YYYY-MM-DD')}
@@ -355,7 +356,7 @@ export const ExtraDataPatientVisitList = observer(
                     <ModalDateTime
                       visible={true}
                       use12Hours={true}
-                      data={row?.extraData?.receivedDate}
+                      data={row.extraData.receivedDate}
                       isSingleDatePicker={true}
                       isDateTimePicker={false}
                       onUpdate={receivedDate => {

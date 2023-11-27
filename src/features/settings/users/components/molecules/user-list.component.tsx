@@ -960,11 +960,13 @@ export const UserList = (props: UserListProps) => {
               ) => (
                 <>
                   <ModalDateTime
-                    visible={true}
-                    use12Hours={true}
-                    data={row?.dateOfBirth}
-                    isSingleDatePicker={true}
-                    isDateTimePicker={false}
+                    {...{
+                      visible: true,
+                      use12Hours: true,
+                      data: row.dateOfBirth,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
                     onUpdate={dateOfBirth => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&
@@ -1019,11 +1021,13 @@ export const UserList = (props: UserListProps) => {
               ) => (
                 <>
                   <ModalDateTime
-                    visible={true}
-                    use12Hours={true}
-                    data={row?.marriageAnniversary}
-                    isSingleDatePicker={true}
-                    isDateTimePicker={false}
+                    {...{
+                      visible: true,
+                      use12Hours: true,
+                      data: row.marriageAnniversary,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&
@@ -1078,11 +1082,13 @@ export const UserList = (props: UserListProps) => {
               ) => (
                 <>
                   <ModalDateTime
-                    visible={true}
-                    use12Hours={true}
-                    data={row?.exipreDate}
-                    isSingleDatePicker={true}
-                    isDateTimePicker={false}
+                    {...{
+                      visible: true,
+                      use12Hours: false,
+                      data: row.exipreDate,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
                     onUpdate={exipreDate => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

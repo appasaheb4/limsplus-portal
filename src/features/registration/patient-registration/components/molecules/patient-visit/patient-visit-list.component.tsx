@@ -475,9 +475,13 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ) => (
                 <>
                   <ModalDateTime
-                    visible={true}
-                    rowData={row}
-                    isSingleDatePicker={false}
+                    {...{
+                      visible: true,
+                      use12Hours: true,
+                      rowData: row,
+                      isSingleDatePicker: false,
+                      isDateTimePicker: true,
+                    }}
                     onUpdate={value => {
                       setModalDetails({ visible: false });
                       if (
