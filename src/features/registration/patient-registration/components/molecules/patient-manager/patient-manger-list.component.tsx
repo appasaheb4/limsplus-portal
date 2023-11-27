@@ -247,10 +247,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               ) => (
                 <>
                   <ModalDateTime
-                    visible={true}
-                    data={row?.birthDate}
-                    isDateTimePicker={false}
-                    isSingleDatePicker={true}
+                    {...{
+                      visible: true,
+                      data: row.birthDate,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
                     onUpdate={birthDate => {
                       setModalDetails({ visible: false });
                       if (

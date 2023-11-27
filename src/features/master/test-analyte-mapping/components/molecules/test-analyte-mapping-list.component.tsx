@@ -686,11 +686,13 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               ) => (
                 <>
                   <ModalDateTime
-                    visible={true}
-                    use12Hours={true}
-                    data={row?.dateExpire}
-                    isSingleDatePicker={true}
-                    isDateTimePicker={false}
+                    {...{
+                      visible: true,
+                      use12Hours: false,
+                      data: row.dateExpire,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&
