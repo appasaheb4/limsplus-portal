@@ -44,6 +44,7 @@ export class Users {
   dateCreation: Date;
   dateActive: Date;
   createdBy: string;
+  companyCode: string;
   status: string;
   version: number;
   environment: string;
@@ -51,7 +52,7 @@ export class Users {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -87,6 +88,7 @@ export class Users {
     this.dateCreation = rawData.dateCreation;
     this.dateActive = rawData.dateActive;
     this.createdBy = rawData.createdBy;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.version = rawData.version;
     this.environment = rawData.environment;
@@ -102,7 +104,7 @@ export class SelectedItems {
   department: any[];
   corporateClient: any[];
   registrationLocation: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.roles = rawData.roles;
     this.labs = rawData.labs;
     this.department = rawData.department;

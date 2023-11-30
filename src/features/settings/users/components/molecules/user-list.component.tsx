@@ -17,6 +17,7 @@ import {
   sortCaret,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
+import { AutoCompleteCompanyList } from '@/core-components';
 import {
   AutoCompleteFilterMutiSelectRoles,
   AutoCompleteFilterSingleSelectDegnisation,
@@ -51,6 +52,7 @@ let validationLevel;
 let createdBy;
 let userGroup;
 let version;
+let companyCode;
 let status;
 let environment;
 
@@ -1304,7 +1306,47 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader2',
               editable: false,
             },
-
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
             {
               text: 'Status',
               dataField: 'status',

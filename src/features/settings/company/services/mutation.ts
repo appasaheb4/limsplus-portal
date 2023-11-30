@@ -136,6 +136,56 @@ export const FILTER = gql`
   }
 `;
 
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: CompanyInput!) {
+    filterByFieldsCompany(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        code
+        name
+        description
+        module
+        admin
+        password
+        postalCode
+        country
+        state
+        district
+        city
+        area
+        address
+        mobileNo
+        contactNo
+        email
+        web
+        webPortal
+        registeredOffice
+        corporateOffice
+        customerCare
+        gst
+        sacCode
+        cinNo
+        companyLogo
+        fyiLine
+        workLine
+        dateCreation
+        dateActive
+        dateExpire
+        enteredBy
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
 export const FIND_BY_FIELDS = gql`
   mutation ($input: CompanyInput!) {
     findByFieldsCompany(input: $input) {

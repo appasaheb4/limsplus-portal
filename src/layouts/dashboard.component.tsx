@@ -119,6 +119,7 @@ const Dashboard = ({ children }) => {
       await Department.startup();
       await User.startup();
       await Lookup.startup();
+      await Company.startup();
       // lookup item fetch
       RouterFlow.getLookupValues(pathname).then(items => {
         stores.routerStore.updateLookupItems(items);
@@ -264,9 +265,6 @@ const Dashboard = ({ children }) => {
       }
       if (pathname === '/communication/transmitted-message') {
         await TransmittedMessage.startup();
-      }
-      if (pathname === '/settings/company') {
-        await Company.startup();
       }
       // registration
       if (pathname === '/registration/patient') {

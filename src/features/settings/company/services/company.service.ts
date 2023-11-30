@@ -14,6 +14,7 @@ import {
   UPDATE_IMAGE,
   FILTER,
   FIND_BY_FIELDS,
+  FILTER_BY_FIELDS,
 } from './mutation';
 
 export class CompanyService {
@@ -125,6 +126,32 @@ export class CompanyService {
           variables,
         })
         .then((response: any) => {
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsCompany.success) return this.list();
+          stores.companyStore.updateCompanyList({
+            companies: {
+              data: response.data.filterByFieldsCompany.data,
+              paginatorInfo: {
+                count: response.data.filterByFieldsCompany.paginatorInfo.count,
+              },
+            },
+          });
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
