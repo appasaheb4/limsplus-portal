@@ -23,6 +23,7 @@ import { lookupItems, lookupValue } from '@/library/utils';
 import { UserList } from '../components';
 import dayjs from 'dayjs';
 import { FormHelper } from '@/helper';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 import { useForm, Controller } from 'react-hook-form';
 import { UsersHoc } from '../hoc';
@@ -1774,7 +1775,24 @@ export const Users = UsersHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
