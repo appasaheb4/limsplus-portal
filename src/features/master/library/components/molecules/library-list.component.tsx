@@ -10,6 +10,7 @@ import {
   customFilter,
   NumberFilter,
   DepartmentList,
+  ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import ModalDetails from './modal-details.component';
@@ -53,9 +54,15 @@ interface LibraryListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 
 export const LibraryList = (props: LibraryListProps) => {
+  const [dateExpireModal, setDateExpiryModal] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -530,7 +537,8 @@ export const LibraryList = (props: LibraryListProps) => {
             },
             {
               dataField: 'dateExpire',
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               text: 'Date Expire',
               headerClasses: 'textHeader11',
               sort: true,
@@ -561,6 +569,40 @@ export const LibraryList = (props: LibraryListProps) => {
                   </>
                 );
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <ModalDateTime
+                    {...{
+                      visible: true,
+                      use12Hours: false,
+                      data: row.dateExpire,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
+                    onUpdate={dateExpire => {
+                      setDateExpiryModal({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
+                          dateExpire,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                    onClose={() => {
+                      setDateExpiryModal({
+                        visible: false,
+                      });
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'versions',

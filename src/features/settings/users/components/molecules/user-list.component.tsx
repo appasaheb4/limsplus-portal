@@ -15,6 +15,7 @@ import {
   customFilter,
   Buttons,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteCompanyList } from '@/core-components';
@@ -80,6 +81,11 @@ interface UserListProps {
   ) => void;
   onApproval: (record: any) => void;
   reSendPassword: (details: any) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 
 export const UserList = (props: UserListProps) => {
@@ -92,6 +98,7 @@ export const UserList = (props: UserListProps) => {
 
   const [modalDefaultLabDeptUpdate, setModalDefaultLabDeptUpdate] =
     useState<ModalDefaultLabDeptUpdateProps>({ show: false });
+  const [modalDetails, setModalDetails] = useState<any>();
 
   const editorCell = (row: any) => {
     if (props?.role === 'SYSADMIN') return true;
@@ -954,16 +961,27 @@ export const UserList = (props: UserListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    disabled={!editorCell(row)}
-                    value={new Date(row.dateOfBirth)}
-                    onFocusRemove={dateOfBirth => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
+                  <ModalDateTime
+                    {...{
+                      visible: true,
+                      use12Hours: true,
+                      data: row.dateOfBirth,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
+                    onUpdate={dateOfBirth => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
                           dateOfBirth,
                           column.dataField,
                           row._id,
                         );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -1004,16 +1022,27 @@ export const UserList = (props: UserListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    disabled={!editorCell(row)}
-                    value={new Date(row.marriageAnniversary)}
-                    onFocusRemove={marriageAnniversary => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
+                  <ModalDateTime
+                    {...{
+                      visible: true,
+                      use12Hours: true,
+                      data: row.marriageAnniversary,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
+                    onUpdate={dateExpire => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
                           marriageAnniversary,
                           column.dataField,
                           row._id,
                         );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -1054,16 +1083,27 @@ export const UserList = (props: UserListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    disabled={!editorCell(row)}
-                    value={new Date(row.exipreDate)}
-                    onFocusRemove={exipreDate => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
+                  <ModalDateTime
+                    {...{
+                      visible: true,
+                      use12Hours: false,
+                      data: row.exipreDate,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
+                    onUpdate={exipreDate => {
+                      setModalDetails({ visible: false });
+                      props.onSingleDirectUpdateField &&
+                        props.onSingleDirectUpdateField(
                           exipreDate,
                           column.dataField,
                           row._id,
                         );
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>

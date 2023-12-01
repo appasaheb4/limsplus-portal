@@ -1,5 +1,5 @@
-import React from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import {
   DateFilter,
@@ -10,9 +10,10 @@ import {
   Icons,
   Tooltip,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { Confirm } from '@/library/models';
+import { lookupItems, lookupValue } from '@/library/utils';
 
 let additionalInfo;
 let invoiceAc;
@@ -52,13 +53,19 @@ interface ExtraDataPatientVisitProps {
     page: number,
     totalSize: number,
   ) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 
 export const ExtraDataPatientVisitList = observer(
   (props: ExtraDataPatientVisitProps) => {
+    const [modalDetails, setModalDetails] = useState<any>();
     return (
       <>
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           <TableBootstrap
             id='_id'
             data={props.data}
@@ -330,6 +337,7 @@ export const ExtraDataPatientVisitList = observer(
                   <DateFilter onFilter={onFilter} column={column} />
                 ),
                 formatter: (cell, row) => {
+                  console.log({ row });
                   return (
                     <>
                       {dayjs(row.extraData.receivedDate).format('YYYY-MM-DD')}
@@ -345,15 +353,25 @@ export const ExtraDataPatientVisitList = observer(
                   columnIndex,
                 ) => (
                   <>
-                    <Form.InputDateTime
-                      // value={new Date(row.receivedDate)}
-                      onFocusRemove={receivedDate => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
+                    <ModalDateTime
+                      visible={true}
+                      use12Hours={true}
+                      data={row.extraData.receivedDate}
+                      isSingleDatePicker={true}
+                      isDateTimePicker={false}
+                      onUpdate={receivedDate => {
+                        setModalDetails({ visible: false });
+                        props.onSingleDirectUpdateField &&
+                          props.onSingleDirectUpdateField(
                             receivedDate,
                             column.dataField,
                             row._id,
                           );
+                      }}
+                      onClose={() => {
+                        setModalDetails({
+                          visible: false,
+                        });
                       }}
                     />
                   </>
@@ -394,14 +412,25 @@ export const ExtraDataPatientVisitList = observer(
                   columnIndex,
                 ) => (
                   <>
-                    <Form.InputDateTime
-                      onFocusRemove={resultDate => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
+                    <ModalDateTime
+                      visible={true}
+                      use12Hours={true}
+                      data={row.extraData?.resultDate}
+                      isSingleDatePicker={true}
+                      isDateTimePicker={false}
+                      onUpdate={resultDate => {
+                        setModalDetails({ visible: false });
+                        props.onSingleDirectUpdateField &&
+                          props.onSingleDirectUpdateField(
                             resultDate,
                             column.dataField,
                             row._id,
                           );
+                      }}
+                      onClose={() => {
+                        setModalDetails({
+                          visible: false,
+                        });
                       }}
                     />
                   </>
@@ -521,14 +550,25 @@ export const ExtraDataPatientVisitList = observer(
                   columnIndex,
                 ) => (
                   <>
-                    <Form.InputDateTime
-                      onFocusRemove={approvalDate => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
+                    <ModalDateTime
+                      visible={true}
+                      use12Hours={true}
+                      data={row.extraData.approvalDate}
+                      isSingleDatePicker={true}
+                      isDateTimePicker={false}
+                      onUpdate={approvalDate => {
+                        setModalDetails({ visible: false });
+                        props.onSingleDirectUpdateField &&
+                          props.onSingleDirectUpdateField(
                             approvalDate,
                             column.dataField,
                             row._id,
                           );
+                      }}
+                      onClose={() => {
+                        setModalDetails({
+                          visible: false,
+                        });
                       }}
                     />
                   </>
@@ -685,14 +725,25 @@ export const ExtraDataPatientVisitList = observer(
                   columnIndex,
                 ) => (
                   <>
-                    <Form.InputDateTime
-                      onFocusRemove={reportedDate => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
+                    <ModalDateTime
+                      visible={true}
+                      use12Hours={true}
+                      data={row?.extraData?.reportedDate}
+                      isSingleDatePicker={true}
+                      isDateTimePicker={false}
+                      onUpdate={reportedDate => {
+                        setModalDetails({ visible: false });
+                        props.onSingleDirectUpdateField &&
+                          props.onSingleDirectUpdateField(
                             reportedDate,
                             column.dataField,
                             row._id,
                           );
+                      }}
+                      onClose={() => {
+                        setModalDetails({
+                          visible: false,
+                        });
                       }}
                     />
                   </>

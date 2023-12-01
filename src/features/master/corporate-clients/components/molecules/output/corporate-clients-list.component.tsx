@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import {
   NumberFilter,
@@ -12,6 +12,7 @@ import {
   Type,
   sortCaret,
   Toast,
+  ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -84,6 +85,11 @@ interface CorporateClientListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 
 export const CorporateClient = observer((props: CorporateClientListProps) => {
@@ -93,6 +99,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
     formState: { errors },
     setValue,
   } = useForm();
+  const [modalDetails, setModalDetails] = useState<any>();
   const { interfaceManagerStore } = useStores();
   // const [interfaceManagerList, setInterfaceManagerList] = useState([]);
   const interfaceManagerListImportRef = useRef([]);
@@ -1476,7 +1483,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
           },
           {
             dataField: 'dateExpire',
-            editable: false,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             text: 'Date Expire',
             headerClasses: 'textHeader11',
             sort: true,
@@ -1508,11 +1515,27 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               columnIndex,
             ) => (
               <>
-                <Form.InputDateTime
-                  value={new Date(row.dateExpire)}
-                  onFocusRemove={dateExpire => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(dateExpire, column.dataField, row._id);
+                <ModalDateTime
+                  {...{
+                    visible: true,
+                    use12Hours: false,
+                    data: row.dateExpire,
+                    isSingleDatePicker: true,
+                    isDateTimePicker: false,
+                  }}
+                  onUpdate={dateExpire => {
+                    setModalDetails({ visible: false });
+                    props.onSingleDirectUpdateField &&
+                      props.onSingleDirectUpdateField(
+                        dateExpire,
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                  onClose={() => {
+                    setModalDetails({
+                      visible: false,
+                    });
                   }}
                 />
               </>

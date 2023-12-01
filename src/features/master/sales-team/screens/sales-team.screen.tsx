@@ -111,6 +111,37 @@ export const SalesTeam = SalesTeamHoc(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      salesTeamStore.salesTeamService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateSalesTeam.success) {
+            Toast.success({
+              message: `😊 ${res.updateSalesTeam.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              salesTeamStore.fetchSalesTeam(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              salesTeamStore.salesTeamService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else salesTeamStore.fetchSalesTeam();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <SalesTeamList
@@ -190,6 +221,12 @@ export const SalesTeam = SalesTeamHoc(
                 body: 'Update Sales Team!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -780,35 +817,10 @@ export const SalesTeam = SalesTeamHoc(
                   break;
                 }
                 case 'Update': {
-                  salesTeamStore.salesTeamService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateSalesTeam.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateSalesTeam.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          salesTeamStore.fetchSalesTeam(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          salesTeamStore.salesTeamService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else salesTeamStore.fetchSalesTeam();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
                   break;
                 }
                 case 'versionUpgrade': {

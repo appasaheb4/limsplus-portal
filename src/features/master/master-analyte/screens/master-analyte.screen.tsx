@@ -159,6 +159,36 @@ const MasterAnalyte = MasterAnalyteHoc(
         });
       }
     };
+    const onUpdateSingleField = payload => {
+      masterAnalyteStore.masterAnalyteService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateAnalyteMaster.success) {
+            Toast.success({
+              message: `😊 ${res.updateAnalyteMaster.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              masterAnalyteStore.fetchAnalyteMaster(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              masterAnalyteStore.masterAnalyteService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else masterAnalyteStore.fetchAnalyteMaster();
+          }
+        });
+    };
 
     const tableView = useMemo(
       () => (
@@ -244,6 +274,12 @@ const MasterAnalyte = MasterAnalyteHoc(
                 body: 'Update Master Analyte!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1928,35 +1964,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                   break;
                 }
                 case 'Update': {
-                  masterAnalyteStore.masterAnalyteService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateAnalyteMaster.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateAnalyteMaster.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          masterAnalyteStore.fetchAnalyteMaster(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          masterAnalyteStore.masterAnalyteService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else masterAnalyteStore.fetchAnalyteMaster();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
 
                   break;
                 }

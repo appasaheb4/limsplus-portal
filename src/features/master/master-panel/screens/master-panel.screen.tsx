@@ -178,6 +178,37 @@ const MasterPanel = MasterPanelHoc(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      masterPanelStore.masterPanelService
+        .updateFileds({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePanelMaster.success) {
+            Toast.success({
+              message: `😊 ${res.updatePanelMaster.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              masterPanelStore.fetchPanelMaster(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              masterPanelStore.masterPanelService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else masterPanelStore.fetchPanelMaster();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <PanelMasterList
@@ -267,6 +298,12 @@ const MasterPanel = MasterPanelHoc(
                 body: 'Update Master Panel!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -2249,35 +2286,11 @@ const MasterPanel = MasterPanelHoc(
                   break;
                 }
                 case 'Update': {
-                  masterPanelStore.masterPanelService
-                    .updateFileds({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updatePanelMaster.success) {
-                        Toast.success({
-                          message: `😊 ${res.updatePanelMaster.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          masterPanelStore.fetchPanelMaster(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          masterPanelStore.masterPanelService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else masterPanelStore.fetchPanelMaster();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
+
                   break;
                 }
                 case 'UpdateFileds': {
