@@ -276,6 +276,37 @@ const RegistrationLocation = RegistrationLocationHoc(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      registrationLocationsStore.registrationLocationsService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateRegistrationLocation.success) {
+            Toast.success({
+              message: `😊 ${res.updateRegistrationLocation.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              registrationLocationsStore.fetchRegistrationLocations(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              registrationLocationsStore.registrationLocationsService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else registrationLocationsStore.fetchRegistrationLocations();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <RegistrationLocationsList
@@ -363,6 +394,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                 body: 'Update Registration Location!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -2168,38 +2205,10 @@ const RegistrationLocation = RegistrationLocationHoc(
                   break;
                 }
                 case 'Update': {
-                  registrationLocationsStore.registrationLocationsService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateRegistrationLocation.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateRegistrationLocation.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          registrationLocationsStore.fetchRegistrationLocations(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          registrationLocationsStore.registrationLocationsService.filter(
-                            {
-                              input: {
-                                type: global?.filter?.type,
-                                filter: global?.filter?.filter,
-                                page: global?.filter?.page,
-                                limit: global?.filter?.limit,
-                              },
-                            },
-                          );
-                        else
-                          registrationLocationsStore.fetchRegistrationLocations();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
 
                   break;
                 }

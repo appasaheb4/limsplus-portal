@@ -140,6 +140,33 @@ export const Users = UsersHoc(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      userStore &&
+        userStore.UsersService.updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        }).then((res: any) => {
+          if (res.updateUser.success) {
+            Toast.success({
+              message: `😊 ${res.updateUser.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              userStore.loadUser(global?.filter?.page, global?.filter?.limit);
+            else if (global?.filter?.mode == 'filter')
+              userStore.UsersService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else userStore.loadUser();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <UserList
@@ -269,6 +296,12 @@ export const Users = UsersHoc(
                 body: 'Update User!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1972,34 +2005,11 @@ export const Users = UsersHoc(
                   break;
                 }
                 case 'update': {
-                  userStore &&
-                    userStore.UsersService.updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    }).then((res: any) => {
-                      if (res.updateUser.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateUser.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          userStore.loadUser(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          userStore.UsersService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else userStore.loadUser();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
+
                   break;
                 }
                 case 'updateFields': {

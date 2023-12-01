@@ -16,6 +16,7 @@ type Props = {
   visible?: boolean;
   data?: string;
   rowData?: any;
+  use12Hours?: boolean;
   onUpdate?: (birthDate: any) => void;
   onClose?: () => void;
 };
@@ -28,6 +29,7 @@ export const ModalDateTime: React.FC<Props> = ({
   onUpdate,
   onClose,
   rowData,
+  use12Hours = false,
 }) => {
   const { routerStore } = useStores();
   const [value, setValue] = useState<any>(data);
@@ -38,7 +40,6 @@ export const ModalDateTime: React.FC<Props> = ({
     isAgeUnitDropDown: false,
   });
   const [localInput, setLocalInput] = useState<any>();
-
   useEffect(() => {
     if (isSingleDatePicker) {
       setValue(data);
@@ -60,21 +61,17 @@ export const ModalDateTime: React.FC<Props> = ({
         <>
           <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
             <div
-              className='relative w-auto my-6 mx-auto max-w-3xl'
+              className='relative my-6 mx-auto max-w-3xl '
               style={{ maxWidth: isSingleDatePicker ? '19rem' : '38rem' }}
             >
               {/*content*/}
               <div
-                className='border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none'
+                className='border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none w-full sm:w-1/2 md:w-1/3'
                 style={{ width: isSingleDatePicker ? '38vh' : '75vh' }}
               >
                 {/*header*/}
                 <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                  <h3 className='text-3xl font-semibold'>
-                    {isSingleDatePicker
-                      ? 'Update BirthDate'
-                      : 'Update Patient Visit Values'}
-                  </h3>
+                  <h3 className='text-3xl font-semibold'>Update Date</h3>
                   <button
                     className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                     onClick={() => {
@@ -102,8 +99,7 @@ export const ModalDateTime: React.FC<Props> = ({
                       {isDateTimePicker ? (
                         <Form.InputDateTime
                           label=''
-                          placeholder='BirthDate'
-                          use12Hours={false}
+                          use12Hours={true}
                           value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {
@@ -119,8 +115,7 @@ export const ModalDateTime: React.FC<Props> = ({
                       ) : (
                         <Form.DatePicker
                           label=''
-                          placeholder='BirthDate'
-                          use12Hours={false}
+                          use12Hours={use12Hours}
                           value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {
@@ -139,18 +134,18 @@ export const ModalDateTime: React.FC<Props> = ({
                 ) : (
                   <>
                     <div
-                      className='relative p-2 ml-4 flex-auto'
+                      className='relative p-2 ml-4 flex-wrap'
                       style={{
                         height: openCalender.isDropdownOpen
-                          ? '160px'
+                          ? '17vh'
                           : !openCalender.isOpenCalender
-                          ? '425px'
+                          ? '45vh'
                           : openCalender.isAgeUnitDropDown
-                          ? '200px'
-                          : '85px',
+                          ? '21vh'
+                          : '9vh',
                       }}
                     >
-                      <div className='flex  gap-2'>
+                      <div className='flex flex-wrap  gap-2'>
                         <Form.InputWrapper label='Sex'>
                           <select
                             className={
@@ -193,7 +188,7 @@ export const ModalDateTime: React.FC<Props> = ({
                             label='BirthDate'
                             isCalenderOpen={false}
                             placeholder={'BirthDate'}
-                            use12Hours={false}
+                            use12Hours={true}
                             value={localInput?.birthDate}
                             onCalendarToggle={isOpen => {
                               setOpenCalender(prev => ({

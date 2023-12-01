@@ -204,6 +204,36 @@ const TestPanelMapping = TestPanelMappingHoc(
         });
       }
     };
+    const onUpdateSingleField = payload => {
+      testPanelMappingStore.testPanelMappingService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateTestPanelMapping.success) {
+            Toast.success({
+              message: `😊 ${res.updateTestPanelMapping.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              testPanelMappingStore.fetchTestPanelMapping(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              testPanelMappingStore.testPanelMappingService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else testPanelMappingStore.fetchTestPanelMapping();
+          }
+        });
+    };
 
     const tableView = useMemo(
       () => (
@@ -307,6 +337,12 @@ const TestPanelMapping = TestPanelMappingHoc(
                 body: 'Update TestPanelMapping!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -1359,35 +1395,10 @@ const TestPanelMapping = TestPanelMappingHoc(
                   break;
                 }
                 case 'Update': {
-                  testPanelMappingStore.testPanelMappingService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateTestPanelMapping.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateTestPanelMapping.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          testPanelMappingStore.fetchTestPanelMapping(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          testPanelMappingStore.testPanelMappingService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else testPanelMappingStore.fetchTestPanelMapping();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
 
                   break;
                 }

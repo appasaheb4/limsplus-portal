@@ -114,6 +114,37 @@ export const PossibleResults = PossibleResultHoc(
         });
     };
 
+    const onUpdateSingleField = payload => {
+      possibleResultsStore.possibleResultsService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePossibleResult.success) {
+            Toast.success({
+              message: `😊 ${res.updatePossibleResult.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              possibleResultsStore.fetchListPossibleResults(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              possibleResultsStore.possibleResultsService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else possibleResultsStore.fetchListPossibleResults();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <PossibleResultsList
@@ -202,6 +233,12 @@ export const PossibleResults = PossibleResultHoc(
               data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
+            });
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
             });
           }}
         />
@@ -918,35 +955,10 @@ export const PossibleResults = PossibleResultHoc(
                   break;
                 }
                 case 'Update': {
-                  possibleResultsStore.possibleResultsService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updatePossibleResult.success) {
-                        Toast.success({
-                          message: `😊 ${res.updatePossibleResult.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          possibleResultsStore.fetchListPossibleResults(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          possibleResultsStore.possibleResultsService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else possibleResultsStore.fetchListPossibleResults();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
                   break;
                 }
                 case 'versionUpgrade': {

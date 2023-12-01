@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import {
   Toast,
@@ -13,12 +13,12 @@ import {
   ModalConfirm,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
-import {Styles} from '@/config';
-import {ClientRegistrationList} from '../components';
-import {useForm} from 'react-hook-form';
-import {useStores} from '@/stores';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
+import { Styles } from '@/config';
+import { ClientRegistrationList } from '../components';
+import { useForm } from 'react-hook-form';
+import { useStores } from '@/stores';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
 
 const ClientRegistration = observer(() => {
   const {
@@ -30,7 +30,7 @@ const ClientRegistration = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const [modalImportFile, setModalImportFile] = useState({});
@@ -43,12 +43,12 @@ const ClientRegistration = observer(() => {
     reader.addEventListener('load', (evt: any) => {
       /* Parse data */
       const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, {type: 'binary'});
+      const wb = XLSX.read(bstr, { type: 'binary' });
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+      const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
       const defaultHeader: string[] = [
         'Country Name',
         'Lab ID',
@@ -128,7 +128,7 @@ const ClientRegistration = observer(() => {
       });
       if (fileImaport && object.length > 0) {
         clientRegistrationStore.clientRegistrationService
-          .import({input: {filter: {object}}})
+          .import({ input: { filter: { object } } })
           .then(res => {
             if (res.importClientRegistration.success) {
               Toast.success({
@@ -142,6 +142,37 @@ const ClientRegistration = observer(() => {
       }
     });
     reader.readAsBinaryString(file);
+  };
+
+  const onUpdateSingleField = payload => {
+    clientRegistrationStore.clientRegistrationService
+      .update({
+        input: {
+          ...payload,
+        },
+      })
+      .then((res: any) => {
+        if (res.updateClientRegistration.success) {
+          Toast.success({
+            message: `😊 ${res.updateClientRegistration.message}`,
+          });
+          if (global?.filter?.mode == 'pagination')
+            clientRegistrationStore.clientRegistrationService.list(
+              global?.filter?.page,
+              global?.filter?.limit,
+            );
+          else if (global?.filter?.mode == 'filter')
+            clientRegistrationStore.clientRegistrationService.filter({
+              input: {
+                type: global?.filter?.type,
+                filter: global?.filter?.filter,
+                page: global?.filter?.page,
+                limit: global?.filter?.limit,
+              },
+            });
+          else clientRegistrationStore.clientRegistrationService.list();
+        }
+      });
   };
 
   return (
@@ -215,7 +246,7 @@ const ClientRegistration = observer(() => {
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update item!',
             });
@@ -224,7 +255,7 @@ const ClientRegistration = observer(() => {
             setModalConfirm({
               show: true,
               type: 'updateFields',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update records',
             });
@@ -248,13 +279,19 @@ const ClientRegistration = observer(() => {
           }}
           onPageSizeChange={(page, limit) => {
             clientRegistrationStore.clientRegistrationService.list(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             clientRegistrationStore.clientRegistrationService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, filter, page, limit};
+            global.filter = { mode: 'filter', type, filter, page, limit };
+          }}
+          onSingleFieldUpdate={(id, field) => {
+            onUpdateSingleField({
+              ...field,
+              _id: id,
+            });
           }}
         />
       </div>
@@ -262,22 +299,22 @@ const ClientRegistration = observer(() => {
         accept='.csv,.xlsx,.xls'
         {...modalImportFile}
         click={(file: any) => {
-          setModalImportFile({show: false});
+          setModalImportFile({ show: false });
           handleFileUpload(file);
         }}
         close={() => {
-          setModalImportFile({show: false});
+          setModalImportFile({ show: false });
         }}
       />
 
       <ModalConfirm
         {...modalConfirm}
         click={(action?: string) => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
           switch (action) {
             case 'delete': {
               clientRegistrationStore.clientRegistrationService
-                .delete({input: {id: modalConfirm.id}})
+                .delete({ input: { id: modalConfirm.id } })
                 .then(res => {
                   if (res.removeClientRegistration.success) {
                     Toast.success({
@@ -335,47 +372,20 @@ const ClientRegistration = observer(() => {
                       clientRegistrationStore.clientRegistrationService.list();
                   }
                 });
-
               break;
             }
             case 'updateFields': {
-              clientRegistrationStore.clientRegistrationService
-                .update({
-                  input: {
-                    ...modalConfirm.data.fields,
-                    _id: modalConfirm.data.id,
-                  },
-                })
-                .then((res: any) => {
-                  if (res.updateClientRegistration.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateClientRegistration.message}`,
-                    });
-                    if (global?.filter?.mode == 'pagination')
-                      clientRegistrationStore.clientRegistrationService.list(
-                        global?.filter?.page,
-                        global?.filter?.limit,
-                      );
-                    else if (global?.filter?.mode == 'filter')
-                      clientRegistrationStore.clientRegistrationService.filter({
-                        input: {
-                          type: global?.filter?.type,
-                          filter: global?.filter?.filter,
-                          page: global?.filter?.page,
-                          limit: global?.filter?.limit,
-                        },
-                      });
-                    else
-                      clientRegistrationStore.clientRegistrationService.list();
-                  }
-                });
+              onUpdateSingleField({
+                ...modalConfirm.data.fields,
+                _id: modalConfirm.data.id,
+              });
 
               break;
             }
           }
         }}
         onClose={() => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
         }}
       />
     </>

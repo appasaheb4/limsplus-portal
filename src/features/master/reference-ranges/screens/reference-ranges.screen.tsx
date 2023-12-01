@@ -136,6 +136,36 @@ const ReferenceRanges = ReferenceRangesHoc(
           });
       }
     };
+    const onUpdateSingleField = payload => {
+      refernceRangesStore.referenceRangesService
+        .updateSingleFiled({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateReferenceRange.success) {
+            Toast.success({
+              message: `😊 ${res.updateReferenceRange.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              refernceRangesStore.fetchListReferenceRanges(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              refernceRangesStore.referenceRangesService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else refernceRangesStore.fetchListReferenceRanges();
+          }
+        });
+    };
 
     const tableView = useMemo(
       () => (
@@ -224,6 +254,12 @@ const ReferenceRanges = ReferenceRangesHoc(
                 body: 'Update Reference Ranges!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -489,35 +525,11 @@ const ReferenceRanges = ReferenceRangesHoc(
                   break;
                 }
                 case 'update': {
-                  refernceRangesStore.referenceRangesService
-                    .updateSingleFiled({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateReferenceRange.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateReferenceRange.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          refernceRangesStore.fetchListReferenceRanges(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          refernceRangesStore.referenceRangesService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else refernceRangesStore.fetchListReferenceRanges();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
+
                   break;
                 }
                 case 'UpdateFileds': {

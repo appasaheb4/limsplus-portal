@@ -164,6 +164,37 @@ const TestMater = TestMasterHOC(
       }
     };
 
+    const onUpdateSingleField = payload => {
+      testMasterStore.testMasterService
+        .updateFileds({
+          input: {
+            ...payload,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateTestMaster.success) {
+            Toast.success({
+              message: `😊 ${res.updateTestMaster.message}`,
+            });
+            if (global?.filter?.mode == 'pagination')
+              testMasterStore.fetchTestMaster(
+                global?.filter?.page,
+                global?.filter?.limit,
+              );
+            else if (global?.filter?.mode == 'filter')
+              testMasterStore.testMasterService.filter({
+                input: {
+                  type: global?.filter?.type,
+                  filter: global?.filter?.filter,
+                  page: global?.filter?.page,
+                  limit: global?.filter?.limit,
+                },
+              });
+            else testMasterStore.fetchTestMaster();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <TestMasterList
@@ -258,6 +289,12 @@ const TestMater = TestMasterHOC(
                 body: 'Update Test Master!',
               });
             }
+          }}
+          onSingleDirectUpdateField={(value, dataField, id) => {
+            onUpdateSingleField({
+              _id: id,
+              [dataField]: value,
+            });
           }}
         />
       ),
@@ -2290,35 +2327,10 @@ const TestMater = TestMasterHOC(
                   break;
                 }
                 case 'Update': {
-                  testMasterStore.testMasterService
-                    .updateFileds({
-                      input: {
-                        _id: modalConfirm.data.id,
-                        [modalConfirm.data.dataField]: modalConfirm.data.value,
-                      },
-                    })
-                    .then((res: any) => {
-                      if (res.updateTestMaster.success) {
-                        Toast.success({
-                          message: `😊 ${res.updateTestMaster.message}`,
-                        });
-                        if (global?.filter?.mode == 'pagination')
-                          testMasterStore.fetchTestMaster(
-                            global?.filter?.page,
-                            global?.filter?.limit,
-                          );
-                        else if (global?.filter?.mode == 'filter')
-                          testMasterStore.testMasterService.filter({
-                            input: {
-                              type: global?.filter?.type,
-                              filter: global?.filter?.filter,
-                              page: global?.filter?.page,
-                              limit: global?.filter?.limit,
-                            },
-                          });
-                        else testMasterStore.fetchTestMaster();
-                      }
-                    });
+                  onUpdateSingleField({
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  });
 
                   break;
                 }

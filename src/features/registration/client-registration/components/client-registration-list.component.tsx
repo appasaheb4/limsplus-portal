@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {
@@ -13,10 +13,11 @@ import {
   NumberFilter,
   ModalImportFile,
   sortCaret,
+  ModalDateTime,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {SocialIcon} from 'react-social-icons';
+import { Confirm } from '@/library/models';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { SocialIcon } from 'react-social-icons';
 
 let countryName;
 let labId;
@@ -51,12 +52,13 @@ interface ClientRegistrationListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onSingleFieldUpdate?: (id: string, fields: any) => void;
 }
 
 export const ClientRegistrationList = observer(
   (props: ClientRegistrationListProps) => {
     const [modalImportFile, setModalImportFile] = useState({});
-
+    const [modalDetails, setModalDetails] = useState<any>();
     const sharePdfLink = async (type: string, link: string) => {
       window.open(type + link, '_blank');
     };
@@ -130,7 +132,7 @@ export const ClientRegistrationList = observer(
                       if (row.labId != labId)
                         props.onUpdateFields &&
                           props.onUpdateFields(
-                            {labId: Number.parseFloat(labId)},
+                            { labId: Number.parseFloat(labId) },
                             row._id,
                           );
                     }}
@@ -170,11 +172,25 @@ export const ClientRegistrationList = observer(
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    value={new Date(row.registrationDate)}
-                    onFocusRemove={registrationDate => {
-                      props.onUpdateFields &&
-                        props.onUpdateFields({registrationDate}, row._id);
+                  <ModalDateTime
+                    {...{
+                      visible: true,
+                      use12Hours: false,
+                      data: row.registrationDate,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
+                    onUpdate={registrationDate => {
+                      setModalDetails({ visible: false });
+                      props.onSingleFieldUpdate &&
+                        props.onSingleFieldUpdate(row._id, {
+                          registrationDate,
+                        });
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -258,7 +274,7 @@ export const ClientRegistrationList = observer(
                       if (row.age != age)
                         props.onUpdateFields &&
                           props.onUpdateFields(
-                            {age: Number.parseFloat(age)},
+                            { age: Number.parseFloat(age) },
                             row._id,
                           );
                     }}
@@ -374,11 +390,25 @@ export const ClientRegistrationList = observer(
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    value={new Date(row.dueDate)}
-                    onFocusRemove={dueDate => {
-                      props.onUpdateFields &&
-                        props.onUpdateFields({dueDate}, row._id);
+                  <ModalDateTime
+                    {...{
+                      visible: true,
+                      use12Hours: false,
+                      data: row.dueDate,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
+                    onUpdate={dueDate => {
+                      setModalDetails({ visible: false });
+                      props.onSingleFieldUpdate &&
+                        props.onSingleFieldUpdate(row._id, {
+                          dueDate,
+                        });
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -417,11 +447,25 @@ export const ClientRegistrationList = observer(
                 columnIndex,
               ) => (
                 <>
-                  <Form.InputDateTime
-                    value={new Date(row.reportDate)}
-                    onFocusRemove={reportDate => {
-                      props.onUpdateFields &&
-                        props.onUpdateFields({reportDate}, row._id);
+                  <ModalDateTime
+                    {...{
+                      visible: true,
+                      use12Hours: false,
+                      data: row.reportDate,
+                      isSingleDatePicker: true,
+                      isDateTimePicker: false,
+                    }}
+                    onUpdate={reportDate => {
+                      setModalDetails({ visible: false });
+                      props.onSingleFieldUpdate &&
+                        props.onSingleFieldUpdate(row._id, {
+                          reportDate,
+                        });
+                    }}
+                    onClose={() => {
+                      setModalDetails({
+                        visible: false,
+                      });
                     }}
                   />
                 </>
@@ -447,7 +491,7 @@ export const ClientRegistrationList = observer(
                     onChange={e => {
                       const status = e.target.value;
                       props.onUpdateFields &&
-                        props.onUpdateFields({status}, row._id);
+                        props.onUpdateFields({ status }, row._id);
                     }}
                   >
                     <option selected>Select</option>
@@ -495,7 +539,7 @@ export const ClientRegistrationList = observer(
 
                         <SocialIcon
                           network='email'
-                          style={{height: 32, width: 32}}
+                          style={{ height: 32, width: 32 }}
                           onClick={async () => {
                             sharePdfLink(
                               'mailto:?subject=Pdf%20Report&body= ',
@@ -505,7 +549,7 @@ export const ClientRegistrationList = observer(
                         />
                         <SocialIcon
                           network='whatsapp'
-                          style={{height: 32, width: 32}}
+                          style={{ height: 32, width: 32 }}
                           onClick={() => {
                             sharePdfLink(
                               'https://api.whatsapp.com/send?text=Pdf%20report%20link:',
@@ -535,12 +579,12 @@ export const ClientRegistrationList = observer(
                       btnLabel: 'Upload',
                     }}
                     click={(pdfReport: any) => {
-                      setModalImportFile({show: false});
+                      setModalImportFile({ show: false });
                       props.onPdfFileUpload &&
-                        props.onPdfFileUpload({pdfReport}, row._id);
+                        props.onPdfFileUpload({ pdfReport }, row._id);
                     }}
                     close={() => {
-                      setModalImportFile({show: false});
+                      setModalImportFile({ show: false });
                     }}
                   />
                 </>
@@ -625,11 +669,11 @@ export const ClientRegistrationList = observer(
           accept='.pdf'
           {...modalImportFile}
           click={(file: any) => {
-            setModalImportFile({show: false});
-            console.log({file});
+            setModalImportFile({ show: false });
+            console.log({ file });
           }}
           close={() => {
-            setModalImportFile({show: false});
+            setModalImportFile({ show: false });
           }}
         />
       </>

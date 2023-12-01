@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import {
   TableBootstrap,
@@ -10,6 +10,7 @@ import {
   customFilter,
   DateFilter,
   NumberFilter,
+  ModalDateTime,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 
@@ -65,11 +66,17 @@ interface CompanyListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  onSingleDirectUpdateField?: (
+    value: any,
+    dataField: string,
+    id: string,
+  ) => void;
 }
 const dynamicStylingFields = ['title', 'environment'];
 const hideExcelSheet = ['_id', 'image', 'operation'];
 
 export const CompanyList = (props: CompanyListProps) => {
+  const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     return row?.status !== 'I' ? true : false;
   };
@@ -597,7 +604,7 @@ export const CompanyList = (props: CompanyListProps) => {
         },
         {
           dataField: 'dateExpire',
-          editable: false,
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           text: 'Date Expire',
           headerClasses: 'textHeader11',
           sort: true,
@@ -627,11 +634,25 @@ export const CompanyList = (props: CompanyListProps) => {
             columnIndex,
           ) => (
             <>
-              <Form.InputDateTime
-                value={new Date(row?.dateExpire)}
-                onFocusRemove={dateExpire => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(dateExpire, column.dataField, row?._id);
+              <ModalDateTime
+                visible={true}
+                use12Hours={false}
+                data={row?.dateExpire}
+                isSingleDatePicker={true}
+                isDateTimePicker={false}
+                onUpdate={dateExpire => {
+                  setModalDetails({ visible: false });
+                  props.onSingleDirectUpdateField &&
+                    props.onSingleDirectUpdateField(
+                      dateExpire,
+                      column.dataField,
+                      row._id,
+                    );
+                }}
+                onClose={() => {
+                  setModalDetails({
+                    visible: false,
+                  });
                 }}
               />
             </>
