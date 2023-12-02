@@ -325,8 +325,8 @@ export const ExtraDataPatientVisitList = observer(
                 },
                 sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
-                  row.extraData.receivedDate
-                    ? dayjs(row.extraData.receivedDate).format('YYYY-MM-DD')
+                  row.extraData?.receivedDate
+                    ? dayjs(row.extraData?.receivedDate).format('YYYY-MM-DD')
                     : '',
                 filter: customFilter({
                   getFilter: filter => {
@@ -340,7 +340,11 @@ export const ExtraDataPatientVisitList = observer(
                   console.log({ row });
                   return (
                     <>
-                      {dayjs(row.extraData.receivedDate).format('YYYY-MM-DD')}
+                      {row.extraData?.receivedDate
+                        ? dayjs(row.extraData?.receivedDate).format(
+                            'YYYY-MM-DD',
+                          )
+                        : ''}
                     </>
                   );
                 },
@@ -356,7 +360,10 @@ export const ExtraDataPatientVisitList = observer(
                     <ModalDateTime
                       visible={true}
                       use12Hours={true}
-                      data={row.extraData.receivedDate}
+                      data={
+                        row.extraData?.receivedDate ||
+                        dayjs().format('YYYY-MM-DD')
+                      }
                       isSingleDatePicker={true}
                       isDateTimePicker={false}
                       onUpdate={receivedDate => {

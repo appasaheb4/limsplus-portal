@@ -384,6 +384,7 @@ export const PatientVisit = PatientVisitHoc(
                   birthDate: item?.birthDate,
                   age,
                   ageUnits,
+                  sex: item?.sex,
                 });
               }
             }}
@@ -453,6 +454,7 @@ export const PatientVisit = PatientVisitHoc(
                             birthDate: item?.birthDate,
                             age,
                             ageUnits,
+                            sex: item?.sex,
                           });
                         }}
                       />
