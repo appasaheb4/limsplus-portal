@@ -11,6 +11,7 @@ export class PatientVisit {
   birthDate: Date;
   age: number;
   ageUnits: string;
+  sex: string;
   collectionCenter: string;
   collectionCenterName: string;
   corporateCode: string;
@@ -71,7 +72,7 @@ export class PatientVisit {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.pId = rawData.pId;
     this.patientName = rawData.patientName;
     this.rLab = rawData.rLab;
@@ -84,6 +85,7 @@ export class PatientVisit {
     this.birthDate = rawData.birthDate;
     this.age = rawData.age;
     this.ageUnits = rawData.ageUnits;
+    this.sex = rawData.sex;
     this.collectionCenter = rawData.collectionCenter;
     this.collectionCenterName = rawData.collectionCenterName;
     this.corporateCode = rawData.corporateCode;
@@ -118,7 +120,7 @@ export class PatientVisit {
 
 export class SelectedPatientVisitItems {
   miscCharges: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.miscCharges = rawData.miscCharges;
   }
 }

@@ -362,6 +362,7 @@ export const Users = UsersHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             ),
+            companyCode: item['Company Code'],
             version: item.Version,
             environment: item.Environment,
             status: 'D',
