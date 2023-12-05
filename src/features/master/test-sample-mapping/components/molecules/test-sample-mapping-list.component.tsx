@@ -23,6 +23,7 @@ import {
   AutoCompleteFilterSingleSelectContainerName,
   AutoCompleteFilterSingleSelectDepartment,
 } from '../index';
+import { AutoCompleteCompanyList } from '@/core-components';
 let testCode;
 let sampleCode;
 let sampleType;
@@ -43,6 +44,7 @@ let info;
 let departments;
 let environment;
 let status;
+let companyCode;
 interface TestSampleMappingListProps {
   data: any;
   totalSize: number;
@@ -1072,6 +1074,47 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               ),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               sort: true,
@@ -1261,6 +1304,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             departments('');
             environment('');
             status('');
+            companyCode('');
           }}
           dynamicStylingFields={['testCode', 'sampleCode', 'environment']}
           hideExcelSheet={['opration', '_id']}

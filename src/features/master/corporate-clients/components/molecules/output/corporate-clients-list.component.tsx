@@ -26,7 +26,10 @@ import dayjs from 'dayjs';
 import { FormHelper } from '@/helper';
 import { useForm } from 'react-hook-form';
 import { AutoCompleteSalesTerritory } from '@/features/master/registration-locations/components';
-import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import {
+  AutoCompleteCompanyList,
+  AutoCompleteFilterDeliveryMode,
+} from '@/core-components';
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -64,6 +67,7 @@ let info;
 let fyiLine;
 let workLine;
 let status;
+let companyCode;
 let environment;
 interface CorporateClientListProps {
   data: any;
@@ -1579,6 +1583,46 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             }),
           },
           {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteCompanyList
+                  isLabel={false}
+                  hasError={false}
+                  onSelect={companyCode => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        companyCode,
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
+          },
+          {
             dataField: 'status',
             text: 'Status',
             headerClasses: 'textHeader2',
@@ -1808,6 +1852,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
           info('');
           fyiLine('');
           workLine('');
+          companyCode('');
           status('');
           environment('');
         }}

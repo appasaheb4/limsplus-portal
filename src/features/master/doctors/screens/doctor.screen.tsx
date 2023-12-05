@@ -18,7 +18,10 @@ import {
   ImportFile,
 } from '@/library/components';
 import { DoctorsList } from '../components';
-import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import {
+  AutoCompleteCompanyList,
+  AutoCompleteFilterDeliveryMode,
+} from '@/core-components';
 import { dayjs, lookupItems, lookupValue, toTitleCase } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { DoctorsHoc } from '../hoc';
@@ -389,6 +392,7 @@ const Doctors = DoctorsHoc(
             openingTime: item['Opening Time'],
             closingTime: item['Closing Time'],
             environment: item?.Environment,
+            companyCode: item?.['Company Code'],
             status: 'D',
           };
         });
@@ -1481,6 +1485,24 @@ const Doctors = DoctorsHoc(
                     )}
                     name='userId'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          doctorsStore.updateDoctors({
+                            ...doctorsStore.doctors,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

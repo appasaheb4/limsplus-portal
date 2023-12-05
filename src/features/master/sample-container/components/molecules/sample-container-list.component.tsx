@@ -9,12 +9,14 @@ import {
   sortCaret,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let containerCode;
 let containerName;
 let description;
 let environment;
 let status;
+let companyCode;
 interface SampleContainerListProps {
   data: any;
   totalSize: number;
@@ -137,6 +139,42 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
                   const image = e.target.files[0];
                   props.onUpdateImage &&
                     props.onUpdateImage(image, column.dataField, row._id);
+                }}
+              />
+            </>
+          ),
+        },
+        {
+          text: 'Company Code',
+          dataField: 'companyCode',
+          sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          csvFormatter: col => (col ? col : ''),
+          filter: textFilter({
+            getFilter: filter => {
+              companyCode = filter;
+            },
+          }),
+          headerClasses: 'textHeader2',
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <AutoCompleteCompanyList
+                isLabel={false}
+                hasError={false}
+                onSelect={companyCode => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(companyCode, column.dataField, row._id);
                 }}
               />
             </>
@@ -310,6 +348,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
         description('');
         environment('');
         status('');
+        companyCode('');
       }}
       dynamicStylingFields={['containerCode', 'containerName', 'environment']}
       hideExcelSheet={['operation', '_id', 'image']}

@@ -28,6 +28,7 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetPriceList } from '../startup';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 export const PriceList = PriceListHoc(
   observer(() => {
@@ -323,6 +324,7 @@ export const PriceList = PriceListHoc(
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -850,6 +852,24 @@ export const PriceList = PriceListHoc(
                     )}
                     name='maxDis'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          priceListStore.updatePriceList({
+                            ...priceListStore.priceList,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

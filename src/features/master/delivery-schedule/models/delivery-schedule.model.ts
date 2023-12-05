@@ -19,11 +19,12 @@ export class DeliverySchedule {
   schForDept: string;
   schForPat: string;
   environment: string;
+  companyCode: string;
   status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.schCode = rawData.schCode;
     this.sundayProcessing = rawData.sundayProcessing;
@@ -44,6 +45,7 @@ export class DeliverySchedule {
     this.schForDept = rawData.schForDept;
     this.schForPat = rawData.schForPat;
     this.environment = rawData.environment;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

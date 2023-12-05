@@ -25,6 +25,7 @@ import * as XLSX from 'xlsx';
 
 import { RouterFlow } from '@/flows';
 import { resetDesignation } from '../startup';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const Deginisation = DeginisationHoc(
   observer(() => {
@@ -94,6 +95,7 @@ const Deginisation = DeginisationHoc(
             code: item?.Code?.toUpperCase(),
             description: item?.Description?.toUpperCase(),
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -245,6 +247,24 @@ const Deginisation = DeginisationHoc(
                     />
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            deginisationStore.updateDescription({
+                              ...deginisationStore.deginisation,
+                              companyCode,
+                            });
+                          }}
+                        />
+                      )}
+                      name='companyCode'
+                      rules={{ required: true }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (

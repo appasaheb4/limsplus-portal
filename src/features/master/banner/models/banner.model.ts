@@ -3,6 +3,7 @@ export class Banner {
   title: string;
   file: any;
   image: string;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -12,6 +13,7 @@ export class Banner {
     this.title = rawData.title;
     this.file = rawData.file;
     this.image = rawData.image;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

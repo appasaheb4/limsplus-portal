@@ -17,6 +17,7 @@ export class MasterPackage {
   printPanelName: boolean;
   packageInterpretation: boolean;
   panelInterpretation: boolean;
+  companyCode: string;
   status: string;
   serviceType: string;
   reportOrder: any;
@@ -24,7 +25,7 @@ export class MasterPackage {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -43,6 +44,7 @@ export class MasterPackage {
     this.printPanelName = rawData.printPanelName;
     this.packageInterpretation = rawData.packageInterpretation;
     this.panelInterpretation = rawData.panelInterpretation;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.serviceType = rawData.serviceType;
     this.reportOrder = rawData.reportOrder;
@@ -54,7 +56,7 @@ export class MasterPackage {
 
 export class SelectedItems {
   panelCode: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.panelCode = rawData.panelCode;
   }
 }

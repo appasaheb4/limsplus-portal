@@ -25,6 +25,7 @@ import { RouterFlow } from '@/flows';
 import { resetMethod } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const Methods = MethodsHoc(
   observer(() => {
@@ -95,6 +96,7 @@ const Methods = MethodsHoc(
             methodsName: item['Methods Name']?.toUpperCase(),
             description: item.Description,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -277,6 +279,24 @@ const Methods = MethodsHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          methodsStore.updateMethods({
+                            ...methodsStore.methods,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

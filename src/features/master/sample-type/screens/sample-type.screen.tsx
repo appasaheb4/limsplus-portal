@@ -26,6 +26,7 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetSampleType } from '../startup';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 const SampleType = SampleTypeHoc(
   observer(() => {
     const { loginStore, sampleTypeStore, routerStore } = useStores();
@@ -96,6 +97,7 @@ const SampleType = SampleTypeHoc(
             descriptions: item.Descriptions,
             sampleGroup: item['Sample Group']?.toUpperCase(),
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -303,6 +305,24 @@ const SampleType = SampleTypeHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          sampleTypeStore.updateSampleType({
+                            ...sampleTypeStore.sampleType,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
