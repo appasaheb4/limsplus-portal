@@ -63,6 +63,7 @@ export class TestMaster {
   testBottomMarker: object;
   testRightMarker: string;
   status: string;
+  companyCode: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -70,7 +71,7 @@ export class TestMaster {
   // not api part
   disableTestName: boolean;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -138,6 +139,7 @@ export class TestMaster {
     this.testBottomMarker = rawData.testBottomMarker;
     this.testRightMarker = rawData.testRightMarker;
     this.status = rawData.status;
+    this.companyCode = rawData.companyCode;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

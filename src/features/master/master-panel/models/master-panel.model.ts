@@ -58,12 +58,13 @@ export class MasterPanel {
   panelBottomMarker: object;
   panelRightMarker: string;
   externalPanelCode: string;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -122,6 +123,7 @@ export class MasterPanel {
     this.panelBottomMarker = rawData.panelBottomMarker;
     this.panelRightMarker = rawData.panelRightMarker;
     this.externalPanelCode = rawData.externalPanelCode;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.serviceType = rawData.serviceType;
     this.interpretation = rawData.interpretation;
@@ -134,7 +136,7 @@ export class MasterPanel {
 export class MasterPanelActivity {
   disablePanelName: boolean;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.disablePanelName = rawData.disablePanelName;
   }
 }

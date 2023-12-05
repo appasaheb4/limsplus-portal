@@ -30,6 +30,7 @@ import { toJS } from 'mobx';
 import { resetTestMaster } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { AutoCompleteCompanyList } from '@/core-components';
 const TestMater = TestMasterHOC(
   observer(() => {
     const {
@@ -369,6 +370,7 @@ const TestMater = TestMasterHOC(
             testResultDate: item['Test Result Date'],
             version: Number.parseInt(item?.Version || 1),
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -1836,6 +1838,24 @@ const TestMater = TestMasterHOC(
                   ))}
                 </select>
               </Form.InputWrapper> */}
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            testMasterStore.updateTestMaster({
+                              ...testMasterStore.testMaster,
+                              companyCode,
+                            });
+                          }}
+                        />
+                      )}
+                      name='companyCode'
+                      rules={{ required: true }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (

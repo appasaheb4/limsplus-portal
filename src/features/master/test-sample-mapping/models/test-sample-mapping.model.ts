@@ -29,10 +29,11 @@ export class TestSampleMapping {
   departments: any[];
   environment: string;
   status: string;
+  companyCode: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.testCode = rawData.testCode;
     this.testName = rawData.testName;
@@ -63,6 +64,7 @@ export class TestSampleMapping {
     this.departments = rawData.departments;
     this.environment = rawData.environment;
     this.status = rawData.status;
+    this.companyCode = rawData.companyCode;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }
@@ -72,7 +74,7 @@ export class LocalInput {
   name: string;
   prefrence: number;
   tatInMin: number;
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.code = rawData.code;
     this.name = rawData.name;
     this.prefrence = rawData.prefrence;

@@ -13,6 +13,7 @@ export class PriceList {
   maxDis: number;
   fixedPrice: boolean;
   enteredBy: string;
+  companyCode: string;
   status: string;
   environment: string;
   dateCreation: Date;
@@ -22,7 +23,7 @@ export class PriceList {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -37,6 +38,7 @@ export class PriceList {
     this.maxDis = rawData.maxDis;
     this.fixedPrice = rawData.fixedPrice;
     this.enteredBy = rawData.enteredBy;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateCreation = rawData.dateCreation;

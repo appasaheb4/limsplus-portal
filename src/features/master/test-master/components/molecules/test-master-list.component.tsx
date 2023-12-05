@@ -22,6 +22,7 @@ import {
   AutoCompleteInterpretation,
   AutoCompleteTestBottomMarker,
 } from '../index';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -68,6 +69,7 @@ let status;
 let environment;
 let interpretation;
 let testResultDate;
+let companyCode;
 
 interface TestMasterProps {
   data: any;
@@ -1505,6 +1507,48 @@ export const TestMasterList = (props: TestMasterProps) => {
             },
 
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader2',
@@ -1999,6 +2043,7 @@ export const TestMasterList = (props: TestMasterProps) => {
             environment('');
             interpretation('');
             testResultDate('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'rLab',

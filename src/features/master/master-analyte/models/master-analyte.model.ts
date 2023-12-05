@@ -47,6 +47,7 @@ export class MasterAnalyte {
   analyteBottomMarker: object;
   analyteRightMarker: string;
   reagentCode: string;
+  companyCode: string;
   status: string;
   minReportable: string;
   maxReportable: string;
@@ -55,7 +56,7 @@ export class MasterAnalyte {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -104,6 +105,7 @@ export class MasterAnalyte {
     this.analyteBottomMarker = rawData.analyteBottomMarker;
     this.analyteRightMarker = rawData.analyteRightMarker;
     this.reagentCode = rawData.reagentCode;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.minReportable = rawData.minReportable;
     this.maxReportable = rawData.maxReportable;
@@ -117,7 +119,7 @@ export class MasterAnalyte {
 export class SelectedItems {
   lab: any[];
   department: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.lab = rawData.lab;
     this.department = rawData.department;
   }
@@ -126,7 +128,7 @@ export class SelectedItems {
 export class MasterAnalyteActivity {
   disableAnalyteName: boolean;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.disableAnalyteName = rawData.disableAnalyteName;
   }
 }

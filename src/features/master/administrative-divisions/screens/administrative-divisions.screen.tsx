@@ -26,6 +26,7 @@ import { RouterFlow } from '@/flows';
 import { resetBanner } from '../../banner/startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { AutoCompleteCompanyList } from '@/core-components';
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
     const { loginStore, administrativeDivisions, routerStore } = useStores();
@@ -107,6 +108,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
             sbu: item.SBU,
             zone: item.Zone,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -481,6 +483,24 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     )}
                     name='zone'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          administrativeDivisions.updateAdministrativeDiv({
+                            ...administrativeDivisions.administrativeDiv,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

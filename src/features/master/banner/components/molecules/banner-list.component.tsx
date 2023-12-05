@@ -8,10 +8,12 @@ import {
   Form,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let title;
 let environment;
 let status;
+let companyCode;
 
 interface BannerListProps {
   data: any;
@@ -99,6 +101,42 @@ export const BannerList = (props: BannerListProps) => {
                   const image = e.target.files[0];
                   props.onUpdateImage &&
                     props.onUpdateImage(image, column.dataField, row._id);
+                }}
+              />
+            </>
+          ),
+        },
+        {
+          text: 'Company Code',
+          dataField: 'companyCode',
+          sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          csvFormatter: col => (col ? col : ''),
+          filter: textFilter({
+            getFilter: filter => {
+              companyCode = filter;
+            },
+          }),
+          headerClasses: 'textHeader2',
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <AutoCompleteCompanyList
+                isLabel={false}
+                hasError={false}
+                onSelect={companyCode => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(companyCode, column.dataField, row._id);
                 }}
               />
             </>
@@ -269,6 +307,7 @@ export const BannerList = (props: BannerListProps) => {
         title('');
         environment('');
         status('');
+        companyCode('');
       }}
       dynamicStylingFields={dynamicStylingFields}
       hideExcelSheet={hideExcelSheet}

@@ -18,7 +18,10 @@ import {
   ImportFile,
 } from '@/library/components';
 import { RegistrationLocationsList } from '../components';
-import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import {
+  AutoCompleteCompanyList,
+  AutoCompleteFilterDeliveryMode,
+} from '@/core-components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -1885,6 +1888,26 @@ const RegistrationLocation = RegistrationLocationHoc(
                       )}
                       name='userId'
                       rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            registrationLocationsStore.updateRegistrationLocations(
+                              {
+                                ...registrationLocationsStore.registrationLocations,
+                                companyCode,
+                              },
+                            );
+                          }}
+                        />
+                      )}
+                      name='companyCode'
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller

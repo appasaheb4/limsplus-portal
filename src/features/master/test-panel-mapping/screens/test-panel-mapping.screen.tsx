@@ -36,6 +36,7 @@ import { resetTestPanelMapping } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -393,6 +394,7 @@ const TestPanelMapping = TestPanelMappingHoc(
             ),
             version: item.Version,
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -773,6 +775,24 @@ const TestPanelMapping = TestPanelMappingHoc(
                         </Form.InputWrapper>
                       )}
                       name='testName'
+                      rules={{ required: true }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            testPanelMappingStore.updateTestPanelMapping({
+                              ...testPanelMappingStore.testPanelMapping,
+                              companyCode,
+                            });
+                          }}
+                        />
+                      )}
+                      name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
                     />
