@@ -493,6 +493,7 @@ export const CommonInputTable = observer(
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <AutoCompleteCompanyList
+                      isLabel={false}
                       hasError={!!errors.companyCode}
                       onSelect={companyCode => {
                         onChange(companyCode);
