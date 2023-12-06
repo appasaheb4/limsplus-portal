@@ -1091,6 +1091,7 @@ export const UserList = (props: UserListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
+                    minDate={new Date()}
                     onUpdate={exipreDate => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&
