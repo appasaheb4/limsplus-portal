@@ -25,6 +25,7 @@ import { useStores } from '@/stores';
 import { resetLookup } from '../startup';
 import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 interface DocumentSettingsProps {
   onClose: () => void;
@@ -105,6 +106,7 @@ export const DocumentSettings = DocumentSettingHoc(
             description: item?.Description,
             defaultItem: undefined,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -374,6 +376,24 @@ export const DocumentSettings = DocumentSettingHoc(
                 )}
                 name='description'
                 rules={{ required: false }}
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <AutoCompleteCompanyList
+                    hasError={!!errors.companyCode}
+                    onSelect={companyCode => {
+                      onChange(companyCode);
+                      lookupStore.updateLookup({
+                        ...lookupStore.lookup,
+                        companyCode,
+                      });
+                    }}
+                  />
+                )}
+                name='companyCode'
+                rules={{ required: true }}
                 defaultValue=''
               />
               <Controller

@@ -23,6 +23,7 @@ export class TestAnalyteMapping {
   testMethod: boolean;
   analyteMethod: boolean;
   status: string;
+  companyCode: string;
   resultOrder: any;
   reportOrder: any;
   instType: string;
@@ -57,6 +58,7 @@ export class TestAnalyteMapping {
     this.testMethod = rawData.testMethod;
     this.analyteMethod = rawData.analyteMethod;
     this.status = rawData.status;
+    this.companyCode = rawData.companyCode;
     this.resultOrder = rawData.resultOrder;
     this.reportOrder = rawData.reportOrder;
     this.instType = rawData.instType;

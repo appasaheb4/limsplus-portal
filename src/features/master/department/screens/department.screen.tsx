@@ -27,6 +27,7 @@ import { FormHelper } from '@/helper';
 import { resetDepartment } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 export const Department = DeginisationHoc(
   observer(() => {
@@ -193,6 +194,7 @@ export const Department = DeginisationHoc(
             fyiLine: item['Fyi Line'],
             workLine: item['Work Line'],
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -796,6 +798,24 @@ export const Department = DeginisationHoc(
                     )}
                     name='workLine'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

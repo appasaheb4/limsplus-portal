@@ -14,6 +14,7 @@ export const LIST = gql`
         containerName
         description
         image
+        companyCode
         status
         environment
         dateOfEntry

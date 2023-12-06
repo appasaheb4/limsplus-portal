@@ -14,6 +14,7 @@ import {
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import { useForm, Controller } from 'react-hook-form';
+import { AutoCompleteCompanyList } from '@/core-components';
 interface CommonInputTableProps {
   data?: any;
   isVersionUpgrade?: boolean;
@@ -130,6 +131,7 @@ export const CommonInputTable = observer(
         ),
         enterBy: loginStore.login.userId,
         status: 'A',
+        companyCode: refernceRangesStore.referenceRanges?.companyCode,
         environment: getDefaultLookupItem(
           routerStore.lookupItems,
           'ENVIRONMENT',
@@ -174,6 +176,9 @@ export const CommonInputTable = observer(
               </th>
               <th className='text-white' style={{ minWidth: '190px' }}>
                 Inst Type
+              </th>
+              <th className='text-white' style={{ minWidth: '190px' }}>
+                Company Code
               </th>
             </tr>{' '}
           </thead>
@@ -480,6 +485,27 @@ export const CommonInputTable = observer(
                   )}
                   name='equipmentType'
                   rules={{ required: !isDisableEquipmentType }}
+                  defaultValue=''
+                />
+              </td>
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <AutoCompleteCompanyList
+                      isLabel={false}
+                      hasError={!!errors.companyCode}
+                      onSelect={companyCode => {
+                        onChange(companyCode);
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
+                          companyCode,
+                        });
+                      }}
+                    />
+                  )}
+                  name='companyCode'
+                  rules={{ required: true }}
                   defaultValue=''
                 />
               </td>

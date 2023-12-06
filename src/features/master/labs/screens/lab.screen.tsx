@@ -28,6 +28,7 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetLab } from '../startup';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const Lab = LabHoc(
   observer(() => {
@@ -337,6 +338,7 @@ const Lab = LabHoc(
             workLine: item['Work Line'],
             priceList: undefined,
             specificFormat: item['Specific Format'] === 'Yes' ? true : false,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -1460,6 +1462,24 @@ const Lab = LabHoc(
                       )}
                       name='version'
                       rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            labStore.updateLabs({
+                              ...labStore.labs,
+                              companyCode,
+                            });
+                          }}
+                        />
+                      )}
+                      name='companyCode'
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 

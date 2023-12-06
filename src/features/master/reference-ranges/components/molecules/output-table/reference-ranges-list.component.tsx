@@ -23,6 +23,7 @@ import {
 } from '../../index';
 import { FormHelper } from '@/helper';
 import { getDays } from '../../../utils';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let analyteCode;
 let analyteName;
@@ -50,6 +51,7 @@ let version;
 let deltaRangTeType;
 let deltaInterval;
 let intervalUnit;
+let companyCode;
 
 interface ReferenceRangesProps {
   data: any;
@@ -1026,6 +1028,47 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               }),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader1',
@@ -1420,6 +1463,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             deltaRangTeType('');
             deltaInterval('');
             intervalUnit('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'analyteCode',

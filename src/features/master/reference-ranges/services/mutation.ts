@@ -43,6 +43,7 @@ export const LIST = gql`
         dateActive
         dateExpire
         enterBy
+        companyCode
         status
         environment
         dateOfEntry

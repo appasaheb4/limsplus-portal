@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: TestAnalyteMappingInput!) {
@@ -36,6 +36,7 @@ export const LIST = gql`
         instType
         instId
         assayCode
+        companyCode
         status
         environment
         dateOfEntry

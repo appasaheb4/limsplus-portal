@@ -29,6 +29,7 @@ import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const modules = {
   toolbar: [
@@ -344,6 +345,7 @@ export const Library = LibraryHoc(
             ),
             versions: item.Versions,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -721,6 +723,25 @@ export const Library = LibraryHoc(
                     )}
                     name='details'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 

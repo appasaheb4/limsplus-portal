@@ -30,6 +30,7 @@ import { AutoCompleteFilterSingleSelectEmpolyeCode } from '../components';
 import { RouterFlow } from '@/flows';
 import { resetSalesTeam } from '../startup';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 export const SalesTeam = SalesTeamHoc(
   observer(() => {
@@ -261,6 +262,7 @@ export const SalesTeam = SalesTeamHoc(
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -635,6 +637,24 @@ export const SalesTeam = SalesTeamHoc(
                     )}
                     name='version'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          salesTeamStore.updateSalesTeam({
+                            ...salesTeamStore.salesTeam,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

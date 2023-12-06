@@ -23,7 +23,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { MasterAnalyteHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { FormHelper } from '@/helper';
-import { InputResult } from '@/core-components';
+import { AutoCompleteCompanyList, InputResult } from '@/core-components';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetMasterAnalyte } from '../startup';
@@ -373,6 +373,7 @@ const MasterAnalyte = MasterAnalyteHoc(
             maxReportable: item['Max Reportable'],
             interpretation: item.Interpretation,
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -1766,6 +1767,24 @@ const MasterAnalyte = MasterAnalyteHoc(
                         pattern: /^[0-9<>=\\-`.+,/"]*$/,
                         validate: value => FormHelper.isNumberAvailable(value),
                       }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            masterAnalyteStore.updateMasterAnalyte({
+                              ...masterAnalyteStore.masterAnalyte,
+                              companyCode,
+                            });
+                          }}
+                        />
+                      )}
+                      name='companyCode'
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
