@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: TestMasterInput!) {
@@ -69,6 +69,7 @@ export const LIST = gql`
         externalComments
         testBottomMarker
         testRightMarker
+        companyCode
         status
         environment
         dateOfEntry

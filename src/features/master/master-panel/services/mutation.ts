@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: PanelMasterInput!) {
@@ -67,6 +67,7 @@ export const LIST = gql`
         panelBottomMarker
         panelRightMarker
         externalPanelCode
+        companyCode
         status
         environment
         dateOfEntry

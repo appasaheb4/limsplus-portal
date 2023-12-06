@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: PossibleResultInput!) {
@@ -29,6 +29,7 @@ export const LIST = gql`
         dateActive
         dateExpire
         version
+        companyCode
         status
         dateOfEntry
         lastUpdated

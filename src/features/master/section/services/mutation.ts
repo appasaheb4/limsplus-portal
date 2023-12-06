@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: SectionInput!) {
@@ -19,6 +19,7 @@ export const LIST = gql`
         contactNo
         fyiLine
         workLine
+        companyCode
         status
         environment
         dateOfEntry
