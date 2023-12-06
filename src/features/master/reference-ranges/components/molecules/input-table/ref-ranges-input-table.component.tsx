@@ -1005,6 +1005,12 @@ export const RefRangesInputTable = observer(
               headerClasses: 'textHeader4',
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              csvExport: false,
+              headerClasses: 'textHeader4',
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               csvExport: false,

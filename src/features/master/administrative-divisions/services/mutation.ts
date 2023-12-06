@@ -18,6 +18,7 @@ export const LIST = gql`
         postalCode
         sbu
         zone
+        companyCode
         status
         environment
       }

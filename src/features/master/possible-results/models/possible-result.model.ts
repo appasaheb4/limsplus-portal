@@ -20,12 +20,13 @@ export class PossibleResults {
   dateActive: Date;
   dateExpire: Date;
   version: number;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -42,6 +43,7 @@ export class PossibleResults {
     this.dateActive = rawData.dateActive;
     this.dateExpire = rawData.dateExpire;
     this.version = rawData.version;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

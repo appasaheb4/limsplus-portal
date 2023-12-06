@@ -308,6 +308,7 @@ const ReferenceRanges = ReferenceRangesHoc(
             ),
             version: item.Version,
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });

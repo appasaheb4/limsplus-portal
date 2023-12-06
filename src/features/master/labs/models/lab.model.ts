@@ -47,6 +47,7 @@ export class Labs {
   priceList: Array<PriceList>;
   specificFormat: boolean;
   version: number;
+  companyCode: string;
   status: string;
   environment: string;
   dateCreation: Date;
@@ -103,6 +104,7 @@ export class Labs {
     this.priceList = rawData.priceList;
     this.specificFormat = rawData.specificFormat;
     this.version = rawData.version;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateCreation = rawData.dateCreation;

@@ -28,6 +28,7 @@ import { FormHelper } from '@/helper';
 import { resetSection } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { AutoCompleteCompanyList } from '@/core-components';
 const Section = SectionHoc(
   observer(() => {
     const { loginStore, sectionStore, departmentStore, routerStore } =
@@ -176,6 +177,7 @@ const Section = SectionHoc(
             fyiLine: item['Fyi Line'],
             workLine: item['Work Line'],
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -529,6 +531,24 @@ const Section = SectionHoc(
                     )}
                     name='workLine'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          sectionStore.updateSection({
+                            ...sectionStore.section,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

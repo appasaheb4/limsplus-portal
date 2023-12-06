@@ -34,6 +34,7 @@ class CommonInput {
   dateExpire: Date;
   enterBy: string;
   status: string;
+  companyCode: string;
   environment: string;
   type: string;
   constructor(rawData: { [key in string]: any }) {
@@ -70,6 +71,7 @@ class CommonInput {
     this.dateExpire = rawData.dateExpire;
     this.enterBy = rawData.enterBy;
     this.status = rawData.status;
+    this.companyCode = rawData.companyCode;
     this.environment = rawData.environment;
     this.type = rawData.type;
   }

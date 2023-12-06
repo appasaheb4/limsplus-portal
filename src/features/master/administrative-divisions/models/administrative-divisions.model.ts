@@ -9,11 +9,12 @@ export class AdministrativeDivisions {
   sbu: string;
   zone: string;
   environment: string;
+  companyCode: string;
   status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.country = rawData.country;
     this.state = rawData.state;
@@ -23,6 +24,7 @@ export class AdministrativeDivisions {
     this.postalCode = rawData.postalCode;
     this.sbu = rawData.sbu;
     this.zone = rawData.zone;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

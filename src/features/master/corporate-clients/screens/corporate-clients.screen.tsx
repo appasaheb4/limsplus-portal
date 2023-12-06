@@ -28,6 +28,7 @@ import { FormHelper } from '@/helper';
 import { RouterFlow } from '@/flows';
 import { resetCorporateClient } from '../startup';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 const CorporateClients = CorporateClientsHoc(
   observer(() => {
     const {
@@ -411,6 +412,7 @@ const CorporateClients = CorporateClientsHoc(
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -1797,6 +1799,24 @@ const CorporateClients = CorporateClientsHoc(
                     )}
                     name='enteredBy'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          corporateClientsStore.updateCorporateClients({
+                            ...corporateClientsStore.corporateClients,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

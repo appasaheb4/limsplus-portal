@@ -57,6 +57,7 @@ export const LIST = gql`
         isPrintSecondaryBarcode
         openingTime
         closingTime
+        companyCode
         status
         environment
         dateOfEntry

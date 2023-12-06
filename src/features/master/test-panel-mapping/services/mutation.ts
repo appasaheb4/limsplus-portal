@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: TestPanelMappingInput!) {
@@ -32,6 +32,7 @@ export const LIST = gql`
         panelInterpretation
         testInterpretation
         analyteInterpretation
+        companyCode
         status
         environment
         dateOfEntry
