@@ -647,6 +647,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                     isSingleDatePicker: true,
                     isDateTimePicker: false,
                   }}
+                  minDate={new Date()}
                   onUpdate={dateExpire => {
                     setModalDetails({ visible: false });
                     props.onSingleDirectUpdateField &&

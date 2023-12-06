@@ -635,6 +635,7 @@ export const CompanyList = (props: CompanyListProps) => {
           ) => (
             <>
               <ModalDateTime
+                minDate={new Date()}
                 visible={true}
                 use12Hours={false}
                 data={row?.dateExpire}

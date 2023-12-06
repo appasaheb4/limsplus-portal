@@ -1236,6 +1236,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                     isSingleDatePicker: true,
                     isDateTimePicker: false,
                   }}
+                  minDate={new Date()}
                   onUpdate={dateExpire => {
                     setModalDetails({ visible: false });
                     props.onSingleDirectUpdateField &&

@@ -779,6 +779,7 @@ export const PriceListList = (props: PriceListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
+                    minDate={new Date()}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&
