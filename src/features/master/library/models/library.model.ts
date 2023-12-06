@@ -12,6 +12,7 @@ export class Library {
   parameter: string;
   editable: boolean;
   details: string;
+  companyCode: string;
   status: string;
   enteredBy: string;
   dateCreation: Date;
@@ -22,7 +23,7 @@ export class Library {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -36,6 +37,7 @@ export class Library {
     this.parameter = rawData.parameter;
     this.editable = rawData.editable;
     this.details = rawData.details;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
     this.dateCreation = rawData.dateCreation;

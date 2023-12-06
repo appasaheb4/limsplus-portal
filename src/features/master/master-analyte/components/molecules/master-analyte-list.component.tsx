@@ -23,7 +23,7 @@ import {
   AutoCompleteAnalyteBottomMarker,
 } from '../index';
 import { FormHelper } from '@/helper';
-import { InputResult } from '@/core-components';
+import { AutoCompleteCompanyList, InputResult } from '@/core-components';
 
 let lab;
 let analyteCode;
@@ -57,6 +57,7 @@ let version;
 let minReportable;
 let maxReportable;
 let interpretation;
+let companyCode;
 
 interface MasterAnalyteProps {
   data: any;
@@ -1179,6 +1180,47 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               ),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader2',
@@ -1752,6 +1794,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             minReportable('');
             maxReportable('');
             price('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'lab',

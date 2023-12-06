@@ -27,6 +27,7 @@ import { toJS } from 'mobx';
 import { resetDeliverySchedule } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
     const { loginStore, deliveryScheduleStore, routerStore } = useStores();
@@ -116,6 +117,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
             schForDept: item['Sch For Dept'],
             schForPat: item['Sch For Pat'],
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -545,6 +547,24 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     )}
                     name='schForPat'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

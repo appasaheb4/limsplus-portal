@@ -37,6 +37,7 @@ import { resetTestAnalyteMapping } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -393,6 +394,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             ),
             version: item.Version,
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -925,6 +927,24 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       )}
                       name='variable'
                       rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            testAnalyteMappingStore.updateTestAnalyteMapping({
+                              ...testAnalyteMappingStore.testAnalyteMapping,
+                              companyCode,
+                            });
+                          }}
+                        />
+                      )}
+                      name='companyCode'
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 

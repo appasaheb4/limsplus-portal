@@ -32,6 +32,7 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { FormHelper } from '@/helper';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const CommentManager = CommentManagerHoc(
   observer(() => {
@@ -307,6 +308,7 @@ const CommentManager = CommentManagerHoc(
             ),
             versions: item.Versions,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -1057,6 +1059,24 @@ const CommentManager = CommentManagerHoc(
                   )}
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          commentManagerStore.updateCommentManager({
+                            ...commentManagerStore.commentManager,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

@@ -26,6 +26,7 @@ import { RouterFlow } from '@/flows';
 import { resetSampleContainer } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const SampleContainer = SampleContainerHoc(
   observer(() => {
@@ -100,6 +101,7 @@ const SampleContainer = SampleContainerHoc(
             description: item.Description,
             image: '',
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -307,6 +309,24 @@ const SampleContainer = SampleContainerHoc(
                 </List>
 
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          sampleContainerStore.updateSampleContainer({
+                            ...sampleContainerStore.sampleContainer,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

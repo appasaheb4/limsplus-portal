@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: CorporateClientInput!) {
@@ -59,6 +59,7 @@ export const LIST = gql`
         panelList
         templateForImport
         templateForExport
+        companyCode
         status
         environment
         dateOfEntry

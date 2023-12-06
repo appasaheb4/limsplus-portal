@@ -59,6 +59,7 @@ export const LIST = gql`
         analyteRightMarker
 
         reagentCode
+        companyCode
         status
         minReportable
         maxReportable

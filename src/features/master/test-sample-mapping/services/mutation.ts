@@ -37,6 +37,7 @@ export const LIST = gql`
         printLabels
         info
         departments
+        companyCode
         status
         environment
         dateOfEntry

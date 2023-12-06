@@ -50,6 +50,7 @@ export class CorporateClients {
   dateExpire: Date;
   version: number;
   enteredBy: string;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -106,6 +107,7 @@ export class CorporateClients {
     this.dateExpire = rawData.dateExpire;
     this.version = rawData.version;
     this.enteredBy = rawData.enteredBy;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

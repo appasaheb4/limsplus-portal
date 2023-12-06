@@ -18,6 +18,7 @@ import {
   SalesHierarchyTableForSalesTeam,
   TargetTableForSalesTeam,
 } from '../../index';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -31,6 +32,7 @@ let empCode;
 let empName;
 let status;
 let environment;
+let companyCode;
 
 interface SalesTeamListProps {
   data: any;
@@ -461,6 +463,46 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             ),
           },
           {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteCompanyList
+                  isLabel={false}
+                  hasError={false}
+                  onSelect={companyCode => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        companyCode,
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
+          },
+          {
             dataField: 'status',
             text: 'Status',
             headerClasses: 'textHeader2',
@@ -664,6 +706,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           empName('');
           status('');
           environment('');
+          companyCode('');
         }}
         dynamicStylingFields={[
           'salesTerritory',

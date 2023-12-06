@@ -18,6 +18,7 @@ import { InvestigationDetails, InstType } from '..';
 import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 import { FormHelper } from '@/helper';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let code;
 let libraryCode;
@@ -39,6 +40,7 @@ let low;
 let high;
 let alpha;
 let status;
+let companyCode;
 let enteredBy;
 let dateCreation;
 let dateActive;
@@ -858,6 +860,43 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               ),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem({ companyCode }, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader1',
@@ -1199,6 +1238,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
             low('');
             high('');
             alpha('');
+            companyCode('');
             status('');
             enteredBy('');
             dateCreation();

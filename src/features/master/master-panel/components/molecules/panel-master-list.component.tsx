@@ -24,6 +24,7 @@ import {
   AutoCompletePanelBottomMarker,
 } from '../index';
 import { FormHelper } from '@/helper';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let rLab;
 let pLab;
@@ -69,6 +70,7 @@ let dateExpire;
 let version;
 let enteredBy;
 let interpretation;
+let companyCode;
 
 interface PanelMasterListProps {
   data: any;
@@ -1587,6 +1589,47 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 editorCell(row),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader2',
@@ -2014,6 +2057,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             panelRightMarker('');
             status('');
             environment('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'rLab',

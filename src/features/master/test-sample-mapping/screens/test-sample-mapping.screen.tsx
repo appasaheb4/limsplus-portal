@@ -30,6 +30,7 @@ import { resetTestSampleMapping } from '../startup';
 import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const TestSampleMapping = TestSampleMappingHoc(
   observer(() => {
@@ -227,6 +228,7 @@ const TestSampleMapping = TestSampleMappingHoc(
             info: item.Info,
             departments: undefined,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -1146,6 +1148,24 @@ const TestSampleMapping = TestSampleMappingHoc(
                     )}
                     name='info'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

@@ -21,6 +21,7 @@ export class CommentManager {
   low: string;
   high: string;
   alpha: number;
+  companyCode: string;
   status: string;
   enteredBy: string;
   dateCreation: Date;
@@ -30,7 +31,7 @@ export class CommentManager {
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -53,6 +54,7 @@ export class CommentManager {
     this.low = rawData.low;
     this.high = rawData.high;
     this.alpha = rawData.alpha;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
     this.dateCreation = rawData.dateCreation;

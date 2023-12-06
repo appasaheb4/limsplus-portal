@@ -22,6 +22,7 @@ import {
   ModalResultReportOrder,
   ModalResultReportOrderProps,
 } from './modal-result-report-order.component';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let lab;
 let analyteCode;
@@ -35,6 +36,7 @@ let dateActive;
 let dateExpire;
 let version;
 let enteredBy;
+let companyCode;
 
 interface TestAnalyteMappingListProps {
   data: any;
@@ -492,6 +494,47 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader1',
@@ -890,6 +933,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             dateExpire();
             version('');
             enteredBy('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'lab',

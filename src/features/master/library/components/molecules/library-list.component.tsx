@@ -16,6 +16,7 @@ import { Confirm } from '@/library/models';
 import ModalDetails from './modal-details.component';
 import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let code;
 let libraryCode;
@@ -33,6 +34,7 @@ let dateCreation;
 let dateActive;
 let dateExpire;
 let versions;
+let companyCode;
 let environment;
 
 interface LibraryListProps {
@@ -439,6 +441,43 @@ export const LibraryList = (props: LibraryListProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem({ companyCode }, row._id);
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader1',
@@ -781,6 +820,7 @@ export const LibraryList = (props: LibraryListProps) => {
             enteredBy('');
             versions('');
             environment('');
+            companyCode('');
           }}
           hideExcelSheet={['_id', 'opration']}
           dynamicStylingFields={[

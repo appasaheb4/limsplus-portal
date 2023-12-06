@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: PackageMasterInput!) {
@@ -27,6 +27,7 @@ export const LIST = gql`
         printPanelName
         packageInterpretation
         panelInterpretation
+        companyCode
         status
         serviceType
         reportOrder

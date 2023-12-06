@@ -24,7 +24,10 @@ import {
   AutoCompleteSalesTerritory,
   PriceListTableForRegLocationsList,
 } from '../..';
-import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import {
+  AutoCompleteCompanyList,
+  AutoCompleteFilterDeliveryMode,
+} from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -66,6 +69,7 @@ let acClass;
 let accountType;
 let status;
 let environment;
+let companyCode;
 interface RegistrationLocationsListProps {
   data: any;
   totalSize: number;
@@ -1486,6 +1490,46 @@ export const RegistrationLocationsList = (
               },
             }),
             editable: false,
+          },
+          {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteCompanyList
+                  isLabel={false}
+                  hasError={false}
+                  onSelect={companyCode => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        companyCode,
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'status',

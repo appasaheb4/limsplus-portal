@@ -8,6 +8,7 @@ import {
   sortCaret,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let sampleCode;
 let sampleType;
@@ -15,6 +16,7 @@ let descriptions;
 let sampleGroup;
 let environment;
 let status;
+let companyCode;
 
 interface SampleTypeListProps {
   data: any;
@@ -125,6 +127,47 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleGroup = filter;
                 },
               }),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'status',
@@ -301,6 +344,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
             sampleGroup('');
             environment('');
             status('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'sampleCode',
