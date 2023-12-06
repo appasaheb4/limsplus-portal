@@ -28,6 +28,7 @@ export const LIST = gql`
         onTime
         schForDept
         schForPat
+        companyCode
         status
         environment
         dateOfEntry

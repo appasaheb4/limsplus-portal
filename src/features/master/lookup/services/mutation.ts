@@ -96,6 +96,7 @@ export const LIST = gql`
           flagUpperCase
         }
         description
+        companyCode
         status
         environment
         dateOfEntry

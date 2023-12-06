@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: LibraryInput!) {
@@ -20,6 +20,7 @@ export const LIST = gql`
         parameter
         editable
         details
+        companyCode
         status
         enteredBy
         dateCreation

@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: PriceListInput!) {
@@ -23,6 +23,7 @@ export const LIST = gql`
         maxDis
         fixedPrice
         enteredBy
+        companyCode
         status
         environment
         dateCreation

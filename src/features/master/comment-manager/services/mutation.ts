@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: CommentManagerInput!) {
@@ -31,6 +31,7 @@ export const LIST = gql`
         low
         high
         alpha
+        companyCode
         status
         enteredBy
         dateCreation
