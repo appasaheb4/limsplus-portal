@@ -1673,6 +1673,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                           }
                           hasError={!!errors.dateExpire}
                           value={value}
+                          minDate={new Date()}
                           onChange={dateExpire => {
                             onChange(dateExpire);
                             masterAnalyteStore.updateMasterAnalyte({
