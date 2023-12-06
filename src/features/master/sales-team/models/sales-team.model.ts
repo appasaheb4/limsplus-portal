@@ -14,6 +14,7 @@ export class SalesTeam {
   dateActive: Date;
   dateExpire: Date;
   version: number;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
@@ -34,6 +35,7 @@ export class SalesTeam {
     this.dateActive = rawData.dateActive;
     this.dateExpire = rawData.dateExpire;
     this.version = rawData.version;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;

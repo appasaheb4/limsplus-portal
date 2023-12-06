@@ -37,6 +37,7 @@ import { toJS } from 'mobx';
 import { resetMasterPackage } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -369,6 +370,7 @@ const MasterPackage = MasterPackageHOC(
             ),
             version: item.Version,
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -826,6 +828,24 @@ const MasterPackage = MasterPackageHOC(
                       )}
                       name='panelName'
                       rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <AutoCompleteCompanyList
+                          hasError={!!errors.companyCode}
+                          onSelect={companyCode => {
+                            onChange(companyCode);
+                            masterPackageStore.updateMasterPackage({
+                              ...masterPackageStore.masterPackage,
+                              companyCode,
+                            });
+                          }}
+                        />
+                      )}
+                      name='companyCode'
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                     <Controller

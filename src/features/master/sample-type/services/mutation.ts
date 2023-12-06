@@ -14,6 +14,7 @@ export const LIST = gql`
         sampleType
         descriptions
         sampleGroup
+        companyCode
         status
         environment
         dateOfEntry

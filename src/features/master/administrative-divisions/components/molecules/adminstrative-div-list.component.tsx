@@ -11,6 +11,7 @@ import {
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let country;
 let state;
@@ -22,6 +23,7 @@ let sbu;
 let zone;
 let environment;
 let status;
+let companyCode;
 
 interface AdminstrativeDivListProps {
   data: any;
@@ -282,6 +284,46 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             ),
           },
           {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteCompanyList
+                  isLabel={false}
+                  hasError={false}
+                  onSelect={companyCode => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        companyCode,
+                        column.dataField,
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
+          },
+          {
             dataField: 'status',
             text: 'Status',
             sort: true,
@@ -456,6 +498,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
           postalCode('');
           sbu('');
           zone('');
+          companyCode('');
           environment('');
         }}
         hideExcelSheet={['_id', 'opration']}

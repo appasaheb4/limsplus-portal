@@ -21,6 +21,7 @@ import { RouterFlow } from '@/flows';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 const Banner = BannerHoc(
   observer(() => {
@@ -129,6 +130,24 @@ const Banner = BannerHoc(
                   name='image'
                   rules={{ required: true }}
                   defaultValue={bannerStore.banner?.image}
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <AutoCompleteCompanyList
+                      hasError={!!errors.companyCode}
+                      onSelect={companyCode => {
+                        onChange(companyCode);
+                        bannerStore.updateBanner({
+                          ...bannerStore.banner,
+                          companyCode,
+                        });
+                      }}
+                    />
+                  )}
+                  name='companyCode'
+                  rules={{ required: true }}
+                  defaultValue=''
                 />
                 <Controller
                   control={control}

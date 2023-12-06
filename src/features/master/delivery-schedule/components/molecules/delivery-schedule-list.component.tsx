@@ -9,6 +9,7 @@ import {
   sortCaret,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
+import { AutoCompleteCompanyList } from '@/core-components';
 let schCode;
 let pStartTime;
 let pEndTime;
@@ -23,6 +24,7 @@ let schForDept;
 let schForPat;
 let environment;
 let status;
+let companyCode;
 interface DeliverySchduleListProps {
   data: any;
   totalSize: number;
@@ -476,6 +478,47 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 editorCell(row),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               sort: true,
@@ -657,6 +700,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             schForDept('');
             schForPat('');
             environment('');
+            companyCode('');
           }}
           dynamicStylingFields={['schCode', 'environment']}
           hideExcelSheet={['_id', 'opration']}

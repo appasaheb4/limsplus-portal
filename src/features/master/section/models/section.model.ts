@@ -9,12 +9,13 @@ export class Section {
   contactNo: string;
   fyiLine: string;
   workLine: string;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.departmentCode = rawData.departmentCode;
     this.code = rawData.code;
@@ -26,6 +27,7 @@ export class Section {
     this.fyiLine = rawData.fyiLine;
     this.workLine = rawData.workLine;
     this.status = rawData.status;
+    this.companyCode = rawData.companyCode;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

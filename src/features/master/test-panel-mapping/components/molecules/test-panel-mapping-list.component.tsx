@@ -20,6 +20,7 @@ import {
   AutoCompleteFilterSingleSelectTestName,
 } from '../index';
 import { ModalReportOrder } from './modal-report-order.component';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -33,6 +34,7 @@ let testName;
 let description;
 let status;
 let environment;
+let companyCode;
 
 interface TestPanelMappingListProps {
   data: any;
@@ -561,6 +563,47 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader1',
@@ -959,6 +1002,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             description('');
             status('');
             environment('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'panelCode',

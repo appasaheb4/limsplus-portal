@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: MethodsInput!) {
@@ -13,6 +13,7 @@ export const LIST = gql`
         methodsCode
         methodsName
         description
+        companyCode
         status
         environment
         dateOfEntry

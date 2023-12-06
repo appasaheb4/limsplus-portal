@@ -26,6 +26,7 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { resetPossibleResult } from '../startup';
 import * as XLSX from 'xlsx';
+import { AutoCompleteCompanyList } from '@/core-components';
 
 export const PossibleResults = PossibleResultHoc(
   observer(() => {
@@ -272,6 +273,7 @@ export const PossibleResults = PossibleResultHoc(
             version: item.Version,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -841,6 +843,24 @@ export const PossibleResults = PossibleResultHoc(
                     )}
                     name='version'
                     rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <AutoCompleteCompanyList
+                        hasError={!!errors.companyCode}
+                        onSelect={companyCode => {
+                          onChange(companyCode);
+                          possibleResultsStore.updatePossibleResults({
+                            ...possibleResultsStore.possibleResults,
+                            companyCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

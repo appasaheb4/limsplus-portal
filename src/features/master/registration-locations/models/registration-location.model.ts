@@ -1,4 +1,4 @@
-import {PriceList} from '@/models';
+import { PriceList } from '@/models';
 export class RegistrationLocations {
   _id: string;
   existsVersionId: string;
@@ -48,11 +48,12 @@ export class RegistrationLocations {
   dateExpire: Date;
   version: number;
   enteredBy: string;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
@@ -102,6 +103,7 @@ export class RegistrationLocations {
     this.gstNo = rawData.gstNo;
     this.isPrintPrimaryBarcod = rawData.isPrintPrimaryBarcod;
     this.isPrintSecondaryBarcode = rawData.isPrintSecondaryBarcode;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
@@ -111,7 +113,7 @@ export class RegistrationLocations {
 
 export class SelectedItems {
   deliveryMode: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.deliveryMode = rawData.deliveryMode;
   }
 }

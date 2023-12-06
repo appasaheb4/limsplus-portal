@@ -17,12 +17,13 @@ export class Department {
   closingTime: string;
   fyiLine: string;
   workLine: string;
+  companyCode: string;
   status: string;
   environment: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.lab = rawData.lab;
     this.code = rawData.code;
@@ -41,6 +42,7 @@ export class Department {
     this.closingTime = rawData.closingTime;
     this.fyiLine = rawData.fyiLine;
     this.workLine = rawData.workLine;
+    this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;
     this.dateOfEntry = rawData.dateOfEntry;
@@ -52,7 +54,7 @@ export class SelectedItems {
   lab: any[];
   hod: any[];
   authorizedSignatory: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.lab = rawData.lab;
     this.hod = rawData.hod;
     this.authorizedSignatory = rawData.authorizedSignatory;
