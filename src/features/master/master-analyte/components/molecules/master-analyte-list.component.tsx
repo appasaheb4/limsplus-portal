@@ -1392,6 +1392,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
+                    minDate={new Date()}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

@@ -15,3 +15,26 @@
   z-index: 9999 !important;
   overflow: visible !important;
 }
+
+.react-calendar__tile--now {
+  background: #fa463f !important;
+  border-radius: 100%;
+}
+
+.react-calendar__tile--now:enabled:hover {
+  background: #fa463f !important
+}
+
+.react-calendar__tile {
+  padding: 15px 6.6667px !important;
+}
+
+.react-calendar__tile--active{
+  background-color: #fa463f !important;
+  border-radius: 100%;
+}
+
+.react-calendar__tile--active:enabled:hover{
+  background-color: #fa463f !important;
+  border-radius: 100%;
+}
