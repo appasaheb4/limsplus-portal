@@ -98,6 +98,7 @@ export const FILTER = gql`
         }
         defaultConclusion
         environment
+        status
         enteredBy
         dateCreation
         dateActive
@@ -131,6 +132,7 @@ export const FIND_BY_FIELDS = gql`
         }
         defaultConclusion
         environment
+        status
         enteredBy
         dateCreation
         dateActive
