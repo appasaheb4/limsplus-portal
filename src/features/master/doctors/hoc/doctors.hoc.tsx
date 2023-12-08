@@ -1,21 +1,21 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
 export const DoctorsHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, doctorsStore, routerStore} = useStores();
+    const { loginStore, doctorsStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       doctorsStore.updateDoctors({
         ...doctorsStore.doctors,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
         title: getDefaultLookupItem(routerStore.lookupItems, 'TITLE'),
         speciality: getDefaultLookupItem(routerStore.lookupItems, 'SPECIALITY'),
         salesTerritoRy: getDefaultLookupItem(

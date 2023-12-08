@@ -44,7 +44,7 @@ const NoticeBoard = NoticeBoardHoc(
       // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', noticeBoardStore.noticeBoard?.status);
-      setValue('environment', noticeBoardStore.noticeBoard?.environment);
+      // setValue('environment', noticeBoardStore.noticeBoard?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login]);
 
@@ -320,7 +320,7 @@ const NoticeBoard = NoticeBoardHoc(
                 rules={{ required: true }}
                 defaultValue=''
               />
-              <Controller
+              {/* <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
@@ -366,7 +366,7 @@ const NoticeBoard = NoticeBoardHoc(
                 name='environment'
                 rules={{ required: true }}
                 defaultValue=''
-              />
+              /> */}
               <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (

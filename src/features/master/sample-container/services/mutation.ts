@@ -83,6 +83,7 @@ export const FILTER = gql`
         containerName
         description
         image
+        companyCode
         status
         environment
         dateOfEntry
@@ -106,6 +107,7 @@ export const FILTER_BY_FIELDS = gql`
         containerName
         description
         image
+        companyCode
         status
         environment
         dateOfEntry
@@ -126,6 +128,7 @@ export const FIND_BY_FIELDS = gql`
         containerName
         description
         image
+        companyCode
         status
         environment
         dateOfEntry

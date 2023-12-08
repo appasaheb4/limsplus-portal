@@ -80,7 +80,7 @@ const MasterPackage = MasterPackageHOC(
       );
       setValue('serviceType', masterPackageStore.masterPackage?.serviceType);
       setValue('status', masterPackageStore.masterPackage?.status);
-      setValue('environment', masterPackageStore.masterPackage?.environment);
+      // setValue('environment', masterPackageStore.masterPackage?.environment);
       setValue('dateCreation', masterPackageStore.masterPackage?.dateCreation);
       setValue('dateExpire', masterPackageStore.masterPackage?.dateExpire);
       setValue('version', masterPackageStore.masterPackage?.version);
@@ -830,7 +830,7 @@ const MasterPackage = MasterPackageHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -847,7 +847,7 @@ const MasterPackage = MasterPackageHOC(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1231,7 +1231,7 @@ const MasterPackage = MasterPackageHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
@@ -1316,7 +1316,7 @@ const MasterPackage = MasterPackageHOC(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                   </List>
                 </Grid>
               </>

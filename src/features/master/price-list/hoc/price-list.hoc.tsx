@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
 export const PriceListHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, priceListStore, routerStore} = useStores();
+    const { loginStore, priceListStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       priceListStore.updatePriceList({
@@ -16,10 +16,10 @@ export const PriceListHoc = (Component: React.FC<any>) => {
           'PRICE_GROUP',
         ),
         priceList: getDefaultLookupItem(routerStore.lookupItems, 'PRICE_LIST'),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
       });
 

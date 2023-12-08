@@ -41,7 +41,7 @@ const Role = RolesHoc(
     useEffect(() => {
       // Default value initialization
       setValue('status', roleStore.role?.status);
-      setValue('environment', roleStore.role?.environment);
+      // setValue('environment', roleStore.role?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roleStore.role]);
 
@@ -252,7 +252,7 @@ const Role = RolesHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Environment'>
@@ -311,7 +311,7 @@ const Role = RolesHoc(
                   name='environment'
                   rules={{ required: true }}
                   defaultValue=''
-                />
+                /> */}
               </List>
             </Grid>
             <br />

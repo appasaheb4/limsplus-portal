@@ -213,8 +213,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               headerStyle: {
                 fontSize: 0,
               },
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -222,40 +221,40 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                   environment = filter;
                 },
               }),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.environment}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const environment = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          environment,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      'ENVIRONMENT',
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              ),
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <select
+              //       value={row.environment}
+              //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+              //       onChange={e => {
+              //         const environment = e.target.value;
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             environment,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     >
+              //       <option selected>Select</option>
+              //       {lookupItems(
+              //         props.extraData.lookupItems,
+              //         'ENVIRONMENT',
+              //       ).map((item: any, index: number) => (
+              //         <option key={index} value={item.code}>
+              //           {lookupValue(item)}
+              //         </option>
+              //       ))}
+              //     </select>
+              //   </>
+              // ),
             },
             {
               dataField: 'action',

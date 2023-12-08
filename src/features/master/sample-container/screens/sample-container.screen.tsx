@@ -47,10 +47,10 @@ const SampleContainer = SampleContainerHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue(
-        'environment',
-        sampleContainerStore.sampleContainer?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   sampleContainerStore.sampleContainer?.environment,
+      // );
       setValue('status', sampleContainerStore.sampleContainer?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sampleContainerStore.sampleContainer]);
@@ -309,7 +309,7 @@ const SampleContainer = SampleContainerHoc(
                 </List>
 
                 <List direction='col' space={4} justify='stretch' fill>
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -326,7 +326,7 @@ const SampleContainer = SampleContainerHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -364,7 +364,7 @@ const SampleContainer = SampleContainerHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -434,7 +434,7 @@ const SampleContainer = SampleContainerHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

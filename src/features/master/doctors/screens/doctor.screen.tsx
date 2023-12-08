@@ -54,7 +54,7 @@ const Doctors = DoctorsHoc(
     useEffect(() => {
       // Default value initialization
       setValue('status', doctorsStore.doctors?.status);
-      setValue('environment', doctorsStore.doctors?.environment);
+      // setValue('environment', doctorsStore.doctors?.environment);
       setValue('title', doctorsStore.doctors?.title);
       setValue('doctorType', doctorsStore.doctors?.doctorType);
       setValue('speciality', doctorsStore.doctors?.speciality);
@@ -1487,7 +1487,7 @@ const Doctors = DoctorsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -1504,7 +1504,7 @@ const Doctors = DoctorsHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1542,7 +1542,7 @@ const Doctors = DoctorsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
@@ -1612,7 +1612,7 @@ const Doctors = DoctorsHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Grid cols={4}>
                     <Controller
                       control={control}

@@ -40,10 +40,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue(
-        'environment',
-        administrativeDivisions.administrativeDiv?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   administrativeDivisions.administrativeDiv?.environment,
+      // );
       setValue('status', administrativeDivisions.administrativeDiv?.status);
       setValue('sbu', administrativeDivisions.administrativeDiv?.sbu);
       setValue('zone', administrativeDivisions.administrativeDiv?.zone);
@@ -485,7 +485,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -502,7 +502,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -539,7 +539,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
@@ -589,7 +589,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (
