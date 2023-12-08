@@ -72,7 +72,7 @@ export const PatientOrder = PatientOrderHoc(
     useEffect(() => {
       // Default value initialization
       setValue('orderId', patientOrderStore.patientOrder?.orderId);
-      setValue('environment', patientOrderStore.patientOrder?.environment);
+      // setValue('environment', patientOrderStore.patientOrder?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patientOrderStore.patientOrder]);
 
@@ -515,7 +515,7 @@ export const PatientOrder = PatientOrderHoc(
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Environment'>
@@ -556,7 +556,7 @@ export const PatientOrder = PatientOrderHoc(
                   name='environment'
                   rules={{ required: true }}
                   defaultValue=''
-                />
+                /> */}
               </List>
             </Grid>
             <div
