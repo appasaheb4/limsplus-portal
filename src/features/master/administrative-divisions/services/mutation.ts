@@ -73,6 +73,7 @@ export const FILTER = gql`
         zone
         status
         environment
+        companyCode
       }
     }
   }
@@ -98,6 +99,7 @@ export const FIND_BY_FIELDS = gql`
         zone
         status
         environment
+        companyCode
       }
     }
   }

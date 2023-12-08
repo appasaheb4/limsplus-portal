@@ -378,7 +378,7 @@ export const DocumentSettings = DocumentSettingHoc(
                 rules={{ required: false }}
                 defaultValue=''
               />
-              <Controller
+              {/* <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <AutoCompleteCompanyList
@@ -395,7 +395,7 @@ export const DocumentSettings = DocumentSettingHoc(
                 name='companyCode'
                 rules={{ required: true }}
                 defaultValue=''
-              />
+              /> */}
               <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (
@@ -429,7 +429,7 @@ export const DocumentSettings = DocumentSettingHoc(
                 rules={{ required: false }}
                 defaultValue=''
               />
-              <Controller
+              {/* <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper label='Environment'>
@@ -471,7 +471,7 @@ export const DocumentSettings = DocumentSettingHoc(
                 name='environment'
                 rules={{ required: true }}
                 defaultValue=''
-              />
+              /> */}
             </List>
           </Grid>
         ) : (

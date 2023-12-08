@@ -132,6 +132,7 @@ export const FILTER = gql`
         dateActive
         dateExpire
         enterBy
+        companyCode
         status
         environment
         dateOfEntry
@@ -184,6 +185,7 @@ export const FILTER_BY_FIELDS = gql`
         dateActive
         dateExpire
         enterBy
+        companyCode
         status
         environment
         dateOfEntry
@@ -236,6 +238,7 @@ export const FIND_BY_FIELDS = gql`
         dateActive
         dateExpire
         enterBy
+        companyCode
         status
         environment
         dateOfEntry

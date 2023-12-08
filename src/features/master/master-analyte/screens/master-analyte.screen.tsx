@@ -1768,7 +1768,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -1785,7 +1785,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
 
                     <Controller
                       control={control}
@@ -1824,7 +1824,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
@@ -1906,7 +1906,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                   </List>
                 </Grid>
               </>

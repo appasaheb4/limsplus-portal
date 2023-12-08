@@ -137,6 +137,7 @@ export const FILTER = gql`
         panelInterpretation
         testInterpretation
         analyteInterpretation
+        companyCode
         status
         environment
         dateOfEntry
@@ -178,6 +179,7 @@ export const FIND_BY_FIELDS = gql`
         panelInterpretation
         testInterpretation
         analyteInterpretation
+        companyCode
         status
         environment
         dateOfEntry

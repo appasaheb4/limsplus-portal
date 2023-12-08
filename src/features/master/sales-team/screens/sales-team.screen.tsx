@@ -62,7 +62,7 @@ export const SalesTeam = SalesTeamHoc(
       setValue('empCode', salesTeamStore.salesTeam?.empCode);
       setValue('employeeName', salesTeamStore.salesTeam?.empName);
       setValue('targets', salesTeamStore.salesTeam?.targets);
-      setValue('environment', salesTeamStore.salesTeam?.environment);
+      // setValue('environment', salesTeamStore.salesTeam?.environment);
       setValue('status', salesTeamStore.salesTeam?.status);
       setValue('dateExpire', salesTeamStore.salesTeam?.dateExpire);
       setValue('version', salesTeamStore.salesTeam?.version);
@@ -639,7 +639,7 @@ export const SalesTeam = SalesTeamHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -656,7 +656,7 @@ export const SalesTeam = SalesTeamHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -694,7 +694,7 @@ export const SalesTeam = SalesTeamHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -758,7 +758,7 @@ export const SalesTeam = SalesTeamHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

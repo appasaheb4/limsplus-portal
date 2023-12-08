@@ -102,6 +102,7 @@ export const FILTER = gql`
         dateCreation
         dateActive
         dateExpire
+        companyCode
         version
         dateOfEntry
         lastUpdated
@@ -134,6 +135,7 @@ export const FIND_BY_FIELDS = gql`
         enteredBy
         dateCreation
         dateActive
+        companyCode
         dateExpire
         version
         dateOfEntry

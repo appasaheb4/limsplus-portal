@@ -90,6 +90,7 @@ export const FILTER = gql`
         methodsCode
         methodsName
         description
+        companyCode
         status
         environment
         dateOfEntry
@@ -112,6 +113,7 @@ export const FILTER_BY_FIELDS = gql`
         methodsCode
         methodsName
         description
+        companyCode
         status
         environment
         dateOfEntry
@@ -131,6 +133,7 @@ export const FIND_BY_FIELDS = gql`
         methodsCode
         methodsName
         description
+        companyCode
         status
         environment
         dateOfEntry

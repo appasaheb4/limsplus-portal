@@ -95,7 +95,7 @@ export const Library = LibraryHoc(
       setValue('dateCreation', libraryStore.library?.dateCreation);
       setValue('dateExpire', libraryStore.library?.dateExpire);
       setValue('versions', libraryStore.library?.versions);
-      setValue('environment', libraryStore.library?.environment);
+      // setValue('environment', libraryStore.library?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [libraryStore.library]);
 
