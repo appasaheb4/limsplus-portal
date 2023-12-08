@@ -103,7 +103,7 @@ const CommentManager = CommentManagerHoc(
       );
       setValue('dateExpire', commentManagerStore.commentManager?.dateExpire);
       setValue('versions', commentManagerStore.commentManager?.versions);
-      setValue('environment', commentManagerStore.commentManager?.environment);
+      // setValue('environment', commentManagerStore.commentManager?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commentManagerStore.commentManager]);
 

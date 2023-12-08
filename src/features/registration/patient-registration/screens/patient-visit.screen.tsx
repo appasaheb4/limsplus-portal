@@ -87,10 +87,10 @@ export const PatientVisit = PatientVisitHoc(
       setValue('visitId', patientVisitStore.patientVisit.visitId);
       setValue('labId', patientVisitStore.patientVisit.labId);
       setValue('status', patientVisitStore.patientVisit?.status);
-      setValue(
-        'environment',
-        patientVisitStore.patientVisit.extraData?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   patientVisitStore.patientVisit.extraData?.environment,
+      // );
     }, [patientVisitStore.patientVisit]);
 
     const onSubmitPatientVisit = async () => {
@@ -2154,7 +2154,7 @@ export const PatientVisit = PatientVisitHoc(
                           defaultValue=''
                         />
 
-                        <Controller
+                        {/* <Controller
                           control={control}
                           render={({ field: { onChange, value } }) => (
                             <Form.InputWrapper label='Environment'>
@@ -2199,7 +2199,7 @@ export const PatientVisit = PatientVisitHoc(
                           name='environment'
                           rules={{ required: false }}
                           defaultValue=''
-                        />
+                        /> */}
                       </List>
                     </Grid>
                   </>

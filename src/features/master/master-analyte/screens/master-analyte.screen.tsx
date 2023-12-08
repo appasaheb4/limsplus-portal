@@ -58,7 +58,7 @@ const MasterAnalyte = MasterAnalyteHoc(
       setValue('lab', loginStore.login.lab);
       setValue('analyteCode', masterAnalyteStore.masterAnalyte?.analyteCode);
       setValue('analyteName', masterAnalyteStore.masterAnalyte?.analyteName);
-      setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
+      // setValue('environment', masterAnalyteStore.masterAnalyte?.environment);
       setValue('status', masterAnalyteStore.masterAnalyte?.status);
       setValue('resultType', masterAnalyteStore.masterAnalyte?.resultType);
       setValue('reportable', masterAnalyteStore.masterAnalyte?.reportable);

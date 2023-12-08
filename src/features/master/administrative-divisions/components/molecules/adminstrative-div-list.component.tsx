@@ -299,29 +299,29 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
               },
             }),
             headerClasses: 'textHeader2',
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <AutoCompleteCompanyList
-                  isLabel={false}
-                  hasError={false}
-                  onSelect={companyCode => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(
-                        companyCode,
-                        column.dataField,
-                        row._id,
-                      );
-                  }}
-                />
-              </>
-            ),
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <AutoCompleteCompanyList
+            //       isLabel={false}
+            //       hasError={false}
+            //       onSelect={companyCode => {
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             companyCode,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     />
+            //   </>
+            // ),
           },
           {
             dataField: 'status',
