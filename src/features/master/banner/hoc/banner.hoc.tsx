@@ -18,7 +18,6 @@ export const BannerHoc = (Component: React.FC<any>) => {
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
-
     return <Component {...props} />;
   });
 };
