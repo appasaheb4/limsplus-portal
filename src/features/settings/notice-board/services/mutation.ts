@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: NoticeBoardInput!) {
@@ -14,6 +14,7 @@ export const LIST = gql`
         header
         message
         action
+        companyCode
         dateOfEntry
         lastUpdated
       }
@@ -62,6 +63,7 @@ export const FILTER = gql`
         header
         message
         action
+        companyCode
         dateOfEntry
         lastUpdated
       }
@@ -83,6 +85,7 @@ export const FIND_BY_FIELDS = gql`
         header
         message
         action
+        companyCode
         dateOfEntry
         lastUpdated
       }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Form,
   Tooltip,
@@ -9,9 +9,9 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 
-import {TableBootstrap} from './table-bootstrap.components';
-import {RefRanges} from './ref-ranges.component';
-import {InputResult} from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
+import { TableBootstrap } from './table-bootstrap.components';
+import { RefRanges } from './ref-ranges.component';
+import { InputResult } from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
 
 import {
   getResultStatus,
@@ -56,7 +56,7 @@ export const ResultList = (props: ResultListProps) => {
     setLocalData(
       props.selectedId
         ? props.data.map(item => {
-            return {...item, selectedId: props.selectedId};
+            return { ...item, selectedId: props.selectedId };
           })
         : props.data,
     );
@@ -70,7 +70,7 @@ export const ResultList = (props: ResultListProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={localData}
@@ -132,7 +132,7 @@ export const ResultList = (props: ResultListProps) => {
                   <InputResult
                     row={row}
                     onSelect={async result => {
-                      const rows = {...row, ...result};
+                      const rows = { ...row, ...result };
                       props.onUpdateResult &&
                         props.onUpdateResult(
                           {
@@ -295,7 +295,7 @@ export const ResultList = (props: ResultListProps) => {
                     placeholder='Conclusion'
                     onBlur={conclusion => {
                       props.onUpdateFields &&
-                        props.onUpdateFields({conclusion}, row._id);
+                        props.onUpdateFields({ conclusion }, row._id);
                     }}
                     defaultValue={row?.conclusion}
                   />
@@ -364,6 +364,13 @@ export const ResultList = (props: ResultListProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
               dataField: 'enteredBy',
               text: 'Entered By',
               sort: true,
@@ -384,7 +391,7 @@ export const ResultList = (props: ResultListProps) => {
                       onClick={() => {
                         props.onUpdateFields &&
                           props.onUpdateFields(
-                            {approvalStatus: 'Approved'},
+                            { approvalStatus: 'Approved' },
                             row._id,
                           );
                       }}
@@ -399,7 +406,7 @@ export const ResultList = (props: ResultListProps) => {
                       onClick={() => {
                         props.onUpdateFields &&
                           props.onUpdateFields(
-                            {approvalStatus: 'Rejected'},
+                            { approvalStatus: 'Rejected' },
                             row._id,
                           );
                       }}
@@ -443,7 +450,7 @@ export const ResultList = (props: ResultListProps) => {
                     >
                       <Icons.RIcon
                         nameIcon='GoIssueReopened'
-                        propsIcon={{color: '#ffffff'}}
+                        propsIcon={{ color: '#ffffff' }}
                       />
                     </Icons.IconContext>
                   </Tooltip>
@@ -458,7 +465,7 @@ export const ResultList = (props: ResultListProps) => {
                     >
                       <Icons.RIcon
                         nameIcon='VscIssueReopened'
-                        propsIcon={{color: '#ffffff'}}
+                        propsIcon={{ color: '#ffffff' }}
                       />
                     </Icons.IconContext>
                   </Tooltip>

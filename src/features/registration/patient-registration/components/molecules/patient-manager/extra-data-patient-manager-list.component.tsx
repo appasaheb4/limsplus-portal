@@ -46,6 +46,7 @@ let balance;
 let enteredBy;
 let status;
 let environment;
+
 export const ExtraDataPatientManagerList = observer(
   (props: ExtraDataPatientManagerProps) => {
     return (

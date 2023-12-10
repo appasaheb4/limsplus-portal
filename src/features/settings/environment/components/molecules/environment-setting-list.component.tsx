@@ -23,6 +23,7 @@ let value;
 let description;
 let environment;
 let status;
+let companyCode;
 interface SessionManagementListProps {
   data: any;
   extraData: any;
@@ -406,6 +407,46 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               ),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader3',
@@ -533,6 +574,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
             description('');
             environment('');
             status('');
+            companyCode('');
           }}
           hideExcelSheet={['_id', 'opration']}
           dynamicStylingFields={['variable', 'value', 'environment']}

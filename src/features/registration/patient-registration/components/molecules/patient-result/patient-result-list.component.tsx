@@ -26,6 +26,8 @@ interface PatientResultProps {
 
 let labId;
 let plab;
+let companyCode;
+
 export const PatientResultList = observer((props: PatientResultProps) => {
   const editorCell = (row: any) => {
     return false; //row.status !== "I" ? true : false
@@ -701,6 +703,23 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader4',
@@ -735,6 +754,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
           clearAllFilter={() => {
             labId('');
             plab('');
+            companyCode('');
           }}
         />
       </div>

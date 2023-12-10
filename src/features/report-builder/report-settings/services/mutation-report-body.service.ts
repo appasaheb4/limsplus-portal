@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const REPORT_BODY_LIST = gql`
   mutation ($input: ReportBodyInput!) {
@@ -17,6 +17,7 @@ export const REPORT_BODY_LIST = gql`
         panel
         test
         analyte
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -69,6 +70,7 @@ export const FILTER = gql`
         panel
         test
         analyte
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -94,6 +96,7 @@ export const FILTER_BY_FIELDS = gql`
         panel
         test
         analyte
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -116,6 +119,7 @@ export const FIND_BY_FIELDS = gql`
         panel
         test
         analyte
+        companyCode
         documentType
         dateOfEntry
         lastUpdated

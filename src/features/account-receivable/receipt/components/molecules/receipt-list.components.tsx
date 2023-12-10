@@ -1,11 +1,8 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {
-  Tooltip,
-  Icons,
-} from '@/library/components';
-import {Confirm} from '@/library/models';
-import {TableBootstrap} from './table-bootstrap.components';
+import { observer } from 'mobx-react';
+import { Tooltip, Icons } from '@/library/components';
+import { Confirm } from '@/library/models';
+import { TableBootstrap } from './table-bootstrap.components';
 
 interface ReceiptListProps {
   data: any;
@@ -28,7 +25,7 @@ interface ReceiptListProps {
 export const ReceiptList = observer((props: ReceiptListProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -89,6 +86,13 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'enteredBy',

@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: DataConversationInput!) {
@@ -14,6 +14,7 @@ export const LIST = gql`
         binary
         ascii
         environment
+        companyCode
         dateOfEntry
         lastUpdated
       }
@@ -71,6 +72,7 @@ export const FILTER = gql`
         binary
         ascii
         environment
+        companyCode
         dateOfEntry
         lastUpdated
       }

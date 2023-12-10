@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   Form,
   TableBootstrap,
@@ -8,7 +8,7 @@ import {
   Buttons,
   Svg,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 
 interface PageLayoutProps {
   data: any;
@@ -31,11 +31,12 @@ interface PageLayoutProps {
 let sectionSetting;
 let version;
 let environment;
+let companyCode;
 
 export const PageLayoutList = observer((props: PageLayoutProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -75,7 +76,7 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
                       value={row.isToolbar}
                       onChange={isToolbar => {
                         props.onUpdateItem &&
-                          props.onUpdateItem({isToolbar}, row._id);
+                          props.onUpdateItem({ isToolbar }, row._id);
                       }}
                     />
                   </>
@@ -102,7 +103,7 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
                       value={row.isBackgroundImage}
                       onChange={isBackgroundImage => {
                         props.onUpdateItem &&
-                          props.onUpdateItem({isBackgroundImage}, row._id);
+                          props.onUpdateItem({ isBackgroundImage }, row._id);
                       }}
                     />
                   </>
@@ -181,7 +182,7 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
                       onChange={e => {
                         const pageSize = e.target.value;
                         props.onUpdateItem &&
-                          props.onUpdateItem({pageSize}, row._id);
+                          props.onUpdateItem({ pageSize }, row._id);
                       }}
                     >
                       <option selected>Select</option>
@@ -263,16 +264,24 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
                 <>
                   <Form.MultilineInput
                     label=''
-                    style={{color: '#ffffff', backgroundColor: '#000000'}}
+                    style={{ color: '#ffffff', backgroundColor: '#000000' }}
                     placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
                     onBlur={mainBoxCSS => {
                       props.onUpdateItem &&
-                        props.onUpdateItem({mainBoxCSS}, row._id);
+                        props.onUpdateItem({ mainBoxCSS }, row._id);
                     }}
                     defaultValue={row?.mainBoxCSS}
                   />
                 </>
               ),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              headerClasses: 'textHeader2',
             },
             {
               dataField: 'operation',

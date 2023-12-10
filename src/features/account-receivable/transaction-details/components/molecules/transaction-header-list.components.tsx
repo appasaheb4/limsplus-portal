@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
-import {
-  Tooltip,
-  Icons,
-} from '@/library/components';
-import {Confirm} from '@/library/models';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
+import { Tooltip, Icons } from '@/library/components';
+import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
-import {TableBootstrapTranHeader} from './table-bootstrap-tran-header.components';
+import { TableBootstrapTranHeader } from './table-bootstrap-tran-header.components';
 
 interface TransactionHeaderProps {
   data: any;
@@ -33,7 +30,7 @@ export const TransactionHeaderList = observer(
     const [selectedItem, setSelectedItem] = useState<any>({});
     return (
       <>
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           <TableBootstrapTranHeader
             id='_id'
             data={props.data}
@@ -238,6 +235,12 @@ export const TransactionHeaderList = observer(
               {
                 dataField: 'status',
                 text: 'Status',
+                sort: true,
+                editable: false,
+              },
+              {
+                text: 'Company Code',
+                dataField: 'companyCode',
                 sort: true,
                 editable: false,
               },

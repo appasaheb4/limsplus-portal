@@ -1,13 +1,13 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   NumberFilter,
   customFilter,
   Form,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {PatientTestExpandPanel} from './patient-test-expand-panel.component';
+import { Confirm } from '@/library/models';
+import { PatientTestExpandPanel } from './patient-test-expand-panel.component';
 import dayjs from 'dayjs';
 
 interface PatientTestListProps {
@@ -31,13 +31,14 @@ let labid;
 let orderId;
 let testId;
 let panelCode;
+let companyCode;
 export const PatientTestList = observer((props: PatientTestListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <PatientTestExpandPanel
           id='_id'
           data={props.data}
@@ -362,10 +363,16 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
                 );
               },
             },
-
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              editable: false,
+              headerClasses: 'textHeader2',
+            },
             {
               dataField: 'environment',
               text: 'Environment',
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
