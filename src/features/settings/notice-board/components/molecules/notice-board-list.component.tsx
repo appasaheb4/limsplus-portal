@@ -18,6 +18,7 @@ let message;
 let action;
 let status;
 let environment;
+let companyCode;
 
 import { AutoCompleteFilterSingleSelectLabs } from '../index';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -206,6 +207,46 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               ),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader4',
@@ -372,6 +413,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
             header('');
             status('');
             environment('');
+            companyCode('');
           }}
           dynamicStylingFields={['lab', 'header', 'action']}
           hideExcelSheet={['opration', '_id']}

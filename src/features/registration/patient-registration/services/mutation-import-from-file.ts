@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: FileImportExportInput!) {
@@ -13,6 +13,7 @@ export const LIST = gql`
         transferType
         isError
         errorMsg
+        companyCode
         records
         dateOfEntry
         lastUpdated
@@ -90,6 +91,7 @@ export const FILTER = gql`
         sample
         dueDate
         reportDate
+        companyCode
         status
         pdfReport
         dateOfEntry
@@ -112,6 +114,7 @@ export const FILTER_BY_FIELDS = gql`
         transferType
         isError
         errorMsg
+        companyCode
         records
         dateOfEntry
         lastUpdated
@@ -144,6 +147,7 @@ export const FIND_BY_FIELDS = gql`
         sample
         dueDate
         reportDate
+        companyCode
         status
         pdfReport
         dateOfEntry

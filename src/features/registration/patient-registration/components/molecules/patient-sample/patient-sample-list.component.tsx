@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import {
   NumberFilter,
@@ -7,7 +7,7 @@ import {
   customFilter,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 
 interface PatientSampleProps {
@@ -35,7 +35,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
   };
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -346,6 +346,13 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               headerClasses: 'textHeader4',
               sort: true,
               editable: false,
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeader2',
             },
             {
               dataField: 'environment',

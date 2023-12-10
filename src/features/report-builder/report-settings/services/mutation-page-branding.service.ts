@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const PAGE_BRANDING_LIST = gql`
   mutation ($input: PageBrandingInput!) {
@@ -22,6 +22,7 @@ export const PAGE_BRANDING_LIST = gql`
         isSubHeader
         isFooter
         isPdfPageNumber
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -79,6 +80,7 @@ export const FILTER = gql`
         isSubHeader
         isFooter
         isPdfPageNumber
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -109,6 +111,7 @@ export const FILTER_BY_FIELDS = gql`
         isSubHeader
         isFooter
         isPdfPageNumber
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -136,6 +139,7 @@ export const FIND_BY_FIELDS = gql`
         isSubHeader
         isFooter
         isPdfPageNumber
+        companyCode
         documentType
         dateOfEntry
         lastUpdated

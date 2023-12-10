@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
-import {
-  Form,
-} from '@/library/components';
-import {Confirm} from '@/library/models';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
+import { Form } from '@/library/components';
+import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
-import {TableBootstrap} from './table-bootstrap.components';
+import { TableBootstrap } from './table-bootstrap.components';
 
 interface PatientDemographicsListProps {
   data: any;
@@ -32,7 +30,7 @@ export const PatientDemographicsList = observer(
     const [selectedItem, setSelectedItem] = useState<any>({});
     return (
       <>
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           <TableBootstrap
             id='_id'
             data={props.data}
@@ -123,6 +121,12 @@ export const PatientDemographicsList = observer(
                     </>
                   );
                 },
+              },
+              {
+                text: 'Company Code',
+                dataField: 'companyCode',
+                sort: true,
+                editable: false,
               },
             ]}
             isEditModify={props.isEditModify}

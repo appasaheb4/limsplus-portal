@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
 export const InterfaceManagerHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, interfaceManagerStore, routerStore} = useStores();
+    const { loginStore, interfaceManagerStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       interfaceManagerStore.updateInterfaceManager({
@@ -16,10 +16,10 @@ export const InterfaceManagerHoc = (Component: React.FC<any>) => {
           'INTERFACE_TYPE',
         ),
         protocol: getDefaultLookupItem(routerStore.lookupItems, 'PROTOCOL'),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
       });
       if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
         interfaceManagerStore.updateInterfaceManager({

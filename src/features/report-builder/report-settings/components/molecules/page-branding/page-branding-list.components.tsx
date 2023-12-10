@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   Form,
   TableBootstrap,
@@ -8,8 +8,8 @@ import {
   Buttons,
   Svg,
 } from '@/library/components';
-import {AutoCompleteLayoutCode} from '../../';
-import {Confirm} from '@/library/models';
+import { AutoCompleteLayoutCode } from '../../';
+import { Confirm } from '@/library/models';
 
 interface PageBrandingProps {
   data: any;
@@ -32,11 +32,12 @@ interface PageBrandingProps {
 let sectionSetting;
 let version;
 let environment;
+let companyCode;
 
 export const PageBrandingList = observer((props: PageBrandingProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -67,7 +68,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          {layoutCode: item.tempCode},
+                          { layoutCode: item.tempCode },
                           row._id,
                         );
                     }}
@@ -100,7 +101,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       value={row.isHeader}
                       onChange={isHeader => {
                         props.onUpdateItem &&
-                          props.onUpdateItem({isHeader}, row._id);
+                          props.onUpdateItem({ isHeader }, row._id);
                       }}
                     />
                   </>
@@ -127,7 +128,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       onBlur={title => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {header: {...row?.header, title}},
+                            { header: { ...row?.header, title } },
                             row._id,
                           );
                       }}
@@ -153,11 +154,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row?.header?.titleCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={titleCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {header: {...row?.header, titleCSS}},
+                            { header: { ...row?.header, titleCSS } },
                             row._id,
                           );
                       }}
@@ -246,11 +247,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row?.header?.logoCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={logoCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {header: {...row?.header, logoCSS}},
+                            { header: { ...row?.header, logoCSS } },
                             row._id,
                           );
                       }}
@@ -339,11 +340,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row?.header?.mainBoxCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={mainBoxCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {header: {...row?.header, mainBoxCSS}},
+                            { header: { ...row?.header, mainBoxCSS } },
                             row._id,
                           );
                       }}
@@ -366,7 +367,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       value={row.isSubHeader}
                       onChange={isSubHeader => {
                         props.onUpdateItem &&
-                          props.onUpdateItem({isSubHeader}, row._id);
+                          props.onUpdateItem({ isSubHeader }, row._id);
                       }}
                     />
                   </>
@@ -393,7 +394,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       onBlur={title => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {subHeader: {...row?.subHeader, title}},
+                            { subHeader: { ...row?.subHeader, title } },
                             row._id,
                           );
                       }}
@@ -419,11 +420,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row?.subHeader?.titleCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={titleCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {subHeader: {...row?.subHeader, titleCSS}},
+                            { subHeader: { ...row?.subHeader, titleCSS } },
                             row._id,
                           );
                       }}
@@ -453,7 +454,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       onBlur={subTitle => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {subHeader: {...row?.subHeader, subTitle}},
+                            { subHeader: { ...row?.subHeader, subTitle } },
                             row._id,
                           );
                       }}
@@ -479,11 +480,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row.subHeader?.subTitleCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={subTitleCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {subHeader: {...row?.subHeader, subTitleCSS}},
+                            { subHeader: { ...row?.subHeader, subTitleCSS } },
                             row._id,
                           );
                       }}
@@ -509,11 +510,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row.subHeader?.mainBoxCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={mainBoxCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {subHeader: {...row?.subHeader, mainBoxCSS}},
+                            { subHeader: { ...row?.subHeader, mainBoxCSS } },
                             row._id,
                           );
                       }}
@@ -536,7 +537,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       value={row.isFooter}
                       onChange={isFooter => {
                         props.onUpdateItem &&
-                          props.onUpdateItem({isFooter}, row._id);
+                          props.onUpdateItem({ isFooter }, row._id);
                       }}
                     />
                   </>
@@ -563,7 +564,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       onBlur={title => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {footer: {...row?.footer, title}},
+                            { footer: { ...row?.footer, title } },
                             row._id,
                           );
                       }}
@@ -589,11 +590,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row.footer?.titleCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={titleCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {footer: {...row?.footer, titleCSS}},
+                            { footer: { ...row?.footer, titleCSS } },
                             row._id,
                           );
                       }}
@@ -623,7 +624,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       onBlur={subTitle => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {footer: {...row?.footer, subTitle}},
+                            { footer: { ...row?.footer, subTitle } },
                             row._id,
                           );
                       }}
@@ -649,11 +650,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row.footer?.subTitleCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={subTitleCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {footer: {...row?.footer, subTitleCSS}},
+                            { footer: { ...row?.footer, subTitleCSS } },
                             row._id,
                           );
                       }}
@@ -742,11 +743,11 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row.footer?.mainBoxCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={mainBoxCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {footer: {...row?.footer, mainBoxCSS}},
+                            { footer: { ...row?.footer, mainBoxCSS } },
                             row._id,
                           );
                       }}
@@ -775,13 +776,21 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                       value={row.isPdfPageNumber}
                       onChange={isPdfPageNumber => {
                         props.onUpdateItem &&
-                          props.onUpdateItem({isPdfPageNumber}, row._id);
+                          props.onUpdateItem({ isPdfPageNumber }, row._id);
                       }}
                     />
                   </>
                 );
               },
             },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              editable: false,
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+
             {
               dataField: 'pageNumber.pageNumberCSS',
               text: 'Page Number CSS',
@@ -798,11 +807,13 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                   {row.pageNumber?.pageNumberCSS && (
                     <Form.MultilineInput
                       label=''
-                      style={{color: '#ffffff', backgroundColor: '#000000'}}
+                      style={{ color: '#ffffff', backgroundColor: '#000000' }}
                       onBlur={pageNumberCSS => {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            {pageNumber: {...row?.pageNumber, pageNumberCSS}},
+                            {
+                              pageNumber: { ...row?.pageNumber, pageNumberCSS },
+                            },
                             row._id,
                           );
                       }}
@@ -812,6 +823,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                 </>
               ),
             },
+
             {
               dataField: 'operation',
               text: 'Action',
@@ -885,6 +897,7 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
             sectionSetting('');
             version('');
             environment('');
+            companyCode('');
           }}
           dynamicStylingFields={['layoutCode', 'tempCode', 'brandingTitle']}
           hideExcelSheet={[

@@ -1,8 +1,13 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 // import {lookupItems} from "@/library/utils"
-import {TableBootstrap, Icons, Tooltip, textFilter} from '@/library/components';
-import {Confirm} from '@/library/models';
+import {
+  TableBootstrap,
+  Icons,
+  Tooltip,
+  textFilter,
+} from '@/library/components';
+import { Confirm } from '@/library/models';
 interface SpecialResultProps {
   data: any;
   totalSize: number;
@@ -16,7 +21,7 @@ interface SpecialResultProps {
 export const SpecialResultList = observer((props: SpecialResultProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -91,11 +96,20 @@ export const SpecialResultList = observer((props: SpecialResultProps) => {
               filter: textFilter(),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              filter: textFilter(),
+              headerClasses: 'textHeader2',
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader3',
               sort: true,
               filter: textFilter(),
+              editable: false,
             },
             {
               dataField: 'opration',

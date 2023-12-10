@@ -1,7 +1,7 @@
 import React from 'react';
-import {textFilter, sortCaret} from '@/library/components';
-import {Confirm} from '@/library/models';
-import {TableBootstrap} from './table-bootstrap.components';
+import { textFilter, sortCaret } from '@/library/components';
+import { Confirm } from '@/library/models';
+import { TableBootstrap } from './table-bootstrap.components';
 
 let pId;
 let labId;
@@ -202,6 +202,12 @@ export const PaymentList = (props: PaymentListProps) => {
         {
           dataField: 'status',
           text: 'Status',
+          sort: true,
+          editable: false,
+        },
+        {
+          text: 'Company Code',
+          dataField: 'companyCode',
           sort: true,
           editable: false,
         },

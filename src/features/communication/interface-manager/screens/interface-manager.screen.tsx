@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -13,22 +13,22 @@ import {
   ModalConfirm,
   Icons,
 } from '@/library/components';
-import {InterfaceManagerList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useForm, Controller} from 'react-hook-form';
-import {InterfaceManagerHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { InterfaceManagerList } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useForm, Controller } from 'react-hook-form';
+import { InterfaceManagerHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetInterfaceManager} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetInterfaceManager } from '../startup';
 const InterfaceManager = InterfaceManagerHoc(
   observer(() => {
-    const {loginStore, interfaceManagerStore, routerStore} = useStores();
+    const { loginStore, interfaceManagerStore, routerStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -38,10 +38,10 @@ const InterfaceManager = InterfaceManagerHoc(
         'interfaceType',
         interfaceManagerStore.interfaceManager?.interfaceType,
       );
-      setValue(
-        'environment',
-        interfaceManagerStore.interfaceManager?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   interfaceManagerStore.interfaceManager?.environment,
+      // );
       setValue('protocol', interfaceManagerStore.interfaceManager?.protocol);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [interfaceManagerStore.interfaceManager]);
@@ -58,7 +58,7 @@ const InterfaceManager = InterfaceManagerHoc(
       ) {
         interfaceManagerStore.interfaceManagerService
           .addInterfaceManager({
-            input: {...interfaceManagerStore.interfaceManager},
+            input: { ...interfaceManagerStore.interfaceManager },
           })
           .then(res => {
             if (res.createInterfaceManager.success) {
@@ -108,7 +108,7 @@ const InterfaceManager = InterfaceManagerHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Interface Type'>
                       <select
                         value={value}
@@ -139,13 +139,13 @@ const InterfaceManager = InterfaceManagerHoc(
                     </Form.InputWrapper>
                   )}
                   name='interfaceType'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Inst Type'
                       placeholder={
@@ -165,12 +165,12 @@ const InterfaceManager = InterfaceManagerHoc(
                     />
                   )}
                   name='instrumentType'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Inst Name'
                       placeholder={
@@ -190,12 +190,12 @@ const InterfaceManager = InterfaceManagerHoc(
                     />
                   )}
                   name='instrumentName'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Protocol'>
                       <select
                         value={value}
@@ -223,7 +223,7 @@ const InterfaceManager = InterfaceManagerHoc(
                     </Form.InputWrapper>
                   )}
                   name='protocol'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
@@ -234,7 +234,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   <Grid cols={2}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           name='startBlock'
                           placeholder={
@@ -254,13 +254,13 @@ const InterfaceManager = InterfaceManagerHoc(
                         />
                       )}
                       name='startBlock'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
 
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           name='endBlock'
                           placeholder={
@@ -280,7 +280,7 @@ const InterfaceManager = InterfaceManagerHoc(
                         />
                       )}
                       name='endBlock'
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       defaultValue=''
                     />
                   </Grid>
@@ -290,7 +290,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   <Grid cols={3}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           name='filed'
                           placeholder={
@@ -308,12 +308,12 @@ const InterfaceManager = InterfaceManagerHoc(
                         />
                       )}
                       name='filed'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Input
                           name='value'
                           placeholder={
@@ -331,7 +331,7 @@ const InterfaceManager = InterfaceManagerHoc(
                         />
                       )}
                       name='value'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <div className='mt-2'>
@@ -417,9 +417,9 @@ const InterfaceManager = InterfaceManagerHoc(
                   </List>
                 </Form.InputWrapper>
 
-                <Controller
+                {/* <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Environment'>
                       <select
                         value={value}
@@ -462,9 +462,9 @@ const InterfaceManager = InterfaceManagerHoc(
                     </Form.InputWrapper>
                   )}
                   name='environment'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
-                />
+                /> */}
               </List>
             </Grid>
 
@@ -523,20 +523,20 @@ const InterfaceManager = InterfaceManagerHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update interface manager!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 interfaceManagerStore.fetchEncodeCharacter(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 interfaceManagerStore.interfaceManagerService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
-                global.filter = {mode: 'filter', type, filter, page, limit};
+                global.filter = { mode: 'filter', type, filter, page, limit };
               }}
             />
           </div>
@@ -545,9 +545,9 @@ const InterfaceManager = InterfaceManagerHoc(
             click={action => {
               if (action === 'Delete') {
                 interfaceManagerStore.interfaceManagerService
-                  .deleteInterfaceManager({input: {id: modalConfirm.id}})
+                  .deleteInterfaceManager({ input: { id: modalConfirm.id } })
                   .then((res: any) => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.removeInterfaceManager.success) {
                       Toast.success({
                         message: `😊 ${res.removeInterfaceManager.message}`,
@@ -578,7 +578,7 @@ const InterfaceManager = InterfaceManagerHoc(
                     },
                   })
                   .then(res => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.updateInterfaceManager.success) {
                       Toast.success({
                         message: `😊 ${res.updateInterfaceManager.message}`,
@@ -603,7 +603,7 @@ const InterfaceManager = InterfaceManagerHoc(
               }
             }}
             close={() => {
-              setModalConfirm({show: false});
+              setModalConfirm({ show: false });
             }}
           />
         </div>

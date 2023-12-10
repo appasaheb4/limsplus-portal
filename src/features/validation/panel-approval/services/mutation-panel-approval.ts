@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const PANEL_APPROVAL_LIST = gql`
   mutation ($input: PanelApprovalInput!) {
@@ -63,6 +63,7 @@ export const PANEL_APPROVAL_LIST = gql`
         patientResultId
         reportPriority
         colorScheme
+        companyCode
         enteredBy
         documentType
         dateOfEntry
@@ -144,6 +145,7 @@ export const FILTER = gql`
         patientResultId
         reportPriority
         colorScheme
+        companyCode
         enteredBy
         documentType
         dateOfEntry

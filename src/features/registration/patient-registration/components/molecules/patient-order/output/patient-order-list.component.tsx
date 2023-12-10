@@ -35,6 +35,7 @@ let labid;
 let visitId;
 let orderId;
 let panelCode;
+let companyCode;
 
 export const PatientOrderList = observer((props: PatientOrderListProps) => {
   const editorCell = (row: any) => {
@@ -154,6 +155,46 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               hidden: true,
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
+            },
+            {
               dataField: 'opration',
               text: 'Action',
               csvExport: false,
@@ -239,6 +280,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
             visitId('');
             orderId('');
             panelCode('');
+            companyCode('');
           }}
         />
       </div>

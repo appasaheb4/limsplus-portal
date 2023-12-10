@@ -69,6 +69,7 @@ let doctorName;
 let reportPriority;
 let holdReason;
 let status;
+let companyCode;
 
 export const PatientVisitList = observer((props: PatientVisitProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
@@ -1176,6 +1177,23 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+            },
+            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader5',
@@ -1303,6 +1321,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             reportPriority('');
             holdReason('');
             status('');
+            companyCode('');
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['_id', 'opration']}
