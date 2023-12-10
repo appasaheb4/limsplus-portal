@@ -21,7 +21,7 @@ import { RouterFlow } from '@/flows';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
-import { AutoCompleteCompanyList } from '@/core-components';
+// import { AutoCompleteCompanyList } from '@/core-components';
 
 const Banner = BannerHoc(
   observer(() => {
