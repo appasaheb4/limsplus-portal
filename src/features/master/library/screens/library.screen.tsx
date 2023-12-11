@@ -726,7 +726,7 @@ export const Library = LibraryHoc(
                     defaultValue=''
                   />
 
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -743,7 +743,7 @@ export const Library = LibraryHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
 
                   <Controller
                     control={control}
@@ -848,7 +848,7 @@ export const Library = LibraryHoc(
                     defaultValue=''
                   />
 
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
@@ -895,7 +895,7 @@ export const Library = LibraryHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

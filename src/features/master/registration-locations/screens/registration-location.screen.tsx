@@ -521,6 +521,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             enteredBy: loginStore.login.userId,
             openingTime: item['Opening Time'],
             closingTime: item['Closing Time'],
+            companyCode: item['Company Code'],
             environment: item?.Environment,
             status: 'D',
           };
