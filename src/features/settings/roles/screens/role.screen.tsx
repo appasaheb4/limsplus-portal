@@ -83,6 +83,7 @@ const Role = RolesHoc(
             code: item?.Code,
             description: item.Description,
             environment: item?.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });

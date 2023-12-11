@@ -149,6 +149,7 @@ const NoticeBoard = NoticeBoardHoc(
             message: item.Message,
             action: item.Action,
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Tooltip,
   Icons,
@@ -10,7 +10,7 @@ import {
   sortCaret,
 } from '@/library/components';
 import dayjs from 'dayjs';
-import {TableBootstrapReport} from './table-bootstrap-report.components';
+import { TableBootstrapReport } from './table-bootstrap-report.components';
 
 let labId;
 let name;
@@ -38,6 +38,7 @@ let qrCode;
 let pdf;
 let enteredBy;
 let userComments;
+let companyCode;
 
 interface ReportDeliveryProps {
   data: any;
@@ -72,7 +73,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
     setLocalData(
       props.selectedId
         ? props.data.map(item => {
-            return {...item, selectedId: props.selectedId};
+            return { ...item, selectedId: props.selectedId };
           })
         : props.data,
     );
@@ -81,7 +82,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrapReport
           id='_id'
           data={localData}
@@ -575,6 +576,23 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               }),
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+            },
+            {
               dataField: 'operation',
               text: 'Action',
               editable: false,
@@ -737,6 +755,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             pdf('');
             enteredBy('');
             userComments('');
+            companyCode('');
           }}
           onUpdateDeliveryStatus={() => {
             props.onUpdateDeliveryStatus && props.onUpdateDeliveryStatus();
