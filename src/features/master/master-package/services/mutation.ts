@@ -129,6 +129,7 @@ export const FILTER = gql`
         printPanelName
         packageInterpretation
         panelInterpretation
+        companyCode
         status
         serviceType
         reportOrder
@@ -167,6 +168,7 @@ export const FILTER_BY_FIELDS = gql`
         printPanelName
         packageInterpretation
         panelInterpretation
+        companyCode
         status
         serviceType
         reportOrder
@@ -202,6 +204,7 @@ export const FIND_BY_FIELDS = gql`
         printPanelName
         packageInterpretation
         panelInterpretation
+        companyCode
         status
         serviceType
         reportOrder

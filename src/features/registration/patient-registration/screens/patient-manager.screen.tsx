@@ -1549,7 +1549,7 @@ export const PatientManager = PatientManagerHoc(
                           defaultValue=''
                         />
 
-                        <Controller
+                        {/* <Controller
                           control={control}
                           render={({ field: { onChange, value } }) => (
                             <Form.InputWrapper label='Environment'>
@@ -1600,7 +1600,7 @@ export const PatientManager = PatientManagerHoc(
                           name='environment'
                           rules={{ required: false }}
                           defaultValue=''
-                        />
+                        /> */}
                         <Grid cols={4}>
                           <Controller
                             control={control}

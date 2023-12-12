@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: RoleMappingInput!) {
@@ -12,6 +12,7 @@ export const LIST = gql`
         _id
         role
         router
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -59,6 +60,7 @@ export const FILTER = gql`
         _id
         role
         router
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -79,6 +81,7 @@ export const FIND_BY_FIELDS = gql`
         _id
         role
         router
+        companyCode
         environment
         dateOfEntry
         lastUpdated

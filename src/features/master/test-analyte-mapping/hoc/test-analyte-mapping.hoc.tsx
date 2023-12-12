@@ -13,10 +13,10 @@ export const TestAnalyteMappingHoc = (Component: React.FC<any>) => {
         ...testAnalyteMappingStore.testAnalyteMapping,
         lab: loginStore.login.lab,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
       });
       if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
         testAnalyteMappingStore.updateTestAnalyteMapping({

@@ -122,6 +122,7 @@ export const FILTER = gql`
         environment
         dateOfEntry
         lastUpdated
+        companyCode
       }
     }
   }
@@ -167,6 +168,7 @@ export const FILTER_BY_FIELDS = gql`
         environment
         dateOfEntry
         lastUpdated
+        companyCode
       }
     }
   }
@@ -209,6 +211,7 @@ export const FIND_BY_FIELDS = gql`
         environment
         dateOfEntry
         lastUpdated
+        companyCode
       }
     }
   }

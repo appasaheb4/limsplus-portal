@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const PAYMENT_LIST = gql`
   mutation ($input: PaymentInput!) {
@@ -31,6 +31,7 @@ export const PAYMENT_LIST = gql`
         balance
         modeOfPayment
         paymentRemark
+        companyCode
         status
         enteredBy
         dateOfEntry

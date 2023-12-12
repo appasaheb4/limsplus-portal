@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -14,17 +14,17 @@ import {
   Icons,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
-import {Styles} from '@/config';
+import { Styles } from '@/config';
 import {
   InstResultMappingInputTable,
   InstResultMappingList,
 } from '../components';
-import {useForm} from 'react-hook-form';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import { useForm } from 'react-hook-form';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
 
 const InstResultMapping = observer(() => {
   const {
@@ -38,7 +38,7 @@ const InstResultMapping = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
 
@@ -51,7 +51,7 @@ const InstResultMapping = observer(() => {
 
   const getInstTypes = () => {
     segmentMappingStore.segmentMappingService
-      .fetchKeyValue({input: {key: 'instType'}})
+      .fetchKeyValue({ input: { key: 'instType' } })
       .then(res => {
         if (res.fetchKeyValueSegmentMapping.success) {
           setInstTypes(res.fetchKeyValueSegmentMapping.result);
@@ -62,7 +62,7 @@ const InstResultMapping = observer(() => {
   const getLabFromAnalyteMapping = () => {
     testAnalyteMappingStore.testAnalyteMappingService
       .fetchKeyValue({
-        input: {key: 'lab'},
+        input: { key: 'lab' },
       })
       .then(res => {
         if (res.fetchKeyValueTestAnalyteMapping.success) {
@@ -82,12 +82,12 @@ const InstResultMapping = observer(() => {
     reader.addEventListener('load', (evt: any) => {
       /* Parse data */
       const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, {type: 'binary'});
+      const wb = XLSX.read(bstr, { type: 'binary' });
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+      const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
       const defaultHeader: string[] = [
         'Inst Type',
         'Data Flow',
@@ -109,6 +109,7 @@ const InstResultMapping = observer(() => {
         'Lims Tables',
         'Lims Fields',
         'Environment',
+        'Company Code',
       ];
       const headers: any = [];
       let object: any = [];
@@ -143,6 +144,7 @@ const InstResultMapping = observer(() => {
               limsTables: item[17],
               limsFields: item[18],
               environment: item[19],
+              companyCode: item[20],
             });
             fileImaport = true;
           }
@@ -222,7 +224,7 @@ const InstResultMapping = observer(() => {
       .findByFileds(
         {
           input: {
-            filter: {lab},
+            filter: { lab },
           },
         },
         true,
@@ -239,7 +241,7 @@ const InstResultMapping = observer(() => {
       .findByFileds(
         {
           input: {
-            filter: {testCode},
+            filter: { testCode },
           },
         },
         true,
@@ -417,7 +419,7 @@ const InstResultMapping = observer(() => {
             setModalConfirm({
               show: true,
               type: 'updateFields',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update records',
             });
@@ -427,13 +429,13 @@ const InstResultMapping = observer(() => {
               page,
               limit,
             );
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             instResultMappingStore.instResultMappingService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, filter, page, limit};
+            global.filter = { mode: 'filter', type, filter, page, limit };
           }}
         />
       </div>
@@ -441,17 +443,17 @@ const InstResultMapping = observer(() => {
         accept='.csv,.xlsx,.xls'
         {...modalImportFile}
         click={(file: any) => {
-          setModalImportFile({show: false});
+          setModalImportFile({ show: false });
           handleFileUpload(file);
         }}
         close={() => {
-          setModalImportFile({show: false});
+          setModalImportFile({ show: false });
         }}
       />
       <ModalConfirm
         {...modalConfirm}
         click={action => {
-          setModalConfirm({show: false});
+          setModalConfirm({ show: false });
           if (action === 'delete') {
             instResultMappingStore.instResultMappingService
               .deleteInstResultMapping({
@@ -515,7 +517,7 @@ const InstResultMapping = observer(() => {
               });
           }
         }}
-        close={() => setModalConfirm({show: false})}
+        close={() => setModalConfirm({ show: false })}
       />
     </>
   );

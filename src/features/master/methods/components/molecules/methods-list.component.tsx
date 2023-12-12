@@ -115,7 +115,7 @@ export const MethodsList = (props: MethodsListProps) => {
             fontSize: 0,
           },
           sortCaret: (order, column) => sortCaret(order, column),
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -123,25 +123,25 @@ export const MethodsList = (props: MethodsListProps) => {
             },
           }),
           headerClasses: 'textHeader2',
-          editorRenderer: (
-            editorProps,
-            value,
-            row,
-            column,
-            rowIndex,
-            columnIndex,
-          ) => (
-            <>
-              <AutoCompleteCompanyList
-                isLabel={false}
-                hasError={false}
-                onSelect={companyCode => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(companyCode, column.dataField, row._id);
-                }}
-              />
-            </>
-          ),
+          // editorRenderer: (
+          //   editorProps,
+          //   value,
+          //   row,
+          //   column,
+          //   rowIndex,
+          //   columnIndex,
+          // ) => (
+          //   <>
+          //     <AutoCompleteCompanyList
+          //       isLabel={false}
+          //       hasError={false}
+          //       onSelect={companyCode => {
+          //         props.onUpdateItem &&
+          //           props.onUpdateItem(companyCode, column.dataField, row._id);
+          //       }}
+          //     />
+          //   </>
+          // ),
         },
         {
           dataField: 'status',
@@ -199,43 +199,43 @@ export const MethodsList = (props: MethodsListProps) => {
           },
           sortCaret: (order, column) => sortCaret(order, column),
           csvFormatter: col => (col ? col : ''),
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           filter: textFilter({
             getFilter: filter => {
               environment = filter;
             },
           }),
-          editorRenderer: (
-            editorProps,
-            value,
-            row,
-            column,
-            rowIndex,
-            columnIndex,
-          ) => (
-            <>
-              <select
-                value={row.environment}
-                className={
-                  'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
-                }
-                onChange={e => {
-                  const environment = e.target.value;
-                  props.onUpdateItem &&
-                    props.onUpdateItem(environment, column.dataField, row._id);
-                }}
-              >
-                <option selected>Select</option>
-                {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
-                  (item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {lookupValue(item)}
-                    </option>
-                  ),
-                )}
-              </select>
-            </>
-          ),
+          // editorRenderer: (
+          //   editorProps,
+          //   value,
+          //   row,
+          //   column,
+          //   rowIndex,
+          //   columnIndex,
+          // ) => (
+          //   <>
+          //     <select
+          //       value={row.environment}
+          //       className={
+          //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+          //       }
+          //       onChange={e => {
+          //         const environment = e.target.value;
+          //         props.onUpdateItem &&
+          //           props.onUpdateItem(environment, column.dataField, row._id);
+          //       }}
+          //     >
+          //       <option selected>Select</option>
+          //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
+          //         (item: any, index: number) => (
+          //           <option key={index} value={item.code}>
+          //             {lookupValue(item)}
+          //           </option>
+          //         ),
+          //       )}
+          //     </select>
+          //   </>
+          // ),
         },
 
         {

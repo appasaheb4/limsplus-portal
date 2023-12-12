@@ -110,6 +110,12 @@ export const PendingPanelApprovalList = observer(
                 sort: true,
                 editable: false,
               },
+              {
+                text: 'Company Code',
+                dataField: 'companyCode',
+                sort: true,
+                editable: false,
+              },
             ]}
             isEditModify={props.isEditModify}
             isSelectRow={true}

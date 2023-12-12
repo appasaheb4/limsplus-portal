@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const TEMPLATE_PATIENT_RESULT_LIST = gql`
   mutation ($input: TemplatePatientResultInput!) {
@@ -24,6 +24,7 @@ export const TEMPLATE_PATIENT_RESULT_LIST = gql`
         testFooter
         panelFooter
         departmentFooter
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -83,6 +84,7 @@ export const FILTER_BY_FIELDS = gql`
         testFooter
         panelFooter
         departmentFooter
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -114,6 +116,7 @@ export const FIND_BY_FIELDS = gql`
         departmentFooter
         documentType
         dateOfEntry
+        companyCode
         lastUpdated
       }
     }

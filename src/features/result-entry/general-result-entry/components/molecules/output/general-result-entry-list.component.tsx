@@ -392,6 +392,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',             
+              editable: false,
+              headerClasses: 'textHeader2',
+            },
+            {
               dataField: 'opration',
               text: 'Action',
               editable: false,

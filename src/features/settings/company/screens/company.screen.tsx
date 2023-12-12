@@ -42,7 +42,7 @@ const Company = CompanyHoc(
       setValue('dateExpire', companyStore.company?.dateExpire);
       setValue('dateActive', companyStore.company?.dateActive);
       setValue('dateCreation', companyStore.company?.dateCreation);
-      setValue('environment', companyStore.company?.environment);
+      // setValue('environment', companyStore.company?.environment);
       setValue('status', companyStore.company?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [companyStore.company]);
@@ -965,7 +965,7 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -1006,7 +1006,7 @@ const Company = CompanyHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

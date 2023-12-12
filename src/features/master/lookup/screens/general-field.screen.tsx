@@ -328,7 +328,7 @@ export const GeneralField = GeneralFieldHoc(
               defaultValue=''
             />
 
-            <Controller
+            {/* <Controller
               control={control}
               render={({ field: { onChange, value } }) => (
                 <Form.InputWrapper
@@ -372,7 +372,7 @@ export const GeneralField = GeneralFieldHoc(
               name='environment'
               rules={{ required: true }}
               defaultValue=''
-            />
+            /> */}
           </List>
         </Grid>
         <br />

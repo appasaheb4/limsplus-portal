@@ -103,7 +103,7 @@ const CommentManager = CommentManagerHoc(
       );
       setValue('dateExpire', commentManagerStore.commentManager?.dateExpire);
       setValue('versions', commentManagerStore.commentManager?.versions);
-      setValue('environment', commentManagerStore.commentManager?.environment);
+      // setValue('environment', commentManagerStore.commentManager?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commentManagerStore.commentManager]);
 
@@ -1059,7 +1059,7 @@ const CommentManager = CommentManagerHoc(
                   )}
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -1076,7 +1076,7 @@ const CommentManager = CommentManagerHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1178,7 +1178,7 @@ const CommentManager = CommentManagerHoc(
                     defaultValue=''
                   />
 
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
@@ -1224,7 +1224,7 @@ const CommentManager = CommentManagerHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

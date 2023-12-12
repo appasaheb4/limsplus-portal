@@ -1,10 +1,9 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 
-
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
-import {TableBootstrapTranLine} from './table-bootstrap-tran-line.components';
+import { TableBootstrapTranLine } from './table-bootstrap-tran-line.components';
 
 interface TransactionLineProps {
   data: any;
@@ -26,7 +25,7 @@ interface TransactionLineProps {
 export const TransactionLineList = observer((props: TransactionLineProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrapTranLine
           id='_id'
           data={props.data}
@@ -248,6 +247,13 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
             },
             {
               dataField: 'enteredBy',

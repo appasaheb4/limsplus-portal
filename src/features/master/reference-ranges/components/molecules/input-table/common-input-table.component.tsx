@@ -131,11 +131,11 @@ export const CommonInputTable = observer(
         ),
         enterBy: loginStore.login.userId,
         status: 'A',
-        companyCode: refernceRangesStore.referenceRanges?.companyCode,
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // companyCode: refernceRangesStore.referenceRanges?.companyCode,
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
         type: 'insert',
         rangeType: getDefaultLookupItem(routerStore.lookupItems, 'RANGE_TYPE'),
         validationLevel: Number.parseInt(
@@ -177,9 +177,9 @@ export const CommonInputTable = observer(
               <th className='text-white' style={{ minWidth: '190px' }}>
                 Inst Type
               </th>
-              <th className='text-white' style={{ minWidth: '190px' }}>
+              {/* <th className='text-white' style={{ minWidth: '190px' }}>
                 Company Code
-              </th>
+              </th> */}
             </tr>{' '}
           </thead>
           <tbody className='text-xs'>
@@ -488,7 +488,7 @@ export const CommonInputTable = observer(
                   defaultValue=''
                 />
               </td>
-              <td>
+              {/* <td>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -508,7 +508,7 @@ export const CommonInputTable = observer(
                   rules={{ required: true }}
                   defaultValue=''
                 />
-              </td>
+              </td> */}
             </tr>
           </tbody>
         </Table>

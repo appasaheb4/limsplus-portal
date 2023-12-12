@@ -13,6 +13,7 @@ export const LIST = gql`
         code
         description
         status
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -70,6 +71,7 @@ export const FILTER = gql`
         code
         description
         status
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -91,6 +93,7 @@ export const FILTER_BY_FIELDS = gql`
         code
         description
         status
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -112,6 +115,7 @@ export const FIND_BY_FIELDS = gql`
         code
         description
         status
+        companyCode
         environment
         dateOfEntry
         lastUpdated

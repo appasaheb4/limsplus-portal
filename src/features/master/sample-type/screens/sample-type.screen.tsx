@@ -46,7 +46,7 @@ const SampleType = SampleTypeHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue('environment', sampleTypeStore.sampleType?.environment);
+      // setValue('environment', sampleTypeStore.sampleType?.environment);
       setValue('status', sampleTypeStore.sampleType?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sampleTypeStore.sampleType]);
@@ -305,7 +305,7 @@ const SampleType = SampleTypeHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -322,7 +322,7 @@ const SampleType = SampleTypeHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -360,7 +360,7 @@ const SampleType = SampleTypeHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -425,7 +425,7 @@ const SampleType = SampleTypeHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

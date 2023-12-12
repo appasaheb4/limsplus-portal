@@ -60,10 +60,10 @@ const TestSampleMapping = TestSampleMappingHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue(
-        'environment',
-        testSampleMappingStore.testSampleMapping?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   testSampleMappingStore.testSampleMapping?.environment,
+      // );
       setValue(
         'minDrawVolUnit',
         testSampleMappingStore.testSampleMapping?.minDrawVolUnit,
@@ -1150,7 +1150,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -1167,7 +1167,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1205,7 +1205,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -1279,7 +1279,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Grid cols={4}>
                     <Controller
                       control={control}

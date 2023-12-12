@@ -1,7 +1,7 @@
-import React, { useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
 export const PatientVisitHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
@@ -58,10 +58,10 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             'PATIENT VISIT - ACCOUNT_TYPE',
           ),
-          environment: getDefaultLookupItem(
-            routerStore.lookupItems,
-            'PATIENT VISIT - ENVIRONMENT',
-          ),
+          // environment: getDefaultLookupItem(
+          //   routerStore.lookupItems,
+          //   'PATIENT VISIT - ENVIRONMENT',
+          // ),
           methodCollection: getDefaultLookupItem(
             routerStore.lookupItems,
             'PATIENT VISIT - METHOD_COLLECTION',

@@ -12,10 +12,10 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
       corporateClientsStore.updateCorporateClients({
         ...corporateClientsStore.corporateClients,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
         salesTerritoRy: getDefaultLookupItem(
           routerStore.lookupItems,
           'SPECIALITY',

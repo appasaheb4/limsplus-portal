@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   TableBootstrap,
   textFilter,
@@ -9,9 +9,9 @@ import {
   Type,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {AutoCompleteFilterSingleSelectPostalCode} from '../../index';
+import { Confirm } from '@/library/models';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { AutoCompleteFilterSingleSelectPostalCode } from '../../index';
 interface ExtraDataPatientManagerProps {
   data: any;
   totalSize: number;
@@ -46,11 +46,12 @@ let balance;
 let enteredBy;
 let status;
 let environment;
+
 export const ExtraDataPatientManagerList = observer(
   (props: ExtraDataPatientManagerProps) => {
     return (
       <>
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           <TableBootstrap
             id='_id'
             data={props.data}
@@ -546,6 +547,7 @@ export const ExtraDataPatientManagerList = observer(
                 dataField: 'environment',
                 text: 'Environment',
                 headerClasses: 'textHeader1',
+                editable: false,
                 sort: true,
                 headerStyle: {
                   fontSize: 0,
@@ -561,42 +563,42 @@ export const ExtraDataPatientManagerList = observer(
                 formatter: (cell, row) => {
                   return <span>{row.extraData.environment}</span>;
                 },
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex,
-                ) => (
-                  <>
-                    <select
-                      value={row.extraData?.environment}
-                      className={
-                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
-                      }
-                      onChange={e => {
-                        const environment = e.target.value;
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            environment,
-                            column.dataField,
-                            row._id,
-                          );
-                      }}
-                    >
-                      <option>Select</option>
-                      {lookupItems(
-                        props.extraData.lookupItems,
-                        'PATIENT MANAGER - ENVIRONMENT',
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                    </select>
-                  </>
-                ),
+                // editorRenderer: (
+                //   editorProps,
+                //   value,
+                //   row,
+                //   column,
+                //   rowIndex,
+                //   columnIndex,
+                // ) => (
+                //   <>
+                //     <select
+                //       value={row.extraData?.environment}
+                //       className={
+                //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                //       }
+                //       onChange={e => {
+                //         const environment = e.target.value;
+                //         props.onUpdateItem &&
+                //           props.onUpdateItem(
+                //             environment,
+                //             column.dataField,
+                //             row._id,
+                //           );
+                //       }}
+                //     >
+                //       <option>Select</option>
+                //       {lookupItems(
+                //         props.extraData.lookupItems,
+                //         'PATIENT MANAGER - ENVIRONMENT',
+                //       ).map((item: any, index: number) => (
+                //         <option key={index} value={item.code}>
+                //           {lookupValue(item)}
+                //         </option>
+                //       ))}
+                //     </select>
+                //   </>
+                // ),
               },
               {
                 dataField: 'opration',
