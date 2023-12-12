@@ -51,7 +51,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
     }, [administrativeDivisions?.administrativeDiv]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+    const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -72,7 +72,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               Toast.success({
                 message: `😊 ${res.createAdministrativeDivision.message}`,
               });
-              setHideAddSection(true);
+              setIsHideView(true);
               reset();
               resetBanner();
               setArrImportRecords([]);
@@ -169,15 +169,14 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
         </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
+            show={isHideView}
+            onClick={() => setIsHideView(!isHideView)}
           />
         )}
         <div className=' mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' +
-              (hideAddSection ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isHideView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
