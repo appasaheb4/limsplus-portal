@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   TableBootstrap,
   sortCaret,
@@ -7,10 +7,10 @@ import {
   Tooltip,
   Icons,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
-import {Accordion, AccordionItem} from 'react-sanfona';
+import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
 interface TransmittedMessageListProps {
@@ -43,7 +43,7 @@ let segmentOrder;
 let segmentArray;
 let dateOfEntry;
 let status;
-
+let companyCode;
 export const TransmittedMessageList = observer(
   ({
     extraData,
@@ -227,7 +227,7 @@ export const TransmittedMessageList = observer(
                           return (
                             <AccordionItem title={`${item.filed}`}>
                               <h6>Field No: {item?.field_no}</h6>
-                              <span style={{fontSize: 12}}>
+                              <span style={{ fontSize: 12 }}>
                                 Value: {item?.value}
                               </span>
                             </AccordionItem>
@@ -278,6 +278,23 @@ export const TransmittedMessageList = observer(
               },
               sortCaret: (order, column) => sortCaret(order, column),
             },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+            },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
@@ -305,6 +322,7 @@ export const TransmittedMessageList = observer(
             segmentOrder('');
             segmentArray('');
             dateOfEntry('');
+            status('');
             status('');
           }}
           hideExcelSheet={['_id']}

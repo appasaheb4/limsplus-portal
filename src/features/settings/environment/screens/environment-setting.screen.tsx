@@ -51,7 +51,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     useEffect(() => {
       // Default value initialization
-      setValue('environment', loginStore.login.environment);
+      // setValue('environment', loginStore.login.environment);
       setValue('status', environmentStore.environmentSettings?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login]);
@@ -703,7 +703,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Environment'>
@@ -775,7 +775,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   name='environment'
                   rules={{ required: true }}
                   defaultValue=''
-                />
+                /> */}
               </List>
             </Grid>
             <br />

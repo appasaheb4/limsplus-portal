@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST_PATIENT_MANAGER = gql`
   mutation ($input: PatientManagerInput!) {
@@ -56,6 +56,7 @@ export const LIST_PATIENT_MANAGER = gql`
           status
           environment
         }
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -157,6 +158,7 @@ export const FILTER_PATIENT_MANAGER = gql`
           status
           environment
         }
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -240,6 +242,7 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
           status
           environment
         }
+        companyCode
         documentType
         dateOfEntry
         lastUpdated

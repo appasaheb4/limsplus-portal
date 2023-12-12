@@ -66,7 +66,7 @@ const TestMater = TestMasterHOC(
       setValue('department', testMasterStore.testMaster?.department);
       setValue('testCode', testMasterStore.testMaster?.testCode);
       setValue('testName', testMasterStore.testMaster?.testName);
-      setValue('environment', testMasterStore.testMaster?.environment);
+      // setValue('environment', testMasterStore.testMaster?.environment);
       setValue('validationLevel', testMasterStore.testMaster?.validationLevel);
       setValue('processing', testMasterStore.testMaster?.processing);
       setValue('workflow', testMasterStore.testMaster?.workflow);
@@ -1838,7 +1838,7 @@ const TestMater = TestMasterHOC(
                   ))}
                 </select>
               </Form.InputWrapper> */}
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -1855,7 +1855,7 @@ const TestMater = TestMasterHOC(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2058,7 +2058,7 @@ const TestMater = TestMasterHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
@@ -2138,7 +2138,7 @@ const TestMater = TestMasterHOC(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <List direction='row'>
                       <Grid cols={4}>
                         <Controller

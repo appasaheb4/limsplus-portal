@@ -178,6 +178,7 @@ export const FILTER = gql`
         isPrintSecondaryBarcode
         openingTime
         closingTime
+        companyCode
         status
         environment
         dateOfEntry
@@ -244,6 +245,7 @@ export const FILTER_BY_FIELDS = gql`
         isPrintSecondaryBarcode
         openingTime
         closingTime
+        companyCode
         status
         environment
         dateOfEntry
@@ -310,6 +312,7 @@ export const FIND_BY_ARRAY_ITEMS = gql`
         isPrintSecondaryBarcode
         openingTime
         closingTime
+        companyCode
         status
         environment
         dateOfEntry
@@ -376,6 +379,7 @@ export const FIND_BY_FIELDS = gql`
         isPrintSecondaryBarcode
         openingTime
         closingTime
+        companyCode
         status
         environment
         dateOfEntry

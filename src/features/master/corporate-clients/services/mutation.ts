@@ -182,6 +182,7 @@ export const FILTER = gql`
         panelList
         templateForImport
         templateForExport
+        companyCode
         status
         environment
         dateOfEntry
@@ -249,6 +250,7 @@ export const FILTER_BY_FIELDS = gql`
         panelList
         templateForImport
         templateForExport
+        companyCode
         status
         environment
         dateOfEntry
@@ -324,6 +326,7 @@ export const FIND_BY_ARR_ITEMS = gql`
         panelList
         templateForImport
         templateForExport
+        companyCode
         status
         environment
         dateOfEntry
@@ -389,6 +392,7 @@ export const FIND_BY_FIELDS = gql`
         panelList
         templateForImport
         templateForExport
+        companyCode
         status
         environment
         dateOfEntry

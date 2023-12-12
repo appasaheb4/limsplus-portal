@@ -1,10 +1,10 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {textFilter, Form, sortCaret} from '@/library/components';
-import {Confirm} from '@/library/models';
+import { observer } from 'mobx-react';
+import { textFilter, Form, sortCaret } from '@/library/components';
+import { Confirm } from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 import dayjs from 'dayjs';
-import {RefRangesExpandList} from './ref-ranges-expand-list.component';
+import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 
 interface PatientResultProps {
   data: any;
@@ -26,6 +26,8 @@ interface PatientResultProps {
 
 let labId;
 let plab;
+let companyCode;
+
 export const PatientResultList = observer((props: PatientResultProps) => {
   const editorCell = (row: any) => {
     return false; //row.status !== "I" ? true : false
@@ -86,7 +88,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
 
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -701,12 +703,19 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               },
             },
             {
+              dataField: 'companyCode',
+              text: 'Company Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
               dataField: 'environment',
               text: 'Environment',
               headerClasses: 'textHeader4',
               sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -736,6 +745,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
           clearAllFilter={() => {
             labId('');
             plab('');
+            companyCode('');
           }}
         />
       </div>

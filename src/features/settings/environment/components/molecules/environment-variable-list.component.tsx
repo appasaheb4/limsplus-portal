@@ -16,6 +16,7 @@ let category;
 let description;
 let enteredBy;
 let status;
+let companyCode;
 
 interface EnvironmentVariableProps {
   data: any;
@@ -272,6 +273,46 @@ export const EnvironmentVariableList = observer(
                 },
               },
               {
+                text: 'Company Code',
+                dataField: 'companyCode',
+                sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
+                editable: false,
+                csvFormatter: col => (col ? col : ''),
+                filter: textFilter({
+                  getFilter: filter => {
+                    companyCode = filter;
+                  },
+                }),
+                headerClasses: 'textHeader2',
+                // editorRenderer: (
+                //   editorProps,
+                //   value,
+                //   row,
+                //   column,
+                //   rowIndex,
+                //   columnIndex,
+                // ) => (
+                //   <>
+                //     <AutoCompleteCompanyList
+                //       isLabel={false}
+                //       hasError={false}
+                //       onSelect={companyCode => {
+                //         props.onUpdateItem &&
+                //           props.onUpdateItem(
+                //             companyCode,
+                //             column.dataField,
+                //             row._id,
+                //           );
+                //       }}
+                //     />
+                //   </>
+                // ),
+              },
+              {
                 dataField: 'opration',
                 text: 'Action',
                 editable: false,
@@ -343,6 +384,7 @@ export const EnvironmentVariableList = observer(
               description('');
               enteredBy('');
               status('');
+              companyCode('');
             }}
             dynamicStylingFields={['environmentVariable', 'category']}
             hideExcelSheet={['_id', 'opration']}

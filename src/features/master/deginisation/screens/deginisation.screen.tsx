@@ -46,7 +46,7 @@ const Deginisation = DeginisationHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue('environment', deginisationStore.deginisation?.environment);
+      // setValue('environment', deginisationStore.deginisation?.environment);
       setValue('status', deginisationStore.deginisation?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deginisationStore.deginisation]);
@@ -247,7 +247,7 @@ const Deginisation = DeginisationHoc(
                     />
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -264,7 +264,7 @@ const Deginisation = DeginisationHoc(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -302,7 +302,7 @@ const Deginisation = DeginisationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Environment'>
@@ -366,7 +366,7 @@ const Deginisation = DeginisationHoc(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                   </List>
                 </Grid>
               </div>

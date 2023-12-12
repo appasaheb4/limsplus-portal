@@ -25,6 +25,7 @@ export const LIST = gql`
         enteredBy
         isModify
         status
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -85,6 +86,7 @@ export const FILTER = gql`
         isModify
         enteredBy
         status
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -118,6 +120,7 @@ export const FILTER_BY_FIELDS = gql`
         isModify
         enteredBy
         status
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -170,6 +173,7 @@ export const FIND_BY_FIELDS = gql`
         enteredBy
         isModify
         status
+        companyCode
         documentType
         dateOfEntry
         lastUpdated

@@ -1,10 +1,16 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {Type, TableBootstrap, Tooltip, Icons, Form} from '@/library/components';
-import {ReportBodyComponents} from './report-body.components';
-import {EndOfPageComponents} from './end-of-page.components';
-import {EndOfReportComponents} from './end-of-report.components';
-import {Confirm} from '@/library/models';
+import { observer } from 'mobx-react';
+import {
+  Type,
+  TableBootstrap,
+  Tooltip,
+  Icons,
+  Form,
+} from '@/library/components';
+import { ReportBodyComponents } from './report-body.components';
+import { EndOfPageComponents } from './end-of-page.components';
+import { EndOfReportComponents } from './end-of-report.components';
+import { Confirm } from '@/library/models';
 
 interface TemplatePatientResultProps {
   data: any;
@@ -27,12 +33,13 @@ interface TemplatePatientResultProps {
 let sectionSetting;
 let version;
 let environment;
+let companyCode;
 
 export const TemplatePatientResultList = observer(
   (props: TemplatePatientResultProps) => {
     return (
       <>
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           <TableBootstrap
             id='_id'
             data={props.data}
@@ -65,7 +72,7 @@ export const TemplatePatientResultList = observer(
                       onChange={e => {
                         const reportTemplateType = e.target.value;
                         props.onUpdateItem &&
-                          props.onUpdateItem({reportTemplateType}, row._id);
+                          props.onUpdateItem({ reportTemplateType }, row._id);
                       }}
                     >
                       <option selected>Select</option>
@@ -234,6 +241,13 @@ export const TemplatePatientResultList = observer(
                 ),
               },
               {
+                text: 'Company Code',
+                dataField: 'companyCode',
+                sort: true,
+                editable: false,
+                csvFormatter: col => (col ? col : ''),
+              },
+              {
                 dataField: 'operation',
                 text: 'Action',
                 editable: false,
@@ -289,7 +303,7 @@ export const TemplatePatientResultList = observer(
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
               props.onUpdateItem &&
-                props.onUpdateItem({[dataField]: value}, id);
+                props.onUpdateItem({ [dataField]: value }, id);
             }}
             clearAllFilter={() => {
               sectionSetting('');

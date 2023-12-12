@@ -114,6 +114,7 @@ export const FILTER = gql`
         maxDis
         fixedPrice
         enteredBy
+        companyCode
         status
         environment
         dateCreation
@@ -150,6 +151,7 @@ export const FILTER_BY_FIELDS = gql`
         maxDis
         fixedPrice
         enteredBy
+        companyCode
         status
         environment
         dateCreation
@@ -186,6 +188,7 @@ export const FIND_BY_FIELDS = gql`
         maxDis
         fixedPrice
         enteredBy
+        companyCode
         status
         environment
         dateCreation

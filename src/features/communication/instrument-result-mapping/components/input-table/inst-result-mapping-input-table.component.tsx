@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Form, Icons, Tooltip, Buttons} from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import React, { useState } from 'react';
+import { Form, Icons, Tooltip, Buttons } from '@/library/components';
+import { lookupItems, lookupValue } from '@/library/utils';
 import _ from 'lodash';
-import {TableBootstrap} from './TableBootstrap';
-import {toJS} from 'mobx';
+import { TableBootstrap } from './TableBootstrap';
+import { toJS } from 'mobx';
 
 interface InstResultMappingInputTableProps {
   data: any;
@@ -57,7 +57,7 @@ export const InstResultMappingInputTable = ({
                     placeholder={row?.key || 'Key'}
                     type='text'
                     onBlur={key => {
-                      onUpdateItems && onUpdateItems({key}, row.index);
+                      onUpdateItems && onUpdateItems({ key }, row.index);
                     }}
                   />
                 </>
@@ -217,7 +217,7 @@ export const InstResultMappingInputTable = ({
                     placeholder={row?.instId || 'Inst Id'}
                     type='text'
                     onBlur={instId => {
-                      onUpdateItems && onUpdateItems({instId}, row.index);
+                      onUpdateItems && onUpdateItems({ instId }, row.index);
                     }}
                   />
                 </>
@@ -308,7 +308,7 @@ export const InstResultMappingInputTable = ({
                     placeholder={row?.assayCode || 'Assay Code'}
                     type='text'
                     onBlur={assayCode => {
-                      onUpdateItems && onUpdateItems({assayCode}, row.index);
+                      onUpdateItems && onUpdateItems({ assayCode }, row.index);
                     }}
                   />
                 </>
@@ -331,51 +331,51 @@ export const InstResultMappingInputTable = ({
                     placeholder={row?.instTest || 'Inst Test'}
                     type='text'
                     onBlur={instTest => {
-                      onUpdateItems && onUpdateItems({instTest}, row.index);
+                      onUpdateItems && onUpdateItems({ instTest }, row.index);
                     }}
                   />
                 </>
               ),
             },
-            {
-              dataField: 'environment',
-              text: 'Environment',
-              headerClasses: 'textHeader',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.environment}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const environment = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems(
-                          {
-                            environment,
-                          },
-                          row.index,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
-            },
+            // {
+            //   dataField: 'environment',
+            //   text: 'Environment',
+            //   headerClasses: 'textHeader',
+            //   editorRenderer: (
+            //     editorProps,
+            //     value,
+            //     row,
+            //     column,
+            //     rowIndex,
+            //     columnIndex,
+            //   ) => (
+            //     <>
+            //       <select
+            //         value={row.environment}
+            //         className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+            //         onChange={e => {
+            //           const environment = e.target.value;
+            //           onUpdateItems &&
+            //             onUpdateItems(
+            //               {
+            //                 environment,
+            //               },
+            //               row.index,
+            //             );
+            //         }}
+            //       >
+            //         <option selected>Select</option>
+            //         {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
+            //           (item: any, index: number) => (
+            //             <option key={index} value={item.code}>
+            //               {lookupValue(item)}
+            //             </option>
+            //           ),
+            //         )}
+            //       </select>
+            //     </>
+            //   ),
+            // },
             {
               dataField: 'operation',
               text: 'Action',

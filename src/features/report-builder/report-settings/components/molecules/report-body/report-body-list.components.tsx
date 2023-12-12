@@ -1,8 +1,8 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {TableBootstrap, Tooltip, Icons} from '@/library/components';
-import {Confirm} from '@/library/models';
-import {AutoCompletePageBrandingCode} from '../..';
+import { observer } from 'mobx-react';
+import { TableBootstrap, Tooltip, Icons } from '@/library/components';
+import { Confirm } from '@/library/models';
+import { AutoCompletePageBrandingCode } from '../..';
 
 interface ReportBodyListProps {
   data: any;
@@ -25,11 +25,12 @@ interface ReportBodyListProps {
 let sectionSetting;
 let version;
 let environment;
+let companyCode;
 
 export const ReportBodyList = observer((props: ReportBodyListProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -60,7 +61,7 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          {pageBrandingCode: item.tempCode},
+                          { pageBrandingCode: item.tempCode },
                           row._id,
                         );
                     }}
@@ -131,6 +132,14 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
                   </>
                 );
               },
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              headerClasses: 'textHeader2',
             },
             {
               dataField: 'operation',
@@ -205,6 +214,7 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
             sectionSetting('');
             version('');
             environment('');
+            companyCode('');
           }}
           dynamicStylingFields={[
             'pageBrandingCode',

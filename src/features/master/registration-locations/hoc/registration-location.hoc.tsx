@@ -12,10 +12,10 @@ export const RegistrationLocationHoc = (Component: React.FC<any>) => {
       registrationLocationsStore.updateRegistrationLocations({
         ...registrationLocationsStore.registrationLocations,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
         acClass: getDefaultLookupItem(routerStore.lookupItems, 'AC_CLASS'),
         accountType: getDefaultLookupItem(routerStore.lookupItems, 'AC_TYPE'),
         salesTerritoRy: getDefaultLookupItem(

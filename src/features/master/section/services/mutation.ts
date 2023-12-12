@@ -81,6 +81,7 @@ export const FIND_SECTIONLISTBY_DEPTCODE = gql`
         contactNo
         fyiLine
         workLine
+        companyCode
         status
         environment
         dateOfEntry
@@ -109,6 +110,7 @@ export const FILTER = gql`
         contactNo
         fyiLine
         workLine
+        companyCode
         status
         environment
         dateOfEntry
@@ -134,6 +136,7 @@ export const FIND_BY_FIELDS = gql`
         contactNo
         fyiLine
         workLine
+        companyCode
         status
         environment
         dateOfEntry

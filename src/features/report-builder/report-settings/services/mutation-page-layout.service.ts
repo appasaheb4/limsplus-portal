@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const TEMPLATE_SETTING_LIST = gql`
   mutation ($input: TemplateSettingInput!) {
@@ -17,6 +17,7 @@ export const TEMPLATE_SETTING_LIST = gql`
         backgroundImage
         pageSize
         mainBoxCSS
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -69,6 +70,7 @@ export const FILTER = gql`
         backgroundImage
         pageSize
         mainBoxCSS
+        companyCode
         documentType
         dateOfEntry
         lastUpdated
@@ -91,6 +93,7 @@ export const FIND_BY_FIELDS = gql`
         backgroundImage
         pageSize
         mainBoxCSS
+        companyCode
         documentType
         dateOfEntry
         lastUpdated

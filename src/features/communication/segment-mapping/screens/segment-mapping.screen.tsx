@@ -1,5 +1,5 @@
-import React, {useState, useMemo, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -14,19 +14,19 @@ import {
   Icons,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
-import {Styles} from '@/config';
+import { Styles } from '@/config';
 import {
   CommonInputTable,
   SegmentMappingInputTable,
   SegmentMappingList,
 } from '../components';
-import {useForm} from 'react-hook-form';
-import {SegmentMappingHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { useForm } from 'react-hook-form';
+import { SegmentMappingHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetSegmentMapping} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetSegmentMapping } from '../startup';
 
 const SegmentMapping = SegmentMappingHoc(
   observer(() => {
@@ -39,7 +39,7 @@ const SegmentMapping = SegmentMappingHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
@@ -72,12 +72,12 @@ const SegmentMapping = SegmentMappingHoc(
       reader.addEventListener('load', (evt: any) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: 'binary'});
+        const wb = XLSX.read(bstr, { type: 'binary' });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+        const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
         const defaultHeader: string[] = [
           'Inst Type',
           'Data Flow',
@@ -100,6 +100,7 @@ const SegmentMapping = SegmentMappingHoc(
           'Field Length',
           'Required For Lims',
           'Environment',
+          'Company Code',
         ];
         const headers: any = [];
         let object: any = [];
@@ -135,6 +136,7 @@ const SegmentMapping = SegmentMappingHoc(
                 fieldLength: item[18],
                 requiredForLims: item[19] === 'Yes' ? true : false,
                 environment: item[20],
+                companyCode: item[21],
               });
               fileImaport = true;
             }
@@ -145,7 +147,7 @@ const SegmentMapping = SegmentMappingHoc(
           segmentMappingStore.segmentMappingService
             .addSegmentMapping({
               input: {
-                filter: {segmentMapping: object},
+                filter: { segmentMapping: object },
               },
             })
             .then(res => {
@@ -168,7 +170,7 @@ const SegmentMapping = SegmentMappingHoc(
         segmentMappingStore.segmentMappingService
           .addSegmentMapping({
             input: {
-              filter: {segmentMapping: segmentMappingStore.segmentMapping},
+              filter: { segmentMapping: segmentMappingStore.segmentMapping },
             },
           })
           .then(res => {
@@ -272,20 +274,20 @@ const SegmentMapping = SegmentMappingHoc(
             setModalConfirm({
               show: true,
               type: 'updateFields',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update records',
             });
           }}
           onPageSizeChange={(page, limit) => {
             segmentMappingStore.fetchListSegmentMapping(page, limit);
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             segmentMappingStore.segmentMappingService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, filter, page, limit};
+            global.filter = { mode: 'filter', type, filter, page, limit };
           }}
         />
       ),
@@ -368,17 +370,17 @@ const SegmentMapping = SegmentMappingHoc(
           accept='.csv,.xlsx,.xls'
           {...modalImportFile}
           click={(file: any) => {
-            setModalImportFile({show: false});
+            setModalImportFile({ show: false });
             handleFileUpload(file);
           }}
           close={() => {
-            setModalImportFile({show: false});
+            setModalImportFile({ show: false });
           }}
         />
         <ModalConfirm
           {...modalConfirm}
           click={action => {
-            setModalConfirm({show: false});
+            setModalConfirm({ show: false });
             if (segmentMappingStore.selectedItems) {
               if (action === 'delete') {
                 segmentMappingStore.segmentMappingService
@@ -443,7 +445,7 @@ const SegmentMapping = SegmentMappingHoc(
               }
             }
           }}
-          close={() => setModalConfirm({show: false})}
+          close={() => setModalConfirm({ show: false })}
         />
       </>
     );

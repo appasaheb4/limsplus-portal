@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   TableBootstrap,
   textFilter,
@@ -12,8 +12,8 @@ import {
   Svg,
   sortCaret,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { Confirm } from '@/library/models';
+import { lookupItems, lookupValue } from '@/library/utils';
 
 let interfaceType;
 let instrumentType;
@@ -23,6 +23,7 @@ let protocol;
 let block;
 let fileds;
 let environment;
+let companyCode;
 
 interface InterfaceManagerListProps {
   data: any;
@@ -534,6 +535,46 @@ export const InterfaceManagerList = observer(
             ),
           },
           {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <AutoCompleteCompanyList
+            //       isLabel={false}
+            //       hasError={false}
+            //       onSelect={companyCode => {
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             companyCode,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     />
+            //   </>
+            // ),
+          },
+          {
             dataField: 'environment',
             text: 'Environment',
             headerClasses: 'textHeader3',
@@ -541,6 +582,7 @@ export const InterfaceManagerList = observer(
             headerStyle: {
               fontSize: 0,
             },
+            editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -548,39 +590,39 @@ export const InterfaceManagerList = observer(
                 environment = filter;
               },
             }),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row.environment}
-                  className='leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md'
-                  onChange={e => {
-                    const environment = e.target.value;
-                    props.onUpdateItem &&
-                      props.onUpdateItem(
-                        environment,
-                        column.dataField,
-                        row._id,
-                      );
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ),
-                  )}
-                </select>
-              </>
-            ),
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <select
+            //       value={row.environment}
+            //       className='leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md'
+            //       onChange={e => {
+            //         const environment = e.target.value;
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             environment,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     >
+            //       <option selected>Select</option>
+            //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
+            //         (item: any, index: number) => (
+            //           <option key={index} value={item.code}>
+            //             {lookupValue(item)}
+            //           </option>
+            //         ),
+            //       )}
+            //     </select>
+            //   </>
+            // ),
           },
           {
             dataField: 'operation',

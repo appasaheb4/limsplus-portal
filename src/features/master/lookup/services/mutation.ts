@@ -25,6 +25,7 @@ export const LOOKUPITEM_BY_PATH = gql`
           flagUpperCase
         }
         description
+        companyCode
         status
         environment
         dateOfEntry
@@ -59,6 +60,7 @@ export const LOOKUPITEM_BY_PATH_N_FIELD = gql`
           flagUpperCase
         }
         description
+        companyCode
         status
         environment
         dateOfEntry
@@ -170,6 +172,7 @@ export const FILTER = gql`
           flagUpperCase
         }
         description
+        companyCode
         status
         environment
         dateOfEntry
@@ -207,6 +210,7 @@ export const FIND_BY_FIELDS = gql`
           flagUpperCase
         }
         description
+        companyCode
         status
         environment
         dateOfEntry
@@ -244,6 +248,7 @@ export const FIND_BY_DOCUMENT = gql`
           flagUpperCase
         }
         description
+        companyCode
         status
         environment
         dateOfEntry

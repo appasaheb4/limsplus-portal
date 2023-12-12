@@ -47,7 +47,7 @@ const Methods = MethodsHoc(
     useEffect(() => {
       // Default value initialization
       setValue('status', methodsStore.methods?.status);
-      setValue('environment', methodsStore.methods?.environment);
+      // setValue('environment', methodsStore.methods?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [methodsStore.methods]);
 
@@ -279,7 +279,7 @@ const Methods = MethodsHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -296,7 +296,7 @@ const Methods = MethodsHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -334,7 +334,7 @@ const Methods = MethodsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -397,7 +397,7 @@ const Methods = MethodsHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

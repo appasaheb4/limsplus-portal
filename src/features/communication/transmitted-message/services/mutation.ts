@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: TransmittedMessageInput!) {
@@ -17,6 +17,7 @@ export const LIST = gql`
         segmentMessage
         segmentOrder
         segmentArray
+        companyCode
         status
         dateOfEntry
         lastUpdated
@@ -87,6 +88,7 @@ export const FILTER = gql`
         segmentMessage
         segmentOrder
         segmentArray
+        companyCode
         status
         dateOfEntry
         lastUpdated
@@ -118,6 +120,7 @@ export const FIND_BY_FIELDS = gql`
         analyteName
         assayCode
         instTest
+        companyCode
         environment
         dateOfEntry
         lastUpdated

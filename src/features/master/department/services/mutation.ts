@@ -100,6 +100,7 @@ export const FILTER = gql`
         closingTime
         fyiLine
         workLine
+        companyCode
         status
         environment
         dateOfEntry
@@ -136,6 +137,7 @@ export const FILTER_BY_FIELDS = gql`
         closingTime
         fyiLine
         workLine
+        companyCode
         status
         environment
         dateOfEntry
@@ -172,6 +174,7 @@ export const FIND_BY_FIELDS = gql`
         closingTime
         fyiLine
         workLine
+        companyCode
         status
         environment
         dateOfEntry
