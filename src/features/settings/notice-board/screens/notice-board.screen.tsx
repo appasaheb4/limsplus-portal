@@ -36,7 +36,9 @@ const NoticeBoard = NoticeBoardHoc(
       setValue,
       reset,
     } = useForm();
+
     const [modalConfirm, setModalConfirm] = useState<any>();
+    const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -203,7 +205,17 @@ const NoticeBoard = NoticeBoardHoc(
           <PageHeading title={routerStore.selectedComponents?.title || ''} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
-        <div className='p-2 rounded-lg shadow-xl'>
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+          <Buttons.ButtonCircleAddRemove
+            show={isHideView}
+            onClick={() => setIsHideView(!isHideView)}
+          />
+        )}
+        <div
+          className={
+            'p-2 rounded-lg shadow-xl ' + (isHideView ? 'hidden' : 'shown')
+          }
+        >
           <Grid cols={2}>
             <List direction='col' space={4} justify='stretch' fill>
               {labStore.listLabs && (
