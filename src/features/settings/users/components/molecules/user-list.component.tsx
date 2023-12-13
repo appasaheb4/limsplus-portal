@@ -1346,47 +1346,7 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader2',
               editable: false,
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteCompanyList
-                    isLabel={false}
-                    hasError={false}
-                    onSelect={companyCode => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          companyCode,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
-            },
+
             {
               text: 'Status',
               dataField: 'status',
@@ -1452,6 +1412,47 @@ export const UserList = (props: UserListProps) => {
               }),
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
+              ),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
               ),
             },
             {
