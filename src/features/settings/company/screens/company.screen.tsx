@@ -965,48 +965,15 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {/* <Controller
+                  <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            companyStore.updateCompany({
-                              ...companyStore.company,
-                              environment,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
+                      <Form.InputWrapper label='Environment'></Form.InputWrapper>
                     )}
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  /> */}
+                  />
                 </List>
               </Grid>
             ) : (

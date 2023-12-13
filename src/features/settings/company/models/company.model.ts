@@ -32,9 +32,10 @@ export class Company {
   dateExpire: Date;
   enteredBy: string;
   status: string;
-  environment: string;
+  environment: Array<string>;
   dateOfEntry: Date;
   lastUpdated: Date;
+
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.code = rawData.code;

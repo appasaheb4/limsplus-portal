@@ -28,9 +28,9 @@ import * as Lab from '@/features/master/labs';
 import * as Role from '@/features/settings/roles';
 import * as Department from '@/features/master/department';
 
+// master
 import * as RoleMappping from '@/features/settings/mapping/role';
 import * as Environment from '@/features/settings/environment';
-import * as Lookup from '@/features/master/lookup';
 import * as MasterAnalyte from '@/features/master/master-analyte';
 import * as TestMaster from '@/features/master/test-master';
 import * as PanelMaster from '@/features/master/master-panel';
@@ -57,6 +57,7 @@ import * as CommentManager from '@/features/master/comment-manager';
 // settings
 import * as User from '@/features/settings/users';
 import * as Company from '@/features/settings/company';
+import * as Lookup from '@/features/settings/lookup';
 
 // communication
 import * as InterfaceManager from '@/features/communication/interface-manager';

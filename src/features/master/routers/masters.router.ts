@@ -29,7 +29,7 @@ const MasterPackage = async(
 const TestMaster = async(
   () => import('../test-master/screens/test-master.screen'),
 );
-const Lookup = async(() => import('../lookup/screens/lookup.screen'));
+
 const Section = async(() => import('../section/screens/section.screen'));
 const SampleContainer = async(
   () => import('../sample-container/screens/sample-container.screen'),
@@ -143,12 +143,7 @@ export const collectionRoutes = {
       icon: 'SiMinetest',
       component: TestMaster,
     },
-    {
-      path: '/collection/lookup',
-      name: 'Lookup',
-      icon: 'MdLooks',
-      component: Lookup,
-    },
+
     {
       path: '/collection/section',
       name: 'Section',
