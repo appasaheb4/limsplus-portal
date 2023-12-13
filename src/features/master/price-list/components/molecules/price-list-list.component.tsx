@@ -545,46 +545,7 @@ export const PriceListList = (props: PriceListProps) => {
                 },
               }),
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <AutoCompleteCompanyList
-              //       isLabel={false}
-              //       hasError={false}
-              //       onSelect={companyCode => {
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             companyCode,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     />
-              //   </>
-              // ),
-            },
+
             {
               dataField: 'status',
               text: 'Status',
@@ -631,56 +592,7 @@ export const PriceListList = (props: PriceListProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'environment',
-              text: 'Environment',
-              headerClasses: 'textHeader1',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  environment = filter;
-                },
-              }),
-              editable: false,
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <select
-              //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-              //       onChange={e => {
-              //         const environment = e.target.value;
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             environment,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     >
-              //       <option selected>Select</option>
-              //       {lookupItems(
-              //         props.extraData.lookupItems,
-              //         'ENVIRONMENT',
-              //       ).map((item: any, index: number) => (
-              //         <option key={index} value={item.code}>
-              //           {lookupValue(item)}
-              //         </option>
-              //       ))}
-              //     </select>
-              //   </>
-              // ),
-            },
+
             {
               dataField: 'dateCreation',
               editable: false,
@@ -857,6 +769,96 @@ export const PriceListList = (props: PriceListProps) => {
               filterRenderer: (onFilter, column) => (
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
+            },
+            {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader1',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  environment = filter;
+                },
+              }),
+              editable: false,
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <select
+              //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+              //       onChange={e => {
+              //         const environment = e.target.value;
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             environment,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     >
+              //       <option selected>Select</option>
+              //       {lookupItems(
+              //         props.extraData.lookupItems,
+              //         'ENVIRONMENT',
+              //       ).map((item: any, index: number) => (
+              //         <option key={index} value={item.code}>
+              //           {lookupValue(item)}
+              //         </option>
+              //       ))}
+              //     </select>
+              //   </>
+              // ),
             },
             {
               dataField: 'opration',

@@ -1295,46 +1295,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             }),
             editable: false,
           },
-          {
-            text: 'Company Code',
-            dataField: 'companyCode',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            editable: false,
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                companyCode = filter;
-              },
-            }),
-            headerClasses: 'textHeader2',
-            // editorRenderer: (
-            //   editorProps,
-            //   value,
-            //   row,
-            //   column,
-            //   rowIndex,
-            //   columnIndex,
-            // ) => (
-            //   <>
-            //     <AutoCompleteCompanyList
-            //       isLabel={false}
-            //       hasError={false}
-            //       onSelect={companyCode => {
-            //         props.onUpdateItem &&
-            //           props.onUpdateItem(
-            //             companyCode,
-            //             column.dataField,
-            //             row._id,
-            //           );
-            //       }}
-            //     />
-            //   </>
-            // ),
-          },
+
           {
             dataField: 'status',
             text: 'Status',
@@ -1380,6 +1341,46 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 </select>
               </>
             ),
+          },
+          {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <AutoCompleteCompanyList
+            //       isLabel={false}
+            //       hasError={false}
+            //       onSelect={companyCode => {
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             companyCode,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     />
+            //   </>
+            // ),
           },
           {
             dataField: 'environment',
