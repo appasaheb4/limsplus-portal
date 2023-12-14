@@ -149,7 +149,7 @@ export const ClientRegistrationList = observer(
                 `${
                   row?.registrationDate !== undefined
                     ? dayjs(row?.registrationDate)
-                        .format('YYYY-MM-DD')
+                        .format('DD-MM-YYYY HH:mm:ss')
                         .toString()
                     : ''
                 } - `,
@@ -162,7 +162,11 @@ export const ClientRegistrationList = observer(
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.registrationDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {dayjs(row.registrationDate).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -368,7 +372,9 @@ export const ClientRegistrationList = observer(
               csvFormatter: (cell, row, rowIndex) =>
                 `${
                   row.dueDate !== undefined
-                    ? dayjs(row.dueDate).format('YYYY-MM-DD').toString()
+                    ? dayjs(row.dueDate)
+                        .format('DD-MM-YYYY HH:mm:ss')
+                        .toString()
                     : ''
                 } - `,
               filter: customFilter({
@@ -380,7 +386,7 @@ export const ClientRegistrationList = observer(
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dueDate).format('YYYY-MM-DD')}</>;
+                return <>{dayjs(row.dueDate).format('DD-MM-YYYY HH:mm:ss')}</>;
               },
               editorRenderer: (
                 editorProps,
@@ -425,7 +431,9 @@ export const ClientRegistrationList = observer(
               csvFormatter: (cell, row, rowIndex) =>
                 `${
                   row.reportDate !== undefined
-                    ? dayjs(row.reportDate).format('YYYY-MM-DD').toString()
+                    ? dayjs(row.reportDate)
+                        .format('DD-MM-YYYY HH:mm:ss')
+                        .toString()
                     : ''
                 } - `,
               filter: customFilter({
@@ -437,7 +445,9 @@ export const ClientRegistrationList = observer(
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.reportDate).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.reportDate).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -472,46 +482,7 @@ export const ClientRegistrationList = observer(
                 </>
               ),
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <AutoCompleteCompanyList
-              //       isLabel={false}
-              //       hasError={false}
-              //       onSelect={companyCode => {
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             companyCode,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     />
-              //   </>
-              // ),
-            },
+
             {
               dataField: 'status',
               text: 'Status',
@@ -630,6 +601,46 @@ export const ClientRegistrationList = observer(
                   />
                 </>
               ),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
             },
             {
               dataField: 'operation',

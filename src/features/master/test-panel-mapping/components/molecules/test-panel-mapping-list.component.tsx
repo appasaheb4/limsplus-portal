@@ -639,7 +639,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
-                  ? dayjs(row.dateCreation).format('YYYY-MM-DD')
+                  ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -650,7 +650,9 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -686,7 +688,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
-                  ? dayjs(row.dateActive).format('YYYY-MM-DD')
+                  ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               editable: false,
               filter: customFilter({
@@ -698,7 +700,9 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -734,7 +738,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
-                  ? dayjs(row.dateExpire).format('YYYY-MM-DD')
+                  ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -747,7 +751,11 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,

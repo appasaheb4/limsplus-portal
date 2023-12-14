@@ -1405,7 +1405,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
-                ? dayjs(row.dateCreation || 0).format('YYYY-MM-DD')
+                ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')
                 : '',
             filter: customFilter({
               getFilter: filter => {
@@ -1416,7 +1416,11 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateCreation || 0).format('YYYY-MM-DD')}</>;
+              return (
+                <>
+                  {dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')}
+                </>
+              );
             },
             editorRenderer: (
               editorProps,
@@ -1453,7 +1457,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
-                ? dayjs(row.dateActive || 0).format('YYYY-MM-DD')
+                ? dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')
                 : '',
             filter: customFilter({
               getFilter: filter => {
@@ -1464,7 +1468,9 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive || 0).format('YYYY-MM-DD')}</>;
+              return (
+                <>{dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')}</>
+              );
             },
             editorRenderer: (
               editorProps,
@@ -1497,7 +1503,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
-                ? dayjs(row.dateExpire || 0).format('YYYY-MM-DD')
+                ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')
                 : '',
             filter: customFilter({
               getFilter: filter => {
@@ -1508,7 +1514,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format('YYYY-MM-DD')}</>;
+              return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;
             },
             editorRenderer: (
               editorProps,
