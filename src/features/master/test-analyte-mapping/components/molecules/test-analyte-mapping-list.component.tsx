@@ -580,7 +580,9 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -628,7 +630,9 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -677,7 +681,9 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateExpire).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,

@@ -469,7 +469,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
-                ? dayjs(row.dateCreation).format('YYYY-MM-DD')
+                ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
                 : '',
             filter: customFilter({
               getFilter: filter => {
@@ -480,7 +480,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateCreation).format('YYYY-MM-DD')}</>;
+              return (
+                <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+              );
             },
             editorRenderer: (
               editorProps,
@@ -516,7 +518,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
-              row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
+              row.dateActive
+                ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
+                : '',
             filter: customFilter({
               getFilter: filter => {
                 dateActive = filter;
@@ -526,7 +530,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive).format('YYYY-MM-DD')}</>;
+              return <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -558,7 +562,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
-              row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
+              row.dateExpire
+                ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
+                : '',
             // filter: dateFilter({
             //   comparators: [
             //     Comparator.EQ,
@@ -580,7 +586,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format('YYYY-MM-DD')}</>;
+              return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;
             },
             editorRenderer: (
               editorProps,

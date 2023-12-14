@@ -938,7 +938,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: (col, row) =>
                 row.dateOfBirth
-                  ? dayjs(row.dateOfBirth).format('YYYY-MM-DD')
+                  ? dayjs(row.dateOfBirth).format('DD-MM-YYYY')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -950,7 +950,7 @@ export const UserList = (props: UserListProps) => {
               ),
               headerClasses: 'textHeader8',
               formatter: (cell, row) => {
-                return dayjs(row.dateOfBirth).format('YYYY-MM-DD');
+                return dayjs(row.dateOfBirth).format('DD-MM-YYYY');
               },
               editorRenderer: (
                 editorProps,
@@ -999,7 +999,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: (col, row) =>
                 row.marriageAnniversary
-                  ? dayjs(row.marriageAnniversary).format('YYYY-MM-DD')
+                  ? dayjs(row.marriageAnniversary).format('DD-MM-YYYY')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -1011,7 +1011,7 @@ export const UserList = (props: UserListProps) => {
               ),
               headerClasses: 'textHeader11',
               formatter: (cell, row) => {
-                return dayjs(row.marriageAnniversary).format('YYYY-MM-DD');
+                return dayjs(row.marriageAnniversary).format('DD-MM-YYYY');
               },
               editorRenderer: (
                 editorProps,
@@ -1060,7 +1060,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: (col, row) =>
                 row.exipreDate
-                  ? dayjs(row.exipreDate).format('YYYY-MM-DD')
+                  ? dayjs(row.exipreDate).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -1072,7 +1072,7 @@ export const UserList = (props: UserListProps) => {
               ),
               headerClasses: 'textHeader9',
               formatter: (cell, row) => {
-                return dayjs(row.exipreDate).format('YYYY-MM-DD');
+                return dayjs(row.exipreDate).format('DD-MM-YYYY HH:mm:ss');
               },
               editorRenderer: (
                 editorProps,
@@ -1243,7 +1243,7 @@ export const UserList = (props: UserListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateOfEntry
-                  ? dayjs(row.dateOfEntry).format('YYYY-MM-DD')
+                  ? dayjs(row.dateOfEntry).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -1256,7 +1256,9 @@ export const UserList = (props: UserListProps) => {
               headerClasses: 'textHeader9',
               editable: false,
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateOfEntry).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{dayjs(row.dateOfEntry).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -1293,7 +1295,7 @@ export const UserList = (props: UserListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
-                  ? dayjs(row.dateActive || 0).format('YYYY-MM-DD')
+                  ? dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -1304,7 +1306,11 @@ export const UserList = (props: UserListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,

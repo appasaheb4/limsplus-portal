@@ -251,7 +251,7 @@ export const TransmittedMessageList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateOfEntry
-                  ? dayjs(row.dateOfEntry || 0).format('YYYY-MM-DD')
+                  ? dayjs(row.dateOfEntry || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: textFilter({
                 getFilter: filter => {
@@ -259,7 +259,11 @@ export const TransmittedMessageList = observer(
                 },
               }),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateOfEntry || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {dayjs(row.dateOfEntry || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
             },
             {

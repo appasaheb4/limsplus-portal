@@ -934,7 +934,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
-                  ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')
+                  ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -947,7 +947,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')}
+                    {dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')}
                   </>
                 );
               },
@@ -965,7 +965,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
-                  ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')
+                  ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -978,7 +978,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')}
+                    {dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')}
                   </>
                 );
               },

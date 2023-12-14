@@ -1675,7 +1675,9 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateCreation).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{daysjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -1723,7 +1725,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateActive || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {daysjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -1772,7 +1778,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateExpire || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {daysjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,
