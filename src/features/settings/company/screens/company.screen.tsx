@@ -16,6 +16,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
 import { CompanyList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -23,13 +24,20 @@ import { useForm, Controller } from 'react-hook-form';
 import * as XLSX from 'xlsx';
 import { RouterFlow } from '@/flows';
 import { resetCompany } from '../startup';
+import { MultiSelect } from '@/core-components';
 
 import { CompanyHoc } from '../hoc';
 import { useStores } from '@/stores';
 
 const Company = CompanyHoc(
   observer(() => {
-    const { loginStore, routerStore, companyStore } = useStores();
+    const {
+      loginStore,
+      routerStore,
+      companyStore,
+      labStore,
+      interfaceManagerStore,
+    } = useStores();
     const {
       control,
       handleSubmit,
@@ -48,7 +56,7 @@ const Company = CompanyHoc(
     }, [companyStore.company]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isHideView, setIsHideView] = useState<boolean>(true);
+    const [isHideView, setIsHideView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -86,8 +94,8 @@ const Company = CompanyHoc(
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
           return {
-            code: item.Code,
-            name: item.Name,
+            code: item.Code?.toUpperCase(),
+            name: item.Name?.toUpperCase(),
             description: item.Description,
             module: item.Module,
             admin: item.Admin,
@@ -228,14 +236,14 @@ const Company = CompanyHoc(
                           onChange(code);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            code,
+                            code: code?.toUpperCase(),
                           });
                         }}
                         onBlur={async code => {
                           if (code) {
                             await checkExistsRecords({
                               ...companyStore.company,
-                              code,
+                              code: code?.toUpperCase(),
                             });
                           }
                         }}
@@ -257,14 +265,14 @@ const Company = CompanyHoc(
                           onChange(name);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            name,
+                            name: name?.toUpperCase(),
                           });
                         }}
                         onBlur={async name => {
                           if (name) {
                             await checkExistsRecords({
                               ...companyStore.company,
-                              name,
+                              name: name?.toUpperCase(),
                             });
                           }
                         }}
@@ -296,30 +304,233 @@ const Company = CompanyHoc(
                     name='description'
                     rules={{ required: false }}
                   />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Module'
+                        hasError={!!errors.module}
+                      >
+                        <MultiSelect
+                          hasError={!!errors.module}
+                          options={lookupItems(
+                            routerStore.lookupItems,
+                            'MODULE',
+                          ).map(item => item.code)}
+                          onSelect={module => {
+                            onChange(module);
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              module,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='module'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Lab'
+                        placeholder={errors.lab ? 'Please Enter lab' : 'Lab'}
+                        hasError={!!errors.lab}
+                        value={value}
+                        onChange={lab => {
+                          onChange(lab);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            lab,
+                          });
+                        }}
+                      />
+                    )}
+                    name='lab'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper label='Allowed Lab'>
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={false}
+                          placeholder='Search by code'
+                          data={{
+                            list: labStore.listLabs || [],
+                            selected:
+                              companyStore.selectedItems?.allowedLab || [],
+                            displayKey: ['code', 'name'],
+                          }}
+                          hasError={!!errors.allowedLab}
+                          onUpdate={item => {
+                            const allowedLab =
+                              companyStore.selectedItems?.allowedLab;
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              allowedLab,
+                            });
+                          }}
+                          onFilter={(value: string) => {
+                            labStore.LabService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['code', 'name'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let allowedLab =
+                              companyStore.selectedItems?.allowedLab;
+                            if (!item.selected) {
+                              if (allowedLab && allowedLab?.length > 0) {
+                                allowedLab?.push(item);
+                              } else allowedLab = [item];
+                            } else {
+                              allowedLab = allowedLab?.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
+                            companyStore.updateSelectedItems({
+                              ...companyStore.selectedItems,
+                              allowedLab,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='allowedLab'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <Form.InputWrapper label='Allowed Instrument'>
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={false}
+                          placeholder='Search by code'
+                          data={{
+                            list:
+                              interfaceManagerStore.listInterfaceManager || [],
+                            selected:
+                              companyStore.selectedItems?.allowedInstrument ||
+                              [],
+                            displayKey: ['instrumentName'],
+                          }}
+                          hasError={!!errors.allowedInstrument}
+                          onUpdate={item => {
+                            const allowedInstrument =
+                              companyStore.selectedItems?.allowedInstrument;
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              allowedInstrument,
+                            });
+                          }}
+                          onFilter={(value: string) => {
+                            labStore.LabService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['instrumentName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let allowedInstrument =
+                              companyStore.selectedItems?.allowedInstrument;
+                            if (!item.selected) {
+                              if (
+                                allowedInstrument &&
+                                allowedInstrument?.length > 0
+                              ) {
+                                allowedInstrument?.push(item);
+                              } else allowedInstrument = [item];
+                            } else {
+                              allowedInstrument = allowedInstrument?.filter(
+                                items => {
+                                  return items._id !== item._id;
+                                },
+                              );
+                            }
+                            companyStore.updateSelectedItems({
+                              ...companyStore.selectedItems,
+                              allowedInstrument,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='allowedInstrument'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
 
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
-                        label='Module'
+                        label='Department'
                         placeholder={
-                          errors.module ? 'Please Enter module' : 'Module'
+                          errors.department
+                            ? 'Please Enter department'
+                            : 'Department'
                         }
-                        hasError={!!errors.module}
+                        hasError={!!errors.department}
                         value={value}
-                        onChange={module => {
-                          onChange(module);
+                        onChange={department => {
+                          onChange(department);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            module,
+                            department,
                           });
                         }}
                       />
                     )}
-                    name='module'
-                    rules={{ required: false }}
+                    name='department'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Allowed User'
+                        type='number'
+                        placeholder={
+                          errors.allowedUser
+                            ? 'Please Enter allowedUser'
+                            : 'Allowed User'
+                        }
+                        hasError={!!errors.allowedUser}
+                        value={value}
+                        onChange={allowedUser => {
+                          onChange(allowedUser);
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            allowedUser,
+                          });
+                        }}
+                      />
+                    )}
+                    name='allowedUser'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -932,6 +1143,61 @@ const Company = CompanyHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Version'
+                        placeholder='Version'
+                        value={companyStore.company.version}
+                        disabled
+                      />
+                    )}
+                    name='version'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Support Plan'
+                        hasError={!!errors.supportPlan}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.supportPlan
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const supportPlan = e.target.value;
+                            onChange(supportPlan);
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              supportPlan,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'SUPPORT_PLAN',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='supportPlan'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Status'
                         hasError={!!errors.status}
@@ -968,7 +1234,25 @@ const Company = CompanyHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'></Form.InputWrapper>
+                      <Form.InputWrapper
+                        label='Environment'
+                        hasError={!!errors.environment}
+                      >
+                        <MultiSelect
+                          hasError={!!errors.environment}
+                          options={lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map(item => item.code)}
+                          onSelect={environment => {
+                            onChange(environment);
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              environment,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
                     )}
                     name='environment'
                     rules={{ required: true }}
