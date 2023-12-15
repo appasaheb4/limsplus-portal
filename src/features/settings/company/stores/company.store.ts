@@ -1,11 +1,12 @@
 import { makeObservable, action, observable, computed } from 'mobx';
-import { Company } from '../models';
+import { Company, SelectedItems } from '../models';
 import { CompanyService } from '../services';
 import dayjs from 'dayjs';
 export class CompanyStore {
   company!: Company;
   companyList!: Company[];
   companyListCount!: number;
+  selectedItems!: SelectedItems;
 
   constructor() {
     this.reset();
@@ -13,17 +14,20 @@ export class CompanyStore {
       company: observable,
       companyList: observable,
       companyListCount: observable,
+      selectedItems: observable,
 
       reset: action,
       companyService: computed,
       updateCompany: action,
       updateCompanyList: action,
+      updateSelectedItems: action,
     });
   }
 
   reset() {
     this.company = new Company({
       ...this.company,
+      version: 1,
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
@@ -45,5 +49,9 @@ export class CompanyStore {
   updateCompanyList(res: any) {
     this.companyList = res.companies.data;
     this.companyListCount = res.companies.paginatorInfo.count;
+  }
+
+  updateSelectedItems(items: SelectedItems) {
+    this.selectedItems = items;
   }
 }
