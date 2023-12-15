@@ -346,7 +346,7 @@ export const ResultList = (props: ResultListProps) => {
               editable: false,
               formatter: (cell, row) => {
                 return row.approvalDate
-                  ? dayjs(row.approvalDate).format('YYYY-MM-DD')
+                  ? dayjs(row.approvalDate).format('DD-MM-YYYY HH:mm:ss')
                   : '';
               },
             },

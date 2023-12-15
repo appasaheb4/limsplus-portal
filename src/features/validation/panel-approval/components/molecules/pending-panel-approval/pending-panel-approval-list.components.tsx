@@ -81,7 +81,7 @@ export const PendingPanelApprovalList = observer(
                 editable: false,
                 formatter: (cell, row) => {
                   return row?.dueDate
-                    ? dayjs(row.dueDate).format('DD-MM-YYYY')
+                    ? dayjs(row.dueDate).format('DD-MM-YYYY HH:mm:ss')
                     : '';
                 },
               },

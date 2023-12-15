@@ -70,6 +70,7 @@ let reportPriority;
 let holdReason;
 let status;
 let companyCode;
+let environment;
 
 export const PatientVisitList = observer((props: PatientVisitProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
@@ -1176,23 +1177,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 );
               },
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-            },
+
             {
               dataField: 'status',
               text: 'Status',
@@ -1242,6 +1227,41 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                   </select>
                 </>
               ),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+            },
+            {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader4',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row.extraData?.environment ? row.extraData.environment : '',
+              filter: textFilter({
+                getFilter: filter => {
+                  environment = filter;
+                },
+              }),
+              editable: false,
             },
             {
               dataField: 'opration',
@@ -1322,6 +1342,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             holdReason('');
             status('');
             companyCode('');
+            environment('');
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['_id', 'opration']}

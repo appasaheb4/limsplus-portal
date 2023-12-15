@@ -94,7 +94,7 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
               formatter: (cell, row) => {
-                return dayjs(row.invoiceDate).format('YYYY-MM-DD');
+                return dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss');
               },
             },
             {
@@ -104,7 +104,7 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
               formatter: (cell, row) => {
-                return dayjs(row.actionDate).format('YYYY-MM-DD');
+                return dayjs(row.actionDate).format('DD-MM-YYYY HH:mm:ss');
               },
             },
             {
