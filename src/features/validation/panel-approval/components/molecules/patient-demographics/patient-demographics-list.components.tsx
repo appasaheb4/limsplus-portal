@@ -73,7 +73,9 @@ export const PatientDemographicsList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return row?.dob ? dayjs(row.dob).format('DD-MM-YYYY') : '';
+                  return row?.dob
+                    ? dayjs(row.dob).format('DD-MM-YYYY HH:mm:ss')
+                    : '';
                 },
               },
               {

@@ -54,8 +54,8 @@ export const LIST_PATIENT_MANAGER = gql`
           accountType
           enteredBy
           status
-          environment
         }
+        environment
         companyCode
         documentType
         dateOfEntry
@@ -156,8 +156,8 @@ export const FILTER_PATIENT_MANAGER = gql`
           accountType
           enteredBy
           status
-          environment
         }
+        environment
         companyCode
         documentType
         dateOfEntry
@@ -240,8 +240,8 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
           accountType
           enteredBy
           status
-          environment
         }
+        environment
         companyCode
         documentType
         dateOfEntry
