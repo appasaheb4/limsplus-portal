@@ -15,6 +15,7 @@ let router: any = dashboardRoutes;
 
 let role;
 let companyCode;
+let environment;
 
 interface RoleMappingListProps {
   data: any;
@@ -172,6 +173,23 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               // ),
             },
             {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              editable: false,
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  environment = filter;
+                },
+              }),
+            },
+            {
               dataField: 'opration',
               text: 'Delete',
               editable: false,
@@ -286,6 +304,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
           clearAllFilter={() => {
             role('');
             companyCode('');
+            environment('');
           }}
           dynamicStylingFields={['role']}
           hideExcelSheet={['_id', 'opration']}

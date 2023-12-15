@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const RECEIPTS_LIST = gql`
   mutation ($input: ReceiptInput!) {
@@ -20,6 +20,7 @@ export const RECEIPTS_LIST = gql`
         acClass
         enteredBy
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated

@@ -36,6 +36,7 @@ let visitId;
 let orderId;
 let panelCode;
 let companyCode;
+let environment;
 
 export const PatientOrderList = observer((props: PatientOrderListProps) => {
   const editorCell = (row: any) => {
@@ -195,6 +196,23 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               // ),
             },
             {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              editable: false,
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  environment = filter;
+                },
+              }),
+            },
+            {
               dataField: 'opration',
               text: 'Action',
               csvExport: false,
@@ -281,6 +299,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
             orderId('');
             panelCode('');
             companyCode('');
+            environment('');
           }}
         />
       </div>

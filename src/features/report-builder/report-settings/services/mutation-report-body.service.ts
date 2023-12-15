@@ -18,6 +18,7 @@ export const REPORT_BODY_LIST = gql`
         test
         analyte
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -71,6 +72,7 @@ export const FILTER = gql`
         test
         analyte
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -97,6 +99,7 @@ export const FILTER_BY_FIELDS = gql`
         test
         analyte
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -120,6 +123,7 @@ export const FIND_BY_FIELDS = gql`
         test
         analyte
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated

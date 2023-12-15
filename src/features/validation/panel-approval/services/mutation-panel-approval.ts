@@ -64,6 +64,7 @@ export const PANEL_APPROVAL_LIST = gql`
         reportPriority
         colorScheme
         companyCode
+        environment
         enteredBy
         documentType
         dateOfEntry
@@ -146,6 +147,7 @@ export const FILTER = gql`
         reportPriority
         colorScheme
         companyCode
+        environment
         enteredBy
         documentType
         dateOfEntry

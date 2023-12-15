@@ -15,6 +15,7 @@ export const LIST_PATIENT_ORDER = gql`
         ageUnits
         labId
         orderId
+        environment
         rLab
         visitId
         patientName
@@ -141,6 +142,7 @@ export const FILTER_PATIENT_ORDER = gql`
         visitId
         patientName
         panelCode
+        environment
         packageList {
           panelCode
           panelName
@@ -246,6 +248,7 @@ export const FILTER_BY_FIELDS_PATIENT_ORDER = gql`
         visitId
         patientName
         panelCode
+        environment
         packageList {
           panelCode
           panelName

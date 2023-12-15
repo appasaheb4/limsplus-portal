@@ -238,12 +238,6 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
               },
-              {
-                text: 'Company Code',
-                dataField: 'companyCode',
-                sort: true,
-                editable: false,
-              },
 
               {
                 dataField: 'enteredBy',
@@ -251,6 +245,18 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 csvFormatter: col => (col ? col : ''),
                 editable: false,
+              },
+              {
+                text: 'Company Code',
+                dataField: 'companyCode',
+                sort: true,
+                editable: false,
+              },
+              {
+                text: 'Environment',
+                dataField: 'environment',
+                editable: false,
+                sort: true,
               },
               {
                 dataField: 'operation',

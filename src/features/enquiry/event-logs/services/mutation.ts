@@ -28,6 +28,8 @@ export const LIST = gql`
         deleteValue
         eventDate
         eventBy
+        companyCode
+        environment
         comments
         dateOfEntry
         lastUpdated
@@ -90,6 +92,8 @@ export const FILTER = gql`
         newValue
         deleteValue
         eventDate
+        companyCode
+        environment
         eventBy
         comments
         dateOfEntry
@@ -119,6 +123,7 @@ export const FIND_BY_FIELDS = gql`
         zone
         status
         environment
+        companyCode
       }
     }
   }
