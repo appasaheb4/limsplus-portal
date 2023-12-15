@@ -26,6 +26,7 @@ export const LIST = gql`
         reportDate
         status
         companyCode
+        environment
         pdfReport
         dateOfEntry
         lastUpdated
@@ -105,6 +106,7 @@ export const FILTER = gql`
         reportDate
         status
         companyCode
+        environment
         pdfReport
         dateOfEntry
         lastUpdated
@@ -139,6 +141,7 @@ export const FIND_BY_FIELDS = gql`
         reportDate
         status
         companyCode
+        environment
         pdfReport
         dateOfEntry
         lastUpdated

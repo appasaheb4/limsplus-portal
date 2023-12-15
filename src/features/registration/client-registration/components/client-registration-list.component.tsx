@@ -34,6 +34,7 @@ let sample;
 let dueDate;
 let reportDate;
 let companyCode;
+let environment;
 
 interface ClientRegistrationListProps {
   data: any;
@@ -643,6 +644,52 @@ export const ClientRegistrationList = observer(
               // ),
             },
             {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              editable: false,
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  environment = filter;
+                },
+              }),
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <select
+              //       value={row.environment}
+              //       className='leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md'
+              //       onChange={e => {
+              //         const environment = e.target.value;
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(environment, column.dataField, row._id);
+              //       }}
+              //     >
+              //       <option selected>Select</option>
+              //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
+              //         (item: any, index: number) => (
+              //           <option key={index} value={item.code}>
+              //             {lookupValue(item)}
+              //           </option>
+              //         ),
+              //       )}
+              //     </select>
+              //   </>
+              // ),
+            },
+            {
               dataField: 'operation',
               text: 'Action',
               editable: false,
@@ -714,6 +761,7 @@ export const ClientRegistrationList = observer(
             dueDate('');
             reportDate('');
             companyCode('');
+            environment('');
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['operation', '_id', 'pdfReport']}

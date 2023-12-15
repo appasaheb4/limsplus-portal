@@ -363,19 +363,25 @@ export const ResultList = (props: ResultListProps) => {
                 );
               },
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-            },
+
             {
               dataField: 'enteredBy',
               text: 'Entered By',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+            },
+            {
+              text: 'Environment',
+              dataField: 'environment',
+              editable: false,
+              sort: true,
             },
             {
               dataField: 'approvalStatus',
