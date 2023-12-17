@@ -2,7 +2,7 @@ import { toJS } from 'mobx';
 import Storage from '@/library/modules/storage';
 import hydrateStore from '@/library/modules/startup';
 /* eslint-disable */
-import { LookupService } from '@/features/master/lookup/services';
+import { LookupService } from '@/features/settings/lookup/services';
 import { stores } from '@/stores';
 
 export const selectedComponents = (store, category, subCategory) => {

@@ -1,11 +1,11 @@
 /* eslint-disable no-prototype-builtins */
-import React, {useEffect, useState} from 'react';
-import {Form, Icons, Tooltip} from '@/library/components';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import React, { useEffect, useState } from 'react';
+import { Form, Icons, Tooltip } from '@/library/components';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {TableBootstrap} from './TableBootstrap';
+import { TableBootstrap } from './TableBootstrap';
 
 interface SegmentMappingInputTableProps {
   data: any;
@@ -23,13 +23,13 @@ export const SegmentMappingInputTable = observer(
     onUpdateItems,
     onDuplicate,
   }: SegmentMappingInputTableProps) => {
-    const {segmentMappingStore} = useStores();
+    const { segmentMappingStore } = useStores();
     const [collection, setCollection] = useState<any>([]);
     const [collectionDetails, setCollectionDetails] = useState<{
       limsTables: string;
       schema: Array<string>;
       documentType: Array<string>;
-    }>({limsTables: '', schema: [], documentType: []});
+    }>({ limsTables: '', schema: [], documentType: [] });
     const [segment, setSegment] = useState('');
 
     const getCollection = () => {
@@ -50,7 +50,7 @@ export const SegmentMappingInputTable = observer(
     }, []);
 
     return (
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='index'
           data={data}
@@ -113,7 +113,8 @@ export const SegmentMappingInputTable = observer(
                     placeholder={row?.segmentOrder}
                     type='text'
                     onBlur={segmentOrder => {
-                      onUpdateItems && onUpdateItems({segmentOrder}, row.index);
+                      onUpdateItems &&
+                        onUpdateItems({ segmentOrder }, row.index);
                     }}
                     disabled={true}
                   />
@@ -141,7 +142,7 @@ export const SegmentMappingInputTable = observer(
                       value={row.segmentRequired}
                       onChange={segmentRequired => {
                         onUpdateItems &&
-                          onUpdateItems({segmentRequired}, row.index);
+                          onUpdateItems({ segmentRequired }, row.index);
                       }}
                     />
                   </>
@@ -166,7 +167,7 @@ export const SegmentMappingInputTable = observer(
                     placeholder={row?.elementNo}
                     type='text'
                     onBlur={elementNo => {
-                      onUpdateItems && onUpdateItems({elementNo}, row.index);
+                      onUpdateItems && onUpdateItems({ elementNo }, row.index);
                     }}
                   />
                 </>
@@ -190,7 +191,8 @@ export const SegmentMappingInputTable = observer(
                     placeholder={row?.elementName}
                     type='text'
                     onBlur={elementName => {
-                      onUpdateItems && onUpdateItems({elementName}, row.index);
+                      onUpdateItems &&
+                        onUpdateItems({ elementName }, row.index);
                     }}
                   />
                 </>
@@ -356,7 +358,7 @@ export const SegmentMappingInputTable = observer(
                       value={row.elementRequired}
                       onChange={elementRequired => {
                         onUpdateItems &&
-                          onUpdateItems({elementRequired}, row.index);
+                          onUpdateItems({ elementRequired }, row.index);
                       }}
                     />
                   </>
@@ -383,7 +385,7 @@ export const SegmentMappingInputTable = observer(
                     onBlur={elementSequence => {
                       onUpdateItems &&
                         onUpdateItems(
-                          {elementSequence: Number.parseInt(elementSequence)},
+                          { elementSequence: Number.parseInt(elementSequence) },
                           row.index,
                         );
                     }}
@@ -410,7 +412,7 @@ export const SegmentMappingInputTable = observer(
                     type='text'
                     onBlur={transmittedData => {
                       onUpdateItems &&
-                        onUpdateItems({transmittedData}, row.index);
+                        onUpdateItems({ transmittedData }, row.index);
                     }}
                   />
                 </>
@@ -434,7 +436,8 @@ export const SegmentMappingInputTable = observer(
                     placeholder={row?.defaultValue}
                     type='text'
                     onBlur={defaultValue => {
-                      onUpdateItems && onUpdateItems({defaultValue}, row.index);
+                      onUpdateItems &&
+                        onUpdateItems({ defaultValue }, row.index);
                     }}
                   />
                 </>
@@ -458,7 +461,7 @@ export const SegmentMappingInputTable = observer(
                     placeholder={row?.fieldArray}
                     type='text'
                     onBlur={fieldArray => {
-                      onUpdateItems && onUpdateItems({fieldArray}, row.index);
+                      onUpdateItems && onUpdateItems({ fieldArray }, row.index);
                     }}
                   />
                 </>
@@ -485,7 +488,7 @@ export const SegmentMappingInputTable = observer(
                       value={row.repeatDelimiter}
                       onChange={repeatDelimiter => {
                         onUpdateItems &&
-                          onUpdateItems({repeatDelimiter}, row.index);
+                          onUpdateItems({ repeatDelimiter }, row.index);
                       }}
                     />
                   </>
@@ -551,7 +554,7 @@ export const SegmentMappingInputTable = observer(
                     onBlur={fieldLength => {
                       onUpdateItems &&
                         onUpdateItems(
-                          {fieldLength: Number.parseInt(fieldLength)},
+                          { fieldLength: Number.parseInt(fieldLength) },
                           row.index,
                         );
                     }}
@@ -580,52 +583,52 @@ export const SegmentMappingInputTable = observer(
                       value={row.requiredForLims}
                       onChange={requiredForLims => {
                         onUpdateItems &&
-                          onUpdateItems({requiredForLims}, row.index);
+                          onUpdateItems({ requiredForLims }, row.index);
                       }}
                     />
                   </>
                 );
               },
             },
-            {
-              dataField: 'environment',
-              text: 'Environment',
-              headerClasses: 'textHeaderM',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.environment}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const environment = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems(
-                          {
-                            environment,
-                          },
-                          row.index,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
-            },
+            // {
+            //   dataField: 'environment',
+            //   text: 'Environment',
+            //   headerClasses: 'textHeaderM',
+            //   editorRenderer: (
+            //     editorProps,
+            //     value,
+            //     row,
+            //     column,
+            //     rowIndex,
+            //     columnIndex,
+            //   ) => (
+            //     <>
+            //       <select
+            //         value={row.environment}
+            //         className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+            //         onChange={e => {
+            //           const environment = e.target.value;
+            //           onUpdateItems &&
+            //             onUpdateItems(
+            //               {
+            //                 environment,
+            //               },
+            //               row.index,
+            //             );
+            //         }}
+            //       >
+            //         <option selected>Select</option>
+            //         {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
+            //           (item: any, index: number) => (
+            //             <option key={index} value={item.code}>
+            //               {lookupValue(item)}
+            //             </option>
+            //           ),
+            //         )}
+            //       </select>
+            //     </>
+            //   ),
+            // },
             {
               dataField: 'opration',
               text: 'Action',

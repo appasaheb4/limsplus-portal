@@ -109,10 +109,10 @@ const RegistrationLocation = RegistrationLocationHoc(
         'status',
         registrationLocationsStore.registrationLocations?.status,
       );
-      setValue(
-        'environment',
-        registrationLocationsStore.registrationLocations?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   registrationLocationsStore.registrationLocations?.environment,
+      // );
       setValue(
         'acClass',
         registrationLocationsStore.registrationLocations?.acClass,
@@ -521,6 +521,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             enteredBy: loginStore.login.userId,
             openingTime: item['Opening Time'],
             closingTime: item['Closing Time'],
+            companyCode: item['Company Code'],
             environment: item?.Environment,
             status: 'D',
           };
@@ -1890,7 +1891,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -1909,7 +1910,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1951,7 +1952,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
@@ -2037,7 +2038,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
 
                     <Grid cols={4}>
                       <Controller

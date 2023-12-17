@@ -89,10 +89,10 @@ const TestPanelMapping = TestPanelMappingHoc(
       setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
       setValue('testName', testPanelMappingStore.testPanelMapping?.testName);
       setValue('status', testPanelMappingStore.testPanelMapping?.status);
-      setValue(
-        'environment',
-        testPanelMappingStore.testPanelMapping?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   testPanelMappingStore.testPanelMapping?.environment,
+      // );
       setValue(
         'dateCreation',
         testPanelMappingStore.testPanelMapping?.dateCreation,
@@ -778,7 +778,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -795,7 +795,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1250,7 +1250,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       defaultValue=''
                     />
 
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
@@ -1337,7 +1337,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     {/* <Grid cols={5}> */}
 
                     {/* </Grid> */}

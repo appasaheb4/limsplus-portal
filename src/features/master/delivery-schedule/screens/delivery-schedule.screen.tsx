@@ -47,10 +47,10 @@ const DeliverySchedule = DeliveryScheduleHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue(
-        'environment',
-        deliveryScheduleStore.deliverySchedule?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   deliveryScheduleStore.deliverySchedule?.environment,
+      // );
       setValue('status', deliveryScheduleStore.deliverySchedule?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deliveryScheduleStore.deliverySchedule]);
@@ -549,7 +549,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -566,7 +566,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -604,7 +604,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -676,7 +676,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Grid cols={5}>
                     <Controller
                       control={control}

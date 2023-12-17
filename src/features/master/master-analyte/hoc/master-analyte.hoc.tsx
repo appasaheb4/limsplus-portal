@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
 export const MasterAnalyteHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, masterAnalyteStore, routerStore} = useStores();
+    const { loginStore, masterAnalyteStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       masterAnalyteStore &&
@@ -14,10 +14,10 @@ export const MasterAnalyteHoc = (Component: React.FC<any>) => {
           ...masterAnalyteStore.masterAnalyte,
           lab: loginStore.login.lab,
           status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-          environment: getDefaultLookupItem(
-            routerStore.lookupItems,
-            'ENVIRONMENT',
-          ),
+          // environment: getDefaultLookupItem(
+          //   routerStore.lookupItems,
+          //   'ENVIRONMENT',
+          // ),
           usage: getDefaultLookupItem(routerStore.lookupItems, 'USAGE'),
           units: getDefaultLookupItem(routerStore.lookupItems, 'UNITS'),
           analyteType: getDefaultLookupItem(

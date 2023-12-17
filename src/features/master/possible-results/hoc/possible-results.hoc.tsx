@@ -1,14 +1,14 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
-import {dashboardRouter as dashboardRoutes} from '@/routes';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
+import { dashboardRouter as dashboardRoutes } from '@/routes';
 import * as LibraryUtils from '@/library/utils';
 let router = dashboardRoutes;
 export const PossibleResultHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, possibleResultsStore, routerStore} = useStores();
+    const { loginStore, possibleResultsStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       router = router.filter((item: any) => {
@@ -29,10 +29,10 @@ export const PossibleResultHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'STATUS',
         ),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
       });
       if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
         possibleResultsStore.updatePossibleResults({

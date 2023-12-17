@@ -36,7 +36,9 @@ const NoticeBoard = NoticeBoardHoc(
       setValue,
       reset,
     } = useForm();
+
     const [modalConfirm, setModalConfirm] = useState<any>();
+    const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -44,7 +46,7 @@ const NoticeBoard = NoticeBoardHoc(
       // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', noticeBoardStore.noticeBoard?.status);
-      setValue('environment', noticeBoardStore.noticeBoard?.environment);
+      // setValue('environment', noticeBoardStore.noticeBoard?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login]);
 
@@ -149,6 +151,7 @@ const NoticeBoard = NoticeBoardHoc(
             message: item.Message,
             action: item.Action,
             environment: item.Environment,
+            companyCode: item['Company Code'],
             status: 'D',
           };
         });
@@ -203,7 +206,17 @@ const NoticeBoard = NoticeBoardHoc(
           <PageHeading title={routerStore.selectedComponents?.title || ''} />
           <PageHeadingLabDetails store={loginStore} />
         </Header>
-        <div className='p-2 rounded-lg shadow-xl'>
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+          <Buttons.ButtonCircleAddRemove
+            show={isHideView}
+            onClick={() => setIsHideView(!isHideView)}
+          />
+        )}
+        <div
+          className={
+            'p-2 rounded-lg shadow-xl ' + (isHideView ? 'hidden' : 'shown')
+          }
+        >
           <Grid cols={2}>
             <List direction='col' space={4} justify='stretch' fill>
               {labStore.listLabs && (
@@ -320,7 +333,7 @@ const NoticeBoard = NoticeBoardHoc(
                 rules={{ required: true }}
                 defaultValue=''
               />
-              <Controller
+              {/* <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
@@ -366,7 +379,7 @@ const NoticeBoard = NoticeBoardHoc(
                 name='environment'
                 rules={{ required: true }}
                 defaultValue=''
-              />
+              /> */}
               <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (

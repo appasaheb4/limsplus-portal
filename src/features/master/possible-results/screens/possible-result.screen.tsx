@@ -52,10 +52,10 @@ export const PossibleResults = PossibleResultHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue(
-        'environment',
-        possibleResultsStore.possibleResults?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   possibleResultsStore.possibleResults?.environment,
+      // );
       setValue('status', possibleResultsStore.possibleResults?.status);
       setValue('dateExpire', possibleResultsStore.possibleResults?.dateExpire);
       setValue('version', possibleResultsStore.possibleResults?.version);
@@ -670,7 +670,7 @@ export const PossibleResults = PossibleResultHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -742,7 +742,7 @@ export const PossibleResults = PossibleResultHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -845,7 +845,7 @@ export const PossibleResults = PossibleResultHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -862,7 +862,7 @@ export const PossibleResults = PossibleResultHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

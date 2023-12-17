@@ -48,7 +48,7 @@ const Section = SectionHoc(
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
-      setValue('environment', sectionStore.section?.environment);
+      // setValue('environment', sectionStore.section?.environment);
       setValue('status', sectionStore.section?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sectionStore.section]);
@@ -533,7 +533,7 @@ const Section = SectionHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -550,7 +550,7 @@ const Section = SectionHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -588,7 +588,7 @@ const Section = SectionHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -651,7 +651,7 @@ const Section = SectionHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

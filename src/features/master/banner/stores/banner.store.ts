@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Banner} from '../models';
-import {BannerService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Banner } from '../models';
+import { BannerService } from '../services';
 
 export class BannerStore {
   banner!: Banner;
@@ -28,7 +28,7 @@ export class BannerStore {
   }
 
   reset() {
-    this.banner = new Banner({status: 'A'});
+    this.banner = new Banner({ status: 'A' });
     this.listBanner = [];
     this.listAllBanner = [];
     this.listBannerCount = 0;

@@ -202,6 +202,7 @@ export const FILTER = gql`
         externalComments
         testBottomMarker
         testRightMarker
+        companyCode
         status
         environment
         dateOfEntry
@@ -280,6 +281,7 @@ export const FILTER_BY_FIELDS = gql`
         externalComments
         testBottomMarker
         testRightMarker
+        companyCode
         status
         environment
         dateOfEntry
@@ -358,6 +360,7 @@ export const FIND_BY_FIELDS = gql`
         externalComments
         testBottomMarker
         testRightMarker
+        companyCode
         status
         environment
         dateOfEntry

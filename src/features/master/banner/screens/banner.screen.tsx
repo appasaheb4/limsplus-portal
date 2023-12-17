@@ -21,7 +21,7 @@ import { RouterFlow } from '@/flows';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
-import { AutoCompleteCompanyList } from '@/core-components';
+// import { AutoCompleteCompanyList } from '@/core-components';
 
 const Banner = BannerHoc(
   observer(() => {
@@ -33,9 +33,10 @@ const Banner = BannerHoc(
       setValue,
       reset,
     } = useForm();
+
     useEffect(() => {
       // Default value initialization
-      setValue('environment', bannerStore.banner?.environment);
+      // setValue('environment', bannerStore.banner?.environment);
       setValue('status', bannerStore.banner?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bannerStore.banner]);
@@ -131,7 +132,7 @@ const Banner = BannerHoc(
                   rules={{ required: true }}
                   defaultValue={bannerStore.banner?.image}
                 />
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <AutoCompleteCompanyList
@@ -148,7 +149,7 @@ const Banner = BannerHoc(
                   name='companyCode'
                   rules={{ required: true }}
                   defaultValue=''
-                />
+                /> */}
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -185,7 +186,7 @@ const Banner = BannerHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Environment'>
@@ -231,7 +232,7 @@ const Banner = BannerHoc(
                   name='environment'
                   rules={{ required: true }}
                   defaultValue=''
-                />
+                /> */}
               </List>
             </Grid>
             <br />

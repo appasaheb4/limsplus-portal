@@ -56,7 +56,7 @@ export const Department = DeginisationHoc(
     useEffect(() => {
       // Default value initialization
       setValue('lab', loginStore.login.lab);
-      setValue('environment', departmentStore.department?.environment);
+      // setValue('environment', departmentStore.department?.environment);
       setValue('status', departmentStore.department?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [departmentStore.department]);
@@ -800,7 +800,7 @@ export const Department = DeginisationHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -817,7 +817,7 @@ export const Department = DeginisationHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -855,7 +855,7 @@ export const Department = DeginisationHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -920,7 +920,7 @@ export const Department = DeginisationHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

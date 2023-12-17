@@ -79,10 +79,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         testAnalyteMappingStore.testAnalyteMapping?.testName,
       );
       setValue('status', testAnalyteMappingStore.testAnalyteMapping?.status);
-      setValue(
-        'environment',
-        testAnalyteMappingStore.testAnalyteMapping?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   testAnalyteMappingStore.testAnalyteMapping?.environment,
+      // );
       setValue(
         'dateCreation',
         testAnalyteMappingStore.testAnalyteMapping?.dateCreation,
@@ -929,7 +929,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -946,7 +946,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
 
                     <Controller
                       control={control}
@@ -1500,7 +1500,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Environment'>
@@ -1580,7 +1580,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                   </List>
                 </Grid>
               </>

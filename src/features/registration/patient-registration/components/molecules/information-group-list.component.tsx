@@ -1,6 +1,6 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { observer } from 'mobx-react';
+import { lookupItems, lookupValue } from '@/library/utils';
 import {
   TableBootstrap,
   textFilter,
@@ -8,7 +8,7 @@ import {
   Icons,
   Tooltip,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 interface InformationGroupProps {
   data: any;
   totalSize: number;
@@ -26,7 +26,7 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
   };
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -280,6 +280,14 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
               filter: textFilter(),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+              filter: textFilter(),
+              headerClasses: 'textHeader2',
             },
             {
               dataField: 'status',

@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: InterfaceManagerInput!) {
@@ -20,6 +20,7 @@ export const LIST = gql`
         filed
         value
         fileds
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -84,6 +85,7 @@ export const FILTER = gql`
         filed
         value
         fileds
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -112,6 +114,7 @@ export const FILTER_BY_FIELDS = gql`
         filed
         value
         fileds
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -137,6 +140,7 @@ export const FIND_BY_FIELDS = gql`
         filed
         value
         fileds
+        companyCode
         environment
         dateOfEntry
         lastUpdated

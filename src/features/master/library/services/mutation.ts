@@ -91,6 +91,7 @@ export const FILTER = gql`
         parameter
         editable
         details
+        companyCode
         status
         enteredBy
         dateCreation
@@ -122,6 +123,7 @@ export const LIBRARYS_BY_CODE = gql`
         parameter
         editable
         details
+        companyCode
         status
         enteredBy
         dateCreation
@@ -156,6 +158,7 @@ export const FILTER_BY_FIELDS = gql`
         parameter
         editable
         details
+        companyCode
         status
         enteredBy
         dateCreation
@@ -187,6 +190,7 @@ export const FIND_BY_FIELDS = gql`
         parameter
         editable
         details
+        companyCode
         status
         enteredBy
         dateCreation

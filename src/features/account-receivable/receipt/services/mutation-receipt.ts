@@ -19,6 +19,7 @@ export const RECEIPTS_LIST = gql`
         balance
         acClass
         enteredBy
+        companyCode
         documentType
         dateOfEntry
         lastUpdated

@@ -1,5 +1,5 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   TableBootstrap,
   Icons,
@@ -8,12 +8,13 @@ import {
   sortCaret,
   Tooltip,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 //import {stores} from '@/stores';
-import {dashboardRouter as dashboardRoutes} from '@/routes';
+import { dashboardRouter as dashboardRoutes } from '@/routes';
 let router: any = dashboardRoutes;
 
 let role;
+let companyCode;
 
 interface RoleMappingListProps {
   data: any;
@@ -36,7 +37,7 @@ interface RoleMappingListProps {
 export const RoleMappingList = observer((props: RoleMappingListProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props?.data || []}
@@ -71,6 +72,46 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                   </div>
                 );
               },
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
             },
             {
               dataField: 'router',
@@ -243,6 +284,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
           }}
           clearAllFilter={() => {
             role('');
+            companyCode('');
           }}
           dynamicStylingFields={['role']}
           hideExcelSheet={['_id', 'opration']}
