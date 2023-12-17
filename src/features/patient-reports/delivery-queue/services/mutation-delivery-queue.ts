@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const PATIENT_REPORT_LIST = gql`
   mutation ($input: GenerateReportsInput!) {
@@ -68,6 +68,7 @@ export const DELIVERY_QUEUE_LIST = gql`
         colorScheme
         documentType
         dateOfEntry
+        companyCode
         lastUpdated
       }
     }
@@ -168,6 +169,7 @@ export const FILTER = gql`
         colorScheme
         documentType
         dateOfEntry
+        companyCode
         lastUpdated
       }
     }
@@ -229,6 +231,7 @@ export const FIND_BY_FIELDS = gql`
         colorScheme
         documentType
         dateOfEntry
+        companyCode
         lastUpdated
       }
     }

@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: ClientRegistrationInput!) {
@@ -25,6 +25,7 @@ export const LIST = gql`
         dueDate
         reportDate
         status
+        companyCode
         pdfReport
         dateOfEntry
         lastUpdated
@@ -103,6 +104,7 @@ export const FILTER = gql`
         dueDate
         reportDate
         status
+        companyCode
         pdfReport
         dateOfEntry
         lastUpdated
@@ -136,6 +138,7 @@ export const FIND_BY_FIELDS = gql`
         dueDate
         reportDate
         status
+        companyCode
         pdfReport
         dateOfEntry
         lastUpdated

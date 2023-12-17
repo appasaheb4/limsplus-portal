@@ -185,6 +185,7 @@ export const FILTER = gql`
         analyteRightMarker
 
         reagentCode
+        companyCode
         status
         minReportable
         maxReportable
@@ -256,6 +257,7 @@ export const FILTER_BY_FIELDS = gql`
         analyteRightMarker
 
         reagentCode
+        companyCode
         status
         minReportable
         maxReportable
@@ -322,6 +324,7 @@ export const FIND_BY_FIELDS = gql`
         analyteBottomMarker
         analyteRightMarker
         reagentCode
+        companyCode
         status
         minReportable
         maxReportable

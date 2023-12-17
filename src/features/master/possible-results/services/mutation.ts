@@ -98,10 +98,12 @@ export const FILTER = gql`
         }
         defaultConclusion
         environment
+        status
         enteredBy
         dateCreation
         dateActive
         dateExpire
+        companyCode
         version
         dateOfEntry
         lastUpdated
@@ -131,9 +133,11 @@ export const FIND_BY_FIELDS = gql`
         }
         defaultConclusion
         environment
+        status
         enteredBy
         dateCreation
         dateActive
+        companyCode
         dateExpire
         version
         dateOfEntry

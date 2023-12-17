@@ -1004,50 +1004,50 @@ export const RefRangesInputTable = observer(
               csvExport: false,
               headerClasses: 'textHeader4',
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              csvExport: false,
-              headerClasses: 'textHeader4',
-            },
-            {
-              dataField: 'environment',
-              text: 'Environment',
-              csvExport: false,
-              headerClasses: 'textHeader4',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    disabled={isVersionUpgrade}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const environment = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems({ environment }, row.rangeId);
-                      setTimeout(() => {
-                        duplicateCombination();
-                      }, 1000);
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
-            },
+            // {
+            //   text: 'Company Code',
+            //   dataField: 'companyCode',
+            //   csvExport: false,
+            //   headerClasses: 'textHeader4',
+            // },
+            // {
+            //   dataField: 'environment',
+            //   text: 'Environment',
+            //   csvExport: false,
+            //   headerClasses: 'textHeader4',
+            //   // editorRenderer: (
+            //   //   editorProps,
+            //   //   value,
+            //   //   row,
+            //   //   column,
+            //   //   rowIndex,
+            //   //   columnIndex,
+            //   // ) => (
+            //   //   <>
+            //   //     <select
+            //   //       disabled={isVersionUpgrade}
+            //   //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+            //   //       onChange={e => {
+            //   //         const environment = e.target.value;
+            //   //         onUpdateItems &&
+            //   //           onUpdateItems({ environment }, row.rangeId);
+            //   //         setTimeout(() => {
+            //   //           duplicateCombination();
+            //   //         }, 1000);
+            //   //       }}
+            //   //     >
+            //   //       <option selected>Select</option>
+            //   //       {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
+            //   //         (item: any, index: number) => (
+            //   //           <option key={index} value={item.code}>
+            //   //             {lookupValue(item)}
+            //   //           </option>
+            //   //         ),
+            //   //       )}
+            //   //     </select>
+            //   //   </>
+            //   // ),
+            // },
             {
               dataField: 'dateCreation',
               text: 'Date Creation',

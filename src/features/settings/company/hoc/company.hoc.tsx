@@ -12,10 +12,10 @@ export const CompanyHoc = (Component: React.FC<any>) => {
       companyStore.updateCompany({
         ...companyStore.company,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-        environment: getDefaultLookupItem(
-          routerStore.lookupItems,
-          'ENVIRONMENT',
-        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);

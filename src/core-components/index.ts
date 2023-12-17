@@ -3,3 +3,4 @@ export * from './molecules/collapsible.component';
 
 export * from './organisms/auto-complete-filter-delivery-mode.component';
 export * from './organisms/auto-complete-company-list.component';
+export * from './organisms/multi-select.component';

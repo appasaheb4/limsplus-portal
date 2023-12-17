@@ -85,7 +85,7 @@ const Lab = LabHoc(
     useEffect(() => {
       setValue('code', labStore.labs?.code);
       setValue('name', labStore.labs?.name);
-      setValue('environment', labStore.labs?.environment);
+      // setValue('environment', labStore.labs?.environment);
       setValue('defaultLab', labStore.labs?.defaultLab);
       setValue('version', labStore.labs?.version);
       setValue('status', labStore.labs?.status);
@@ -1464,7 +1464,7 @@ const Lab = LabHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -1481,7 +1481,7 @@ const Lab = LabHoc(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
 
                     <Controller
                       control={control}
@@ -1521,7 +1521,7 @@ const Lab = LabHoc(
                       defaultValue=''
                     />
 
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
@@ -1585,7 +1585,7 @@ const Lab = LabHoc(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
 
                     <Grid cols={4}>
                       <Controller

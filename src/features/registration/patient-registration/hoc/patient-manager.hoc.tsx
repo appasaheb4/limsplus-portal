@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
 export const PatientManagerHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
-    const {loginStore, patientManagerStore, routerStore, environmentStore} =
+    const { loginStore, patientManagerStore, routerStore, environmentStore } =
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -34,10 +34,10 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             'PATIENT MANAGER - STATUS',
           ),
-          environment: getDefaultLookupItem(
-            routerStore.lookupItems,
-            'PATIENT MANAGER - ENVIRONMENT',
-          ),
+          // environment: getDefaultLookupItem(
+          //   routerStore.lookupItems,
+          //   'PATIENT MANAGER - ENVIRONMENT',
+          // ),
         },
       });
       if (!patientManagerStore.patientManger.extraData?.country) {

@@ -51,6 +51,8 @@ let sex;
 let species;
 let breed;
 let usualDoctor;
+let companyCode;
+
 export const PatientMangerList = observer((props: PatientMangerProps) => {
   const {
     control,
@@ -790,6 +792,23 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               },
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+            },
+            {
               dataField: 'opration',
               text: 'Action',
               editable: false,
@@ -860,6 +879,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             breed('');
             usualDoctor('');
             birthDate();
+            companyCode('');
           }}
         />
       </div>

@@ -66,7 +66,7 @@ export const PriceList = PriceListHoc(
       setValue('priceGroup', priceListStore.priceList?.priceGroup);
       setValue('priceList', priceListStore.priceList?.priceList);
       setValue('status', priceListStore.priceList?.status);
-      setValue('environment', priceListStore.priceList?.environment);
+      // setValue('environment', priceListStore.priceList?.environment);
       setValue('description', priceListStore.priceList?.description);
       setValue('dateExpire', priceListStore.priceList?.dateExpire);
       setValue('version', priceListStore.priceList?.version);
@@ -854,7 +854,7 @@ export const PriceList = PriceListHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -871,7 +871,7 @@ export const PriceList = PriceListHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1033,7 +1033,7 @@ export const PriceList = PriceListHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
@@ -1126,7 +1126,7 @@ export const PriceList = PriceListHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

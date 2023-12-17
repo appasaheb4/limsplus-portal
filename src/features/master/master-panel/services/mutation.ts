@@ -198,6 +198,7 @@ export const FILTER = gql`
         panelBottomMarker
         panelRightMarker
         externalPanelCode
+        companyCode
         status
         environment
         dateOfEntry
@@ -274,6 +275,7 @@ export const FILTER_BY_FIELDS = gql`
         panelBottomMarker
         panelRightMarker
         externalPanelCode
+        companyCode
         status
         environment
         dateOfEntry
@@ -350,6 +352,7 @@ export const FILTER_BY_FIELDS_SPECIFIC_PLAB = gql`
         panelBottomMarker
         panelRightMarker
         externalPanelCode
+        companyCode
         status
         environment
         dateOfEntry
@@ -423,6 +426,7 @@ export const FIND_BY_FIELDS = gql`
         panelBottomMarker
         panelRightMarker
         externalPanelCode
+        companyCode
         status
         environment
         dateOfEntry

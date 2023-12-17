@@ -76,7 +76,7 @@ const MasterPanel = MasterPanelHoc(
       setValue('panelCode', masterPanelStore.masterPanel?.panelCode);
       setValue('panelName', masterPanelStore.masterPanel?.panelName);
       setValue('department', masterPanelStore.masterPanel?.department);
-      setValue('environment', masterPanelStore.masterPanel?.environment);
+      // setValue('environment', masterPanelStore.masterPanel?.environment);
       setValue('serviceType', masterPanelStore.masterPanel?.serviceType);
       setValue(
         'validationLevel',
@@ -1909,7 +1909,7 @@ const MasterPanel = MasterPanelHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <AutoCompleteCompanyList
@@ -1926,7 +1926,7 @@ const MasterPanel = MasterPanelHoc(
                       name='companyCode'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2109,7 +2109,7 @@ const MasterPanel = MasterPanelHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
+                    {/* <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper
@@ -2189,7 +2189,7 @@ const MasterPanel = MasterPanelHoc(
                       name='environment'
                       rules={{ required: true }}
                       defaultValue=''
-                    />
+                    /> */}
                     <Grid cols={3}>
                       <Controller
                         control={control}

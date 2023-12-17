@@ -69,10 +69,10 @@ const CorporateClients = CorporateClientsHoc(
         corporateClientsStore.corporateClients?.corporateName,
       );
       setValue('status', corporateClientsStore.corporateClients?.status);
-      setValue(
-        'environment',
-        corporateClientsStore.corporateClients?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   corporateClientsStore.corporateClients?.environment,
+      // );
       setValue('invoiceAc', corporateClientsStore.corporateClients?.invoiceAc);
       setValue('acType', corporateClientsStore.corporateClients?.acType);
       setValue('acClass', corporateClientsStore.corporateClients?.acClass);
@@ -1801,7 +1801,7 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -1818,7 +1818,7 @@ const CorporateClients = CorporateClientsHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1856,7 +1856,7 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Environment'>
@@ -1933,7 +1933,7 @@ const CorporateClients = CorporateClientsHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Grid cols={4}>
                     <Controller
                       control={control}

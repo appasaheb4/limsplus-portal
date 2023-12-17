@@ -40,10 +40,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
 
     useEffect(() => {
       // Default value initialization
-      setValue(
-        'environment',
-        administrativeDivisions.administrativeDiv?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   administrativeDivisions.administrativeDiv?.environment,
+      // );
       setValue('status', administrativeDivisions.administrativeDiv?.status);
       setValue('sbu', administrativeDivisions.administrativeDiv?.sbu);
       setValue('zone', administrativeDivisions.administrativeDiv?.zone);
@@ -51,7 +51,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
     }, [administrativeDivisions?.administrativeDiv]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddSection, setHideAddSection] = useState<boolean>(true);
+    const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -72,7 +72,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               Toast.success({
                 message: `😊 ${res.createAdministrativeDivision.message}`,
               });
-              setHideAddSection(true);
+              setIsHideView(true);
               reset();
               resetBanner();
               setArrImportRecords([]);
@@ -169,15 +169,14 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
         </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
+            show={isHideView}
+            onClick={() => setIsHideView(!isHideView)}
           />
         )}
         <div className=' mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' +
-              (hideAddSection ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isHideView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs
@@ -485,7 +484,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -502,7 +501,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -539,7 +538,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
@@ -589,7 +588,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     name='environment'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                 </List>
               </Grid>
             ) : (

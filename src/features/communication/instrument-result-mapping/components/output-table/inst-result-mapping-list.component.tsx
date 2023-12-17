@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   TableBootstrap,
@@ -9,8 +9,8 @@ import {
   Tooltip,
   Icons,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { Confirm } from '@/library/models';
+import { lookupItems, lookupValue } from '@/library/utils';
 
 interface InstResultMappingListProps {
   data: any;
@@ -47,6 +47,7 @@ let instTest;
 let environment;
 let dateOfEntry;
 let lastUpdated;
+let companyCode;
 
 export const InstResultMappingList = observer(
   ({
@@ -99,7 +100,7 @@ export const InstResultMappingList = observer(
                     placeholder={row?.key || 'Key'}
                     type='text'
                     onBlur={key => {
-                      onUpdateItems && onUpdateItems({key}, row._id);
+                      onUpdateItems && onUpdateItems({ key }, row._id);
                     }}
                   />
                 </>
@@ -303,7 +304,7 @@ export const InstResultMappingList = observer(
                     placeholder={row?.instId || 'Inst Id'}
                     type='text'
                     onBlur={instId => {
-                      onUpdateItems && onUpdateItems({instId}, row._id);
+                      onUpdateItems && onUpdateItems({ instId }, row._id);
                     }}
                   />
                 </>
@@ -339,7 +340,7 @@ export const InstResultMappingList = observer(
                     const testCodeRecords = await getAnalyteDetails(
                       row.testCode,
                     );
-                    console.log({testCodeRecords});
+                    console.log({ testCodeRecords });
 
                     setPLabDetails({
                       ...pLabDetails,
@@ -424,7 +425,7 @@ export const InstResultMappingList = observer(
                     placeholder={row?.assayCode || 'Assay Code'}
                     type='text'
                     onBlur={assayCode => {
-                      onUpdateItems && onUpdateItems({assayCode}, row._id);
+                      onUpdateItems && onUpdateItems({ assayCode }, row._id);
                     }}
                   />
                 </>
@@ -458,11 +459,51 @@ export const InstResultMappingList = observer(
                     placeholder={row?.instTest || 'Inst Test'}
                     type='text'
                     onBlur={instTest => {
-                      onUpdateItems && onUpdateItems({instTest}, row._id);
+                      onUpdateItems && onUpdateItems({ instTest }, row._id);
                     }}
                   />
                 </>
               ),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
             },
             {
               dataField: 'environment',
@@ -474,45 +515,46 @@ export const InstResultMappingList = observer(
                 },
               }),
               sort: true,
+              editable: false,
               headerStyle: {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row.environment}
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const environment = e.target.value;
-                      onUpdateItems &&
-                        onUpdateItems(
-                          {
-                            environment,
-                          },
-                          row._id,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </>
-              ),
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <select
+              //       value={row.environment}
+              //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+              //       onChange={e => {
+              //         const environment = e.target.value;
+              //         onUpdateItems &&
+              //           onUpdateItems(
+              //             {
+              //               environment,
+              //             },
+              //             row._id,
+              //           );
+              //       }}
+              //     >
+              //       <option selected>Select</option>
+              //       {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
+              //         (item: any, index: number) => (
+              //           <option key={index} value={item.code}>
+              //             {lookupValue(item)}
+              //           </option>
+              //         ),
+              //       )}
+              //     </select>
+              //   </>
+              // ),
             },
             {
               dataField: 'operation',
@@ -585,6 +627,7 @@ export const InstResultMappingList = observer(
             environment('');
             dateOfEntry('');
             lastUpdated('');
+            companyCode('');
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['operation', '_id', 'key']}

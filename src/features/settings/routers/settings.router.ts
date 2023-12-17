@@ -18,7 +18,9 @@ const Environment = async(
 const NoticeBoards = async(
   () => import('../notice-board/screens/notice-board.screen'),
 );
+
 const Company = async(() => import('../company/screens/company.screen'));
+const Lookup = async(() => import('../lookup/screens/lookup.screen'));
 
 export const settingsRoutes = {
   path: '/settings',
@@ -72,6 +74,12 @@ export const settingsRoutes = {
       name: 'Company',
       icon: 'HiOutlineOfficeBuilding',
       component: Company,
+    },
+    {
+      path: '/settings/lookup',
+      name: 'Lookup',
+      icon: 'MdLooks',
+      component: Lookup,
     },
   ],
 };

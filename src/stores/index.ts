@@ -7,7 +7,6 @@ import { RouterStore } from './router.store';
 import { AppStore } from './app.store';
 import { LoginStore } from '@/features/login/stores/login.store';
 import { UserStore } from '@/features/settings/users/stores/user.store';
-import { LookupStore } from '@/features/master/lookup/stores/lookup.store';
 import { SectionStore } from '@/features/master/section/stores/section.store';
 
 // master
@@ -56,6 +55,7 @@ import { RoleMappingStore } from '@/features/settings/mapping/role/stores/role-m
 import { ShortcutMenuStore } from '@/features/settings/shortcut-menu/stores/short-cut-menu.store';
 import { NoticeBoardStore } from '@/features/settings/notice-board/stores/notice-board.store';
 import { CompanyStore } from '@/features/settings/company/stores';
+import { LookupStore } from '@/features/settings/lookup/stores/lookup.store';
 
 // registation
 import {
@@ -97,7 +97,6 @@ export class Stores extends Store {
   // master
   bannerStore!: BannerStore;
   labStore!: LabStore;
-  lookupStore!: LookupStore;
   sectionStore!: SectionStore;
   salesTeamStore!: SalesTeamStore;
   deginisationStore!: DeginisationStore;
@@ -140,6 +139,7 @@ export class Stores extends Store {
   shortcutMenuStore!: ShortcutMenuStore;
   noticeBoardStore!: NoticeBoardStore;
   companyStore!: CompanyStore;
+  lookupStore!: LookupStore;
 
   // registration
   patientManagerStore!: PatientManagerStore;
@@ -182,7 +182,6 @@ export class Stores extends Store {
 
     this.bannerStore = new BannerStore();
     this.labStore = new LabStore();
-    this.lookupStore = new LookupStore();
     this.sectionStore = new SectionStore();
     this.salesTeamStore = new SalesTeamStore();
     this.deginisationStore = new DeginisationStore();
@@ -225,6 +224,7 @@ export class Stores extends Store {
     this.shortcutMenuStore = new ShortcutMenuStore();
     this.noticeBoardStore = new NoticeBoardStore();
     this.companyStore = new CompanyStore();
+    this.lookupStore = new LookupStore();
 
     // registration
     this.patientManagerStore = new PatientManagerStore();

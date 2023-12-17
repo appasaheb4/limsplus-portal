@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   TableBootstrap,
@@ -9,10 +9,10 @@ import {
   Tooltip,
   Icons,
 } from '@/library/components';
-import {Confirm} from '@/library/models';
-import {useStores} from '@/stores';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {InstTypeList} from './inst-type.component';
+import { Confirm } from '@/library/models';
+import { useStores } from '@/stores';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { InstTypeList } from './inst-type.component';
 
 let instType;
 let dataFlow;
@@ -35,6 +35,7 @@ let limsTables;
 let limsDocumentType;
 let limsFields;
 let environment;
+let companyCode;
 
 interface SegmentMappingListProps {
   data: any;
@@ -57,7 +58,7 @@ interface SegmentMappingListProps {
 }
 
 export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
-  const {segmentMappingStore, interfaceManagerStore} = useStores();
+  const { segmentMappingStore, interfaceManagerStore } = useStores();
   const [collection, setCollection] = useState<any>([]);
 
   const getCollection = () => {
@@ -120,7 +121,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   onChange={e => {
                     const dataFlow = e.target.value;
                     props.onUpdateFields &&
-                      props.onUpdateFields({dataFlow}, row._id);
+                      props.onUpdateFields({ dataFlow }, row._id);
                   }}
                 >
                   <option selected>Select</option>
@@ -164,7 +165,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   dataFlow={row.dataFlow}
                   onSelect={instType => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({instType}, row._id);
+                      props.onUpdateFields({ instType }, row._id);
                   }}
                 />
               </>
@@ -200,7 +201,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   dataFlow={row.dataFlow}
                   onSelect={protocol => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({protocol}, row._id);
+                      props.onUpdateFields({ protocol }, row._id);
                   }}
                 />
               </>
@@ -287,7 +288,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   type='text'
                   onBlur={segmentOrder => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({segmentOrder}, row._id);
+                      props.onUpdateFields({ segmentOrder }, row._id);
                   }}
                   disabled={true}
                 />
@@ -315,7 +316,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     value={row.segmentRequired}
                     onChange={segmentRequired => {
                       props.onUpdateFields &&
-                        props.onUpdateFields({segmentRequired}, row._id);
+                        props.onUpdateFields({ segmentRequired }, row._id);
                     }}
                   />
                 </>
@@ -351,7 +352,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   type='text'
                   onBlur={elementNo => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({elementNo}, row._id);
+                      props.onUpdateFields({ elementNo }, row._id);
                   }}
                 />
               </>
@@ -386,7 +387,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   type='text'
                   onBlur={elementName => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({elementName}, row._id);
+                      props.onUpdateFields({ elementName }, row._id);
                   }}
                 />
               </>
@@ -583,7 +584,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     value={row.elementRequired}
                     onChange={elementRequired => {
                       props.onUpdateFields &&
-                        props.onUpdateFields({elementRequired}, row._id);
+                        props.onUpdateFields({ elementRequired }, row._id);
                     }}
                   />
                 </>
@@ -620,7 +621,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   onBlur={elementSequence => {
                     props.onUpdateFields &&
                       props.onUpdateFields(
-                        {elementSequence: Number.parseInt(elementSequence)},
+                        { elementSequence: Number.parseInt(elementSequence) },
                         row._id,
                       );
                   }}
@@ -657,7 +658,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   type='text'
                   onBlur={transmittedData => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({transmittedData}, row._id);
+                      props.onUpdateFields({ transmittedData }, row._id);
                   }}
                 />
               </>
@@ -692,7 +693,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   type='text'
                   onBlur={defaultValue => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({defaultValue}, row._id);
+                      props.onUpdateFields({ defaultValue }, row._id);
                   }}
                 />
               </>
@@ -727,7 +728,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   type='text'
                   onBlur={fieldArray => {
                     props.onUpdateFields &&
-                      props.onUpdateFields({fieldArray}, row._id);
+                      props.onUpdateFields({ fieldArray }, row._id);
                   }}
                 />
               </>
@@ -755,7 +756,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     value={row.repeatDelimiter}
                     onChange={repeatDelimiter => {
                       props.onUpdateFields &&
-                        props.onUpdateFields({repeatDelimiter}, row._id);
+                        props.onUpdateFields({ repeatDelimiter }, row._id);
                     }}
                   />
                 </>
@@ -842,7 +843,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   onBlur={fieldLength => {
                     props.onUpdateFields &&
                       props.onUpdateFields(
-                        {fieldLength: Number.parseInt(fieldLength)},
+                        { fieldLength: Number.parseInt(fieldLength) },
                         row._id,
                       );
                   }}
@@ -871,12 +872,52 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                     value={row.requiredForLims}
                     onChange={requiredForLims => {
                       props.onUpdateFields &&
-                        props.onUpdateFields({requiredForLims}, row._id);
+                        props.onUpdateFields({ requiredForLims }, row._id);
                     }}
                   />
                 </>
               );
             },
+          },
+          {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <AutoCompleteCompanyList
+            //       isLabel={false}
+            //       hasError={false}
+            //       onSelect={companyCode => {
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             companyCode,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     />
+            //   </>
+            // ),
           },
 
           {
@@ -892,42 +933,43 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <select
-                  value={row.environment}
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const environment = e.target.value;
-                    props.onUpdateFields &&
-                      props.onUpdateFields(
-                        {
-                          environment,
-                        },
-                        row._id,
-                      );
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ),
-                  )}
-                </select>
-              </>
-            ),
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <select
+            //       value={row.environment}
+            //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+            //       onChange={e => {
+            //         const environment = e.target.value;
+            //         props.onUpdateFields &&
+            //           props.onUpdateFields(
+            //             {
+            //               environment,
+            //             },
+            //             row._id,
+            //           );
+            //       }}
+            //     >
+            //       <option selected>Select</option>
+            //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
+            //         (item: any, index: number) => (
+            //           <option key={index} value={item.code}>
+            //             {lookupValue(item)}
+            //           </option>
+            //         ),
+            //       )}
+            //     </select>
+            //   </>
+            // ),
           },
           {
             dataField: 'opration',
@@ -1007,6 +1049,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           limsDocumentType('');
           limsFields('');
           environment('');
+          companyCode('');
         }}
         hideExcelSheet={['_id', 'opration']}
         dynamicStylingFields={['dataFlow', 'instType', 'protocol']}

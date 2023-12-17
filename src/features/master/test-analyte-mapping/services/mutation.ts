@@ -145,6 +145,7 @@ export const FILTER = gql`
         instType
         instId
         assayCode
+        companyCode
         status
         environment
         dateOfEntry
@@ -187,6 +188,7 @@ export const FIND_BY_FILEDS = gql`
         instType
         instId
         assayCode
+        companyCode
         status
         environment
         dateOfEntry

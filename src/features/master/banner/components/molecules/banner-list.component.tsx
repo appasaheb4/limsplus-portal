@@ -114,7 +114,7 @@ export const BannerList = (props: BannerListProps) => {
             fontSize: 0,
           },
           sortCaret: (order, column) => sortCaret(order, column),
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
@@ -198,7 +198,7 @@ export const BannerList = (props: BannerListProps) => {
           headerStyle: {
             fontSize: 0,
           },
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {

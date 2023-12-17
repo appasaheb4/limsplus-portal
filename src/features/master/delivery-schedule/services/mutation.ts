@@ -120,6 +120,7 @@ export const FILTER = gql`
         onTime
         schForDept
         schForPat
+        companyCode
         status
         environment
         dateOfEntry
@@ -157,6 +158,7 @@ export const FIND_BY_FIELDS = gql`
         onTime
         schForDept
         schForPat
+        companyCode
         status
         environment
         dateOfEntry

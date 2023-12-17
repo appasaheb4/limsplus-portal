@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -12,33 +12,33 @@ import {
   Svg,
   ModalConfirm,
 } from '@/library/components';
-import {DataConversationList} from '../components';
-import {lookupItems, lookupValue} from '@/library/utils';
+import { DataConversationList } from '../components';
+import { lookupItems, lookupValue } from '@/library/utils';
 
-import {useForm, Controller} from 'react-hook-form';
-import {DataConversationHoc} from '../hoc';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { DataConversationHoc } from '../hoc';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
-import {resetDataConversation} from '../startup';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import { resetDataConversation } from '../startup';
 
 const DataConversation = DataConversationHoc(
   observer(() => {
-    const {loginStore, dataConversationStore, routerStore} = useStores();
+    const { loginStore, dataConversationStore, routerStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       reset,
     } = useForm();
     useEffect(() => {
       // Default value initialization
-      setValue(
-        'environment',
-        dataConversationStore.dataConversation?.environment,
-      );
+      // setValue(
+      //   'environment',
+      //   dataConversationStore.dataConversation?.environment,
+      // );
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataConversationStore.dataConversation]);
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -49,7 +49,7 @@ const DataConversation = DataConversationHoc(
       if (dataConversationStore.dataConversation !== undefined) {
         dataConversationStore.dataConversationService
           .addDataConversation({
-            input: {...dataConversationStore.dataConversation},
+            input: { ...dataConversationStore.dataConversation },
           })
           .then(res => {
             if (res.createDataConversation.success) {
@@ -95,7 +95,7 @@ const DataConversation = DataConversationHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       type='text'
                       label='Hexa Decimal'
@@ -118,12 +118,12 @@ const DataConversation = DataConversationHoc(
                     />
                   )}
                   name='hexadecimal'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       type='text'
                       label='Binary'
@@ -144,12 +144,12 @@ const DataConversation = DataConversationHoc(
                     />
                   )}
                   name='binary'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       type='text'
                       label='ASCII'
@@ -170,12 +170,12 @@ const DataConversation = DataConversationHoc(
                     />
                   )}
                   name='ascii'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
-                <Controller
+                {/* <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Environment'>
                       <select
                         value={value}
@@ -218,9 +218,9 @@ const DataConversation = DataConversationHoc(
                     </Form.InputWrapper>
                   )}
                   name='environment'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
-                />
+                /> */}
                 <div className='clearfix' />
               </List>
             </Grid>
@@ -250,7 +250,7 @@ const DataConversation = DataConversationHoc(
           <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
             <DataConversationList
               data={dataConversationStore.listdataConversation || []}
-              extraData={{lookupItems: routerStore.lookupItems}}
+              extraData={{ lookupItems: routerStore.lookupItems }}
               totalSize={dataConversationStore.listdataConversationCount}
               isDelete={RouterFlow.checkPermission(
                 toJS(routerStore.userPermission),
@@ -274,20 +274,20 @@ const DataConversation = DataConversationHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update conversation mapping!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
                 dataConversationStore.fetchDataConversation(page, limit);
-                global.filter = {mode: 'pagination', page, limit};
+                global.filter = { mode: 'pagination', page, limit };
               }}
               onFilter={(type, filter, page, limit) => {
                 dataConversationStore.dataConversationService.filter({
-                  input: {type, filter, page, limit},
+                  input: { type, filter, page, limit },
                 });
-                global.filter = {mode: 'filter', type, filter, page, limit};
+                global.filter = { mode: 'filter', type, filter, page, limit };
               }}
             />
           </div>
@@ -296,9 +296,9 @@ const DataConversation = DataConversationHoc(
             click={(action?: string) => {
               if (action === 'Delete') {
                 dataConversationStore.dataConversationService
-                  .deleteDataConversation({input: {id: modalConfirm.id}})
+                  .deleteDataConversation({ input: { id: modalConfirm.id } })
                   .then(res => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.removeDataConversation.success) {
                       Toast.success({
                         message: `😊 ${res.removeDataConversation.message}`,
@@ -329,7 +329,7 @@ const DataConversation = DataConversationHoc(
                     },
                   })
                   .then(res => {
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     if (res.updateDataConversation.success) {
                       Toast.success({
                         message: `😊 ${res.updateDataConversation.message}`,
@@ -353,7 +353,7 @@ const DataConversation = DataConversationHoc(
                   });
               }
             }}
-            close={() => setModalConfirm({show: false})}
+            close={() => setModalConfirm({ show: false })}
           />
         </div>
       </>

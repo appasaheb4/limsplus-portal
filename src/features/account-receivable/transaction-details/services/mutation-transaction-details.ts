@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const TRANSACTION_HEADER_LIST = gql`
   mutation ($input: TransactionHeaderInput!) {
@@ -41,6 +41,7 @@ export const TRANSACTION_HEADER_LIST = gql`
         discountCharges
         customerName
         status
+        companyCode
         enteredBy
         documentType
         dateOfEntry
@@ -87,6 +88,7 @@ export const FIND_BY_FIELDS_TRANSACTION_LINE = gql`
         accountType
         customerGroup
         status
+        companyCode
         enteredBy
         documentType
         dateOfEntry

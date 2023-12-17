@@ -34,8 +34,8 @@ class CommonInput {
   dateExpire: Date;
   enterBy: string;
   status: string;
-  companyCode: string;
-  environment: string;
+  companyCode?: string;
+  environment?: string;
   type: string;
   constructor(rawData: { [key in string]: any }) {
     this.rangeId = rawData.rangeId;

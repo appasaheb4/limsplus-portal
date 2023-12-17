@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST = gql`
   mutation ($input: SegmentMappingInput!) {
@@ -31,6 +31,7 @@ export const LIST = gql`
         limsTables
         limsDocumentType
         limsFields
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -115,6 +116,7 @@ export const FILTER = gql`
         limsTables
         limsDocumentType
         limsFields
+        companyCode
         environment
         dateOfEntry
         lastUpdated
@@ -154,6 +156,7 @@ export const FIND_BY_FIELDS = gql`
         limsTables
         limsDocumentType
         limsFields
+        companyCode
         environment
         dateOfEntry
         lastUpdated

@@ -172,6 +172,7 @@ export const FILTER = gql`
         openingTime
         closingTime
         specificFormat
+        companyCode
         status
         environment
         dateOfEntry
@@ -235,6 +236,7 @@ export const FILTER_BY_FIELDS = gql`
         openingTime
         closingTime
         specificFormat
+        companyCode
         status
         environment
         dateOfEntry
@@ -298,6 +300,7 @@ export const FIND_BY_FIELDS = gql`
         openingTime
         closingTime
         specificFormat
+        companyCode
         status
         environment
         dateOfEntry
@@ -358,6 +361,7 @@ export const FIND_BY_ARR_ITEMS = gql`
         openingTime
         closingTime
         specificFormat
+        companyCode
         status
         environment
         dateOfEntry

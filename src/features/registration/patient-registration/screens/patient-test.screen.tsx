@@ -57,7 +57,7 @@ export const PatientTest = PatientOrderHoc(
     const [hideInputView, setHideInputView] = useState<boolean>(true);
     useEffect(() => {
       // Default value initialization
-      setValue('environment', patientOrderStore.patientOrder?.environment);
+      // setValue('environment', patientOrderStore.patientOrder?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patientOrderStore.patientOrder]);
     const onSubmitPatientOrder = () => {
