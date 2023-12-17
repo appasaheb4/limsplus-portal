@@ -120,6 +120,23 @@ export const UserList = (props: UserListProps) => {
               csvExport: false,
             },
             {
+              dataField: 'userId',
+              text: 'UserId',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  userId = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editable: false,
+            },
+            {
               dataField: 'defaultLab',
               text: 'Default Lab',
               sort: true,
@@ -376,23 +393,7 @@ export const UserList = (props: UserListProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'userId',
-              text: 'UserId',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  userId = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              editable: false,
-            },
+
             {
               dataField: 'fullName',
               text: 'Full Name',

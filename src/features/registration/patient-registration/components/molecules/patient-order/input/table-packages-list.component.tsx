@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Table} from 'reactstrap';
-import {Icons, Form} from '@/library/components';
-import {getDefaultLookupItem, lookupItems} from '@/library/utils';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import React, { useEffect, useState } from 'react';
+import { Table } from 'reactstrap';
+import { Icons, Form } from '@/library/components';
+import { getDefaultLookupItem, lookupItems } from '@/library/utils';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
+import dayjs from 'dayjs';
 
 interface TablePackagesListProps {
   data: any;
@@ -12,8 +13,8 @@ interface TablePackagesListProps {
 }
 
 export const TablePackagesList = observer(
-  ({data, isDelete = true}: TablePackagesListProps) => {
-    const {patientOrderStore, routerStore} = useStores();
+  ({ data, isDelete = true }: TablePackagesListProps) => {
+    const { patientOrderStore, routerStore } = useStores();
     const [packages, setPackages] = useState(data);
 
     useEffect(() => {
@@ -29,25 +30,25 @@ export const TablePackagesList = observer(
       let pacakgeListS = data?.pacakgeListS;
       if (data.pacakgeListS) {
         pacakgeListS = _.map(data.pacakgeListS, o =>
-          _.extend({panelStatus, orderStatus, status}, o),
+          _.extend({ panelStatus, orderStatus, status }, o),
         );
       }
       let pacakgeListM = data.pacakgeListM;
       if (data.pacakgeListM) {
         pacakgeListM = _.map(data.pacakgeListM, o =>
-          _.extend({panelStatus, orderStatus, status}, o),
+          _.extend({ panelStatus, orderStatus, status }, o),
         );
       }
       let pacakgeListN = data.pacakgeListN;
       if (data.pacakgeListN) {
         pacakgeListN = _.map(data.pacakgeListN, o =>
-          _.extend({panelStatus, orderStatus, status}, o),
+          _.extend({ panelStatus, orderStatus, status }, o),
         );
       }
       let pacakgeListK = data.pacakgeListK;
       if (data.pacakgeListK) {
         pacakgeListK = _.map(data.pacakgeListK, o =>
-          _.extend({panelStatus, orderStatus, status}, o),
+          _.extend({ panelStatus, orderStatus, status }, o),
         );
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -217,7 +218,7 @@ export const TablePackagesList = observer(
                     onChange={bill => {
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
-                      pacakgeListS[index] = Object.assign(item, {bill});
+                      pacakgeListS[index] = Object.assign(item, { bill });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
@@ -230,7 +231,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Gross Amt'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.grossAmount}
                     disabled={true}
                     onChange={grossAmount => {
@@ -251,7 +252,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Net Amt'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.netAmount}
                     disabled={true}
                     onChange={netAmount => {
@@ -272,7 +273,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount Amount'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.discountAmount}
                     disabled={true}
                     onChange={discountAmount => {
@@ -293,7 +294,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.discountPer}
                     disabled={true}
                     onChange={discountPer => {
@@ -314,7 +315,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Miscellaneous Charges'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.miscellaneousCharges}
                     disabled={true}
                     onChange={miscellaneousCharges => {
@@ -335,13 +336,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Due Date'
                     value={item.dueDate}
                     onChange={dueDate => {
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
-                      pacakgeListS[index] = Object.assign(item, {dueDate});
+                      pacakgeListS[index] = Object.assign(item, { dueDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
@@ -353,13 +354,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Result Date'
                     value={item.resultDate}
                     onChange={resultDate => {
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
-                      pacakgeListS[index] = Object.assign(item, {resultDate});
+                      pacakgeListS[index] = Object.assign(item, { resultDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
@@ -378,7 +379,9 @@ export const TablePackagesList = observer(
                       const orderStatus = e.target.value;
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
-                      pacakgeListS[index] = Object.assign(item, {orderStatus});
+                      pacakgeListS[index] = Object.assign(item, {
+                        orderStatus,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
@@ -407,7 +410,7 @@ export const TablePackagesList = observer(
                       const status = e.target.value;
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
-                      pacakgeListS[index] = Object.assign(item, {status});
+                      pacakgeListS[index] = Object.assign(item, { status });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListS,
@@ -468,7 +471,7 @@ export const TablePackagesList = observer(
                     onChange={bill => {
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {bill});
+                      pacakgeListM[index] = Object.assign(item, { bill });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -481,13 +484,15 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Gross Amt'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.grossAmount}
                     disabled={true}
                     onChange={grossAmount => {
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {grossAmount});
+                      pacakgeListM[index] = Object.assign(item, {
+                        grossAmount,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -500,13 +505,13 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Net Amt'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.netAmount}
                     disabled={true}
                     onChange={netAmount => {
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {netAmount});
+                      pacakgeListM[index] = Object.assign(item, { netAmount });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -519,7 +524,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount Amount'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.discountAmount}
                     disabled={true}
                     onChange={discountAmount => {
@@ -540,13 +545,15 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.discountPer}
                     disabled={true}
                     onChange={discountPer => {
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {discountPer});
+                      pacakgeListM[index] = Object.assign(item, {
+                        discountPer,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -559,7 +566,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Miscellaneous Charges'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.miscellaneousCharges}
                     disabled={true}
                     onChange={miscellaneousCharges => {
@@ -579,13 +586,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Due Date'
                     value={item.dueDate}
                     onChange={dueDate => {
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {dueDate});
+                      pacakgeListM[index] = Object.assign(item, { dueDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -597,13 +604,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Result Date'
                     value={item.resultDate}
                     onChange={resultDate => {
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {resultDate});
+                      pacakgeListM[index] = Object.assign(item, { resultDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -622,7 +629,9 @@ export const TablePackagesList = observer(
                       const orderStatus = e.target.value;
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {orderStatus});
+                      pacakgeListM[index] = Object.assign(item, {
+                        orderStatus,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -651,7 +660,7 @@ export const TablePackagesList = observer(
                       const status = e.target.value;
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, {status});
+                      pacakgeListM[index] = Object.assign(item, { status });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListM,
@@ -672,7 +681,7 @@ export const TablePackagesList = observer(
               </tr>
             ))}
             {packages?.pacakgeListN?.map((item, index) => (
-              <tr key={item.panelCode}>
+              <tr key={item?.panelCode}>
                 {isDelete && (
                   <td className='sticky left-0 bg-gray-500'>
                     {' '}
@@ -691,12 +700,12 @@ export const TablePackagesList = observer(
                 <td>{item?.panelName}</td>
                 {/* <td>{item?.packageCode}</td> */}
                 <td>{''}</td>
-                <td>{item.serviceType}</td>
-                <td>{item.department}</td>
-                <td>{item.section?.code}</td>
-                <td>{item.pLab}</td>
-                <td>{item.rLab}</td>
-                <td>{item.reportGroup}</td>
+                <td>{item?.serviceType}</td>
+                <td>{item?.department}</td>
+                <td>{item?.section?.code}</td>
+                <td>{item?.pLab}</td>
+                <td>{item?.rLab}</td>
+                <td>{item?.reportGroup}</td>
                 <td>
                   <Form.Toggle
                     label=''
@@ -705,7 +714,7 @@ export const TablePackagesList = observer(
                     onChange={bill => {
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {bill});
+                      pacakgeListN[index] = Object.assign(item, { bill });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -718,13 +727,15 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Gross Amt'
                     type='number'
-                    style={{width: 120}}
-                    value={item.grossAmount}
+                    style={{ width: 120 }}
+                    value={item?.grossAmount}
                     disabled={true}
                     onChange={grossAmount => {
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {grossAmount});
+                      pacakgeListN[index] = Object.assign(item, {
+                        grossAmount,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -737,13 +748,13 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Net Amt'
                     type='number'
-                    style={{width: 120}}
-                    value={item.netAmount}
+                    style={{ width: 120 }}
+                    value={item?.netAmount}
                     disabled={true}
                     onChange={netAmount => {
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {netAmount});
+                      pacakgeListN[index] = Object.assign(item, { netAmount });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -756,8 +767,8 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount Amount'
                     type='number'
-                    style={{width: 120}}
-                    value={item.discountAmount}
+                    style={{ width: 120 }}
+                    value={item?.discountAmount}
                     disabled={true}
                     onChange={discountAmount => {
                       const pacakgeListN =
@@ -777,13 +788,15 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount'
                     type='number'
-                    style={{width: 120}}
-                    value={item.discountPer}
+                    style={{ width: 120 }}
+                    value={item?.discountPer}
                     disabled={true}
                     onChange={discountPer => {
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {discountPer});
+                      pacakgeListN[index] = Object.assign(item, {
+                        discountPer,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -796,8 +809,8 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Miscellaneous Charges'
                     type='number'
-                    style={{width: 120}}
-                    value={item.miscellaneousCharges}
+                    style={{ width: 120 }}
+                    value={item?.miscellaneousCharges}
                     disabled={true}
                     onChange={miscellaneousCharges => {
                       const pacakgeListN =
@@ -816,13 +829,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Due Date'
-                    value={item.dueDate}
+                    value={dayjs(item?.dueDate).toDate()}
                     onChange={dueDate => {
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {dueDate});
+                      pacakgeListN[index] = Object.assign(item, { dueDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -834,13 +847,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Result Date'
-                    value={item.resultDate}
+                    value={dayjs(item?.resultDate).toDate()}
                     onChange={resultDate => {
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {resultDate});
+                      pacakgeListN[index] = Object.assign(item, { resultDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -850,7 +863,7 @@ export const TablePackagesList = observer(
                 </td>
                 <td>
                   <select
-                    value={item.orderStatus}
+                    value={item?.orderStatus}
                     disabled={true}
                     className={
                       'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
@@ -859,7 +872,9 @@ export const TablePackagesList = observer(
                       const orderStatus = e.target.value;
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {orderStatus});
+                      pacakgeListN[index] = Object.assign(item, {
+                        orderStatus,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -879,7 +894,7 @@ export const TablePackagesList = observer(
                 </td>
                 <td>
                   <select
-                    value={item.status}
+                    value={item?.status}
                     disabled={true}
                     className={
                       'leading-4 p-2 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 border-gray-300 rounded-md min-w-120'
@@ -888,7 +903,7 @@ export const TablePackagesList = observer(
                       const status = e.target.value;
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, {status});
+                      pacakgeListN[index] = Object.assign(item, { status });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListN,
@@ -897,7 +912,7 @@ export const TablePackagesList = observer(
                   >
                     <option selected>Select</option>
                     {lookupItems(
-                      routerStore.lookupItems,
+                      routerStore?.lookupItems,
                       'PATIENT ORDER - STATUS',
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -942,7 +957,7 @@ export const TablePackagesList = observer(
                     onChange={bill => {
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {bill});
+                      pacakgeListK[index] = Object.assign(item, { bill });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
@@ -955,13 +970,15 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Gross Amt'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.grossAmount}
                     disabled={true}
                     onChange={grossAmount => {
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {grossAmount});
+                      pacakgeListK[index] = Object.assign(item, {
+                        grossAmount,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
@@ -974,13 +991,13 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Net Amt'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.netAmount}
                     disabled={true}
                     onChange={netAmount => {
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {netAmount});
+                      pacakgeListK[index] = Object.assign(item, { netAmount });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
@@ -993,7 +1010,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount Amount'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.discountAmount}
                     disabled={true}
                     onChange={discountAmount => {
@@ -1014,13 +1031,15 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Discount'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.discountPer}
                     disabled={true}
                     onChange={discountPer => {
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {discountPer});
+                      pacakgeListK[index] = Object.assign(item, {
+                        discountPer,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
@@ -1033,7 +1052,7 @@ export const TablePackagesList = observer(
                     label=''
                     placeholder='Miscellaneous Charges'
                     type='number'
-                    style={{width: 120}}
+                    style={{ width: 120 }}
                     value={item.miscellaneousCharges}
                     disabled={true}
                     onChange={miscellaneousCharges => {
@@ -1053,13 +1072,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Due Date'
                     value={item.dueDate}
                     onChange={dueDate => {
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {dueDate});
+                      pacakgeListK[index] = Object.assign(item, { dueDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
@@ -1071,13 +1090,13 @@ export const TablePackagesList = observer(
                   <Form.InputDateTime
                     label=''
                     disabled={true}
-                    style={{width: 300}}
+                    style={{ width: 300 }}
                     placeholder='Result Date'
                     value={item.resultDate}
                     onChange={resultDate => {
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {resultDate});
+                      pacakgeListK[index] = Object.assign(item, { resultDate });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
@@ -1096,7 +1115,9 @@ export const TablePackagesList = observer(
                       const orderStatus = e.target.value;
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {orderStatus});
+                      pacakgeListK[index] = Object.assign(item, {
+                        orderStatus,
+                      });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
@@ -1125,7 +1146,7 @@ export const TablePackagesList = observer(
                       const status = e.target.value;
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, {status});
+                      pacakgeListK[index] = Object.assign(item, { status });
                       patientOrderStore.updatePackageList({
                         ...patientOrderStore.packageList,
                         pacakgeListK,
