@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {PatientOrderService} from '../services';
-import {PatientOrder, SelectedItems} from '../models';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { PatientOrderService } from '../services';
+import { PatientOrder, SelectedItems } from '../models';
 
 export class PatientOrderStore {
   patientOrder!: PatientOrder;
