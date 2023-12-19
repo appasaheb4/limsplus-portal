@@ -650,6 +650,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                     isSingleDatePicker: true,
                     isDateTimePicker: false,
                   }}
+                  minDate={new Date()}
                   onUpdate={dateExpire => {
                     setModalDetails({ visible: false });
                     props.onSingleDirectUpdateField &&

@@ -423,6 +423,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                     isSingleDatePicker: true,
                     isDateTimePicker: false,
                   }}
+                  minDate={new Date()}
                   onUpdate={dateExpire => {
                     setModalDetails({ visible: false });
                     props.onSingleDirectUpdateField &&

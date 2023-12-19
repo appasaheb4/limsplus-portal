@@ -17,6 +17,8 @@ type Props = {
   data?: string;
   rowData?: any;
   use12Hours?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
   onUpdate?: (birthDate: any) => void;
   onClose?: () => void;
 };
@@ -30,6 +32,8 @@ export const ModalDateTime: React.FC<Props> = ({
   onClose,
   rowData,
   use12Hours = false,
+  minDate,
+  maxDate,
 }) => {
   const { routerStore } = useStores();
   const [value, setValue] = useState<any>(data);
@@ -100,6 +104,8 @@ export const ModalDateTime: React.FC<Props> = ({
                         <Form.InputDateTime
                           label=''
                           use12Hours={true}
+                          minDate={minDate}
+                          maxDate={maxDate}
                           value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {
@@ -115,6 +121,8 @@ export const ModalDateTime: React.FC<Props> = ({
                       ) : (
                         <Form.DatePicker
                           label=''
+                          minDate={minDate}
+                          maxDate={maxDate}
                           use12Hours={use12Hours}
                           value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
@@ -185,6 +193,8 @@ export const ModalDateTime: React.FC<Props> = ({
                         </Form.InputWrapper>
                         <div style={{ width: '37vh' }}>
                           <Form.InputDateTime
+                            minDate={minDate}
+                            maxDate={minDate}
                             label='BirthDate'
                             isCalenderOpen={false}
                             placeholder={'BirthDate'}

@@ -33,8 +33,6 @@ export class DoctorsService {
           variables: { input: { page, limit, env, lab } },
         })
         .then((response: any) => {
-          console.log({ response });
-
           stores.doctorsStore.updateDoctorsList(response.data);
           resolve(response.data);
         })
