@@ -180,8 +180,8 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                 onChange={async (item: any, children: any) => {
                   const { permission, selectedComp } =
                     await RouterFlow.updateSelectedCategory(
-                      item.name,
-                      children.name,
+                      item?.name,
+                      children?.name,
                     );
                   stores.routerStore.updateSelectedComponents(selectedComp);
                   stores.routerStore.updateUserPermission(permission);
