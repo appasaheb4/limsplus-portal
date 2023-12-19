@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 
-
-import {Confirm} from '@/library/models';
+import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
-import {TableBootstrap} from './table-bootstrap.components';
+import { TableBootstrap } from './table-bootstrap.components';
 
 interface PendingPanelApprovalListProps {
   data: any;
@@ -31,7 +30,7 @@ export const PendingPanelApprovalList = observer(
     const [selectedItem, setSelectedItem] = useState<any>({});
     return (
       <>
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           <TableBootstrap
             id='_id'
             data={props.data}
@@ -82,7 +81,7 @@ export const PendingPanelApprovalList = observer(
                 editable: false,
                 formatter: (cell, row) => {
                   return row?.dueDate
-                    ? dayjs(row.dueDate).format('YYYY-MM-DD')
+                    ? dayjs(row.dueDate).format('DD-MM-YYYY HH:mm:ss')
                     : '';
                 },
               },
@@ -115,6 +114,12 @@ export const PendingPanelApprovalList = observer(
                 dataField: 'companyCode',
                 sort: true,
                 editable: false,
+              },
+              {
+                text: 'Environment',
+                dataField: 'environment',
+                editable: false,
+                sort: true,
               },
             ]}
             isEditModify={props.isEditModify}

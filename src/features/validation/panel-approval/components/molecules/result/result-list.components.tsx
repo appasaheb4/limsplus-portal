@@ -346,7 +346,7 @@ export const ResultList = (props: ResultListProps) => {
               editable: false,
               formatter: (cell, row) => {
                 return row.approvalDate
-                  ? dayjs(row.approvalDate).format('YYYY-MM-DD')
+                  ? dayjs(row.approvalDate).format('DD-MM-YYYY HH:mm:ss')
                   : '';
               },
             },
@@ -363,19 +363,25 @@ export const ResultList = (props: ResultListProps) => {
                 );
               },
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-            },
+
             {
               dataField: 'enteredBy',
               text: 'Entered By',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              editable: false,
+            },
+            {
+              text: 'Environment',
+              dataField: 'environment',
+              editable: false,
+              sort: true,
             },
             {
               dataField: 'approvalStatus',

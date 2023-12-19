@@ -17,6 +17,7 @@ let description;
 let enteredBy;
 let status;
 let companyCode;
+let environment;
 
 interface EnvironmentVariableProps {
   data: any;
@@ -313,6 +314,52 @@ export const EnvironmentVariableList = observer(
                 // ),
               },
               {
+                dataField: 'environment',
+                text: 'Environment',
+                headerClasses: 'textHeader2',
+                sort: true,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                editable: false,
+                sortCaret: (order, column) => sortCaret(order, column),
+                csvFormatter: col => (col ? col : ''),
+                filter: textFilter({
+                  getFilter: filter => {
+                    environment = filter;
+                  },
+                }),
+                // editorRenderer: (
+                //   editorProps,
+                //   value,
+                //   row,
+                //   column,
+                //   rowIndex,
+                //   columnIndex,
+                // ) => (
+                //   <>
+                //     <select
+                //       value={row.environment}
+                //       className='leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md'
+                //       onChange={e => {
+                //         const environment = e.target.value;
+                //         props.onUpdateItem &&
+                //           props.onUpdateItem(environment, column.dataField, row._id);
+                //       }}
+                //     >
+                //       <option selected>Select</option>
+                //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
+                //         (item: any, index: number) => (
+                //           <option key={index} value={item.code}>
+                //             {lookupValue(item)}
+                //           </option>
+                //         ),
+                //       )}
+                //     </select>
+                //   </>
+                // ),
+              },
+              {
                 dataField: 'opration',
                 text: 'Action',
                 editable: false,
@@ -385,6 +432,7 @@ export const EnvironmentVariableList = observer(
               enteredBy('');
               status('');
               companyCode('');
+              environment('');
             }}
             dynamicStylingFields={['environmentVariable', 'category']}
             hideExcelSheet={['_id', 'opration']}

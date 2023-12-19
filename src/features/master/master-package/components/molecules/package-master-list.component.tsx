@@ -456,46 +456,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               );
             },
           },
-          {
-            text: 'Company Code',
-            dataField: 'companyCode',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            editable: false,
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                companyCode = filter;
-              },
-            }),
-            headerClasses: 'textHeader2',
-            // editorRenderer: (
-            //   editorProps,
-            //   value,
-            //   row,
-            //   column,
-            //   rowIndex,
-            //   columnIndex,
-            // ) => (
-            //   <>
-            //     <AutoCompleteCompanyList
-            //       isLabel={false}
-            //       hasError={false}
-            //       onSelect={companyCode => {
-            //         props.onUpdateItem &&
-            //           props.onUpdateItem(
-            //             companyCode,
-            //             column.dataField,
-            //             row._id,
-            //           );
-            //       }}
-            //     />
-            //   </>
-            // ),
-          },
+
           {
             dataField: 'status',
             text: 'Status',
@@ -571,7 +532,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
-                ? dayjs(row.dateCreation).format('YYYY-MM-DD')
+                ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
                 : '',
             filter: customFilter({
               getFilter: filter => {
@@ -582,7 +543,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateCreation).format('YYYY-MM-DD')}</>;
+              return (
+                <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+              );
             },
             editorRenderer: (
               editorProps,
@@ -617,7 +580,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
-              row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
+              row.dateActive
+                ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
+                : '',
             editable: false,
             filter: customFilter({
               getFilter: filter => {
@@ -628,7 +593,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive).format('YYYY-MM-DD')}</>;
+              return <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -660,7 +625,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
-              row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
+              row.dateExpire
+                ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
+                : '',
             filter: customFilter({
               getFilter: filter => {
                 dateExpire = filter;
@@ -670,7 +637,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format('YYYY-MM-DD')}</>;
+              return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -727,6 +694,46 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
             ),
+          },
+          {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <AutoCompleteCompanyList
+            //       isLabel={false}
+            //       hasError={false}
+            //       onSelect={companyCode => {
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             companyCode,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     />
+            //   </>
+            // ),
           },
           {
             dataField: 'environment',

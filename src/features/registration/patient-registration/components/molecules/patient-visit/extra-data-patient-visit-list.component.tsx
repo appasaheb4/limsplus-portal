@@ -326,7 +326,9 @@ export const ExtraDataPatientVisitList = observer(
                 sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.receivedDate
-                    ? dayjs(row.extraData?.receivedDate).format('YYYY-MM-DD')
+                    ? dayjs(row.extraData?.receivedDate).format(
+                        'DD-MM-YYYY HH:mm:ss',
+                      )
                     : '',
                 filter: customFilter({
                   getFilter: filter => {
@@ -342,7 +344,7 @@ export const ExtraDataPatientVisitList = observer(
                     <>
                       {row.extraData?.receivedDate
                         ? dayjs(row.extraData?.receivedDate).format(
-                            'YYYY-MM-DD',
+                            'DD-MM-YYYY HH:mm:ss',
                           )
                         : ''}
                     </>
@@ -362,7 +364,7 @@ export const ExtraDataPatientVisitList = observer(
                       use12Hours={true}
                       data={
                         row.extraData?.receivedDate ||
-                        dayjs().format('YYYY-MM-DD')
+                        dayjs().format('DD-MM-YYYY HH:mm:ss')
                       }
                       isSingleDatePicker={true}
                       isDateTimePicker={false}
@@ -395,7 +397,9 @@ export const ExtraDataPatientVisitList = observer(
                 sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.resultDate
-                    ? dayjs(row.extraData?.resultDate).format('YYYY-MM-DD')
+                    ? dayjs(row.extraData?.resultDate).format(
+                        'DD-MM-YYYY HH:mm:ss',
+                      )
                     : '',
                 filter: customFilter({
                   getFilter: filter => {
@@ -407,7 +411,11 @@ export const ExtraDataPatientVisitList = observer(
                 ),
                 formatter: (cell, row) => {
                   return (
-                    <>{dayjs(row.extraData.resultDate).format('YYYY-MM-DD')}</>
+                    <>
+                      {dayjs(row.extraData.resultDate).format(
+                        'DD-MM-YYYY HH:mm:ss',
+                      )}
+                    </>
                   );
                 },
                 editorRenderer: (
@@ -531,7 +539,9 @@ export const ExtraDataPatientVisitList = observer(
                 sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.approvalDate
-                    ? dayjs(row.extraData.approvalDate).format('YYYY-MM-DD')
+                    ? dayjs(row.extraData.approvalDate).format(
+                        'DD-MM-YYYY HH:mm:ss',
+                      )
                     : '',
                 filter: customFilter({
                   getFilter: filter => {
@@ -544,7 +554,9 @@ export const ExtraDataPatientVisitList = observer(
                 formatter: (cell, row) => {
                   return (
                     <>
-                      {dayjs(row.extraData.approvalDate).format('YYYY-MM-DD')}
+                      {dayjs(row.extraData.approvalDate).format(
+                        'DD-MM-YYYY HH:mm:ss',
+                      )}
                     </>
                   );
                 },
@@ -706,7 +718,9 @@ export const ExtraDataPatientVisitList = observer(
                 sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: (col, row) =>
                   row.extraData?.reportedDate
-                    ? dayjs(row.extraData.reportedDate).format('YYYY-MM-DD')
+                    ? dayjs(row.extraData.reportedDate).format(
+                        'DD-MM-YYYY HH:mm:ss',
+                      )
                     : '',
                 filter: customFilter({
                   getFilter: filter => {
@@ -719,7 +733,9 @@ export const ExtraDataPatientVisitList = observer(
                 formatter: (cell, row) => {
                   return (
                     <>
-                      {dayjs(row.extraData.reportedDate).format('YYYY-MM-DD')}
+                      {dayjs(row.extraData.reportedDate).format(
+                        'DD-MM-YYYY HH:mm:ss',
+                      )}
                     </>
                   );
                 },
@@ -1100,63 +1116,7 @@ export const ExtraDataPatientVisitList = observer(
                   return <>{row.extraData.employeeCode}</>;
                 },
               },
-              {
-                dataField: 'environment',
-                text: 'Environment',
-                headerClasses: 'textHeader4',
-                sort: true,
-                headerStyle: {
-                  fontSize: 0,
-                },
-                sortCaret: (order, column) => sortCaret(order, column),
-                csvFormatter: (col, row) =>
-                  row.extraData?.environment ? row.extraData.environment : '',
-                filter: textFilter({
-                  getFilter: filter => {
-                    environment = filter;
-                  },
-                }),
-                editable: false,
-                formatter: (cell, row) => {
-                  return <>{row.extraData.environment}</>;
-                },
-                // editorRenderer: (
-                //   editorProps,
-                //   value,
-                //   row,
-                //   column,
-                //   rowIndex,
-                //   columnIndex,
-                // ) => (
-                //   <>
-                //     <select
-                //       value={row.extraData?.environment}
-                //       className={
-                //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                //       }
-                //       onChange={e => {
-                //         const environment = e.target.value;
-                //         props.onUpdateItem &&
-                //           props.onUpdateItem(
-                //             environment,
-                //             column.dataField,
-                //             row._id,
-                //           );
-                //       }}
-                //     >
-                //       <option>Select</option>
-                //       {lookupItems(
-                //         props.extraData.lookupItems,
-                //         'ENVIRONMENT',
-                //       ).map((item: any, index: number) => (
-                //         <option key={index} value={item.code}>
-                //           {lookupValue(item)}
-                //         </option>
-                //       ))}
-                //     </select>
-                //   </>
-                // ),
-              },
+             
               {
                 dataField: 'opration',
                 text: 'Action',

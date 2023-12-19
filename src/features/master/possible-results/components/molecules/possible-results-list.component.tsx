@@ -439,58 +439,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               </>
             ),
           },
-          {
-            dataField: 'environment',
-            text: 'Environment',
-            headerClasses: 'textHeader4',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            editable: false,
-            sortCaret: (order, column) => sortCaret(order, column),
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                environment = filter;
-              },
-            }),
-            // editorRenderer: (
-            //   editorProps,
-            //   value,
-            //   row,
-            //   column,
-            //   rowIndex,
-            //   columnIndex,
-            // ) => (
-            //   <>
-            //     <select
-            //       value={row.environment}
-            //       className={
-            //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
-            //       }
-            //       onChange={e => {
-            //         const environment = e.target.value;
-            //         props.onUpdateItem &&
-            //           props.onUpdateItem(
-            //             environment,
-            //             column.dataField,
-            //             row._id,
-            //           );
-            //       }}
-            //     >
-            //       <option selected>Select</option>
-            //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
-            //         (item: any, index: number) => (
-            //           <option key={index} value={item.code}>
-            //             {lookupValue(item)}
-            //           </option>
-            //         ),
-            //       )}
-            //     </select>
-            //   </>
-            // ),
-          },
+
           {
             dataField: 'enteredBy',
             editable: false,
@@ -520,7 +469,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
-                ? dayjs(row.dateCreation).format('YYYY-MM-DD')
+                ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
                 : '',
             filter: customFilter({
               getFilter: filter => {
@@ -531,7 +480,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateCreation).format('YYYY-MM-DD')}</>;
+              return (
+                <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+              );
             },
             editorRenderer: (
               editorProps,
@@ -567,7 +518,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
-              row.dateActive ? dayjs(row.dateActive).format('YYYY-MM-DD') : '',
+              row.dateActive
+                ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
+                : '',
             filter: customFilter({
               getFilter: filter => {
                 dateActive = filter;
@@ -577,7 +530,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive).format('YYYY-MM-DD')}</>;
+              return <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -609,7 +562,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
-              row.dateExpire ? dayjs(row.dateExpire).format('YYYY-MM-DD') : '',
+              row.dateExpire
+                ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
+                : '',
             // filter: dateFilter({
             //   comparators: [
             //     Comparator.EQ,
@@ -631,7 +586,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <DateFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format('YYYY-MM-DD')}</>;
+              return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;
             },
             editorRenderer: (
               editorProps,
@@ -689,46 +644,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               <NumberFilter onFilter={onFilter} column={column} />
             ),
           },
-          {
-            text: 'Company Code',
-            dataField: 'companyCode',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            editable: false,
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                companyCode = filter;
-              },
-            }),
-            headerClasses: 'textHeader2',
-            // editorRenderer: (
-            //   editorProps,
-            //   value,
-            //   row,
-            //   column,
-            //   rowIndex,
-            //   columnIndex,
-            // ) => (
-            //   <>
-            //     <AutoCompleteCompanyList
-            //       isLabel={false}
-            //       hasError={false}
-            //       onSelect={companyCode => {
-            //         props.onUpdateItem &&
-            //           props.onUpdateItem(
-            //             companyCode,
-            //             column.dataField,
-            //             row._id,
-            //           );
-            //       }}
-            //     />
-            //   </>
-            // ),
-          },
+
           {
             dataField: 'status',
             text: 'Status',
@@ -775,7 +691,98 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               </>
             ),
           },
-
+          {
+            text: 'Company Code',
+            dataField: 'companyCode',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: false,
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                companyCode = filter;
+              },
+            }),
+            headerClasses: 'textHeader2',
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <AutoCompleteCompanyList
+            //       isLabel={false}
+            //       hasError={false}
+            //       onSelect={companyCode => {
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             companyCode,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     />
+            //   </>
+            // ),
+          },
+          {
+            dataField: 'environment',
+            text: 'Environment',
+            headerClasses: 'textHeader4',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                environment = filter;
+              },
+            }),
+            // editorRenderer: (
+            //   editorProps,
+            //   value,
+            //   row,
+            //   column,
+            //   rowIndex,
+            //   columnIndex,
+            // ) => (
+            //   <>
+            //     <select
+            //       value={row.environment}
+            //       className={
+            //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+            //       }
+            //       onChange={e => {
+            //         const environment = e.target.value;
+            //         props.onUpdateItem &&
+            //           props.onUpdateItem(
+            //             environment,
+            //             column.dataField,
+            //             row._id,
+            //           );
+            //       }}
+            //     >
+            //       <option selected>Select</option>
+            //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
+            //         (item: any, index: number) => (
+            //           <option key={index} value={item.code}>
+            //             {lookupValue(item)}
+            //           </option>
+            //         ),
+            //       )}
+            //     </select>
+            //   </>
+            // ),
+          },
           {
             dataField: 'opration',
             text: 'Action',

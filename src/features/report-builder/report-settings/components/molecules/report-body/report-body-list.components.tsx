@@ -142,6 +142,13 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
               headerClasses: 'textHeader2',
             },
             {
+              text: 'Environment',
+              dataField: 'environment',
+              editable: false,
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
               dataField: 'operation',
               text: 'Action',
               editable: false,

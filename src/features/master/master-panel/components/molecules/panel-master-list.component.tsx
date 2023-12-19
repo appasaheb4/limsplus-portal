@@ -1588,46 +1588,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <AutoCompleteCompanyList
-              //       isLabel={false}
-              //       hasError={false}
-              //       onSelect={companyCode => {
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             companyCode,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     />
-              //   </>
-              // ),
-            },
+
             {
               dataField: 'status',
               text: 'Status',
@@ -1714,7 +1675,9 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateCreation).format('YYYY-MM-DD')}</>;
+                return (
+                  <>{daysjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -1762,7 +1725,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateActive || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {daysjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -1811,7 +1778,11 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <DateFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
-                return <>{daysjs(row.dateExpire || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {daysjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
               editorRenderer: (
                 editorProps,
@@ -1869,7 +1840,46 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
             },
-
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             companyCode,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
+            },
             {
               dataField: 'environment',
               text: 'Environment',

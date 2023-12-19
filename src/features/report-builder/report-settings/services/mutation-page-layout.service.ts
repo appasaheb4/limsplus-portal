@@ -18,6 +18,7 @@ export const TEMPLATE_SETTING_LIST = gql`
         pageSize
         mainBoxCSS
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -71,6 +72,7 @@ export const FILTER = gql`
         pageSize
         mainBoxCSS
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -94,6 +96,7 @@ export const FIND_BY_FIELDS = gql`
         pageSize
         mainBoxCSS
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated

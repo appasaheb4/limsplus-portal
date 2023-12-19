@@ -206,6 +206,50 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                 </>
               ),
             },
+
+            {
+              dataField: 'action',
+              text: 'Action',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  action = filter;
+                },
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    name='action'
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const action = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem(action, column.dataField, row._id);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {['login', 'logout'].map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
             {
               text: 'Company Code',
               dataField: 'companyCode',
@@ -296,49 +340,6 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               //     </select>
               //   </>
               // ),
-            },
-            {
-              dataField: 'action',
-              text: 'Action',
-              headerClasses: 'textHeader2',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  action = filter;
-                },
-              }),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    name='action'
-                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                    onChange={e => {
-                      const action = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem(action, column.dataField, row._id);
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {['login', 'logout'].map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              ),
             },
             {
               dataField: 'opration',

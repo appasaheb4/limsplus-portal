@@ -248,6 +248,13 @@ export const TemplatePatientResultList = observer(
                 csvFormatter: col => (col ? col : ''),
               },
               {
+                text: 'Environment',
+                dataField: 'environment',
+                editable: false,
+                sort: true,
+                csvFormatter: col => (col ? col : ''),
+              },
+              {
                 dataField: 'operation',
                 text: 'Action',
                 editable: false,

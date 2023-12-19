@@ -23,6 +23,7 @@ export const PAGE_BRANDING_LIST = gql`
         isFooter
         isPdfPageNumber
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -81,6 +82,7 @@ export const FILTER = gql`
         isFooter
         isPdfPageNumber
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -112,6 +114,7 @@ export const FILTER_BY_FIELDS = gql`
         isFooter
         isPdfPageNumber
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -140,6 +143,7 @@ export const FIND_BY_FIELDS = gql`
         isFooter
         isPdfPageNumber
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated

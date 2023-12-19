@@ -205,6 +205,13 @@ export const PaymentList = (props: PaymentListProps) => {
           sort: true,
           editable: false,
         },
+
+        {
+          dataField: 'enteredBy',
+          text: 'Entered By',
+          sort: true,
+          editable: false,
+        },
         {
           text: 'Company Code',
           dataField: 'companyCode',
@@ -212,10 +219,10 @@ export const PaymentList = (props: PaymentListProps) => {
           editable: false,
         },
         {
-          dataField: 'enteredBy',
-          text: 'Entered By',
-          sort: true,
+          text: 'Environment',
+          dataField: 'environment',
           editable: false,
+          sort: true,
         },
       ]}
       isEditModify={props.isEditModify}

@@ -284,6 +284,12 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
               headerClasses: 'textHeader2',
             },
             {
+              text: 'Environment',
+              dataField: 'environment',
+              editable: false,
+              headerClasses: 'textHeader2',
+            },
+            {
               dataField: 'operation',
               text: 'Action',
               editable: false,

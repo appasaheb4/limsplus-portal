@@ -52,6 +52,7 @@ let species;
 let breed;
 let usualDoctor;
 let companyCode;
+let environment;
 
 export const PatientMangerList = observer((props: PatientMangerProps) => {
   const {
@@ -234,7 +235,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 return (
                   <>
                     {row.birthDate
-                      ? dayjs(row?.birthDate).format('DD-MM-YYYY HH:mm:ss')
+                      ? dayjs(row?.birthDate).format('DD-MM-YYYY')
                       : ''}
                   </>
                 );
@@ -809,6 +810,61 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerClasses: 'textHeader2',
             },
             {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader1',
+              editable: false,
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row.environment ? row.environment : '',
+              filter: textFilter({
+                getFilter: filter => {
+                  environment = filter;
+                },
+              }),
+
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <select
+              //       value={row.extraData?.environment}
+              //       className={
+              //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+              //       }
+              //       onChange={e => {
+              //         const environment = e.target.value;
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             environment,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     >
+              //       <option>Select</option>
+              //       {lookupItems(
+              //         props.extraData.lookupItems,
+              //         'PATIENT MANAGER - ENVIRONMENT',
+              //       ).map((item: any, index: number) => (
+              //         <option key={index} value={item.code}>
+              //           {lookupValue(item)}
+              //         </option>
+              //       ))}
+              //     </select>
+              //   </>
+              // ),
+            },
+            {
               dataField: 'opration',
               text: 'Action',
               editable: false,
@@ -880,6 +936,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             usualDoctor('');
             birthDate();
             companyCode('');
+            environment('');
           }}
         />
       </div>
