@@ -5,8 +5,8 @@
  * @author limsplus
  */
 import * as Models from '../models';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   REMOVE_RECORDS,
@@ -26,7 +26,7 @@ export class PossibleResultsService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.possibleResultsStore.updatePossibleResultList(response.data);
@@ -36,6 +36,7 @@ export class PossibleResultsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   addPossibleResults = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -53,6 +54,7 @@ export class PossibleResultsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   deletePossibleResults = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

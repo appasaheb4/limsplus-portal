@@ -11,11 +11,14 @@ export const CompanyHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       companyStore.updateCompany({
         ...companyStore.company,
+        supportPlan: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'SUPPORT_PLAN',
+        ),
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT',
-        // ),
+        environment: [
+          getDefaultLookupItem(routerStore.lookupItems, 'ENVIRONMENT'),
+        ],
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);

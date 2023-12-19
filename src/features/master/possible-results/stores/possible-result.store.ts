@@ -1,7 +1,7 @@
-import {makeObservable, action, observable, computed} from 'mobx';
+import { makeObservable, action, observable, computed } from 'mobx';
 import dayjs from 'dayjs';
-import {PossibleResults} from '../models';
-import {PossibleResultsService} from '../services';
+import { PossibleResults } from '../models';
+import { PossibleResultsService } from '../services';
 
 export class PossibleResultsStore {
   listPossibleResults: PossibleResults[];
@@ -55,7 +55,8 @@ export class PossibleResultsStore {
   }
 
   updatePossibleResultList(res: any) {
-    if (!res.possibleResults.success) return alert(res.possibleResults.message);
+    if (!res.possibleResults.success)
+      return console.log(res.possibleResults.message);
     this.listPossibleResults = res.possibleResults.data;
     this.listPossibleResultsCount = res.possibleResults.paginatorInfo.count;
   }

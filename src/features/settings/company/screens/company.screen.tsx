@@ -50,8 +50,9 @@ const Company = CompanyHoc(
       setValue('dateExpire', companyStore.company?.dateExpire);
       setValue('dateActive', companyStore.company?.dateActive);
       setValue('dateCreation', companyStore.company?.dateCreation);
-      // setValue('environment', companyStore.company?.environment);
+      setValue('supportPlan', companyStore.company?.supportPlan);
       setValue('status', companyStore.company?.status);
+      setValue('environment', companyStore.company?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [companyStore.company]);
 
@@ -1182,7 +1183,7 @@ const Company = CompanyHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option selected>{value || 'Select'}</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'SUPPORT_PLAN',
@@ -1195,7 +1196,7 @@ const Company = CompanyHoc(
                       </Form.InputWrapper>
                     )}
                     name='supportPlan'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
@@ -1238,19 +1239,37 @@ const Company = CompanyHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.Input
+                      <Form.InputWrapper
                         label='Environment'
                         hasError={!!errors.environment}
-                        placeholder='Environment'
-                        value={value}
-                        onChange={environment => {
-                          onChange(environment?.toUpperCase());
-                          companyStore.updateCompany({
-                            ...companyStore.company,
-                            environment: [environment?.toUpperCase()],
-                          });
-                        }}
-                      />
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.environment
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const environment = e.target.value;
+                            onChange(environment);
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              environment: [environment],
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
                     )}
                     name='environment'
                     rules={{ required: true }}
