@@ -44,6 +44,8 @@ let segmentArray;
 let dateOfEntry;
 let status;
 let companyCode;
+let environment;
+
 export const TransmittedMessageList = observer(
   ({
     extraData,
@@ -251,7 +253,7 @@ export const TransmittedMessageList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateOfEntry
-                  ? dayjs(row.dateOfEntry || 0).format('YYYY-MM-DD')
+                  ? dayjs(row.dateOfEntry || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: textFilter({
                 getFilter: filter => {
@@ -259,7 +261,11 @@ export const TransmittedMessageList = observer(
                 },
               }),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateOfEntry || 0).format('YYYY-MM-DD')}</>;
+                return (
+                  <>
+                    {dayjs(row.dateOfEntry || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
               },
             },
             {
@@ -295,6 +301,23 @@ export const TransmittedMessageList = observer(
               }),
               headerClasses: 'textHeader2',
             },
+            {
+              dataField: 'environment',
+              text: 'Environment',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              editable: false,
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  environment = filter;
+                },
+              }),
+            },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
@@ -324,6 +347,7 @@ export const TransmittedMessageList = observer(
             dateOfEntry('');
             status('');
             status('');
+            environment('');
           }}
           hideExcelSheet={['_id']}
           dynamicStylingFields={[]}

@@ -80,8 +80,8 @@ export const LIST_PATIENT_VISIT = gql`
           balance
           externalLabId
           employeeCode
-          environment
         }
+        environment
         companyCode
         documentType
         dateOfEntry
@@ -200,8 +200,8 @@ export const FILTER_PATIENT_VISIT = gql`
           balance
           externalLabId
           employeeCode
-          environment
         }
+        environment
         companyCode
         documentType
         dateOfEntry
@@ -322,8 +322,8 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
           balance
           externalLabId
           employeeCode
-          environment
         }
+        environment
         companyCode
         documentType
         dateOfEntry

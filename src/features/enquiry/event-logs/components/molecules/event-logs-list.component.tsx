@@ -33,6 +33,7 @@ let eventDate;
 let eventBy;
 let comments;
 let companyCode;
+let environment;
 
 interface EventLogsListProps {
   data: any;
@@ -411,6 +412,23 @@ export const EventLogsList = (props: EventLogsListProps) => {
             headerClasses: 'textHeader2',
           },
           {
+            dataField: 'environment',
+            text: 'Environment',
+            headerClasses: 'textHeader2',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: false,
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                environment = filter;
+              },
+            }),
+          },
+          {
             dataField: 'operation',
             text: 'Action',
             editable: false,
@@ -487,6 +505,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
           eventBy('');
           comments('');
           companyCode('');
+          environment('');
         }}
         hideExcelSheet={['_id', 'operation']}
         dynamicStylingFields={['country', 'state', 'district', 'environment']}

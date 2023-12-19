@@ -25,6 +25,7 @@ export const TEMPLATE_PATIENT_RESULT_LIST = gql`
         panelFooter
         departmentFooter
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -85,6 +86,7 @@ export const FILTER_BY_FIELDS = gql`
         panelFooter
         departmentFooter
         companyCode
+        environment
         documentType
         dateOfEntry
         lastUpdated
@@ -117,6 +119,7 @@ export const FIND_BY_FIELDS = gql`
         documentType
         dateOfEntry
         companyCode
+        environment
         lastUpdated
       }
     }

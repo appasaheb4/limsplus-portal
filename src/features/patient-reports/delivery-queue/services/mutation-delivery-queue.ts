@@ -69,6 +69,7 @@ export const DELIVERY_QUEUE_LIST = gql`
         documentType
         dateOfEntry
         companyCode
+        environment
         lastUpdated
       }
     }
@@ -170,6 +171,7 @@ export const FILTER = gql`
         documentType
         dateOfEntry
         companyCode
+        environment
         lastUpdated
       }
     }
@@ -232,6 +234,7 @@ export const FIND_BY_FIELDS = gql`
         documentType
         dateOfEntry
         companyCode
+        environment
         lastUpdated
       }
     }

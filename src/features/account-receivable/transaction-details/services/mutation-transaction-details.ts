@@ -42,6 +42,7 @@ export const TRANSACTION_HEADER_LIST = gql`
         customerName
         status
         companyCode
+        environment
         enteredBy
         documentType
         dateOfEntry
@@ -89,6 +90,7 @@ export const FIND_BY_FIELDS_TRANSACTION_LINE = gql`
         customerGroup
         status
         companyCode
+        environment
         enteredBy
         documentType
         dateOfEntry

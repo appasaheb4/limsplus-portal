@@ -21,6 +21,7 @@ export const LIST = gql`
         status
         dateOfEntry
         lastUpdated
+        environment
       }
     }
   }
@@ -92,6 +93,7 @@ export const FILTER = gql`
         status
         dateOfEntry
         lastUpdated
+        environment
       }
     }
   }
@@ -124,6 +126,7 @@ export const FIND_BY_FIELDS = gql`
         environment
         dateOfEntry
         lastUpdated
+        environment
       }
     }
   }

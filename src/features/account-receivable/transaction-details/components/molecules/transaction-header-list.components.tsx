@@ -79,7 +79,7 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.invoiceDate).format('YYYY-MM-DD');
+                  return dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss');
                 },
               },
               {
@@ -88,7 +88,7 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.actionDate).format('YYYY-MM-DD');
+                  return dayjs(row.actionDate).format('DD-MM-YYYY HH:mm:ss');
                 },
               },
               {
@@ -97,7 +97,9 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.registrationDate).format('YYYY-MM-DD');
+                  return dayjs(row.registrationDate).format(
+                    'DD-MM-YYYY HH:mm:ss',
+                  );
                 },
               },
               {
@@ -106,7 +108,7 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.dueDate).format('YYYY-MM-DD');
+                  return dayjs(row.dueDate).format('DD-MM-YYYY HH:mm:ss');
                 },
               },
               {
@@ -115,7 +117,7 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.reportingDate).format('YYYY-MM-DD');
+                  return dayjs(row.reportingDate).format('DD-MM-YYYY HH:mm:ss');
                 },
               },
               {
@@ -238,12 +240,6 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
               },
-              {
-                text: 'Company Code',
-                dataField: 'companyCode',
-                sort: true,
-                editable: false,
-              },
 
               {
                 dataField: 'enteredBy',
@@ -251,6 +247,18 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 csvFormatter: col => (col ? col : ''),
                 editable: false,
+              },
+              {
+                text: 'Company Code',
+                dataField: 'companyCode',
+                sort: true,
+                editable: false,
+              },
+              {
+                text: 'Environment',
+                dataField: 'environment',
+                editable: false,
+                sort: true,
               },
               {
                 dataField: 'operation',

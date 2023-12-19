@@ -393,7 +393,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             },
             {
               text: 'Company Code',
-              dataField: 'companyCode',             
+              dataField: 'companyCode',
+              editable: false,
+              headerClasses: 'textHeader2',
+            },
+            {
+              text: 'Environment',
+              dataField: 'environment',
               editable: false,
               headerClasses: 'textHeader2',
             },

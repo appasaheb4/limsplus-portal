@@ -860,42 +860,6 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               ),
             },
             {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <AutoCompleteCompanyList
-              //       isLabel={false}
-              //       hasError={false}
-              //       onSelect={companyCode => {
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem({ companyCode }, row._id);
-              //       }}
-              //     />
-              //   </>
-              // ),
-            },
-            {
               dataField: 'status',
               text: 'Status',
               headerClasses: 'textHeader1',
@@ -970,7 +934,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
-                  ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')
+                  ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -983,7 +947,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {dayjs(row.dateCreation || 0).format('DD-MM-YYYY hh:mm:ss')}
+                    {dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')}
                   </>
                 );
               },
@@ -1001,7 +965,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
-                  ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')
+                  ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: customFilter({
                 getFilter: filter => {
@@ -1014,7 +978,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {dayjs(row.dateExpire || 0).format('DD-MM-YYYY hh:mm:ss')}
+                    {dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')}
                   </>
                 );
               },
@@ -1073,6 +1037,42 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
               editable: false,
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <AutoCompleteCompanyList
+              //       isLabel={false}
+              //       hasError={false}
+              //       onSelect={companyCode => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem({ companyCode }, row._id);
+              //       }}
+              //     />
+              //   </>
+              // ),
             },
             {
               dataField: 'environment',

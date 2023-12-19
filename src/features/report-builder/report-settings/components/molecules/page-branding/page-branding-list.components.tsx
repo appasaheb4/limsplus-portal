@@ -783,13 +783,6 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                 );
               },
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              editable: false,
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
-            },
 
             {
               dataField: 'pageNumber.pageNumberCSS',
@@ -823,7 +816,20 @@ export const PageBrandingList = observer((props: PageBrandingProps) => {
                 </>
               ),
             },
-
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              editable: false,
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
+            {
+              text: 'Environment',
+              dataField: 'environment',
+              editable: false,
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+            },
             {
               dataField: 'operation',
               text: 'Action',
