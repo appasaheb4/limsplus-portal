@@ -109,6 +109,8 @@ export const Login = observer(() => {
         },
       })
         .then(res => {
+          console.log({ res });
+
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0);
             if (!res.login.data.user.passChanged) {
@@ -363,7 +365,6 @@ export const Login = observer(() => {
                                         });
                                         // labStore.fetchListLab();
                                         // roleStore.fetchListRole();
-
                                         setlabRoleList({
                                           labList: await getLabList(
                                             user?.userModule,
@@ -608,11 +609,9 @@ export const Login = observer(() => {
               ...body,
               exipreDate,
             };
-          
 
             userStore.UsersService.changePassword({ input: { ...body } }).then(
               res => {
-               
                 if (res.userChnagePassword.success) {
                   loginStore.updateLogin({
                     ...loginStore.login,

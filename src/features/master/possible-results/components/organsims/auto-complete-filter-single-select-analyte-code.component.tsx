@@ -51,7 +51,7 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
         .findByFields({ input: { filter: { resultType: 'D' } } })
         .then(res => {
           if (!res.findByFieldsAnalyteMaster.success)
-            return alert(res.findByFieldsAnalyteMaster.message);
+            return console.log(res.findByFieldsAnalyteMaster.message);
           setOptions(
             _.uniqBy(res.findByFieldsAnalyteMaster.data, 'analyteCode'),
           );

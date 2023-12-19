@@ -422,7 +422,7 @@ const Dashboard = ({ children }) => {
         }
       })
       .catch(() => {
-        alert('Your session not timeout. Please try agian.');
+        alert('Your session not timeout. Please try again.');
       });
   };
 
