@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import { Badge } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { Icons, AutocompleteGroupBy } from '@/library/components';
+import { Icons, AutocompleteSearchGroupBy } from '@/library/components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -175,7 +175,7 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
               />
             </a>
             <div className='p-2'>
-              <AutocompleteGroupBy
+              <AutocompleteSearchGroupBy
                 data={stores.routerStore.userRouter}
                 onChange={async (item: any, children: any) => {
                   const { permission, selectedComp } =

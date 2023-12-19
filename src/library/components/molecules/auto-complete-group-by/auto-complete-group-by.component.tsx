@@ -19,30 +19,6 @@ export const AutocompleteGroupBy = observer(
     const [data, setData] = useState<any[]>();
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
-    const [selectedIndex, setSelectedIndex] = useState<number>(-1);
-    const [highlightedIndex, setHighlightedIndex] = useState<number | null>(
-      null,
-    );
-    const [selectedChild, setSelectedChild] = useState(null);
-
-    const listRef = useRef<any>(null);
-    useEffect(() => {
-      setHighlightedIndex(selectedIndex);
-    }, [selectedIndex]);
-    useEffect(() => {
-      // Scroll the selected item into view when selectedIndex changes
-      if (listRef.current && selectedIndex >= 0) {
-        const selectedElement = listRef.current.querySelector(
-          `.highlighted-${selectedIndex}`,
-        );
-        if (selectedElement) {
-          selectedElement.scrollIntoView({
-            behavior: 'auto',
-            block: 'nearest',
-          });
-        }
-      }
-    }, [selectedIndex]);
 
     const useOutsideAlerter = ref => {
       useEffect(() => {
@@ -57,7 +33,6 @@ export const AutocompleteGroupBy = observer(
           ) {
             setIsListOpen(false);
             setValue('');
-            setSelectedIndex(-1);
           }
         }
         // Bind the event listener
@@ -134,83 +109,6 @@ export const AutocompleteGroupBy = observer(
         const search = e.target.value;
         filter(search, data);
       }
-
-      // Handle up arrow key
-      if (charCode === 38) {
-        e.preventDefault();
-        setSelectedIndex(prevIndex =>
-          prevIndex > 0 ? prevIndex - 1 : options!['children']!?.length * 2 - 1,
-        );
-      } else if (charCode === 40) {
-        // Handle down arrow key
-        e.preventDefault();
-        setSelectedIndex(prevIndex => {
-          const totalItems = options!.reduce(
-            (count, option) => count + 1 + (option.children?.length || 0),
-            0,
-          );
-
-          let nextIndex = prevIndex + 1;
-
-          while (
-            nextIndex < totalItems &&
-            options![Math.floor(nextIndex / 2)]?.children?.length === 0
-          ) {
-            nextIndex++;
-          }
-
-          // If nextIndex is a valid index, return it
-          if (nextIndex < totalItems) {
-            return nextIndex;
-          }
-
-          // If nextIndex is out of bounds, loop back to the first valid index
-          let firstValidIndex = 0;
-          while (
-            firstValidIndex < totalItems &&
-            options![Math.floor(firstValidIndex / 2)]?.children?.length === 0
-          ) {
-            firstValidIndex++;
-          }
-
-          // If the current index is at the end of a top-level item, jump to the next top-level item
-          if (
-            prevIndex % 2 === 0 &&
-            options![Math.floor(prevIndex / 2)]?.children?.length === 0
-          ) {
-            let nextTopLevelIndex = prevIndex + 1;
-            while (
-              nextTopLevelIndex < totalItems &&
-              options![Math.floor(nextTopLevelIndex / 2)]?.children?.length ===
-                0
-            ) {
-              nextTopLevelIndex++;
-            }
-
-            // If the next top-level index is within bounds, return it
-            if (nextTopLevelIndex < totalItems) {
-              return nextTopLevelIndex;
-            }
-
-            // If the next top-level index is out of bounds, loop back to the first valid index
-            return firstValidIndex < totalItems ? firstValidIndex : 0;
-          }
-
-          return firstValidIndex < totalItems ? firstValidIndex : 0;
-        });
-      }
-    };
-
-    const calculateTotalIndex = (currentIndex, options) => {
-      let totalIndex = 0;
-
-      for (let i = 0; i < currentIndex; i++) {
-        totalIndex += 1; // Count the top-level item
-        const childrenCount = options[i]?.children?.length || 0;
-        totalIndex += childrenCount; // Count the children of the top-level item
-      }
-
-      return totalIndex;
     };
 
     return (
@@ -232,19 +130,34 @@ export const AutocompleteGroupBy = observer(
                 if (e.key === 'Enter') {
                   e.preventDefault();
 
-                  const selectedOption =
-                    options![Math.floor(highlightedIndex! / 2)];
-                  const selectedChildIndex = highlightedIndex! - selectedIndex;
-                  const selectedChild =
-                    selectedOption?.children?.[selectedChildIndex];
-                  console.log(selectedOption, selectedChild);
-                  if (selectedOption && selectedChild) {
-                    props.onChange &&
-                      props.onChange(selectedOption, selectedChild);
-                    setIsListOpen(false);
-                    setValue(selectedChild.title);
-                    setOptions([]);
+                  // Find the selected item and children
+                  let selectedItem = null;
+                  let selectedChildren = null;
+
+                  for (const item of options!) {
+                    for (const children of item.children) {
+                      if (
+                        children.title.toLowerCase() === value.toLowerCase() ||
+                        item.title.toLowerCase() === value.toLowerCase()
+                      ) {
+                        selectedItem = item;
+                        selectedChildren = children;
+                        break;
+                      }
+                    }
+                    if (selectedItem) {
+                      break;
+                    }
                   }
+
+                  // Call props.onChange with the selected item and children
+                  if (props.onChange && selectedItem && selectedChildren) {
+                    props.onChange(selectedItem, selectedChildren);
+                  }
+
+                  setIsListOpen(false);
+                  setValue(value); // Set the value to what the user entered
+                  setOptions([]);
                 }
               }}
             />
@@ -256,68 +169,38 @@ export const AutocompleteGroupBy = observer(
           </div>
 
           {options && isListOpen
-            ? options.length > 0 && (
-                <div
-                  className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200 w-100'
-                  ref={listRef}
-                >
+            ? options?.length > 0 && (
+                <div className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200 w-100'>
                   <ul className='p-2 rounded-sm'>
                     <PerfectScrollbar>
                       <div
                         className=''
                         style={{ height: 'auto', maxHeight: '350px' }}
                       >
-                        {options?.map((item, index) => {
-                          const totalIndex = calculateTotalIndex(
-                            index,
-                            options,
-                          );
-
-                          return (
-                            <React.Fragment key={index}>
-                              <li className='text-gray-400'>{item.title}</li>
-                              <ul className='ml-4'>
-                                {item.children.map(
-                                  (children, childrenIndex) => {
-                                    const childIndex =
-                                      totalIndex + childrenIndex;
-                                    const isHighlighted =
-                                      highlightedIndex === childIndex;
-                                    const isItemSelected =
-                                      selectedIndex === childIndex;
-
-                                    return (
-                                      <li
-                                        key={childrenIndex}
-                                        className={`hover:bg-gray-200 focus:outline-none cursor-pointer ${
-                                          isHighlighted
-                                            ? `bg-gray-300 highlighted-${highlightedIndex}`
-                                            : ''
-                                        } ${
-                                          isItemSelected
-                                            ? `bg-gray-300 highlighted-${selectedIndex}`
-                                            : ''
-                                        }`}
-                                        onMouseEnter={() =>
-                                          setHighlightedIndex(childIndex)
-                                        }
-                                        onClick={async () => {
-                                          props.onChange &&
-                                            props.onChange(item, children);
-                                          setIsListOpen(false);
-                                          setValue(children.title);
-                                          setOptions([]);
-                                        }}
-                                      >
-                                        {children.title}
-                                      </li>
-                                    );
-                                  },
-                                )}
-                              </ul>
-                            </React.Fragment>
-                          );
-                        })}
+                        {options?.map((item, index) => (
+                          <>
+                            <li key={index} className='text-gray-400'>
+                              {item.title}
+                            </li>
+                            <ul className='ml-4'>
+                              {item.children.map((children, childrenIndex) => (
+                                <li
+                                  key={childrenIndex}
+                                  className='hover:bg-gray-200 focus:outline-none cursor-pointer'
+                                  onClick={async () => {
+                                    props.onChange &&
+                                      props.onChange(item, children);
+                                    setIsListOpen(false);
+                                    setValue(children.title);
+                                    setOptions([]);
+                                  }}
+                                >
+                                  {children.title}
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        ))}
                       </div>
                     </PerfectScrollbar>
                   </ul>
