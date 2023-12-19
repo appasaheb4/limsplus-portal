@@ -50,8 +50,9 @@ const Company = CompanyHoc(
       setValue('dateExpire', companyStore.company?.dateExpire);
       setValue('dateActive', companyStore.company?.dateActive);
       setValue('dateCreation', companyStore.company?.dateCreation);
-      // setValue('environment', companyStore.company?.environment);
+      setValue('supportPlan', companyStore.company?.supportPlan);
       setValue('status', companyStore.company?.status);
+      setValue('environment', companyStore.company?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [companyStore.company]);
 
@@ -137,7 +138,7 @@ const Company = CompanyHoc(
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && length == 0) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -217,6 +218,7 @@ const Company = CompanyHoc(
           >
             <ManualImportTabs
               isImport={isImport}
+              isImportDisable={true}
               onClick={flag => {
                 setIsImport(flag);
               }}
@@ -233,7 +235,7 @@ const Company = CompanyHoc(
                         hasError={!!errors.code}
                         value={value}
                         onChange={code => {
-                          onChange(code);
+                          onChange(code?.toUpperCase());
                           companyStore.updateCompany({
                             ...companyStore.company,
                             code: code?.toUpperCase(),
@@ -241,10 +243,13 @@ const Company = CompanyHoc(
                         }}
                         onBlur={async code => {
                           if (code) {
-                            await checkExistsRecords({
-                              ...companyStore.company,
-                              code: code?.toUpperCase(),
-                            });
+                            await checkExistsRecords(
+                              {
+                                ...companyStore.company,
+                                code: code?.toUpperCase(),
+                              },
+                              1,
+                            );
                           }
                         }}
                       />
@@ -262,7 +267,7 @@ const Company = CompanyHoc(
                         hasError={!!errors.name}
                         value={value}
                         onChange={name => {
-                          onChange(name);
+                          onChange(name?.toUpperCase());
                           companyStore.updateCompany({
                             ...companyStore.company,
                             name: name?.toUpperCase(),
@@ -270,10 +275,13 @@ const Company = CompanyHoc(
                         }}
                         onBlur={async name => {
                           if (name) {
-                            await checkExistsRecords({
-                              ...companyStore.company,
-                              name: name?.toUpperCase(),
-                            });
+                            await checkExistsRecords(
+                              {
+                                ...companyStore.company,
+                                name: name?.toUpperCase(),
+                              },
+                              1,
+                            );
                           }
                         }}
                       />
@@ -282,7 +290,6 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -340,10 +347,10 @@ const Company = CompanyHoc(
                         hasError={!!errors.lab}
                         value={value}
                         onChange={lab => {
-                          onChange(lab);
+                          onChange(lab?.toUpperCase());
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            lab,
+                            lab: lab?.toUpperCase(),
                           });
                         }}
                       />
@@ -352,7 +359,7 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.InputWrapper label='Allowed Lab'>
@@ -476,8 +483,7 @@ const Company = CompanyHoc(
                     name='allowedInstrument'
                     rules={{ required: false }}
                     defaultValue=''
-                  />
-
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -491,10 +497,10 @@ const Company = CompanyHoc(
                         hasError={!!errors.department}
                         value={value}
                         onChange={department => {
-                          onChange(department);
+                          onChange(department?.toUpperCase());
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            department,
+                            department: department?.toUpperCase(),
                           });
                         }}
                       />
@@ -503,7 +509,6 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -516,12 +521,12 @@ const Company = CompanyHoc(
                             : 'Allowed User'
                         }
                         hasError={!!errors.allowedUser}
-                        value={value}
+                        value={value?.toString()}
                         onChange={allowedUser => {
                           onChange(allowedUser);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            allowedUser,
+                            allowedUser: Number.parseInt(allowedUser),
                           });
                         }}
                       />
@@ -542,16 +547,16 @@ const Company = CompanyHoc(
                         hasError={!!errors.admin}
                         value={value}
                         onChange={admin => {
-                          onChange(admin);
+                          onChange(admin?.toUpperCase());
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            admin,
+                            admin: admin?.toUpperCase(),
                           });
                         }}
                       />
                     )}
                     name='admin'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
@@ -575,7 +580,7 @@ const Company = CompanyHoc(
                       />
                     )}
                     name='password'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
 
@@ -1178,7 +1183,7 @@ const Company = CompanyHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option selected>{value || 'Select'}</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'SUPPORT_PLAN',
@@ -1238,20 +1243,32 @@ const Company = CompanyHoc(
                         label='Environment'
                         hasError={!!errors.environment}
                       >
-                        <MultiSelect
-                          hasError={!!errors.environment}
-                          options={lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map(item => item.code)}
-                          onSelect={environment => {
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.environment
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const environment = e.target.value;
                             onChange(environment);
                             companyStore.updateCompany({
                               ...companyStore.company,
-                              environment,
+                              environment: [environment],
                             });
                           }}
-                        />
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'ENVIRONMENT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
                       </Form.InputWrapper>
                     )}
                     name='environment'

@@ -1749,6 +1749,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
+                    minDate={new Date()}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&
