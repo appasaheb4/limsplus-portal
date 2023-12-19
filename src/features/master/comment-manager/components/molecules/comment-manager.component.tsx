@@ -1035,6 +1035,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
+                    minDate={new Date()}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

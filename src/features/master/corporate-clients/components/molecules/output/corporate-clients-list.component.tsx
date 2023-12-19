@@ -1527,6 +1527,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                     isSingleDatePicker: true,
                     isDateTimePicker: false,
                   }}
+                  minDate={new Date()}
                   onUpdate={dateExpire => {
                     setModalDetails({ visible: false });
                     props.onSingleDirectUpdateField &&
