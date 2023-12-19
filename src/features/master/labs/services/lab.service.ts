@@ -27,8 +27,6 @@ import {
 export class LabService {
   listLabs = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      // const role = stores.loginStore.login && stores.loginStore.login.role;
-      // const lab = stores.loginStore.login && stores.loginStore.login.lab;
       client
         .mutate({
           mutation: LABS_LIST,

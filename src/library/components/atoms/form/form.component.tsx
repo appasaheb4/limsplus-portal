@@ -395,6 +395,8 @@ interface InputDateProps extends InputWrapperProps {
   format?: string;
   use12Hours?: boolean;
   isCalenderOpen?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
   onChange?: (e: any) => void;
   onCalendarToggle?: (status: boolean) => void;
   onFocusRemove?: (date: any) => void;
@@ -444,6 +446,8 @@ export const InputDateTime = ({
   onFocusRemove,
   isCalenderOpen = false,
   onCalendarToggle,
+  minDate,
+  maxDate,
 }: InputDateProps) => {
   const [date, setDate] = useState(value);
 
@@ -474,6 +478,8 @@ export const InputDateTime = ({
             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
               hasError ? 'border-red ' : 'border-gray-300'
             } rounded-md relative z-2`}
+            minDate={minDate}
+            maxDate={maxDate}
           />
         ) : (
           <DateTimePicker
@@ -497,6 +503,8 @@ export const InputDateTime = ({
               hasError ? 'border-red ' : 'border-gray-300'
             } rounded-md relative z-2`}
             calendarClassName='h-96 z-50 absolute'
+            minDate={minDate}
+            maxDate={maxDate}
           />
         )}
       </div>
@@ -520,6 +528,8 @@ export const DatePicker = ({
   onFocusRemove,
   onCalendarToggle,
   isCalenderOpen = false,
+  maxDate,
+  minDate,
 }: InputDateProps) => {
   const [date, setDate] = useState(value);
   return (
@@ -550,6 +560,8 @@ export const DatePicker = ({
           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm  sm:text-base border-2 ${
             hasError ? 'border-red ' : 'border-gray-300'
           } rounded-md relative z-2`}
+          minDate={minDate}
+          maxDate={maxDate}
         />
       </div>
     </InputWrapper>

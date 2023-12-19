@@ -43,7 +43,7 @@ export class BannerStore {
   }
 
   updateBannerList(res: any) {
-    if (!res.banners.success) return alert(res.banners.message);
+    if (!res.banners.success) return console.log(res.banners.message);
     this.listBanner = res.banners.data;
     this.listBannerCount = res.banners.paginatorInfo.count;
   }
@@ -58,7 +58,8 @@ export class BannerStore {
   }
 
   updateListAllBanner(res: any) {
-    if (!res.bannersListAll.success) return alert(res.bannersListAll.message);
+    if (!res.bannersListAll.success)
+      return console.log(res.bannersListAll.message);
     this.listAllBanner = res.bannersListAll.data;
   }
 

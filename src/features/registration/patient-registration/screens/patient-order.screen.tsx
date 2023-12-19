@@ -445,6 +445,7 @@ export const PatientOrder = PatientOrderHoc(
                           masterPanelStore.updatePanelMasterList(
                             masterPanelStore.listMasterPanelCopy,
                           );
+
                           //get packages list
                           if (panels?.length > 0)
                             patientOrderStore.patientOrderService.getPackageList(
@@ -514,50 +515,7 @@ export const PatientOrder = PatientOrderHoc(
                   }
                 />
               </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                {/* <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          patientOrderStore.updatePatientOrder({
-                            ...patientOrderStore.patientOrder,
-                            environment,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'PATIENT ORDER - ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{ required: true }}
-                  defaultValue=''
-                /> */}
-              </List>
+              <List direction='col' space={4} justify='stretch' fill></List>
             </Grid>
             <div
               className='rounded-lg shadow-xl overflow-scroll mt-2'
