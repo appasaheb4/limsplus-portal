@@ -589,6 +589,7 @@ export const LibraryList = (props: LibraryListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
+                    minDate={new Date()}
                     onUpdate={dateExpire => {
                       setDateExpiryModal({ visible: false });
                       props.onSingleDirectUpdateField &&
