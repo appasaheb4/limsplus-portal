@@ -33,6 +33,7 @@ export * from './molecules/auto-complete-filter-multi-select-multi-fields-displa
 export * from './molecules/auto-complete-filter-single-select/auto-complete-filter-single-select.component';
 export * from './molecules/auto-complete-filter-single-select-multi-fields-display/auto-complete-filter-single-select-multi-fields-display.component';
 export * from './molecules/auto-complete-group-by/auto-complete-group-by.component';
+export * from './molecules/auto-complete-search-group-by/autocomplete-complete-search-group-by.component';
 export * from './molecules/auto-complete-group-by-check/auto-complete-group-by-check.component';
 export * from './molecules/modal/modal-change-password/modal-change-password.component';
 export * from './molecules/modal/modal-change-password-by-admin/modal-change-password-by-admin.component';
