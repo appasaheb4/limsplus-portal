@@ -345,8 +345,9 @@ export const Login = observer(() => {
                                             userModuleCategory =
                                               res.lookupItemsByPathNField.data[0]?.arrValue.find(
                                                 item =>
-                                                  item.code == user?.userModule,
-                                              ).value;
+                                                  item.code?.toUpperCase() ==
+                                                  user?.userModule?.toUpperCase(),
+                                              )?.value;
                                           } else {
                                             alert(
                                               'User module not found in lookup',
