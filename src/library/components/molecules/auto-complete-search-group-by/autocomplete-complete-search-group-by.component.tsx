@@ -28,6 +28,7 @@ export const AutocompleteSearchGroupBy = observer(
     useEffect(() => {
       setHighlightedIndex(selectedIndex);
     }, [selectedIndex]);
+    
     useEffect(() => {
       // Scroll the selected item into view when selectedIndex changes
       if (listRef.current && selectedIndex >= 0) {
