@@ -57,7 +57,7 @@ const Company = CompanyHoc(
     }, [companyStore.company]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isHideView, setIsHideView] = useState<boolean>(false);
+    const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
