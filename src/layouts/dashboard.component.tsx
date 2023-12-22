@@ -447,7 +447,9 @@ const Dashboard = ({ children }) => {
         {...modalIdleTime}
         onClick={() => {
           history.push('/');
-          sessionStorage.removeItem('session');
+          localStorage.clear();
+          sessionStorage.clear();
+          stores.routerStore.updateUserRouter(undefined);
         }}
       />
     </React.Fragment>

@@ -48,9 +48,7 @@ const Role = RolesHoc(
     const onSubmitRoles = () => {
       if (!roleStore.checkExitsCode) {
         roleStore.RoleService.addrole({
-          input: isImport
-            ? { isImport, arrImportRecords }
-            : { isImport, ...roleStore.role },
+          input: { ...roleStore.role },
         }).then(res => {
           if (res.createRole.success) {
             Toast.success({
@@ -66,30 +64,6 @@ const Role = RolesHoc(
           message: '😔 Please enter all information!',
         });
       }
-    };
-    const handleFileUpload = (file: any) => {
-      const reader = new FileReader();
-      reader.addEventListener('load', (evt: any) => {
-        /* Parse data */
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: 'binary' });
-        /* Get first worksheet */
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
-        const list = data.map((item: any) => {
-          return {
-            code: item?.Code,
-            description: item.Description,
-            environment: item?.Environment,
-            companyCode: item['Company Code'],
-            status: 'D',
-          };
-        });
-        setArrImportRecords(list);
-      });
-      reader.readAsBinaryString(file);
     };
 
     const checkExistsRecords = async (
@@ -253,66 +227,6 @@ const Role = RolesHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                {/* <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          roleStore.updateRole({
-                            ...roleStore.role,
-                            environment,
-                          });
-                          roleStore.RoleService.checkExitsEnvCode({
-                            input: {
-                              code: roleStore.role?.code,
-                              env: environment,
-                            },
-                          }).then(res => {
-                            if (res.checkRoleExistsEnvCode.success) {
-                              roleStore.setExitsCode(true);
-                              Toast.error({
-                                message: `😔 ${res.checkRoleExistsEnvCode.message}`,
-                              });
-                            } else roleStore.setExitsCode(false);
-                          });
-                        }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : roleStore.role?.environment || 'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{ required: true }}
-                  defaultValue=''
-                /> */}
               </List>
             </Grid>
             <br />

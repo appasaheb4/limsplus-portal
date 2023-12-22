@@ -27,6 +27,7 @@ export class CompanyStore {
   reset() {
     this.company = new Company({
       ...this.company,
+      allowedUser: 1,
       version: 1,
       dateCreation: new Date(),
       dateActive: new Date(),

@@ -286,7 +286,9 @@ const NavbarComponent = observer(({ dispatch }) => {
                           message: `😊 ${res.logout.message}`,
                         });
                         history.push('/');
-                        sessionStorage.removeItem('session');
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        stores.routerStore.updateUserRouter(undefined);
                       }
                     })
                     .catch(() => {

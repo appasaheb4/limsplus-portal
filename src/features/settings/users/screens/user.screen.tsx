@@ -864,7 +864,7 @@ export const Users = UsersHoc(
                       </Form.InputWrapper>
                     )}
                     name='deginisation'
-                    rules={{ required: true }}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
