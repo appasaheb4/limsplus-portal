@@ -19,6 +19,9 @@ let code;
 let name;
 let description;
 let moduleInfo;
+let lab;
+let department;
+let allowedUser;
 let admin;
 let password;
 let postalCode;
@@ -48,6 +51,7 @@ let dateExpire;
 let enteredBy;
 let version;
 let status;
+let supportPlan;
 let environment;
 
 interface CompanyListProps {
@@ -150,13 +154,76 @@ export const CompanyList = (props: CompanyListProps) => {
           headerStyle: {
             fontSize: 0,
           },
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
               moduleInfo = filter;
             },
           }),
+          formatter: (cellContent, row) => (
+            <>
+              <ul style={{ listStyle: 'inside' }}>
+                {row?.module?.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </>
+          ),
+        },
+        {
+          dataField: 'lab',
+          text: 'Lab',
+          sort: true,
+          headerClasses: 'textHeader',
+          headerStyle: {
+            fontSize: 0,
+          },
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          sortCaret: (order, column) => sortCaret(order, column),
+          filter: textFilter({
+            getFilter: filter => {
+              lab = filter;
+            },
+          }),
+        },
+        {
+          dataField: 'department',
+          text: 'Department',
+          sort: true,
+          headerClasses: 'textHeader',
+          headerStyle: {
+            fontSize: 0,
+          },
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          sortCaret: (order, column) => sortCaret(order, column),
+          filter: textFilter({
+            getFilter: filter => {
+              department = filter;
+            },
+          }),
+        },
+        {
+          dataField: 'allowedUser',
+          text: 'Allowed User',
+          sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          //editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
+          csvFormatter: col => (col ? col : ''),
+          filter: customFilter({
+            getFilter: filter => {
+              allowedUser = filter;
+            },
+          }),
+          filterRenderer: (onFilter, column) => (
+            <NumberFilter onFilter={onFilter} column={column} />
+          ),
+          headerClasses: 'textHeader7',
         },
         {
           dataField: 'admin',
@@ -501,26 +568,6 @@ export const CompanyList = (props: CompanyListProps) => {
               </>
             );
           },
-          // editorRenderer: (
-          //   editorProps,
-          //   value,
-          //   row,
-          //   column,
-          //   rowIndex,
-          //   columnIndex,
-          // ) => (
-          //   <>
-          //     <Form.InputFile
-          //       label='File'
-          //       placeholder='File'
-          //       onChange={e => {
-          //         const image = e.target.files[0];
-          //         props.onUpdateImage &&
-          //           props.onUpdateImage(image, column.dataField, row._id);
-          //       }}
-          //     />
-          //   </>
-          // ),
         },
         {
           dataField: 'fyiLine',
@@ -698,6 +745,22 @@ export const CompanyList = (props: CompanyListProps) => {
               version = filter;
             },
           }),
+        },
+        {
+          dataField: 'supportPlan',
+          text: 'Support Plan',
+          sort: true,
+          headerClasses: 'textHeader',
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          filter: textFilter({
+            getFilter: filter => {
+              supportPlan = filter;
+            },
+          }),
+          editable: false,
         },
         {
           dataField: 'status',

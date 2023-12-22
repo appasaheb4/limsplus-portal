@@ -116,10 +116,6 @@ const RoleMapping = observer(() => {
         )}
         onDelete={selectedUser => setModalConfirm(selectedUser)}
         onDuplicate={async (selectedItem: any) => {
-          console.log({
-            code: selectedItem?.code,
-            router: selectedItem?.router,
-          });
           if (selectedItem?.code !== 'SYSADMIN') {
             const routers: any = selectedItem?.router?.filter((item: any) => {
               const children = item.children?.filter(childrenItem => {

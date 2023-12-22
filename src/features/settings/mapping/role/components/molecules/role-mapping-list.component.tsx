@@ -194,82 +194,91 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               text: 'Delete',
               editable: false,
               csvExport: false,
+              hidden: props?.totalSize === 1 ? true : false,
               formatter: (cellContent, row) => (
                 <>
-                  <Tooltip tooltipText='Edit'>
-                    <Buttons.Button
-                      key={row?._id}
-                      size='small'
-                      type='outline'
-                      onClick={() => {
-                        const roleRouter =
-                          row?.router?.length > 0 ? row?.router : [];
-                        router = router?.filter((routerItem, indexRouter) => {
-                          if (routerItem.name !== 'Dashboard') {
-                            return roleRouter?.filter((item, index) => {
-                              if (routerItem.name === item.name) {
-                                return routerItem.children.filter(
-                                  (childrenItem, indexChildren) => {
-                                    const itemChildren = item.children;
-                                    for (const children of itemChildren) {
-                                      if (childrenItem.name == children.name) {
-                                        router[indexRouter].children[
-                                          indexChildren
-                                        ] = children;
-                                        router[indexRouter].title = item.title;
-                                      }
-                                    }
-                                  },
-                                );
-                              } else {
-                                return routerItem;
-                              }
-                            });
-                          }
-                        });
-                        //stores.routerStore.updateRouter(router);
-                        props.onDuplicate &&
-                          props.onDuplicate({
-                            router,
-                            id: row._id,
-                            description: row.role.description,
-                            code: row.role.code,
-                          });
-                      }}
-                    >
-                      <Icons.EvaIcon
-                        icon='edit-outline'
-                        size='medium'
-                        color='#fff'
-                      />
-                    </Buttons.Button>
-                  </Tooltip>
-
-                  {props?.isDelete && (
+                  {row.role?.code !== 'ONBOARDING' && (
                     <>
-                      <br />
-                      <Tooltip tooltipText='Delete'>
+                      <Tooltip tooltipText='Edit'>
                         <Buttons.Button
+                          key={row?._id}
                           size='small'
                           type='outline'
                           onClick={() => {
-                            props.onDelete &&
-                              props.onDelete({
-                                type: 'Delete',
-                                show: true,
-                                id: [row._id],
-                                title: 'Are you sure?',
-                                body: 'Delete this role mapping!',
+                            const roleRouter =
+                              row?.router?.length > 0 ? row?.router : [];
+                            router = router?.filter(
+                              (routerItem, indexRouter) => {
+                                if (routerItem.name !== 'Dashboard') {
+                                  return roleRouter?.filter((item, index) => {
+                                    if (routerItem.name === item.name) {
+                                      return routerItem.children.filter(
+                                        (childrenItem, indexChildren) => {
+                                          const itemChildren = item.children;
+                                          for (const children of itemChildren) {
+                                            if (
+                                              childrenItem.name == children.name
+                                            ) {
+                                              router[indexRouter].children[
+                                                indexChildren
+                                              ] = children;
+                                              router[indexRouter].title =
+                                                item.title;
+                                            }
+                                          }
+                                        },
+                                      );
+                                    } else {
+                                      return routerItem;
+                                    }
+                                  });
+                                }
+                              },
+                            );
+                            //stores.routerStore.updateRouter(router);
+                            props.onDuplicate &&
+                              props.onDuplicate({
+                                router,
+                                id: row._id,
+                                description: row.role.description,
+                                code: row.role.code,
                               });
                           }}
                         >
                           <Icons.EvaIcon
-                            icon='trash-2-outline'
+                            icon='edit-outline'
                             size='medium'
                             color='#fff'
                           />
                         </Buttons.Button>
                       </Tooltip>
+                      {props?.isDelete && (
+                        <>
+                          <br />
+                          <Tooltip tooltipText='Delete'>
+                            <Buttons.Button
+                              size='small'
+                              type='outline'
+                              onClick={() => {
+                                props.onDelete &&
+                                  props.onDelete({
+                                    type: 'Delete',
+                                    show: true,
+                                    id: [row._id],
+                                    title: 'Are you sure?',
+                                    body: 'Delete this role mapping!',
+                                  });
+                              }}
+                            >
+                              <Icons.EvaIcon
+                                icon='trash-2-outline'
+                                size='medium'
+                                color='#fff'
+                              />
+                            </Buttons.Button>
+                          </Tooltip>
+                        </>
+                      )}
                     </>
                   )}
                 </>

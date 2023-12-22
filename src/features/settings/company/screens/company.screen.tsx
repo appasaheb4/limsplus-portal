@@ -50,6 +50,7 @@ const Company = CompanyHoc(
       setValue('dateExpire', companyStore.company?.dateExpire);
       setValue('dateActive', companyStore.company?.dateActive);
       setValue('dateCreation', companyStore.company?.dateCreation);
+      setValue('allowedUser', companyStore.company?.allowedUser);
       setValue('supportPlan', companyStore.company?.supportPlan);
       setValue('status', companyStore.company?.status);
       setValue('environment', companyStore.company?.environment);
@@ -827,7 +828,7 @@ const Company = CompanyHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
-                        label='Web'
+                        label='Web Link'
                         placeholder={errors.web ? 'Please enter web' : 'Web'}
                         hasError={!!errors.web}
                         value={value}
@@ -849,7 +850,7 @@ const Company = CompanyHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
-                        label='Web Portal'
+                        label='Web Portal Link'
                         placeholder={
                           errors.webPortal
                             ? 'Please enter web portal'
@@ -867,7 +868,7 @@ const Company = CompanyHoc(
                       />
                     )}
                     name='webPortal'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

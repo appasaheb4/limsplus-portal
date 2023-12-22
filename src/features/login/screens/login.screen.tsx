@@ -109,8 +109,6 @@ export const Login = observer(() => {
         },
       })
         .then(res => {
-          console.log({ res });
-
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0);
             if (!res.login.data.user.passChanged) {
@@ -279,18 +277,18 @@ export const Login = observer(() => {
               <div className='flex flex-col'>
                 <div className='flex justify-center items-end'>
                   <div
-                    className='flex flex-col mt-2 rounded-3xl bg-[#F3F6FF] shadow-inner'
+                    className='flex flex-col mt-2 rounded-3xl bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'
                     style={{ width: '350px' }}
                   >
                     <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
                       Sign In
                     </span>
                     {loginStore.inputLogin?.userModule && (
-                      <span className='text-center font-bold text-xl text-black mt-2 ml-4 underline font-dancingScriptBold'>
+                      <span className='text-center font-bold text-md text-black mt-2 ml-4'>
                         {loginStore.inputLogin?.userModule}
                       </span>
                     )}
-                    <div className='rounded-2xl bg-white p-4 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'>
+                    <div className='rounded-2xl  p-4 '>
                       <List direction='col' space={4} justify='stretch' fill>
                         <Controller
                           control={control}
@@ -525,7 +523,7 @@ export const Login = observer(() => {
                     </div>
                   </div>
                 </div>
-                <div className='mt-4'>
+                <div className='mt-4 hidden'>
                   <span className='underline font-bold'>Quick Access :</span>
                   <a
                     href='#'

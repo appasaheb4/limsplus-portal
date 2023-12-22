@@ -14,6 +14,9 @@ export const COMPANY_LIST = gql`
         name
         description
         module
+        lab
+        department
+        allowedUser
         admin
         password
         postalCode
@@ -41,6 +44,7 @@ export const COMPANY_LIST = gql`
         dateActive
         dateExpire
         enteredBy
+        supportPlan
         status
         environment
         dateOfEntry
@@ -100,6 +104,9 @@ export const FILTER = gql`
         name
         description
         module
+        lab
+        department
+        allowedUser
         admin
         password
         postalCode
@@ -127,6 +134,7 @@ export const FILTER = gql`
         dateActive
         dateExpire
         enteredBy
+        supportPlan
         status
         environment
         dateOfEntry
@@ -150,6 +158,9 @@ export const FILTER_BY_FIELDS = gql`
         name
         description
         module
+        lab
+        department
+        allowedUser
         admin
         password
         postalCode
@@ -177,6 +188,7 @@ export const FILTER_BY_FIELDS = gql`
         dateActive
         dateExpire
         enteredBy
+        supportPlan
         status
         environment
         dateOfEntry
@@ -197,6 +209,9 @@ export const FIND_BY_FIELDS = gql`
         name
         description
         module
+        lab
+        department
+        allowedUser
         admin
         password
         postalCode
@@ -224,6 +239,7 @@ export const FIND_BY_FIELDS = gql`
         dateActive
         dateExpire
         enteredBy
+        supportPlan
         status
         environment
         dateOfEntry

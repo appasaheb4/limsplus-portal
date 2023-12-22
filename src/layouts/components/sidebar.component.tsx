@@ -308,5 +308,3 @@ export default withRouter(
     app: store.app,
   }))(Sidebar),
 );
-
-// export default Sidebar;

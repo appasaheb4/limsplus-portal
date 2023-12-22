@@ -140,7 +140,9 @@ const Default = observer(() => {
                     });
                     if (res.logout.success) {
                       history.push('/');
-                      sessionStorage.removeItem('session');
+                      localStorage.clear();
+                      sessionStorage.clear();
+                      stores.routerStore.updateUserRouter(undefined);
                     }
                   })
                   .catch(() => {
