@@ -427,7 +427,7 @@ export const PatientOrder = PatientOrderHoc(
                         onUpdate={item => {
                           const panels =
                             patientOrderStore.selectedItems?.panels;
-                          onChange(panels);
+                          onChange(panels[0]?.panelCode);
                           patientOrderStore.updatePatientOrder({
                             ...patientOrderStore.patientOrder,
                             panelCode: _.map(panels, o =>
@@ -445,7 +445,6 @@ export const PatientOrder = PatientOrderHoc(
                           masterPanelStore.updatePanelMasterList(
                             masterPanelStore.listMasterPanelCopy,
                           );
-
                           //get packages list
                           if (panels?.length > 0)
                             patientOrderStore.patientOrderService.getPackageList(

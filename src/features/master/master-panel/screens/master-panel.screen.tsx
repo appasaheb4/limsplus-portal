@@ -598,7 +598,10 @@ const MasterPanel = MasterPanelHoc(
                           hasError={!!errors.department}
                         >
                           <AutoCompleteFilterSingleSelectDepartment
-                            lab={masterPanelStore.masterPanel?.pLab}
+                            lab={
+                              masterPanelStore.masterPanel?.pLab ||
+                              loginStore.login?.lab
+                            }
                             hasError={!!errors.department}
                             displayValue={value}
                             disable={isVersionUpgrade}
@@ -627,7 +630,7 @@ const MasterPanel = MasterPanelHoc(
                       )}
                       name='department'
                       rules={{ required: true }}
-                      defaultValue=''
+                      defaultValue={masterPanelStore.masterPanel?.pLab}
                     />
 
                     {masterPanelStore.sectionListByDeptCode && (
@@ -949,13 +952,12 @@ const MasterPanel = MasterPanelHoc(
                           label='Schedule'
                           hasError={!!errors.schedule}
                         >
-                          <AutoCompleteFilterSingleSelect
+                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code'
                             data={{
                               list: deliveryScheduleStore.listDeliverySchedule,
-                              displayKey: 'schCode',
-                              findKey: 'schCode',
+                              displayKey: ['schCode'],
                             }}
                             hasError={!!errors.schedule}
                             onFilter={(value: string) => {
@@ -1587,7 +1589,7 @@ const MasterPanel = MasterPanelHoc(
                         </Form.InputWrapper>
                       )}
                       name='reportTemplate'
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller

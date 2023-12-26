@@ -69,15 +69,6 @@ export class LoginStore {
           },
         }).then(async res => {
           if (res.logout.success) {
-            // await Storage.removeItem('__persist_mobx_stores_loginStore__');
-            // await Storage.removeItem('__persist_mobx_stores_routerStore__');
-            // await Storage.removeItem(
-            //   '__persist_mobx_stores_routerStore_SelectedCategory__',
-            // );
-            // await Storage.removeItem(
-            //   '__persist_mobx_stores_patientRegistrationStore__',
-            // );
-            //Session.deleteSession();
             resolve(res);
           } else {
             alert(res.logout.message);

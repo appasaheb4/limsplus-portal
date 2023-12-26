@@ -18,10 +18,7 @@ import {
   ImportFile,
 } from '@/library/components';
 import { DoctorsList } from '../components';
-import {
-  AutoCompleteCompanyList,
-  AutoCompleteFilterDeliveryMode,
-} from '@/core-components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { dayjs, lookupItems, lookupValue, toTitleCase } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { DoctorsHoc } from '../hoc';
@@ -56,6 +53,7 @@ const Doctors = DoctorsHoc(
       setValue('status', doctorsStore.doctors?.status);
       // setValue('environment', doctorsStore.doctors?.environment);
       setValue('title', doctorsStore.doctors?.title);
+      setValue('reportName', doctorsStore.doctors?.reportName);
       setValue('doctorType', doctorsStore.doctors?.doctorType);
       setValue('speciality', doctorsStore.doctors?.speciality);
       setValue('category', doctorsStore.doctors?.category);
@@ -566,13 +564,12 @@ const Doctors = DoctorsHoc(
                             ...doctorsStore.doctors,
                             reportName: reportName,
                           });
-                          setValue('reportName', doctorsStore.doctors?.title);
                         }}
                       />
                     )}
                     name='reportName'
                     rules={{ required: false }}
-                    defaultValue=''
+                    defaultValue={doctorsStore.doctors.reportName}
                   />
                   <Controller
                     control={control}
@@ -1271,7 +1268,7 @@ const Doctors = DoctorsHoc(
                       </Form.InputWrapper>
                     )}
                     name='lab'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller

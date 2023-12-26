@@ -28,7 +28,6 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetPriceList } from '../startup';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 export const PriceList = PriceListHoc(
   observer(() => {
@@ -594,7 +593,7 @@ export const PriceList = PriceListHoc(
                             } rounded-md`}
                             onChange={e => {
                               const priceList = JSON.parse(e.target.value);
-                              onChange(priceList);
+                              onChange(priceList?.code);
                               priceListStore.updatePriceList({
                                 ...priceListStore.priceList,
                                 priceList: priceList?.code,

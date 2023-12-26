@@ -725,7 +725,6 @@ interface ClockProps extends InputWrapperProps {
 export const Clock = (props: ClockProps) => {
   const [time, setTime] = useState(props.value || dayjs().format('hh:mm a'));
   const [showTime, setShowTime] = useState(false);
-
   return (
     <InputWrapper label={props.label} id={props.id}>
       <div>

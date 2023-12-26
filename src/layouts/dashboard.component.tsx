@@ -446,10 +446,19 @@ const Dashboard = ({ children }) => {
       <ModalIdleTimeout
         {...modalIdleTime}
         onClick={() => {
-          history.push('/');
-          localStorage.clear();
-          sessionStorage.clear();
-          stores.routerStore.updateUserRouter(undefined);
+          stores.loginStore
+            .removeUser()
+            .then(res => {
+              if (res.logout.success) {
+                history.push('/');
+                localStorage.clear();
+                sessionStorage.clear();
+                stores.routerStore.updateUserRouter(undefined);
+              }
+            })
+            .catch(() => {
+              alert('Please try again');
+            });
         }}
       />
     </React.Fragment>

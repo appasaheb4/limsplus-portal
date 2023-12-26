@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Container} from 'reactstrap';
+import React, { useEffect } from 'react';
+import { Container } from 'reactstrap';
 import TimeKeeper from 'react-timekeeper';
 
 interface ModalProps {
@@ -14,6 +14,7 @@ interface ModalProps {
 
 export const ModalClock = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show);
+
   useEffect(() => {
     setShowModal(props.show);
   }, [props]);
@@ -30,6 +31,7 @@ export const ModalClock = (props: ModalProps) => {
                   <div className='relative p-2 flex-auto'>
                     <TimeKeeper
                       time={props.time}
+                      hour24Mode={true}
                       onChange={newTime => {
                         props.onClick(newTime.formatted12);
                       }}
