@@ -19,7 +19,7 @@ import {
   ImportFile,
 } from '@/library/components';
 import { Table } from 'reactstrap';
-import { lookupItems, lookupValue } from '@/library/utils';
+import { lookupItems } from '@/library/utils';
 import { TestAnalyteMappingList } from '../components';
 import { useForm, Controller } from 'react-hook-form';
 import { AutoCompleteFilterSingleSelectTestName } from '../components';
@@ -37,7 +37,6 @@ import { resetTestAnalyteMapping } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -57,7 +56,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       setValue,
       reset,
     } = useForm();
-
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setInputView] = useState<boolean>(false);
     const [txtDisable, setTxtDisable] = useState(true);
@@ -114,6 +112,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               input: isImport
                 ? { isImport, arrImportRecords }
                 : {
+                    isImport,
                     arrImportRecords,
                     ...testAnalyteMappingStore.testAnalyteMapping,
                     enteredBy: loginStore.login.userId,
@@ -188,6 +187,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         });
       }
     };
+
     const onUpdateSingleField = payload => {
       testAnalyteMappingStore.testAnalyteMappingService
         .updateSingleFiled({

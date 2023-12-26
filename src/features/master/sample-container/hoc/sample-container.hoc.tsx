@@ -11,17 +11,8 @@ export const SampleContainerHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       sampleContainerStore.updateSampleContainer({
         ...sampleContainerStore.sampleContainer,
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT',
-        // ),
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
-        sampleContainerStore.updateSampleContainer({
-          ...sampleContainerStore.sampleContainer,
-          environment: loginStore.login.environment,
-        });
-      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
 

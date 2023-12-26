@@ -826,40 +826,46 @@ export const TablePackagesList = observer(
                   />
                 </td>
                 <td>
-                  <Form.InputDateTime
-                    label=''
-                    disabled={true}
-                    style={{ width: 300 }}
-                    placeholder='Due Date'
-                    value={dayjs(item?.dueDate).toDate()}
-                    onChange={dueDate => {
-                      const pacakgeListN =
-                        patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, { dueDate });
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListN,
-                      });
-                    }}
-                  />
+                  {item?.dueDate && (
+                    <Form.InputDateTime
+                      label=''
+                      disabled={true}
+                      style={{ width: 300 }}
+                      placeholder='Due Date'
+                      value={dayjs(item?.dueDate).toDate()}
+                      onChange={dueDate => {
+                        const pacakgeListN =
+                          patientOrderStore.packageList.pacakgeListN;
+                        pacakgeListN[index] = Object.assign(item, { dueDate });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListN,
+                        });
+                      }}
+                    />
+                  )}
                 </td>
                 <td>
-                  <Form.InputDateTime
-                    label=''
-                    disabled={true}
-                    style={{ width: 300 }}
-                    placeholder='Result Date'
-                    value={dayjs(item?.resultDate).toDate()}
-                    onChange={resultDate => {
-                      const pacakgeListN =
-                        patientOrderStore.packageList.pacakgeListN;
-                      pacakgeListN[index] = Object.assign(item, { resultDate });
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListN,
-                      });
-                    }}
-                  />
+                  {item?.resultDate && (
+                    <Form.InputDateTime
+                      label=''
+                      disabled={true}
+                      style={{ width: 300 }}
+                      placeholder='Result Date'
+                      value={dayjs(item?.resultDate).toDate()}
+                      onChange={resultDate => {
+                        const pacakgeListN =
+                          patientOrderStore.packageList.pacakgeListN;
+                        pacakgeListN[index] = Object.assign(item, {
+                          resultDate,
+                        });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListN,
+                        });
+                      }}
+                    />
+                  )}
                 </td>
                 <td>
                   <select

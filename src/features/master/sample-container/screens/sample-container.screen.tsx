@@ -46,11 +46,6 @@ const SampleContainer = SampleContainerHoc(
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
-      // Default value initialization
-      // setValue(
-      //   'environment',
-      //   sampleContainerStore.sampleContainer?.environment,
-      // );
       setValue('status', sampleContainerStore.sampleContainer?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sampleContainerStore.sampleContainer]);
@@ -152,6 +147,7 @@ const SampleContainer = SampleContainerHoc(
           } else return false;
         });
     };
+
     return (
       <>
         <Header>
@@ -277,7 +273,7 @@ const SampleContainer = SampleContainerHoc(
                       />
                     )}
                     name='image'
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
@@ -309,24 +305,6 @@ const SampleContainer = SampleContainerHoc(
                 </List>
 
                 <List direction='col' space={4} justify='stretch' fill>
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          sampleContainerStore.updateSampleContainer({
-                            ...sampleContainerStore.sampleContainer,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -364,77 +342,6 @@ const SampleContainer = SampleContainerHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            sampleContainerStore.updateSampleContainer({
-                              ...sampleContainerStore.sampleContainer,
-                              environment,
-                            });
-                            sampleContainerStore.sampleContainerService
-                              .checkExitsEnvCode({
-                                input: {
-                                  code: sampleContainerStore.sampleContainer
-                                    ?.containerCode,
-                                  env: environment,
-                                },
-                              })
-                              .then(res => {
-                                if (
-                                  res.checkSampleContainersExistsRecord.success
-                                ) {
-                                  sampleContainerStore.updateExitsEnvCode(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkSampleContainersExistsRecord.message}`,
-                                  });
-                                } else
-                                  sampleContainerStore.updateExitsEnvCode(
-                                    false,
-                                  );
-                              });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : sampleContainerStore.sampleContainer
-                                  ?.environment || 'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (
