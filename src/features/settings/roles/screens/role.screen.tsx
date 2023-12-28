@@ -143,7 +143,6 @@ const Role = RolesHoc(
                         roleStore.RoleService.checkExitsEnvCode({
                           input: {
                             code,
-                            env: roleStore.role?.environment,
                           },
                         }).then(res => {
                           if (res.checkRoleExistsEnvCode.success) {

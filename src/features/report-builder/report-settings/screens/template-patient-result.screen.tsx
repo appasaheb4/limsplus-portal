@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Buttons,
@@ -17,23 +17,24 @@ import {
   EndOfPageComponents,
   EndOfReportComponents,
 } from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
+import { useStores } from '@/stores';
 
 import '@/library/assets/css/accordion.css';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
-import {resetReportBody} from '../startup';
-import {SelectedItemsTemplatePatientResult} from '../models/template-patient-result.model';
+import { resetReportBody } from '../startup';
+import { SelectedItemsTemplatePatientResult } from '../models/template-patient-result.model';
 
 export const TemplatePatientResult = observer(() => {
-  const {loading, routerStore, reportSettingStore, libraryStore} = useStores();
+  const { loading, routerStore, reportSettingStore, libraryStore } =
+    useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -42,7 +43,7 @@ export const TemplatePatientResult = observer(() => {
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
-  const [isInputView, setIsInputView] = useState<boolean>(true);
+  const [isInputView, setIsInputView] = useState<boolean>(false);
   const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
   const onSave = () => {
@@ -52,7 +53,7 @@ export const TemplatePatientResult = observer(() => {
       });
     reportSettingStore.templatePatientResultService
       .addTemplatePatientResult({
-        input: {...reportSettingStore.templatePatientResult},
+        input: { ...reportSettingStore.templatePatientResult },
       })
       .then(res => {
         if (res.createTemplatePatientResult.success) {
@@ -89,8 +90,8 @@ export const TemplatePatientResult = observer(() => {
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
-          style={{bottom: 50}}
-          show={isInputView}
+          style={{ bottom: 50 }}
+          show={!isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
       )}
@@ -104,7 +105,7 @@ export const TemplatePatientResult = observer(() => {
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
                     label='Report Template Type'
                     hasError={!!errors.reportTemplateType}
@@ -139,9 +140,11 @@ export const TemplatePatientResult = observer(() => {
                           })
                           .then(res => {
                             if (res.findByFieldsTemplatePatientResult.success) {
-                              setError('reportTemplateType', {type: 'onBlur'});
-                              setError('templateCode', {type: 'onBlur'});
-                              setError('templateTitle', {type: 'onBlur'});
+                              setError('reportTemplateType', {
+                                type: 'onBlur',
+                              });
+                              setError('templateCode', { type: 'onBlur' });
+                              setError('templateTitle', { type: 'onBlur' });
                               Toast.error({
                                 message: '😔 Already exists record.',
                               });
@@ -167,12 +170,12 @@ export const TemplatePatientResult = observer(() => {
                   </Form.InputWrapper>
                 )}
                 name='reportTemplateType'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
                     label='Report Body'
                     hasError={!!errors.reportBody}
@@ -194,12 +197,12 @@ export const TemplatePatientResult = observer(() => {
                   </Form.InputWrapper>
                 )}
                 name='reportBody'
-                rules={{required: false}}
+                rules={{ required: false }}
                 defaultValue={reportSettingStore.reportBodyList}
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.Input
                     label='Template Code'
                     placeholder='Template Code'
@@ -229,9 +232,9 @@ export const TemplatePatientResult = observer(() => {
                         })
                         .then(res => {
                           if (res.findByFieldsTemplatePatientResult.success) {
-                            setError('reportTemplateType', {type: 'onBlur'});
-                            setError('templateCode', {type: 'onBlur'});
-                            setError('templateTitle', {type: 'onBlur'});
+                            setError('reportTemplateType', { type: 'onBlur' });
+                            setError('templateCode', { type: 'onBlur' });
+                            setError('templateTitle', { type: 'onBlur' });
                             Toast.error({
                               message: '😔 Already exists record.',
                             });
@@ -247,12 +250,12 @@ export const TemplatePatientResult = observer(() => {
                   />
                 )}
                 name='templateCode'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.Input
                     label='Template Title'
                     placeholder='Template Title'
@@ -282,9 +285,9 @@ export const TemplatePatientResult = observer(() => {
                         })
                         .then(res => {
                           if (res.findByFieldsTemplatePatientResult.success) {
-                            setError('reportTemplateType', {type: 'onBlur'});
-                            setError('templateCode', {type: 'onBlur'});
-                            setError('templateTitle', {type: 'onBlur'});
+                            setError('reportTemplateType', { type: 'onBlur' });
+                            setError('templateCode', { type: 'onBlur' });
+                            setError('templateTitle', { type: 'onBlur' });
                             Toast.error({
                               message: '😔 Already exists record.',
                             });
@@ -300,12 +303,12 @@ export const TemplatePatientResult = observer(() => {
                   />
                 )}
                 name='templateTitle'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.Input
                     label='Report Order'
                     type='number'
@@ -326,7 +329,7 @@ export const TemplatePatientResult = observer(() => {
                   />
                 )}
                 name='reportOrder'
-                rules={{required: false}}
+                rules={{ required: false }}
                 defaultValue=''
               />
             </List>
@@ -334,7 +337,7 @@ export const TemplatePatientResult = observer(() => {
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
                     label='End Of Page'
                     hasError={!!errors.endOfPage}
@@ -350,7 +353,7 @@ export const TemplatePatientResult = observer(() => {
                   </Form.InputWrapper>
                 )}
                 name='endOfPage'
-                rules={{required: false}}
+                rules={{ required: false }}
                 defaultValue={
                   libraryStore.listLibrary ||
                   reportSettingStore.selectedItemTemplatePatientResult
@@ -359,7 +362,7 @@ export const TemplatePatientResult = observer(() => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.InputWrapper
                     label='End Of Report'
                     hasError={!!errors.endOfReport}
@@ -375,7 +378,7 @@ export const TemplatePatientResult = observer(() => {
                   </Form.InputWrapper>
                 )}
                 name='endOfReport'
-                rules={{required: false}}
+                rules={{ required: false }}
                 defaultValue={
                   libraryStore.listLibrary ||
                   reportSettingStore.selectedItemTemplatePatientResult
@@ -433,7 +436,7 @@ export const TemplatePatientResult = observer(() => {
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update item!',
             });
@@ -464,14 +467,14 @@ export const TemplatePatientResult = observer(() => {
             case 'delete': {
               reportSettingStore.templatePatientResultService
                 .removeTemplatePatientResult({
-                  input: {id: modalConfirm.id},
+                  input: { id: modalConfirm.id },
                 })
                 .then((res: any) => {
                   if (res.removeTemplatePatientResult.success) {
                     Toast.success({
                       message: `😊 ${res.removeTemplatePatientResult.message}`,
                     });
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     reportSettingStore.templatePatientResultService.listTemplatePatientResult();
                   }
                 });
@@ -486,7 +489,7 @@ export const TemplatePatientResult = observer(() => {
                   },
                 })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.updateTemplatePatientResult.success) {
                     Toast.success({
                       message: `😊 ${res.updateTemplatePatientResult.message}`,
@@ -498,11 +501,11 @@ export const TemplatePatientResult = observer(() => {
             }
           }
         }}
-        onClose={() => setModalConfirm({show: false})}
+        onClose={() => setModalConfirm({ show: false })}
       />
       <ModalView
         {...modalView}
-        onClose={() => setModalView({visible: false})}
+        onClose={() => setModalView({ visible: false })}
       />
     </>
   );

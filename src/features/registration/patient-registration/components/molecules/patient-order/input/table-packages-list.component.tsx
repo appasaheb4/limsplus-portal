@@ -333,22 +333,24 @@ export const TablePackagesList = observer(
                   />
                 </td>
                 <td>
-                  <Form.InputDateTime
-                    label=''
-                    disabled={true}
-                    style={{ width: 300 }}
-                    placeholder='Due Date'
-                    value={item.dueDate}
-                    onChange={dueDate => {
-                      const pacakgeListS =
-                        patientOrderStore.packageList.pacakgeListS;
-                      pacakgeListS[index] = Object.assign(item, { dueDate });
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListS,
-                      });
-                    }}
-                  />
+                  {item?.dueDate && (
+                    <Form.InputDateTime
+                      label=''
+                      disabled={true}
+                      style={{ width: 300 }}
+                      placeholder='Due Date'
+                      value={item.dueDate}
+                      onChange={dueDate => {
+                        const pacakgeListS =
+                          patientOrderStore.packageList.pacakgeListS;
+                        pacakgeListS[index] = Object.assign(item, { dueDate });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListS,
+                        });
+                      }}
+                    />
+                  )}
                 </td>
                 <td>
                   <Form.InputDateTime
@@ -583,22 +585,24 @@ export const TablePackagesList = observer(
                   />
                 </td>
                 <td>
-                  <Form.InputDateTime
-                    label=''
-                    disabled={true}
-                    style={{ width: 300 }}
-                    placeholder='Due Date'
-                    value={item.dueDate}
-                    onChange={dueDate => {
-                      const pacakgeListM =
-                        patientOrderStore.packageList.pacakgeListM;
-                      pacakgeListM[index] = Object.assign(item, { dueDate });
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListM,
-                      });
-                    }}
-                  />
+                  {item?.dueDate && (
+                    <Form.InputDateTime
+                      label=''
+                      disabled={true}
+                      style={{ width: 300 }}
+                      placeholder='Due Date'
+                      value={item.dueDate}
+                      onChange={dueDate => {
+                        const pacakgeListM =
+                          patientOrderStore.packageList.pacakgeListM;
+                        pacakgeListM[index] = Object.assign(item, { dueDate });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListM,
+                        });
+                      }}
+                    />
+                  )}
                 </td>
                 <td>
                   <Form.InputDateTime
@@ -1075,22 +1079,24 @@ export const TablePackagesList = observer(
                   />
                 </td>
                 <td>
-                  <Form.InputDateTime
-                    label=''
-                    disabled={true}
-                    style={{ width: 300 }}
-                    placeholder='Due Date'
-                    value={item.dueDate}
-                    onChange={dueDate => {
-                      const pacakgeListK =
-                        patientOrderStore.packageList.pacakgeListK;
-                      pacakgeListK[index] = Object.assign(item, { dueDate });
-                      patientOrderStore.updatePackageList({
-                        ...patientOrderStore.packageList,
-                        pacakgeListK,
-                      });
-                    }}
-                  />
+                  {item?.dueDate && (
+                    <Form.InputDateTime
+                      label=''
+                      disabled={true}
+                      style={{ width: 300 }}
+                      placeholder='Due Date'
+                      value={item.dueDate}
+                      onChange={dueDate => {
+                        const pacakgeListK =
+                          patientOrderStore.packageList.pacakgeListK;
+                        pacakgeListK[index] = Object.assign(item, { dueDate });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListK,
+                        });
+                      }}
+                    />
+                  )}
                 </td>
                 <td>
                   <Form.InputDateTime

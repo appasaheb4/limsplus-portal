@@ -273,7 +273,7 @@ const SampleContainer = SampleContainerHoc(
                       />
                     )}
                     name='image'
-                    rules={{ required: true }}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
