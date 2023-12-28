@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Buttons,
@@ -11,7 +11,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import {PDFViewer, Document} from '@react-pdf/renderer';
+import { PDFViewer, Document } from '@react-pdf/renderer';
 import {
   PageBrandingList,
   PageBrandingHeader,
@@ -20,28 +20,28 @@ import {
   PageNumber,
   AutoCompleteLayoutCode,
 } from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
-import {useStores} from '@/stores';
-import {PageBranding as PageBrandingModel} from '../models';
+import { useForm, Controller } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
+import { useStores } from '@/stores';
+import { PageBranding as PageBrandingModel } from '../models';
 
-import {Accordion, AccordionItem} from 'react-sanfona';
+import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
-import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
-import {resetReportBody} from '../startup';
+import { PdfPBTemp0001 } from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
+import { resetReportBody } from '../startup';
 const width = '100%';
 const height = window.innerHeight / 1.3;
 
 export const PageBranding = observer(() => {
-  const {loading, routerStore, reportSettingStore} = useStores();
+  const { loading, routerStore, reportSettingStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -99,7 +99,7 @@ export const PageBranding = observer(() => {
     if (tempCode)
       return (
         <PDFViewer
-          style={{width: '100%', height: '100%'}}
+          style={{ width: '100%', height: '100%' }}
           showToolbar={reportSettingStore.pageLayout?.isToolbar}
         >
           <Document title='Page Branding'>
@@ -123,11 +123,11 @@ export const PageBranding = observer(() => {
 
   const getAccordionItem = (pageBranding: PageBrandingModel) => {
     const accordionItem: Array<any> = [];
-    if (pageBranding.isHeader) accordionItem.push({title: 'Header'});
-    if (pageBranding.isSubHeader) accordionItem.push({title: 'Sub Header'});
-    if (pageBranding.isFooter) accordionItem.push({title: 'Footer'});
+    if (pageBranding.isHeader) accordionItem.push({ title: 'Header' });
+    if (pageBranding.isSubHeader) accordionItem.push({ title: 'Sub Header' });
+    if (pageBranding.isFooter) accordionItem.push({ title: 'Footer' });
     if (pageBranding.isPdfPageNumber)
-      accordionItem.push({title: 'Page Number'});
+      accordionItem.push({ title: 'Page Number' });
     return accordionItem;
   };
 
@@ -135,8 +135,8 @@ export const PageBranding = observer(() => {
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
-          style={{bottom: 50}}
-          show={isInputView}
+          style={{ bottom: 50 }}
+          show={!isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
       )}
@@ -150,7 +150,7 @@ export const PageBranding = observer(() => {
             <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <AutoCompleteLayoutCode
                     displayValue={value ?? ''}
                     hasError={!!errors.layoutCode}
@@ -164,12 +164,12 @@ export const PageBranding = observer(() => {
                   />
                 )}
                 name='layoutCode'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue={reportSettingStore.pageLayoutList}
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.Input
                     label='Branding Code'
                     placeholder='Branding Code'
@@ -193,7 +193,7 @@ export const PageBranding = observer(() => {
                         })
                         .then(res => {
                           if (res.findByFieldsPageBranding.success) {
-                            setError('tempCode', {type: 'onBlur'});
+                            setError('tempCode', { type: 'onBlur' });
                             Toast.error({
                               message:
                                 '😔 Already exists temp code. Please select diff.',
@@ -208,12 +208,12 @@ export const PageBranding = observer(() => {
                   />
                 )}
                 name='brandingCode'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <Form.Input
                     label='Branding Title'
                     placeholder='Branding Title'
@@ -256,14 +256,14 @@ export const PageBranding = observer(() => {
                   />
                 )}
                 name='brandingTitle'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
 
               <Grid cols={4}>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Toggle
                       label='Header Visible'
                       hasError={!!errors.headerVisible}
@@ -278,12 +278,12 @@ export const PageBranding = observer(() => {
                     />
                   )}
                   name='headerVisible'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Toggle
                       label='Sub Header Visible'
                       hasError={!!errors.subHeaderVisible}
@@ -298,12 +298,12 @@ export const PageBranding = observer(() => {
                     />
                   )}
                   name='subHeaderVisible'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Toggle
                       label='Footer Visible'
                       hasError={!!errors.footerVisible}
@@ -318,12 +318,12 @@ export const PageBranding = observer(() => {
                     />
                   )}
                   name='footerVisible'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Toggle
                       label='Page Number'
                       hasError={!!errors.pageNumber}
@@ -338,7 +338,7 @@ export const PageBranding = observer(() => {
                     />
                   )}
                   name='pageNumber'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
               </Grid>
@@ -399,7 +399,7 @@ export const PageBranding = observer(() => {
         </div>
         <div
           className='rounded-lg shadow-xl overflow-auto p-2'
-          style={{overflowX: 'scroll'}}
+          style={{ overflowX: 'scroll' }}
         >
           <PageBrandingList
             data={reportSettingStore.pageBrandingList}
@@ -426,7 +426,7 @@ export const PageBranding = observer(() => {
               setModalConfirm({
                 show: true,
                 type: 'update',
-                data: {fields, id},
+                data: { fields, id },
                 title: 'Are you sure?',
                 body: 'Update banner!',
               });
@@ -475,14 +475,14 @@ export const PageBranding = observer(() => {
             case 'delete': {
               reportSettingStore.pageBrandingService
                 .removePageBranding({
-                  input: {id: modalConfirm.id},
+                  input: { id: modalConfirm.id },
                 })
                 .then((res: any) => {
                   if (res.removePageBranding.success) {
                     Toast.success({
                       message: `😊 ${res.removePageBranding.message}`,
                     });
-                    setModalConfirm({show: false});
+                    setModalConfirm({ show: false });
                     reportSettingStore.pageBrandingService.listPageBranding();
                   }
                 });
@@ -497,7 +497,7 @@ export const PageBranding = observer(() => {
                   },
                 })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.updatePageBranding.success) {
                     Toast.success({
                       message: `😊 ${res.updatePageBranding.message}`,
@@ -511,11 +511,11 @@ export const PageBranding = observer(() => {
             }
           }
         }}
-        onClose={() => setModalConfirm({show: false})}
+        onClose={() => setModalConfirm({ show: false })}
       />
       <ModalView
         {...modalView}
-        onClose={() => setModalView({visible: false})}
+        onClose={() => setModalView({ visible: false })}
       />
     </>
   );

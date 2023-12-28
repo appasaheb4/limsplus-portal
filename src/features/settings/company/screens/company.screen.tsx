@@ -58,29 +58,36 @@ const Company = CompanyHoc(
     }, [companyStore.company]);
 
     const [modalConfirm, setModalConfirm] = useState<any>();
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
     const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
     const onSubmit = async () => {
-      await companyStore.companyService
-        .add({
-          input: isImport
-            ? { isImport, arrImportRecords }
-            : { isImport, ...companyStore.company },
-        })
-        .then(res => {
-          if (res.createCompany.success) {
-            Toast.success({
-              message: `😊 ${res.createCompany.message}`,
-            });
-            setIsHideView(true);
-            reset();
-            resetCompany();
-            setArrImportRecords([]);
-            setIsImport(false);
-          }
+      if (isExistsRecord) {
+        await companyStore.companyService
+          .add({
+            input: isImport
+              ? { isImport, arrImportRecords }
+              : { isImport, ...companyStore.company },
+          })
+          .then(res => {
+            if (res.createCompany.success) {
+              Toast.success({
+                message: `😊 ${res.createCompany.message}`,
+              });
+              setIsHideView(true);
+              reset();
+              resetCompany();
+              setArrImportRecords([]);
+              setIsImport(false);
+            }
+          });
+      } else {
+        Toast.error({
+          message: '😔 Already some record exists.',
         });
+      }
     };
 
     const handleFileUpload = (file: any) => {
@@ -156,14 +163,17 @@ const Company = CompanyHoc(
         .then(res => {
           if (
             res.findByFieldsCompany?.success &&
-            res.findByFieldsCompany?.data?.length > length
+            res.findByFieldsCompany?.data?.length >= length
           ) {
-            //setIsExistsRecord(true);
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 

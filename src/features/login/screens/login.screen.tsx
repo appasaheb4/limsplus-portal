@@ -83,6 +83,8 @@ export const Login = observer(() => {
   }, [loginStore.login]);
 
   const onLogin = async (data: any) => {
+    console.log({ details: loginStore.inputLogin });
+
     const loginFailedCount = loginStore.loginFailedCount || 0;
     if (loginFailedCount > 4) {
       loginStore.LoginService.accountStatusUpdate({
@@ -324,7 +326,6 @@ export const Login = observer(() => {
                                         clearErrors('lab');
                                         if (user.role.length == 1)
                                           setValue('role', user.role[0].code);
-                                        clearErrors('role');
                                         let userModuleCategory;
                                         await lookupStore.LookupService.lookupItemsByPathNField(
                                           {

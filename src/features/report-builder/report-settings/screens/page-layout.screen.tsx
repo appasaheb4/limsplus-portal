@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
-import {PDFViewer, Document} from '@react-pdf/renderer';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
+import { PDFViewer, Document } from '@react-pdf/renderer';
 import {
   Toast,
   Buttons,
@@ -13,22 +13,22 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import {PageLayoutList} from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
-import {useStores} from '@/stores';
+import { PageLayoutList } from '../components';
+import { useForm, Controller } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
+import { useStores } from '@/stores';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 import '@/library/assets/css/accordion.css';
 
-import {PdfTSTemp0001} from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
-import {resetReportBody} from '../startup';
+import { PdfTSTemp0001 } from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
+import { resetReportBody } from '../startup';
 export const PageLayout = observer(() => {
-  const {loading, routerStore, reportSettingStore} = useStores();
+  const { loading, routerStore, reportSettingStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -49,7 +49,7 @@ export const PageLayout = observer(() => {
       });
     reportSettingStore.pageLayoutService
       .addTemplateSetting({
-        input: {...reportSettingStore.pageLayout},
+        input: { ...reportSettingStore.pageLayout },
       })
       .then(res => {
         if (res.createTemplateSetting.success) {
@@ -75,20 +75,24 @@ export const PageLayout = observer(() => {
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
-          style={{bottom: 40}}
+          style={{ bottom: 40 }}
           show={isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
       )}
       <div className='mx-auto flex-wrap'>
-        <div className={'p-2 rounded-lg shadow-xl '}>
+        <div
+          className={
+            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
+          }
+        >
           <Grid cols={2}>
             <List direction='col' space={4} justify='stretch' fill>
               <Grid cols={2}>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Layout Code'
                         placeholder='Layout code'
@@ -115,8 +119,8 @@ export const PageLayout = observer(() => {
                             })
                             .then(res => {
                               if (res.findByFieldsTemplateSetting.success) {
-                                setError('tempCode', {type: 'onBlur'});
-                                setError('tempName', {type: 'onBlur'});
+                                setError('tempCode', { type: 'onBlur' });
+                                setError('tempName', { type: 'onBlur' });
                                 Toast.error({
                                   message:
                                     '😔 Already exists temp code. Please enter diff.',
@@ -132,12 +136,12 @@ export const PageLayout = observer(() => {
                       />
                     )}
                     name='tempCode'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Layout Name'
                         placeholder='Layout Name'
@@ -164,8 +168,8 @@ export const PageLayout = observer(() => {
                             })
                             .then(res => {
                               if (res.findByFieldsTemplateSetting.success) {
-                                setError('tempCode', {type: 'onBlur'});
-                                setError('tempName', {type: 'onBlur'});
+                                setError('tempCode', { type: 'onBlur' });
+                                setError('tempName', { type: 'onBlur' });
                                 Toast.warning({
                                   message:
                                     '😔 Already exists temp code. Please enter diff.',
@@ -181,13 +185,13 @@ export const PageLayout = observer(() => {
                       />
                     )}
                     name='tempName'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                   <Grid cols={2}>
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Show tool bar'
                           hasError={!!errors.isToolBar}
@@ -202,12 +206,12 @@ export const PageLayout = observer(() => {
                         />
                       )}
                       name='isToolBar'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <Form.Toggle
                           label='Background Image Visible'
                           hasError={!!errors.isBackgroundImage}
@@ -222,13 +226,13 @@ export const PageLayout = observer(() => {
                         />
                       )}
                       name='isBackgroundImage'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </Grid>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputFile
                         label='Background Image'
                         placeholder='Background Image'
@@ -245,14 +249,14 @@ export const PageLayout = observer(() => {
                       />
                     )}
                     name='backgroundImage'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Page Size'
                         hasError={!!errors.pageSize}
@@ -333,15 +337,15 @@ export const PageLayout = observer(() => {
                       </Form.InputWrapper>
                     )}
                     name='pageSize'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
                         label='Main Box CSS'
-                        style={{color: '#ffffff', backgroundColor: '#000000'}}
+                        style={{ color: '#ffffff', backgroundColor: '#000000' }}
                         placeholder={
                           "Like fontSize: 12,backgroundColor:'#000000'"
                         }
@@ -356,7 +360,7 @@ export const PageLayout = observer(() => {
                       />
                     )}
                     name='mainBoxCSS'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <a
@@ -377,7 +381,7 @@ export const PageLayout = observer(() => {
             </List>
             <List direction='col' space={2} justify='stretch' fill>
               <PDFViewer
-                style={{width, height}}
+                style={{ width, height }}
                 showToolbar={reportSettingStore.pageLayout?.isToolbar}
               >
                 <Document title='Template Setting'>
@@ -445,7 +449,7 @@ export const PageLayout = observer(() => {
               setModalConfirm({
                 show: true,
                 type: 'update',
-                data: {fields, id},
+                data: { fields, id },
                 title: 'Are you sure?',
                 body: 'Update items!',
               });
@@ -463,7 +467,7 @@ export const PageLayout = observer(() => {
                 visible: true,
                 children: (
                   <PDFViewer
-                    style={{width, height}}
+                    style={{ width, height }}
                     showToolbar={item.isToolbar}
                   >
                     <Document title='Page Layout'>
@@ -492,10 +496,10 @@ export const PageLayout = observer(() => {
             case 'delete': {
               reportSettingStore.pageLayoutService
                 .removeTemplateSetting({
-                  input: {id: modalConfirm.id},
+                  input: { id: modalConfirm.id },
                 })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.removeTemplateSetting.success) {
                     Toast.success({
                       message: `😊 ${res.removeTemplateSetting.message}`,
@@ -514,7 +518,7 @@ export const PageLayout = observer(() => {
                   },
                 })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.updateTemplateSetting.success) {
                     Toast.success({
                       message: `😊 ${res.updateTemplateSetting.message}`,
@@ -529,11 +533,11 @@ export const PageLayout = observer(() => {
             }
           }
         }}
-        onClose={() => setModalConfirm({show: false})}
+        onClose={() => setModalConfirm({ show: false })}
       />
       <ModalView
         {...modalView}
-        onClose={() => setModalView({visible: false})}
+        onClose={() => setModalView({ visible: false })}
       />
     </>
   );
