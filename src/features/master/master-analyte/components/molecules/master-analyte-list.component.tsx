@@ -91,6 +91,9 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
 
   return (
     <>
@@ -1400,7 +1403,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
-                    minDate={new Date()}
+                    minDate={nextDay}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&
