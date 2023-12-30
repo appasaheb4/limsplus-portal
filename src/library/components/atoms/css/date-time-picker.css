@@ -16,12 +16,12 @@
   overflow: visible !important;
 }
 
-.react-calendar__tile--now {
-  background: #f0f0f0 !important;
-}
+/* .react-calendar__tile--now {
+  background: none !important;
+} */
 
 /* .react-calendar__tile--now:enabled:hover {
-  background: #fa463f !important
+  background: none !important
 } */
 
 .react-calendar__tile {
@@ -36,4 +36,8 @@
 .react-calendar__tile--active:enabled:hover{
   background-color: #fa463f !important;
   border-radius: 100%;
+}
+
+.react-calendar__tile:disabled{
+  background-color: f0f0f0 !important;
 }

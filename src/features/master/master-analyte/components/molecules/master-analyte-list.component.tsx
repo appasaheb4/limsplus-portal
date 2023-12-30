@@ -1402,6 +1402,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                       data: row.dateExpire,
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
+                      isDateExpire: true,
                     }}
                     minDate={nextDay}
                     onUpdate={dateExpire => {
