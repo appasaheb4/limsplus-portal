@@ -102,6 +102,9 @@ export const DoctorsList = (props: DoctorsListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
 
   return (
     <div style={{ position: 'relative' }}>
@@ -1206,7 +1209,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
           },
           {
             dataField: 'dateExpire',
-            text: 'Date Expire',
+            text: 'Date Expiry',
             headerClasses: 'textHeader11',
             sort: true,
             headerStyle: {
@@ -1246,7 +1249,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                     isSingleDatePicker: true,
                     isDateTimePicker: false,
                   }}
-                  minDate={new Date()}
+                  minDate={nextDay}
                   onUpdate={dateExpire => {
                     setModalDetails({ visible: false });
                     props.onSingleDirectUpdateField &&

@@ -1350,7 +1350,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateExpire',
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
-              text: 'Date Expire',
+              text: 'Date Expiry',
               headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
