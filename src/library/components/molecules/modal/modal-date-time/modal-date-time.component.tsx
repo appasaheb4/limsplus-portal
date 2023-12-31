@@ -19,7 +19,6 @@ type Props = {
   use12Hours?: boolean;
   minDate?: Date;
   maxDate?: Date;
-  isDateExpire?: boolean;
   onUpdate?: (birthDate: any) => void;
   onClose?: () => void;
 };
@@ -35,7 +34,6 @@ export const ModalDateTime: React.FC<Props> = ({
   use12Hours = false,
   minDate,
   maxDate,
-  isDateExpire = false,
 }) => {
   const { routerStore } = useStores();
   const [value, setValue] = useState<any>(data);
@@ -131,21 +129,7 @@ export const ModalDateTime: React.FC<Props> = ({
                           value={new Date(value)}
                           isCalenderOpen={isSingleDatePicker}
                           onChange={birthDate => {
-                            const selectedDate = new Date(birthDate);
-                            const todayDate = new Date();
-
-                            if (isDateExpire) {
-                              if (selectedDate > todayDate) {
-                                setValue(birthDate);
-                              } else {
-                                Toast.error({
-                                  message:
-                                    'Please select a date in the future.',
-                                });
-                              }
-                            } else {
-                              setValue(birthDate);
-                            }
+                            setValue(birthDate);
                           }}
                           onCalendarToggle={isOpen => {
                             setOpenCalender(prev => ({
