@@ -427,7 +427,7 @@ export const SalesTeam = SalesTeamHoc(
                           onChange(description);
                           salesTeamStore.updateSalesTeam({
                             ...salesTeamStore.salesTeam,
-                            description,
+                            description: description.toUpperCase(),
                           });
                         }}
                       />

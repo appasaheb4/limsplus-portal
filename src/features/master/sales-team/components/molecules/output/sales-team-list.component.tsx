@@ -175,6 +175,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            style: { textTransform: 'uppercase' },
             sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),

@@ -13,6 +13,7 @@ import {
   Icons,
   sortCaret,
   ModalDateTime,
+  Toast,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { FormHelper } from '@/helper';
@@ -257,22 +258,32 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                       isDateTimePicker: false,
                     }}
                     onUpdate={birthDate => {
-                      setModalDetails({ visible: false });
-                      if (
-                        dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
-                      ) {
-                        props.onDirectUpdateField &&
-                          props.onDirectUpdateField(row._id, {
-                            birthDate,
-                            isBirthdateAvailabe: true,
-                            age:
-                              getAgeByAgeObject(getDiffByDate(birthDate)).age ||
-                              0,
-                            ageUnit: getAgeByAgeObject(getDiffByDate(birthDate))
-                              .ageUnit,
-                          });
+                      const selectedBirthDate = new Date(birthDate);
+                      const currentDate = new Date();
+                      if (selectedBirthDate < currentDate) {
+                        setModalDetails({ visible: false });
+                        if (
+                          dayjs(new Date()).diff(dayjs(birthDate), 'hour') > 0
+                        ) {
+                          props.onDirectUpdateField &&
+                            props.onDirectUpdateField(row._id, {
+                              birthDate,
+                              isBirthdateAvailabe: true,
+                              age:
+                                getAgeByAgeObject(getDiffByDate(birthDate))
+                                  .age || 0,
+                              ageUnit: getAgeByAgeObject(
+                                getDiffByDate(birthDate),
+                              ).ageUnit,
+                            });
+                        } else {
+                          alert('Please select correct birth date!!');
+                        }
                       } else {
-                        alert('Please select correct birth date!!');
+                        Toast.error({
+                          message:
+                            'Birthdate should not be  grater then Curent Date',
+                        });
                       }
                     }}
                     onClose={() => {
@@ -484,6 +495,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   firstName = filter;
                 },
               }),
+              style: { textTransform: 'uppercase' },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               formatter: (cell, row) => {
@@ -504,6 +516,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              style: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 col
@@ -536,6 +549,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              style: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 col
