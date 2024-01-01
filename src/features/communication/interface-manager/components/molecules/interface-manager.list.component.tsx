@@ -115,6 +115,7 @@ export const InterfaceManagerList = observer(
             headerStyle: {
               fontSize: 0,
             },
+            style: { textTransform: 'uppercase' },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -159,6 +160,7 @@ export const InterfaceManagerList = observer(
             headerStyle: {
               fontSize: 0,
             },
+            style: { textTransform: 'uppercase' },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({

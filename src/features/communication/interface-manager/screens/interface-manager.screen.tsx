@@ -159,7 +159,7 @@ const InterfaceManager = InterfaceManagerHoc(
                         onChange(instrumentType);
                         interfaceManagerStore.updateInterfaceManager({
                           ...interfaceManagerStore.interfaceManager,
-                          instrumentType,
+                          instrumentType: instrumentType.toUpperCase(),
                         });
                       }}
                     />
@@ -184,7 +184,7 @@ const InterfaceManager = InterfaceManagerHoc(
                         onChange(instrumentName);
                         interfaceManagerStore.updateInterfaceManager({
                           ...interfaceManagerStore.interfaceManager,
-                          instrumentName,
+                          instrumentName: instrumentName.toUpperCase(),
                         });
                       }}
                     />

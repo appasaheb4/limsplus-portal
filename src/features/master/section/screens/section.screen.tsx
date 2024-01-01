@@ -347,7 +347,7 @@ const Section = SectionHoc(
                           onChange(name);
                           sectionStore.updateSection({
                             ...sectionStore.section,
-                            name,
+                            name: name.toUpperCase(),
                           });
                         }}
                       />

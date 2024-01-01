@@ -376,7 +376,6 @@ const Lab = LabHoc(
           },
         },
       }).then(res => {
-        console.log({ res });
         if (
           res.findByFieldsLabs?.success &&
           res.findByFieldsLabs.data?.length > length

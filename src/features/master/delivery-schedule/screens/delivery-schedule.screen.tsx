@@ -209,7 +209,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           onChange(schCode);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            schCode,
+                            schCode: schCode.toUpperCase(),
                           });
                         }}
                         onBlur={code => {
