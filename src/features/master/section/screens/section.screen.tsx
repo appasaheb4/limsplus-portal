@@ -298,11 +298,12 @@ const Section = SectionHoc(
                           !!errors.code ? 'Please Enter Code' : 'Code'
                         }
                         value={value}
-                        onChange={code => {
+                        onChange={codeValue => {
+                          const code = codeValue.toUpperCase();
                           onChange(code);
                           sectionStore.updateSection({
                             ...sectionStore.section,
-                            code: code.toUpperCase(),
+                            code,
                           });
                         }}
                         onBlur={code => {
@@ -343,11 +344,12 @@ const Section = SectionHoc(
                           !!errors.name ? 'Please Enter Name' : 'Name'
                         }
                         value={value}
-                        onChange={name => {
+                        onChange={sectionName => {
+                          const name = sectionName.toUpperCase();
                           onChange(name);
                           sectionStore.updateSection({
                             ...sectionStore.section,
-                            name: name.toUpperCase(),
+                            name,
                           });
                         }}
                       />

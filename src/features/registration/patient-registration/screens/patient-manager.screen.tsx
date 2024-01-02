@@ -558,11 +558,12 @@ export const PatientManager = PatientManagerHoc(
                       }
                       hasError={!!errors.firstName}
                       value={value}
-                      onChange={firstName => {
+                      onChange={firstNameValue => {
+                        const firstName = firstNameValue.toUpperCase();
                         onChange(firstName);
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
-                          firstName: firstName.toUpperCase(),
+                          firstName,
                         });
                       }}
                       onBlur={inFirstName => {
@@ -634,11 +635,12 @@ export const PatientManager = PatientManagerHoc(
                       }
                       hasError={!!errors.middleName}
                       value={value}
-                      onChange={middleName => {
+                      onChange={middleNameValue => {
+                        const middleName = middleNameValue.toUpperCase();
                         onChange(middleName);
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
-                          middleName: middleName.toUpperCase(),
+                          middleName,
                         });
                       }}
                     />
@@ -657,11 +659,12 @@ export const PatientManager = PatientManagerHoc(
                       }
                       hasError={!!errors.lastName}
                       value={value}
-                      onChange={lastName => {
+                      onChange={lastNameValue => {
+                        const lastName = lastNameValue.toUpperCase();
                         onChange(lastName);
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
-                          lastName: lastName.toUpperCase(),
+                          lastName,
                         });
                       }}
                       onBlur={lastName => {

@@ -188,11 +188,13 @@ const SampleContainer = SampleContainerHoc(
                             : 'Conatiner Code'
                         }
                         value={value}
-                        onChange={containerCode => {
+                        onChange={containerCodeValue => {
+                          const containerCode =
+                            containerCodeValue.toUpperCase();
                           onChange(containerCode);
                           sampleContainerStore.updateSampleContainer({
                             ...sampleContainerStore.sampleContainer,
-                            containerCode: containerCode.toUpperCase(),
+                            containerCode,
                           });
                         }}
                         onBlur={code => {
@@ -239,11 +241,13 @@ const SampleContainer = SampleContainerHoc(
                             : 'Container Name'
                         }
                         value={value}
-                        onChange={containerName => {
+                        onChange={containerNameValue => {
+                          const containerName =
+                            containerNameValue.toUpperCase();
                           onChange(containerName);
                           sampleContainerStore.updateSampleContainer({
                             ...sampleContainerStore.sampleContainer,
-                            containerName: containerName.toUpperCase(),
+                            containerName,
                           });
                         }}
                       />

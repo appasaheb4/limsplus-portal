@@ -205,11 +205,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         }
                         hasError={!!errors.schCode}
                         value={value}
-                        onChange={schCode => {
+                        onChange={schCodeValue => {
+                          const schCode = schCodeValue.toUpperCase();
                           onChange(schCode);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
-                            schCode: schCode.toUpperCase(),
+                            schCode,
                           });
                         }}
                         onBlur={code => {

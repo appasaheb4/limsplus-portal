@@ -423,11 +423,12 @@ export const SalesTeam = SalesTeamHoc(
                         placeholder='Description'
                         disabled={isVersionUpgrade}
                         value={value}
-                        onChange={description => {
+                        onChange={descriptionValue => {
+                          const description = descriptionValue.toUpperCase();
                           onChange(description);
                           salesTeamStore.updateSalesTeam({
                             ...salesTeamStore.salesTeam,
-                            description: description.toUpperCase(),
+                            description,
                           });
                         }}
                       />
