@@ -118,6 +118,7 @@ export const SectionList = (props: SectionListProps) => {
                 code = filter;
               },
             }),
+            editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             editable: false,
           },
@@ -136,6 +137,7 @@ export const SectionList = (props: SectionListProps) => {
                 name = filter;
               },
             }),
+            editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             editable: false,
           },

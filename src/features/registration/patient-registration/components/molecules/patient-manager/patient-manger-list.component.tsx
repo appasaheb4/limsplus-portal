@@ -483,6 +483,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editorStyle: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 col
@@ -495,6 +496,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   firstName = filter;
                 },
               }),
+
               style: { textTransform: 'uppercase' },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -516,6 +518,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editorStyle: { textTransform: 'uppercase' },
               style: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
@@ -549,6 +552,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              editorStyle: { textTransform: 'uppercase' },
               style: { textTransform: 'uppercase' },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>

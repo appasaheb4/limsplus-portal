@@ -366,58 +366,72 @@ export const PatientManager = PatientManagerHoc(
                           hasError={!!errors.birthDate}
                           value={value}
                           onChange={birthDate => {
-                            onChange(birthDate);
-                            if (
-                              dayjs(new Date()).diff(dayjs(birthDate), 'year') <
-                              150
-                            ) {
-                              setValue('age', getDiffByDate(birthDate));
+                            const selectedBirthDate = new Date(birthDate);
+                            const currentDate = new Date();
+                            if (selectedBirthDate < currentDate) {
+                              onChange(birthDate);
                               if (
                                 dayjs(new Date()).diff(
                                   dayjs(birthDate),
-                                  'hour',
-                                ) > 0
+                                  'year',
+                                ) < 150
                               ) {
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  birthDate,
-                                  isBirthdateAvailabe: true,
-                                  age:
-                                    getAgeByAgeObject(getDiffByDate(birthDate))
-                                      .age || 0,
-                                  ageUnit: getAgeByAgeObject(
-                                    getDiffByDate(birthDate),
-                                  ).ageUnit,
-                                });
-                                patientManagerStore.patientManagerService
-                                  .checkExistsPatient({
-                                    input: {
-                                      firstName:
-                                        patientManagerStore.patientManger
-                                          ?.firstName,
-                                      lastName:
-                                        patientManagerStore.patientManger
-                                          ?.lastName,
-                                      mobileNo:
-                                        patientManagerStore.patientManger
-                                          ?.mobileNo,
-                                      birthDate,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (res.checkExistsPatientManager.success) {
-                                      patientManagerStore.updateExistsPatient(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkExistsPatientManager.message}`,
-                                      });
-                                    } else
-                                      patientManagerStore.updateExistsPatient(
-                                        false,
-                                      );
+                                setValue('age', getDiffByDate(birthDate));
+                                if (
+                                  dayjs(new Date()).diff(
+                                    dayjs(birthDate),
+                                    'hour',
+                                  ) > 0
+                                ) {
+                                  patientManagerStore.updatePatientManager({
+                                    ...patientManagerStore.patientManger,
+                                    birthDate,
+                                    isBirthdateAvailabe: true,
+                                    age:
+                                      getAgeByAgeObject(
+                                        getDiffByDate(birthDate),
+                                      ).age || 0,
+                                    ageUnit: getAgeByAgeObject(
+                                      getDiffByDate(birthDate),
+                                    ).ageUnit,
                                   });
+                                  patientManagerStore.patientManagerService
+                                    .checkExistsPatient({
+                                      input: {
+                                        firstName:
+                                          patientManagerStore.patientManger
+                                            ?.firstName,
+                                        lastName:
+                                          patientManagerStore.patientManger
+                                            ?.lastName,
+                                        mobileNo:
+                                          patientManagerStore.patientManger
+                                            ?.mobileNo,
+                                        birthDate,
+                                      },
+                                    })
+                                    .then(res => {
+                                      if (
+                                        res.checkExistsPatientManager.success
+                                      ) {
+                                        patientManagerStore.updateExistsPatient(
+                                          true,
+                                        );
+                                        Toast.error({
+                                          message: `😔 ${res.checkExistsPatientManager.message}`,
+                                        });
+                                      } else
+                                        patientManagerStore.updateExistsPatient(
+                                          false,
+                                        );
+                                    });
+                                }
                               }
+                            } else {
+                              Toast.error({
+                                message:
+                                  'Birthdate should not be  greater then Current Date',
+                              });
                             }
                           }}
                         />

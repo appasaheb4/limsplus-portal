@@ -66,6 +66,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
               code = filter;
             },
           }),
+          editorStyle: { textTransform: 'uppercase' },
           style: { textTransform: 'uppercase' },
           editable: false,
         },

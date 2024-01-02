@@ -179,6 +179,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 doctorCode = filter;
               },
             }),
+            editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             editable: false,
           },
@@ -197,6 +198,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                 doctorName = filter;
               },
             }),
+            editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             editable: false,
           },

@@ -134,6 +134,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                 code = filter;
               },
             }),
+            editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             editable: false,
           },
@@ -151,6 +152,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                 name = filter;
               },
             }),
+            editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             editable: false,
           },

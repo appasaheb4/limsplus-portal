@@ -539,11 +539,22 @@ export const PatientVisit = PatientVisitHoc(
                       hasError={!!errors.registrationDate}
                       value={value}
                       onChange={registrationDate => {
-                        onChange(registrationDate);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
+                        const selectedRegistrationDate = new Date(
                           registrationDate,
-                        });
+                        );
+                        const currentDate = new Date();
+                        if (selectedRegistrationDate < currentDate) {
+                          onChange(registrationDate);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            registrationDate,
+                          });
+                        } else {
+                          Toast.error({
+                            message:
+                              'Registration Date should not be greater then Current Date',
+                          });
+                        }
                       }}
                     />
                   )}

@@ -77,6 +77,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   schCode = filter;
                 },
               }),
+              editorStyle: { textTransform: 'uppercase' },
               style: { textTransform: 'uppercase' },
               editable: false,
             },
