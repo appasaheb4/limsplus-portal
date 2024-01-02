@@ -198,11 +198,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         }
                         hasError={!!errors.country}
                         value={value}
-                        onChange={country => {
+                        onChange={countryValue => {
+                          const country = countryValue.toUpperCase();
                           onChange(country);
                           administrativeDivisions.updateAdministrativeDiv({
                             ...administrativeDivisions.administrativeDiv,
-                            country: country.toUpperCase(),
+                            country,
                           });
                         }}
                       />
@@ -222,11 +223,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                           }
                           hasError={!!errors.state}
                           value={value}
-                          onChange={state => {
+                          onChange={stateValue => {
+                            const state = stateValue.toUpperCase();
                             onChange(state);
                             administrativeDivisions.updateAdministrativeDiv({
                               ...administrativeDivisions.administrativeDiv,
-                              state: state.toUpperCase(),
+                              state,
                             });
                           }}
                         />
@@ -252,11 +254,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                           }
                           hasError={!!errors.district}
                           value={value}
-                          onChange={district => {
+                          onChange={districtValue => {
+                            const district = districtValue.toUpperCase();
                             onChange(district);
                             administrativeDivisions.updateAdministrativeDiv({
                               ...administrativeDivisions.administrativeDiv,
-                              district: district.toUpperCase(),
+                              district,
                             });
                           }}
                         />
@@ -277,11 +280,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                             !!errors.city ? 'Please Enter City' : 'City'
                           }
                           value={value}
-                          onChange={city => {
+                          onChange={cityValue => {
+                            const city = cityValue.toUpperCase();
                             onChange(city);
                             administrativeDivisions.updateAdministrativeDiv({
                               ...administrativeDivisions.administrativeDiv,
-                              city: city.toUpperCase(),
+                              city,
                             });
                           }}
                         />
@@ -302,11 +306,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                           }
                           hasError={!!errors.area}
                           value={value}
-                          onChange={area => {
+                          onChange={areaValue => {
+                            const area = areaValue.toUpperCase();
                             onChange(area);
                             administrativeDivisions.updateAdministrativeDiv({
                               ...administrativeDivisions.administrativeDiv,
-                              area: area.toUpperCase(),
+                              area,
                             });
                           }}
                         />

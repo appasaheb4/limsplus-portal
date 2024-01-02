@@ -479,11 +479,12 @@ const Doctors = DoctorsHoc(
                         }
                         disabled={isVersionUpgrade}
                         value={value}
-                        onChange={doctorCode => {
+                        onChange={doctorCodeValue => {
+                          const doctorCode = doctorCodeValue.toUpperCase();
                           onChange(doctorCode);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            doctorCode: doctorCode.toUpperCase(),
+                            doctorCode,
                           });
                         }}
                         onBlur={code => {
@@ -530,11 +531,12 @@ const Doctors = DoctorsHoc(
                         }
                         hasError={!!errors.doctorName}
                         value={value}
-                        onChange={doctorName => {
+                        onChange={doctorNameValue => {
+                          const doctorName = doctorNameValue.toUpperCase();
                           onChange(doctorName);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            doctorName: doctorName.toUpperCase(),
+                            doctorName,
                             reportName: `${
                               doctorsStore.doctors?.title
                             }. ${toTitleCase(doctorName)}`,
