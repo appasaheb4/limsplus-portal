@@ -68,6 +68,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
               containerCode = filter;
             },
           }),
+          editorStyle: { textTransform: 'uppercase' },
           editable: false,
           style: { textTransform: 'uppercase' },
         },
@@ -86,6 +87,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
               containerName = filter;
             },
           }),
+          editorStyle: { textTransform: 'uppercase' },
           editable: false,
           style: { textTransform: 'uppercase' },
         },
