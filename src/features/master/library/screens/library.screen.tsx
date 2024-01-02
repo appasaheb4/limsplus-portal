@@ -823,7 +823,7 @@ export const Library = LibraryHoc(
                     control={control}
                     render={({ field: { value } }) => (
                       <Form.Input
-                        label='Date Expire'
+                        label='Date Expiry'
                         disabled
                         value={
                           value
