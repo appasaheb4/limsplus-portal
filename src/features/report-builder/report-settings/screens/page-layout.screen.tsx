@@ -98,7 +98,8 @@ export const PageLayout = observer(() => {
                         placeholder='Layout code'
                         hasError={!!errors.tempCode}
                         value={value}
-                        onChange={tempCode => {
+                        onChange={tempCodeValue => {
+                          const tempCode = tempCodeValue.toUpperCase();
                           onChange(tempCode);
                           reportSettingStore.updatePageLayout({
                             ...reportSettingStore.pageLayout,
@@ -147,7 +148,8 @@ export const PageLayout = observer(() => {
                         placeholder='Layout Name'
                         hasError={!!errors.tempName}
                         value={value}
-                        onChange={tempName => {
+                        onChange={tempNameValue => {
+                          const tempName = tempNameValue.toUpperCase();
                           onChange(tempName);
                           reportSettingStore.updatePageLayout({
                             ...reportSettingStore.pageLayout,

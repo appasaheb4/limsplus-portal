@@ -54,6 +54,10 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
               headerClasses: 'textHeader',
               sort: true,
               editable: false,
+              editorStyle: { textTransform: 'uppercase' },
+              style: {
+                textTransform: 'uppercase',
+              },
             },
             {
               dataField: 'tempName',
@@ -61,6 +65,10 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
               headerClasses: 'textHeader',
               sort: true,
               editable: false,
+              editorStyle: { textTransform: 'uppercase' },
+              style: {
+                textTransform: 'uppercase',
+              },
             },
             {
               dataField: 'isToolbar',
