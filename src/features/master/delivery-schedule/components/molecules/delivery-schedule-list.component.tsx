@@ -11,6 +11,7 @@ import {
 import { Confirm } from '@/library/models';
 import { AutoCompleteCompanyList } from '@/core-components';
 let schCode;
+let schName;
 let pStartTime;
 let pEndTime;
 let cutofTime;
@@ -82,6 +83,24 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editable: false,
             },
             {
+              dataField: 'schName',
+              text: 'Sch Name',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  schName = filter;
+                },
+              }),
+              editorStyle: { textTransform: 'uppercase' },
+              style: { textTransform: 'uppercase' },
+            },
+            {
               dataField: 'sundayProcessing',
               text: 'Sunday Processing',
               sort: true,
@@ -125,7 +144,26 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               //     holidayProcessing = filter
               //   }
               // }),
-              editable: false,
+              // editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.holidayProcessing}
+                      onChange={holidayProcessing => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            holidayProcessing,
+                            'holidayProcessing',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'sundayReporting',
@@ -138,7 +176,26 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               //     schCode = filter
               //   }
               // }),
-              editable: false,
+              // editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.sundayReporting}
+                      onChange={sundayReporting => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            sundayReporting,
+                            'sundayReporting',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'holidayReporting',

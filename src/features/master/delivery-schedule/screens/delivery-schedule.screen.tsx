@@ -250,6 +250,30 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Sch Name'
+                        placeholder={
+                          errors.schName ? 'Please Enter Sch Name' : 'Sch Name'
+                        }
+                        hasError={!!errors.schName}
+                        value={value}
+                        onChange={schNameValue => {
+                          const schName = schNameValue.toUpperCase();
+                          onChange(schName);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            schName,
+                          });
+                        }}
+                      />
+                    )}
+                    name='schName'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         label='P Start Time'
                         hasError={!!errors.pStartTime}

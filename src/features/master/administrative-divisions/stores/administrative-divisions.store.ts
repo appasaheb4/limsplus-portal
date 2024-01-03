@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {AdministrativeDivisions} from '../models';
-import {AdministrativeDivisionsService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { AdministrativeDivisions, LocalInput } from '../models';
+import { AdministrativeDivisionsService } from '../services';
 interface LocalState {
   state: string;
   district: string;
@@ -14,18 +14,21 @@ export class AdministrativeDivisionsStore {
   listAdministrativeDiv!: AdministrativeDivisions[];
   listAdministrativeDivCopy!: AdministrativeDivisions[];
   localState!: Partial<LocalState>;
+  localInput!: LocalInput;
 
   constructor() {
     this.administrativeDiv = new AdministrativeDivisions({});
     this.listAdministrativeDiv = [];
     this.listAdministrativeDivCopy = [];
     this.localState = {};
+    this.localInput = new LocalInput({});
     this.reset();
     makeObservable<AdministrativeDivisionsStore, any>(this, {
       administrativeDiv: observable,
       listAdministrativeDivCount: observable,
       listAdministrativeDiv: observable,
       localState: observable,
+      localInput: observable,
 
       administrativeDivisionsService: computed,
       fetchAdministrativeDiv: action,
@@ -36,6 +39,7 @@ export class AdministrativeDivisionsStore {
       updateLocalCity: action,
       updateLocalArea: action,
       updateLocalPostalCode: action,
+      updateLocalInput: action,
     });
   }
 
@@ -54,6 +58,7 @@ export class AdministrativeDivisionsStore {
     this.administrativeDiv = new AdministrativeDivisions({});
     this.listAdministrativeDiv = [];
     this.listAdministrativeDivCount = 0;
+    this.localInput = new LocalInput({});
   }
 
   updateAdministrativeDivList(res: any) {
@@ -92,5 +97,8 @@ export class AdministrativeDivisionsStore {
   }
   updateLocalPostalCode(postalCode: Partial<LocalState>) {
     this.localState = postalCode;
+  }
+  updateLocalInput(input: LocalInput) {
+    this.localInput = input;
   }
 }
