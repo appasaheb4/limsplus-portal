@@ -648,6 +648,8 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 updateLocalArea: administrativeDivisions.updateLocalArea,
                 updateLocalPostalCode:
                   administrativeDivisions.updateLocalPostalCode,
+                updateLocalInput: administrativeDivisions.updateLocalInput,
+                localInput: administrativeDivisions.localInput,
               }}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,

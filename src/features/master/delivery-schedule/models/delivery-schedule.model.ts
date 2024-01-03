@@ -1,6 +1,7 @@
 export class DeliverySchedule {
   _id: string;
   schCode: string;
+  schName: string;
   sundayProcessing: boolean;
   holidayProcessing: boolean;
   sundayReporting: boolean;
@@ -27,6 +28,7 @@ export class DeliverySchedule {
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.schCode = rawData.schCode;
+    this.schName = rawData.schName;
     this.sundayProcessing = rawData.sundayProcessing;
     this.holidayProcessing = rawData.holidayProcessing;
     this.sundayReporting = rawData.sundayReporting;

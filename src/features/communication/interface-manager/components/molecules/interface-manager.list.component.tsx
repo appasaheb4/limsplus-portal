@@ -136,7 +136,10 @@ export const InterfaceManagerList = observer(
                 <Form.Input
                   name='instrumentType'
                   placeholder='Instrument Type'
-                  onBlur={instrumentType => {
+                  style={{ textTransform: 'uppercase' }}
+                  // value={row.instrumentType}
+                  onBlur={instrumentTypeValue => {
+                    const instrumentType = instrumentTypeValue.toUpperCase();
                     if (
                       row.instrumentType !== instrumentType &&
                       instrumentType
@@ -182,6 +185,7 @@ export const InterfaceManagerList = observer(
                 <Form.Input
                   name='instrumentType'
                   placeholder='Instrument Type'
+                  style={{ textTransform: 'uppercase' }}
                   onBlur={instrumentType => {
                     if (
                       row.instrumentType !== instrumentType &&

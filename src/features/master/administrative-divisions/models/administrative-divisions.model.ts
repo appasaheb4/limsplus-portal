@@ -31,3 +31,9 @@ export class AdministrativeDivisions {
     this.lastUpdated = rawData.lastUpdated;
   }
 }
+export class LocalInput {
+  postalCode: string;
+  constructor(rawData: { [key in string]: any }) {
+    this.postalCode = rawData.postalCode;
+  }
+}
