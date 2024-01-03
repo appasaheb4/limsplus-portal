@@ -331,13 +331,13 @@ const PatientRegistration = observer(() => {
                   </div>
                   <div className='flex flex-col'>
                     <span className='text-sm font-bold'>
-                      {item?.firstName +
+                      {item?.firstName.toUpperCase() +
                         ' ' +
                         (item?.middleName != undefined
-                          ? item?.middleName
+                          ? item?.middleName.toUpperCase()
                           : '') +
                         ' ' +
-                        item?.lastName}
+                        item?.lastName.toUpperCase()}
                     </span>
                     <span>{item?.pId?.toString()}</span>
                     <span>

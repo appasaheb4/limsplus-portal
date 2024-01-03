@@ -188,13 +188,14 @@ export const DocumentSettings = DocumentSettingHoc(
                       <Form.Input
                         placeholder='Code'
                         value={value}
-                        onChange={code => {
-                          onChange(code.toUpperCase());
+                        onChange={codeValue => {
+                          const code = lookupStore.localInput.flagUpperCase
+                            ? codeValue.toUpperCase()
+                            : codeValue;
+                          onChange(code);
                           lookupStore.updateLocalInput({
                             ...lookupStore.localInput,
-                            code: lookupStore.flagUpperCase
-                              ? code.toUpperCase()
-                              : code,
+                            code,
                           });
                         }}
                       />

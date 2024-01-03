@@ -371,17 +371,11 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     isDateTimePicker={true}
                     onUpdate={collectionDate => {
                       const dob = new Date(row.birthDate);
-                      const currentDate = new Date();
                       const selectedCollectionDate = new Date(collectionDate);
-                      if (selectedCollectionDate > dob) {
+                      if (selectedCollectionDate < dob) {
                         Toast.error({
                           message:
                             'Collection Date should not be less than BirthDate!!',
-                        });
-                      } else if (selectedCollectionDate > currentDate) {
-                        Toast.error({
-                          message:
-                            'Collection Date should not be greater than Current Date!!',
                         });
                       } else {
                         setModalDetails({ visible: false });
