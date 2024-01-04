@@ -369,6 +369,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     data={row?.collectionDate}
                     isSingleDatePicker={true}
                     isDateTimePicker={true}
+                    maxDate={new Date()}
                     onUpdate={collectionDate => {
                       const dob = new Date(row.birthDate);
                       const selectedCollectionDate = new Date(collectionDate);

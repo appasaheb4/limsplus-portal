@@ -576,33 +576,24 @@ export const PatientVisit = PatientVisitHoc(
                       }
                       hasError={!!errors.collectionDate}
                       value={value}
+                      maxDate={new Date()}
                       onChange={collectionDate => {
-                        const currentDate = new Date();
-                        const selectedCollectionDate = new Date(collectionDate);
-
                         const date1 = dayjs(collectionDate);
                         const diffDay = date1.diff(
                           patientVisitStore.patientVisit.birthDate,
                           'day',
                         );
 
-                        if (selectedCollectionDate < currentDate) {
-                          if (diffDay > 0) {
-                            onChange(collectionDate);
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              collectionDate,
-                            });
-                          } else {
-                            Toast.error({
-                              message:
-                                '😔 Please enter correct collection date. Please note birthrate greater collection date',
-                            });
-                          }
+                        if (diffDay > 0) {
+                          onChange(collectionDate);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            collectionDate,
+                          });
                         } else {
                           Toast.error({
                             message:
-                              '😔 Collection Date should not be greater then Current Date',
+                              '😔 Please enter correct collection date. Please note birthrate greater collection date',
                           });
                         }
                       }}

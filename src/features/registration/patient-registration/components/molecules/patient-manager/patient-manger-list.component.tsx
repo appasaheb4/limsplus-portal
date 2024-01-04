@@ -257,6 +257,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
+                    maxDate={new Date()}
                     onUpdate={birthDate => {
                       const selectedBirthDate = new Date(birthDate);
                       const currentDate = new Date();

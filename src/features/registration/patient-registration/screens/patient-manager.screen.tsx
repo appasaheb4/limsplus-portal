@@ -365,6 +365,7 @@ export const PatientManager = PatientManagerHoc(
                           use12Hours={false}
                           hasError={!!errors.birthDate}
                           value={value}
+                          maxDate={new Date()}
                           onChange={birthDate => {
                             const selectedBirthDate = new Date(birthDate);
                             const currentDate = new Date();

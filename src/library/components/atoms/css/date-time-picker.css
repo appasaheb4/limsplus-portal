@@ -16,9 +16,9 @@
   overflow: visible !important;
 }
 
-/* .react-calendar__tile--now {
+.react-calendar__tile--now {
   background: none !important;
-} */
+}
 
 /* .react-calendar__tile--now:enabled:hover {
   background: none !important
