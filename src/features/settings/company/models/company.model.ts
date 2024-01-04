@@ -1,5 +1,7 @@
 export class Company {
   _id: string;
+  existsVersionId: string;
+  existsRecordId: string;
   code: string;
   name: string;
   description: string;
@@ -45,6 +47,8 @@ export class Company {
 
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
+    this.existsVersionId = rawData.existsVersionId;
+    this.existsRecordId = rawData.existsRecordId;
     this.code = rawData.code;
     this.name = rawData.name;
     this.description = rawData.description;

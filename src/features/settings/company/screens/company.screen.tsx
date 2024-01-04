@@ -25,6 +25,7 @@ import * as XLSX from 'xlsx';
 import { RouterFlow } from '@/flows';
 import { resetCompany } from '../startup';
 import { MultiSelect } from '@/core-components';
+import dayjs from 'dayjs';
 
 import { CompanyHoc } from '../hoc';
 import { useStores } from '@/stores';
@@ -45,12 +46,42 @@ const Company = CompanyHoc(
       setValue,
       reset,
     } = useForm();
+
     useEffect(() => {
       // Default value initialization
-      setValue('dateExpire', companyStore.company?.dateExpire);
+      setValue('code', companyStore.company?.code);
+      setValue('name', companyStore.company?.name);
+      setValue('description', companyStore.company?.description);
+      setValue('module', companyStore.company?.module);
+      setValue('lab', companyStore.company?.lab);
+      setValue('department', companyStore.company?.department);
+      setValue('allowedUser', companyStore.company?.allowedUser);
+      setValue('admin', companyStore.company?.admin);
+      setValue('password', companyStore.company?.password);
+      setValue('postalCode', companyStore.company?.postalCode);
+      setValue('country', companyStore.company?.country);
+      setValue('state', companyStore.company?.state);
+      setValue('district', companyStore.company?.district);
+      setValue('city', companyStore.company?.city);
+      setValue('area', companyStore.company?.area);
+      setValue('address', companyStore.company?.address);
+      setValue('mobileNo', companyStore.company?.mobileNo);
+      setValue('contactNo', companyStore.company?.contactNo);
+      setValue('email', companyStore.company?.email);
+      setValue('web', companyStore.company?.web);
+      setValue('webPortal', companyStore.company?.webPortal);
+      setValue('registeredOffice', companyStore.company?.registeredOffice);
+      setValue('corporateOffice', companyStore.company?.corporateOffice);
+      setValue('customerCare', companyStore.company?.customerCare);
+      setValue('gst', companyStore.company?.gst);
+      setValue('sacCode', companyStore.company?.sacCode);
+      setValue('cinNo', companyStore.company?.cinNo);
+      setValue('fyiLine', companyStore.company?.fyiLine);
+      setValue('workLine', companyStore.company?.workLine);
       setValue('dateActive', companyStore.company?.dateActive);
       setValue('dateCreation', companyStore.company?.dateCreation);
-      setValue('allowedUser', companyStore.company?.allowedUser);
+      setValue('dateExpire', companyStore.company?.dateExpire);
+      setValue('version', companyStore.company?.version);
       setValue('supportPlan', companyStore.company?.supportPlan);
       setValue('status', companyStore.company?.status);
       setValue('environment', companyStore.company?.environment);
@@ -64,7 +95,7 @@ const Company = CompanyHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
     const onSubmit = async () => {
-      if (isExistsRecord) {
+      if (!isExistsRecord) {
         await companyStore.companyService
           .add({
             input: isImport
@@ -310,7 +341,7 @@ const Company = CompanyHoc(
                         placeholder='Description'
                         value={value}
                         hasError={!!errors.description}
-                        onBlur={description => {
+                        onChange={description => {
                           onChange(description);
                           companyStore.updateCompany({
                             ...companyStore.company,
@@ -330,6 +361,7 @@ const Company = CompanyHoc(
                         hasError={!!errors.module}
                       >
                         <MultiSelect
+                          selectedItems={value}
                           hasError={!!errors.module}
                           options={lookupItems(
                             routerStore.lookupItems,
@@ -370,13 +402,21 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {/* <Controller
+                  <Controller
                     control={control}
                     render={({ field: { onChange } }) => (
                       <Form.InputWrapper label='Allowed Lab'>
                         <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                           loader={false}
                           placeholder='Search by code'
+                          disable={
+                            _.isEmpty(companyStore.company.existsVersionId)
+                              ? true
+                              : companyStore.company.code !=
+                                loginStore.login.companyCode
+                              ? true
+                              : false
+                          }
                           data={{
                             list: labStore.listLabs || [],
                             selected:
@@ -436,6 +476,14 @@ const Company = CompanyHoc(
                         <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                           loader={false}
                           placeholder='Search by code'
+                          disable={
+                            _.isEmpty(companyStore.company.existsVersionId)
+                              ? true
+                              : companyStore.company.code !=
+                                loginStore.login.companyCode
+                              ? true
+                              : false
+                          }
                           data={{
                             list:
                               interfaceManagerStore.listInterfaceManager || [],
@@ -494,7 +542,7 @@ const Company = CompanyHoc(
                     name='allowedInstrument'
                     rules={{ required: false }}
                     defaultValue=''
-                  /> */}
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1162,7 +1210,7 @@ const Company = CompanyHoc(
                       <Form.Input
                         label='Version'
                         placeholder='Version'
-                        value={companyStore.company.version}
+                        value={value?.toString()}
                         disabled
                       />
                     )}
@@ -1384,6 +1432,15 @@ const Company = CompanyHoc(
                   limit,
                 };
               }}
+              onVersionUpgrade={item => {
+                setModalConfirm({
+                  show: true,
+                  type: 'versionUpgrade',
+                  data: item,
+                  title: 'Are you version upgrade?',
+                  body: 'Version upgrade this record',
+                });
+              }}
               onApproval={async records => {
                 setModalConfirm({
                   show: true,
@@ -1404,6 +1461,7 @@ const Company = CompanyHoc(
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
+              setModalConfirm({ show: false });
               switch (action) {
                 case 'Delete': {
                   companyStore.companyService
@@ -1411,7 +1469,6 @@ const Company = CompanyHoc(
                       input: { id: modalConfirm.id },
                     })
                     .then((res: any) => {
-                      setModalConfirm({ show: false });
                       if (res.removeCompany.success) {
                         Toast.success({
                           message: `😊 ${res.removeCompany.message}`,
@@ -1435,16 +1492,13 @@ const Company = CompanyHoc(
                     });
                   break;
                 }
-
                 case 'Update': {
                   onUpdateSingleField({
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
                   });
-
                   break;
                 }
-
                 case 'UpdateImage': {
                   companyStore.companyService
                     .update({
@@ -1464,6 +1518,25 @@ const Company = CompanyHoc(
                         }, 2000);
                       }
                     });
+                  break;
+                }
+                case 'versionUpgrade': {
+                  companyStore.updateCompany({
+                    ...modalConfirm.data,
+                    _id: undefined,
+                    existsVersionId: modalConfirm.data._id,
+                    existsRecordId: undefined,
+                    dateOfEntry: undefined,
+                    lastUpdated: undefined,
+                    __typename: undefined,
+                    version: Number.parseInt(modalConfirm.data.version + 1),
+                    dateCreation: new Date(),
+                    dateActive: new Date(),
+                    dateExpire: new Date(
+                      dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+                    ),
+                  });
+                  setIsHideView(false);
                   break;
                 }
               }

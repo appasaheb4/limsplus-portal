@@ -45,6 +45,7 @@ export const COMPANY_LIST = gql`
         dateExpire
         enteredBy
         supportPlan
+        version
         status
         environment
         dateOfEntry
@@ -135,6 +136,7 @@ export const FILTER = gql`
         dateExpire
         enteredBy
         supportPlan
+        version
         status
         environment
         dateOfEntry
@@ -189,6 +191,7 @@ export const FILTER_BY_FIELDS = gql`
         dateExpire
         enteredBy
         supportPlan
+        version
         status
         environment
         dateOfEntry
@@ -240,6 +243,7 @@ export const FIND_BY_FIELDS = gql`
         dateExpire
         enteredBy
         supportPlan
+        version
         status
         environment
         dateOfEntry
