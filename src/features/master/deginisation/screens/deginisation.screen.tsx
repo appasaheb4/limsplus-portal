@@ -181,11 +181,12 @@ const Deginisation = DeginisationHoc(
                           hasError={!!errors.code}
                           value={value}
                           disabled={isVersionUpgrade}
-                          onChange={code => {
+                          onChange={codeValue => {
+                            const code = codeValue.toUpperCase();
                             onChange(code);
                             deginisationStore.updateDescription({
                               ...deginisationStore.deginisation,
-                              code: code.toUpperCase(),
+                              code,
                             });
                           }}
                           onBlur={code => {
@@ -232,11 +233,12 @@ const Deginisation = DeginisationHoc(
                           }
                           hasError={!!errors.description}
                           value={value}
-                          onChange={description => {
+                          onChange={descriptionValue => {
+                            const description = descriptionValue.toUpperCase();
                             onChange(description);
                             deginisationStore.updateDescription({
                               ...deginisationStore.deginisation,
-                              description: description.toUpperCase(),
+                              description,
                             });
                           }}
                         />

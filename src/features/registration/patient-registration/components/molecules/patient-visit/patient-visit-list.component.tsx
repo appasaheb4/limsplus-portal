@@ -13,6 +13,7 @@ import {
   Icons,
   sortCaret,
   ModalDateTime,
+  Toast,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
@@ -293,13 +294,24 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     isSingleDatePicker={true}
                     isDateTimePicker={true}
                     onUpdate={registrationDate => {
-                      setModalDetails({ visible: false });
-                      props.onSingleDirectUpdateField &&
-                        props.onSingleDirectUpdateField(
-                          registrationDate,
-                          column.dataField,
-                          row._id,
-                        );
+                      const selectedRegistrationDate = new Date(
+                        registrationDate,
+                      );
+                      const currentDate = new Date();
+                      if (selectedRegistrationDate < currentDate) {
+                        setModalDetails({ visible: false });
+                        props.onSingleDirectUpdateField &&
+                          props.onSingleDirectUpdateField(
+                            registrationDate,
+                            column.dataField,
+                            row._id,
+                          );
+                      } else {
+                        Toast.error({
+                          message:
+                            'Registration Date should not be greater then Current Date',
+                        });
+                      }
                     }}
                     onClose={() => {
                       setModalDetails({
@@ -357,14 +369,24 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     data={row?.collectionDate}
                     isSingleDatePicker={true}
                     isDateTimePicker={true}
+                    maxDate={new Date()}
                     onUpdate={collectionDate => {
-                      setModalDetails({ visible: false });
-                      props.onSingleDirectUpdateField &&
-                        props.onSingleDirectUpdateField(
-                          collectionDate,
-                          column.dataField,
-                          row._id,
-                        );
+                      const dob = new Date(row.birthDate);
+                      const selectedCollectionDate = new Date(collectionDate);
+                      if (selectedCollectionDate < dob) {
+                        Toast.error({
+                          message:
+                            'Collection Date should not be less than BirthDate!!',
+                        });
+                      } else {
+                        setModalDetails({ visible: false });
+                        props.onSingleDirectUpdateField &&
+                          props.onSingleDirectUpdateField(
+                            collectionDate,
+                            column.dataField,
+                            row._id,
+                          );
+                      }
                     }}
                     onClose={() => {
                       setModalDetails({
@@ -485,11 +507,32 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                       isDateTimePicker: true,
                     }}
                     onUpdate={value => {
-                      setModalDetails({ visible: false });
-                      if (
+                      const selectedBirthDate = new Date(value.birthDate);
+                      const registrationDate = new Date(row.registrationDate);
+                      const currentDate = new Date();
+                      const isBirthDateValid =
                         dayjs(new Date()).diff(dayjs(value.birthDate), 'hour') >
-                        0
+                        0;
+
+                      if (
+                        isBirthDateValid &&
+                        selectedBirthDate > registrationDate
                       ) {
+                        Toast.error({
+                          message:
+                            'BirthDate should not be greater than Registration Date!!',
+                        });
+                      } else if (selectedBirthDate < currentDate) {
+                        Toast.error({
+                          message:
+                            'BirthDate should not be greater than Current Date!!',
+                        });
+                      } else if (!isBirthDateValid) {
+                        Toast.error({
+                          message: 'Please select correct birth date!!',
+                        });
+                      } else {
+                        setModalDetails({ visible: false });
                         props.onDirectUpdateField &&
                           props.onDirectUpdateField(
                             {
@@ -500,8 +543,6 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                             },
                             row._id,
                           );
-                      } else {
-                        alert('Please select correct birth date!!');
                       }
                     }}
                     onClose={() => {

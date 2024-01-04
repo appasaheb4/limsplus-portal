@@ -86,6 +86,7 @@ export const MethodsList = (props: MethodsListProps) => {
             },
           }),
           editable: false,
+          editorStyle: { textTransform: 'uppercase' },
           style: { textTransform: 'uppercase' },
         },
         {
@@ -103,8 +104,8 @@ export const MethodsList = (props: MethodsListProps) => {
               description = filter;
             },
           }),
-          style: { textTransform: 'uppercase' },
-          editorStyle: { textTransform: 'uppercase' },
+          // style: { textTransform: 'uppercase' },
+          // editorStyle: { textTransform: 'uppercase' },
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
         },
 

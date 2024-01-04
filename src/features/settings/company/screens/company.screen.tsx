@@ -1182,7 +1182,7 @@ const Company = CompanyHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
-                        label='Date Expire'
+                        label='Date Expiry'
                         placeholder={
                           errors.dateExpire
                             ? 'Please Enter schedule'

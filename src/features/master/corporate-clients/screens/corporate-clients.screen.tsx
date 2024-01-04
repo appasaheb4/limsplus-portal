@@ -1744,7 +1744,7 @@ const CorporateClients = CorporateClientsHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
-                        label='Date Expire'
+                        label='Date Expiry'
                         hasError={!!errors.dateExpire}
                         placeholder={
                           errors.dateExpire

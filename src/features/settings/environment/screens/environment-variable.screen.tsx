@@ -155,12 +155,13 @@ export const EnvironmentVariable = observer(
                           ? 'Please Enter Environment Variable'
                           : 'Environment Variable'
                       }
-                      onChange={environmentVariable => {
+                      onChange={environmentVariableValue => {
+                        const environmentVariable =
+                          environmentVariableValue.toUpperCase();
                         onChange(environmentVariable);
                         environmentStore.updatEnvironmentVariable({
                           ...environmentStore.environmentVariable,
-                          environmentVariable:
-                            environmentVariable.toUpperCase(),
+                          environmentVariable,
                         });
                       }}
                       onBlur={environmentVariable => {

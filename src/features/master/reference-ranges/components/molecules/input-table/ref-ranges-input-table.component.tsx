@@ -1068,7 +1068,7 @@ export const RefRangesInputTable = observer(
             },
             {
               dataField: 'dateExpire',
-              text: 'Date Expire',
+              text: 'Date Expiry',
               csvExport: false,
               headerClasses: 'textHeader4',
               formatter: (cell, row) => {

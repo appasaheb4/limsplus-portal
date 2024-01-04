@@ -192,11 +192,12 @@ const SampleType = SampleTypeHoc(
                             : 'Sample Code'
                         }
                         value={value}
-                        onChange={sampleCode => {
+                        onChange={sampleCodeValue => {
+                          const sampleCode = sampleCodeValue.toUpperCase();
                           onChange(sampleCode);
                           sampleTypeStore.updateSampleType({
                             ...sampleTypeStore.sampleType,
-                            sampleCode: sampleCode.toUpperCase(),
+                            sampleCode,
                           });
                         }}
                         onBlur={code => {
@@ -239,11 +240,12 @@ const SampleType = SampleTypeHoc(
                             : 'Sample Type'
                         }
                         value={value}
-                        onChange={sampleType => {
+                        onChange={sampleTypeValue => {
+                          const sampleType = sampleTypeValue.toUpperCase();
                           onChange(sampleType);
                           sampleTypeStore.updateSampleType({
                             ...sampleTypeStore.sampleType,
-                            sampleType: sampleType.toUpperCase(),
+                            sampleType,
                           });
                         }}
                       />

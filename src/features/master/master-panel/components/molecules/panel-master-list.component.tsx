@@ -104,6 +104,9 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
 
   return (
     <>
@@ -1756,7 +1759,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
             {
               dataField: 'dateExpire',
-              text: 'Date Expire',
+              text: 'Date Expiry',
               headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
@@ -1801,7 +1804,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
-                    minDate={new Date()}
+                    minDate={nextDay}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

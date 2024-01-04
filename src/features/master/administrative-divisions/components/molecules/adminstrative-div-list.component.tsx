@@ -8,10 +8,14 @@ import {
   Icons,
   Buttons,
   sortCaret,
+  Grid,
+  Form,
+  Svg,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import { AutoCompleteCompanyList } from '@/core-components';
+import _ from 'lodash';
 
 let country;
 let state;
@@ -187,6 +191,100 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                     </div>
                   ))}
                 </List>
+              </>
+            ),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.InputWrapper>
+                  <Grid cols={2}>
+                    <Form.Input
+                      placeholder='Postal code'
+                      // value={row.postalCode}
+                      onChange={postalCode => {
+                        props.extraData.updateLocalInput({
+                          ...props.extraData.localInput,
+                          postalCode,
+                        });
+                      }}
+                    />
+                    <div className='mt-1'>
+                      <Buttons.Button
+                        size='medium'
+                        type='solid'
+                        onClick={() => {
+                          const postCode =
+                            props.extraData.localInput?.postalCode;
+
+                          let postalCode = row?.postalCode || [];
+                          if (postCode === undefined)
+                            return alert('Please enter all values.');
+                          if (postCode !== undefined) {
+                            postalCode !== undefined
+                              ? postalCode.push(postCode)
+                              : (postalCode = [postCode]);
+                            // postalCode = _.map(postalCode, o =>
+                            //   _.pick(o, ['postalCode']),
+                            // );
+                            props.onUpdateItem &&
+                              props.onUpdateItem(
+                                postalCode,
+                                'postalCode',
+                                row._id,
+                              );
+                            props.extraData.updateLocalInput({
+                              postalCode: '',
+                            });
+                          }
+                        }}
+                      >
+                        <Icons.EvaIcon icon='plus-circle-outline' />
+                        {'Add'}
+                      </Buttons.Button>
+                    </div>
+                    <div className='clearfix'></div>
+                  </Grid>
+                  <br />
+                  <List space={2} direction='row' justify='center'>
+                    <div>
+                      {row.postalCode?.map((item, index) => (
+                        <div className='mb-2' key={index}>
+                          <Buttons.Button
+                            size='medium'
+                            type='solid'
+                            icon={Svg.Remove}
+                            onClick={() => {
+                              const firstArr =
+                                row?.postalCode?.slice(0, index) || [];
+                              const secondArr =
+                                row?.postalCode?.slice(index + 1) || [];
+                              const finalArray = [...firstArr, ...secondArr];
+                              props.extraData.updateAdministrativeDiv({
+                                ...props.extraData.administrativeDiv,
+                                postalCode: finalArray,
+                              });
+
+                              props.onUpdateItem &&
+                                props.onUpdateItem(
+                                  finalArray,
+                                  'postalCode',
+                                  row._id,
+                                );
+                            }}
+                          >
+                            {`${item}`}
+                          </Buttons.Button>
+                        </div>
+                      ))}
+                    </div>
+                  </List>
+                </Form.InputWrapper>
               </>
             ),
           },

@@ -75,6 +75,10 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
     return row.status !== 'I' ? true : false;
   };
 
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
+
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -659,7 +663,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             },
             {
               dataField: 'dateExpire',
-              text: 'Date Expire',
+              text: 'Date Expiry',
               headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
@@ -702,7 +706,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
-                    minDate={new Date()}
+                    minDate={nextDay}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

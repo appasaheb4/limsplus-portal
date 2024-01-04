@@ -423,7 +423,8 @@ export const SalesTeam = SalesTeamHoc(
                         placeholder='Description'
                         disabled={isVersionUpgrade}
                         value={value}
-                        onChange={description => {
+                        onChange={descriptionValue => {
+                          const description = descriptionValue.toUpperCase();
                           onChange(description);
                           salesTeamStore.updateSalesTeam({
                             ...salesTeamStore.salesTeam,
@@ -601,7 +602,7 @@ export const SalesTeam = SalesTeamHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputDateTime
-                        label='Date Expire'
+                        label='Date Expiry'
                         placeholder={
                           errors.schedule
                             ? 'Please Enter schedule'

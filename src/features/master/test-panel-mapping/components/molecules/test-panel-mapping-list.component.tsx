@@ -71,6 +71,10 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
     return row.status !== 'I' ? true : false;
   };
 
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
+
   const getMasterFlags = row => {
     return [
       {
@@ -729,7 +733,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             },
             {
               dataField: 'dateExpire',
-              text: 'Date Expire',
+              text: 'Date Expiry',
               headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
@@ -774,7 +778,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
-                    minDate={new Date()}
+                    minDate={nextDay}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

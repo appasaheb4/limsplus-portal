@@ -3,7 +3,7 @@ import {
   getAgeByAgeObject,
   getDiffByDate,
 } from '@/core-utils';
-import { Form } from '@/library/components';
+import { Form, Toast } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useStores } from '@/stores';
 import dayjs from 'dayjs';
@@ -44,6 +44,7 @@ export const ModalDateTime: React.FC<Props> = ({
     isAgeUnitDropDown: false,
   });
   const [localInput, setLocalInput] = useState<any>();
+
   useEffect(() => {
     if (isSingleDatePicker) {
       setValue(data);
@@ -71,7 +72,7 @@ export const ModalDateTime: React.FC<Props> = ({
               {/*content*/}
               <div
                 className='border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none w-full sm:w-1/2 md:w-1/3'
-                style={{ width: isSingleDatePicker ? '38vh' : '75vh' }}
+                style={{ width: isSingleDatePicker ? '38vh' : '95vh' }}
               >
                 {/*header*/}
                 <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
@@ -119,6 +120,7 @@ export const ModalDateTime: React.FC<Props> = ({
                           }}
                         />
                       ) : (
+                        //Date Expiry Model
                         <Form.DatePicker
                           label=''
                           minDate={minDate}
@@ -150,7 +152,7 @@ export const ModalDateTime: React.FC<Props> = ({
                           ? '45vh'
                           : openCalender.isAgeUnitDropDown
                           ? '21vh'
-                          : '9vh',
+                          : '15vh',
                       }}
                     >
                       <div className='flex flex-wrap  gap-2'>
@@ -194,7 +196,7 @@ export const ModalDateTime: React.FC<Props> = ({
                         <div style={{ width: '37vh' }}>
                           <Form.InputDateTime
                             minDate={minDate}
-                            maxDate={minDate}
+                            maxDate={maxDate}
                             label='BirthDate'
                             isCalenderOpen={false}
                             placeholder={'BirthDate'}
