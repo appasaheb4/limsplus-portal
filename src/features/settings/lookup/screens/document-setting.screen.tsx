@@ -146,7 +146,7 @@ export const DocumentSettings = DocumentSettingHoc(
                           path: item.path,
                           children,
                         };
-                        onChange(documentName.name);
+                        onChange(documentName.children.name);
                         lookupStore.updateLookup({
                           ...lookupStore.lookup,
                           documentName,
