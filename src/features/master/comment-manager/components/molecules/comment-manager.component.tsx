@@ -79,6 +79,9 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -956,7 +959,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               dataField: 'dateExpire',
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
-              text: 'Date Expire',
+              text: 'Date Expiry',
               headerClasses: 'textHeader11',
               sort: true,
               headerStyle: {
@@ -999,7 +1002,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
-                    minDate={new Date()}
+                    minDate={nextDay}
                     onUpdate={dateExpire => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

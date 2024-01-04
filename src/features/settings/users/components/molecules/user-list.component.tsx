@@ -104,6 +104,9 @@ export const UserList = (props: UserListProps) => {
     if (props?.role === 'SYSADMIN') return true;
     return row.status == 'A' ? true : false;
   };
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
 
   return (
     <>
@@ -1050,7 +1053,7 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              text: 'Expire Date',
+              text: 'Expiry Date',
               dataField: 'exipreDate',
               sort: true,
               headerStyle: {
@@ -1092,7 +1095,7 @@ export const UserList = (props: UserListProps) => {
                       isSingleDatePicker: true,
                       isDateTimePicker: false,
                     }}
-                    minDate={new Date()}
+                    minDate={nextDay}
                     onUpdate={exipreDate => {
                       setModalDetails({ visible: false });
                       props.onSingleDirectUpdateField &&

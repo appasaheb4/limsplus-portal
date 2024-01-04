@@ -189,11 +189,12 @@ const Methods = MethodsHoc(
                         }
                         hasError={!!errors.methodsCode}
                         value={value}
-                        onChange={methodsCode => {
+                        onChange={methodsCodeValue => {
+                          const methodsCode = methodsCodeValue.toUpperCase();
                           onChange(methodsCode);
                           methodsStore.updateMethods({
                             ...methodsStore.methods,
-                            methodsCode: methodsCode.toUpperCase(),
+                            methodsCode,
                           });
                         }}
                         onBlur={code => {
@@ -237,11 +238,12 @@ const Methods = MethodsHoc(
                         }
                         hasError={!!errors.methodName}
                         value={value}
-                        onChange={methodsName => {
+                        onChange={methodsNameValue => {
+                          const methodsName = methodsNameValue.toUpperCase();
                           onChange(methodsName);
                           methodsStore.updateMethods({
                             ...methodsStore.methods,
-                            methodsName: methodsName.toUpperCase(),
+                            methodsName,
                             description: `(${toTitleCase(methodsName)})`,
                           });
                         }}

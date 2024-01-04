@@ -355,11 +355,12 @@ export const Department = DeginisationHoc(
                           errors.labCode ? 'Please Enter Code' : 'Code'
                         }
                         value={value}
-                        onChange={code => {
+                        onChange={codeValue => {
+                          const code = codeValue.toUpperCase();
                           onChange(code);
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
-                            code: code.toUpperCase(),
+                            code,
                           });
                         }}
                         onBlur={code => {
@@ -404,11 +405,12 @@ export const Department = DeginisationHoc(
                           errors.labName ? 'Please Enter Name' : 'Name'
                         }
                         value={value}
-                        onChange={name => {
+                        onChange={departmentName => {
+                          const name = departmentName.toUpperCase();
                           onChange(name);
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
-                            name: name.toUpperCase(),
+                            name,
                           });
                         }}
                       />

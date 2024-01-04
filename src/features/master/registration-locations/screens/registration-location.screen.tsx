@@ -1843,7 +1843,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputDateTime
-                          label='Date Expire'
+                          label='Date Expiry'
                           placeholder='Date Expire'
                           hasError={!!errors.dateExpire}
                           value={value}

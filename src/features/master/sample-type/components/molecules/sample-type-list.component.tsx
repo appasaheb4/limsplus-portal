@@ -70,6 +70,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleCode = filter;
                 },
               }),
+              editorStyle: { textTransform: 'uppercase' },
               style: { textTransform: 'uppercase' },
               editable: false,
             },
@@ -88,6 +89,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
                   sampleType = filter;
                 },
               }),
+              editorStyle: { textTransform: 'uppercase' },
               style: { textTransform: 'uppercase' },
               editable: false,
             },

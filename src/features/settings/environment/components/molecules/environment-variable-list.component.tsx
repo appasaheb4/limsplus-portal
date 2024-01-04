@@ -72,6 +72,10 @@ export const EnvironmentVariableList = observer(
                     environmentVariable = filter;
                   },
                 }),
+                style: {
+                  textTransform: 'uppercase',
+                },
+                editorStyle: { textTransform: 'uppercase' },
               },
               {
                 dataField: 'category',

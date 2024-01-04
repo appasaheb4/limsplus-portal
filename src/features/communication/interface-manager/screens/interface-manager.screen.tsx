@@ -155,7 +155,9 @@ const InterfaceManager = InterfaceManagerHoc(
                       }
                       hasError={!!errors.instrumentType}
                       value={value}
-                      onChange={instrumentType => {
+                      onChange={instrumentTypeValue => {
+                        const instrumentType =
+                          instrumentTypeValue.toUpperCase();
                         onChange(instrumentType);
                         interfaceManagerStore.updateInterfaceManager({
                           ...interfaceManagerStore.interfaceManager,
@@ -180,7 +182,9 @@ const InterfaceManager = InterfaceManagerHoc(
                       }
                       hasError={!!errors.instrumentName}
                       value={value}
-                      onChange={instrumentName => {
+                      onChange={instrumentNameValue => {
+                        const instrumentName =
+                          instrumentNameValue.toUpperCase();
                         onChange(instrumentName);
                         interfaceManagerStore.updateInterfaceManager({
                           ...interfaceManagerStore.interfaceManager,

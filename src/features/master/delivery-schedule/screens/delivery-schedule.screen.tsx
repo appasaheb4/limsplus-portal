@@ -205,7 +205,8 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         }
                         hasError={!!errors.schCode}
                         value={value}
-                        onChange={schCode => {
+                        onChange={schCodeValue => {
+                          const schCode = schCodeValue.toUpperCase();
                           onChange(schCode);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
@@ -246,6 +247,30 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       Code already exits. Please use other code.
                     </span>
                   )}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Sch Name'
+                        placeholder={
+                          errors.schName ? 'Please Enter Sch Name' : 'Sch Name'
+                        }
+                        hasError={!!errors.schName}
+                        value={value}
+                        onChange={schNameValue => {
+                          const schName = schNameValue.toUpperCase();
+                          onChange(schName);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            schName,
+                          });
+                        }}
+                      />
+                    )}
+                    name='schName'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

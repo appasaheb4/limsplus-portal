@@ -445,6 +445,7 @@ export const PatientVisit = PatientVisitHoc(
                           ).ageUnit;
                           setValue('age', age);
                           setValue('ageUnits', ageUnits);
+                          setValue('birthDate', item.birthDate);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
@@ -539,11 +540,22 @@ export const PatientVisit = PatientVisitHoc(
                       hasError={!!errors.registrationDate}
                       value={value}
                       onChange={registrationDate => {
-                        onChange(registrationDate);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
+                        const selectedRegistrationDate = new Date(
                           registrationDate,
-                        });
+                        );
+                        const currentDate = new Date();
+                        if (selectedRegistrationDate < currentDate) {
+                          onChange(registrationDate);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            registrationDate,
+                          });
+                        } else {
+                          Toast.error({
+                            message:
+                              'Registration Date should not be greater then Current Date',
+                          });
+                        }
                       }}
                     />
                   )}
@@ -564,12 +576,14 @@ export const PatientVisit = PatientVisitHoc(
                       }
                       hasError={!!errors.collectionDate}
                       value={value}
+                      maxDate={new Date()}
                       onChange={collectionDate => {
                         const date1 = dayjs(collectionDate);
                         const diffDay = date1.diff(
                           patientVisitStore.patientVisit.birthDate,
                           'day',
                         );
+
                         if (diffDay > 0) {
                           onChange(collectionDate);
                           patientVisitStore.updatePatientVisit({

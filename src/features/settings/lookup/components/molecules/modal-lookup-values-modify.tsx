@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-import {Container} from 'reactstrap';
-import {observer} from 'mobx-react';
-import {Form, Buttons, Icons, Svg} from '@/library/components';
+import { Container } from 'reactstrap';
+import { observer } from 'mobx-react';
+import { Form, Buttons, Icons, Svg } from '@/library/components';
 
 interface ModalLookupValuesModifyProps {
   show?: boolean;
@@ -16,7 +16,7 @@ export const ModalLookupValuesModify = observer(
   (props: ModalLookupValuesModifyProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
     const [values, setValues] = useState<any>();
-    const [localInput, setLocalInput] = useState<any>({flagUpperCase: true});
+    const [localInput, setLocalInput] = useState<any>({ flagUpperCase: true });
 
     useEffect(() => {
       setShowModal(props.show);
@@ -108,7 +108,7 @@ export const ModalLookupValuesModify = observer(
                               setLocalInput({
                                 value: '',
                                 code: '',
-                                flagUpperCase: true,
+                                flagUpperCase,
                               });
                             }
                           }}
@@ -151,7 +151,7 @@ export const ModalLookupValuesModify = observer(
                     <button
                       className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         props.onClose();
                         setShowModal(false);
@@ -162,7 +162,7 @@ export const ModalLookupValuesModify = observer(
                     <button
                       className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         setShowModal(false);
                         props.onClick && props.onClick(values, props.id || '');

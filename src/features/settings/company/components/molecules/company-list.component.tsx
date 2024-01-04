@@ -87,6 +87,9 @@ export const CompanyList = (props: CompanyListProps) => {
   const editorCell = (row: any) => {
     return row?.status !== 'I' ? true : false;
   };
+  const todayDate = new Date();
+  const nextDay = new Date();
+  nextDay.setDate(todayDate.getDate() + 1);
   return (
     <TableBootstrap
       id='_id'
@@ -657,7 +660,7 @@ export const CompanyList = (props: CompanyListProps) => {
         {
           dataField: 'dateExpire',
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          text: 'Date Expire',
+          text: 'Date Expiry',
           headerClasses: 'textHeader11',
           sort: true,
           headerStyle: {
@@ -689,7 +692,7 @@ export const CompanyList = (props: CompanyListProps) => {
           ) => (
             <>
               <ModalDateTime
-                minDate={new Date()}
+                minDate={nextDay}
                 visible={true}
                 use12Hours={false}
                 data={row?.dateExpire}

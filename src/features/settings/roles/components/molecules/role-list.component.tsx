@@ -64,6 +64,8 @@ export const RoleList = (props: RoleListProps) => {
               code = filter;
             },
           }),
+          editorStyle: { textTransform: 'uppercase' },
+          style: { textTransform: 'uppercase' },
           editable: false,
         },
         {
