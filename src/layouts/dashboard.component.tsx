@@ -120,7 +120,7 @@ const Dashboard = ({ children }) => {
       await Department.startup();
       await User.startup();
       await Lookup.startup();
-      await Company.startup();
+
       // lookup item fetch
       RouterFlow.getLookupValues(pathname).then(items => {
         stores.routerStore.updateLookupItems(items);
@@ -248,6 +248,12 @@ const Dashboard = ({ children }) => {
       if (pathname === '/settings/environment') await Environment.startup();
       if (pathname === '/settings/mapping/role-mapping')
         await RoleMappping.startup();
+      if (pathname === '/settings/company') {
+        await Company.startup();
+        await InterfaceManager.startup();
+      }
+
+      // communication
       if (pathname === '/communication/interface-manager')
         await InterfaceManager.startup();
       if (pathname === '/communication/mapping/conversation-mapping')
@@ -267,6 +273,7 @@ const Dashboard = ({ children }) => {
       if (pathname === '/communication/transmitted-message') {
         await TransmittedMessage.startup();
       }
+
       // registration
       if (pathname === '/registration/patient') {
         await PatientRegistration.startup();

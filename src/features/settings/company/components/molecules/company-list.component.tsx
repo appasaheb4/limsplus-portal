@@ -77,6 +77,7 @@ interface CompanyListProps {
     dataField: string,
     id: string,
   ) => void;
+  onVersionUpgrade?: (item: any) => void;
 }
 const dynamicStylingFields = ['title', 'environment'];
 const hideExcelSheet = ['_id', 'image', 'operation'];
@@ -154,7 +155,6 @@ export const CompanyList = (props: CompanyListProps) => {
           headerStyle: {
             fontSize: 0,
           },
-          // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           editable: false,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
@@ -180,7 +180,7 @@ export const CompanyList = (props: CompanyListProps) => {
           headerStyle: {
             fontSize: 0,
           },
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
@@ -212,7 +212,6 @@ export const CompanyList = (props: CompanyListProps) => {
             fontSize: 0,
           },
           sortCaret: (order, column) => sortCaret(order, column),
-          //editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           editable: false,
           csvFormatter: col => (col ? col : ''),
           filter: customFilter({
@@ -722,7 +721,7 @@ export const CompanyList = (props: CompanyListProps) => {
           headerStyle: {
             fontSize: 0,
           },
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
@@ -881,7 +880,22 @@ export const CompanyList = (props: CompanyListProps) => {
                     {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                   </Icons.IconContext>
                 </Tooltip>
-                {row?.status == 'D' && (
+                {row.status === 'A' && (
+                  <>
+                    <Tooltip tooltipText='Version Upgrade'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onVersionUpgrade && props.onVersionUpgrade(row)
+                        }
+                      >
+                        {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  </>
+                )}
+                {/* {row?.status == 'D' && (
                   <Tooltip tooltipText='Approval'>
                     <Icons.RIcon
                       nameIcon='AiOutlineCheckCircle'
@@ -889,7 +903,7 @@ export const CompanyList = (props: CompanyListProps) => {
                       onClick={() => props.onApproval(row)}
                     />
                   </Tooltip>
-                )}
+                )} */}
               </div>
             </>
           ),

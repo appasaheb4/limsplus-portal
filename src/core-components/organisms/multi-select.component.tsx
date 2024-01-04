@@ -16,8 +16,7 @@ export const MultiSelect = ({
   hasError = false,
   onSelect,
 }: MultiSelectProps) => {
-  const [selectedOptions, setSelectedOptions] =
-    useState<Array<string>>(selectedItems);
+  const [selectedOptions, setSelectedOptions] = useState<Array<string>>([]);
   // const refSelectedOptions = useRef<Array<string>>([]);
   const [isListOpen, setIsListOpen] = useState(false);
   const useOutsideAlerter = ref => {
@@ -33,6 +32,10 @@ export const MultiSelect = ({
       };
     }, [ref, isListOpen]);
   };
+
+  useEffect(() => {
+    setSelectedOptions(selectedItems);
+  }, [selectedItems]);
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
@@ -50,7 +53,7 @@ export const MultiSelect = ({
             setIsListOpen(!isListOpen);
           }}
         >
-          {selectedOptions?.length > 0 ? selectedOptions.join(',') : 'Select'}
+          {selectedOptions?.length > 0 ? selectedOptions?.join(',') : 'Select'}
         </span>
         <div className={`flex mx-2 ${isListOpen ? `show` : `hidden`}`}>
           {options

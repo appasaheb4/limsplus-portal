@@ -22,13 +22,14 @@ export class Login {
   confidential: boolean;
   picture: string;
   shortcutMenu: any;
+  companyCode: string;
   sessionTimeoutCount: number;
   sessionAllowed: string;
   systemInfo: any;
   webPushTokenFcm: string;
   environment: string;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.lab = rawData.lab;
     this.labLogo = rawData.labLogo;
@@ -52,6 +53,7 @@ export class Login {
     this.confidential = rawData.confidential;
     this.picture = rawData.picture;
     this.shortcutMenu = rawData.shortcutMenu;
+    this.companyCode = rawData.companyCode;
     this.sessionTimeoutCount = rawData.sessionTimeoutCount;
     this.sessionAllowed = rawData.sessionAllowed;
     this.systemInfo = rawData.systemInfo;
