@@ -324,7 +324,7 @@ export const Login = observer(() => {
                                         userId: userId.trim(),
                                         webPortal:
                                           process.env.REACT_APP_ENV === 'Local'
-                                            ? 'https://lims-plus-854e4.web.app'
+                                            ? 'https://www.limsplussolutions.com'
                                             : window.location.origin,
                                       },
                                     })
