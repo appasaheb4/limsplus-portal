@@ -3,6 +3,8 @@ export class Banner {
   title: string;
   file: any;
   image: string;
+  order: number;
+  isTitle: boolean;
   companyCode: string;
   status: string;
   environment: string;
@@ -13,6 +15,8 @@ export class Banner {
     this.title = rawData.title;
     this.file = rawData.file;
     this.image = rawData.image;
+    this.order = rawData.order;
+    this.isTitle = rawData.isTitle;
     this.companyCode = rawData.companyCode;
     this.status = rawData.status;
     this.environment = rawData.environment;

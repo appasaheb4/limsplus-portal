@@ -6,11 +6,15 @@ import {
   Tooltip,
   Icons,
   Form,
+  NumberFilter,
+  customFilter,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { AutoCompleteCompanyList } from '@/core-components';
 
 let title;
+let order;
+let isTitle;
 let environment;
 let status;
 let companyCode;
@@ -106,7 +110,71 @@ export const BannerList = (props: BannerListProps) => {
             </>
           ),
         },
-
+        {
+          dataField: 'order',
+          text: 'Order',
+          headerClasses: 'textHeader2',
+          sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          csvFormatter: col => (col ? col : ''),
+          filter: customFilter({
+            getFilter: filter => {
+              order = filter;
+            },
+          }),
+          filterRenderer: (onFilter, column) => (
+            <NumberFilter onFilter={onFilter} column={column} />
+          ),
+          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                type='number'
+                placeholder={row.order}
+                onBlur={order => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      Number.parseInt(order),
+                      column.dataField,
+                      row._id,
+                    );
+                }}
+              />
+            </>
+          ),
+        },
+        {
+          dataField: 'isTitle',
+          text: 'Title on/off',
+          sort: true,
+          csvFormatter: (col, row) =>
+            `${row.isTitle ? (row.isTitle ? 'Yes' : 'No') : 'No'}`,
+          editable: false,
+          formatter: (cell, row) => {
+            return (
+              <>
+                <Form.Toggle
+                  disabled={!editorCell(row)}
+                  value={row.isTitle}
+                  onChange={isTitle => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(isTitle, 'isTitle', row._id);
+                  }}
+                />
+              </>
+            );
+          },
+        },
         {
           dataField: 'status',
           text: 'Status',

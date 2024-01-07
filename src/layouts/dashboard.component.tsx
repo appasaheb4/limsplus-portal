@@ -458,7 +458,11 @@ const Dashboard = ({ children }) => {
             .then(res => {
               if (res.logout.success) {
                 history.push('/');
+                const companyCode = localStorage.getItem(
+                  'companyCode',
+                ) as string;
                 localStorage.clear();
+                localStorage.setItem('companyCode', companyCode);
                 sessionStorage.clear();
                 stores.routerStore.updateUserRouter(undefined);
               }

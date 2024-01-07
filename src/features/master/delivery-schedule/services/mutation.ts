@@ -11,6 +11,7 @@ export const LIST = gql`
       data {
         _id
         schCode
+        schName
         sundayProcessing
         holidayProcessing
         sundayReporting
@@ -103,6 +104,7 @@ export const FILTER = gql`
       data {
         _id
         schCode
+        schName
         sundayProcessing
         holidayProcessing
         sundayReporting
@@ -141,6 +143,7 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         schCode
+        schName
         sundayProcessing
         holidayProcessing
         sundayReporting

@@ -93,6 +93,7 @@ export class CompanyService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false);

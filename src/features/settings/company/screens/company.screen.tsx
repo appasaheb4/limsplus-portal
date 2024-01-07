@@ -170,14 +170,13 @@ const Company = CompanyHoc(
 
     const checkExistsRecords = async (
       fields = companyStore.company,
-      length = 0,
-      status = 'A',
+      isSingleCheck = false,
     ) => {
       const requiredFields = ['code', 'name', 'status', 'environment'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty && length == 0) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -186,16 +185,15 @@ const Company = CompanyHoc(
       return companyStore.companyService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsCompany?.success &&
-            res.findByFieldsCompany?.data?.length >= length
-          ) {
+          if (res.findByFieldsCompany?.success) {
             setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
@@ -290,7 +288,7 @@ const Company = CompanyHoc(
                                 ...companyStore.company,
                                 code: code?.toUpperCase(),
                               },
-                              1,
+                              true,
                             );
                           }
                         }}
@@ -322,7 +320,7 @@ const Company = CompanyHoc(
                                 ...companyStore.company,
                                 name: name?.toUpperCase(),
                               },
-                              1,
+                              true,
                             );
                           }
                         }}
@@ -332,6 +330,7 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -352,7 +351,9 @@ const Company = CompanyHoc(
                     )}
                     name='description'
                     rules={{ required: false }}
+                    defaultValue=''
                   />
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -909,11 +910,7 @@ const Company = CompanyHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Web Portal Link'
-                        placeholder={
-                          errors.webPortal
-                            ? 'Please enter web portal'
-                            : 'Web Portal'
-                        }
+                        placeholder='http://limsplus.com'
                         hasError={!!errors.webPortal}
                         value={value}
                         onChange={webPortal => {
@@ -923,10 +920,22 @@ const Company = CompanyHoc(
                             webPortal,
                           });
                         }}
+                        onBlur={async webPortal => {
+                          await checkExistsRecords(
+                            {
+                              ...companyStore.company,
+                              webPortal,
+                            },
+                            true,
+                          );
+                        }}
                       />
                     )}
                     name='webPortal'
-                    rules={{ required: true }}
+                    rules={{
+                      required: true,
+                      // pattern: /^[(http)(https)]:\//i,
+                    }}
                     defaultValue=''
                   />
                   <Controller

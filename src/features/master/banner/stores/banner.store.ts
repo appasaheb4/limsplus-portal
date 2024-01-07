@@ -28,7 +28,11 @@ export class BannerStore {
   }
 
   reset() {
-    this.banner = new Banner({ status: 'A' });
+    this.banner = new Banner({
+      order: 1,
+      isTitle: false,
+      status: 'A',
+    });
     this.listBanner = [];
     this.listAllBanner = [];
     this.listBannerCount = 0;
@@ -46,6 +50,10 @@ export class BannerStore {
     if (!res.banners.success) return console.log(res.banners.message);
     this.listBanner = res.banners.data;
     this.listBannerCount = res.banners.paginatorInfo.count;
+    this.banner = new Banner({
+      ...this.banner,
+      order: res.banners.paginatorInfo.count + 1,
+    });
   }
 
   filterBannerList(res: any) {

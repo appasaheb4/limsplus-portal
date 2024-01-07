@@ -207,16 +207,17 @@ const RoleMapping = observer(() => {
                   const routers: any = routerStore.router?.filter(
                     (item: any) => {
                       const children = item.children.filter(childrenItem => {
-                        if (
-                          childrenItem.name !== 'Role' &&
-                          childrenItem.name !== 'User' &&
-                          childrenItem.name !== 'Login Activity' &&
-                          childrenItem.name !== 'Role Mapping' &&
-                          childrenItem.name !== 'Environment Settings' &&
-                          childrenItem.name !== 'Notice Boards'
-                        ) {
-                          return { ...childrenItem };
-                        }
+                        // if (
+                        //   childrenItem.name !== 'Role' &&
+                        //   childrenItem.name !== 'User' &&
+                        //   childrenItem.name !== 'Login Activity' &&
+                        //   childrenItem.name !== 'Role Mapping' &&
+                        //   childrenItem.name !== 'Environment Settings' &&
+                        //   childrenItem.name !== 'Notice Boards'
+                        // ) {
+                        //   return { ...childrenItem };
+                        // }
+                        return { ...childrenItem };
                       });
                       item.children = children;
                       return item;

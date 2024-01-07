@@ -6,9 +6,9 @@
 
 import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
-import { GET_BANNER_LIST_ALL } from './query';
 import * as Model from '../models/index';
 import {
+  GET_BANNER_LIST_ALL,
   BANNER_LIST,
   REMOVE_BANNERS,
   UPDATE_BANNER,
@@ -21,8 +21,14 @@ export class BannerService {
   listAllBanner = () =>
     new Promise<any>((resolve, reject) => {
       client
-        .query({
-          query: GET_BANNER_LIST_ALL,
+        .mutate({
+          mutation: GET_BANNER_LIST_ALL,
+          variables: {
+            input: {
+              companyCode:
+                (localStorage.getItem('companyCode') as string) || 'COMP0001',
+            },
+          },
         })
         .then((response: any) => {
           stores.bannerStore.updateListAllBanner(response.data);

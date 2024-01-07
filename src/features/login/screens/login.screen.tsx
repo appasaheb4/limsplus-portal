@@ -30,13 +30,10 @@ export const Login = observer(() => {
     userStore,
     loginStore,
     rootStore,
-    labStore,
-    roleStore,
     bannerStore,
     lookupStore,
     doctorsStore,
     corporateClientsStore,
-    registrationLocationsStore,
   } = useStores();
   const history = useHistory();
   const [noticeBoard, setNoticeBoard] = useState<any>({});
@@ -52,7 +49,7 @@ export const Login = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors },
     setValue,
     clearErrors,
   } = useForm();
@@ -83,13 +80,12 @@ export const Login = observer(() => {
   }, [loginStore.login]);
 
   const onLogin = async (data: any) => {
-    console.log({ details: loginStore.inputLogin });
-
     const loginFailedCount = loginStore.loginFailedCount || 0;
     if (loginFailedCount > 4) {
       loginStore.LoginService.accountStatusUpdate({
         input: {
           userId: loginStore.inputLogin?.userId,
+          companyCode: loginStore.inputLogin?.companyCode,
           status: 'DI',
         },
       }).then(res => {
@@ -260,16 +256,23 @@ export const Login = observer(() => {
                   >
                     {bannerStore.listAllBanner.map((item, key) => (
                       <Carousel.Item interval={3000} key={key}>
-                        <img
-                          key={key}
-                          src={item.image}
-                          alt={key.toString()}
-                          style={{
-                            width: carouselSize,
-                            height: carouselSize,
-                            borderRadius: carouselSize / 2,
-                          }}
-                        />
+                        <>
+                          {item.isTitle && (
+                            <span className='flex justify-center text-lg text-white'>
+                              {item.title}
+                            </span>
+                          )}
+                          <img
+                            key={key}
+                            src={item.image}
+                            alt={key.toString()}
+                            style={{
+                              width: carouselSize,
+                              height: carouselSize,
+                              borderRadius: carouselSize / 2,
+                            }}
+                          />
+                        </>
                       </Carousel.Item>
                     ))}
                   </Carousel>
@@ -316,63 +319,75 @@ export const Login = observer(() => {
                               onBlur={async userId => {
                                 if (userId) {
                                   userStore.UsersService.serviceUser
-                                    .checkExitsUserId(userId.trim())
+                                    .checkExitsUserId({
+                                      input: {
+                                        userId: userId.trim(),
+                                        webPortal:
+                                          process.env.REACT_APP_ENV === 'Local'
+                                            ? 'https://lims-plus-854e4.web.app'
+                                            : window.location.origin,
+                                      },
+                                    })
                                     .then(async res => {
                                       if (res.checkUserExitsUserId?.success) {
-                                        const {
-                                          data: { user },
-                                        } = res.checkUserExitsUserId;
-                                        setValue('lab', user.defaultLab);
-                                        clearErrors('lab');
-                                        if (user.role.length == 1)
-                                          setValue('role', user.role[0].code);
-                                        let userModuleCategory;
-                                        await lookupStore.LookupService.lookupItemsByPathNField(
-                                          {
-                                            input: {
-                                              path: '/settings/users',
-                                              field: 'USER_MODULE',
+                                        const { data: user } =
+                                          res.checkUserExitsUserId;
+                                        if (user) {
+                                          localStorage.setItem(
+                                            'companyCode',
+                                            user?.companyCode,
+                                          );
+                                          setValue('lab', user?.defaultLab);
+                                          clearErrors('lab');
+                                          if (user.role.length == 1)
+                                            setValue('role', user.role[0].code);
+                                          let userModuleCategory;
+                                          await lookupStore.LookupService.lookupItemsByPathNField(
+                                            {
+                                              input: {
+                                                path: '/settings/users',
+                                                field: 'USER_MODULE',
+                                              },
                                             },
-                                          },
-                                        ).then(res => {
-                                          if (
-                                            res.lookupItemsByPathNField
-                                              .success &&
-                                            res.lookupItemsByPathNField?.data
-                                              ?.length > 0
-                                          ) {
-                                            userModuleCategory =
-                                              res.lookupItemsByPathNField.data[0]?.arrValue.find(
-                                                item =>
-                                                  item.code?.toUpperCase() ==
-                                                  user?.userModule?.toUpperCase(),
-                                              )?.value;
-                                          } else {
-                                            alert(
-                                              'User module not found in lookup',
-                                            );
-                                          }
-                                        });
-                                        loginStore.updateInputUser({
-                                          ...loginStore.inputLogin,
-                                          lab: user.defaultLab,
-                                          role:
-                                            user.role.length == 1
-                                              ? user.role[0].code
-                                              : '',
-                                          userModule: user?.userModule,
-                                          userModuleCategory,
-                                        });
-                                        // labStore.fetchListLab();
-                                        // roleStore.fetchListRole();
-                                        setlabRoleList({
-                                          labList: await getLabList(
-                                            user?.userModule,
+                                          ).then(res => {
+                                            if (
+                                              res.lookupItemsByPathNField
+                                                .success &&
+                                              res.lookupItemsByPathNField?.data
+                                                ?.length > 0
+                                            ) {
+                                              userModuleCategory =
+                                                res.lookupItemsByPathNField.data[0]?.arrValue.find(
+                                                  item =>
+                                                    item.code?.toUpperCase() ==
+                                                    user?.userModule?.toUpperCase(),
+                                                )?.value;
+                                            } else {
+                                              alert(
+                                                'User module not found in lookup',
+                                              );
+                                            }
+                                          });
+                                          loginStore.updateInputUser({
+                                            ...loginStore.inputLogin,
+                                            lab: user.defaultLab,
+                                            role:
+                                              user.role.length == 1
+                                                ? user.role[0].code
+                                                : '',
+                                            userModule: user?.userModule,
                                             userModuleCategory,
-                                            user,
-                                          ),
-                                          roleList: user.role,
-                                        });
+                                            companyCode: user?.companyCode,
+                                          });
+                                          setlabRoleList({
+                                            labList: await getLabList(
+                                              user?.userModule,
+                                              userModuleCategory,
+                                              user,
+                                            ),
+                                            roleList: user.role,
+                                          });
+                                        }
                                       } else {
                                         Toast.error({
                                           message: `😔 ${res?.checkUserExitsUserId?.message}`,
@@ -653,6 +668,7 @@ export const Login = observer(() => {
               input: {
                 _id: item._id,
                 userId: loginStore.inputLogin?.userId,
+                companyCode: loginStore.inputLogin?.companyCode,
                 accessToken: item.user.accessToken,
               },
             }).then(async res => {
