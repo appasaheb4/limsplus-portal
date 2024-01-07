@@ -21,7 +21,6 @@ import { RouterFlow } from '@/flows';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
-// import { AutoCompleteCompanyList } from '@/core-components';
 
 const Banner = BannerHoc(
   observer(() => {
@@ -37,6 +36,7 @@ const Banner = BannerHoc(
     useEffect(() => {
       // Default value initialization
       // setValue('environment', bannerStore.banner?.environment);
+      setValue('order', bannerStore.banner?.order);
       setValue('status', bannerStore.banner?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bannerStore.banner]);
@@ -132,24 +132,53 @@ const Banner = BannerHoc(
                   rules={{ required: true }}
                   defaultValue={bannerStore.banner?.image}
                 />
-                {/* <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <AutoCompleteCompanyList
-                      hasError={!!errors.companyCode}
-                      onSelect={companyCode => {
-                        onChange(companyCode);
-                        bannerStore.updateBanner({
-                          ...bannerStore.banner,
-                          companyCode,
-                        });
-                      }}
-                    />
-                  )}
-                  name='companyCode'
-                  rules={{ required: true }}
-                  defaultValue=''
-                /> */}
+                <div className='flex gap-4'>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Order'
+                        type='number'
+                        placeholder={
+                          errors.order ? 'Please Enter Order' : 'Order'
+                        }
+                        hasError={!!errors.order}
+                        value={value}
+                        onChange={order => {
+                          onChange(order);
+                          bannerStore.updateBanner({
+                            ...bannerStore.banner,
+                            order: Number.parseInt(order),
+                          });
+                        }}
+                      />
+                    )}
+                    name='order'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='Title on/off'
+                        hasError={!!errors.isTitle}
+                        value={value}
+                        onChange={isTitle => {
+                          onChange(isTitle);
+                          bannerStore.updateBanner({
+                            ...bannerStore.banner,
+                            isTitle,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isTitle'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                </div>
+
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -186,53 +215,6 @@ const Banner = BannerHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                {/* <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          bannerStore.updateBanner({
-                            ...bannerStore.banner,
-                            environment,
-                          });
-                        }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : bannerStore.banner?.environment || 'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{ required: true }}
-                  defaultValue=''
-                /> */}
               </List>
             </Grid>
             <br />

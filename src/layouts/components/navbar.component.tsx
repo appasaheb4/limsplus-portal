@@ -286,7 +286,11 @@ const NavbarComponent = observer(({ dispatch }) => {
                           message: `😊 ${res.logout.message}`,
                         });
                         history.push('/');
+                        const companyCode = localStorage.getItem(
+                          'companyCode',
+                        ) as string;
                         localStorage.clear();
+                        localStorage.setItem('companyCode', companyCode);
                         sessionStorage.clear();
                         stores.routerStore.updateUserRouter(undefined);
                       }
@@ -368,6 +372,7 @@ const NavbarComponent = observer(({ dispatch }) => {
             input: {
               _id: item._id,
               userId: loginStore.login?.userId,
+              companyCode: loginStore.login?.companyCode,
               accessToken: item.user.accessToken,
             },
           }).then(async res => {

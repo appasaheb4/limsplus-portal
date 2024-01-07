@@ -1,5 +1,20 @@
 import { gql } from '@apollo/client';
 
+export const GET_BANNER_LIST_ALL = gql`
+  mutation ($input: BannerInput!) {
+    bannersListAll(input: $input) {
+      success
+      message
+      data {
+        title
+        image
+        order
+        isTitle
+      }
+    }
+  }
+`;
+
 export const BANNER_LIST = gql`
   mutation ($input: BannerInput!) {
     banners(input: $input) {
@@ -12,6 +27,8 @@ export const BANNER_LIST = gql`
         _id
         title
         image
+        order
+        isTitle
         companyCode
         status
         environment
@@ -68,6 +85,8 @@ export const FILTER = gql`
         _id
         title
         image
+        order
+        isTitle
         companyCode
         status
         environment

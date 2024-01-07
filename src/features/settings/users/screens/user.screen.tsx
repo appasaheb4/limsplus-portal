@@ -24,11 +24,9 @@ import { UserList } from '../components';
 import dayjs from 'dayjs';
 import { FormHelper } from '@/helper';
 import { AutoCompleteCompanyList } from '@/core-components';
-
 import { useForm, Controller } from 'react-hook-form';
 import { UsersHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetUser } from '../startup';
@@ -112,6 +110,7 @@ export const Users = UsersHoc(
                   ...userStore.user,
                   createdBy:
                     userStore.user?.createdBy || loginStore.login.userId,
+                  companyCode: loginStore.login.companyCode,
                   __typename: undefined,
                   __v: undefined,
                 },
@@ -362,9 +361,9 @@ export const Users = UsersHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             ),
-            companyCode: item['Company Code'],
             version: item.Version,
             environment: item.Environment,
+            companyCode: loginStore.login.companyCode,
             status: 'D',
           };
         });
@@ -688,9 +687,17 @@ export const Users = UsersHoc(
                         onBlur={userId => {
                           if (userId) {
                             userStore.UsersService.serviceUser
-                              .checkExitsUserId(userId)
+                              .findByFields({
+                                input: {
+                                  filter: {
+                                    userId,
+                                    companyCode: loginStore.login.companyCode,
+                                  },
+                                },
+                              })
                               .then(res => {
-                                if (res.checkUserExitsUserId.success)
+                                console.log({ res });
+                                if (res.findByFieldsUser.success)
                                   userStore.setExitsUserId(true);
                                 else userStore.setExitsUserId(false);
                               });
@@ -1809,7 +1816,7 @@ export const Users = UsersHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <AutoCompleteCompanyList
@@ -1826,7 +1833,7 @@ export const Users = UsersHoc(
                     name='companyCode'
                     rules={{ required: true }}
                     defaultValue=''
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
