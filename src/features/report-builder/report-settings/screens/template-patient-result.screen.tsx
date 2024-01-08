@@ -60,7 +60,7 @@ export const TemplatePatientResult = observer(() => {
           Toast.success({
             message: `😊 ${res.createTemplatePatientResult.message}`,
           });
-          setIsInputView(true);
+          setIsInputView(!isInputView);
           reset();
           resetReportBody();
           reportSettingStore.updateSelectedItemTemplatePatientResult(

@@ -294,7 +294,6 @@ const Dashboard = ({ children }) => {
         await ReportSettings.startup();
         await Library.startup();
       }
-
       if (pathname === '/patient-reports/generate-report') {
         stores.appStore.updateFooterView({ visible: false });
         stores.reportSettingStore.templatePatientResultService.listTemplatePatientResult();

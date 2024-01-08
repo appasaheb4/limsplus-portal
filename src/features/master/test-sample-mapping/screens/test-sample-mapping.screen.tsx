@@ -92,7 +92,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               Toast.success({
                 message: `😊 ${res.createTestSampleMapping.message}`,
               });
-              setHideAddLab(true);
+              setHideAddLab(!hideAddLab);
               reset();
               resetTestSampleMapping();
               testSampleMappingStore.updateLocalInput(new LocalInput({}));

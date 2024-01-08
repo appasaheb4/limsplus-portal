@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 //import * as Models from "../models"
 import {
   LIST,
@@ -17,7 +17,7 @@ import {
   CHECK_EXISTS_RECORD,
   FIND_BY_FIELDS,
 } from './mutation';
-import {stores} from '@/stores';
+import { stores } from '@/stores';
 
 export class EnvironmentService {
   listEnvironment = (filter: any, page = 0, limit = 10) =>
@@ -25,7 +25,7 @@ export class EnvironmentService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {filter, page, limit}},
+          variables: { input: { filter, page, limit } },
         })
         .then((response: any) => {
           if (filter.documentType === 'environmentVariable') {
@@ -96,7 +96,7 @@ export class EnvironmentService {
         })
         .then((response: any) => {
           if (!response.data.filterEnviroment.success)
-            return this.listEnvironment({documentType});
+            return this.listEnvironment({ documentType });
           if (documentType === 'environmentVariable') {
             const data = response.data.filterEnviroment.data.filter(
               data => data.documentType === 'environmentVariable',
@@ -137,7 +137,9 @@ export class EnvironmentService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsEnviroment.success)
-            return this.listEnvironment({documentType: 'environmentVariable'});
+            return this.listEnvironment({
+              documentType: 'environmentVariable',
+            });
           stores.environmentStore.filterEnvVariableList({
             filterEnviroment: {
               data: response.data.filterByFieldsEnviroment.data,
@@ -165,7 +167,9 @@ export class EnvironmentService {
         })
         .then((response: any) => {
           if (!response.data.filterByFieldsEnviroment.success)
-            return this.listEnvironment({documentType: 'environmentSettings'});
+            return this.listEnvironment({
+              documentType: 'environmentSettings',
+            });
           stores.environmentStore.filterEnvSettingsList({
             filterEnviroment: {
               data: response.data.filterByFieldsEnviroment.data,

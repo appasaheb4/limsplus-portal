@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {CommentManager} from '../models';
-import {CommentManagerService} from '../services/comment-manager.service';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { CommentManager } from '../models';
+import { CommentManagerService } from '../services/comment-manager.service';
 import dayjs from 'dayjs';
 
 export class CommentManagerStore {

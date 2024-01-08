@@ -447,7 +447,7 @@ export const CompanyList = (props: CompanyListProps) => {
           headerStyle: {
             fontSize: 0,
           },
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {
@@ -740,7 +740,7 @@ export const CompanyList = (props: CompanyListProps) => {
           headerStyle: {
             fontSize: 0,
           },
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
             getFilter: filter => {

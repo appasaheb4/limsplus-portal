@@ -36,14 +36,11 @@ export const EnvironmentVariable = observer(
     const onSubmitEnvironmentVariable = () => {
       if (!environmentStore.checkExistsEnvVariable) {
         environmentStore.EnvironmentService.addEnvironment({
-          input: isImport
-            ? { isImport, arrImportRecords }
-            : {
-                isImport,
-                ...environmentStore.environmentVariable,
-                enteredBy: loginStore.login.userId,
-                documentType: 'environmentVariable',
-              },
+          input: {
+            ...environmentStore.environmentVariable,
+            enteredBy: loginStore.login.userId,
+            documentType: 'environmentVariable',
+          },
         }).then(res => {
           if (res.createEnviroment.success) {
             Toast.success({

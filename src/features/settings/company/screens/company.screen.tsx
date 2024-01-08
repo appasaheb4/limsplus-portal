@@ -17,6 +17,7 @@ import {
   StaticInputTable,
   ImportFile,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
 import { CompanyList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -33,6 +34,7 @@ import { useStores } from '@/stores';
 const Company = CompanyHoc(
   observer(() => {
     const {
+      loading,
       loginStore,
       routerStore,
       companyStore,
@@ -193,7 +195,7 @@ const Company = CompanyHoc(
           },
         })
         .then(res => {
-          if (res.findByFieldsCompany?.success) {
+          if (!res.findByFieldsCompany?.success) {
             setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
@@ -385,19 +387,56 @@ const Company = CompanyHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Lab'
-                        placeholder={errors.lab ? 'Please Enter lab' : 'Lab'}
-                        hasError={!!errors.lab}
-                        value={value}
-                        onChange={lab => {
-                          onChange(lab?.toUpperCase());
-                          companyStore.updateCompany({
-                            ...companyStore.company,
-                            lab: lab?.toUpperCase(),
-                          });
-                        }}
-                      />
+                      <Form.InputWrapper label='Lab'>
+                        {companyStore.company?.existsVersionId ? (
+                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                            loader={loading}
+                            placeholder='Search by code or name'
+                            data={{
+                              list: labStore.listLabs,
+                              displayKey: ['code', 'name'],
+                            }}
+                            displayValue={value}
+                            hasError={!!errors.lab}
+                            onFilter={(value: string) => {
+                              labStore.LabService.filter({
+                                input: {
+                                  type: 'filter',
+                                  filter: {
+                                    name: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              });
+                            }}
+                            onSelect={item => {
+                              onChange(item?.code);
+                              companyStore.updateCompany({
+                                ...companyStore.company,
+                                lab: item?.code,
+                              });
+                              labStore.updateLabList(labStore.listLabsCopy);
+                            }}
+                          />
+                        ) : (
+                          <Form.Input
+                            label=''
+                            placeholder={
+                              errors.lab ? 'Please Enter lab' : 'Lab'
+                            }
+                            hasError={!!errors.lab}
+                            value={value}
+                            onChange={lab => {
+                              onChange(lab?.toUpperCase());
+                              companyStore.updateCompany({
+                                ...companyStore.company,
+                                lab: lab?.toUpperCase(),
+                              });
+                            }}
+                          />
+                        )}
+                      </Form.InputWrapper>
                     )}
                     name='lab'
                     rules={{ required: true }}
@@ -1311,32 +1350,20 @@ const Company = CompanyHoc(
                         label='Environment'
                         hasError={!!errors.environment}
                       >
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            companyStore.updateCompany({
-                              ...companyStore.company,
-                              environment: [environment],
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
+                        <MultiSelect
+                          options={lookupItems(
                             routerStore.lookupItems,
                             'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
+                          ).map(item => item.code)}
+                          selectedItems={companyStore.company.environment}
+                          onSelect={environment => {
+                            onChange(environment[0]);
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              environment: environment,
+                            });
+                          }}
+                        />
                       </Form.InputWrapper>
                     )}
                     name='environment'

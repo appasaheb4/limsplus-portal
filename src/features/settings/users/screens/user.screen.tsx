@@ -458,6 +458,19 @@ export const Users = UsersHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Company'
+                        disabled={true}
+                        value={loginStore.login.companyCode}
+                      />
+                    )}
+                    name='companyCode'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         hasError={!!errors.defaultLab}
                         label='Default Lab'
@@ -650,14 +663,13 @@ export const Users = UsersHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'USER_MODULE',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
+                          {loginStore.login.resCompany.module?.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item}>
+                                {item}
+                              </option>
+                            ),
+                          )}
                         </select>
                       </Form.InputWrapper>
                     )}
@@ -1711,7 +1723,7 @@ export const Users = UsersHoc(
                   </div>
                   <Form.InputWrapper
                     label='Access Permission'
-                    hasError={!!errors.environment}
+                    hasError={!!errors.confirguration}
                     style={{ fontWeight: 'bold' }}
                   >
                     <div className='flex flex-row gap-4'>
@@ -1916,21 +1928,14 @@ export const Users = UsersHoc(
                             });
                           }}
                         >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : (userStore && userStore.user?.environment) ||
-                                'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
+                          <option selected> Select</option>
+                          {loginStore.login.resCompany.environment?.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item}>
+                                {item}
+                              </option>
+                            ),
+                          )}
                         </select>
                       </Form.InputWrapper>
                     )}
