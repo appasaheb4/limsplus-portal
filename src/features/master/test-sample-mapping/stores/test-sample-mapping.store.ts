@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {TestSampleMapping, LocalInput} from '../models';
-import {TestSampleMappingService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { TestSampleMapping, LocalInput } from '../models';
+import { TestSampleMappingService } from '../services';
 
 export class TestSampleMappingStore {
   listTestSampleMapping: TestSampleMapping[];

@@ -276,10 +276,8 @@ export const Library = LibraryHoc(
         'parameter',
         'status',
         'versions',
-        'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        console.log({ item });
         if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
       });
       if (isEmpty) {

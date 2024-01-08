@@ -46,12 +46,11 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       reset,
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideInputView, setHideInputView] = useState<boolean>(true);
+    const [isInputView, setIsInputView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     useEffect(() => {
       // Default value initialization
-      // setValue('environment', loginStore.login.environment);
       setValue('status', environmentStore.environmentSettings?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login]);
@@ -59,20 +58,17 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     const onSubmitSessionManagement = () => {
       if (!environmentStore.checkExistsEnvSettingsRecord) {
         environmentStore.EnvironmentService.addEnvironment({
-          input: isImport
-            ? { isImport, arrImportRecords }
-            : {
-                isImport,
-                ...environmentStore.environmentSettings,
-                enteredBy: loginStore.login.userId,
-                documentType: 'environmentSettings',
-              },
+          input: {
+            ...environmentStore.environmentSettings,
+            enteredBy: loginStore.login.userId,
+            documentType: 'environmentSettings',
+          },
         }).then(res => {
           if (res.createEnviroment.success) {
             Toast.success({
               message: `😊 ${res.createEnviroment.message}`,
             });
-            setHideInputView(true);
+            setIsInputView(!isInputView);
             reset();
             resetEnvironmentSettings();
             setIsImport(false);
@@ -172,37 +168,6 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       [environmentStore.environmentSettingsList],
     );
 
-    const handleFileUpload = (file: any) => {
-      const reader = new FileReader();
-      reader.addEventListener('load', (evt: any) => {
-        /* Parse data */
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: 'binary' });
-        /* Get first worksheet */
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, { raw: true });
-        const list = data.map((item: any) => {
-          return {
-            lab: [],
-            user: [],
-            department: [],
-            variable: item.Variable,
-            value: item.Value,
-            descriptions: item.Description,
-            environment: item.Environment,
-            // allLabs:item[],
-            // allUsers:item[],
-            // allDepartment:item[]
-            status: 'D',
-          };
-        });
-        setArrImportRecords(list);
-      });
-      reader.readAsBinaryString(file);
-    };
-
     const checkExistsRecords = async (
       fields = environmentStore.environmentSettings,
       length = 0,
@@ -243,13 +208,13 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemoveBottom
             style={{ bottom: 40 }}
-            show={hideInputView}
-            onClick={() => setHideInputView(!hideInputView)}
+            show={!isInputView}
+            onClick={() => setIsInputView(!isInputView)}
           />
         )}
         <div
           className={
-            'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'shown' : 'shown')
+            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
           }
         >
           <div className='p-2 rounded-lg shadow-xl'>

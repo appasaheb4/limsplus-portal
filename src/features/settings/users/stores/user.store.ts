@@ -1,7 +1,7 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Users, SelectedItems, ChangePassword} from '../models';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Users, SelectedItems, ChangePassword } from '../models';
 import dayjs from 'dayjs';
-import {UserService} from '../services';
+import { UserService } from '../services';
 
 export class UserStore {
   user!: Users;
