@@ -92,7 +92,7 @@ const Company = CompanyHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
-    const [isHideView, setIsHideView] = useState<boolean>(true);
+    const [isHideView, setIsHideView] = useState<boolean>(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -171,7 +171,7 @@ const Company = CompanyHoc(
     };
 
     const checkExistsRecords = async (
-      fields = companyStore.company,
+      fields = companyStore.company as any,
       isSingleCheck = false,
     ) => {
       const requiredFields = ['code', 'name', 'status', 'environment'];
@@ -195,7 +195,8 @@ const Company = CompanyHoc(
           },
         })
         .then(res => {
-          if (!res.findByFieldsCompany?.success) {
+          console.log({ res });
+          if (res.findByFieldsCompany?.success) {
             setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
@@ -287,7 +288,6 @@ const Company = CompanyHoc(
                           if (code) {
                             await checkExistsRecords(
                               {
-                                ...companyStore.company,
                                 code: code?.toUpperCase(),
                               },
                               true,
@@ -319,7 +319,6 @@ const Company = CompanyHoc(
                           if (name) {
                             await checkExistsRecords(
                               {
-                                ...companyStore.company,
                                 name: name?.toUpperCase(),
                               },
                               true,
@@ -724,7 +723,7 @@ const Company = CompanyHoc(
                           onChange(country);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            country,
+                            country: country?.toUpperCase(),
                           });
                         }}
                       />
@@ -748,7 +747,7 @@ const Company = CompanyHoc(
                           onChange(state);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            state,
+                            state: state?.toUpperCase(),
                           });
                         }}
                       />
@@ -771,7 +770,7 @@ const Company = CompanyHoc(
                           onChange(district);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            district,
+                            district: district?.toUpperCase(),
                           });
                         }}
                       />
@@ -962,7 +961,6 @@ const Company = CompanyHoc(
                         onBlur={async webPortal => {
                           await checkExistsRecords(
                             {
-                              ...companyStore.company,
                               webPortal,
                             },
                             true,
