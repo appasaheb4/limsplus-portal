@@ -92,7 +92,7 @@ const Company = CompanyHoc(
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
-    const [isHideView, setIsHideView] = useState<boolean>(false);
+    const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
@@ -791,7 +791,7 @@ const Company = CompanyHoc(
                           onChange(city);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            city,
+                            city: city?.toUpperCase(),
                           });
                         }}
                       />
@@ -1055,7 +1055,7 @@ const Company = CompanyHoc(
                           onChange(gst);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            gst,
+                            gst: gst?.toUpperCase(),
                           });
                         }}
                       />
@@ -1078,7 +1078,7 @@ const Company = CompanyHoc(
                           onChange(sacCode);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            sacCode,
+                            sacCode: sacCode?.toUpperCase(),
                           });
                         }}
                       />
@@ -1102,7 +1102,7 @@ const Company = CompanyHoc(
                           onChange(cinNo);
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            cinNo,
+                            cinNo: cinNo?.toUpperCase(),
                           });
                         }}
                       />
@@ -1438,7 +1438,7 @@ const Company = CompanyHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update banner!',
+                  body: 'Update record!',
                 });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -1447,7 +1447,7 @@ const Company = CompanyHoc(
                   type: 'UpdateImage',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update banner!',
+                  body: 'Update record!',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -1481,7 +1481,7 @@ const Company = CompanyHoc(
                   type: 'Update',
                   data: { value: 'A', dataField: 'status', id: records._id },
                   title: 'Are you sure?',
-                  body: 'Update deginisation!',
+                  body: 'Update records!',
                 });
               }}
               onSingleDirectUpdateField={(value, dataField, id) => {

@@ -293,6 +293,29 @@ export const CompanyList = (props: CompanyListProps) => {
               country = filter;
             },
           }),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                placeholder={row?.country}
+                style={{ textTransform: 'uppercase' }}
+                onBlur={country => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      country?.toUpperCase(),
+                      column.dataField,
+                      row?._id,
+                    );
+                }}
+              />
+            </>
+          ),
         },
         {
           dataField: 'state',
@@ -309,6 +332,29 @@ export const CompanyList = (props: CompanyListProps) => {
               state = filter;
             },
           }),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                placeholder={row?.state}
+                style={{ textTransform: 'uppercase' }}
+                onBlur={state => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      state?.toUpperCase(),
+                      column.dataField,
+                      row?._id,
+                    );
+                }}
+              />
+            </>
+          ),
         },
         {
           dataField: 'district',
@@ -325,6 +371,29 @@ export const CompanyList = (props: CompanyListProps) => {
               district = filter;
             },
           }),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                placeholder={row?.district}
+                style={{ textTransform: 'uppercase' }}
+                onBlur={district => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      district?.toUpperCase(),
+                      column.dataField,
+                      row?._id,
+                    );
+                }}
+              />
+            </>
+          ),
         },
         {
           dataField: 'city',
@@ -341,6 +410,29 @@ export const CompanyList = (props: CompanyListProps) => {
               city = filter;
             },
           }),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                placeholder={row?.city}
+                style={{ textTransform: 'uppercase' }}
+                onBlur={city => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      city?.toUpperCase(),
+                      column.dataField,
+                      row?._id,
+                    );
+                }}
+              />
+            </>
+          ),
         },
         {
           dataField: 'area',
@@ -518,6 +610,29 @@ export const CompanyList = (props: CompanyListProps) => {
               gst = filter;
             },
           }),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                placeholder={row?.gst}
+                style={{ textTransform: 'uppercase' }}
+                onBlur={gst => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      gst?.toUpperCase(),
+                      column.dataField,
+                      row?._id,
+                    );
+                }}
+              />
+            </>
+          ),
         },
         {
           dataField: 'sacCode',
@@ -534,6 +649,29 @@ export const CompanyList = (props: CompanyListProps) => {
               sacCode = filter;
             },
           }),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                placeholder={row?.sacCode}
+                style={{ textTransform: 'uppercase' }}
+                onBlur={sacCode => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      sacCode?.toUpperCase(),
+                      column.dataField,
+                      row?._id,
+                    );
+                }}
+              />
+            </>
+          ),
         },
         {
           dataField: 'cinNo',
@@ -550,6 +688,29 @@ export const CompanyList = (props: CompanyListProps) => {
               cinNo = filter;
             },
           }),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex,
+          ) => (
+            <>
+              <Form.Input
+                placeholder={row?.cinNo}
+                style={{ textTransform: 'uppercase' }}
+                onBlur={cinNo => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      cinNo?.toUpperCase(),
+                      column.dataField,
+                      row?._id,
+                    );
+                }}
+              />
+            </>
+          ),
         },
 
         {
@@ -847,8 +1008,6 @@ export const CompanyList = (props: CompanyListProps) => {
                 ).map(item => item.code)}
                 selectedItems={row?.environment}
                 onSelect={environment => {
-                  console.log({ environment });
-
                   props.onUpdateItem &&
                     props.onUpdateItem(environment, column.dataField, row?._id);
                 }}
