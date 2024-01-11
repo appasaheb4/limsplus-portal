@@ -417,7 +417,7 @@ export const EnvironmentVariable = observer(
             )}
             isEditModify={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
-              'Edit/Modify',
+              'Update',
             )}
             onDelete={selectedUser =>
               props.onModalConfirm && props.onModalConfirm(selectedUser)

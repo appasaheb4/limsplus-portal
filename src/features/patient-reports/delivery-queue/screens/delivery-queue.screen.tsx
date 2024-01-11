@@ -268,7 +268,7 @@ const DeliveryQueue = observer(() => {
         )}
         isEditModify={RouterFlow.checkPermission(
           routerStore.userPermission,
-          'Edit/Modify',
+          'Update',
         )}
         onUpdate={selectedItem => updateRecords(selectedItem)}
         onFilter={(type, filter, page, limit) => {

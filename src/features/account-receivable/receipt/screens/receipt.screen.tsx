@@ -1,5 +1,5 @@
-import React, { useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 
 import {
   Header,
@@ -7,22 +7,22 @@ import {
   PageHeadingLabDetails,
   Toast,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
-import {ReceiptList} from '../components';
-import {ModalReceiptShare} from '../../components';
+import { useForm } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
+import { ReceiptList } from '../components';
+import { ModalReceiptShare } from '../../components';
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const Receipt = observer(() => {
-  const {receiptStore, routerStore, loginStore} = useStores();
+  const { receiptStore, routerStore, loginStore } = useStores();
   const [receiptPath, setReceiptPath] = useState<string>();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
@@ -45,7 +45,7 @@ const Receipt = observer(() => {
           )}
           isEditModify={RouterFlow.checkPermission(
             routerStore.userPermission,
-            'Edit/Modify',
+            'Update',
           )}
           onPageSizeChange={(page, limit) => {
             // bannerStore.fetchListBanner(page, limit);
@@ -57,7 +57,7 @@ const Receipt = observer(() => {
           }}
           onReport={item => {
             receiptStore.receiptService
-              .generatePaymentReceipt({input: {headerId: item?.headerId}})
+              .generatePaymentReceipt({ input: { headerId: item?.headerId } })
               .then(async res => {
                 if (res.generatePaymentReceipt?.success) {
                   console.log({
@@ -80,12 +80,12 @@ const Receipt = observer(() => {
       <ModalReceiptShare
         {...modalPaymentReceipt}
         onClose={() => {
-          setModalPaymentReceipt({show: false});
+          setModalPaymentReceipt({ show: false });
         }}
         onReceiptUpload={(file, type) => {
           if (!receiptPath) {
             receiptStore.receiptService
-              .paymentReceiptUpload({input: {file}})
+              .paymentReceiptUpload({ input: { file } })
               .then(res => {
                 if (res.paymentReceiptUpload.success) {
                   setReceiptPath(res.paymentReceiptUpload?.receiptPath);

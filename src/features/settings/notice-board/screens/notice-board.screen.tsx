@@ -85,7 +85,7 @@ const NoticeBoard = NoticeBoardHoc(
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedUser => setModalConfirm(selectedUser)}
           onSelectedRow={rows => {

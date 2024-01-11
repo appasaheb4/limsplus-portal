@@ -1,22 +1,22 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {PatientResultList} from '../components';
-import {useStores} from '@/stores';
-import {toJS} from 'mobx';
-import {RouterFlow} from '@/flows';
+import { observer } from 'mobx-react';
+import { PatientResultList } from '../components';
+import { useStores } from '@/stores';
+import { toJS } from 'mobx';
+import { RouterFlow } from '@/flows';
 
 interface PatientResultProps {
   onModalConfirm?: (item: any) => void;
 }
 export const PatientResult = observer((props: PatientResultProps) => {
-  const {patientResultStore, patientRegistrationStore, routerStore} =
+  const { patientResultStore, patientRegistrationStore, routerStore } =
     useStores();
 
   return (
     <>
       <div
         className='p-2 rounded-lg shadow-xl overflow-scroll'
-        style={{overflowX: 'scroll'}}
+        style={{ overflowX: 'scroll' }}
       >
         <PatientResultList
           data={patientResultStore.patientResultListWithLabId}
@@ -28,7 +28,7 @@ export const PatientResult = observer((props: PatientResultProps) => {
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedUser =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
@@ -48,14 +48,14 @@ export const PatientResult = observer((props: PatientResultProps) => {
               props.onModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value, dataField, id},
+                data: { value, dataField, id },
                 title: 'Are you sure?',
                 body: 'Update recoard!',
               });
           }}
           onPageSizeChange={(page, limit) => {
             patientResultStore.patientResultService.listPatientResultWithLabId(
-              {labId: patientRegistrationStore.defaultValues?.labId},
+              { labId: patientRegistrationStore.defaultValues?.labId },
               page,
               limit,
             );

@@ -450,7 +450,7 @@ const Methods = MethodsHoc(
               )}
               isEditModify={RouterFlow.checkPermission(
                 routerStore.userPermission,
-                'Edit/Modify',
+                'Update',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {

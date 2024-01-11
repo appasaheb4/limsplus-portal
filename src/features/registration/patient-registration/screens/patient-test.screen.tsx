@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
@@ -12,14 +12,14 @@ import {
   ModalConfirm,
 } from '@/library/components';
 import '@/library/assets/css/accordion.css';
-import {useForm, Controller} from 'react-hook-form';
-import {PatientTestList} from '../components';
-import {PatientOrderHoc} from '../hoc';
+import { useForm, Controller } from 'react-hook-form';
+import { PatientTestList } from '../components';
+import { PatientOrderHoc } from '../hoc';
 
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 
-import {toJS} from 'mobx';
-import {RouterFlow} from '@/flows';
+import { toJS } from 'mobx';
+import { RouterFlow } from '@/flows';
 import {
   Accordion,
   AccordionItem,
@@ -28,7 +28,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {PanelListTable, ExtraDataPanelListTable} from '../components';
+import { PanelListTable, ExtraDataPanelListTable } from '../components';
 
 interface PatientTestProps {
   onModalConfirm?: (item: any) => void;
@@ -49,7 +49,7 @@ export const PatientTest = PatientOrderHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
     } = useForm();
 
@@ -93,7 +93,7 @@ export const PatientTest = PatientOrderHoc(
                 {patientOrderStore.listPatientOrder && (
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.InputWrapper
                         label='Order Id'
                         hasError={!!errors.orderId}
@@ -148,7 +148,7 @@ export const PatientTest = PatientOrderHoc(
                       </Form.InputWrapper>
                     )}
                     name='orderId'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 )}
@@ -171,7 +171,7 @@ export const PatientTest = PatientOrderHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -211,12 +211,12 @@ export const PatientTest = PatientOrderHoc(
                     </Form.InputWrapper>
                   )}
                   name='labId'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Form.Input
                       label='Test Id'
                       placeholder={
@@ -235,14 +235,14 @@ export const PatientTest = PatientOrderHoc(
                     />
                   )}
                   name='testId'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
               </List>
             </Grid>
             <div
               className='rounded-lg shadow-xl overflow-scroll mt-2'
-              style={{overflowX: 'scroll'}}
+              style={{ overflowX: 'scroll' }}
             >
               {patientOrderStore.packageList && (
                 <PanelListTable
@@ -253,7 +253,7 @@ export const PatientTest = PatientOrderHoc(
             </div>
           </div>
           <br />
-          <div className='extra' style={{border: '1px solid yellow'}}>
+          <div className='extra' style={{ border: '1px solid yellow' }}>
             <Accordion allowZeroExpanded>
               <AccordionItem>
                 <AccordionItemHeading>
@@ -263,7 +263,7 @@ export const PatientTest = PatientOrderHoc(
                   <>
                     <div
                       className='rounded-lg shadow-xl overflow-scroll mt-2'
-                      style={{overflowX: 'scroll'}}
+                      style={{ overflowX: 'scroll' }}
                     >
                       {patientOrderStore.packageList && (
                         <ExtraDataPanelListTable
@@ -304,7 +304,7 @@ export const PatientTest = PatientOrderHoc(
 
         <div
           className='p-2 rounded-lg shadow-xl overflow-scroll'
-          style={{overflowX: 'scroll'}}
+          style={{ overflowX: 'scroll' }}
         >
           <PatientTestList
             data={patientTestStore.patientListTest}
@@ -318,7 +318,7 @@ export const PatientTest = PatientOrderHoc(
             )}
             isEditModify={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
-              'Edit/Modify',
+              'Update',
             )}
             onDelete={selectedUser => setModalConfirm(selectedUser)}
             onSelectedRow={rows => {
@@ -332,11 +332,11 @@ export const PatientTest = PatientOrderHoc(
             }}
             onPageSizeChange={(page, limit) => {
               patientTestStore.patientTestService.listPatientTest(page, limit);
-              global.filter = {mode: 'pagination', page, limit};
+              global.filter = { mode: 'pagination', page, limit };
             }}
             onFilter={(type, filter, page, limit) => {
               patientTestStore.patientTestService.filter({
-                input: {type, filter, page, limit},
+                input: { type, filter, page, limit },
               });
               global.filter = {
                 mode: 'filter',
@@ -353,9 +353,9 @@ export const PatientTest = PatientOrderHoc(
           click={(action?: string) => {
             if (action === 'delete') {
               patientTestStore.patientTestService
-                .deletePatientTest({input: {id: modalConfirm.id}})
+                .deletePatientTest({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.removePatientTest.success) {
                     Toast.success({
                       message: `😊 ${res.removePatientTest.message}`,
@@ -379,7 +379,7 @@ export const PatientTest = PatientOrderHoc(
                 });
             }
           }}
-          onClose={() => setModalConfirm({show: false})}
+          onClose={() => setModalConfirm({ show: false })}
         />
       </>
     );

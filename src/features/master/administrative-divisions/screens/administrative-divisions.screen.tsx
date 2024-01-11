@@ -657,7 +657,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
               )}
               isEditModify={RouterFlow.checkPermission(
                 routerStore.userPermission,
-                'Edit/Modify',
+                'Update',
               )}
               // isEditModify={false}
               onDelete={selectedItem => setModalConfirm(selectedItem)}

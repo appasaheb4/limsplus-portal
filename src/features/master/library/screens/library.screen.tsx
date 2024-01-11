@@ -184,7 +184,7 @@ export const Library = LibraryHoc(
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {

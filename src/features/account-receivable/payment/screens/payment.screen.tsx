@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
-import {Table} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { Table } from 'reactstrap';
 import {
   Header,
   PageHeading,
@@ -13,14 +13,14 @@ import {
   Svg,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
-import {useForm, Controller} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
-import {lookupItems, lookupValue} from '@/library/utils';
-import {useStores} from '@/stores';
-import {PaymentList} from '../components';
-import {PaymentHoc} from '../hoc';
-import {resetPayment} from '../startup';
-import {Payment as Model} from '../models';
+import { useForm, Controller } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
+import { lookupItems, lookupValue } from '@/library/utils';
+import { useStores } from '@/stores';
+import { PaymentList } from '../components';
+import { PaymentHoc } from '../hoc';
+import { resetPayment } from '../startup';
+import { Payment as Model } from '../models';
 
 const Payment = PaymentHoc(
   observer(() => {
@@ -35,7 +35,7 @@ const Payment = PaymentHoc(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
       setError,
@@ -166,7 +166,7 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='PId' hasError={!!errors.pId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -217,7 +217,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
@@ -268,7 +268,7 @@ const Payment = PaymentHoc(
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='RLab'
                       placeholder={'RLab'}
@@ -278,13 +278,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='rLab'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Invoice AC'
                       placeholder={'Invoice AC'}
@@ -294,13 +294,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='invoiceAC'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue={paymentStore.payment?.invoiceAC}
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Customer Name'
                       placeholder={'Customer Name'}
@@ -310,12 +310,12 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='customerName'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Customer Group'
                       placeholder={'Customer Group'}
@@ -325,12 +325,12 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='customerGroup'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='AC Class'
                       placeholder={'AC Class'}
@@ -340,13 +340,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='acClass'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Ac Type'
                       placeholder={'Ac Type'}
@@ -356,12 +356,12 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='acType'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Other Charges'
                       placeholder={'Other Charges'}
@@ -371,12 +371,12 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='discountCharges'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Invoice Date'
                       placeholder={'Invoice Date'}
@@ -386,7 +386,7 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='invoiceDate'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
               </List>
@@ -394,7 +394,7 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Gross Amount'
                       placeholder={'Gross Amount'}
@@ -404,13 +404,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='grossAmount'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Net Amount'
                       placeholder={'Net Amount'}
@@ -420,13 +420,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='netAmount'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Discount Amount'
                       placeholder={'Discount Amount'}
@@ -436,13 +436,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='discountAmount'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Discount Per'
                       placeholder={'Discount Per'}
@@ -452,13 +452,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='discountPer'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Miscellaneous Charges'
                       placeholder={'Miscellaneous Charges'}
@@ -468,7 +468,7 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='miscellaneousCharges'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Table striped bordered>
@@ -489,7 +489,7 @@ const Payment = PaymentHoc(
                           </td>
                           <td className='sticky left-0'>
                             <Form.Input
-                              style={{height: 30}}
+                              style={{ height: 30 }}
                               label=''
                               type='number'
                               placeholder='Amount'
@@ -506,7 +506,7 @@ const Payment = PaymentHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Mode of payment'>
                       <select
                         value={value}
@@ -537,13 +537,13 @@ const Payment = PaymentHoc(
                     </Form.InputWrapper>
                   )}
                   name='modeOfPayment'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.MultilineInput
                       label='Payment Remark'
                       placeholder='Payment Remark'
@@ -559,13 +559,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='paymentRemark'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Amount Payable'
                       placeholder={'Amount Payable'}
@@ -575,13 +575,13 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='amountPayable'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
 
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Received Amount'
                       placeholder={'Received Amount'}
@@ -595,13 +595,13 @@ const Payment = PaymentHoc(
                           0
                         ) {
                           alert('Please enter correct amount!');
-                          setError('receivedAmount', {type: 'onBlur'});
+                          setError('receivedAmount', { type: 'onBlur' });
                         } else if (receivedAmount == '') {
                           paymentStore.updatePayment({
                             ...paymentStore.payment,
                             receivedAmount,
                           });
-                          setError('receivedAmount', {type: 'onBlur'});
+                          setError('receivedAmount', { type: 'onBlur' });
                         } else {
                           onChange(Number.parseFloat(receivedAmount));
                           paymentStore.updatePayment({
@@ -626,12 +626,12 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='receivedAmount'
-                  rules={{required: true}}
+                  rules={{ required: true }}
                   defaultValue={paymentStore.payment?.receivedAmount}
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Balance'
                       placeholder={'Balance'}
@@ -641,12 +641,12 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='balance'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Status'
                       placeholder={'Status'}
@@ -656,12 +656,12 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='status'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue=''
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Entered By'
                       placeholder={'Entered By'}
@@ -671,7 +671,7 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='enteredBy'
-                  rules={{required: false}}
+                  rules={{ required: false }}
                   defaultValue={paymentStore.payment?.enteredBy}
                 />
               </List>
@@ -712,7 +712,7 @@ const Payment = PaymentHoc(
               )}
               isEditModify={RouterFlow.checkPermission(
                 routerStore.userPermission,
-                'Edit/Modify',
+                'Update',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {
@@ -728,7 +728,7 @@ const Payment = PaymentHoc(
                 setModalConfirm({
                   show: true,
                   type: 'Update',
-                  data: {value, dataField, id},
+                  data: { value, dataField, id },
                   title: 'Are you sure?',
                   body: 'Update deginisation!',
                 });

@@ -511,7 +511,7 @@ const InterfaceManager = InterfaceManagerHoc(
               )}
               isEditModify={RouterFlow.checkPermission(
                 toJS(routerStore.userPermission),
-                'Edit/Modify',
+                'Update',
               )}
               onDelete={selectedUser => setModalConfirm(selectedUser)}
               onSelectedRow={rows => {

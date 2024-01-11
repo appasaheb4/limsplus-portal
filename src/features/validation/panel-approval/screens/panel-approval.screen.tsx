@@ -1,20 +1,20 @@
-import React, {useMemo, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useMemo, useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
   PageHeadingLabDetails,
   Toast,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
+import { useForm } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
 import {
   PendingPanelApprovalList,
   ResultList,
   PatientDemographicsList,
 } from '../components';
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const PanelApproval = observer(() => {
@@ -31,7 +31,7 @@ const PanelApproval = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const [receiptPath, setReceiptPath] = useState<string>();
@@ -39,7 +39,7 @@ const PanelApproval = observer(() => {
   const [tableReaload, setTableReload] = useState<boolean>(false);
 
   const updateRecords = payload => {
-    const {type, data} = payload;
+    const { type, data } = payload;
     switch (type) {
       case 'update': {
         panelApprovalStore.panelApprovalService
@@ -143,13 +143,13 @@ const PanelApproval = observer(() => {
         )}
         isEditModify={RouterFlow.checkPermission(
           routerStore.userPermission,
-          'Edit/Modify',
+          'Update',
         )}
         onSelectedRow={(rows, type) => {
           updateRecords({
             show: true,
             type: 'updateMany',
-            data: {rows, type},
+            data: { rows, type },
             title: 'Are you sure?',
             body: 'Update items!',
           });
@@ -158,7 +158,7 @@ const PanelApproval = observer(() => {
           updateRecords({
             show: true,
             type: 'update',
-            data: {fields, id},
+            data: { fields, id },
             title: 'Are you sure?',
             body: 'Update items!',
           });
@@ -178,13 +178,13 @@ const PanelApproval = observer(() => {
         }}
         onFilter={(type, filter, page, limit) => {
           panelApprovalStore.panelApprovalService.filter({
-            input: {type, filter, page, limit},
+            input: { type, filter, page, limit },
           });
         }}
         onRecheck={async (id: string, patientResultId: string) => {
           await patientResultStore.patientResultService
             .updateStatus({
-              input: {filter: {id, patientResultId, mode: 'reCheck'}},
+              input: { filter: { id, patientResultId, mode: 'reCheck' } },
             })
             .then(res => {
               Toast.success({
@@ -196,7 +196,7 @@ const PanelApproval = observer(() => {
         onRetest={async (id: string, patientResultId: string) => {
           await patientResultStore.patientResultService
             .updateStatus({
-              input: {filter: {id, patientResultId, mode: 'reTest'}},
+              input: { filter: { id, patientResultId, mode: 'reTest' } },
             })
             .then(res => {
               Toast.success({

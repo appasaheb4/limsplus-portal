@@ -46,7 +46,7 @@ const GeneralResultEntry = observer(() => {
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           onUpdateValue={(item, id) => {
             const updated =

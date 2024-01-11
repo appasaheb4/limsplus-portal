@@ -185,7 +185,7 @@ export const Users = UsersHoc(
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           role={loginStore.login?.role}
           onDelete={selectedUser => setModalConfirm(selectedUser)}

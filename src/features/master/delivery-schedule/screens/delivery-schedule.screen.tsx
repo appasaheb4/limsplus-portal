@@ -854,7 +854,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
               )}
               isEditModify={RouterFlow.checkPermission(
                 toJS(routerStore.userPermission),
-                'Edit/Modify',
+                'Update',
               )}
               // isEditModify={false}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
