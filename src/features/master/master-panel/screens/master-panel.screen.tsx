@@ -229,7 +229,7 @@ const MasterPanel = MasterPanelHoc(
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           // isEditModify={false}
           onDelete={selectedItem => setModalConfirm(selectedItem)}

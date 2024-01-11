@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Buttons,
@@ -11,8 +11,8 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import {Collapsible} from '@/core-components';
-import {PDFViewer, Document} from '@react-pdf/renderer';
+import { Collapsible } from '@/core-components';
+import { PDFViewer, Document } from '@react-pdf/renderer';
 import {
   ReportBodyList,
   General,
@@ -21,21 +21,21 @@ import {
   Analyte,
   AutoCompletePageBrandingCode,
 } from '../components';
-import {useForm, Controller} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
+import { useStores } from '@/stores';
 
-import {PdfPBTemp0001} from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
+import { PdfPBTemp0001 } from '@features/report-builder/report-template/components/molecules/pdf/page-branding/temp0001/temp0001.component';
 
 const width = '100%';
 const height = window.innerHeight / 1.3;
 
 export const ReportBody = observer(() => {
-  const {loading, routerStore, reportSettingStore} = useStores();
+  const { loading, routerStore, reportSettingStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -83,7 +83,7 @@ export const ReportBody = observer(() => {
     if (tempCode)
       return (
         <PDFViewer
-          style={{width, height}}
+          style={{ width, height }}
           showToolbar={reportSettingStore.pageLayout?.isToolbar}
         >
           <Document title='Page Branding'>
@@ -109,7 +109,7 @@ export const ReportBody = observer(() => {
     <>
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemoveBottom
-          style={{bottom: 50}}
+          style={{ bottom: 50 }}
           show={!isInputView}
           onClick={() => setIsInputView(!isInputView)}
         />
@@ -123,7 +123,7 @@ export const ReportBody = observer(() => {
           <List direction='col' space={4} justify='stretch' fill>
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <AutoCompletePageBrandingCode
                   hasError={!!errors.pageBrandingCode}
                   onSelect={item => {
@@ -136,12 +136,12 @@ export const ReportBody = observer(() => {
                 />
               )}
               name='pageBrandingCode'
-              rules={{required: true}}
+              rules={{ required: true }}
               defaultValue={reportSettingStore.pageBrandingList}
             />
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Form.Input
                   label='Report Code'
                   placeholder='Report Code'
@@ -179,12 +179,12 @@ export const ReportBody = observer(() => {
                 />
               )}
               name='reportCode'
-              rules={{required: true}}
+              rules={{ required: true }}
               defaultValue=''
             />
             <Controller
               control={control}
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <Form.Input
                   label='Report Name'
                   placeholder='Report Name'
@@ -200,7 +200,7 @@ export const ReportBody = observer(() => {
                 />
               )}
               name='reportName'
-              rules={{required: true}}
+              rules={{ required: true }}
               defaultValue=''
             />
 
@@ -248,7 +248,7 @@ export const ReportBody = observer(() => {
           )}
           isEditModify={RouterFlow.checkPermission(
             routerStore.userPermission,
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -264,7 +264,7 @@ export const ReportBody = observer(() => {
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {fields, id},
+              data: { fields, id },
               title: 'Are you sure?',
               body: 'Update banner!',
             });
@@ -312,10 +312,10 @@ export const ReportBody = observer(() => {
             case 'delete': {
               reportSettingStore.reportBodyService
                 .removeReportBody({
-                  input: {id: modalConfirm.id},
+                  input: { id: modalConfirm.id },
                 })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.removeReportBody.success) {
                     Toast.success({
                       message: `😊 ${res.removeReportBody.message}`,
@@ -334,7 +334,7 @@ export const ReportBody = observer(() => {
                   },
                 })
                 .then((res: any) => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.updateReportBody.success) {
                     Toast.success({
                       message: `😊 ${res.updateReportBody.message}`,
@@ -346,11 +346,11 @@ export const ReportBody = observer(() => {
             }
           }
         }}
-        onClose={() => setModalConfirm({show: false})}
+        onClose={() => setModalConfirm({ show: false })}
       />
       <ModalView
         {...modalView}
-        onClose={() => setModalView({visible: false})}
+        onClose={() => setModalView({ visible: false })}
       />
     </>
   );

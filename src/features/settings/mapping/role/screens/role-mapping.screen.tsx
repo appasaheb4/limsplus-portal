@@ -33,6 +33,7 @@ const getListStyle = isDraggingOver => ({
 
 const RoleMapping = observer(() => {
   const { loginStore, roleMappingStore, roleStore, routerStore } = useStores();
+
   const [hideRole, setHideRole] = useState<boolean>(false);
   const [modalConfirm, setModalConfirm] = useState<any>();
   let roleList: any = roleStore.listRole || [];
@@ -43,10 +44,26 @@ const RoleMapping = observer(() => {
       });
     }
   }
-
   const [isModify, setIsModify] = useState<any>({ status: false });
+  const [commonAction, setCommonAction] = useState([
+    {
+      title: 'Add',
+      checked: false,
+    },
+    {
+      title: 'View',
+      checked: false,
+    },
+    {
+      title: 'Update',
+      checked: false,
+    },
+    {
+      title: 'Delete',
+      checked: false,
+    },
+  ]);
   const [hideAddRoleMapping, setHideAddRoleMapping] = useState<boolean>(true);
-
   const permission = [
     {
       title: 'Add',
@@ -57,7 +74,7 @@ const RoleMapping = observer(() => {
       checked: false,
     },
     {
-      title: 'Edit/Modify',
+      title: 'Update',
       checked: false,
     },
     {
@@ -112,7 +129,7 @@ const RoleMapping = observer(() => {
         )}
         isEditModify={RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
-          'Edit/Modify',
+          'Update',
         )}
         onDelete={selectedUser => setModalConfirm(selectedUser)}
         onDuplicate={async (selectedItem: any) => {
@@ -195,53 +212,85 @@ const RoleMapping = observer(() => {
             (hideAddRoleMapping ? 'hidden' : 'shown')
           }
         >
-          <Form.InputWrapper label='Role' id='role'>
-            <select
-              name='role'
-              disabled={hideRole}
-              value={roleMappingStore.selectedRole as any}
-              className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-              onChange={e => {
-                const role = roleList[e.target.value];
-                if (role.code !== 'SYSADMIN') {
-                  const routers: any = routerStore.router?.filter(
-                    (item: any) => {
-                      const children = item.children.filter(childrenItem => {
-                        // if (
-                        //   childrenItem.name !== 'Role' &&
-                        //   childrenItem.name !== 'User' &&
-                        //   childrenItem.name !== 'Login Activity' &&
-                        //   childrenItem.name !== 'Role Mapping' &&
-                        //   childrenItem.name !== 'Environment Settings' &&
-                        //   childrenItem.name !== 'Notice Boards'
-                        // ) {
-                        //   return { ...childrenItem };
-                        // }
-                        return { ...childrenItem };
-                      });
-                      item.children = children;
-                      return item;
-                    },
-                  );
-                  if (routers) {
-                    routerStore.updateRouter(routers);
+          <div className='flex gap-4'>
+            <Form.InputWrapper label='Role' id='role'>
+              <select
+                name='role'
+                disabled={hideRole}
+                value={roleMappingStore.selectedRole as any}
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                onChange={e => {
+                  const role = roleList[e.target.value];
+                  if (role.code !== 'SYSADMIN') {
+                    const routers: any = routerStore.router?.filter(
+                      (item: any) => {
+                        const children = item.children.filter(childrenItem => {
+                          // if (
+                          //   childrenItem.name !== 'Role' &&
+                          //   childrenItem.name !== 'User' &&
+                          //   childrenItem.name !== 'Login Activity' &&
+                          //   childrenItem.name !== 'Role Mapping' &&
+                          //   childrenItem.name !== 'Environment Settings' &&
+                          //   childrenItem.name !== 'Notice Boards'
+                          // ) {
+                          //   return { ...childrenItem };
+                          // }
+                          return { ...childrenItem };
+                        });
+                        item.children = children;
+                        return item;
+                      },
+                    );
+                    if (routers) {
+                      routerStore.updateRouter(routers);
+                    }
                   }
-                }
-                roleMappingStore.updateSelectedRole(toJS(role));
-              }}
-            >
-              <option selected>
-                {roleMappingStore.selectedRole?.code
-                  ? roleMappingStore.selectedRole?.description
-                  : 'Select'}
-              </option>
-              {roleList.map((item: any, index: number) => (
-                <option key={index} value={index}>
-                  {item.description}
+                  roleMappingStore.updateSelectedRole(toJS(role));
+                }}
+              >
+                <option selected>
+                  {roleMappingStore.selectedRole?.code
+                    ? roleMappingStore.selectedRole?.description
+                    : 'Select'}
                 </option>
-              ))}
-            </select>
-          </Form.InputWrapper>
+                {roleList.map((item: any, index: number) => (
+                  <option key={index} value={index}>
+                    {item.description}
+                  </option>
+                ))}
+              </select>
+            </Form.InputWrapper>
+
+            <Form.InputWrapper label='Common Action'>
+              <div className='flex flex-col bg-blue-600 p-2 text-white w-36 rounded-md'>
+                <ul className='ml-2'>
+                  {commonAction?.map(item => (
+                    <li className='flex items-center'>
+                      <input
+                        type='checkbox'
+                        checked={item.checked}
+                        className='m-2 w-4 h-4'
+                        onClick={() => {
+                          const itemSelected = commonAction?.map(e => {
+                            if (e?.title == item?.title) {
+                              return {
+                                ...e,
+                                checked: !e?.checked,
+                              };
+                            } else {
+                              return e;
+                            }
+                          });
+                          setCommonAction(itemSelected);
+                        }}
+                      />
+                      {item.title}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Form.InputWrapper>
+          </div>
 
           <div className='mt-4 overflow-auto'>
             {routerStore.router && (
@@ -312,7 +361,7 @@ const RoleMapping = observer(() => {
                                 </>
                               ) : (
                                 <p
-                                  className='font-bold'
+                                  className='flex font-bold items-center'
                                   onDoubleClick={() => {
                                     const routers = toJS(routerStore.router);
                                     routers[index].toggle = true;
@@ -320,6 +369,48 @@ const RoleMapping = observer(() => {
                                   }}
                                 >
                                   {item.title}
+                                  <input
+                                    type='checkbox'
+                                    checked={item?.checked}
+                                    className='m-2 w-4 h-4'
+                                    onClick={() => {
+                                      if (
+                                        commonAction?.filter(
+                                          comA => comA?.checked === false,
+                                        )?.length == 4
+                                      )
+                                        return Toast.error({
+                                          message:
+                                            '😌 Please select first common action.',
+                                        });
+                                      const router = [...routerStore.router];
+                                      const flag = !item?.checked;
+                                      router[index].checked = flag;
+                                      let children = router[index]?.children;
+                                      children = children?.map(ch => {
+                                        return {
+                                          ...ch,
+                                          checked: flag,
+                                          permission: ch?.permission.map(
+                                            chp => {
+                                              const perFlag = flag
+                                                ? commonAction.find(
+                                                    coma =>
+                                                      coma.title == chp?.title,
+                                                  )?.checked
+                                                : flag;
+                                              return {
+                                                ...chp,
+                                                checked: perFlag,
+                                              };
+                                            },
+                                          ),
+                                        };
+                                      });
+                                      router[index].children = children;
+                                      routerStore.updateRouter(router);
+                                    }}
+                                  />
                                 </p>
                               )}
                               {item.children ? (
@@ -348,7 +439,7 @@ const RoleMapping = observer(() => {
                                   >
                                     {(provided, snapshot) => (
                                       <ul
-                                        className='flex flex-row ml-1 text-white characters'
+                                        className='flex flex-row ml-1 text-white characters w-screen mr-10'
                                         id={item.name}
                                         style={getListStyle(
                                           snapshot.isDraggingOver,
@@ -443,7 +534,7 @@ const RoleMapping = observer(() => {
                                                     </>
                                                   ) : (
                                                     <p
-                                                      className='font-bold'
+                                                      className='flex font-bold items-center'
                                                       onDoubleClick={() => {
                                                         const routers = toJS(
                                                           routerStore.router,
@@ -457,6 +548,118 @@ const RoleMapping = observer(() => {
                                                       }}
                                                     >
                                                       {children.title}
+                                                      <input
+                                                        type='checkbox'
+                                                        checked={
+                                                          children?.checked
+                                                        }
+                                                        className='m-2 w-4 h-4'
+                                                        onClick={() => {
+                                                          if (
+                                                            commonAction?.filter(
+                                                              comA =>
+                                                                comA?.checked ===
+                                                                false,
+                                                            )?.length == 4
+                                                          )
+                                                            return Toast.error({
+                                                              message:
+                                                                '😌 Please select first common action.',
+                                                            });
+
+                                                          const routers = toJS(
+                                                            routerStore.router,
+                                                          );
+                                                          const flag =
+                                                            !children?.checked;
+                                                          routers[
+                                                            index
+                                                          ].children[
+                                                            indexChildren
+                                                          ].checked = flag;
+                                                          if (flag) {
+                                                            routers[
+                                                              index
+                                                            ].checked = flag;
+                                                            routers[
+                                                              index
+                                                            ].children[
+                                                              indexChildren
+                                                            ].permission =
+                                                              routers[
+                                                                index
+                                                              ].children[
+                                                                indexChildren
+                                                              ].permission?.map(
+                                                                perC => {
+                                                                  const perFlag =
+                                                                    commonAction?.find(
+                                                                      comA =>
+                                                                        comA.title ==
+                                                                        perC.title,
+                                                                    )?.checked;
+                                                                  return {
+                                                                    ...perC,
+                                                                    checked:
+                                                                      perFlag,
+                                                                  };
+                                                                },
+                                                              );
+                                                          } else {
+                                                            routers[
+                                                              index
+                                                            ].children[
+                                                              indexChildren
+                                                            ].permission =
+                                                              routers[
+                                                                index
+                                                              ].children[
+                                                                indexChildren
+                                                              ].permission?.map(
+                                                                perC => {
+                                                                  return {
+                                                                    ...perC,
+                                                                    checked:
+                                                                      false,
+                                                                  };
+                                                                },
+                                                              );
+                                                          }
+                                                          routerStore.updateRouter(
+                                                            routers,
+                                                          );
+                                                          const routers1 = toJS(
+                                                            routerStore.router,
+                                                          );
+                                                          if (!flag) {
+                                                            const allUnCheckTitle =
+                                                              routers1[
+                                                                index
+                                                              ].children?.map(
+                                                                chiC =>
+                                                                  chiC.checked,
+                                                              );
+                                                            // title all uncheck
+                                                            if (
+                                                              allUnCheckTitle?.length ==
+                                                              allUnCheckTitle?.filter(
+                                                                unCT =>
+                                                                  unCT ==
+                                                                    false ||
+                                                                  unCT ==
+                                                                    undefined,
+                                                              )?.length
+                                                            ) {
+                                                              routers1[
+                                                                index
+                                                              ].checked = flag;
+                                                            }
+                                                          }
+                                                          routerStore.updateRouter(
+                                                            routers1,
+                                                          );
+                                                        }}
+                                                      />
                                                     </p>
                                                   )}
 
@@ -467,6 +670,7 @@ const RoleMapping = observer(() => {
                                                         indexPermission,
                                                       ) => (
                                                         <li
+                                                          className='flex items-center'
                                                           onClick={async () => {
                                                             const routers =
                                                               toJS(
@@ -484,7 +688,7 @@ const RoleMapping = observer(() => {
                                                                 : true;
                                                             if (
                                                               modifyPermission.title ===
-                                                                'Edit/Modify' ||
+                                                                'Update' ||
                                                               modifyPermission.title ===
                                                                 'Delete'
                                                             ) {
@@ -516,6 +720,84 @@ const RoleMapping = observer(() => {
                                                               permission.checked
                                                             }
                                                             className='m-2 w-4 h-4'
+                                                            onClick={() => {
+                                                              const flag =
+                                                                !permission.checked;
+                                                              const routers =
+                                                                toJS(
+                                                                  routerStore.router,
+                                                                );
+                                                              if (flag) {
+                                                                routers[
+                                                                  index
+                                                                ].checked =
+                                                                  flag;
+                                                                routers[
+                                                                  index
+                                                                ].children[
+                                                                  indexChildren
+                                                                ].checked =
+                                                                  flag;
+                                                              }
+                                                              routerStore.updateRouter(
+                                                                routers,
+                                                              );
+                                                              const routers1 =
+                                                                toJS(
+                                                                  routerStore.router,
+                                                                );
+                                                              if (!flag) {
+                                                                const allUnCheckPer =
+                                                                  routers1[
+                                                                    index
+                                                                  ].children[
+                                                                    indexChildren
+                                                                  ].permission?.map(
+                                                                    perC =>
+                                                                      perC.checked,
+                                                                  );
+                                                                if (
+                                                                  allUnCheckPer?.filter(
+                                                                    unC =>
+                                                                      unC ==
+                                                                      false,
+                                                                  )?.length == 3
+                                                                ) {
+                                                                  routers1[
+                                                                    index
+                                                                  ].children[
+                                                                    indexChildren
+                                                                  ].checked =
+                                                                    flag;
+                                                                  const allUnCheckTitle =
+                                                                    routers1[
+                                                                      index
+                                                                    ].children?.map(
+                                                                      chiC =>
+                                                                        chiC.checked,
+                                                                    );
+                                                                  // title all uncheck
+                                                                  if (
+                                                                    allUnCheckTitle?.length ==
+                                                                    allUnCheckTitle?.filter(
+                                                                      unCT =>
+                                                                        unCT ==
+                                                                          false ||
+                                                                        unCT ==
+                                                                          undefined,
+                                                                    )?.length
+                                                                  ) {
+                                                                    routers1[
+                                                                      index
+                                                                    ].checked =
+                                                                      flag;
+                                                                  }
+                                                                }
+                                                              }
+                                                              routerStore.updateRouter(
+                                                                routers1,
+                                                              );
+                                                            }}
                                                           />
                                                           {permission.title}
                                                         </li>

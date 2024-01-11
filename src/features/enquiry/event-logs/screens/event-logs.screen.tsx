@@ -72,7 +72,7 @@ export const EventLogs = observer(() => {
               )}
               isEditModify={RouterFlow.checkPermission(
                 routerStore.userPermission,
-                'Edit/Modify',
+                'Update',
               )}
               // isEditModify={false}
               onDelete={selectedItem => setModalConfirm(selectedItem)}

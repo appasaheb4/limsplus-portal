@@ -149,7 +149,7 @@ export const PatientManager = PatientManagerHoc(
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -1748,7 +1748,7 @@ export const PatientManager = PatientManagerHoc(
             )}
             isEditModify={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
-              'Edit/Modify',
+              'Update',
             )}
             onDelete={selectedItem => setModalConfirm(selectedItem)}
             onSelectedRow={rows => {

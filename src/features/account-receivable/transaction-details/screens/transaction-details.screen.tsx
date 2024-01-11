@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   ModalConfirm,
   Header,
@@ -7,12 +7,12 @@ import {
   PageHeadingLabDetails,
   Toast,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
-import {RouterFlow} from '@/flows';
-import {TransactionHeaderList, TransactionLineList} from '../components';
-import {ModalReceiptShare} from '../../components';
+import { useForm } from 'react-hook-form';
+import { RouterFlow } from '@/flows';
+import { TransactionHeaderList, TransactionLineList } from '../components';
+import { ModalReceiptShare } from '../../components';
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const TransactionDetails = observer(() => {
@@ -27,7 +27,7 @@ const TransactionDetails = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   const [modalConfirm, setModalConfirm] = useState<any>();
@@ -51,7 +51,7 @@ const TransactionDetails = observer(() => {
           )}
           isEditModify={RouterFlow.checkPermission(
             routerStore.userPermission,
-            'Edit/Modify',
+            'Update',
           )}
           onUpdate={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -67,7 +67,7 @@ const TransactionDetails = observer(() => {
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update items!',
             });
@@ -81,7 +81,7 @@ const TransactionDetails = observer(() => {
             // });
           }}
           onClickRow={(item, index) => {
-            console.log({item});
+            console.log({ item });
             transactionDetailsStore.transactionDetailsService.findByFieldsTransactionLine(
               {
                 input: {
@@ -95,7 +95,7 @@ const TransactionDetails = observer(() => {
           }}
           onReport={item => {
             receiptStore.receiptService
-              .generatePaymentReceipt({input: {headerId: item?.headerId}})
+              .generatePaymentReceipt({ input: { headerId: item?.headerId } })
               .then(res => {
                 if (res.generatePaymentReceipt?.success)
                   setModalPaymentReceipt({
@@ -121,7 +121,7 @@ const TransactionDetails = observer(() => {
           )}
           isEditModify={RouterFlow.checkPermission(
             routerStore.userPermission,
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -137,7 +137,7 @@ const TransactionDetails = observer(() => {
             setModalConfirm({
               show: true,
               type: 'update',
-              data: {value, dataField, id},
+              data: { value, dataField, id },
               title: 'Are you sure?',
               body: 'Update items!',
             });
@@ -177,18 +177,18 @@ const TransactionDetails = observer(() => {
             //   });
           }}
           close={() => {
-            setModalConfirm({show: false});
+            setModalConfirm({ show: false });
           }}
         />
         <ModalReceiptShare
           {...modalPaymentReceipt}
           onClose={() => {
-            setModalPaymentReceipt({show: false});
+            setModalPaymentReceipt({ show: false });
           }}
           onReceiptUpload={(file, type) => {
             if (!receiptPath) {
               receiptStore.receiptService
-                .paymentReceiptUpload({input: {file}})
+                .paymentReceiptUpload({ input: { file } })
                 .then(res => {
                   if (res.paymentReceiptUpload.success) {
                     setReceiptPath(res.paymentReceiptUpload?.receiptPath);

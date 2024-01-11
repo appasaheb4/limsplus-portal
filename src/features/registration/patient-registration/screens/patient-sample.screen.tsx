@@ -1,22 +1,22 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {PatientSampleList} from '../components';
-import {useStores} from '@/stores';
-import {toJS} from 'mobx';
-import {RouterFlow} from '@/flows';
+import { observer } from 'mobx-react';
+import { PatientSampleList } from '../components';
+import { useStores } from '@/stores';
+import { toJS } from 'mobx';
+import { RouterFlow } from '@/flows';
 
 interface PatientSampleProps {
   onModalConfirm?: (item: any) => void;
 }
 
 export const PatientSample = observer((props: PatientSampleProps) => {
-  const {patientResultStore, patientSampleStore, routerStore} = useStores();
+  const { patientResultStore, patientSampleStore, routerStore } = useStores();
 
   return (
     <>
       <div
         className='p-2 rounded-lg shadow-xl overflow-scroll'
-        style={{overflowX: 'scroll'}}
+        style={{ overflowX: 'scroll' }}
       >
         <PatientSampleList
           data={patientSampleStore.patientSampleList}
@@ -28,7 +28,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
           )}
           isEditModify={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedUser =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
@@ -48,7 +48,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
               props.onModalConfirm({
                 show: true,
                 type: 'Update',
-                data: {value, dataField, id},
+                data: { value, dataField, id },
                 title: 'Are you sure?',
                 body: 'Update recoard!',
               });
@@ -61,7 +61,7 @@ export const PatientSample = observer((props: PatientSampleProps) => {
           }}
           onFilter={(type, filter, page, limit) => {
             patientSampleStore.patientSampleService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
           }}
         />

@@ -107,7 +107,7 @@ export const Department = DeginisationHoc(
           )}
           isEditModify={RouterFlow.checkPermission(
             routerStore.userPermission,
-            'Edit/Modify',
+            'Update',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
