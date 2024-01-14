@@ -62,6 +62,14 @@ const RoleMapping = observer(() => {
       title: 'Delete',
       checked: false,
     },
+    {
+      title: 'Import',
+      checked: false,
+    },
+    {
+      title: 'Export',
+      checked: false,
+    },
   ]);
   const [hideAddRoleMapping, setHideAddRoleMapping] = useState<boolean>(true);
   const permission = [
@@ -79,6 +87,14 @@ const RoleMapping = observer(() => {
     },
     {
       title: 'Delete',
+      checked: false,
+    },
+    {
+      title: 'Import',
+      checked: false,
+    },
+    {
+      title: 'Export',
       checked: false,
     },
   ];
