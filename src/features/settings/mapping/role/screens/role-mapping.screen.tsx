@@ -103,9 +103,9 @@ const RoleMapping = observer(() => {
     const routers: any = router?.filter((item: any) => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;
-        item.title = item.name;
+        item.title = item?.title || item.name;
         item = item.children.filter((childrenItem: any) => {
-          childrenItem.title = childrenItem.name;
+          childrenItem.title = childrenItem?.title || childrenItem.name;
           childrenItem.toggle = false;
           childrenItem.permission = permission;
           if (
@@ -357,7 +357,6 @@ const RoleMapping = observer(() => {
                                       routerStore.updateRouter(routers);
                                     }}
                                   />
-
                                   <input
                                     type='text'
                                     className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
@@ -384,7 +383,7 @@ const RoleMapping = observer(() => {
                                     routerStore.updateRouter(routers);
                                   }}
                                 >
-                                  {item.title}
+                                  {item?.title}
                                   <input
                                     type='checkbox'
                                     checked={item?.checked}

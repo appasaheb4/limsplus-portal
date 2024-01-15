@@ -18,14 +18,14 @@ export const privacyPolicyRoute = [privacyPolicyRoutes];
 // Dashboard specific routes
 export const dashboardRouter = [
   dashboardRoutes,
-  collectionRoutes,
-  communicationRoutes,
-  settingsRoutes,
   registrationRoutes,
-  resultEntryRoutes,
-  patientReportsRoutes,
-  reportBuilderRoutes,
   accountReceivableRoutes,
+  resultEntryRoutes,
   validationRoutes,
+  patientReportsRoutes,
+  communicationRoutes,
+  collectionRoutes,
+  settingsRoutes,
+  reportBuilderRoutes,
   enquiryRoutes,
 ];

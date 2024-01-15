@@ -11,6 +11,8 @@ const Receipt = async(() => import('../receipt/screens/receipt.screen'));
 export const accountReceivableRoutes = {
   path: '/account-receivable',
   name: 'Account Receivable',
+  title: 'ACCOUNT RECEIVABLE',
+  order: 2,
   icon: 'MdAccountBalance',
   children: [
     {

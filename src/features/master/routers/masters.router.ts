@@ -80,6 +80,8 @@ const CommentManager = async(
 export const collectionRoutes = {
   path: '/collection',
   name: 'Collection',
+  title: 'MASTER SETUP',
+  order: 7,
   icon: 'BsFillCollectionFill',
   badgeColor: '#ffffff',
   children: [

@@ -22,6 +22,8 @@ const TransmittedMessage = async(
 export const communicationRoutes = {
   path: '/communication',
   name: 'Communication',
+  title: 'EDI ENGINE',
+  order: 6,
   icon: 'FaCommentDots',
   children: [
     {

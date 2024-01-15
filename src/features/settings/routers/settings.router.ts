@@ -25,6 +25,8 @@ const Lookup = async(() => import('../lookup/screens/lookup.screen'));
 export const settingsRoutes = {
   path: '/settings',
   name: 'Settings',
+  title: 'APPLICATION SETTING',
+  order: 8,
   icon: 'RiSettings5Fill',
   children: [
     {

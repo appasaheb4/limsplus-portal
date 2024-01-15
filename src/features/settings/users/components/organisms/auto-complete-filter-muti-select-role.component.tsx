@@ -63,7 +63,10 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
         });
         list = finalList;
       }
-      return list;
+      return list?.filter(item => {
+        if (item?.code == 'ONBOARDING') return;
+        else return item;
+      });
     };
 
     useEffect(() => {

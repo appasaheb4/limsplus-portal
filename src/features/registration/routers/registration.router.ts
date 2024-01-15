@@ -11,6 +11,8 @@ const ClientRegistrations = async(
 export const registrationRoutes = {
   path: '/registration',
   name: 'Registration',
+  title: 'REGISTRATION',
+  order: 1,
   icon: 'RiUserAddLine',
   children: [
     {

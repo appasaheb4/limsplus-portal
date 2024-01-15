@@ -9,6 +9,8 @@ const ReportTemplate = async(
 export const reportBuilderRoutes = {
   path: '/report-builder',
   name: 'Report Builder',
+  title: 'REPORT BUILDER',
+  order: 9,
   icon: 'HiDocumentReport',
   children: [
     {
