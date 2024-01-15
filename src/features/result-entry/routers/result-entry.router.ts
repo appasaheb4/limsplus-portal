@@ -12,6 +12,8 @@ const HistoResultEntry = async(
 export const resultEntryRoutes = {
   path: '/result-entry',
   name: 'Result Entry',
+  title: 'RESULT ENTRY',
+  order: 3,
   icon: 'SiSentry',
   children: [
     {

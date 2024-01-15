@@ -4,6 +4,8 @@ const DefaultDashboard = async(() => import('..'));
 export const dashboardRoutes = {
   path: '/dashboard',
   name: 'Dashboard',
+  title: 'DASHBOARD',
+  order: 0,
   header: 'Dashboard',
   icon: 'RiDashboardFill',
   children: [

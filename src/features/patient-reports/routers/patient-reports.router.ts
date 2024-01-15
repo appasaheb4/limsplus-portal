@@ -9,6 +9,8 @@ const DeliveryQueue = async(
 export const patientReportsRoutes = {
   path: '/patient-reports',
   name: 'Patient Reports',
+  title: 'PATIENT REPORTS',
+  order: 5,
   icon: 'MdOutlineLibraryBooks',
   children: [
     {

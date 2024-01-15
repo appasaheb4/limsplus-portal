@@ -6,6 +6,8 @@ const EventLog = async(() => import('../event-logs/screens/event-logs.screen'));
 export const enquiryRoutes = {
   path: '/enquiry',
   name: 'Enquiry',
+  title: 'ENQUIRY',
+  order: 10,
   icon: 'TbTopologyStar3',
   children: [
     {

@@ -108,7 +108,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                                   <ul className='ml-2'>
                                     {children?.permission.map(
                                       (permission, indexPermission) => (
-                                        <li>
+                                        <li className='flex items-center'>
                                           <input
                                             type='checkbox'
                                             checked={permission?.checked}
