@@ -99,8 +99,8 @@ const RoleMapping = observer(() => {
     },
   ];
 
-  const setRouter = () => {
-    const routers: any = router?.filter((item: any) => {
+  const setRouter = (route = router) => {
+    const routers: any = route?.filter((item: any) => {
       if (item.name !== 'Dashboard') {
         item.toggle = false;
         item.title = item?.title || item.name;
@@ -116,6 +116,58 @@ const RoleMapping = observer(() => {
               title: 'ReOpen',
               checked: false,
             });
+          } else if (
+            childrenItem.name == 'User' ||
+            childrenItem.name == 'Lab' ||
+            childrenItem.name == 'Analyte Master' ||
+            childrenItem.name == 'Test Master' ||
+            childrenItem.name == 'Panel Master' ||
+            childrenItem.name == 'Test Analyte Mapping' ||
+            childrenItem.name == 'Test Panel Mapping' ||
+            childrenItem.name == 'Package Master' ||
+            childrenItem.name == 'Registartion Locations' ||
+            childrenItem.name == 'Corporate Clients' ||
+            childrenItem.name == 'Sales Team' ||
+            childrenItem.name == 'Possible Results' ||
+            childrenItem.name == 'PriceList' ||
+            childrenItem.name == 'Library' ||
+            childrenItem.name == 'Comment Manager' ||
+            childrenItem.name == 'ReferenceRanges'
+          ) {
+            childrenItem.permission = permission.concat(
+              {
+                title: 'Version Upgrade',
+                checked: false,
+              },
+              {
+                title: 'Duplicate',
+                checked: false,
+              },
+            );
+          } else if (childrenItem.name == 'Patient Registration') {
+            childrenItem.permission = permission.concat({
+              title: 'Cancel',
+              checked: false,
+            });
+          } else if (childrenItem.name == 'Delivery Queue') {
+            childrenItem.permission = permission.concat(
+              {
+                title: 'Cancel',
+                checked: false,
+              },
+              {
+                title: 'Print',
+                checked: false,
+              },
+              {
+                title: 'View',
+                checked: false,
+              },
+              {
+                title: 'Email',
+                checked: false,
+              },
+            );
           }
           // eslint-disable-next-line no-self-assign
           //childernItem.icon = childernItem.icon;
