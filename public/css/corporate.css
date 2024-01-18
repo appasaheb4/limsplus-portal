@@ -1254,9 +1254,10 @@ pre {
   }
   .table th,
   .table td {
-    padding: 0.75rem;
+    /* padding: 0.75rem; */
     vertical-align: top;
-    border-top: 1px solid #dee2e6; }
+    border-top: 1px solid #dee2e6;
+    }
   .table thead th {
     vertical-align: bottom;
     border-bottom: 2px solid #dee2e6; }
@@ -9762,7 +9763,8 @@ a.sidebar-link {
   height: 18px; }
 
 .table > tbody > tr > td {
-  vertical-align: middle; }
+  /* vertical-align: middle; */
+  }
 
 .card > .dataTables_wrapper .table.dataTable {
   margin-top: 0 !important;
