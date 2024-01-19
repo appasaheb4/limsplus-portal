@@ -1,16 +1,13 @@
 .scrollTable {
-  height: auto;
+  /* height: auto; */
   overflow-y: auto;
   overflow-x: auto;
-  max-height: 47vh;
+  /* max-height: 47vh; */
 }
 
 .react-bootstrap-table table {
-  /* height: calc(100vh - 50vh); */
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 14px;
-  padding: 0;
-  margin: 0;
 }
 
 .react-bootstrap-table .table td,

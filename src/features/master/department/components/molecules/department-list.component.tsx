@@ -75,7 +75,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
     return row.status !== 'I' ? true : false;
   };
   return (
-    <div style={{ position: 'relative' }}>
+    <div className='flex' style={{ position: 'relative' }}>
       <TableBootstrap
         id='_id'
         data={props.data}

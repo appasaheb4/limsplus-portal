@@ -460,9 +460,11 @@ export const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
+
   let searchProps: any = {
     placeholder: searchPlaceholder,
   };
+
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
@@ -587,7 +589,7 @@ export const TableBootstrap = ({
   );
 
   return (
-    <div className='flex   h-[calc(100vh_-_28vh)]'>
+    <div className='flex overflow-scroll  h-[calc(100vh_-_20vh)]'>
       <PaginationProvider
         pagination={paginationFactory(
           totalSize !== 0 ? options : { page, sizePerPage, totalSize },
@@ -615,7 +617,7 @@ export const TableBootstrap = ({
             columnToggle
           >
             {props => (
-              <div>
+              <div className='flex flex-col'>
                 <div className='flex items-center flex-wrap'>
                   <SearchBar
                     {...searchProps}
@@ -663,7 +665,7 @@ export const TableBootstrap = ({
                   )}
                 </div>
                 {isFilterOpen && (
-                  <div className={'mb-2 overflow-auto h-10 '}>
+                  <div className={'flex mb-2 overflow-auto h-10 '}>
                     <CustomToggleList
                       contextual='primary'
                       className='list-custom-class'
@@ -672,7 +674,7 @@ export const TableBootstrap = ({
                     />
                   </div>
                 )}
-                <div className='scrollTable'>
+                <div className='flex scrollTable h-[86%] border-b-2 border-dotted border-black'>
                   <BootstrapTable
                     remote
                     {...props.baseProps}
@@ -701,26 +703,28 @@ export const TableBootstrap = ({
                     onTableChange={handleTableChange}
                   />
                 </div>
-                <div className='flex items-center gap-2  bottom-3 fixed bg-white rounded-md p-2'>
-                  <div>
-                    <SizePerPageDropdownStandalone
-                      {...Object.assign(
-                        {},
-                        { ...paginationProps, hideSizePerPage: false },
-                      )}
-                    />
+                {totalSize && (
+                  <div className='flex content-center ml-[20%] items-center justify-center  gap-2  bg-[#6A727F] rounded-md p-2 text-white  absolute -bottom-2'>
+                    <div className='flex'>
+                      <SizePerPageDropdownStandalone
+                        {...Object.assign(
+                          {},
+                          { ...paginationProps, hideSizePerPage: false },
+                        )}
+                      />
+                    </div>
+                    {isPagination && (
+                      <>
+                        <div className='flex items-center gap-2 mt-2 flex-wrap'>
+                          <PaginationListStandalone {...paginationProps} />
+                        </div>
+                        <div className='flex items-center gap-2 mt-2'>
+                          <PaginationTotalStandalone {...paginationProps} />
+                        </div>
+                      </>
+                    )}
                   </div>
-                  {isPagination && (
-                    <>
-                      <div className='flex items-center gap-2 mt-2 flex-wrap'>
-                        <PaginationListStandalone {...paginationProps} />
-                      </div>
-                      <div className='flex items-center gap-2 mt-2'>
-                        <PaginationTotalStandalone {...paginationProps} />
-                      </div>
-                    </>
-                  )}
-                </div>
+                )}
               </div>
             )}
           </ToolkitProvider>
