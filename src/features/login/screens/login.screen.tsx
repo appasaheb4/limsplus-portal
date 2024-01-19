@@ -322,10 +322,12 @@ export const Login = observer(() => {
                                     .checkExitsUserId({
                                       input: {
                                         userId: userId.trim(),
+                                        // webPortal:
+                                        //   process.env.REACT_APP_ENV === 'Local'
+                                        //     ? 'https://www.limsplussolutions.com'
+                                        //     : window.location.origin,
                                         webPortal:
-                                          process.env.REACT_APP_ENV === 'Local'
-                                            ? 'https://www.limsplussolutions.com'
-                                            : window.location.origin,
+                                          'https://www.limsplussolutions.com',
                                       },
                                     })
                                     .then(async res => {
