@@ -8,7 +8,6 @@ import {
   sortCaret,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 let code;
 let description;
