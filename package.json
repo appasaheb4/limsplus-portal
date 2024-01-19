@@ -2,6 +2,7 @@
   "name": "limsplus_portal",
   "version": "0.0.2",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "start": "serve -s build",
     "serve-webapp": "craco build && craco start ",
