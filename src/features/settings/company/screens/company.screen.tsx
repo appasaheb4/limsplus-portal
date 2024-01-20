@@ -351,7 +351,8 @@ const Company = CompanyHoc(
                         placeholder='Description'
                         value={value}
                         hasError={!!errors.description}
-                        onChange={description => {
+                        onChange={descriptionValue => {
+                          const description = descriptionValue?.toUpperCase();
                           onChange(description);
                           companyStore.updateCompany({
                             ...companyStore.company,

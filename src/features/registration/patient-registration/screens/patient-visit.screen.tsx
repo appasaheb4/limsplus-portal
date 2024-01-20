@@ -540,20 +540,25 @@ export const PatientVisit = PatientVisitHoc(
                       hasError={!!errors.registrationDate}
                       value={value}
                       onChange={registrationDate => {
-                        const selectedRegistrationDate = new Date(
-                          registrationDate,
-                        );
+                        const selectedRegistrationDate = new Date(registrationDate);
                         const currentDate = new Date();
+                        const dob = new Date(patientVisitStore.patientVisit.birthDate);
+                      
                         if (selectedRegistrationDate < currentDate) {
-                          onChange(registrationDate);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            registrationDate,
-                          });
+                          if (dob > selectedRegistrationDate) {
+                            onChange(registrationDate);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              registrationDate,
+                            });
+                          } else {
+                            Toast.error({
+                              message: 'BirthDate should not be greater than Registration Date.',
+                            });
+                          }
                         } else {
                           Toast.error({
-                            message:
-                              'Registration Date should not be greater then Current Date',
+                            message: 'Registration Date should not be greater than Current Date.',
                           });
                         }
                       }}

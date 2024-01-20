@@ -15,6 +15,7 @@ export const LIST = gql`
         message
         action
         companyCode
+        environment
         dateOfEntry
         lastUpdated
       }
@@ -64,6 +65,7 @@ export const FILTER = gql`
         message
         action
         companyCode
+        environment
         dateOfEntry
         lastUpdated
       }
@@ -86,6 +88,7 @@ export const FIND_BY_FIELDS = gql`
         message
         action
         companyCode
+        environment
         dateOfEntry
         lastUpdated
       }
