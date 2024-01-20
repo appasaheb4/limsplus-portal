@@ -35,7 +35,7 @@ import {
   Card,
 } from 'reactstrap';
 
-const NavbarComponent = observer(({ dispatch }) => {
+const NavbarComponent = observer(({ dispatch, sidebar }) => {
   const [userId, serUserId] = useState<string>('');
   const [colorMode, setColorMode] = useColorMode();
   const { appStore, userStore, routerStore, loginStore } = useStores();
@@ -61,23 +61,29 @@ const NavbarComponent = observer(({ dispatch }) => {
         className='flex flex-row w-full xl:pr-5 sm:p-0'
       >
         <div className='flex w-8 sm:ml-4'>
-          <span
-            className='sidebar-toggle d-flex mr-2 '
-            onClick={() => {
-              dispatch(toggleSidebar());
-            }}
+          <Tooltip
+            tooltipText={`${
+              sidebar.isOpen ? 'Collapse sidebar' : 'Expand sidebar'
+            }`}
           >
-            <Icons.RIcon
-              nameIcon='GiHamburgerMenu'
-              propsIcon={{
-                color:
-                  stores.appStore.applicationSetting.theme === 'dark'
-                    ? '#ffffff'
-                    : '#000000',
-                size: 22,
+            <span
+              className='sidebar-toggle d-flex mr-2 '
+              onClick={() => {
+                dispatch(toggleSidebar());
               }}
-            />
-          </span>
+            >
+              <Icons.RIcon
+                nameIcon='GiHamburgerMenu'
+                propsIcon={{
+                  color:
+                    stores.appStore.applicationSetting.theme === 'dark'
+                      ? '#ffffff'
+                      : '#000000',
+                  size: 22,
+                }}
+              />
+            </span>
+          </Tooltip>
         </div>
         <div className='flex flex-3  scrollbar-hide overflow-x-scroll '>
           <Form inline>
@@ -202,8 +208,8 @@ const NavbarComponent = observer(({ dispatch }) => {
                 <Tooltip
                   tooltipText={
                     appStore.applicationSetting?.isExpandScreen
-                      ? 'Collapse'
-                      : 'Expand'
+                      ? 'Collapse Screen'
+                      : 'Expand Screen'
                   }
                 >
                   <Icons.IconContext
@@ -212,7 +218,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                         ? '#ffffff'
                         : '#000000'
                     }`}
-                    size='22'
+                    size='18'
                   >
                     {Icons.getIconTag(
                       appStore.applicationSetting?.isExpandScreen
@@ -228,23 +234,26 @@ const NavbarComponent = observer(({ dispatch }) => {
                   isDisable={false}
                 />
               </div>
-              <span
-                className='flex rounded-md p-2 shadow-4 items-center border-2 border-white'
-                onClick={() => {
-                  if (loginStore.login.loginActivityList.length > 0) {
-                    setModalSessionAllowed({
-                      show: true,
-                      data: loginStore.login.loginActivityList,
-                    });
-                  } else {
-                    Toast.warning({
-                      message: `😊 Single system login.`,
-                    });
-                  }
-                }}
-              >
-                {loginStore.login?.sessionAllowed}
-              </span>
+              <Tooltip tooltipText={'User session'}>
+                <span
+                  className='flex rounded-md p-2 shadow-4 items-center border-2 border-white'
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    if (loginStore.login.loginActivityList.length > 0) {
+                      setModalSessionAllowed({
+                        show: true,
+                        data: loginStore.login.loginActivityList,
+                      });
+                    } else {
+                      Toast.warning({
+                        message: `😊 Single system login.`,
+                      });
+                    }
+                  }}
+                >
+                  {loginStore.login?.sessionAllowed}
+                </span>
+              </Tooltip>
             </Nav>
           </div>
         </div>
@@ -253,11 +262,13 @@ const NavbarComponent = observer(({ dispatch }) => {
             <DropdownToggle nav>
               <div className='flex flex-row gap-2'>
                 <div style={{ width: '40px', height: '40px' }}>
-                  <img
-                    className='rounded-full'
-                    src={loginStore.login?.picture || Assets.defaultAvatar}
-                    alt={loginStore.login?.fullName}
-                  />
+                  <Tooltip tooltipText={'User profile'}>
+                    <img
+                      className='rounded-full'
+                      src={loginStore.login?.picture || Assets.defaultAvatar}
+                      alt={loginStore.login?.fullName}
+                    />
+                  </Tooltip>
                 </div>
                 <span className='sm:mt-2 d-none d-sm-inline-block '>
                   {loginStore.login?.fullName}
@@ -405,5 +416,6 @@ const NavbarComponent = observer(({ dispatch }) => {
 });
 
 export default connect((store: any) => ({
+  sidebar: store.sidebar,
   app: store.app,
 }))(NavbarComponent);

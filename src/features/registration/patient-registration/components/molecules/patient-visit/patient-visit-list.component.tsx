@@ -312,7 +312,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         } else {
                           Toast.error({
                             message:
-                              'Date of birth should be Greater than Registration Date.',
+                              'BirthDate should not be greater then Registration Date.',
                           });
                         }
                       } else {
