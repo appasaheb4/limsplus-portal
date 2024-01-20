@@ -4,6 +4,7 @@ import { Toast, List, Form } from '../../..';
 import { FormHelper } from '@/helper';
 import { useForm, Controller } from 'react-hook-form';
 import { useStores } from '@/stores';
+import * as Assets from '@/library/assets';
 
 interface ModalProps {
   show: boolean;
@@ -45,21 +46,34 @@ export const ModalChangePassword = observer((props: ModalProps) => {
               {/*content*/}
               <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                 {/*header*/}
-                <div className='flex items-start justify-between border-b border-solid border-gray-300 rounded-t p-2'>
-                  <div className='flex-col'>
-                    <h3 className='text-3xl font-semibold'>Change Password</h3>
-                    <br />
-                    <h6>{userStore.changePassword?.subTitle}</h6>
-                  </div>
-
+                <div>
                   <button
                     className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
-                    onClick={() => props.onClose && props.onClose()}
+                    onClick={() => props.onClose()}
                   >
                     <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
                       ×
                     </span>
                   </button>
+                </div>
+                <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
+                  <div className='items-center justify-center flex mb-2'>
+                    <img
+                      src={Assets.images.linplusLogo}
+                      className='img-fluid'
+                      style={{
+                        width: '200px',
+                        height: '122px',
+                        marginRight: 10,
+                      }}
+                      alt='lims plus'
+                    />
+                  </div>
+                  <div>
+                    <div className='items-center justify-center flex'>
+                      <h1 className='text-4xl'>Change Password</h1>
+                    </div>
+                  </div>
                 </div>
 
                 {/*body*/}

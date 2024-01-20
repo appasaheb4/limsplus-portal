@@ -246,7 +246,10 @@ export const Login = observer(() => {
               style={{ width: 200, marginTop: -140 }}
             />
           </div>
-          <div className='sm:flex-col md:flex-col xl:flex-row w-full'>
+          <div
+            className='sm:flex-col md:flex-col xl:flex-row w-full'
+            style={{ marginBottom: '3rem' }}
+          >
             <div
               className='flex justify-between mx-10'
               style={{ gap: '60px', alignItems: 'center' }}

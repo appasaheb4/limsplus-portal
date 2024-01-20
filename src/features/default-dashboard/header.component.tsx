@@ -13,6 +13,7 @@ import { observer } from 'mobx-react';
 
 import { Calendar, Filter, RefreshCw } from 'react-feather';
 import { useStores } from '@/stores';
+import { Tooltip } from '@/library/components';
 
 const Header = observer(() => {
   const { loginStore } = useStores();
@@ -34,12 +35,15 @@ const Header = observer(() => {
             <DropdownItem>Year</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
-
         <Button color='primary' className='shadow-sm mr-1'>
-          <Filter className='feather' />
+          <Tooltip tooltipText='Filter'>
+            <Filter className='feather' />
+          </Tooltip>
         </Button>
         <Button color='primary' className='shadow-sm'>
-          <RefreshCw className='feather' />
+          <Tooltip tooltipText='Refresh'>
+            <RefreshCw className='feather' />
+          </Tooltip>
         </Button>
       </Col>
     </Row>
