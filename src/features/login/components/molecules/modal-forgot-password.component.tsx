@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import {Container} from 'reactstrap';
-import {observer} from 'mobx-react';
+import React, { useEffect } from 'react';
+import { Container } from 'reactstrap';
+import { observer } from 'mobx-react';
 import * as Assets from '@/library/assets';
-import {useForm, Controller} from 'react-hook-form';
-import {FormHelper} from '@/helper';
+import { useForm, Controller } from 'react-hook-form';
+import { FormHelper } from '@/helper';
 
-import {Form, List} from '@/library/components';
-import {useStores} from '@/stores';
+import { Form, List } from '@/library/components';
+import { useStores } from '@/stores';
 
 interface ModalForgotPasswordProps {
   show?: boolean;
@@ -18,7 +18,7 @@ interface ModalForgotPasswordProps {
 export const ModalForgotPassword = observer(
   (props: ModalForgotPasswordProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
-    const {loginStore} = useStores();
+    const { loginStore } = useStores();
     useEffect(() => {
       setShowModal(props.show);
     }, [props]);
@@ -26,7 +26,7 @@ export const ModalForgotPassword = observer(
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
     } = useForm();
 
     const onForgotPassword = () => {
@@ -60,12 +60,16 @@ export const ModalForgotPassword = observer(
                   <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <div className='items-center justify-center flex mb-2'>
                       <img
-                        src={Assets.logo}
-                        className=' img-thumbnail img-fluid'
-                        style={{width: 70, height: 55, marginRight: 10}}
+                        src={Assets.images.linplusLogo}
+                        className='img-fluid'
+                        style={{
+                          width: '200px',
+                          height: '122px',
+                          marginRight: 10,
+                        }}
                         alt='lims plus'
                       />
-                      <h4 className='font-semibold'>{'Lims Plus'}</h4>
+                      {/* <h4 className='font-semibold'>{'Lims Plus'}</h4> */}
                     </div>
                     <div>
                       <div className='items-center justify-center flex'>
@@ -79,7 +83,7 @@ export const ModalForgotPassword = observer(
                     <List direction='col' space={4} justify='stretch' fill>
                       <Controller
                         control={control}
-                        render={({field: {onChange}}) => (
+                        render={({ field: { onChange } }) => (
                           <Form.Input
                             label='User Id'
                             placeholder='User Id'
@@ -95,12 +99,12 @@ export const ModalForgotPassword = observer(
                           />
                         )}
                         name='userId'
-                        rules={{required: true}}
+                        rules={{ required: true }}
                         defaultValue=''
                       />
                       <Controller
                         control={control}
-                        render={({field: {onChange}}) => (
+                        render={({ field: { onChange } }) => (
                           <Form.Input
                             type='mail'
                             label='Email'
@@ -126,7 +130,7 @@ export const ModalForgotPassword = observer(
                       <span className='text-center'>OR</span>
                       <Controller
                         control={control}
-                        render={({field: {onChange}}) => (
+                        render={({ field: { onChange } }) => (
                           <Form.Input
                             pattern={FormHelper.patterns.mobileNo}
                             label='Mobile Number'
@@ -143,7 +147,7 @@ export const ModalForgotPassword = observer(
                           />
                         )}
                         name='mobileNo'
-                        rules={{required: false}}
+                        rules={{ required: false }}
                         defaultValue=''
                       />
                     </List>
@@ -153,7 +157,7 @@ export const ModalForgotPassword = observer(
                     <button
                       className='bg-black text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={handleSubmit(onForgotPassword)}
                     >
                       Send

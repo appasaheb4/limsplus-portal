@@ -298,18 +298,27 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         registrationDate,
                       );
                       const currentDate = new Date();
+                      const dob = new Date(row.birthDate);
+
                       if (selectedRegistrationDate < currentDate) {
-                        setModalDetails({ visible: false });
-                        props.onSingleDirectUpdateField &&
-                          props.onSingleDirectUpdateField(
-                            registrationDate,
-                            column.dataField,
-                            row._id,
-                          );
+                        if (dob < selectedRegistrationDate) {
+                          setModalDetails({ visible: false });
+                          props.onSingleDirectUpdateField &&
+                            props.onSingleDirectUpdateField(
+                              registrationDate,
+                              column.dataField,
+                              row._id,
+                            );
+                        } else {
+                          Toast.error({
+                            message:
+                              'Date of birth should be Greater than Registration Date.',
+                          });
+                        }
                       } else {
                         Toast.error({
                           message:
-                            'Registration Date should not be greater then Current Date',
+                            'Registration Date should not be greater than Current Date.',
                         });
                       }
                     }}

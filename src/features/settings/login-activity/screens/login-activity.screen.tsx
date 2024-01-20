@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Header,
@@ -12,16 +12,18 @@ import {
   sortCaret,
 } from '@/library/components';
 import dayjs from 'dayjs';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 let userId;
 let systemInfo;
 let ipInfo;
+let environment;
+let companyCode;
 
 const LoginActivity = observer(() => {
-  const {loginStore, loginActivityStore, routerStore} = useStores();
+  const { loginStore, loginActivityStore, routerStore } = useStores();
   const [statusWiseFilter, setStatusWiseFilter] = useState({});
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const LoginActivity = observer(() => {
       </Header>
       <div className='mx-auto  flex-wrap'>
         <div className='p-2 rounded-lg shadow-xl overflow-auto'>
-          <div style={{position: 'relative'}}>
+          <div style={{ position: 'relative' }}>
             <TableBootstrap
               id='_id'
               data={loginActivityStore.listLoginActivity || []}
@@ -195,14 +197,14 @@ const LoginActivity = observer(() => {
                         onStatus={status => {
                           const input = {
                             type: 'options-filter',
-                            filter: {status},
+                            filter: { status },
                             page: 0,
                             limit: 10,
                           };
                           loginActivityStore.LoginActivityService.filter({
                             input,
                           });
-                          setStatusWiseFilter({input});
+                          setStatusWiseFilter({ input });
                         }}
                       />
                     </>
@@ -219,6 +221,40 @@ const LoginActivity = observer(() => {
                     );
                   },
                 },
+                {
+                  text: 'Company Code',
+                  dataField: 'companyCode',
+                  sort: true,
+                  headerStyle: {
+                    fontSize: 0,
+                  },
+                  sortCaret: (order, column) => sortCaret(order, column),
+                  editable: false,
+                  csvFormatter: col => (col ? col : ''),
+                  filter: textFilter({
+                    getFilter: filter => {
+                      companyCode = filter;
+                    },
+                  }),
+                  headerClasses: 'textHeader2',
+                },
+                {
+                  dataField: 'environment',
+                  text: 'Environment',
+                  headerClasses: 'textHeader4',
+                  sort: true,
+                  headerStyle: {
+                    fontSize: 0,
+                  },
+                  editable: false,
+                  sortCaret: (order, column) => sortCaret(order, column),
+                  csvFormatter: col => (col ? col : ''),
+                  filter: textFilter({
+                    getFilter: filter => {
+                      environment = filter;
+                    },
+                  }),
+                },
               ]}
               onPageSizeChange={(page, size) => {
                 if (_.isEmpty(statusWiseFilter)) {
@@ -234,7 +270,7 @@ const LoginActivity = observer(() => {
               onFilter={(type, filter, page, limit) => {
                 if (_.isEmpty(statusWiseFilter)) {
                   loginActivityStore.LoginActivityService.filter({
-                    input: {type, filter, page, limit},
+                    input: { type, filter, page, limit },
                   });
                 } else {
                   loginActivityStore.LoginActivityService.filter({
