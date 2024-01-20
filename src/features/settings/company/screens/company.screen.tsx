@@ -274,11 +274,11 @@ const Company = CompanyHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Code'
-                        disabled={
-                          _.isEmpty(companyStore.company.existsVersionId)
-                            ? true
-                            : false
-                        }
+                        // disabled={
+                        //   _.isEmpty(companyStore.company.existsVersionId)
+                        //     ? true
+                        //     : false
+                        // }
                         placeholder={errors.code ? 'Please Enter code' : 'Code'}
                         hasError={!!errors.code}
                         value={value}
@@ -310,11 +310,11 @@ const Company = CompanyHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Name'
-                        disabled={
-                          _.isEmpty(companyStore.company.existsVersionId)
-                            ? true
-                            : false
-                        }
+                        // disabled={
+                        //   _.isEmpty(companyStore.company.existsVersionId)
+                        //     ? true
+                        //     : false
+                        // }
                         placeholder={errors.name ? 'Please Enter name' : 'Name'}
                         hasError={!!errors.name}
                         value={value}
