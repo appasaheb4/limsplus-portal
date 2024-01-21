@@ -94,6 +94,17 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               csvExport: false,
             },
             {
+              dataField: 'externalLabId',
+              text: 'External Lab Id',
+              headerClasses: 'textHeader2',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : false),
+              editable: false,
+              // formatter: (cell, row) => {
+              //   return <>{row.extraData.externalLabId}</>;
+              // },
+            },
+            {
               dataField: 'labId',
               text: 'Lab Id',
               headerClasses: 'textHeader5',
@@ -113,17 +124,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
               editable: false,
             },
-            {
-              dataField: 'externalLabId',
-              text: 'External Lab Id',
-              headerClasses: 'textHeader2',
-              sort: true,
-              csvFormatter: (col, row) => (col ? col : false),
-              editable: false,
-              // formatter: (cell, row) => {
-              //   return <>{row.extraData.externalLabId}</>;
-              // },
-            },
+            
             {
               dataField: 'pId',
               text: 'Pid',

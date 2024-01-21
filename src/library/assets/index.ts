@@ -24,3 +24,13 @@ export const icons = {
   male: require('./icons/male.png'),
   female: require('./icons/female.png'),
 };
+
+export const sidebarBackgroundImage = [
+  {
+    path: require('./sidebar-images/sd-1.jpg'),
+  },
+  { path: require('./sidebar-images/sd-2.jpg') },
+  { path: require('./sidebar-images/sd-3.jpg') },
+  { path: require('./sidebar-images/sd-4.jpg') },
+  { path: require('./sidebar-images/sd-5.jpg') },
+];

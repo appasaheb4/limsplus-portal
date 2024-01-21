@@ -1,5 +1,7 @@
 import React from 'react';
 import { Icons } from '@/library/components';
+import { sidebarBackgroundImage } from '@/library/assets';
+import { stores } from '@/stores';
 
 interface SideBarColorBgImagesProps {
   data: Array<{ color: string }>;
@@ -86,6 +88,42 @@ export const SideBarColorBgImages = ({
           </div>
         </div>
         <hr />
+        <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
+          Sidebar Background Images
+        </small>
+        <div className='col-md-11 d-flex flex-wrap'>
+          {sidebarBackgroundImage.map((item, index) => {
+            return (
+              <>
+                <img
+                  src={item.path}
+                  key={index}
+                  className='w-50 h-50  rounded-3xl'
+                  style={{ padding: '1rem' }}
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      sidebarImage: item.path,
+                    });
+                  }}
+                />
+                {/* <Icons.RIcon
+                  nameIcon='CiCircleRemove'
+                  propsIcon={{
+                    color: '#000000',
+                    size: 22,
+                  }}
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      sidebarImage: '',
+                    });
+                  }}
+                /> */}
+              </>
+            );
+          })}
+        </div>
       </>
     </React.Fragment>
   );

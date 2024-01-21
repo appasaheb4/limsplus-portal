@@ -8,6 +8,7 @@ interface ApplicationSetting {
   isSideBarBgImage?: boolean;
   isExpandScreen: boolean;
   theme?: 'dark' | 'light';
+  sidebarImage?: string;
 }
 
 interface FooterViewProps {
