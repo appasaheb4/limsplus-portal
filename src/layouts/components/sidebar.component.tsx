@@ -161,8 +161,10 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
         }
         style={{
           backgroundColor: `${appStore.applicationSetting?.sideBarColor}`,
-          backgroundImage: `url(${appStore.applicationSetting?.imageSideBarBgImage})`,
+          backgroundImage: `url(${appStore.applicationSetting?.sidebarImage})`,
           backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+          display: 'flex',
         }}
       >
         <div className='sidebar-content'>

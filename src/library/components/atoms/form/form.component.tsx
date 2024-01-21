@@ -5,6 +5,7 @@ import '../css/toggle.css';
 import classNames from 'classnames';
 import DateTimePicker from 'react-datetime-picker';
 import '../css/date-time-picker.css';
+import { stores } from '@/stores';
 
 interface LabelProps {
   htmlFor: string;
@@ -111,7 +112,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         onKeyPress={e => handleKeyPress(e)}
         className={`${
           props.className
-        } leading-4 p-2  dark:text-white focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+        } leading-4 p-2  dark:bg-boxdark  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red ' : 'border-gray-300'
         } rounded-md `}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
