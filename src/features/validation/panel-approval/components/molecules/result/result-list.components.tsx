@@ -47,6 +47,7 @@ interface ResultListProps {
 let labId;
 
 export const ResultList = (props: ResultListProps) => {
+  console.log(props.selectedId, 'SelectedId');
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
   const [selectedRowId, setSelectedRowId] = useState('');
@@ -387,7 +388,7 @@ export const ResultList = (props: ResultListProps) => {
               dataField: 'approvalStatus',
               text: 'Operation',
               sort: true,
-              editable: true,
+              editable: false,
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row?._id}>
                   <Tooltip tooltipText='Approved'>
@@ -420,31 +421,7 @@ export const ResultList = (props: ResultListProps) => {
                       {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {selectId == row._id ? (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand('');
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand(row);
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  )}
+
                   <Tooltip tooltipText='Recheck'>
                     <Icons.IconContext
                       color='#fff'
@@ -475,6 +452,31 @@ export const ResultList = (props: ResultListProps) => {
                       />
                     </Icons.IconContext>
                   </Tooltip>
+                  {selectId == row._id ? (
+                    <Tooltip tooltipText='Expand'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {
+                          props.onExpand && props.onExpand('');
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip tooltipText='Expand'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {
+                          props.onExpand && props.onExpand(row);
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
                 </div>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
