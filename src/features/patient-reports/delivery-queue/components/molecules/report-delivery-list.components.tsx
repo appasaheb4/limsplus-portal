@@ -73,9 +73,11 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
     setSelectId(props.selectedId || '');
     setLocalData(
       props.selectedId
-        ? props.data.map(item => {
-            return { ...item, selectedId: props.selectedId };
-          })
+        ? props.data
+            ?.filter(item => item._id === props.selectedId)
+            ?.map(item => {
+              return { ...item, selectedId: props.selectedId };
+            })
         : props.data,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

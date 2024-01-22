@@ -398,7 +398,6 @@ export const PatientVisit = PatientVisitHoc(
           <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
-                {/* {labId} */}
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -446,6 +445,7 @@ export const PatientVisit = PatientVisitHoc(
                           setValue('age', age);
                           setValue('ageUnits', ageUnits);
                           setValue('birthDate', item.birthDate);
+                          setValue('labId', item.labId);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
@@ -456,6 +456,7 @@ export const PatientVisit = PatientVisitHoc(
                             age,
                             ageUnits,
                             sex: item?.sex,
+                            labId: item.labId,
                           });
                         }}
                       />
