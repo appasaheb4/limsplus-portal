@@ -9,7 +9,7 @@ import { toggleSidebar } from '../../redux/actions/sidebar-action';
 import { Settings as SettingsIcon } from 'react-feather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { SideBarColorBgImages } from './sidebar-color-bg-image.component';
+import SideBarColorBgImages from './sidebar-color-bg-image.component';
 
 import { Badge } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';

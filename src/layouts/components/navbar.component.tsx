@@ -55,6 +55,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
       <Navbar
         style={{
           backgroundColor: appStore.applicationSetting?.navBarColor,
+          backgroundImage: `url(${appStore.applicationSetting?.navbarImage})`,
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+          display: 'flex',
         }}
         light
         expand
