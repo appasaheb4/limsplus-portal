@@ -47,7 +47,6 @@ interface ResultListProps {
 let labId;
 
 export const ResultList = (props: ResultListProps) => {
-  console.log(props.selectedId, 'SelectedId');
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
   const [selectedRowId, setSelectedRowId] = useState('');
@@ -56,9 +55,11 @@ export const ResultList = (props: ResultListProps) => {
     setSelectId(props.selectedId || '');
     setLocalData(
       props.selectedId
-        ? props.data.map(item => {
-            return { ...item, selectedId: props.selectedId };
-          })
+        ? props.data
+            ?.filter((item: any) => item._id === props.selectedId)
+            ?.map(item => {
+              return { ...item, selectedId: props.selectedId };
+            })
         : props.data,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
