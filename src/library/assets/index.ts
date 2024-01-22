@@ -31,6 +31,6 @@ export const sidebarBackgroundImage = [
   },
   { path: require('./sidebar-images/sd-2.jpg') },
   { path: require('./sidebar-images/sd-3.jpg') },
-  { path: require('./sidebar-images/sd-4.jpg') },
-  { path: require('./sidebar-images/sd-5.jpg') },
+  // { path: require('./sidebar-images/sd-4.jpg') },
+  // { path: require('./sidebar-images/sd-5.jpg') },
 ];

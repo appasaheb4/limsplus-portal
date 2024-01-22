@@ -401,27 +401,26 @@ export const PatientVisit = PatientVisitHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <>
-                      <Form.Input
-                        label='External Lab Id'
-                        placeholder='External Lab Id'
-                        hasError={!!errors.externalLabId}
-                        value={value}
-                        onChange={externalLabId => {
-                          onChange(externalLabId);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            extraData: {
-                              ...patientVisitStore.patientVisit.extraData,
-                              externalLabId,
-                            },
-                          });
-                        }}
-                      />
-                    </>
+                    <Form.Input
+                      label='Lab Id'
+                      placeholder={
+                        errors.labId ? 'Please Enter Lab ID' : 'Lab ID'
+                      }
+                      hasError={!!errors.labId}
+                      disabled={true}
+                      type='number'
+                      value={value}
+                      onChange={labId => {
+                        onChange(labId);
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          labId: Number.parseFloat(labId),
+                        });
+                      }}
+                    />
                   )}
-                  name='externalLabId'
-                  rules={{ required: false }}
+                  name='labId'
+                  rules={{}}
                   defaultValue=''
                 />
                 <Controller
@@ -466,6 +465,33 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: true }}
                   defaultValue=''
                 />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <Form.Input
+                        label='External Lab Id'
+                        placeholder='External Lab Id'
+                        hasError={!!errors.externalLabId}
+                        value={value}
+                        onChange={externalLabId => {
+                          onChange(externalLabId);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            extraData: {
+                              ...patientVisitStore.patientVisit.extraData,
+                              externalLabId,
+                            },
+                          });
+                        }}
+                      />
+                    </>
+                  )}
+                  name='externalLabId'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (

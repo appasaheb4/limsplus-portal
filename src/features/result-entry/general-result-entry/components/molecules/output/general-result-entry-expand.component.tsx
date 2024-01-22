@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -13,14 +13,14 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons} from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Buttons, Icons } from '@/library/components';
+import { Confirm } from '@/library/models';
 
-import {RefRangesExpandList} from './ref-ranges-expand-list.component';
-import {debounce} from '@/core-utils';
+import { RefRangesExpandList } from './ref-ranges-expand-list.component';
+import { debounce } from '@/core-utils';
 
-const {SearchBar, ClearSearchButton} = Search;
-const {ExportCSVButton} = CSVExport;
+const { SearchBar, ClearSearchButton } = Search;
+const { ExportCSVButton } = CSVExport;
 
 interface GeneralResultEntryExpandProps {
   id: string;
@@ -69,6 +69,11 @@ export const GeneralResultEntryExpand = ({
 }: GeneralResultEntryExpandProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
+  const handleStatusClick = code => {
+    setSelectedStatus(code);
+  };
 
   const customTotal = (from, to, size) => {
     return (
@@ -186,7 +191,7 @@ export const GeneralResultEntryExpand = ({
       let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value;
-        const object = {[key]: values.filterVal};
+        const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
       if (onFilter) {
@@ -202,7 +207,7 @@ export const GeneralResultEntryExpand = ({
     }
     if (type === 'search') {
       debounce(() => {
-        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
       });
     }
     if (type === 'sort') {
@@ -229,7 +234,7 @@ export const GeneralResultEntryExpand = ({
     }
   };
 
-  const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
+  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
     <div className='btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
@@ -334,16 +339,33 @@ export const GeneralResultEntryExpand = ({
     }
   };
 
+  const StatusCircle = ({ status, color, onClick }) => {
+    return (
+      <div
+        className={`w-5 h-5 bg-${color}-600 rounded-3xl px-2.5 mx-1.5 border-solid`}
+        onClick={onClick}
+      >
+        {status}
+      </div>
+    );
+  };
+  const statusData = [
+    { code: 'P', value: 'Pending', color: 'blue' },
+    { code: 'C', value: 'Recheck', color: 'yellow' },
+    { code: 'T', value: 'Retest', color: 'green' },
+    { code: 'D', value: 'Done', color: 'purple' },
+  ];
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4
@@ -413,6 +435,22 @@ export const GeneralResultEntryExpand = ({
                   />
                 </div>
               )}
+              <div className='flex'>
+                {statusData.map(status => (
+                  <StatusCircle
+                    key={status.code}
+                    status={status.code}
+                    color={status.color}
+                    onClick={() => {}}
+                  />
+                ))}
+
+                {selectedStatus && (
+                  <div className='mt-4'>
+                    Selected Status Code: {selectedStatus}
+                  </div>
+                )}
+              </div>
               <div className='scrollTable'>
                 <BootstrapTable
                   remote
