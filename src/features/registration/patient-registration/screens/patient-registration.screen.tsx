@@ -306,48 +306,46 @@ const PatientRegistration = observer(() => {
               </div>
             </Tooltip>
           </div>
-          <div className='items-center justify-center  mt-2 grid gap-2 grid-cols-4'>
+          <div className='grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4'>
             {patientManagerStore.listPatientManger?.map(item => (
-              <>
-                <div
-                  className='flex rounded-md shadow  p-4 gap-4 items-center my-4 border-2 border-transparent focus:border-white hover:border-white transition duration-300 ease-in-out transform hover:scale-105'
-                  onClick={() => {
-                    patientRegistrationStore.updateDefaultValue({
-                      ...patientRegistrationStore.defaultValues,
-                      pId: item?.pId?.toString(),
-                    });
-                    patientRegistrationStore.getPatientRegRecords(
-                      'pId',
-                      item?.pId?.toString(),
-                    );
-                  }}
-                >
-                  <div>
-                    <img
-                      src={item.sex == 'M' ? icons.male : icons.female}
-                      style={{ width: 40, height: 40 }}
-                      alt='male'
-                    />
-                  </div>
-                  <div className='flex flex-col'>
-                    <span className='text-sm font-bold'>
-                      {item?.firstName.toUpperCase() +
-                        ' ' +
-                        (item?.middleName != undefined
-                          ? item?.middleName.toUpperCase()
-                          : '') +
-                        ' ' +
-                        item?.lastName.toUpperCase()}
-                    </span>
-                    <span>{item?.pId?.toString()}</span>
-                    <span>
-                      {item.sex} |{' '}
-                      <span>{item?.age + ' ' + item?.ageUnit}</span>
-                    </span>
-                    <span>{item?.mobileNo}</span>
-                  </div>
+              <div
+                key={item.pId}
+                className='flex rounded-md shadow p-4 gap-4 items-center mb-2 border-2 border-transparent focus:border-white hover:border-white transition duration-300 ease-in-out transform hover:scale-105'
+                onClick={() => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    pId: item?.pId?.toString(),
+                  });
+                  patientRegistrationStore.getPatientRegRecords(
+                    'pId',
+                    item?.pId?.toString(),
+                  );
+                }}
+              >
+                <div>
+                  <img
+                    src={item.sex == 'M' ? icons.male : icons.female}
+                    style={{ width: 40, height: 40 }}
+                    alt='male'
+                  />
                 </div>
-              </>
+                <div className='flex flex-col'>
+                  <span className='text-sm font-bold'>
+                    {item?.firstName.toUpperCase() +
+                      ' ' +
+                      (item?.middleName != undefined
+                        ? item?.middleName.toUpperCase()
+                        : '') +
+                      ' ' +
+                      item?.lastName.toUpperCase()}
+                  </span>
+                  <span>{item?.pId?.toString()}</span>
+                  <span>
+                    {item.sex} | <span>{item?.age + ' ' + item?.ageUnit}</span>
+                  </span>
+                  <span>{item?.mobileNo}</span>
+                </div>
+              </div>
             ))}
           </div>
           {accordionList}

@@ -12,6 +12,7 @@ export const DocumentSettingHoc = (Component: React.FC<any>) => {
       lookupStore &&
         lookupStore.updateLookup({
           ...lookupStore.lookup,
+          status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
           // environment: getDefaultLookupItem(
           //   routerStore.lookupItems,
           //   'ENVIRONMENT',

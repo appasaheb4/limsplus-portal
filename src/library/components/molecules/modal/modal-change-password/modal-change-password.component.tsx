@@ -41,10 +41,10 @@ export const ModalChangePassword = observer((props: ModalProps) => {
     <>
       {showModal && (
         <>
-          <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none sm:p-4'>
+          <div className='justify-center items-center flex overflow-x-hidden  overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none sm:p-4'>
             <div className='relative w-full my-6 mx-auto max-w-3xl'>
               {/*content*/}
-              <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
+              <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full dark:bg-boxdark  outline-none focus:outline-none'>
                 {/*header*/}
                 <div>
                   <button
@@ -71,7 +71,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                   </div>
                   <div>
                     <div className='items-center justify-center flex'>
-                      <h1 className='text-4xl'>Change Password</h1>
+                      <span className='text-4xl'>Change Password</span>
                     </div>
                   </div>
                 </div>
