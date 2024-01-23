@@ -82,12 +82,12 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
             hasError ? 'border-red' : 'border-gray-300'
-          } rounded-md dark:text-black`}
+          } rounded-md dark:bg-boxdark`}
         >
           <input
             placeholder={placeholder}
             value={value}
-            className={`${className} w-full focus:outline-none bg-none dark:text-black`}
+            className={`${className} w-full focus:outline-none bg-none dark:bg-boxdark`}
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
@@ -106,7 +106,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
         {options && isListOpen
           ? options.length > 0 && (
               <div
-                className={`mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm `}
+                className={`mt-1 absolute  w-full dark:bg-boxdark  p-2 rounded-sm `}
                 style={{ zIndex: 500 }}
               >
                 <ul>
@@ -132,7 +132,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                           }}
                         >
                           {' '}
-                          <label className='ml-2 mt-1 text-black'>
+                          <label className='ml-2 mt-1 dark:text-white'>
                             {data.displayKey
                               .map(
                                 key =>

@@ -11,6 +11,7 @@ export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       administrativeDivisions.updateAdministrativeDiv({
         ...administrativeDivisions.administrativeDiv,
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         // environment: getDefaultLookupItem(
         //   routerStore.lookupItems,
         //   'ENVIRONMENT',

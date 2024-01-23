@@ -102,7 +102,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
     <>
       <div ref={wrapperRef} className='w-full relative'>
         <div
-          className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
+          className={`flex items-center leading-4 p-2 dark:bg-boxdark focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
             hasError ? 'border-red' : 'border-gray-300'
           } rounded-md`}
         >
@@ -117,7 +117,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
                 ? value?.toUpperCase()
                 : value
             }
-            className={`w-full focus:outline-none bg-none`}
+            className={`w-full focus:outline-none bg-none dark:bg-boxdark`}
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
@@ -134,7 +134,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
         {options && isListOpen
           ? options?.length > 0 && (
               <div
-                className='mt-1  absolute bg-gray-100 p-2 rounded-sm z-500'
+                className='mt-1  absolute bg-gray-100 p-2 rounded-sm z-500 dark:bg-boxdark'
                 style={{ zIndex: 80 }}
               >
                 <ul>
@@ -142,14 +142,14 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
                     <>
                       <li
                         key={index}
-                        className='text-gray-400 flex items-center'
+                        className='dark:text-white-400 flex items-center dark:bg-boxdark dark:text-white'
                       >
                         <input
                           type='checkbox'
                           checked={item.selected}
                           onChange={() => onSelect(item)}
                         />{' '}
-                        <label className='ml-2 mt-1 text-black'>
+                        <label className='ml-2 mt-1 dark:text-white'>
                           {data.displayKey
                             .map(
                               key =>

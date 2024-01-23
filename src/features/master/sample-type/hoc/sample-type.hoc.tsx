@@ -11,6 +11,7 @@ export const SampleTypeHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       sampleTypeStore.updateSampleType({
         ...sampleTypeStore.sampleType,
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         // environment: getDefaultLookupItem(
         //   routerStore.lookupItems,
         //   'ENVIRONMENT',
