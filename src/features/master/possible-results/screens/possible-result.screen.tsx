@@ -362,8 +362,8 @@ export const PossibleResults = PossibleResultHoc(
                             onChange(item.analyteCode);
                             possibleResultsStore.updatePossibleResults({
                               ...possibleResultsStore.possibleResults,
-                              analyteCode: item.analyteCode,
-                              analyteName: item.analyteName,
+                              analyteCode: item.analyteCode?.toUpperCase(),
+                              analyteName: item.analyteName?.toUpperCase(),
                             });
                             masterAnalyteStore.updateMasterAnalyteList(
                               masterAnalyteStore.listMasterAnalyteCopy,

@@ -121,6 +121,34 @@ const GeneralResultEntry = observer(() => {
                 }
               });
           }}
+          onFilterFinishResult={async finishResult => {
+            generalResultEntryStore.updateFilterGeneralResEntry({
+              ...generalResultEntryStore.filterGeneralResEntry,
+              finishResult,
+            });
+            const input = _.pickBy(
+              {
+                ...generalResultEntryStore.filterGeneralResEntry,
+                finishResult,
+              },
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              function (value, key) {
+                return !(value === undefined || value === null || value === '');
+              },
+            );
+
+            patientResultStore.patientResultService.patientListForGeneralResultEntry(
+              {
+                input: {
+                  filter: {
+                    ...input,
+                  },
+                  page: 0,
+                  limit: 10,
+                },
+              },
+            );
+          }}
         />
       </>
     ),
