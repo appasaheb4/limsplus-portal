@@ -47,6 +47,7 @@ interface GeneralResultEntryExpandProps {
   ) => void;
   onFinishResult?: () => void;
   clearAllFilter?: () => void;
+  onFilterFinishResult?: (code: string) => void;
 }
 export const GeneralResultEntryExpand = ({
   id,
@@ -66,13 +67,14 @@ export const GeneralResultEntryExpand = ({
   onFilter,
   onFinishResult,
   clearAllFilter,
+  onFilterFinishResult,
 }: GeneralResultEntryExpandProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   const handleStatusClick = code => {
-    setSelectedStatus(code);
+    onFilterFinishResult?.(code);
   };
 
   const customTotal = (from, to, size) => {
@@ -418,12 +420,23 @@ export const GeneralResultEntryExpand = ({
                 <button
                   disabled={isFinishResultDisable}
                   className={
-                    'ml-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                    'ml-2 mr-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed'
                   }
                   onClick={onFinishResult}
                 >
                   Finish Result
                 </button>
+                <div className='flex gap-4'>
+                  {statusData.map(status => (
+                    <button
+                      key={status.code}
+                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                      onClick={() => handleStatusClick(status.code)}
+                    >
+                      {status.value}
+                    </button>
+                  ))}
+                </div>
               </div>
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>
@@ -435,22 +448,7 @@ export const GeneralResultEntryExpand = ({
                   />
                 </div>
               )}
-              <div className='flex'>
-                {statusData.map(status => (
-                  <StatusCircle
-                    key={status.code}
-                    status={status.code}
-                    color={status.color}
-                    onClick={() => {}}
-                  />
-                ))}
 
-                {selectedStatus && (
-                  <div className='mt-4'>
-                    Selected Status Code: {selectedStatus}
-                  </div>
-                )}
-              </div>
               <div className='scrollTable'>
                 <BootstrapTable
                   remote

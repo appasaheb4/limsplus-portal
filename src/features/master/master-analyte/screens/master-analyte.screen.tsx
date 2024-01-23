@@ -863,6 +863,50 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputWrapper
+                          label='Result Type'
+                          hasError={!!errors.resultType}
+                        >
+                          <select
+                            value={value}
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.resultType
+                                ? 'border-red  '
+                                : 'border-gray-300'
+                            } rounded-md`}
+                            onChange={e => {
+                              const resultType = e.target.value;
+                              onChange(resultType);
+                              masterAnalyteStore.updateMasterAnalyte({
+                                ...masterAnalyteStore.masterAnalyte,
+                                resultType,
+                                picture:
+                                  resultType !== 'V'
+                                    ? undefined
+                                    : masterAnalyteStore.masterAnalyte?.picture,
+                              });
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'RESULT_TYPE',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name='resultType'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -912,49 +956,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                             ? true
                             : false,
                       }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Result Type'
-                          hasError={!!errors.resultType}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.resultType
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            onChange={e => {
-                              const resultType = e.target.value;
-                              onChange(resultType);
-                              masterAnalyteStore.updateMasterAnalyte({
-                                ...masterAnalyteStore.masterAnalyte,
-                                resultType,
-                                picture:
-                                  resultType !== 'V'
-                                    ? undefined
-                                    : masterAnalyteStore.masterAnalyte?.picture,
-                              });
-                            }}
-                          >
-                            <option selected>Select</option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'RESULT_TYPE',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='resultType'
-                      rules={{ required: false }}
                       defaultValue=''
                     />
                     <Controller

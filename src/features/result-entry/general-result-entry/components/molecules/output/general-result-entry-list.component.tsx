@@ -30,6 +30,7 @@ interface GeneralResultEntryListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onFilterFinishResult?: (code: string) => void;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
@@ -481,6 +482,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     return item?._id;
                 }),
               );
+          }}
+          onFilterFinishResult={(code: string) => {
+            props.onFilterFinishResult && props.onFilterFinishResult(code);
           }}
         />
       </div>

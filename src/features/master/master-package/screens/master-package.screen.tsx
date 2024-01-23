@@ -856,7 +856,7 @@ const MasterPackage = MasterPackageHOC(
                           hasError={!!errors.status}
                         >
                           <select
-                            // value={value}
+                            value={value}
                             disabled={isVersionUpgrade}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.status ? 'border-red  ' : 'border-gray-300'

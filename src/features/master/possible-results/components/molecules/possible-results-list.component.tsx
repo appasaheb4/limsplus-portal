@@ -93,6 +93,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            style: { textTransform: 'uppercase' },
+            editorStyle: { textTransform: 'uppercase' },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
