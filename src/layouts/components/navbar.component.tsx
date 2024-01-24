@@ -327,6 +327,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
       />
       <ModalChangePassword
         {...modalChangePassword}
+        isDarkMode={stores.appStore.applicationSetting.theme === 'dark'}
         onClick={() => {
           const exipreDate = new Date(
             dayjs(new Date()).add(30, 'days').format('YYYY-MM-DD HH:mm'),

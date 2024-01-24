@@ -48,7 +48,7 @@ const NoticeBoard = NoticeBoardHoc(
       setValue('status', noticeBoardStore.noticeBoard?.status);
       // setValue('environment', noticeBoardStore.noticeBoard?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginStore.login]);
+    }, [loginStore.login, noticeBoardStore.noticeBoard]);
 
     const onNoticeBoardSubmit = () => {
       noticeBoardStore.NoticeBoardService.addNoticeBoard({

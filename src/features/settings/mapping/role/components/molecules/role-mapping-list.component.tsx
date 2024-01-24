@@ -79,7 +79,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               dataField: 'router',
               text: 'Role Permission',
               editable: false,
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               formatter: (cellContent, row) => (
                 <>
@@ -89,6 +89,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                         <li
                           className='flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md'
                           key={index}
+                          style={{ width: '700px', overflowX: 'scroll' }}
                         >
                           <a
                             data-toggle='collapse'
@@ -99,11 +100,11 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                           </a>
                           {item?.children ? (
                             <ul
-                              className='flex flex-row ml-1 text-white ' //collapse
+                              className='flex flex-row ml-1 text-white'
                               id={item?.name}
                             >
                               {item.children.map((children, indexChildren) => (
-                                <li className='bg-blue-600 ml-4 p-2 rounded-md'>
+                                <li className='bg-blue-600 ml-4 p-4 rounded-md'>
                                   {children?.title}
                                   <ul className='ml-2'>
                                     {children?.permission.map(

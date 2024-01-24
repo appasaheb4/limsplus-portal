@@ -402,6 +402,7 @@ export const ResultList = (props: ResultListProps) => {
                             { approvalStatus: 'Approved' },
                             row._id,
                           );
+                        props.onExpand && props.onExpand('');
                       }}
                     >
                       {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}

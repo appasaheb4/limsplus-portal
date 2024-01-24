@@ -11,6 +11,7 @@ interface ModalProps {
   title?: string;
   onClick: () => void;
   onClose: () => void;
+  isDarkMode?: boolean;
 }
 
 export const ModalChangePassword = observer((props: ModalProps) => {
@@ -44,7 +45,11 @@ export const ModalChangePassword = observer((props: ModalProps) => {
           <div className='justify-center items-center flex overflow-x-hidden  overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none sm:p-4'>
             <div className='relative w-full my-6 mx-auto max-w-3xl'>
               {/*content*/}
-              <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full dark:bg-boxdark  outline-none focus:outline-none'>
+              <div
+                className={`border-0 rounded-lg shadow-lg relative flex flex-col w-full ${
+                  props.isDarkMode ? 'dark:bg-boxdark' : 'bg-white'
+                }  outline-none focus:outline-none`}
+              >
                 {/*header*/}
                 <div>
                   <button
