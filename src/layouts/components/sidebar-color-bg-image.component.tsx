@@ -16,57 +16,46 @@ const SideBarColorBgImages = ({
 }: SideBarColorBgImagesProps) => {
   const sideImages = useMemo(() => {
     return (
-      <>
-        <div className='flex justify-start'>
-          {sidebarBackgroundImage.map((item, index) => {
-            return (
-              <>
-                <img
-                  src={item.path}
-                  key={index}
-                  className='rounded-3xl'
-                  style={{ padding: '1rem', width: '150px', height: '150px' }}
-                  onClick={() => {
-                    stores.appStore.updateApplicationSetting({
-                      ...stores.appStore.applicationSetting,
-                      sidebarImage: item.path,
-                    });
-                  }}
-                />
-              </>
-            );
-          })}
-        </div>
-      </>
+      <div className='flex flex-wrap justify-start gap-4'>
+        {sidebarBackgroundImage.map((item, index) => (
+          <img
+            src={item.path}
+            key={index}
+            className='rounded-3xl'
+            style={{ width: 100, height: 150 }}
+            onClick={() => {
+              stores.appStore.updateApplicationSetting({
+                ...stores.appStore.applicationSetting,
+                sidebarImage: item.path,
+              });
+            }}
+          />
+        ))}
+      </div>
     );
   }, []);
 
   const navbarImages = useMemo(() => {
     return (
-      <>
-        <div className='flex justify-start'>
-          {sidebarBackgroundImage.map((item, index) => {
-            return (
-              <>
-                <img
-                  src={item.path}
-                  key={index}
-                  className='rounded-3xl'
-                  style={{ padding: '1rem', width: '150px', height: '150px' }}
-                  onClick={() => {
-                    stores.appStore.updateApplicationSetting({
-                      ...stores.appStore.applicationSetting,
-                      navbarImage: item.path,
-                    });
-                  }}
-                />
-              </>
-            );
-          })}
-        </div>
-      </>
+      <div className='flex flex-wrap justify-start gap-4'>
+        {sidebarBackgroundImage.map((item, index) => (
+          <img
+            src={item.path}
+            key={index}
+            className='rounded-3xl'
+            style={{ width: 100, height: 150 }}
+            onClick={() => {
+              stores.appStore.updateApplicationSetting({
+                ...stores.appStore.applicationSetting,
+                navbarImage: item.path,
+              });
+            }}
+          />
+        ))}
+      </div>
     );
   }, []);
+
   return (
     <React.Fragment>
       <>
@@ -79,7 +68,7 @@ const SideBarColorBgImages = ({
             <div className='col-sm-3'>
               <h4>Sidebar</h4>
             </div>
-            <div className='col-md-8 d-flex theme-options overflow-x-scroll  p-0'>
+            <div className='col-md-7 d-flex theme-options overflow-x-scroll  p-0'>
               {data.map((item, index) => {
                 return (
                   <div
@@ -112,7 +101,7 @@ const SideBarColorBgImages = ({
             <div className='col-sm-3'>
               <h4>Navbar</h4>
             </div>
-            <div className='col-md-8 d-flex theme-options overflow-x-scroll p-0'>
+            <div className='col-md-7 d-flex theme-options overflow-x-scroll p-0'>
               {data.map((item, index) => {
                 return (
                   <div

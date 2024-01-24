@@ -53,7 +53,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       // Default value initialization
       setValue('status', environmentStore.environmentSettings?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginStore.login]);
+    }, [loginStore.login, environmentStore.environmentSettings]);
 
     const onSubmitSessionManagement = () => {
       if (!environmentStore.checkExistsEnvSettingsRecord) {
@@ -654,13 +654,14 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'ENVIRONEMENT SETTING - STATUS',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
                       </select>
                     </Form.InputWrapper>
                   )}

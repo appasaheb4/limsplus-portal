@@ -81,14 +81,13 @@ export const AutoCompleteFilterSingleSelectAnalyteCode = observer(
           },
         })
         .then(res => {
-          console.log({ res });
           if (!res.filterAnalyteMaster.success) return getAnalyteList();
           setOptions(_.uniqBy(res.filterAnalyteMaster.data, 'analyteCode'));
         });
     };
 
     const onChange = e => {
-      const search = e.target.value;
+      const search = e.target.value?.toUpperCase();
       setValue(search);
       onFilter(search);
     };

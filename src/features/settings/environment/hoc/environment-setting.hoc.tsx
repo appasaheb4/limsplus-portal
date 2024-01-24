@@ -11,7 +11,22 @@ export const EnvironmentSettingsHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       environmentStore.updateEnvironmentSettings({
         ...environmentStore.environmentSettings,
-        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
+        status: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'ENVIRONEMENT SETTING - STATUS',
+        ),
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT SETTING - ENVIRONMENT',
+        // ),
+      });
+
+      environmentStore.updatEnvironmentVariable({
+        ...environmentStore.environmentVariable,
+        status: getDefaultLookupItem(
+          routerStore.lookupItems,
+          'ENVIRONMENT VARIABLE - STATUS',
+        ),
         // environment: getDefaultLookupItem(
         //   routerStore.lookupItems,
         //   'ENVIRONMENT SETTING - ENVIRONMENT',

@@ -76,7 +76,7 @@ const SidebarCategory = withRouter(
         {isOpen && (
           <ul id='item' className={`sidebar-dropdown list-unstyled `}>
             <PerfectScrollbar>
-              <div style={{ height: 'auto', maxHeight: '350px' }}>
+              <div style={{ height: 'auto', maxHeight: '300px' }}>
                 {children}
               </div>
             </PerfectScrollbar>
