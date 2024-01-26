@@ -2,6 +2,7 @@ export class SampleContainer {
   _id: string;
   containerCode: string;
   containerName: string;
+  containerColorCode: string;
   description: string;
   image: any;
   companyCode: string;
@@ -14,6 +15,7 @@ export class SampleContainer {
     this._id = rawData._id;
     this.containerCode = rawData.containerCode;
     this.containerName = rawData.containerName;
+    this.containerColorCode = rawData.containerColorCode;
     this.description = rawData.description;
     this.image = rawData.image;
     this.companyCode = rawData.companyCode;

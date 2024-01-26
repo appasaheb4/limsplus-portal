@@ -713,16 +713,16 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'employeeCode',
-              text: 'Employee Code',
-              headerClasses: 'textHeader5',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <>{row.extraData?.employeeCode}</>;
-              },
-            },
+            // {
+            //   dataField: 'employeeCode',
+            //   text: 'Employee Code',
+            //   headerClasses: 'textHeader5',
+            //   sort: true,
+            //   editable: false,
+            //   formatter: (cell, row) => {
+            //     return <>{row.extraData?.employeeCode}</>;
+            //   },
+            // },
             {
               dataField: 'acClass',
               text: 'AC Class',

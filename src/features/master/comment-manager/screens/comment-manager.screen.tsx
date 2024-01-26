@@ -368,6 +368,46 @@ const CommentManager = CommentManagerHoc(
         });
     };
 
+    const commentForValueRender = () => {
+      const commentType = commentManagerStore.commentManager.commentsType;
+      switch (commentType) {
+        case 'NORMAL': {
+          return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
+            .filter(item => item.value === 'All')
+            .map((item: any, index: number) => (
+              <option key={index} value={item.code}>
+                {lookupValue(item)}
+              </option>
+            ));
+        }
+        case 'STATUS': {
+          return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
+            .filter(
+              item =>
+                item.value === 'Abnormal' ||
+                item.value === 'Normal' ||
+                item.value === 'Critical',
+            )
+            .map((item: any, index: number) => (
+              <option key={index} value={item.code}>
+                {lookupValue(item)}
+              </option>
+            ));
+        }
+        case 'RESULTS': {
+          return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
+            .filter(item => item.value === 'Value' || item.value === 'Alpha')
+            .map((item: any, index: number) => (
+              <option key={index} value={item.code}>
+                {lookupValue(item)}
+              </option>
+            ));
+        }
+        default:
+          break;
+      }
+    };
+
     return (
       <>
         <Header>
@@ -1114,14 +1154,7 @@ const CommentManager = CommentManagerHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'COMMENTS_FOR',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
+                          {commentForValueRender()}
                         </select>
                       </Form.InputWrapper>
                     )}

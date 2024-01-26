@@ -22,7 +22,7 @@ const SideBarColorBgImages = ({
             src={item.path}
             key={index}
             className='rounded-3xl'
-            style={{ width: 80, height: 100 }}
+            style={{ width: 60, height: 90 }}
             onClick={() => {
               stores.appStore.updateApplicationSetting({
                 ...stores.appStore.applicationSetting,
@@ -43,7 +43,7 @@ const SideBarColorBgImages = ({
             src={item.path}
             key={index}
             className='rounded-3xl'
-            style={{ width: 80, height: 100 }}
+            style={{ width: 60, height: 90 }}
             onClick={() => {
               stores.appStore.updateApplicationSetting({
                 ...stores.appStore.applicationSetting,
