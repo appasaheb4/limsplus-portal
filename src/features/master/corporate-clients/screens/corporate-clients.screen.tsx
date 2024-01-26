@@ -58,8 +58,8 @@ const CorporateClients = CorporateClientsHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [isPanelListNotMandatory, setPanelListNoMandatory] = useState<any>({
-      isVersionUpdate: true,
-      isDuplicate: true,
+      isVersionUpdate: false,
+      isDuplicate: false,
     });
 
     useEffect(() => {
@@ -467,7 +467,7 @@ const CorporateClients = CorporateClientsHoc(
           } else return false;
         });
     };
-    console.log(isPanelListNotMandatory);
+
     return (
       <>
         <Header>
@@ -2114,6 +2114,7 @@ const CorporateClients = CorporateClientsHoc(
                   setPanelListNoMandatory({
                     ...isPanelListNotMandatory,
                     isVersionUpdate: false,
+                    isDuplicate: false,
                   });
                   setHideAddView(false);
                   corporateClientsStore.updateSelectedItems({
@@ -2139,6 +2140,7 @@ const CorporateClients = CorporateClientsHoc(
                   });
                   setPanelListNoMandatory({
                     ...isPanelListNotMandatory,
+                    isVersionUpdate: false,
                     isDuplicate: false,
                   });
                   setHideAddView(false);

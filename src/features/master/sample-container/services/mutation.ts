@@ -17,6 +17,7 @@ export const LIST = gql`
         companyCode
         status
         environment
+        containerColorCode
         dateOfEntry
         lastUpdated
       }
@@ -83,6 +84,7 @@ export const FILTER = gql`
         containerName
         description
         image
+        containerColorCode
         companyCode
         status
         environment
@@ -108,6 +110,7 @@ export const FILTER_BY_FIELDS = gql`
         description
         image
         companyCode
+        containerColorCode
         status
         environment
         dateOfEntry
@@ -128,6 +131,7 @@ export const FIND_BY_FIELDS = gql`
         containerName
         description
         image
+        containerColorCode
         companyCode
         status
         environment

@@ -1272,26 +1272,26 @@ export const DoctorsList = (props: DoctorsListProps) => {
               </>
             ),
           },
-          {
-            dataField: 'version',
-            text: 'Version',
-            headerClasses: 'textHeader4',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
-            csvFormatter: col => (col ? col : ''),
-            editable: false,
-            filter: customFilter({
-              getFilter: filter => {
-                version = filter;
-              },
-            }),
-            filterRenderer: (onFilter, column) => (
-              <NumberFilter onFilter={onFilter} column={column} />
-            ),
-          },
+          // {
+          //   dataField: 'version',
+          //   text: 'Version',
+          //   headerClasses: 'textHeader4',
+          //   sort: true,
+          //   headerStyle: {
+          //     fontSize: 0,
+          //   },
+          //   sortCaret: (order, column) => sortCaret(order, column),
+          //   csvFormatter: col => (col ? col : ''),
+          //   editable: false,
+          //   filter: customFilter({
+          //     getFilter: filter => {
+          //       version = filter;
+          //     },
+          //   }),
+          //   filterRenderer: (onFilter, column) => (
+          //     <NumberFilter onFilter={onFilter} column={column} />
+          //   ),
+          // },
           {
             dataField: 'enteredBy',
             text: 'Entered By',

@@ -259,6 +259,31 @@ const SampleContainer = SampleContainerHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Container Color'
+                        hasError={!!errors.containerColorCode}
+                        placeholder={
+                          errors.containerColorCode
+                            ? 'Please Enter Container Color'
+                            : 'Container Color'
+                        }
+                        value={value}
+                        onChange={containerColorCode => {
+                          onChange(containerColorCode);
+                          sampleContainerStore.updateSampleContainer({
+                            ...sampleContainerStore.sampleContainer,
+                            containerColorCode,
+                          });
+                        }}
+                      />
+                    )}
+                    name='containerColorCode'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputFile
                         label='Image'
                         placeholder={

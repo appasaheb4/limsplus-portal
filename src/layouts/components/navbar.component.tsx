@@ -160,82 +160,84 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
         <div className='flex-1 ml-2 d-none d-sm-inline-block'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
-              <Buttons.Button
-                size='medium'
-                type='outline'
-                onClick={() => {
-                  const elem: any = document.body;
-                  function openFullscreen() {
-                    const theme = 'dark';
-                    appStore.updateApplicationSetting({
-                      ...appStore.applicationSetting,
-                      isExpandScreen: true,
-                    });
-                    appStore.updateApplicationSetting({
-                      ...stores.appStore.applicationSetting,
-                      theme,
-                    });
-                    if (elem.requestFullscreen) {
-                      elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) {
-                      /* Safari */
-                      elem.webkitRequestFullscreen();
-                    } else if (elem.msRequestFullscreen) {
-                      /* IE11 */
-                      elem.msRequestFullscreen();
-                    }
-                    if (typeof setColorMode === 'function') {
-                      setColorMode(theme);
-                    }
-                  }
-                  function closeFullscreen() {
-                    if (document.fullscreenElement) {
-                      const theme = 'light';
-                      if (document.exitFullscreen) {
-                        appStore.updateApplicationSetting({
-                          ...appStore.applicationSetting,
-                          isExpandScreen: false,
-                          theme,
-                        });
-                        document.exitFullscreen();
-                      }
-                      if (typeof setColorMode === 'function') {
-                        setColorMode(theme);
-                      }
-                    }
-                  }
-                  openFullscreen();
-                  closeFullscreen();
-                }}
-              >
-                <Tooltip
-                  tooltipText={
-                    appStore.applicationSetting?.isExpandScreen
-                      ? 'Collapse Screen'
-                      : 'Expand Screen'
-                  }
-                >
-                  <Icons.IconContext
-                    color={`${
-                      stores.appStore.applicationSetting.theme === 'dark'
-                        ? '#ffffff'
-                        : '#000000'
-                    }`}
-                    size='18'
-                  >
-                    {Icons.getIconTag(
-                      appStore.applicationSetting?.isExpandScreen
-                        ? Icons.IconCg.CgMinimize
-                        : Icons.Iconai.AiOutlineExpand,
-                    )}
-                  </Icons.IconContext>
-                </Tooltip>
-              </Buttons.Button>
               <div className='mx-2'>
                 <DarkModeSwitcher
                   //isDisable={appStore.applicationSetting.isExpandScreen}
                   isDisable={false}
                 />
+              </div>
+              <div className='m-2'>
+                <Buttons.Button
+                  size='medium'
+                  type='outline'
+                  onClick={() => {
+                    const elem: any = document.body;
+                    function openFullscreen() {
+                      const theme = 'dark';
+                      appStore.updateApplicationSetting({
+                        ...appStore.applicationSetting,
+                        isExpandScreen: true,
+                      });
+                      appStore.updateApplicationSetting({
+                        ...stores.appStore.applicationSetting,
+                        theme,
+                      });
+                      if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                      } else if (elem.webkitRequestFullscreen) {
+                        /* Safari */
+                        elem.webkitRequestFullscreen();
+                      } else if (elem.msRequestFullscreen) {
+                        /* IE11 */
+                        elem.msRequestFullscreen();
+                      }
+                      if (typeof setColorMode === 'function') {
+                        setColorMode(theme);
+                      }
+                    }
+                    function closeFullscreen() {
+                      if (document.fullscreenElement) {
+                        const theme = 'light';
+                        if (document.exitFullscreen) {
+                          appStore.updateApplicationSetting({
+                            ...appStore.applicationSetting,
+                            isExpandScreen: false,
+                            theme,
+                          });
+                          document.exitFullscreen();
+                        }
+                        if (typeof setColorMode === 'function') {
+                          setColorMode(theme);
+                        }
+                      }
+                    }
+                    openFullscreen();
+                    closeFullscreen();
+                  }}
+                >
+                  <Tooltip
+                    tooltipText={
+                      appStore.applicationSetting?.isExpandScreen
+                        ? 'Collapse Screen'
+                        : 'Expand Screen'
+                    }
+                  >
+                    <Icons.IconContext
+                      color={`${
+                        stores.appStore.applicationSetting.theme === 'dark'
+                          ? '#ffffff'
+                          : '#000000'
+                      }`}
+                      size='18'
+                    >
+                      {Icons.getIconTag(
+                        appStore.applicationSetting?.isExpandScreen
+                          ? Icons.IconCg.CgMinimize
+                          : Icons.Iconai.AiOutlineExpand,
+                      )}
+                    </Icons.IconContext>
+                  </Tooltip>
+                </Buttons.Button>
               </div>
               <Tooltip tooltipText={'User session'}>
                 <span

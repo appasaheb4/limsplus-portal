@@ -445,10 +445,15 @@ const Doctors = DoctorsHoc(
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
                               title,
-                              reportName: `${title}. ${toTitleCase(
+                              reportName: `${
+                                toTitleCase(title) === '.'
+                                  ? ''
+                                  : toTitleCase(title)
+                              } ${toTitleCase(
                                 doctorsStore.doctors?.doctorName,
                               )}`,
                             });
+                            toTitleCase(title);
                           }}
                         >
                           <option selected>Select</option>
@@ -538,8 +543,10 @@ const Doctors = DoctorsHoc(
                             ...doctorsStore.doctors,
                             doctorName,
                             reportName: `${
-                              doctorsStore.doctors?.title
-                            }. ${toTitleCase(doctorName)}`,
+                              doctorsStore.doctors?.title === '.'
+                                ? ''
+                                : doctorsStore.doctors?.title
+                            } ${toTitleCase(doctorName)}`,
                           });
                         }}
                       />
@@ -564,7 +571,7 @@ const Doctors = DoctorsHoc(
                           onChange(reportName);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
-                            reportName: reportName,
+                            reportName: reportName.trim(),
                           });
                         }}
                       />
@@ -1451,7 +1458,7 @@ const Doctors = DoctorsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
@@ -1467,7 +1474,7 @@ const Doctors = DoctorsHoc(
                     name='version'
                     rules={{ required: false }}
                     defaultValue=''
-                  />
+                  /> */}
 
                   <Controller
                     control={control}
