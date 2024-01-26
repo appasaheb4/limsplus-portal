@@ -64,7 +64,11 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                 <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                   <div className='items-center justify-center flex mb-2'>
                     <img
-                      src={Assets.images.linplusLogo}
+                      src={
+                        props.isDarkMode
+                          ? Assets.images.limsplusTran
+                          : Assets.images.linplusLogo
+                      }
                       className='img-fluid'
                       style={{
                         width: '200px',

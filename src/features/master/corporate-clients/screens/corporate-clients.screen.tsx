@@ -57,6 +57,10 @@ const CorporateClients = CorporateClientsHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isPanelListNotMandatory, setPanelListNoMandatory] = useState<any>({
+      isVersionUpdate: true,
+      isDuplicate: true,
+    });
 
     useEffect(() => {
       // Default value initialization
@@ -463,7 +467,7 @@ const CorporateClients = CorporateClientsHoc(
           } else return false;
         });
     };
-
+    console.log(isPanelListNotMandatory);
     return (
       <>
         <Header>
@@ -1518,7 +1522,9 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{
                       required:
                         corporateClientsStore.corporateClients
-                          ?.isPredefinedPanel,
+                          ?.isPredefinedPanel ||
+                        isPanelListNotMandatory.isVersionUpdate ||
+                        isPanelListNotMandatory.isDuplicate,
                     }}
                     defaultValue={masterPanelStore.listMasterPanel}
                   />
@@ -2104,8 +2110,12 @@ const CorporateClients = CorporateClientsHoc(
                         .format('YYYY-MM-DD hh:mm:ss'),
                     ),
                   });
+                  setIsVersionUpgrade(true);
+                  setPanelListNoMandatory({
+                    ...isPanelListNotMandatory,
+                    isVersionUpdate: false,
+                  });
                   setHideAddView(false);
-                  setIsVersionUpgrade(false);
                   corporateClientsStore.updateSelectedItems({
                     ...corporateClientsStore.selectedItems,
                     deliveryMode: modalConfirm.data?.deliveryMode,
@@ -2126,6 +2136,10 @@ const CorporateClients = CorporateClientsHoc(
                         .add(365, 'days')
                         .format('YYYY-MM-DD hh:mm:ss'),
                     ),
+                  });
+                  setPanelListNoMandatory({
+                    ...isPanelListNotMandatory,
+                    isDuplicate: false,
                   });
                   setHideAddView(false);
                   corporateClientsStore.updateSelectedItems({
