@@ -35,13 +35,13 @@ export const InvestigationDetails = observer(
     const investigationMasterLoad = (type = investigationType) => {
       if (type)
         switch (type) {
-          case 'PANEL':
+          case 'Panel':
             return masterPanelStore.masterPanelService.listPanelMaster();
-          case 'PACKAGE':
+          case 'Package':
             return masterPackageStore.masterPackageService.listPackageMaster();
-          case 'TEST':
+          case 'Test':
             return testMasterStore.testMasterService.listTestMaster();
-          case 'ANALYTE':
+          case 'Analyte':
             return masterAnalyteStore.masterAnalyteService.listAnalyteMaster();
           default:
             return alert('Not found data. Please contact to admin');
@@ -53,7 +53,7 @@ export const InvestigationDetails = observer(
     ) => {
       if (type)
         switch (type) {
-          case 'PANEL':
+          case 'Panel':
             return {
               list: masterPanelStore.listMasterPanel,
               fields: ['panelCode', 'panelName'],
@@ -69,7 +69,7 @@ export const InvestigationDetails = observer(
                   },
                 }),
             };
-          case 'PACKAGE':
+          case 'Package':
             return {
               list: _.uniqBy(
                 masterPackageStore?.listMasterPackage,
@@ -88,7 +88,7 @@ export const InvestigationDetails = observer(
                   },
                 }),
             };
-          case 'TEST':
+          case 'Test':
             return {
               list: testMasterStore.listTestMaster,
               fields: ['testCode', 'testName'],
@@ -104,7 +104,7 @@ export const InvestigationDetails = observer(
                   },
                 }),
             };
-          case 'ANALYTE':
+          case 'Analyte':
             return {
               list: masterAnalyteStore.listMasterAnalyte,
               fields: ['analyteCode', 'analyteName'],
