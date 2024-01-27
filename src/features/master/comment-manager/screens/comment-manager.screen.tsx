@@ -1164,15 +1164,15 @@ const CommentManager = CommentManagerHoc(
                   />
 
                   {commentManagerStore.commentManager.commentsType !==
-                    'RESULTS' &&
-                  commentManagerStore.commentManager.commentsFor !== 'VALUE' &&
+                    'Results' &&
+                  commentManagerStore.commentManager.commentsFor !== 'Value' &&
                   commentManagerStore.commentManager.commentsFor !==
-                    'ALPHA' ? null : (
+                    'Alpha' ? null : (
                     <>
                       {commentManagerStore.commentManager.commentsType ==
-                        'RESULTS' &&
+                        'Results' &&
                         commentManagerStore.commentManager.commentsFor ==
-                          'VALUE' && (
+                          'Value' && (
                           <>
                             <div className='grid grid-cols-2 gap-2'>
                               <Controller
@@ -1375,9 +1375,9 @@ const CommentManager = CommentManagerHoc(
                           </>
                         )}
                       {commentManagerStore.commentManager.commentsType ==
-                        'RESULTS' &&
+                        'Results' &&
                         commentManagerStore.commentManager.commentsFor ==
-                          'ALPHA' && (
+                          'Alpha' && (
                           <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => (
