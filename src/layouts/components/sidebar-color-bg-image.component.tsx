@@ -77,7 +77,7 @@ const SideBarColorBgImages = ({
         </div>
         <div className='sideBarColorOptions my-1.5'>
           <div className='row'>
-            <div className='col-md-12 d-flex theme-options overflow-x-scroll  p-0'>
+            <div className='col-md-12 d-flex justify-center theme-options overflow-x-scroll  p-0'>
               {data.map((item, index) => {
                 return (
                   <div
@@ -110,7 +110,7 @@ const SideBarColorBgImages = ({
             />
           </div>
           <div className='row'>
-            <div className='col-md-12 d-flex theme-options overflow-x-scroll p-0'>
+            <div className='col-md-12 d-flex justify-center theme-options overflow-x-scroll p-0'>
               {data.map((item, index) => {
                 return (
                   <div

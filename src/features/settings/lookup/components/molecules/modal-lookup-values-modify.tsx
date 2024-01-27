@@ -7,6 +7,7 @@ import { Form, Buttons, Icons, Svg } from '@/library/components';
 interface ModalLookupValuesModifyProps {
   show?: boolean;
   arrValues?: any;
+  defaultItems?: any;
   id?: string;
   onClick: (arrValues: any, id: string) => void;
   onClose: () => void;
@@ -15,12 +16,15 @@ interface ModalLookupValuesModifyProps {
 export const ModalLookupValuesModify = observer(
   (props: ModalLookupValuesModifyProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
-    const [values, setValues] = useState<any>();
+    const [values, setValues] = useState<any>({});
     const [localInput, setLocalInput] = useState<any>({ flagUpperCase: true });
-
+    console.log(props.arrValues, props.defaultItems);
     useEffect(() => {
       setShowModal(props.show);
-      setValues(props.arrValues);
+      setValues({
+        arrValues: props.arrValues,
+        defaultItems: props.defaultItems,
+      });
     }, [props]);
 
     return (
@@ -84,7 +88,7 @@ export const ModalLookupValuesModify = observer(
                             const value = localInput?.value;
                             const code = localInput?.code;
                             const flagUpperCase = localInput?.flagUpperCase;
-                            let arrValue = values || [];
+                            let arrValue = values.arrValues || [];
                             if (value === undefined || code === undefined)
                               return alert('Please enter value and code.');
                             if (value !== undefined) {
@@ -104,7 +108,10 @@ export const ModalLookupValuesModify = observer(
                               arrValue = _.map(arrValue, o =>
                                 _.pick(o, ['code', 'value', 'flagUpperCase']),
                               );
-                              setValues(arrValue);
+                              setValues({
+                                ...value,
+                                arrValues: arrValue,
+                              });
                               setLocalInput({
                                 value: '',
                                 code: '',
@@ -120,20 +127,25 @@ export const ModalLookupValuesModify = observer(
                       <div className='clearfix'></div>
                     </div>
                     <div className='flex flex-row gap-2 flex-wrap'>
-                      {values?.map((item, index) => (
+                      {values?.arrValues?.map((item, index) => (
                         <div className='mb-2' key={index}>
                           <Buttons.Button
                             size='medium'
                             type='solid'
                             icon={Svg.Remove}
                             onClick={() => {
-                              const firstArr = values?.slice(0, index) || [];
-                              const secondArr = values?.slice(index + 1) || [];
+                              const firstArr =
+                                values?.arrValues?.slice(0, index) || [];
+                              const secondArr =
+                                values?.arrValues?.slice(index + 1) || [];
                               let finalArray = [...firstArr, ...secondArr];
                               finalArray = _.map(finalArray, o =>
                                 _.pick(o, ['code', 'value', 'flagUpperCase']),
                               );
-                              setValues(finalArray);
+                              setValues({
+                                ...values,
+                                arrValues: finalArray,
+                              });
                             }}
                           >
                             {`${item.value} - ${item.code}  `}
@@ -144,6 +156,47 @@ export const ModalLookupValuesModify = observer(
                           </Buttons.Button>
                         </div>
                       ))}
+                    </div>
+                    <div>
+                      <Form.InputWrapper label='Default Item'>
+                        <select
+                          className={
+                            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                          }
+                          onChange={e => {
+                            if (e.target.value === 'removeItem') {
+                              setValues({
+                                ...values,
+                                defaultItem: [],
+                              });
+                            }
+                            let defaultItem = JSON.parse(e.target.value);
+                            defaultItem = [
+                              {
+                                code: defaultItem.code,
+                                value: defaultItem.value,
+                              },
+                            ];
+                            setValues({
+                              ...values,
+                              defaultItem,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {/* <option value='removeItem'>Remove Item</option> */}
+                          {values?.arrValues?.map(
+                            (item: any, index: number) => (
+                              <option
+                                key={item.name}
+                                value={JSON.stringify(item)}
+                              >
+                                {`${item.value} - ${item.code}`}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
                     </div>
                   </div>
                   {/*footer*/}
