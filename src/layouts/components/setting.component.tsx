@@ -34,7 +34,7 @@ const Settings = observer(props => {
     { color: '#DEB887' },
     { color: '#778899' },
     { color: '#32CD32' },
-    { color: '#B0E0E6' },
+    // { color: '#B0E0E6' },
   ]);
 
   useEffect(() => {

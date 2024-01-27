@@ -57,10 +57,6 @@ const CorporateClients = CorporateClientsHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
-    const [isPanelListNotMandatory, setPanelListNoMandatory] = useState<any>({
-      isVersionUpdate: false,
-      isDuplicate: false,
-    });
 
     useEffect(() => {
       // Default value initialization
@@ -1522,9 +1518,7 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{
                       required:
                         corporateClientsStore.corporateClients
-                          ?.isPredefinedPanel ||
-                        isPanelListNotMandatory.isVersionUpdate ||
-                        isPanelListNotMandatory.isDuplicate,
+                          ?.isPredefinedPanel ?? false,
                     }}
                     defaultValue={masterPanelStore.listMasterPanel}
                   />
@@ -2101,6 +2095,7 @@ const CorporateClients = CorporateClientsHoc(
                     _id: undefined,
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
+                    isPredefinedPanel: false,
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
                     dateActive: new Date(),
@@ -2111,11 +2106,6 @@ const CorporateClients = CorporateClientsHoc(
                     ),
                   });
                   setIsVersionUpgrade(true);
-                  setPanelListNoMandatory({
-                    ...isPanelListNotMandatory,
-                    isVersionUpdate: false,
-                    isDuplicate: false,
-                  });
                   setHideAddView(false);
                   corporateClientsStore.updateSelectedItems({
                     ...corporateClientsStore.selectedItems,
@@ -2130,6 +2120,7 @@ const CorporateClients = CorporateClientsHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: 1,
+                    isPredefinedPanel: false,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(
@@ -2138,11 +2129,7 @@ const CorporateClients = CorporateClientsHoc(
                         .format('YYYY-MM-DD hh:mm:ss'),
                     ),
                   });
-                  setPanelListNoMandatory({
-                    ...isPanelListNotMandatory,
-                    isVersionUpdate: false,
-                    isDuplicate: false,
-                  });
+
                   setHideAddView(false);
                   corporateClientsStore.updateSelectedItems({
                     ...corporateClientsStore.selectedItems,

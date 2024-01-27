@@ -171,10 +171,12 @@ const Lookup = observer(() => {
                 routerStore.userPermission,
                 'Delete',
               )}
-              onUpdateValues={(arrValues, id) => {
+              onUpdateValues={(item, id) => {
+                console.log(item);
                 setModalLookupValuesModify({
                   show: true,
-                  arrValues: toJS(arrValues),
+                  arrValues: toJS(item.arrValue),
+                  defaultItems: item.defaultItem,
                   id,
                 });
               }}
@@ -301,8 +303,14 @@ const Lookup = observer(() => {
 
           <ModalLookupValuesModify
             {...modalLookupValuesModify}
-            onClick={(arrValue, id) => {
-              updateMultipleFields({ fields: { arrValue }, id });
+            onClick={(row, id) => {
+              updateMultipleFields({
+                fields: {
+                  arrValue: row.arrValues,
+                  defaultItem: row.defaultItem,
+                },
+                id,
+              });
               setModalLookupValuesModify({ show: false });
             }}
             onClose={() => {
