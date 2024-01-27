@@ -371,7 +371,7 @@ const CommentManager = CommentManagerHoc(
     const commentForValueRender = () => {
       const commentType = commentManagerStore.commentManager.commentsType;
       switch (commentType) {
-        case 'NORMAL': {
+        case 'Normal': {
           return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
             .filter(item => item.value === 'All')
             .map((item: any, index: number) => (
@@ -380,7 +380,7 @@ const CommentManager = CommentManagerHoc(
               </option>
             ));
         }
-        case 'STATUS': {
+        case 'Status': {
           return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
             .filter(
               item =>
@@ -394,7 +394,7 @@ const CommentManager = CommentManagerHoc(
               </option>
             ));
         }
-        case 'RESULTS': {
+        case 'Results': {
           return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
             .filter(item => item.value === 'Value' || item.value === 'Alpha')
             .map((item: any, index: number) => (
