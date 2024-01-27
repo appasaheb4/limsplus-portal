@@ -1012,6 +1012,28 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               },
             },
             {
+              dataField: 'isSalable',
+              text: 'Is Salable',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row.isSalable ? (row.isSalable ? 'Yes' : 'No') : 'No'}`,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.isSalable}
+                      onChange={isSalable => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(isSalable, 'isSalable', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'cumulative',
               text: 'Cumulative',
               sort: true,

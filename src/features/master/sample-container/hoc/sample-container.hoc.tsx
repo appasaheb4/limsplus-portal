@@ -12,6 +12,7 @@ export const SampleContainerHoc = (Component: React.FC<any>) => {
       sampleContainerStore.updateSampleContainer({
         ...sampleContainerStore.sampleContainer,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
+        tubeName: getDefaultLookupItem(routerStore.lookupItems, 'TUBE_NAME'),
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);

@@ -83,6 +83,7 @@ const MasterPanel = MasterPanelHoc(
         masterPanelStore.masterPanel?.validationLevel,
       );
       setValue('panelMethod', masterPanelStore.masterPanel?.panelMethodCode);
+      setValue('isSalable', masterPanelStore.masterPanel?.isSalable);
       setValue('schedule', masterPanelStore.masterPanel?.schedule);
       setValue('reportTemplate', masterPanelStore.masterPanel?.reportTemplate);
       setValue('processing', masterPanelStore.masterPanel?.processing);
@@ -1803,6 +1804,26 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name=' printLabel'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Is Salable'
+                            hasError={!!errors.isSalable}
+                            value={value}
+                            onChange={isSalable => {
+                              onChange(isSalable);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                isSalable,
+                              });
+                            }}
+                          />
+                        )}
+                        name=' isSalable'
                         rules={{ required: false }}
                         defaultValue=''
                       />

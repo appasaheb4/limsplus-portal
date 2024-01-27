@@ -60,15 +60,24 @@ const SideBarColorBgImages = ({
     <React.Fragment>
       <>
         <hr />
-        <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
-          COLOR
-        </small>
+        <div className='flex justify-between items-center'>
+          <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
+            Color For Sidebar
+          </small>
+          <Icons.RIcon
+            nameIcon='CiCircleRemove'
+            propsIcon={{
+              color: '#000000',
+              size: 22,
+            }}
+            onClick={() => {
+              onChangeSidebarColor && onChangeSidebarColor('');
+            }}
+          />
+        </div>
         <div className='sideBarColorOptions my-1.5'>
           <div className='row'>
-            <div className='col-sm-3'>
-              <h4>Sidebar</h4>
-            </div>
-            <div className='col-md-7 d-flex theme-options overflow-x-scroll  p-0'>
+            <div className='col-md-12 d-flex theme-options overflow-x-scroll  p-0'>
               {data.map((item, index) => {
                 return (
                   <div
@@ -82,26 +91,26 @@ const SideBarColorBgImages = ({
                 );
               })}
             </div>
-            <div className='flex col-md-1 justify-center'>
-              <Icons.RIcon
-                nameIcon='CiCircleRemove'
-                propsIcon={{
-                  color: '#000000',
-                  size: 22,
-                }}
-                onClick={() => {
-                  onChangeSidebarColor && onChangeSidebarColor('');
-                }}
-              />
-            </div>
           </div>
         </div>
         <div className='sideBarColorOptions my-1.5'>
+          <div className='flex justify-between items-center'>
+            <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
+              Color For Navbar
+            </small>
+            <Icons.RIcon
+              nameIcon='CiCircleRemove'
+              propsIcon={{
+                color: '#000000',
+                size: 22,
+              }}
+              onClick={() => {
+                onChangeNavbarColor && onChangeNavbarColor('');
+              }}
+            />
+          </div>
           <div className='row'>
-            <div className='col-sm-3'>
-              <h4>Navbar</h4>
-            </div>
-            <div className='col-md-7 d-flex theme-options overflow-x-scroll p-0'>
+            <div className='col-md-12 d-flex theme-options overflow-x-scroll p-0'>
               {data.map((item, index) => {
                 return (
                   <div
@@ -114,18 +123,6 @@ const SideBarColorBgImages = ({
                   />
                 );
               })}
-            </div>
-            <div className='flex col-md-1 justify-center'>
-              <Icons.RIcon
-                nameIcon='CiCircleRemove'
-                propsIcon={{
-                  color: '#000000',
-                  size: 22,
-                }}
-                onClick={() => {
-                  onChangeNavbarColor && onChangeNavbarColor('');
-                }}
-              />
             </div>
           </div>
         </div>

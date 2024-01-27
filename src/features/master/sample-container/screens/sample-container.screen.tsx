@@ -47,6 +47,7 @@ const SampleContainer = SampleContainerHoc(
 
     useEffect(() => {
       setValue('status', sampleContainerStore.sampleContainer?.status);
+      setValue('tubeName', sampleContainerStore.sampleContainer?.tubeName);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sampleContainerStore.sampleContainer]);
 
@@ -259,25 +260,38 @@ const SampleContainer = SampleContainerHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Container Color'
-                        hasError={!!errors.containerColorCode}
-                        placeholder={
-                          errors.containerColorCode
-                            ? 'Please Enter Container Color'
-                            : 'Container Color'
-                        }
-                        value={value}
-                        onChange={containerColorCode => {
-                          onChange(containerColorCode);
-                          sampleContainerStore.updateSampleContainer({
-                            ...sampleContainerStore.sampleContainer,
-                            containerColorCode,
-                          });
-                        }}
-                      />
+                      <Form.InputWrapper
+                        label='Tube Name'
+                        hasError={!!errors.tubeName}
+                      >
+                        <select
+                          value={value}
+                          // disabled={isVersionUpgrade}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.tubeName ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const tubeName = e.target.value;
+                            onChange(tubeName);
+                            sampleContainerStore.updateSampleContainer({
+                              ...sampleContainerStore.sampleContainer,
+                              tubeName,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'TUBE_NAME',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
                     )}
-                    name='containerColorCode'
+                    name='tubeName'
                     rules={{ required: false }}
                     defaultValue=''
                   />
