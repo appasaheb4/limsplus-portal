@@ -1105,17 +1105,6 @@ export const ExtraDataPatientVisitList = observer(
                 ),
               },
 
-              {
-                dataField: 'employeeCode',
-                text: 'Employee Code',
-                headerClasses: 'textHeader3',
-                sort: true,
-                csvFormatter: (col, row) => (col ? col : false),
-                editable: false,
-                formatter: (cell, row) => {
-                  return <>{row.extraData.employeeCode}</>;
-                },
-              },
              
               {
                 dataField: 'opration',

@@ -17,7 +17,7 @@ let description;
 let environment;
 let status;
 let companyCode;
-let containerColorCode;
+let tubeName;
 interface SampleContainerListProps {
   data: any;
   totalSize: number;
@@ -93,8 +93,8 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           style: { textTransform: 'uppercase' },
         },
         {
-          dataField: 'containerColorCode',
-          text: 'Container Color',
+          dataField: 'tubeName',
+          text: 'Tube Name',
           headerClasses: 'textHeader4',
           sort: true,
           headerStyle: {
@@ -104,7 +104,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
             getFilter: filter => {
-              containerColorCode = filter;
+              tubeName = filter;
             },
           }),
           editorStyle: { textTransform: 'uppercase' },
@@ -372,7 +372,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
         environment('');
         status('');
         companyCode('');
-        containerColorCode('');
+        tubeName('');
       }}
       dynamicStylingFields={['containerCode', 'containerName', 'environment']}
       hideExcelSheet={['operation', '_id', 'image']}
