@@ -70,22 +70,26 @@ interface ReportDeliveryProps {
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
-
+  console.log(props.holdRecord);
   useEffect(() => {
     setSelectId(props.selectedId || '');
-    setLocalData(
-      props.selectedId
-        ? props.data
-            ?.filter(
+    if (props.holdRecord === 'Hold' || props.holdRecord === 'Pending') {
+      setLocalData(
+        props.selectedId
+          ? props.data
+              ?.filter(item => item.deliveryStatus === props.selectedId)
+              ?.map(item => {
+                return { ...item, selectedId: props.selectedId };
+              })
+          : props.data?.filter(
               item =>
-                item._id === props.selectedId ||
-                item.deliveryStatus === props.holdRecord,
-            )
-            ?.map(item => {
-              return { ...item, selectedId: props.selectedId };
-            })
-        : props.data,
-    );
+                item.deliveryStatus === 'Hold' ||
+                item.deliveryStatus === 'Pending',
+            ),
+      );
+    } else {
+      setLocalData(props.data);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.selectedId, props.data, props.holdRecord]);
 

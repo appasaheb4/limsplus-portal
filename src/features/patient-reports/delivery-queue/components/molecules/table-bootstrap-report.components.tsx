@@ -95,7 +95,11 @@ export const TableBootstrapReport = ({
     );
   };
 
-  const statusData = [{ code: 'Hold', value: 'Hold', color: 'yellow' }];
+  const statusData = [
+    { code: 'Hold', value: 'Hold', color: 'green' },
+    { code: 'Pending', value: 'Pending', color: 'blue' },
+    { code: '', value: 'All', color: 'grey' },
+  ];
 
   const sizePerPageRenderer = ({
     options,
