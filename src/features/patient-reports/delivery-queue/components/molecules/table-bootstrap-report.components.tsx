@@ -80,10 +80,6 @@ export const TableBootstrapReport = ({
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
 
-  const handleStatusClick = code => {
-    onCheckHoldRecord?.(code);
-  };
-
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -98,7 +94,7 @@ export const TableBootstrapReport = ({
   const statusData = [
     { code: 'Hold', value: 'Hold', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
-    { code: '', value: 'All', color: 'grey' },
+    { code: '', value: 'All', color: 'red' },
   ];
 
   const sizePerPageRenderer = ({
@@ -385,7 +381,7 @@ export const TableBootstrapReport = ({
                     <button
                       key={status.code}
                       className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
-                      onClick={() => handleStatusClick(status.code)}
+                      onClick={() => onCheckHoldRecord?.(status.code)}
                     >
                       {status.value}
                     </button>
