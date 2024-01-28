@@ -678,33 +678,35 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Cancel' position='bottom'>
+                    <Tooltip tooltipText='Generate Report'>
                       <Icons.IconContext
                         color={
-                          row?.deliveryStatus !== 'Hold' &&
-                          row?.deliveryStatus !== 'Cancel'
+                          row?.deliveryStatus !== 'Done' &&
+                          row?.deliveryStatus !== 'Cancel' &&
+                          row?.deliveryStatus !== 'Hold'
                             ? '#ffffff'
                             : '#5A5A5A'
                         }
                         size='20'
                         onClick={() => {
                           if (
-                            row?.deliveryStatus !== 'Hold' &&
-                            row?.deliveryStatus !== 'Cancel'
+                            row?.deliveryStatus !== 'Done' &&
+                            row?.deliveryStatus !== 'Cancel' &&
+                            row?.deliveryStatus !== 'Hold'
                           ) {
                             props.onUpdate &&
                               props.onUpdate({
-                                type: 'cancel',
+                                type: 'done',
                                 visitId: row?.visitId,
                                 show: true,
                                 id: row._id,
                                 title: 'Are you sure?',
-                                body: 'Cancel item',
+                                body: 'Generate pdf status update',
                               });
                           }
                         }}
                       >
-                        {Icons.getIconTag(Icons.IconGi.GiCancel)}
+                        {Icons.getIconTag(Icons.IconTb.TbExchange)}
                       </Icons.IconContext>
                     </Tooltip>
                     <Tooltip
@@ -737,38 +739,36 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         {Icons.getIconTag(Icons.Iconmd.MdBackHand)}
                       </Icons.IconContext>
                     </Tooltip>
-
-                    <Tooltip tooltipText='Generate Report'>
+                    <Tooltip tooltipText='Cancel' position='bottom'>
                       <Icons.IconContext
                         color={
-                          row?.deliveryStatus !== 'Done' &&
-                          row?.deliveryStatus !== 'Cancel' &&
-                          row?.deliveryStatus !== 'Hold'
+                          row?.deliveryStatus !== 'Hold' &&
+                          row?.deliveryStatus !== 'Cancel'
                             ? '#ffffff'
                             : '#5A5A5A'
                         }
                         size='20'
                         onClick={() => {
                           if (
-                            row?.deliveryStatus !== 'Done' &&
-                            row?.deliveryStatus !== 'Cancel' &&
-                            row?.deliveryStatus !== 'Hold'
+                            row?.deliveryStatus !== 'Hold' &&
+                            row?.deliveryStatus !== 'Cancel'
                           ) {
                             props.onUpdate &&
                               props.onUpdate({
-                                type: 'done',
+                                type: 'cancel',
                                 visitId: row?.visitId,
                                 show: true,
                                 id: row._id,
                                 title: 'Are you sure?',
-                                body: 'Generate pdf status update',
+                                body: 'Cancel item',
                               });
                           }
                         }}
                       >
-                        {Icons.getIconTag(Icons.IconTb.TbExchange)}
+                        {Icons.getIconTag(Icons.IconGi.GiCancel)}
                       </Icons.IconContext>
                     </Tooltip>
+
                     <Tooltip tooltipText='Report'>
                       <Icons.IconContext
                         color={
