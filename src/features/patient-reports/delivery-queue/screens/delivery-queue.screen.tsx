@@ -263,6 +263,7 @@ const DeliveryQueue = observer(() => {
         }
         isPagination={loginStore.login?.role == 'SYSADMIN' ? true : false}
         selectedId={selectId}
+        holdRecord={holdRecord}
         isDelete={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Delete',
@@ -410,7 +411,6 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
           global.filter = { mode: 'pagination', pageNo, limit: 100 };
         }}
-        holdRecord={holdRecord}
         setHoldRecord={(item: string) => {
           setHoldRecord(item);
         }}
@@ -419,7 +419,7 @@ const DeliveryQueue = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [deliveryQueueStore.reportDeliveryList, selectId, reloadTable, holdRecord],
   );
-
+  console.log(holdRecord, 'hold');
   return (
     <>
       <Header>
