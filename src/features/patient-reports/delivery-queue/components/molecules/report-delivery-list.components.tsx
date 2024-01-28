@@ -70,7 +70,7 @@ interface ReportDeliveryProps {
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
-
+  console.log(props.holdRecord);
   useEffect(() => {
     setSelectId(props.selectedId || '');
     if (props.holdRecord === 'Hold') {
@@ -81,7 +81,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               ?.map(item => {
                 return { ...item, selectedId: props.selectedId };
               })
-          : props.data?.filter(item => item.deliveryStatus === 'Pending'),
+          : props.data?.filter(item => item.deliveryStatus === 'Hold'),
       );
     } else if (props.holdRecord === 'Pending') {
       setLocalData(
