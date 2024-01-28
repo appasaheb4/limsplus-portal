@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -16,12 +16,12 @@ import paginationFactory, {
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
-import {debounce} from '@/core-utils';
+import { debounce } from '@/core-utils';
 
-import {Buttons, Icons, Tooltip} from '@/library/components';
+import { Buttons, Icons, Tooltip } from '@/library/components';
 
-const {SearchBar, ClearSearchButton} = Search;
-const {ExportCSVButton} = CSVExport;
+const { SearchBar, ClearSearchButton } = Search;
+const { ExportCSVButton } = CSVExport;
 
 interface TableBootstrapReportProps {
   id: string;
@@ -51,6 +51,7 @@ interface TableBootstrapReportProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
+  onCheckHoldRecord?: (item: string) => void;
 }
 export const TableBootstrapReport = ({
   id,
@@ -73,9 +74,15 @@ export const TableBootstrapReport = ({
   onPagination,
   clearAllFilter,
   onClickRow,
+  onCheckHoldRecord,
 }: TableBootstrapReportProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
+  const handleStatusClick = code => {
+    onCheckHoldRecord?.(code);
+  };
 
   const customTotal = (from, to, size) => {
     return (
@@ -87,6 +94,8 @@ export const TableBootstrapReport = ({
       </>
     );
   };
+
+  const statusData = [{ code: 'Hold', value: 'Hold', color: 'yellow' }];
 
   const sizePerPageRenderer = ({
     options,
@@ -194,7 +203,7 @@ export const TableBootstrapReport = ({
       let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value;
-        const object = {[key]: values.filterVal};
+        const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
       if (onFilter)
@@ -209,7 +218,7 @@ export const TableBootstrapReport = ({
     }
     if (type === 'search') {
       debounce(() => {
-        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
       });
     }
     if (type === 'sort') {
@@ -236,7 +245,7 @@ export const TableBootstrapReport = ({
     }
   };
 
-  const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
+  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
     <div className='btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
@@ -281,13 +290,13 @@ export const TableBootstrapReport = ({
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4
@@ -312,9 +321,9 @@ export const TableBootstrapReport = ({
                   {...searchProps}
                   {...props.searchProps}
                   onChange={value => {
-                    console.log({value});
+                    console.log({ value });
                   }}
-                  style={{marginTop: 10}}
+                  style={{ marginTop: 10 }}
                 />
                 <ClearSearchButton
                   className={`inline-flex bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
@@ -367,7 +376,19 @@ export const TableBootstrapReport = ({
                     <Icons.IconTb.TbExchange />
                   </Buttons.Button>
                 </Tooltip>
+                <div className='flex gap-4'>
+                  {statusData.map(status => (
+                    <button
+                      key={status.code}
+                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                      onClick={() => handleStatusClick(status.code)}
+                    >
+                      {status.value}
+                    </button>
+                  ))}
+                </div>
               </div>
+
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>
                   <CustomToggleList

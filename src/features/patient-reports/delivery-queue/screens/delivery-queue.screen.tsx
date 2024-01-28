@@ -32,6 +32,7 @@ const DeliveryQueue = observer(() => {
   const [modalGenerateReports, setModalGenerateReports] = useState<any>();
   const [selectId, setSelectId] = useState('');
   const [reloadTable, setReloadTable] = useState<boolean>(false);
+  const [holdRecord, setHoldRecord] = useState<string>('');
 
   const getDeliveryList = () => {
     const loginDetails = loginStore.login;
@@ -409,10 +410,14 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
           global.filter = { mode: 'pagination', pageNo, limit: 100 };
         }}
+        holdRecord={holdRecord}
+        setHoldRecord={(item: string) => {
+          setHoldRecord(item);
+        }}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deliveryQueueStore.reportDeliveryList, selectId, reloadTable],
+    [deliveryQueueStore.reportDeliveryList, selectId, reloadTable, holdRecord],
   );
 
   return (

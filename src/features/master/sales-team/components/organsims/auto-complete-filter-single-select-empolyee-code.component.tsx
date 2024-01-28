@@ -52,7 +52,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
 
     const loadUsers = () => {
       userStore.UsersService.findByFields({
-        input: { filter: { userGroup: 'S' } },
+        input: { filter: { userGroup: 'Sales' } },
       }).then(res => {
         if (!res.findByFieldsUser.success)
           return alert(res.findByFieldsUser.message);
