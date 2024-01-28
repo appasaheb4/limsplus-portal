@@ -536,13 +536,15 @@ const Doctors = DoctorsHoc(
                         }
                         hasError={!!errors.doctorName}
                         value={value}
-                        onChange={doctorName => {
-                          // const doctorName = doctorNameValue.toUpperCase();
+                        onChange={doctorNameValue => {
+                          const doctorName = doctorNameValue.toUpperCase();
                           onChange(doctorName);
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
                             doctorName,
-                            reportName: `${toTitleCase(doctorsStore.doctors.title)} ${doctorName}`,
+                            reportName: `${toTitleCase(
+                              doctorsStore.doctors.title,
+                            )} ${toTitleCase(doctorName)}`,
                           });
                         }}
                       />

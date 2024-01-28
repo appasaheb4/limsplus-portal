@@ -258,6 +258,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 row?.deliveryMode ? row.deliveryMode : '',
               editable: false,
               formatter: (cell, row) => {
+                console.log(row);
                 return (
                   <div className='flex flex-row flex-wrap gap-2'>
                     {typeof row?.deliveryMode != 'string' &&
