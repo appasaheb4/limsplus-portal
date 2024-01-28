@@ -73,7 +73,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
 
   useEffect(() => {
     setSelectId(props.selectedId || '');
-    if (props.holdRecord === 'Hold' || props.holdRecord === 'Pending') {
+    if (props.holdRecord === 'Hold') {
       setLocalData(
         props.selectedId
           ? props.data
@@ -81,11 +81,17 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               ?.map(item => {
                 return { ...item, selectedId: props.selectedId };
               })
-          : props.data?.filter(
-              item =>
-                item.deliveryStatus === 'Hold' ||
-                item.deliveryStatus === 'Pending',
-            ),
+          : props.data?.filter(item => item.deliveryStatus === 'Pending'),
+      );
+    } else if (props.holdRecord === 'Pending') {
+      setLocalData(
+        props.selectedId
+          ? props.data
+              ?.filter(item => item.deliveryStatus === props.selectedId)
+              ?.map(item => {
+                return { ...item, selectedId: props.selectedId };
+              })
+          : props.data?.filter(item => item.deliveryStatus === 'Pending'),
       );
     } else {
       setLocalData(props.data);
