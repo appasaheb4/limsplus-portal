@@ -865,7 +865,8 @@ export const PatientVisit = PatientVisitHoc(
                           placeholder='Employee Code'
                           hasError={!!errors.employeeCode}
                           value={value}
-                          onChange={employeeCode => {
+                          onChange={employeeCodeValue => {
+                            const employeeCode = employeeCodeValue?.toUpperCase();
                             onChange(employeeCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,

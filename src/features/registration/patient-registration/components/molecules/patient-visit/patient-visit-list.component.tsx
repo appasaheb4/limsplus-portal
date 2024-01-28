@@ -1283,6 +1283,8 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               dataField: 'employeeCode',
               text: 'Employee Code',
               headerClasses: 'textHeader3',
+              editorStyle: { textTransform: 'uppercase' },
+              style: { textTransform: 'uppercase' },
               sort: true,
               csvFormatter: (col, row) => (col ? col : false),
               editable: false,
