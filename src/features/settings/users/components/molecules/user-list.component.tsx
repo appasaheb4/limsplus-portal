@@ -123,6 +123,47 @@ export const UserList = (props: UserListProps) => {
               csvExport: false,
             },
             {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
               dataField: 'userId',
               text: 'UserId',
               sort: true,
@@ -140,76 +181,120 @@ export const UserList = (props: UserListProps) => {
               editable: false,
             },
             {
-              dataField: 'defaultLab',
-              text: 'Default Lab',
+              dataField: 'fullName',
+              text: 'Full Name',
               sort: true,
               headerStyle: {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  defaultLab = filter;
+                  fullName = filter;
                 },
               }),
               headerClasses: 'textHeader2',
-              formatter: (cellContent, row) => <span>{row.defaultLab}</span>,
-              events: {
-                onDoubleClick: (
-                  e: any,
-                  row: any,
-                  rowIndex: any,
-                  column: any,
-                  columnIndex: any,
-                ) => {
-                  if (row.dataField === 'defaultLab') {
-                    setModalDefaultLabDeptUpdate({
-                      show: true,
-                      id: column._id,
-                      type: 'default',
-                    });
-                  }
-                },
-              },
+              style: { textTransform: 'uppercase' },
+              editorStyle: { textTransform: 'uppercase' },
             },
             {
-              dataField: 'defaultDepartment',
-              text: 'Default Department',
+              dataField: 'userModule',
+              text: 'User Module',
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              headerClasses: 'textHeader2',
+              filter: textFilter({
+                getFilter: filter => {
+                  userModule = filter;
+                },
+              }),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    value={row?.userModule}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
+                    onChange={e => {
+                      const userModule = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          userModule,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(
+                      props.extraData.lookupItems,
+                      'USER_MODULE',
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
+            },
+            {
+              dataField: 'role',
+              text: 'Role',
               sort: true,
               headerStyle: {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.role.map(item => item.code)}`,
               filter: textFilter({
                 getFilter: filter => {
-                  defaultDepartment = filter;
+                  role = filter;
                 },
               }),
+              headerClasses: 'textHeader2',
               formatter: (cellContent, row) => (
-                <span>{row.defaultDepartment}</span>
+                <>
+                  <ul style={{ listStyle: 'inside' }}>
+                    {row.role.map((item, index) => (
+                      <li key={index}>{item.code}</li>
+                    ))}
+                  </ul>
+                </>
               ),
-              events: {
-                onDoubleClick: (
-                  e: any,
-                  row: any,
-                  rowIndex: any,
-                  column: any,
-                  columnIndex: any,
-                ) => {
-                  if (row.dataField === 'defaultLab') {
-                    setModalDefaultLabDeptUpdate({
-                      show: true,
-                      id: column._id,
-                      type: 'default',
-                    });
-                  }
-                },
-              },
-              headerClasses: 'textHeader5',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterMutiSelectRoles
+                    selected={row.role}
+                    onUpdate={items => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id);
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: 'userGroup',
@@ -263,159 +348,6 @@ export const UserList = (props: UserListProps) => {
                   </select>
                 </>
               ),
-            },
-            {
-              dataField: 'userModule',
-              text: 'User Module',
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
-              headerClasses: 'textHeader2',
-              filter: textFilter({
-                getFilter: filter => {
-                  userModule = filter;
-                },
-              }),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <select
-                    value={row?.userModule}
-                    className={
-                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                    }
-                    onChange={e => {
-                      const userModule = e.target.value;
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          userModule,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      'USER_MODULE',
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              ),
-            },
-            {
-              dataField: 'corporateClient',
-              text: 'Corporate Client',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: (cell, row, rowIndex) =>
-                `${row.corporateClient.map(item => item.name)}`,
-              headerClasses: 'textHeader5',
-              formatter: (cellContent, row) => (
-                <>
-                  <ul style={{ listStyle: 'inside' }}>
-                    {row?.corporateClient?.map((item, index) => (
-                      <li key={index}>{item.corporateCode}</li>
-                    ))}
-                  </ul>
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterMutiSelectCorporateClient
-                    selected={row.corporateClient}
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.corporateClient,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: 'registrationLocation',
-              text: 'Registration Location',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: (cell, row, rowIndex) =>
-                `${row.registrationLocation?.map(item => item.name)}`,
-              headerClasses: 'textHeader5',
-              formatter: (cellContent, row) => (
-                <>
-                  <ul style={{ listStyle: 'inside' }}>
-                    {row?.registrationLocation?.map((item, index) => (
-                      <li key={index}>{item.locationCode}</li>
-                    ))}
-                  </ul>
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteFilterMutiSelectRegistrationLocation
-                    selected={row.registrationLocation}
-                    onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item.registrationLocation,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
-            },
-
-            {
-              dataField: 'fullName',
-              text: 'Full Name',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  fullName = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              style: { textTransform: 'uppercase' },
-              editorStyle: { textTransform: 'uppercase' },
             },
             {
               dataField: 'empCode',
@@ -530,29 +462,94 @@ export const UserList = (props: UserListProps) => {
               }),
               headerClasses: 'textHeader2',
             },
+
             {
-              dataField: 'role',
-              text: 'Role',
+              dataField: 'defaultLab',
+              text: 'Default Lab',
               sort: true,
               headerStyle: {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: (cell, row, rowIndex) =>
-                `${row.role.map(item => item.code)}`,
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
-                  role = filter;
+                  defaultLab = filter;
                 },
               }),
               headerClasses: 'textHeader2',
+              formatter: (cellContent, row) => <span>{row.defaultLab}</span>,
+              events: {
+                onDoubleClick: (
+                  e: any,
+                  row: any,
+                  rowIndex: any,
+                  column: any,
+                  columnIndex: any,
+                ) => {
+                  if (row.dataField === 'defaultLab') {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: column._id,
+                      type: 'default',
+                    });
+                  }
+                },
+              },
+            },
+            {
+              dataField: 'defaultDepartment',
+              text: 'Default Department',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  defaultDepartment = filter;
+                },
+              }),
+              formatter: (cellContent, row) => (
+                <span>{row.defaultDepartment}</span>
+              ),
+              events: {
+                onDoubleClick: (
+                  e: any,
+                  row: any,
+                  rowIndex: any,
+                  column: any,
+                  columnIndex: any,
+                ) => {
+                  if (row.dataField === 'defaultLab') {
+                    setModalDefaultLabDeptUpdate({
+                      show: true,
+                      id: column._id,
+                      type: 'default',
+                    });
+                  }
+                },
+              },
+              headerClasses: 'textHeader5',
+            },
+
+            {
+              dataField: 'corporateClient',
+              text: 'Corporate Client',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.corporateClient.map(item => item.name)}`,
+              headerClasses: 'textHeader5',
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: 'inside' }}>
-                    {row.role.map((item, index) => (
-                      <li key={index}>{item.code}</li>
+                    {row?.corporateClient?.map((item, index) => (
+                      <li key={index}>{item.corporateCode}</li>
                     ))}
                   </ul>
                 </>
@@ -566,16 +563,62 @@ export const UserList = (props: UserListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <AutoCompleteFilterMutiSelectRoles
-                    selected={row.role}
-                    onUpdate={items => {
+                  <AutoCompleteFilterMutiSelectCorporateClient
+                    selected={row.corporateClient}
+                    onSelect={item => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id);
+                        props.onUpdateItem(
+                          item.corporateClient,
+                          column.dataField,
+                          row._id,
+                        );
                     }}
                   />
                 </>
               ),
             },
+            {
+              dataField: 'registrationLocation',
+              text: 'Registration Location',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.registrationLocation?.map(item => item.name)}`,
+              headerClasses: 'textHeader5',
+              formatter: (cellContent, row) => (
+                <>
+                  <ul style={{ listStyle: 'inside' }}>
+                    {row?.registrationLocation?.map((item, index) => (
+                      <li key={index}>{item.locationCode}</li>
+                    ))}
+                  </ul>
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterMutiSelectRegistrationLocation
+                    selected={row.registrationLocation}
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.registrationLocation,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+
             {
               dataField: 'lab',
               text: 'Assigned Lab',
@@ -1425,47 +1468,7 @@ export const UserList = (props: UserListProps) => {
                 <NumberFilter onFilter={onFilter} column={column} />
               ),
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteCompanyList
-                    isLabel={false}
-                    hasError={false}
-                    onSelect={companyCode => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          companyCode,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
-            },
+
             {
               dataField: 'environment',
               text: 'Environment',

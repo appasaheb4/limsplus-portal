@@ -63,6 +63,8 @@ interface ReportDeliveryProps {
   ) => void;
   onClickRow?: (item: any, index: number) => void;
   onExpand?: (items: any) => void;
+  holdRecord?: any;
+  setHoldRecord?: (item: string) => void;
 }
 
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
@@ -74,14 +76,18 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
     setLocalData(
       props.selectedId
         ? props.data
-            ?.filter(item => item._id === props.selectedId)
+            ?.filter(
+              item =>
+                item._id === props.selectedId ||
+                item.deliveryStatus === props.holdRecord,
+            )
             ?.map(item => {
               return { ...item, selectedId: props.selectedId };
             })
         : props.data,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data]);
+  }, [props.selectedId, props.data, props.holdRecord]);
 
   return (
     <>
@@ -671,11 +677,17 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                     <Tooltip tooltipText='Cancel' position='bottom'>
                       <Icons.IconContext
                         color={
-                          row?.deliveryStatus !== 'Hold' ? '#ffffff' : '#5A5A5A'
+                          row?.deliveryStatus !== 'Hold' &&
+                          row?.deliveryStatus !== 'Cancel'
+                            ? '#ffffff'
+                            : '#5A5A5A'
                         }
                         size='20'
                         onClick={() => {
-                          if (row?.deliveryStatus !== 'Hold') {
+                          if (
+                            row?.deliveryStatus !== 'Hold' &&
+                            row?.deliveryStatus !== 'Cancel'
+                          ) {
                             props.onUpdate &&
                               props.onUpdate({
                                 type: 'cancel',
@@ -691,7 +703,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         {Icons.getIconTag(Icons.IconGi.GiCancel)}
                       </Icons.IconContext>
                     </Tooltip>
-                    <Tooltip tooltipText='Hold' position='bottom'>
+                    <Tooltip
+                      tooltipText={`${
+                        row?.deliveryStatus === 'Hold' ? 'Unhold' : 'Hold'
+                      }`}
+                      position='bottom'
+                    >
                       <Icons.IconContext
                         color={
                           row?.deliveryStatus !== 'Cancel'
@@ -751,11 +768,17 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                     <Tooltip tooltipText='Report'>
                       <Icons.IconContext
                         color={
-                          row?.deliveryStatus == 'Done' ? '#ffffff' : '#5A5A5A'
+                          row?.deliveryStatus == 'Done' &&
+                          row?.deliveryStatus !== 'Hold'
+                            ? '#ffffff'
+                            : '#5A5A5A'
                         }
                         size='20'
                         onClick={() => {
-                          if (row?.deliveryStatus == 'Done')
+                          if (
+                            row?.deliveryStatus == 'Done' &&
+                            row?.deliveryStatus !== 'Hold'
+                          )
                             props.onReport && props.onReport(row);
                         }}
                       >
@@ -852,6 +875,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           }}
           onPagination={type => {
             props.onPagination && props.onPagination(type);
+          }}
+          onCheckHoldRecord={item => {
+            props.setHoldRecord && props.setHoldRecord(item);
           }}
         />
       </div>
