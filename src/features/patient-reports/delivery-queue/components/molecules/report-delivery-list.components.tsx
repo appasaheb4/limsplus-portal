@@ -70,7 +70,7 @@ interface ReportDeliveryProps {
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
-  console.log(props.holdRecord);
+
   useEffect(() => {
     setSelectId(props.selectedId || '');
     if (props.holdRecord === 'Hold' || props.holdRecord === 'Pending') {
