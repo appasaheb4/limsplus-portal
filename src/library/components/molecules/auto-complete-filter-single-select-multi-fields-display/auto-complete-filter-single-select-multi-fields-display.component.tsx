@@ -79,14 +79,16 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   };
 
   const onKeyDown = e => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === 'Tab') {
       if (options.length > 0) {
-        const selectedItem = options.find(item => item.labId === Number(value)); // Select the first item in the options array
-        setValue(
-          data.displayKey.map(key => `${selectedItem[key]}`).join(' - '),
-        );
-        setIsListOpen(false);
-        onSelect && onSelect(selectedItem);
+        const selectedItem = options.find(item => item.labId === Number(value));
+        if (selectedItem) {
+          setValue(
+            data.displayKey.map(key => `${selectedItem[key]}`).join(' - '),
+          );
+          setIsListOpen(false);
+          onSelect && onSelect(selectedItem);
+        }
       }
     }
   };
