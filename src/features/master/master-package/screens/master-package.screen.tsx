@@ -810,7 +810,7 @@ const MasterPackage = MasterPackageHOC(
                         >
                           <select
                             value={value}
-                            disabled={true}
+                            disabled={isVersionUpgrade ?? true}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.panelName
                                 ? 'border-red  '
@@ -1455,7 +1455,7 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
-                  setIsVersionUpgrade(true);
+                  setIsVersionUpgrade(false);
                   break;
                 }
                 case 'duplicate': {
@@ -1483,6 +1483,7 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
+                  setIsVersionUpgrade(true);
                   masterPackageStore.updateSelectedItems({
                     ...masterPackageStore.selectedItems,
                     panelCode: [

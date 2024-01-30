@@ -35,6 +35,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   const [value, setValue] = useState<string>(displayValue);
   const [options, setOptions] = useState<any[]>(data.list);
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
+  const [filterValue, setFilterValue] = useState<number>();
 
   const useOutsideAlerter = ref => {
     useEffect(() => {
@@ -65,6 +66,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   const onChange = e => {
     const search = e.target.value;
     setValue(search);
+    setFilterValue(search);
     onFilter && onFilter(search);
   };
 
@@ -73,6 +75,19 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
     if (charCode === 8) {
       const search = e.target.value;
       onFilter && onFilter(search);
+    }
+  };
+
+  const onKeyDown = e => {
+    if (e.key === 'Enter') {
+      if (options.length > 0) {
+        const selectedItem = options.find(item => item.labId === Number(value)); // Select the first item in the options array
+        setValue(
+          data.displayKey.map(key => `${selectedItem[key]}`).join(' - '),
+        );
+        setIsListOpen(false);
+        onSelect && onSelect(selectedItem);
+      }
     }
   };
 
@@ -94,6 +109,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
             disabled={disable}
             onMouseDown={() => setValue('')}
             onBlur={e => onBlur && onBlur(e)}
+            onKeyDown={onKeyDown}
           />
           {loader && <Spinner animation='border' className='mr-2 h-4 w-4' />}
           {isListOpen ? (

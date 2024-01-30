@@ -70,33 +70,26 @@ interface ReportDeliveryProps {
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
-  console.log(props.holdRecord);
+
   useEffect(() => {
+    const filterDataByHoldRecord = (data, holdRecord) => {
+      if (holdRecord === 'Hold') {
+        return data.filter(item => item.deliveryStatus === 'Hold');
+      } else if (holdRecord === 'Pending') {
+        return data.filter(item => item.deliveryStatus === 'Pending');
+      } else {
+        return data;
+      }
+    };
+
     setSelectId(props.selectedId || '');
-    if (props.holdRecord === 'Hold') {
-      setLocalData(
-        props.selectedId
-          ? props.data
-              ?.filter(item => item.deliveryStatus === props.selectedId)
-              ?.map(item => {
-                return { ...item, selectedId: props.selectedId };
-              })
-          : props.data?.filter(item => item.deliveryStatus === 'Hold'),
-      );
-    } else if (props.holdRecord === 'Pending') {
-      setLocalData(
-        props.selectedId
-          ? props.data
-              ?.filter(item => item.deliveryStatus === props.selectedId)
-              ?.map(item => {
-                return { ...item, selectedId: props.selectedId };
-              })
-          : props.data?.filter(item => item.deliveryStatus === 'Pending'),
-      );
-    } else {
-      setLocalData(props.data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setLocalData(
+      props.selectedId
+        ? props.data
+            ?.filter(item => item._id === props.selectedId)
+            ?.map(item => ({ ...item, selectedId: props.selectedId }))
+        : filterDataByHoldRecord(props.data, props.holdRecord),
+    );
   }, [props.selectedId, props.data, props.holdRecord]);
 
   return (
@@ -796,7 +789,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                       </Icons.IconContext>
                     </Tooltip>
 
-                    {selectId == row._id ? (
+                    {selectId === row._id ? (
                       <Tooltip tooltipText='Expand'>
                         <Icons.IconContext
                           color='#fff'
