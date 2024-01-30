@@ -542,9 +542,11 @@ const Doctors = DoctorsHoc(
                           doctorsStore.updateDoctors({
                             ...doctorsStore.doctors,
                             doctorName,
-                            reportName: `${toTitleCase(
-                              doctorsStore.doctors.title,
-                            )} ${toTitleCase(doctorName)}`,
+                            reportName: `${
+                              toTitleCase(doctorsStore.doctors.title) === '.'
+                                ? ''
+                                : toTitleCase(doctorsStore.doctors.title)
+                            } ${toTitleCase(doctorName)}`,
                           });
                         }}
                       />

@@ -447,7 +447,7 @@ export const SalesTeam = SalesTeamHoc(
                         <AutoCompleteFilterSingleSelectEmpolyeCode
                           hasError={!!errors.empCode}
                           displayValue={value}
-                          disable={isVersionUpgrade}
+                          // disable={}
                           onSelect={item => {
                             onChange(item.empCode);
                             setValue('empName', item.fullName);

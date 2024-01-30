@@ -50,6 +50,7 @@ export const ResultList = (props: ResultListProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
   const [selectedRowId, setSelectedRowId] = useState('');
+  const [widthRefBox, setWidthRefBox] = useState('20px');
 
   useEffect(() => {
     setSelectId(props.selectedId || '');
@@ -199,7 +200,7 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Ref Ranges',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader16',
+              style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
                   <div className='flex flex-col'>
@@ -213,9 +214,13 @@ export const ResultList = (props: ResultListProps) => {
                           color='#000000'
                           size='20'
                           onClick={() => {
-                            row._id == selectedRowId
-                              ? setSelectedRowId('')
-                              : setSelectedRowId(row._id);
+                            if (row._id === selectedRowId) {
+                              setSelectedRowId('');
+                              setWidthRefBox('30px');
+                            } else {
+                              setSelectedRowId(row._id);
+                              setWidthRefBox('550px');
+                            }
                           }}
                         >
                           {Icons.getIconTag(
@@ -227,53 +232,55 @@ export const ResultList = (props: ResultListProps) => {
                       </Tooltip>
                     )}
                     {selectedRowId == row._id ? (
-                      <RefRanges
-                        id='_id'
-                        data={row?.refRangesList || []}
-                        totalSize={row?.refRangesList?.length || 0}
-                        columns={[
-                          {
-                            dataField: 'result',
-                            text: 'Result',
-                            editable: false,
-                            formatter: () => (
-                              <>
-                                <span>{row.result}</span>
-                              </>
-                            ),
-                          },
-                          {
-                            dataField: 'rangeType',
-                            text: 'Range Type',
-                          },
-                          {
-                            dataField: 'low',
-                            text: 'Low',
-                          },
-                          {
-                            dataField: 'high',
-                            text: 'High',
-                          },
-                          {
-                            dataField: 'rangeSetOn',
-                            text: 'Range Set On',
-                          },
-                          {
-                            dataField: 'rangeId',
-                            text: 'Range Id',
-                          },
-                          {
-                            dataField: 'version',
-                            text: 'Range Version',
-                          },
-                        ]}
-                        onSelectedRow={rows => {}}
-                        onUpdateItem={(
-                          value: any,
-                          dataField: string,
-                          id: string,
-                        ) => {}}
-                      />
+                      <div style={{ width: widthRefBox }}>
+                        <RefRanges
+                          id='_id'
+                          data={row?.refRangesList || []}
+                          totalSize={row?.refRangesList?.length || 0}
+                          columns={[
+                            {
+                              dataField: 'result',
+                              text: 'Result',
+                              editable: false,
+                              formatter: () => (
+                                <>
+                                  <span>{row.result}</span>
+                                </>
+                              ),
+                            },
+                            {
+                              dataField: 'rangeType',
+                              text: 'Range Type',
+                            },
+                            {
+                              dataField: 'low',
+                              text: 'Low',
+                            },
+                            {
+                              dataField: 'high',
+                              text: 'High',
+                            },
+                            {
+                              dataField: 'rangeSetOn',
+                              text: 'Range Set On',
+                            },
+                            {
+                              dataField: 'rangeId',
+                              text: 'Range Id',
+                            },
+                            {
+                              dataField: 'version',
+                              text: 'Range Version',
+                            },
+                          ]}
+                          onSelectedRow={rows => {}}
+                          onUpdateItem={(
+                            value: any,
+                            dataField: string,
+                            id: string,
+                          ) => {}}
+                        />
+                      </div>
                     ) : null}
                   </div>
                 );

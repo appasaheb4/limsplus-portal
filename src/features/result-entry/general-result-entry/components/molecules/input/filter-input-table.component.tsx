@@ -469,7 +469,7 @@ export const FilterInputTable = observer(() => {
                         );
                       }}
                       onSelect={item => {
-                        onChange(item.labId);
+                        onChange(item?.labId);
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
                           labId: item.labId,
