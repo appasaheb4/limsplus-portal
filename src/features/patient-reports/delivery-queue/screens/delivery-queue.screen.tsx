@@ -33,8 +33,6 @@ const DeliveryQueue = observer(() => {
   const [selectId, setSelectId] = useState('');
   const [reloadTable, setReloadTable] = useState<boolean>(false);
   const [holdRecord, setHoldRecord] = useState<string>('');
-  const [genrateButtonDisable, setGenrateButtonDisable] =
-    useState<boolean>(false);
 
   const getDeliveryList = () => {
     const loginDetails = loginStore.login;
@@ -266,7 +264,6 @@ const DeliveryQueue = observer(() => {
         isPagination={loginStore.login?.role == 'SYSADMIN' ? true : false}
         selectedId={selectId}
         holdRecord={holdRecord}
-        genrateButtonDisable={genrateButtonDisable}
         isDelete={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Delete',
@@ -326,7 +323,6 @@ const DeliveryQueue = observer(() => {
           const pendingItems = deliveryQueueStore.reportDeliveryList?.filter(
             item => item.deliveryStatus === 'Pending',
           );
-          setGenrateButtonDisable(pendingItems.length > 0);
           const ids = pendingItems?.map(item => item._id);
           const visitIds = pendingItems?.map(item => item.visitId);
           updateRecords({
