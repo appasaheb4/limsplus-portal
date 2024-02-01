@@ -4,26 +4,23 @@ import { Container } from 'reactstrap';
 import { observer } from 'mobx-react';
 import { Form, Buttons, Icons, Svg } from '@/library/components';
 
-interface ModalLookupValuesModifyProps {
+interface ModalPossibleResultModifyProps {
   show?: boolean;
-  arrValues?: any;
-  defaultItems?: any;
+  conclusionResult?: any;
   id?: string;
   onClick: (arrValues: any, id: string) => void;
   onClose: () => void;
 }
 
-export const ModalLookupValuesModify = observer(
-  (props: ModalLookupValuesModifyProps) => {
+export const ModalPossibleResultConclusionModify = observer(
+  (props: ModalPossibleResultModifyProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
     const [values, setValues] = useState<any>({});
-    const [localInput, setLocalInput] = useState<any>({ flagUpperCase: true });
-
+    const [localInput, setLocalInput] = useState<any>({});
     useEffect(() => {
       setShowModal(props.show);
       setValues({
-        arrValues: props.arrValues,
-        defaultItems: props.defaultItems,
+        conclusionResult: props.conclusionResult,
       });
     }, [props]);
 
@@ -40,7 +37,7 @@ export const ModalLookupValuesModify = observer(
                   <div className='flex  flex-col  justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <div className='flex'>
                       <h4 className='font-semibold text-lg'>
-                        Update Lookup Values
+                        Update Possible Result Conclusion
                       </h4>
                     </div>
                   </div>
@@ -49,34 +46,42 @@ export const ModalLookupValuesModify = observer(
                   <div className='relative ml-24 mr-24 p-2 flex-auto'>
                     <div className='flex flex-row gap-4'>
                       <Form.Input
-                        placeholder='Code'
-                        value={localInput?.code}
-                        onChange={code => {
+                        placeholder='Result'
+                        value={localInput?.result}
+                        onChange={result => {
                           setLocalInput({
                             ...localInput,
-                            code: localInput?.flagUpperCase
-                              ? code?.toUpperCase()
-                              : code,
+                            result,
                           });
                         }}
                       />
                       <Form.Input
-                        placeholder='Value'
-                        value={localInput?.value}
-                        onChange={value => {
+                        placeholder='Possible Value'
+                        value={localInput?.possibleValue}
+                        onChange={possibleValue => {
                           setLocalInput({
                             ...localInput,
-                            value,
+                            possibleValue,
                           });
                         }}
                       />
                       <Form.Toggle
-                        label='Enable Upper Case'
-                        value={localInput?.flagUpperCase}
-                        onChange={flagUpperCase => {
+                        label='AbNormal'
+                        value={localInput?.abNormal}
+                        onChange={abNormal => {
                           setLocalInput({
                             ...localInput,
-                            flagUpperCase,
+                            abNormal,
+                          });
+                        }}
+                      />
+                      <Form.Toggle
+                        label='Critical'
+                        value={localInput?.critical}
+                        onChange={critical => {
+                          setLocalInput({
+                            ...localInput,
+                            critical,
                           });
                         }}
                       />
@@ -85,37 +90,50 @@ export const ModalLookupValuesModify = observer(
                           size='medium'
                           type='solid'
                           onClick={() => {
-                            const value = localInput?.value;
-                            const code = localInput?.code;
-                            const flagUpperCase = localInput?.flagUpperCase;
-                            let arrValue = values.arrValues || [];
-                            if (value === undefined || code === undefined)
+                            const result = localInput?.result;
+                            const possibleValue = localInput?.possibleValue;
+                            const abNormal = localInput?.abNormal;
+                            const critical = localInput?.critical;
+                            let conclusionResult =
+                              values.conclusionResult || [];
+                            if (
+                              result === undefined ||
+                              possibleValue === undefined
+                            )
                               return alert('Please enter value and code.');
-                            if (value !== undefined) {
-                              arrValue !== undefined
-                                ? arrValue.push({
-                                    value,
-                                    code,
-                                    flagUpperCase,
+                            if (result !== undefined) {
+                              conclusionResult !== undefined
+                                ? conclusionResult.push({
+                                    result,
+                                    possibleValue,
+                                    abNormal,
+                                    critical,
                                   })
-                                : (arrValue = [
+                                : (conclusionResult = [
                                     {
-                                      value,
-                                      code,
-                                      flagUpperCase,
+                                      result,
+                                      possibleValue,
+                                      abNormal,
+                                      critical,
                                     },
                                   ]);
-                              arrValue = _.map(arrValue, o =>
-                                _.pick(o, ['code', 'value', 'flagUpperCase']),
+                              conclusionResult = _.map(conclusionResult, o =>
+                                _.pick(o, [
+                                  'result',
+                                  'possibleValue',
+                                  'abNormal',
+                                  'critical',
+                                ]),
                               );
                               setValues({
-                                ...value,
-                                arrValues: arrValue,
+                                ...values,
+                                conclusionResult: conclusionResult,
                               });
                               setLocalInput({
-                                value: '',
-                                code: '',
-                                flagUpperCase,
+                                result: '',
+                                possibleValue: '',
+                                abNormal: false,
+                                critical: false,
                               });
                             }
                           }}
@@ -127,7 +145,7 @@ export const ModalLookupValuesModify = observer(
                       <div className='clearfix'></div>
                     </div>
                     <div className='flex flex-row gap-2 flex-wrap'>
-                      {values?.arrValues?.map((item, index) => (
+                      {values?.conclusionResult?.map((item, index) => (
                         <div className='mb-2' key={index}>
                           <Buttons.Button
                             size='medium'
@@ -135,68 +153,37 @@ export const ModalLookupValuesModify = observer(
                             icon={Svg.Remove}
                             onClick={() => {
                               const firstArr =
-                                values?.arrValues?.slice(0, index) || [];
+                                values?.conclusionResult?.slice(0, index) || [];
                               const secondArr =
-                                values?.arrValues?.slice(index + 1) || [];
+                                values?.conclusionResult?.slice(index + 1) ||
+                                [];
                               let finalArray = [...firstArr, ...secondArr];
                               finalArray = _.map(finalArray, o =>
-                                _.pick(o, ['code', 'value', 'flagUpperCase']),
+                                _.pick(o, [
+                                  'result',
+                                  'possibleValue',
+                                  'abNormal',
+                                  'critical',
+                                ]),
                               );
                               setValues({
                                 ...values,
-                                arrValues: finalArray,
+                                conclusionResult: finalArray,
                               });
                             }}
                           >
-                            {`${item.value} - ${item.code}  `}
+                            {`${item.result} - ${item.possibleValue}  `}
                             <Form.Toggle
-                              value={item.flagUpperCase}
+                              value={item.abNormal}
+                              disabled={true}
+                            />
+                            <Form.Toggle
+                              value={item.critical}
                               disabled={true}
                             />
                           </Buttons.Button>
                         </div>
                       ))}
-                    </div>
-                    <div>
-                      <Form.InputWrapper label='Default Item'>
-                        <select
-                          className={
-                            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                          }
-                          onChange={e => {
-                            if (e.target.value === 'removeItem') {
-                              setValues({
-                                ...values,
-                                defaultItem: [],
-                              });
-                            }
-                            let defaultItem = JSON.parse(e.target.value);
-                            defaultItem = [
-                              {
-                                code: defaultItem.code,
-                                value: defaultItem.value,
-                              },
-                            ];
-                            setValues({
-                              ...values,
-                              defaultItem,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {/* <option value='removeItem'>Remove Item</option> */}
-                          {values?.arrValues?.map(
-                            (item: any, index: number) => (
-                              <option
-                                key={item.name}
-                                value={JSON.stringify(item)}
-                              >
-                                {`${item.value} - ${item.code}`}
-                              </option>
-                            ),
-                          )}
-                        </select>
-                      </Form.InputWrapper>
                     </div>
                   </div>
                   {/*footer*/}

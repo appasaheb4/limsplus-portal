@@ -129,40 +129,6 @@ export const DisplayResult = observer(
                     });
                 }
               }}
-              onKeyDown={e => {
-                const { name, value } = e.target;
-                const [fieldName, fieldIndex] = name.split('-');
-                const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-
-                if (e.key === 'ArrowUp') {
-                  const prevField: any = document.querySelector(
-                    `[name=field-${fieldIntIndex - 1}]`,
-                  );
-                  if (prevField !== null) {
-                    prevField.focus();
-                  }
-                } else if (e.key === 'ArrowDown') {
-                  const nextField: any = document.querySelector(
-                    `[name=field-${fieldIntIndex + 1}]`,
-                  );
-                  if (nextField !== null) {
-                    nextField.focus();
-                  }
-                }
-
-                if (e.key === 'Enter' || e.key === 'Tab') {
-                  const result = value;
-                  if (result) {
-                    onSelect &&
-                      onSelect({
-                        result: Number.parseFloat(result).toFixed(
-                          row?.picture || 0,
-                        ),
-                        numeric: result,
-                      });
-                  }
-                }
-              }}
             />
           ) : (
             <span>{row?.result?.toString()}</span>

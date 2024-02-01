@@ -320,12 +320,15 @@ const DeliveryQueue = observer(() => {
           }
         }}
         onUpdateDeliveryStatus={() => {
+          const pendingItems = deliveryQueueStore.reportDeliveryList?.filter(
+            item => item.deliveryStatus === 'Pending',
+          );
+          const ids = pendingItems?.map(item => item._id);
+          const visitIds = pendingItems?.map(item => item.visitId);
           updateRecords({
             type: 'updateAllDeliveryStatus',
-            ids: deliveryQueueStore.reportDeliveryList?.map(item => item._id),
-            visitId: deliveryQueueStore.reportDeliveryList?.map(
-              item => item.visitId,
-            ),
+            ids: ids,
+            visitId: visitIds,
             show: true,
             title: 'Are you sure?',
             body: 'All generate pdf status update',
