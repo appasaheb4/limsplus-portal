@@ -172,7 +172,6 @@ const Lookup = observer(() => {
                 'Delete',
               )}
               onUpdateValues={(item, id) => {
-                console.log(item);
                 setModalLookupValuesModify({
                   show: true,
                   arrValues: toJS(item.arrValue),

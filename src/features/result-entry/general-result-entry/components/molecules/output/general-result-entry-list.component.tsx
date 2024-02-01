@@ -173,7 +173,15 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               sort: true,
               editable: false,
               formatter: (cell, row) => {
-                return <span>{row?.loNor + ' - ' + row?.hiNor}</span>;
+                return (
+                  <span>
+                    {row?.loNor === 'NaN'
+                      ? '<'
+                      : row?.loNor +
+                        ' - ' +
+                        (row?.hiNor === 'NaN' ? '>' : row?.hiNor)}
+                  </span>
+                );
               },
             },
             {

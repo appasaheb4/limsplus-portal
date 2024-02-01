@@ -27,6 +27,8 @@ import { RouterFlow } from '@/flows';
 import { resetPossibleResult } from '../startup';
 import * as XLSX from 'xlsx';
 import { AutoCompleteCompanyList } from '@/core-components';
+import { ModalPossibleResultConclusionModify } from '../components/molecules/modal-possible-result-conculsion-modify';
+import { toJS } from 'mobx';
 
 export const PossibleResults = PossibleResultHoc(
   observer(() => {
@@ -49,7 +51,8 @@ export const PossibleResults = PossibleResultHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
-
+    const [modalPossibleResultModify, setPossibleResultModify] =
+      useState<any>();
     useEffect(() => {
       // Default value initialization
       // setValue(
@@ -146,6 +149,25 @@ export const PossibleResults = PossibleResultHoc(
         });
     };
 
+    const updateMultipleFields = variable => {
+      possibleResultsStore.possibleResultsService
+        .updateSingleFiled({
+          input: {
+            ...variable.fileds,
+            _id: variable.id,
+          },
+        })
+        .then((res: any) => {
+          if (res.updatePossibleResult.success) {
+            setModalConfirm({ show: false });
+            Toast.success({
+              message: `😊 ${res.updatePossibleResult.message}`,
+            });
+            possibleResultsStore.fetchListPossibleResults();
+          }
+        });
+    };
+
     const tableView = useMemo(
       () => (
         <PossibleResultsList
@@ -234,6 +256,13 @@ export const PossibleResults = PossibleResultHoc(
               data: { fileds, id },
               title: 'Are you sure?',
               body: 'Update records!',
+            });
+          }}
+          onUpdatePossibleResult={(row: any, id: string) => {
+            setPossibleResultModify({
+              show: true,
+              conclusionResult: toJS(row.conclusionResult),
+              id,
             });
           }}
           onSingleDirectUpdateField={(value, dataField, id) => {
@@ -941,6 +970,21 @@ export const PossibleResults = PossibleResultHoc(
           <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
             {tableView}
           </div>
+          <ModalPossibleResultConclusionModify
+            {...modalPossibleResultModify}
+            onClick={(row, id) => {
+              updateMultipleFields({
+                fileds: {
+                  conclusionResult: row.conclusionResult,
+                },
+                id,
+              });
+              setPossibleResultModify({ show: false });
+            }}
+            onClose={() => {
+              setPossibleResultModify({ show: false });
+            }}
+          />
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {
