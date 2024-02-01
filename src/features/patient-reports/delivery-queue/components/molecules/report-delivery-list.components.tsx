@@ -65,7 +65,6 @@ interface ReportDeliveryProps {
   onExpand?: (items: any) => void;
   holdRecord?: any;
   setHoldRecord?: (item: string) => void;
-  genrateButtonDisable?: boolean;
 }
 
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
@@ -831,7 +830,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          genrateButtonDisable={props.genrateButtonDisable}
           fileName='Report Delivery'
           onSelectedRow={rows => {
             props.onSelectedRow &&

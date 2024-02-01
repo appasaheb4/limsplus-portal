@@ -52,7 +52,6 @@ interface TableBootstrapReportProps {
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
   onCheckHoldRecord?: (item: string) => void;
-  genrateButtonDisable?: boolean;
 }
 export const TableBootstrapReport = ({
   id,
@@ -76,7 +75,6 @@ export const TableBootstrapReport = ({
   clearAllFilter,
   onClickRow,
   onCheckHoldRecord,
-  genrateButtonDisable,
 }: TableBootstrapReportProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
