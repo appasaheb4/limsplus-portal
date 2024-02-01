@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import _ from 'lodash';
+import _, { isNaN } from 'lodash';
 import { Form, Buttons } from '@/library/components';
 import { DisplayResult } from './display-result.components';
 
@@ -175,11 +175,14 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               formatter: (cell, row) => {
                 return (
                   <span>
-                    {row?.loNor === 'NaN'
+                    {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
+                    (row.loNor === ' ' && row.hiNor === ' ')
+                      ? '-'
+                      : row.loNor === 'NaN' && row.hiNor === ' '
                       ? '<'
-                      : row?.loNor +
-                        ' - ' +
-                        (row?.hiNor === 'NaN' ? '>' : row?.hiNor)}
+                      : row.loNor === ' ' && row.hiNor === 'NaN'
+                      ? '>'
+                      : row.loNor + '-' + row.hiNor}
                   </span>
                 );
               },
